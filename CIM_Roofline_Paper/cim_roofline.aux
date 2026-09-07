@@ -1,0 +1,278 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\citation{williams2009roofline}
+\HyPL@Entry{0<</S/D>>}
+\citation{williams2009roofline}
+\citation{liu2025ar_llm}
+\citation{sharma2025wwwtocim}
+\citation{zhou2025imcsim}
+\@writefile{toc}{\contentsline {section}{\numberline {1}引言}{3}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{3}{引言}{section.1}{}}
+\citation{williams2009roofline}
+\citation{rheindt2020xcentric}
+\citation{verhelst2025roofline}
+\@writefile{toc}{\contentsline {section}{\numberline {2}GPU Roofline 回顾及其三条架构前提}{4}{section.2}\protected@file@percent }
+\newlabel{sec:background}{{2}{4}{GPU Roofline 回顾及其三条架构前提}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Roofline 的提出与在 CIM 上的应用现状}{4}{subsection.2.1}\protected@file@percent }
+\newlabel{sec:roofline_review}{{2.1}{4}{Roofline 的提出与在 CIM 上的应用现状}{subsection.2.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Roofline 的提出：多核时代的可视化语言}{4}{paragraph*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{在 $\pi /\beta $ 框架内的延伸}{4}{paragraph*.2}\protected@file@percent }
+\citation{liu2025ar_llm}
+\citation{sharma2025wwwtocim}
+\citation{sun2023imc_benchmark}
+\citation{zhou2025imcsim}
+\citation{verma2019imc}
+\@writefile{toc}{\contentsline {paragraph}{直接照搬 GPU Roofline 分析 CIM 的工作}{5}{paragraph*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{尝试改写 Roofline 形态的工作}{5}{paragraph*.4}\protected@file@percent }
+\citation{jia2022imc_accelerator}
+\citation{garofalo2022imc_cluster}
+\citation{krishnan2021imc_limits}
+\citation{zhou2025imcsim}
+\citation{sun2023imc_benchmark}
+\@writefile{toc}{\contentsline {paragraph}{现有工作的共性局限}{7}{paragraph*.5}\protected@file@percent }
+\citation{williams2009roofline}
+\citation{verhelst2025roofline}
+\citation{rheindt2020xcentric}
+\citation{liu2025ar_llm}
+\citation{sharma2025wwwtocim}
+\citation{sun2023imc_benchmark}
+\citation{zhou2025imcsim}
+\citation{verma2019imc}
+\citation{jia2022imc_accelerator}
+\citation{garofalo2022imc_cluster}
+\citation{krishnan2021imc_limits}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Roofline 模型本身与其在 CIM 评估中的应用现状汇总。除 Williams 原作外，8 项 CIM-相关工作按对 Williams 形式的偏离程度可分为完全沿用、局部改写、放弃三档；Verhelst 与 Rheindt 单列，因为它们的 Roofline 扩展面向更一般的异构加速器，IMC 是其讨论范围中的一个子集。}}{9}{table.caption.6}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:roofline_survey}{{1}{9}{Roofline 模型本身与其在 CIM 评估中的应用现状汇总。除 Williams 原作外，8 项 CIM-相关工作按对 Williams 形式的偏离程度可分为完全沿用、局部改写、放弃三档；Verhelst 与 Rheindt 单列，因为它们的 Roofline 扩展面向更一般的异构加速器，IMC 是其讨论范围中的一个子集。}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{本文与现有工作的不同}{10}{paragraph*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Roofline 的定位}{10}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}计算平台的两个关键指标}{10}{subsection.2.3}\protected@file@percent }
+\newlabel{sec:gpu_hw}{{2.3}{10}{计算平台的两个关键指标}{subsection.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}网络模型的两个关键指标}{10}{subsection.2.4}\protected@file@percent }
+\newlabel{sec:gpu_model}{{2.4}{10}{网络模型的两个关键指标}{subsection.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}算术强度与 Roofline 公式}{11}{subsection.2.5}\protected@file@percent }
+\newlabel{eq:gpu_roofline}{{4}{11}{算术强度与 Roofline 公式}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Roofline 几何与核心直觉}{11}{subsection.2.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces GPU Roofline 的几何结构。ceiling ($P=\pi $ 水平线) 与 slope ($P=\beta \cdot \mathrm  {AI}$ 斜线) 交会于脊点 $\mathrm  {AI}^{*}=\pi /\beta $，将平面划分为 memory-bound 与 compute-bound 两个区域。}}{11}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:gpu_roofline}{{1}{11}{GPU Roofline 的几何结构。ceiling ($P=\pi $ 水平线) 与 slope ($P=\beta \cdot \AI $ 斜线) 交会于脊点 $\AI ^{*}=\pi /\beta $，将平面划分为 memory-bound 与 compute-bound 两个区域。}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}三条架构前提：(P1)--(P3)}{12}{subsection.2.7}\protected@file@percent }
+\newlabel{sec:gpu_premises}{{2.7}{12}{三条架构前提：(P1)--(P3)}{subsection.2.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}洞察：异构维度的反转}{13}{section.3}\protected@file@percent }
+\newlabel{sec:insight}{{3}{13}{洞察：异构维度的反转}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}CIM 对(P1)--(P3)的系统性违反：(A1)--(A3)}{13}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:violations}{{3.1}{13}{CIM 对(P1)--(P3)的系统性违反：(A1)--(A3)}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}异构维度反转与分解原则的转向}{13}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:inversion}{{3.2}{13}{异构维度反转与分解原则的转向}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}工作量单位从 OP 转向 Byte}{14}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:work_unit}{{3.3}{14}{工作量单位从 OP 转向 Byte}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}CIM Roofline 模型}{15}{section.4}\protected@file@percent }
+\newlabel{sec:cim_roofline}{{4}{15}{CIM Roofline 模型}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}四个 CIM-native 指标: $\rho , \tau , Q_S, Q_R$ 与驻留强度 $\mathrm  {RI}$}{15}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:cim_indicators}{{4.1}{15}{四个 CIM-native 指标: $\rho , \tau , Q_S, Q_R$ 与驻留强度 $\RI $}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{硬件侧: 流式数据吞吐 $\rho $ 与驻留数据吞吐 $\tau $}{15}{paragraph*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{符号根源}{15}{paragraph*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{workload 侧的时间尺度: 稳态分析窗口}{15}{paragraph*.11}\protected@file@percent }
+\newlabel{eq:RI}{{5}{16}{workload 侧的时间尺度: 稳态分析窗口}{equation.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{算法语义}{16}{paragraph*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{命名与量纲}{16}{paragraph*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}公式与几何}{17}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:cim_formula}{{4.2}{17}{公式与几何}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{公式推导}{17}{paragraph*.14}\protected@file@percent }
+\newlabel{eq:cim_roofline}{{9}{17}{公式推导}{equation.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{几何}{17}{paragraph*.15}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces CIM Roofline 的几何结构。ceiling ($P = \rho $ 水平线) 与 slope ($P = \tau \cdot \mathrm  {RI}$ 斜线) 交会于脊点 $\mathrm  {RI}^{*}=\rho /\tau $, 将平面划分为驻留吞吐受限 (resident-bound) 与流式吞吐受限 (streaming-bound) 两个区域。与图~\ref {fig:gpu_roofline} 的 GPU Roofline 形式同构, 但每条轴的物理语义独立定义。}}{17}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:cim_roofline}{{2}{17}{CIM Roofline 的几何结构。ceiling ($P = \rho $ 水平线) 与 slope ($P = \tau \cdot \RI $ 斜线) 交会于脊点 $\RI ^{*}=\rho /\tau $, 将平面划分为驻留吞吐受限 (resident-bound) 与流式吞吐受限 (streaming-bound) 两个区域。与图~\ref {fig:gpu_roofline} 的 GPU Roofline 形式同构, 但每条轴的物理语义独立定义。}{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {paragraph}{受限分区语义}{17}{paragraph*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{退化情形: $Q_R = 0$}{18}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Pipeline 机制: GPU 与 CIM 的物理实现差异}{18}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:pipeline}{{4.3}{18}{Pipeline 机制: GPU 与 CIM 的物理实现差异}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{GPU: 时间复用}{18}{paragraph*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{CIM: 空间复用}{18}{paragraph*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{对硬件的隐含要求}{18}{paragraph*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{“被掩盖” 的语义}{18}{paragraph*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}工况分类: 静态驻留与动态驻留}{18}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:modes}{{4.4}{18}{工况分类: 静态驻留与动态驻留}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Resident 更新率}{18}{paragraph*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{二分: 静态驻留与动态驻留}{18}{paragraph*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{硬件容量的限制}{19}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{硬件耐久性的限制}{19}{paragraph*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{小结}{19}{paragraph*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}存算分离和融合架构的对偶和转换}{19}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:transform}{{4.5}{19}{存算分离和融合架构的对偶和转换}{subsection.4.5}{}}
+\newlabel{sec:comparison}{{4.5}{19}{存算分离和融合架构的对偶和转换}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{出发的问题}{19}{paragraph*.29}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces GPU Roofline 与 CIM Roofline 的系统性对偶。两者形式同构而语义独立, 每一行的左右两列分别是各自架构下的对应量。}}{20}{table.caption.28}\protected@file@percent }
+\newlabel{tab:comparison}{{2}{20}{GPU Roofline 与 CIM Roofline 的系统性对偶。两者形式同构而语义独立, 每一行的左右两列分别是各自架构下的对应量。}{table.caption.28}{}}
+\newlabel{para:kappa_def}{{4.5}{20}{Workload 的三元描述与结构常数 $\kappa _S, \kappa _R$}{paragraph*.30}{}}
+\@writefile{toc}{\contentsline {paragraph}{Workload 的三元描述与结构常数 $\kappa _S, \kappa _R$}{20}{paragraph*.30}\protected@file@percent }
+\newlabel{eq:RI_kappa}{{12}{20}{Workload 的三元描述与结构常数 $\kappa _S, \kappa _R$}{equation.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{算例: 28\,nm SRAM ACIM macro}{21}{paragraph*.31}\protected@file@percent }
+\newlabel{eq:tops_demystify}{{13}{21}{算例: 28\,nm SRAM ACIM macro}{equation.13}{}}
+\@writefile{toc}{\contentsline {paragraph}{等效算力 $\pi _{\mathrm  {eq}}$ 与等效带宽 $\beta _{\mathrm  {eq}}$: 把 CIM 投到 GPU 坐标}{21}{paragraph*.32}\protected@file@percent }
+\newlabel{eq:pi_eq}{{14}{21}{等效算力 $\pi _{\mathrm {eq}}$ 与等效带宽 $\beta _{\mathrm {eq}}$: 把 CIM 投到 GPU 坐标}{equation.14}{}}
+\newlabel{eq:beta_eq}{{15}{21}{等效算力 $\pi _{\mathrm {eq}}$ 与等效带宽 $\beta _{\mathrm {eq}}$: 把 CIM 投到 GPU 坐标}{equation.15}{}}
+\newlabel{para:bidirectional}{{4.5}{22}{反向投影 $\rho _{\mathrm {eq}}, \tau _{\mathrm {eq}}$: 把 GPU 投到 CIM 坐标}{paragraph*.33}{}}
+\@writefile{toc}{\contentsline {paragraph}{反向投影 $\rho _{\mathrm  {eq}}, \tau _{\mathrm  {eq}}$: 把 GPU 投到 CIM 坐标}{22}{paragraph*.33}\protected@file@percent }
+\newlabel{eq:rho_eq}{{16}{22}{反向投影 $\rho _{\mathrm {eq}}, \tau _{\mathrm {eq}}$: 把 GPU 投到 CIM 坐标}{equation.16}{}}
+\newlabel{eq:tau_eq}{{17}{22}{反向投影 $\rho _{\mathrm {eq}}, \tau _{\mathrm {eq}}$: 把 GPU 投到 CIM 坐标}{equation.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{双向变换对照}{22}{paragraph*.34}\protected@file@percent }
+\newlabel{para:axis_xform}{{4.5}{22}{Y 轴与 X 轴的显式变换}{paragraph*.35}{}}
+\@writefile{toc}{\contentsline {paragraph}{Y 轴与 X 轴的显式变换}{22}{paragraph*.35}\protected@file@percent }
+\newlabel{eq:AI_RI}{{18}{22}{Y 轴与 X 轴的显式变换}{equation.18}{}}
+\@writefile{toc}{\contentsline {paragraph}{不对称的根源}{22}{paragraph*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{小结}{23}{paragraph*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}硬件与 workload 的定量标定}{24}{section.5}\protected@file@percent }
+\newlabel{sec:quantitative}{{5}{24}{硬件与 workload 的定量标定}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}估算框架与参数前置}{24}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:assumptions}{{5.1}{24}{估算框架与参数前置}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{硬件通用参数}{24}{paragraph*.38}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 硬件通用参数。所有时延均为 28\,nm CMOS 外围电路基线下的典型值。}}{24}{table.caption.39}\protected@file@percent }
+\newlabel{tab:hw_params}{{3}{24}{硬件通用参数。所有时延均为 28\,nm CMOS 外围电路基线下的典型值。}{table.caption.39}{}}
+\@writefile{toc}{\contentsline {paragraph}{按器件技术的关键参数}{24}{paragraph*.40}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces 按器件技术的关键时延参数。FeRAM 列入的是含 writeback 的有效 cycle time; NAND 取 page-level 读响应。}}{24}{table.caption.41}\protected@file@percent }
+\newlabel{tab:cell_params}{{4}{24}{按器件技术的关键时延参数。FeRAM 列入的是含 writeback 的有效 cycle time; NAND 取 page-level 读响应。}{table.caption.41}{}}
+\@writefile{toc}{\contentsline {paragraph}{任务侧参数}{25}{paragraph*.42}\protected@file@percent }
+\newlabel{para:pitch_matching}{{5.1}{25}{ADC 与 cell 面积匹配}{paragraph*.43}{}}
+\@writefile{toc}{\contentsline {paragraph}{ADC 与 cell 面积匹配}{25}{paragraph*.43}\protected@file@percent }
+\newlabel{eq:Nshare}{{19}{25}{ADC 与 cell 面积匹配}{equation.19}{}}
+\@writefile{toc}{\contentsline {paragraph}{已知不确定源}{25}{paragraph*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}硬件指标的估算: $\rho $ 与 $\tau $}{25}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:hw_quant}{{5.2}{25}{硬件指标的估算: $\rho $ 与 $\tau $}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{流式吞吐 $\rho $ (ACIM)}{25}{paragraph*.45}\protected@file@percent }
+\newlabel{eq:rho_acim}{{20}{25}{流式吞吐 $\rho $ (ACIM)}{equation.20}{}}
+\@writefile{toc}{\contentsline {paragraph}{流式吞吐 $\rho $ (DCIM)}{26}{paragraph*.46}\protected@file@percent }
+\newlabel{eq:rho_dcim}{{21}{26}{流式吞吐 $\rho $ (DCIM)}{equation.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{驻留吞吐 $\tau $ (对称型)}{26}{paragraph*.47}\protected@file@percent }
+\newlabel{eq:tau_sym}{{22}{26}{驻留吞吐 $\tau $ (对称型)}{equation.22}{}}
+\@writefile{toc}{\contentsline {paragraph}{驻留吞吐 $\tau $ (非对称型)}{26}{paragraph*.48}\protected@file@percent }
+\newlabel{eq:tau_asym}{{23}{26}{驻留吞吐 $\tau $ (非对称型)}{equation.23}{}}
+\@writefile{toc}{\contentsline {paragraph}{算例: FeNOR (对称型 ACIM)}{26}{paragraph*.49}\protected@file@percent }
+\citation{wu2022td}
+\citation{guo2024lightning}
+\citation{oh2023d6cim}
+\citation{fujiwara2024dcim}
+\citation{chih2021dcim}
+\citation{khwa2024gc}
+\citation{zhou2026fefet}
+\citation{infineon_fram}
+\citation{ibm2024feram}
+\citation{wan2022neurram}
+\citation{kawahara2013rram}
+\citation{liu2025rram_28nm}
+\citation{mythic_m1076}
+\citation{kioxia2025nand}
+\citation{micron_nand}
+\citation{shim2021nandcim}
+\citation{giterman2018fdsoi}
+\citation{sany2022gc}
+\citation{zhou2026fefet}
+\citation{wan2022neurram}
+\citation{mythic_m1076}
+\citation{shim2021nandcim}
+\citation{micron_nand}
+\citation{kioxia2025nand}
+\citation{giterman2018fdsoi}
+\citation{sany2022gc}
+\citation{zhou2026fefet}
+\citation{wan2022neurram}
+\citation{mythic_m1076}
+\citation{shim2021nandcim}
+\citation{micron_nand}
+\citation{kioxia2025nand}
+\@writefile{toc}{\contentsline {paragraph}{跨技术汇总}{27}{paragraph*.50}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 主流 CIM 技术的 $\rho $, $\tau $, $\mathrm  {RI}^{*}$ 估算 (28\,nm CMOS 外围电路基线)。范围下限对应保守假设 (含 $k_{\mathrm  {verify}}$、耐久度摊销、破坏性读 writeback、refresh 摊销), 上限对应 aggressive multi-bank/multi-layer 设计。 \textbf  {脚注}: $^{\dag  }$ Gain Cell 的 $\tau $ 范围已假设保留时间 $> 100\,\mu $s (典型 28\,nm 3T/4T eDRAM~\cite  {giterman2018fdsoi,sany2022gc}) 使 refresh duty $<2\%$; 短保留设计应按比例折扣。 $^{\ddag  }$ FeNOR 的 streaming cycle 与 RRAM 28\,nm 估算均为外推: FeNOR 来自第~\ref {sec:hw_quant} 节基线推导 (无 in-CIM cycle 实测~\cite  {zhou2026fefet}); RRAM 来自 NeuRRAM 130\,nm 的 250\,ns/cycle~\cite  {wan2022neurram} 按 5$\times $ 线性 scaling 至 28\,nm 的保守上界。 $^{\S  }$ Mythic M1076 实际为 GlobalFoundries 40\,nm 工艺~\cite  {mythic_m1076}; 产品手册未给 cell 级 timing, $T_{\mathrm  {stream}}$ 范围基于 NOR Flash analog 读的工艺通用知识。 $^{\P  }$ 3D NAND CIM 的 $\rho $ 数字基于 simulation~\cite  {shim2021nandcim} (无硅原型); $\tau $ 基于 Micron 产品手册~\cite  {micron_nand} 与 Kioxia ISSCC 2025~\cite  {kioxia2025nand} 实测可验证。}}{27}{table.caption.51}\protected@file@percent }
+\newlabel{tab:hw_calibration}{{5}{27}{主流 CIM 技术的 $\rho $, $\tau $, $\RI ^{*}$ 估算 (28\,nm CMOS 外围电路基线)。范围下限对应保守假设 (含 $k_{\mathrm {verify}}$、耐久度摊销、破坏性读 writeback、refresh 摊销), 上限对应 aggressive multi-bank/multi-layer 设计。 \textbf {脚注}: $^{\dag }$ Gain Cell 的 $\tau $ 范围已假设保留时间 $> 100\,\mu $s (典型 28\,nm 3T/4T eDRAM~\cite {giterman2018fdsoi,sany2022gc}) 使 refresh duty $<2\%$; 短保留设计应按比例折扣。 $^{\ddag }$ FeNOR 的 streaming cycle 与 RRAM 28\,nm 估算均为外推: FeNOR 来自第~\ref {sec:hw_quant} 节基线推导 (无 in-CIM cycle 实测~\cite {zhou2026fefet}); RRAM 来自 NeuRRAM 130\,nm 的 250\,ns/cycle~\cite {wan2022neurram} 按 5$\times $ 线性 scaling 至 28\,nm 的保守上界。 $^{\S }$ Mythic M1076 实际为 GlobalFoundries 40\,nm 工艺~\cite {mythic_m1076}; 产品手册未给 cell 级 timing, $T_{\mathrm {stream}}$ 范围基于 NOR Flash analog 读的工艺通用知识。 $^{\P }$ 3D NAND CIM 的 $\rho $ 数字基于 simulation~\cite {shim2021nandcim} (无硅原型); $\tau $ 基于 Micron 产品手册~\cite {micron_nand} 与 Kioxia ISSCC 2025~\cite {kioxia2025nand} 实测可验证。}{table.caption.51}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}典型 workload 的 $Q_S, Q_R, \mathrm  {RI}$ 推导}{27}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:wl_quant}{{5.3}{27}{典型 workload 的 $Q_S, Q_R, \RI $ 推导}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{(a) 方阵 GEMM (基准)}{27}{paragraph*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(b) 线性投影 ($W \in \mathbb  {R}^{D_m \times D_m}$, QKV 与 FFN)}{28}{paragraph*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(c) Attention 单 token decode (KV 缓慢累积)}{28}{paragraph*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{(d) Attention prefill ($L$ 个 token 一次写完)}{28}{paragraph*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{具体数值 ($D_m = 4096$, $D_h = 128$, $b = 2$\,Byte)}{28}{paragraph*.56}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 典型 workload 的 $(Q_R, Q_S, \mathrm  {RI})$ 与在 FeNOR baseline 上的工作点。所有静态驻留 workload 都退化为 $\mathrm  {RI}= \infty $, $P = \rho $; 动态驻留 workload 的 $\mathrm  {RI}$ 由具体形态决定。R-b 工作点 $P = \tau \cdot \mathrm  {RI}$, S-b 工作点 $P = \rho $。}}{29}{table.caption.57}\protected@file@percent }
+\newlabel{tab:wl_calibration}{{6}{29}{典型 workload 的 $(Q_R, Q_S, \RI )$ 与在 FeNOR baseline 上的工作点。所有静态驻留 workload 都退化为 $\RI = \infty $, $P = \rho $; 动态驻留 workload 的 $\RI $ 由具体形态决定。R-b 工作点 $P = \tau \cdot \RI $, S-b 工作点 $P = \rho $。}{table.caption.57}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}二维结果分析与讨论}{29}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:matrix_eval}{{5.4}{29}{二维结果分析与讨论}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{静态驻留 workload}{29}{paragraph*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{动态驻留 workload 的二维矩阵}{29}{paragraph*.59}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 动态驻留 workload 与 CIM 硬件的二维 regime 矩阵, 列按 $\mathrm  {RI}^{*}$ 由小到大排。判定按 $\mathrm  {RI}/\mathrm  {RI}^{*}$ 与 $[1/3,\ 3]$ 的比较。所有静态驻留 workload 一律 S-b, 不再单列。}}{30}{table.caption.60}\protected@file@percent }
+\newlabel{tab:regime_matrix}{{7}{30}{动态驻留 workload 与 CIM 硬件的二维 regime 矩阵, 列按 $\RI ^{*}$ 由小到大排。判定按 $\RI /\RI ^{*}$ 与 $[1/3,\ 3]$ 的比较。所有静态驻留 workload 一律 S-b, 不再单列。}{table.caption.60}{}}
+\@writefile{toc}{\contentsline {paragraph}{矩阵讨论}{30}{paragraph*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{对器件与算法设计的启示}{30}{paragraph*.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}CIM Roofline 的 PD 融合趋势}{32}{section.6}\protected@file@percent }
+\newlabel{sec:pd_fusion}{{6}{32}{CIM Roofline 的 PD 融合趋势}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}PD 分离的 GPU 依据}{32}{subsection.6.1}\protected@file@percent }
+\newlabel{sec:gpu_pd_rationale}{{6.1}{32}{PD 分离的 GPU 依据}{subsection.6.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Prefill 与 Decode 落在两个 GPU regime}{32}{paragraph*.63}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{两条依据缺一不可}{32}{paragraph*.64}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}PD 分离在 CIM 不再适用}{32}{subsection.6.2}\protected@file@percent }
+\newlabel{sec:pd_failure}{{6.2}{32}{PD 分离在 CIM 不再适用}{subsection.6.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{分裂方向无法对应 P 与 D}{32}{paragraph*.65}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{P 与 D 落在同一 regime 带}{33}{paragraph*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{小结}{33}{paragraph*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}CIM上PD融合的必然趋势}{33}{subsection.6.3}\protected@file@percent }
+\newlabel{sec:pd_natural}{{6.3}{33}{CIM上PD融合的必然趋势}{subsection.6.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{融合方案: 维持窗口工作点}{33}{paragraph*.68}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{分离方案 A (双硬件): 工作点漂移}{34}{paragraph*.69}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{分离方案 B (模式切换): 切换开销累积}{34}{paragraph*.70}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{小结}{34}{paragraph*.71}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}通道分解原理: Roofline 的架构无关基础}{35}{section.7}\protected@file@percent }
+\newlabel{sec:channel_decomposition}{{7}{35}{通道分解原理: Roofline 的架构无关基础}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}原理的一般形式与适用条件}{35}{subsection.7.1}\protected@file@percent }
+\newlabel{sec:principle_form}{{7.1}{35}{原理的一般形式与适用条件}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{一般形式}{35}{paragraph*.72}\protected@file@percent }
+\newlabel{eq:channel_principle}{{24}{35}{一般形式}{equation.24}{}}
+\@writefile{toc}{\contentsline {paragraph}{适用条件}{35}{paragraph*.73}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ceiling 与 slope 的来源}{35}{paragraph*.74}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}GPU 与 CIM 作为原理的两种特化}{36}{subsection.7.2}\protected@file@percent }
+\newlabel{sec:gpu_cim_specialization}{{7.2}{36}{GPU 与 CIM 作为原理的两种特化}{subsection.7.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{GPU: 资源异构的特化}{36}{paragraph*.75}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{CIM: 数据角色异构的特化}{36}{paragraph*.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{结构对偶}{36}{paragraph*.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}时空对偶作为架构投影}{36}{subsection.7.3}\protected@file@percent }
+\newlabel{sec:duality_projection}{{7.3}{36}{时空对偶作为架构投影}{subsection.7.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{冯诺依曼下的时间-空间对偶}{36}{paragraph*.79}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces GPU 与 CIM 在通道分解原理下的结构对偶。两者都只激活了一条异构维度, 因此都自然产生 “一条 ceiling (来自进展量内禀通道) 加一条 slope (来自另一通道)” 的几何。形式同构由此被还原为同一原理在两种正交异构选择下的必然结果。}}{37}{table.caption.78}\protected@file@percent }
+\newlabel{tab:dual_projections}{{8}{37}{GPU 与 CIM 在通道分解原理下的结构对偶。两者都只激活了一条异构维度, 因此都自然产生 “一条 ceiling (来自进展量内禀通道) 加一条 slope (来自另一通道)” 的几何。形式同构由此被还原为同一原理在两种正交异构选择下的必然结果。}{table.caption.78}{}}
+\@writefile{toc}{\contentsline {paragraph}{CIM 下的流动-驻留对偶}{37}{paragraph*.80}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{统一陈述}{37}{paragraph*.81}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 二维分解在不同语境下的呈现。底层都是同一 workload 的二维正交分解, 具体坐标轴由执行架构的异构维度决定: 冯诺依曼按硬件功能分裂, 投影出时间复杂度与空间复杂度; CIM 按数据角色分裂, 投影出流动复杂度与驻留复杂度。}}{37}{table.caption.82}\protected@file@percent }
+\newlabel{tab:duality_projection}{{9}{37}{二维分解在不同语境下的呈现。底层都是同一 workload 的二维正交分解, 具体坐标轴由执行架构的异构维度决定: 冯诺依曼按硬件功能分裂, 投影出时间复杂度与空间复杂度; CIM 按数据角色分裂, 投影出流动复杂度与驻留复杂度。}{table.caption.82}{}}
+\@writefile{toc}{\contentsline {paragraph}{小结}{37}{paragraph*.83}\protected@file@percent }
+\bibcite{williams2009roofline}{1}
+\@writefile{toc}{\contentsline {section}{\numberline {8}结论}{38}{section.8}\protected@file@percent }
+\newlabel{sec:conclusion}{{8}{38}{结论}{section.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{对 Roofline 本身的观念修正}{38}{paragraph*.84}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{对算法分析对偶的观念修正}{38}{paragraph*.85}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{对硬件指标 “独立性” 的观念修正}{38}{paragraph*.86}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{应用与展望}{38}{paragraph*.87}\protected@file@percent }
+\bibcite{zhou2026fefet}{2}
+\bibcite{wu2022td}{3}
+\bibcite{guo2024lightning}{4}
+\bibcite{oh2023d6cim}{5}
+\bibcite{fujiwara2024dcim}{6}
+\bibcite{chih2021dcim}{7}
+\bibcite{khwa2024gc}{8}
+\bibcite{wan2022neurram}{9}
+\bibcite{kawahara2013rram}{10}
+\bibcite{infineon_fram}{11}
+\bibcite{ibm2024feram}{12}
+\bibcite{mythic_m1076}{13}
+\bibcite{kioxia2025nand}{14}
+\bibcite{micron_nand}{15}
+\bibcite{shim2021nandcim}{16}
+\bibcite{liu2025rram_28nm}{17}
+\bibcite{giterman2018fdsoi}{18}
+\bibcite{sany2022gc}{19}
+\bibcite{verhelst2025roofline}{20}
+\bibcite{rheindt2020xcentric}{21}
+\bibcite{verma2019imc}{22}
+\bibcite{krishnan2021imc_limits}{23}
+\bibcite{jia2022imc_accelerator}{24}
+\bibcite{garofalo2022imc_cluster}{25}
+\bibcite{sun2023imc_benchmark}{26}
+\bibcite{liu2025ar_llm}{27}
+\bibcite{sharma2025wwwtocim}{28}
+\bibcite{zhou2025imcsim}{29}
+\gdef \@abspage@last{41}
