@@ -1,0 +1,523 @@
+%% Task 0 非编译归档：旧版研究材料
+%% 来源基线 commit: 1cf153e7934283ebf728c403ddf06209ee4c6acf (main)
+%% 原文件: CIM_Roofline_Paper/cim_roofline.tex
+%% 内容: 硬件与 workload 的定量标定、PD 融合、通道分解三个章节，原文保留。
+%% 未按 MODEL_CONVENTIONS.md v0.1-candidate 复核；不参与当前主文编译。
+%% 不能作为后续表格的已验证数据直接引用。归档不代表判定所有旧数字错误。
+%% 本文件为历史片段，其 label、引用及前文依赖仅在旧版全文语境中成立。
+%% ==================== 原始片段开始 ====================
+\section{硬件与 workload 的定量标定}
+\label{sec:quantitative}
+
+第~\ref{sec:cim_roofline} 节给出了 CIM Roofline 的形式化定义。本节把硬件指标 ($\rho$, $\tau$) 与 workload 指标 ($Q_S$, $Q_R$, $\RI$) 按解析方式算清, 并把硬件 $\times$ workload 的两维结果汇成 regime 矩阵。先在第~\ref{sec:assumptions} 节作参数前置, 再分别标定硬件 (第~\ref{sec:hw_quant} 节) 与 workload (第~\ref{sec:wl_quant} 节), 最后在第~\ref{sec:matrix_eval} 节做二维 regime 分析并讨论对器件与算法设计的启示。
+
+\subsection{估算框架与参数前置}
+\label{sec:assumptions}
+
+本节把后续硬件指标估算所需的全部参数一次列清, 并给出器件层面与任务层面的基线取值, 后文公式只在表上代数。所有讨论限定在 28\,nm CMOS 外围电路基线下, 以便不同 cell 技术之间做公平对比: 不同 cell 技术的 backend 与堆叠形态可独立演化, 但 DAC、ADC、字线驱动、位线 sensing 等 CMOS 外围电路在该基线下近似等价。
+
+\paragraph{硬件通用参数}
+两条通路所用的延时与并行度参数列于表~\ref{tab:hw_params}。其中两个量 ($T_{\mathrm{cell}}$ 与 $T_{\mathrm{prog}}$) 对器件技术高度敏感, 单独列于表~\ref{tab:cell_params}, 跨器件可差几个数量级。
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{} l p{0.32\textwidth} l l p{0.22\textwidth} @{}}
+\toprule
+\textbf{符号} & \textbf{物理含义} & \textbf{基线} & \textbf{范围} & \textbf{备注} \\
+\midrule
+$T_{\mathrm{DAC}}$ & DAC 转换时延 & 1\,ns & 0.5--3\,ns & 4-bit 电阻分压式即可 \\
+$T_{\mathrm{WL}}$ & 字线驱动 (含 RC 寄生) & 2\,ns & 1--5\,ns & 依字线长度与走线 \\
+$T_{\mathrm{cell}}$ & cell 读响应 & \multicolumn{2}{l}{见表~\ref{tab:cell_params}} & 跨器件差几个数量级 \\
+$T_{\mathrm{BL}}$ & 位线 settling & 3\,ns & 2--10\,ns & 依 BL 电容与驱动电流 \\
+$T_{\mathrm{ADC}}$ & 8-bit SAR ADC 单次转换 (ACIM) & 8\,ns & 5--15\,ns & ACIM 关键瓶颈 \\
+$T_{\mathrm{AT}}$ & adder tree 组合延时 (DCIM) & 3\,ns & 2--5\,ns & 替代 $T_{\mathrm{ADC}}$ \\
+$T_{\mathrm{prog}}$ & 单次编程脉冲 & \multicolumn{2}{l}{见表~\ref{tab:cell_params}} & 跨器件差几个数量级 \\
+$T_{\mathrm{erase}}$ & 单次擦除 & 对称 cell: $=T_{\mathrm{prog}}$ & — & NAND: $\sim$15\,ms/block \\
+$k_{\mathrm{verify}}$ & 平均 verify-retry 次数 & \multicolumn{2}{l}{见表~\ref{tab:cell_params}} & NVM 类必需 \\
+$N_{\mathrm{par\text{-}write}}$ & 单脉冲并行写入 cell 数 & 128 & 64--512 & 受字线驱动能力限制 \\
+$N_{\mathrm{bank}}$ & macro 内并行 bank 数 & 4 & 2--16 & 设计选择 \\
+\bottomrule
+\end{tabular}
+\caption{硬件通用参数。所有时延均为 28\,nm CMOS 外围电路基线下的典型值。}
+\label{tab:hw_params}
+\end{table}
+
+\paragraph{按器件技术的关键参数}
+表~\ref{tab:cell_params} 给出 7 类主流 CIM 器件的 $T_{\mathrm{cell}}$、$T_{\mathrm{prog}}$、$k_{\mathrm{verify}}$ 取值。
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{} l l l l @{}}
+\toprule
+\textbf{器件} & \textbf{$T_{\mathrm{cell}}$ (读)} & \textbf{$T_{\mathrm{prog}}$ (写)} & \textbf{$k_{\mathrm{verify}}$} \\
+\midrule
+SRAM & $\sim$1\,ns & $\sim$1\,ns & 1 \\
+Gain Cell (eDRAM) & $\sim$1\,ns & $\sim$1\,ns & 1 \\
+FeFET (含 FeNOR) & 2--5\,ns (非破坏读) & 20\,ns & 1 \\
+FeRAM (含 writeback) & 60--90\,ns full cycle & 90\,ns full write & 1 \\
+RRAM & 5--15\,ns (电流 sensing) & $\sim$1\,$\mu$s/pulse & 3--10 \\
+NOR Flash & 10--50\,ns & $\mu$s 级 & 5--20 \\
+3D NAND TLC & 35--100\,$\mu$s page-level & $\sim$800\,$\mu$s/page & 5--20 \\
+\bottomrule
+\end{tabular}
+\caption{按器件技术的关键时延参数。FeRAM 列入的是含 writeback 的有效 cycle time; NAND 取 page-level 读响应。}
+\label{tab:cell_params}
+\end{table}
+
+\paragraph{任务侧参数}
+取 hidden 维度 $D_m = 4096$、head 维度 $D_h = 128$ 作为基线规格 (近似 Llama-3.1 7B/8B), 数据精度 $b = 2$\,Byte (fp16); batch size $B$、序列长度 $L$、decode 步数 $N$ 按 workload 场景扫描。若量化至 INT4, $b$ 变为 0.5, $Q_S$ 与 $Q_R$ 同比例缩小, 但 $\RI = Q_S/Q_R$ 保持不变。
+
+\paragraph{ADC 与 cell 面积匹配}
+\label{para:pitch_matching}
+ACIM 中, 一颗 ADC 必须落在 column pitch 之下 (其信号来自 BL, 走线受限), 可用面积是阵列底部一整列 $A_{\mathrm{col}} = N_{\mathrm{row}} \cdot A_{\mathrm{cell}}$。单 ADC 面积 $A_{\mathrm{ADC}}$ 是 ADC 工艺属性 (28\,nm 8-bit SAR ADC 典型 $\sim 1{,}000$--$3{,}000\,\mu\mathrm{m}^2$)。每颗 ADC 必须占据若干列底部空间, 列共享因子为
+\begin{equation}
+N_{\mathrm{share}} \;=\; \max\!\left(1,\ \left\lceil \frac{A_{\mathrm{ADC}}}{A_{\mathrm{col}}} \right\rceil\right).
+\label{eq:Nshare}
+\end{equation}
+常见 28\,nm cell 面积约为 SRAM $\sim$0.13\,$\mu$m$^2$、1T1R RRAM $\sim$0.05\,$\mu$m$^2$、3D FeFET 单层投影更小。直接按面积比给出的 $N_{\mathrm{share}}$ 上界 (SRAM 约 30--70, RRAM 约 80--200) 只在使用独立大型 SAR ADC 时成立。现代 ACIM macro 普遍采用 in-cell ADC、charge-redistribution ADC 或 time-domain 读出, 把 pitch matching 惩罚规避到 4--16 之间, 本节后续标定取这一现实范围。DCIM 不走 ADC, $N_{\mathrm{share}} = 1$。
+
+\paragraph{已知不确定源}
+以下几点可能使估算与实测有 2--5$\times$ 偏离, 但不改变方向性结论:
+\begin{itemize}[topsep=2pt, itemsep=1pt]
+    \item 耐久度摊销: RRAM、Flash 等耐久度有限的器件, 长时摊销下的可持续 $\tau$ 受寿命约束; 基线假设 workload 在耐久度预算内, 不再单独摊销。
+    \item 编程 verify: NVM 类的 $k_{\mathrm{verify}}$ 已在表~\ref{tab:cell_params} 中显式计入。
+    \item 破坏性读 (FeRAM): 1T1C/2T2C FeRAM 每次读后需 writeback 恢复极化, 有效 cycle 约为 raw read 的 2$\times$; 本节按表~\ref{tab:cell_params} 的含 WB 的 cycle 计入。2T-nC FeRAM 的非破坏性读出可使 cycle 减半, 本节按保守口径不计入。
+    \item 页与块粒度 (NAND): NAND 以 16\,KB page 为编程粒度、$\sim$512--1536 page 为 block 擦除粒度, $\tau$ 受 page 粒度限制并需摊销 block 擦除。
+    \item ADC 精度与面积权衡: $A_{\mathrm{ADC}}$ 可以用 VCO/SS/time-domain ADC 替代 SAR 缩小, 但有精度或速度代价, 不同设计 $\rho$ 可为基线的 0.5--2$\times$。
+\end{itemize}
+
+\subsection{硬件指标的估算: $\rho$ 与 $\tau$}
+\label{sec:hw_quant}
+
+本节给出 streaming 吞吐 $\rho$ 与 resident 吞吐 $\tau$ 的解析估算公式。$\rho$ 按 ACIM 与 DCIM 两种实现路径分别讨论, $\tau$ 按对称型与非对称型两类器件分别讨论, 然后以 FeNOR (对称型 ACIM) 为例完整推一遍, 最后把 7 类主流 CIM 技术的估算结果汇总成表。
+
+\paragraph{流式吞吐 $\rho$ (ACIM)}
+完整 ACIM streaming cycle 由 5 段串行过程构成: DAC 转换、字线驱动、cell 响应、位线 settling、ADC 转换。$\rho$ 由 macro 单位时间内所有 ADC 端口的总输出决定, 再被列共享因子 $N_{\mathrm{share}}$ 归一化:
+\begin{equation}
+\boxed{\ \rho_{\mathrm{ACIM}} \;\approx\; \frac{N_{\mathrm{col}} \cdot b_{\mathrm{ADC}} \cdot N_{\mathrm{bank}}}{N_{\mathrm{share}} \cdot T_{\mathrm{stream}}} \quad [\mathrm{Byte}/\mathrm{s}], \quad T_{\mathrm{stream}} = T_{\mathrm{DAC}} + T_{\mathrm{WL}} + T_{\mathrm{cell}} + T_{\mathrm{BL}} + T_{\mathrm{ADC}}.\ }
+\label{eq:rho_acim}
+\end{equation}
+其中 $b_{\mathrm{ADC}}$ 取字节单位 (8-bit ADC 算 1 Byte, 4-bit ADC 算 0.5 Byte)。这一公式把 $\rho$ 从 “ADC 速度乘以 ADC 数” 修正为 “单位 macro 面积下的 ADC 速度除以 ADC 面积”, 等价形式 $\rho_{\mathrm{ACIM}} \propto (A_{\mathrm{array}}/A_{\mathrm{ADC}}) \cdot (b_{\mathrm{ADC}}/T_{\mathrm{stream}})$ 表明 $\rho$ 实际反映的是 ADC 工艺与 cell pitch 的匹配度, 而不是单颗 ADC 本身的速率。
+
+\paragraph{流式吞吐 $\rho$ (DCIM)}
+DCIM 用 adder tree 做数字累加, 不经 ADC, 因此 $N_{\mathrm{share}} = 1$, $T_{\mathrm{stream}}$ 中的 $T_{\mathrm{ADC}}$ 替换为 adder tree 组合延时 $T_{\mathrm{AT}}$:
+\begin{equation}
+\boxed{\ \rho_{\mathrm{DCIM}} \;\approx\; \frac{N_{\mathrm{col}} \cdot b_{\mathrm{in}} \cdot N_{\mathrm{bank}}}{T_{\mathrm{compute}}} \quad [\mathrm{Byte}/\mathrm{s}], \quad T_{\mathrm{compute}} = T_{\mathrm{mul}} + T_{\mathrm{AT}}.\ }
+\label{eq:rho_dcim}
+\end{equation}
+$T_{\mathrm{compute}}$ 是处理一份 $b_{\mathrm{in}}$-Byte 输入向量所需时间, 依据设计可有三种典型形式: parallel-input DCIM 单 cycle 完成, $T_{\mathrm{compute}} = T_{\mathrm{clk}}$; input-bit-serial DCIM (输入按位串行、权重并行), $T_{\mathrm{compute}} = (8 b_{\mathrm{in}}) T_{\mathrm{clk}}$; dual-bit-serial DCIM (输入与权重都按位串行), $T_{\mathrm{compute}} = (8 b_{\mathrm{in}})(8 b_{\mathrm{w}}) T_{\mathrm{clk}}$。三类设计在 $\rho$ 上可差 8$\times$ 至 64$\times$。本节标定取 input-bit-serial 中位假设的 $T_{\mathrm{compute}} \approx 2$--$15$\,ns。DCIM 相较 ACIM 在 $\rho$ 上一般高 2--5$\times$, 来源是 $T_{\mathrm{AT}}$ 比 $T_{\mathrm{ADC}}$ 略小, 且无 pitch matching 惩罚 ($N_{\mathrm{share}} = 1$); 代价是 adder tree 占 macro 面积的 15\%--30\%, 权重密度下降。
+
+\paragraph{驻留吞吐 $\tau$ (对称型)}
+对 SRAM、Gain Cell、FeFET (含 FeNOR)、FeRAM 这类对称型器件, 编程与擦除等价, 刷新一个 cell 只需一次 $T_{\mathrm{write}}$:
+\begin{equation}
+\boxed{\ \tau_{\mathrm{sym}} \;\approx\; \frac{N_{\mathrm{par\text{-}write}} \cdot b_{\mathrm{cell}} \cdot N_{\mathrm{bank}}}{k_{\mathrm{verify}} \cdot T_{\mathrm{write}}} \quad [\mathrm{Byte}/\mathrm{s}].\ }
+\label{eq:tau_sym}
+\end{equation}
+
+\paragraph{驻留吞吐 $\tau$ (非对称型)}
+对 NAND Flash 这类非对称型器件, $T_{\mathrm{erase}} \gg T_{\mathrm{prog}}$ 且擦除以 block 为单位 (每 block 含 $N_{\mathrm{page/block}}$ 个 page), 每 page 刷新需摊销一次 block 擦除。商用 NAND 通常支持 $N_{\mathrm{plane}}$-plane 并行编程:
+\begin{equation}
+\boxed{\ \tau_{\mathrm{asym}} \;\approx\; \frac{b_{\mathrm{page}} \cdot N_{\mathrm{plane}}}{T_{\mathrm{prog}} + T_{\mathrm{erase}}/N_{\mathrm{page/block}}} \quad [\mathrm{Byte}/\mathrm{s}].\ }
+\label{eq:tau_asym}
+\end{equation}
+3D NAND TLC 的典型代入 ($T_{\mathrm{prog}} \approx 800\,\mu$s/page, $T_{\mathrm{erase}} = 15$\,ms/block, $N_{\mathrm{page/block}} = 512$, page 16\,KB, 4-plane 并行) 给出 $\tau \approx 16\,\mathrm{KB} \times 4 / (800\,\mu\mathrm{s} + 15\,\mathrm{ms}/512) \approx 77\,\mathrm{MB/s}$ per die, 与 Kioxia ISSCC 2025 的 321-Layer 2\,Tb 4b/cell 实测 75\,MB/s 吻合。
+
+\paragraph{算例: FeNOR (对称型 ACIM)}
+FeNOR 给出 $T_{\mathrm{write}} = T_{\mathrm{erase}} = 20$\,ns ($\pm 2$\,V 对称), 不需要 verify-loop ($k_{\mathrm{verify}} = 1$), 耐久度 $> 10^{12}$。该论文未直接报告 in-CIM MVM cycle time, 下面以 28\,nm CMOS 外围电路为基线推导。
+
+\textbf{Streaming 通路}: 取 $N_{\mathrm{col}} = 128$, $b_{\mathrm{ADC}} = 1$\,Byte (8-bit ADC), $N_{\mathrm{bank}} = 4$, $N_{\mathrm{share}} = 8$ (中位 in-cell ADC 设计), $T_{\mathrm{stream}} = T_{\mathrm{DAC}} + T_{\mathrm{WL}} + T_{\mathrm{cell}} + T_{\mathrm{BL}} + T_{\mathrm{ADC}} \approx 1 + 2 + 3 + 3 + 8 = 17$\,ns。代入式~\eqref{eq:rho_acim}:
+\[
+\rho_{\mathrm{FeNOR}} \;=\; \frac{128 \times 1 \times 4}{8 \times 17\,\mathrm{ns}} \;\approx\; 3.8\,\mathrm{GB/s} \;\approx\; 4\,\mathrm{GB/s} \quad \text{per macro}.
+\]
+
+\textbf{Resident 通路}: 取 $N_{\mathrm{par\text{-}write}} = 80$, $b_{\mathrm{cell}} = 1$\,bit $= 0.125$\,Byte (binary FeNOR), $N_{\mathrm{bank}} = 2$ (写通路 bank 共享 IO), $T_{\mathrm{write}} = 20$\,ns。代入式~\eqref{eq:tau_sym}:
+\[
+\tau_{\mathrm{FeNOR}} \;=\; \frac{80 \times 0.125 \times 2}{1 \times 20\,\mathrm{ns}} \;=\; 1.0\,\mathrm{GB/s} \quad \text{per macro}.
+\]
+
+由此 FeNOR 的 ridge 点 $\RI^{*} = \rho/\tau \approx 4$。这一组 $(\rho, \tau, \RI^{*})$ 的基线估算适合作 FeNOR 后续 workload 工作点分析的参照。如果走更激进的设计 ($N_{\mathrm{par\text{-}write}} = 512$, $N_{\mathrm{bank}} = 8$, $T_{\mathrm{write}} = 20$\,ns), $\tau$ 可达约 25\,GB/s; 3D 垂直堆叠的 $L_{\mathrm{layer}}$ 层共享外围还可再乘 $L_{\mathrm{layer}}$。$\rho$ 通路若 $N_{\mathrm{share}} = 4$、$T_{\mathrm{stream}} = 16$\,ns, 可达约 8\,GB/s。这些上限本身依赖外围电路是否能达到理想 scaling, 属乐观估计。
+
+\paragraph{跨技术汇总}
+按上面四条估算公式应用到 7 类主流 CIM 技术, 给出 $\rho$、$\tau$、$\RI^{*}$ 的估算范围, 见表~\ref{tab:hw_calibration}。
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{} p{0.18\textwidth} c c c c c @{}}
+\toprule
+\textbf{技术} & \textbf{代表文献} & \textbf{$T_{\mathrm{stream}}$} & \textbf{$\rho$ (GB/s)} & \textbf{$\tau$ (GB/s)} & \textbf{$\RI^{*} = \rho/\tau$} \\
+\midrule
+SRAM ACIM          & \cite{wu2022td,guo2024lightning}  & 6--30\,ns       & $2$--$10$      & $30$--$100$   & $0.02$--$0.3$ \\
+SRAM DCIM          & \cite{oh2023d6cim,fujiwara2024dcim,chih2021dcim}  & 3--15\,ns      & $3$--$30$     & $30$--$100$   & $0.03$--$1$ \\
+3T1C/3T2C Gain Cell$^{\dag}$ & \cite{khwa2024gc}        & 5--15\,ns       & $2$--$15$      & $10$--$50$    & $0.04$--$1.5$ \\
+\textbf{FeNOR (本工作)$^{\ddag}$} & \textbf{\cite{zhou2026fefet}} & \textbf{15--30\,ns} & \textbf{$2$--$8$} & \textbf{$1$--$5$} & \textbf{$0.4$--$8$} \\
+FeRAM (含 WB)      & \cite{infineon_fram,ibm2024feram} & 60--150\,ns     & $0.5$--$2$     & $0.2$--$1$    & $0.5$--$10$ \\
+RRAM (含 verify)$^{\ddag}$ & \cite{wan2022neurram,kawahara2013rram,liu2025rram_28nm} & 50--250\,ns & $0.5$--$2$  & $0.01$--$0.1$ & $5$--$200$ \\
+NOR Flash (Mythic)$^{\S}$ & \cite{mythic_m1076}        & 50\,ns--0.5\,\textmu s & $0.5$--$2$ & $0.001$--$0.01$ & $50$--$2000$ \\
+3D NAND TLC$^{\P}$ & \cite{kioxia2025nand,micron_nand,shim2021nandcim}  & 25--100\,\textmu s & $0.05$--$0.5$  & $0.02$--$0.1$ & $0.5$--$25$ \\
+\bottomrule
+\end{tabular}
+\caption{主流 CIM 技术的 $\rho$, $\tau$, $\RI^{*}$ 估算 (28\,nm CMOS 外围电路基线)。范围下限对应保守假设 (含 $k_{\mathrm{verify}}$、耐久度摊销、破坏性读 writeback、refresh 摊销), 上限对应 aggressive multi-bank/multi-layer 设计。
+\textbf{脚注}:
+$^{\dag}$ Gain Cell 的 $\tau$ 范围已假设保留时间 $> 100\,\mu$s (典型 28\,nm 3T/4T eDRAM~\cite{giterman2018fdsoi,sany2022gc}) 使 refresh duty $<2\%$; 短保留设计应按比例折扣。
+$^{\ddag}$ FeNOR 的 streaming cycle 与 RRAM 28\,nm 估算均为外推: FeNOR 来自第~\ref{sec:hw_quant} 节基线推导 (无 in-CIM cycle 实测~\cite{zhou2026fefet}); RRAM 来自 NeuRRAM 130\,nm 的 250\,ns/cycle~\cite{wan2022neurram} 按 5$\times$ 线性 scaling 至 28\,nm 的保守上界。
+$^{\S}$ Mythic M1076 实际为 GlobalFoundries 40\,nm 工艺~\cite{mythic_m1076}; 产品手册未给 cell 级 timing, $T_{\mathrm{stream}}$ 范围基于 NOR Flash analog 读的工艺通用知识。
+$^{\P}$ 3D NAND CIM 的 $\rho$ 数字基于 simulation~\cite{shim2021nandcim} (无硅原型); $\tau$ 基于 Micron 产品手册~\cite{micron_nand} 与 Kioxia ISSCC 2025~\cite{kioxia2025nand} 实测可验证。}
+\label{tab:hw_calibration}
+\end{table}
+
+汇总表呈现几个值得指出的特征。$\rho$ 跨技术差约 100$\times$, 这一范围由 cell 响应时间与 ADC 跟 cell pitch 的匹配度共同决定: DCIM 不走 ADC, 居于 $\rho$ 上限; NAND cell 响应极慢, 居于 $\rho$ 下限。$\tau$ 跨技术则差约 $10^4$--$10^5$$\times$, 跨度比 $\rho$ 大两到三个量级, 也远超 GPU 间 $\AI^{*}$ 通常的 10$\times$ 量级。3D NAND TLC 的 $\RI^{*}$ 没有想象中那样极高: $\rho$ 与 $\tau$ 同时受 cell 响应限制而双双偏低, 比值反而落在中等水平, 在足够大的 batch 与 session 长度下, NAND CIM 也可以进入 ridge 附近。
+
+\subsection{典型 workload 的 $Q_S, Q_R, \RI$ 推导}
+\label{sec:wl_quant}
+
+约定: $D_m$ 为 hidden 维度, $D_h$ 为 head 维度, $L$ 为序列长度, $B$ 为 batch, $N$ 为 decode 步数, $b$ 为元素字节数。下面对四类典型 workload 分别选定一个自然的稳态分析窗口 $W$, 按第~\ref{sec:cim_indicators} 节的窗口定义直接代入 $Q_S(W)$ 与 $Q_R(W)$。
+
+\paragraph{(a) 方阵 GEMM (基准)}
+对 $A, B \in \mathbb{R}^{D \times D}$ 计算 $C = A \cdot B$。窗口取一次矩阵乘, 假设 $A$ 在窗口内被装载到阵列、$B$ 流过、$C$ 流出 (动态驻留, 单次装载基准):
+\[
+Q_R(W) \;=\; D^2 b, \qquad Q_S(W) \;=\; D^2 b, \qquad \RI \;=\; 1.
+\]
+$\RI = 1$ 是常数, 与 $D$ 无关, 是 “一个矩阵装载支撑一个矩阵流过” 的对称参考点。如果 $A$ 持久驻于阵列, 后续多次执行不再装载 (静态驻留), 则 $Q_R(W) = 0$, $\RI = \infty$。两种情形构成 GEMM 的两个基准。
+
+\paragraph{(b) 线性投影 ($W \in \mathbb{R}^{D_m \times D_m}$, QKV 与 FFN)}
+窗口取一次 forward, 共处理 $BL$ 个 token (每 token 独立经过同一权重矩阵)。
+
+\textbf{静态推理}: 模型已驻留, 窗口内不触发权重写入。
+\[
+Q_R(W) \;=\; 0, \qquad Q_S(W) \;=\; BLD_m b, \qquad \RI \;=\; \infty.
+\]
+性能完全由 $\rho$ 决定, 与 batch、序列长度、模型规模都无关。
+
+\textbf{训练或权重重装 (动态驻留, 持续重写)}: 训练每 step 需将更新后的权重回写阵列; 或当模型超出阵列容量, 每次 forward 都需重新装载权重。两种情形下, 窗口内都有完整一份权重经过 resident 通路:
+\[
+Q_R(W) \;=\; D_m^2 b, \qquad Q_S(W) \;=\; BLD_m b, \qquad \RI \;=\; \frac{BL}{D_m}.
+\]
+$\RI$ 随 $BL$ 线性扩张。代入第~\ref{sec:transform} 节的中介常数得 $\kappa_R = BL/b$、$\kappa_S = D_m/b$, 故 $\RI = \kappa_R/\kappa_S = BL/D_m$, 与~\eqref{eq:RI_kappa} 一致, 完全由模型结构 $D_m$ 与 workload 形态 $BL$ 决定。
+
+\paragraph{(c) Attention 单 token decode (KV 缓慢累积)}
+窗口取一次 token 的 decode, 此前 KV 已存到长度 $L$。每生成一个新 token, 需将新的 $K_t$ 与 $V_t$ 追加到阵列:
+\[
+Q_R(W) \;=\; 2 D_h b, \qquad Q_S(W) \;=\; (D_h + L) b, \qquad \RI \;=\; \frac{D_h + L}{2 D_h}.
+\]
+当 $L \gg D_h$, $\RI \approx L / (2 D_h)$, 随上下文长度线性增长。这是动态驻留 (KV 缓慢累积) 的典型形态: 窗口内 resident 通路只走一对新的 $K, V$ ($2 D_h b$, 几百字节量级), 而 streaming 通路走 $\sim L b$ (随长度上千字节到数十千字节), 比值很大。如果不再 append (例如固定 KV 的检索式调用), 则窗口内 $Q_R(W) = 0$, 退化为静态驻留情形。
+
+\paragraph{(d) Attention prefill ($L$ 个 token 一次写完)}
+窗口取整个 prefill, $L$ 个 token 依次被处理, KV 从 0 累积到 $L$。MAC 总数 $\approx L^2 D_h$:
+\[
+Q_R(W) \;=\; 2 L D_h b, \qquad Q_S(W) \;\approx\; \frac{L^2 b}{2} + L D_h b, \qquad \RI \;\approx\; \frac{L}{4 D_h} \quad (L \gg D_h).
+\]
+$\RI$ 与 $L$ 仍然线性, 比例系数比 (c) 小一倍, 因为 $Q_R$ 累积的 KV 也按 $L$ 线性增长。
+
+\paragraph{具体数值 ($D_m = 4096$, $D_h = 128$, $b = 2$\,Byte)}
+表~\ref{tab:wl_calibration} 给出主要 workload 在 FeNOR baseline ($\rho \approx 4$\,GB/s, $\tau \approx 1$\,GB/s, $\RI^{*} \approx 4$) 上的 $(Q_R, Q_S, \RI)$ 数值与工作点。
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{} p{0.16\textwidth} p{0.16\textwidth} p{0.14\textwidth} c c p{0.08\textwidth} p{0.14\textwidth} @{}}
+\toprule
+\textbf{Workload} & \textbf{工况} & \textbf{参数} & \textbf{$Q_R$} & \textbf{$Q_S$} & \textbf{$\RI$} & \textbf{FeNOR ($\RI^{*}{=}4$) 工作点} \\
+\midrule
+方阵 GEMM (基准)         & 动态 (单次装载) & $D = 4096$           & 32\,MB  & 32\,MB  & 1     & 驻留受限, $P = 1$\,GB/s \\
+线性投影 (静态推理)      & 静态           & 任意 $B, L$           & 0       & $BLD_m b$ & $\infty$ & 流式受限, $P = \rho = 4$\,GB/s \\
+线性投影 (训练或重装)    & 动态 (持续重写) & $B = 32, L = 2048$    & 32\,MB  & 512\,MB & 16    & 流式受限, $P = \rho = 4$\,GB/s \\
+Attention 单 token decode & 动态 (KV append) & $D_h = 128, L = 4096$ & 0.5\,KB & 8\,KB   & 16    & 流式受限, $P = \rho = 4$\,GB/s \\
+Attention prefill         & 动态 (KV 累积)  & $D_h = 128, L = 2048$ & 1\,MB   & 4\,MB   & 4     & 脊点, $P = 4$\,GB/s \\
+Attention prefill         & 动态 (KV 累积)  & $D_h = 128, L = 4096$ & 2\,MB   & 16\,MB  & 8     & 流式受限, $P = \rho = 4$\,GB/s \\
+\bottomrule
+\end{tabular}
+\caption{典型 workload 的 $(Q_R, Q_S, \RI)$ 与在 FeNOR baseline 上的工作点。所有静态驻留 workload 都退化为 $\RI = \infty$, $P = \rho$; 动态驻留 workload 的 $\RI$ 由具体形态决定。R-b 工作点 $P = \tau \cdot \RI$, S-b 工作点 $P = \rho$。}
+\label{tab:wl_calibration}
+\end{table}
+
+按表~\ref{tab:wl_calibration} 看, 静态驻留 workload (模型已装载、KV 不再 append 的稳定推理) 全部退化为 $\RI = \infty$, 性能完全由 $\rho$ 决定, 与 batch、序列长度、模型规模都无关; 这是 CIM 把权重直接驻于阵列、推理时不再受访存制约的直接体现。动态驻留 workload 的 $\RI$ 由具体形态决定: 单 token decode 中 KV append 只占 resident 通路一对新的 $K, V$ ($2 D_h b$), 在 $L \approx 4096$ 时 $\RI \approx 16$ 已经远超 FeNOR 的 ridge; prefill 累积 KV 写入, $\RI \sim L/(4 D_h)$ 落在 4 至 8 量级; 训练每 step 显式重写权重, $\RI = BL/D_m$ 由 batch 与序列长度共同抬升。这一分布与 GPU 视角下 “decode 必然 memory-bound” 的传统印象不同: GPU 上 decode 慢是因为权重要逐次走 memory 带宽, 而 CIM 上权重已驻于阵列, 窗口内只有 KV 增量经过 resident 通路, 这正是 “CIM 解决了访存问题” 在 Roofline 层面的具体体现。
+
+\subsection{二维结果分析与讨论}
+\label{sec:matrix_eval}
+
+判定取常用边界: $\RI/\RI^{*} > 3$ 为流式吞吐受限 (S-b), $\RI/\RI^{*} < 1/3$ 为驻留吞吐受限 (R-b), 介于两者之间为脊点附近 (ridge)。
+
+\paragraph{静态驻留 workload}
+所有静态驻留 workload (模型已驻于阵列的长期推理、KV 不再 append 的会话尾部等) 的 $\RI = \infty$, 不论硬件 $\RI^{*}$ 多大都自动落入 S-b 区, 性能由 $\rho$ 决定, $\tau$ 不参与瓶颈判断。这意味着对静态部署场景, CIM 选型只看 $\rho$; 即便 $\tau$ 极低的 NOR Flash 也能稳定承担静态推理, Mythic M1076 即一例。
+
+\paragraph{动态驻留 workload 的二维矩阵}
+非静态情形需要逐格分析。表~\ref{tab:regime_matrix} 把第~\ref{sec:wl_quant} 节几类典型动态驻留 workload 与 7 类 CIM 技术配对, 按各自 $\RI^{*}$ 代表值分类, 列按 $\RI^{*}$ 从小到大排, 便于一眼看出 regime 随 $\RI^{*}$ 的迁移趋势。
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{} p{0.24\textwidth} c c c c c c c c @{}}
+\toprule
+& \makecell{\textbf{SRAM} \\ \textbf{ACIM}} & \makecell{\textbf{SRAM} \\ \textbf{DCIM}} & \makecell{\textbf{Gain} \\ \textbf{Cell}} & \textbf{FeRAM} & \textbf{FeNOR} & \makecell{\textbf{3D} \\ \textbf{NAND}} & \textbf{RRAM} & \makecell{\textbf{NOR} \\ \textbf{Flash}} \\
+$\RI^{*}$ 代表值 & $0.1$ & $0.3$ & $0.3$ & $3$ & $4$ & $5$ & $30$ & $300$ \\
+\midrule
+方阵 GEMM ($\RI = 1$)               & S-b & S-b & S-b & ridge & R-b   & R-b   & R-b & R-b \\
+训练 / KV append decode ($\RI = 16$) & S-b & S-b & S-b & S-b   & S-b   & S-b   & ridge & R-b \\
+Attention prefill, $L = 2048$ ($\RI = 4$) & S-b & S-b & S-b & ridge & ridge & ridge & R-b & R-b \\
+Attention prefill, $L = 4096$ ($\RI = 8$) & S-b & S-b & S-b & ridge & ridge & ridge & R-b & R-b \\
+\bottomrule
+\end{tabular}
+\caption{动态驻留 workload 与 CIM 硬件的二维 regime 矩阵, 列按 $\RI^{*}$ 由小到大排。判定按 $\RI/\RI^{*}$ 与 $[1/3,\ 3]$ 的比较。所有静态驻留 workload 一律 S-b, 不再单列。}
+\label{tab:regime_matrix}
+\end{table}
+
+\paragraph{矩阵讨论}
+矩阵背后有四条可直接读出的结论。
+
+\begin{description}[leftmargin=*, itemsep=4pt]
+    \item[\textbf{训练与 KV-append decode 在 CIM 上都是流式吞吐受限, 不是驻留受限}:] 两者同为 $\RI = 16$, 在 SRAM 类、Gain Cell、FeRAM、FeNOR、3D NAND 上都进入 S-b 区, 仅在 $\RI^{*} > 16$ 的 RRAM 与 NOR Flash 上 R-b。这颠覆了 GPU 视角下 “训练必 memory-bound、decode 必 memory-bound” 的传统印象; 根源在于 CIM 把权重驻于阵列, 训练每 step 只重写一份权重, decode 每 token 只 append 一对 $K, V$, 窗口内 resident 通路负担都很轻, $\RI$ 反而很高。
+    \item[\textbf{FeNOR 的 $\RI^{*}$ 与 LLM 动态 workload 数值天然吻合}:] FeNOR 的 $\RI^{*} \approx 4$ 正好落在 LLM 主要动态 workload 的 $\RI$ 区间 ($4$ 至 $16$): prefill 落在脊点, decode 进入 mild S-b 区。这不是巧合, FeNOR 的器件参数本就是按 LLM 目标点对 $\rho$ 与 $\tau$ 做的权衡。
+    \item[\textbf{RRAM 与 NOR Flash 本质上只适合一次烧入的静态部署}:] 它们的 $\RI^{*} \gg 10$ 使几乎所有动态 workload 都 R-b, 这正是产业上 RRAM CIM 聚焦静态权重推理、Mythic 把 NOR Flash 定位为 “一次烧入长期推理” 的设计根源。
+    \item[\textbf{3D NAND 不止适合静态推理, 对训练与长上下文 decode 也能进入 S-b}:] 它的 $\RI^{*}$ 落在 5 量级 (介于 FeNOR 与 RRAM 之间), 不是直觉中 “NAND 只能静态” 的极端位置。这是本次重新评估的新发现。
+\end{description}
+
+\paragraph{对器件与算法设计的启示}
+跨技术对比给出三条对 CIM 设计实践的启示。
+
+\begin{description}[leftmargin=*, itemsep=4pt]
+    \item[\textbf{$\rho$ 与 $\tau$ 是两个独立的优化轴, 不能相互替代}:] $\rho$ 由 cell 响应时间与 ADC 跟 cell pitch 的匹配度决定, 跨技术差约 $100\times$; $\tau$ 由编程脉冲与并行度决定, 跨技术差 $10^4$ 至 $10^5\times$。器件研究若只看一轴, 必然落到次优工作点。
+    \item[\textbf{CIM 不是一个统一架构, 而是按 $\RI^{*}$ 划分的多个 regime 族}:] $\RI^{*}$ 跨 CIM 技术有 4 个量级的 dynamic range, 这是 GPU 之间从未出现的跨度。三个族各自适配不同 workload: SRAM 与 Gain Cell ($\RI^{*} < 1$) 适合静态推理及各种短上下文动态 workload; FeRAM 与 FeNOR ($\RI^{*} \approx 1$ 至 $10$) 适合 LLM 训练、KV-append decode 与中长 prefill; RRAM 与 NOR Flash ($\RI^{*} > 30$) 只适合静态部署。
+    \item[\textbf{算法与硬件的协同界面就是 $\RI$ 与 $\RI^{*}$ 的比较}:] 算法层用量化、batching、KV 管理移动 workload 的 $\RI$, 硬件层用 cell 选型与 ADC 设计移动硬件的 $\RI^{*}$, 两者的相对位置共同决定 regime 归属。这把长期模糊的 “算法—硬件协同” 具体化为一次坐标系比较。
+\end{description}
+\newpage
+
+%% ===================================================================
+\section{CIM Roofline 的 PD 融合趋势}
+\label{sec:pd_fusion}
+
+大语言模型推理按阶段可分为两类: prefill (处理 prompt、一次性建立 KV cache) 与 decode (逐 token 生成、每步更新 KV 并产出一个新 token)。云端 LLM serving 的主流做法是把两阶段分别调度到不同硬件集群优化, 即 PD 分离 (prefill-decode disaggregation), 代表工作如 Splitwise 与 DistServe 等。这一范式在云端 GPU 架构下已成定局。问题是: 端侧 CIM 推理系统是否应照搬 PD 分离? 本章用 CIM Roofline 给出判定。先在第~\ref{sec:gpu_pd_rationale} 节完整陈述 PD 分离在 GPU 上合理的 Roofline 依据, 作为检验对象; 第~\ref{sec:pd_failure} 节逐条核对这些依据在 CIM 上是否成立; 第~\ref{sec:pd_natural} 节综合给出 PD 融合是 CIM Roofline 自然推论的判定。
+
+\subsection{PD 分离的 GPU 依据}
+\label{sec:gpu_pd_rationale}
+
+\paragraph{Prefill 与 Decode 落在两个 GPU regime}
+回到第~\ref{sec:background} 节的 GPU Roofline $P \le \min(\pi,\ \beta\cdot\AI)$。在这一公式下, prefill 与 decode 的 $\AI$ 相差几个量级, 落在截然不同的 regime:
+
+\begin{description}[leftmargin=*, itemsep=2pt]
+    \item[\textbf{Prefill (算力受限)}:] 长 prompt 一次性输入, 权重被 batch 与序列长度两端摊销, $\AI \propto B \cdot L$ 量级, 远在脊点右侧, 由 $\pi$ 决定吞吐, 属算力受限 (compute-bound)。
+    \item[\textbf{Decode (存储受限)}:] 每步 batch$=$1、seq$=$1, 权重必须每步完整走一遍 memory 通道, $\AI \sim 1\,\mathrm{OP/Byte}$, 远在脊点左侧, 由 $\beta$ 决定吞吐, 属存储受限 (memory-bound)。
+\end{description}
+
+两 regime 的瓶颈类型不同: prefill 吃满 compute 单元, decode 吃满 memory 通道。
+
+\paragraph{两条依据缺一不可}
+PD 分离在 GPU 上的合理性, 由两条独立依据联合支撑。
+
+\begin{description}[leftmargin=*, itemsep=4pt]
+    \item[\textbf{资源分裂架构 (硬件侧)}:] GPU 的 compute 单元与 memory 通道是物理上独立的硬件客体, 速率 $\pi$ 与 $\beta$ 可独立赋值。这为 “给不同 regime 配不同硬件” 提供了物理可能: 算力受限阶段部署高算力、中带宽配置, 存储受限阶段部署高带宽、中算力配置。
+    \item[\textbf{跨 regime 分化 (workload 侧)}:] 在 GPU 坐标系下 prefill 与 decode 的 $\AI$ 分别落在脊点两侧。这为 “需要分开配置” 提供了工程驱动力: 同一套硬件只能最优地支撑一个 regime, 分开调度才能让每类硬件都在自己擅长的 regime 满载。
+\end{description}
+
+两条依据缺一不可: 若硬件本就不分裂, 即使 $\AI$ 跨 regime 也无从配置不同硬件; 若 workload 本就不分化, 即使硬件可分裂, 分离也没有收益。这两条依据在 CIM 上是否还成立, 就是下一节逐条检验的对象。
+
+\subsection{PD 分离在 CIM 不再适用}
+\label{sec:pd_failure}
+
+第~\ref{sec:cim_roofline} 节定义的 CIM Roofline $P \le \min(\rho,\ \tau\cdot\RI)$ 与 GPU Roofline 形式同构, 但每一项物理含义独立。把第~\ref{sec:gpu_pd_rationale} 节的两条依据搬到 CIM 上逐条核对, 都不成立。
+
+\paragraph{分裂方向无法对应 P 与 D}
+按第~\ref{sec:inversion} 节的分解原则, CIM 硬件也是分裂的, 但 $(\rho, \tau)$ 按 streaming 与 resident 两种操作数角色分裂, 与 GPU 按 compute 与 memory 两种任务功能分裂正交。直接的后果是: GPU 上 “给不同 regime 配不同硬件” 的物理对应在 CIM 上不复存在。
+
+更具体地, CIM 每一次 GEMV 都需要两条通路协同: streaming 通路把输入向量送过阵列做 MAC, resident 通路维持阵列里的权重状态 (静态驻留下窗口内无新写入, 动态驻留下有 KV append)。两条通路是同一次 GEMV 的两个构成部分, 无法单取一条去服务某个特定阶段。因此 PD 分离在 CIM 上不能形如 “为 P 配只有 streaming 的硬件、为 D 配只有 resident 的硬件”, 只能形如 “为 P 配一套完整的 $(\rho, \tau)$ 阵列、为 D 配另一套完整的 $(\rho, \tau)$ 阵列”。两套 CIM 之间能有的差异只剩 $\rho$ 与 $\tau$ 的相对比例 (即 $\RI^{*}$ 不同), 其他配置必须一致。这时 PD “分离” 降格为 “硬件复制加比例微调”, 失去了 GPU 上让不同硬件承担不同瓶颈的本意。
+
+\paragraph{P 与 D 落在同一 regime 带}
+在 CIM 坐标系下 prefill 与 decode 的 $\RI$ 同样可以算, 但分布与 GPU 上截然不同。按第~\ref{sec:wl_quant} 节表~\ref{tab:wl_calibration}, 取 $D_m = 4096$, $D_h = 128$, $b = 2$ 字节基线, P 与 D 各部分的 $\RI$ 为:
+
+\begin{description}[leftmargin=*, itemsep=2pt]
+    \item[\textbf{Prefill 的 attention 部分 (KV 累积)}:] $\RI \approx L/(4 D_h)$; $L = 2048$ 给 $\RI = 4$ (脊点), $L = 4096$ 给 $\RI = 8$ (mild 流式吞吐受限)。
+    \item[\textbf{Decode 的 attention 部分 (KV append)}:] $\RI \approx L/(2 D_h)$; $L = 4096$ 给 $\RI \approx 16$ (mild 流式吞吐受限)。
+    \item[\textbf{线性投影 (QKV 与 FFN, prefill 与 decode 共用)}:] 权重已驻留, 窗口内 $Q_R(W) = 0$, $\RI = \infty$, 完全流式吞吐受限。
+\end{description}
+
+整个 prefill 与整个 decode 的 $\RI$ 都是 attention 部分的有限 $\RI$ 与线性部分 $\RI = \infty$ 的复合, 全部落在脊点至无穷远之间的流式吞吐受限带, 没有任何情形落入脊点左侧的驻留吞吐受限带。这与 GPU 上 “prefill 远在脊点右侧 (算力受限)、decode 远在脊点左侧 (存储受限)” 的强反差相反: 在 CIM 上, P 与 D 被同一 regime 带吸收, 不再是两类对立的 workload。
+
+分布变化的物理根源, 第~\ref{sec:wl_quant} 节末段已经指出: GPU 上 decode 慢是因为权重必须每步完整走一遍 memory 通道, $\AI$ 被权重字节拖低到脊点左侧; CIM 把权重驻于阵列, decode 窗口内 resident 通路只走新增的 $K, V$ 对, 权重字节根本不进入 $Q_R(W)$, $\RI$ 反而落在高位。decode 作为 “memory-bound 代表” 的身份随异构维度反转而失去。
+
+\paragraph{小结}
+两条依据在 GPU 上缺一不可地支撑了 PD 分离, 在 CIM 上则同时失效: 第一条失效使 “分离出两类各自专长的硬件” 缺少物理对应, 第二条失效使 “分离以适配不同 regime” 缺少工程驱动力。两条同时不成立, PD 分离在 CIM 上失去全部 Roofline 级依据。
+
+但这只说明 “没有分离的必要”, 不自动等价于 “融合更优”。要正面建立融合的优势, 还需对比分离方案的具体工程代价。
+
+\subsection{CIM上PD融合的必然趋势}
+\label{sec:pd_natural}
+
+本节先正面构造 PD 融合在窗口框架下的工作点, 再量化两类典型分离方案 (双硬件、模式切换) 的工程代价, 综合给出最终判定。
+
+\paragraph{融合方案: 维持窗口工作点}
+PD 融合 (prefill-decode fusion) 即 prefill 与 decode 共用同一对 $(\rho, \tau)$ 阵列, 共享同一份模型权重与 KV cache, 不为 P 或 D 单独维护硬件或调度路径。这是 CIM 上不做任何分离时的默认状态。
+
+取一次 token 处理作为稳态分析窗口 $W$ (无论该 token 来自 prefill 的一员还是 decode 的一步): 模型权重已驻留, 不计入 $Q_R(W)$; KV append 贡献 $Q_R(W) = 2 D_h b$; attention 与各线性投影的 GEMV 流过字节合成 $Q_S(W)$。按第~\ref{sec:wl_quant} 节表~\ref{tab:wl_calibration}, 单 token 处理窗口的 $\RI$ 由 attention 部分的有限 $\RI$ (例如 $L = 4096$ 时 $\RI \approx 16$, 见表中 “Attention 单 token decode” 一行) 与线性部分的 $\RI = \infty$ (见表中 “线性投影” 一行) 加权复合, 综合落在脊点远右侧的流式吞吐受限带。工作点稳定: $\rho$ 满载, $\tau$ 有富余, 与第~\ref{sec:pd_failure} 节核对得到的 “P 与 D 同 regime” 一致。
+
+\paragraph{分离方案 A (双硬件): 工作点漂移}
+维持两套 $(\rho, \tau)$ 阵列分别承担 P 与 D。两套阵列的 KV cache 必须始终保持一致: D 侧每生成一个 token 都要对完整 KV cache 做 attention, 必须在自己的阵列里看到完整历史; P 侧处理新 prompt chunk 同样需要完整历史 KV。任一侧若不本地维护, 每次都要从对方读取整个 KV, 等价于把 KV 拉回 GPU 类型的 memory access 模式, 抵消了 CIM 把驻留状态留在阵列内的根本优势。
+
+直接的后果是, 窗口内每次 KV append 都要同时写两套阵列, $Q_R(W)$ 直接翻倍。由 $\RI = Q_S/Q_R$ 立即得 $\RI$ 减半。工作点在 $\RI$ 轴上左移一档: 原 $\RI = 16$ (mild 流式吞吐受限) 漂到 $\RI = 8$ (更接近脊点), 原 $\RI = 4$ (脊点) 漂到 $\RI = 2$ (越过脊点进入驻留吞吐受限一侧, 性能改由 $\tau \cdot \RI$ 给出)。性能下降之外还要承担硬件成本翻倍, 双重劣势。
+
+\paragraph{分离方案 B (模式切换): 切换开销累积}
+单硬件运行, 但在 P 与 D 模式之间切换。单次切换开销 $T_{\text{switch}}$ 包含调度逻辑重新配置、pipeline 状态同步; 若 P 阶段与 D 阶段的 KV 阵列布局不同 (例如 P 用 batch 维度并行, D 用 head 维度并行), 还需要 KV 阵列内部分区迁移, 单次开销可达 ms 级 (这时实质带了方案 A 的代价)。
+
+云端长 prompt 加长 response 场景每会话切换次数 $F \sim 1$, 切换开销可忽略; 但端侧持续 agent 场景 P 与 D 事件每秒交替数十次, $F \cdot T_{\text{switch}}$ 时间线性累积, 成为可测的稳态性能损失。
+
+\paragraph{小结}
+本节论证可归结为三个层面。
+
+\begin{description}[leftmargin=*, itemsep=4pt]
+    \item[\textbf{理论层 (依据)}:] 第~\ref{sec:pd_failure} 节已证, 两条 Roofline 级依据在 CIM 上同时失效, PD 分离失去合理性。
+    \item[\textbf{工程层 (双硬件)}:] $Q_R(W)$ 翻倍, $\RI$ 减半, 工作点向驻留吞吐受限带漂移, 同时硬件成本翻倍, 严格更差。
+    \item[\textbf{工程层 (模式切换)}:] $F \cdot T_{\text{switch}}$ 时间线性累积, 端侧持续 agent 场景下显著, 严格更差。
+\end{description}
+
+三个层面同时指向同一结论: PD 融合不是 “因为简单所以选”, 而是 Roofline 在 CIM 架构下自然指向的最优方案。把这一点放在第~\ref{sec:inversion} 节异构维度反转的视角下: GPU 上 “P 与 D 跨 regime” 使 PD 分离合理, CIM 上 “P 与 D 同 regime” 使 PD 融合自然, 两种工程范式是同一问题在两套坐标系下的两个解。
+\newpage
+
+%% ===================================================================
+\section{通道分解原理: Roofline 的架构无关基础}
+\label{sec:channel_decomposition}
+
+前几节给出了两套 Roofline: GPU 在第~\ref{sec:background} 节, CIM 在第~\ref{sec:cim_roofline} 节; 两者已在第~\ref{sec:transform} 节系统对照。两套公式形式同构而每一项物理含义独立。一个自然的追问是: 这一形式同构是巧合, 还是必然的结构后果? 本章回答, 它是必然的结构后果, 来源是一个比 GPU 与 CIM 都更一般的通道分解原理 (channel decomposition principle)。第~\ref{sec:principle_form} 节给出原理的一般形式与适用条件; 第~\ref{sec:gpu_cim_specialization} 节把原理代入 GPU 与 CIM, 验证两套 Roofline 都是该原理的特例; 第~\ref{sec:duality_projection} 节由原理重新审视经典算法分析里的 “时间复杂度 vs 空间复杂度” 对偶, 指出它是冯诺依曼架构的特化投影, CIM 给出同一底层对偶的另一种具体形式。
+
+\subsection{原理的一般形式与适用条件}
+\label{sec:principle_form}
+
+\paragraph{一般形式}
+考虑任意可建模为多个独立物理通道协作完成任务的计算系统。记 $\mathcal{C}$ 为该系统的独立通道集合, 通道 $c \in \mathcal{C}$ 有服务速率 $\Lambda_c$ (单位时间内能完成的需求量) 与该任务在通道 $c$ 上的需求量 $Q_c$。再选定一个进展量 $\Xi$, 即该架构最直接服务的输出度量单位。每个通道的时间下界为
+\[
+T_c \;\ge\; Q_c / \Lambda_c.
+\]
+若各通道物理独立、且执行上可流水线重叠, 总时间由最慢通道决定:
+\[
+T \;\ge\; \max_{c \in \mathcal{C}} (Q_c / \Lambda_c).
+\]
+吞吐上界为
+\begin{equation}
+\boxed{\ Y \;=\; \frac{\Xi}{T} \;\le\; \min_{c \in \mathcal{C}} (\Lambda_c \cdot I_c), \qquad I_c \;=\; \frac{\Xi}{Q_c}.\ }
+\label{eq:channel_principle}
+\end{equation}
+公式~\eqref{eq:channel_principle} 即通道分解原理。其内容可以一句话概括: 任务吞吐由最慢的服务通道决定。
+
+\paragraph{适用条件}
+公式~\eqref{eq:channel_principle} 默认三条物理假设, 在这三条不成立时公式形态需要修正:
+
+\begin{description}[leftmargin=*, itemsep=4pt]
+    \item[\textbf{通道物理独立}:] 各通道占用各自的物理资源, 不共享。共用同一资源的通道 (例如挂在同一总线上的两个客体) 的时间下界以 $\sum$ 形式归约, 而非 $\max$, 公式形态不再保持。本文讨论独立通道情形, 与 Roofline 类模型的共同默认一致。
+    \item[\textbf{可流水线重叠}:] 物理实现允许各通道在时间上并行执行。GPU 通过时间复用 (compute 单元做第 $N$ 轮 MAC 时 memory 通道搬第 $N+1$ 轮的数据) 实现, CIM 通过空间复用 (一个 macro 做 streaming MAC 时另一个 macro 被编程刷新) 实现, 两种实现细节见第~\ref{sec:pipeline} 节。物理上不允许重叠时, $\max$ 同样退回 $\sum$。
+    \item[\textbf{进展量 $\Xi$ 是建模选择}:] $\Xi$ 不由公式自身决定, 而是建模者根据架构选取的 “最直接服务的输出度量单位”。GPU 服务计算, 自然取 $\Xi = \mathrm{OP}$; CIM 是输入流过阵列产生输出的 transducer, 自然取 $\Xi = Q_S$。同一架构换一个 $\Xi$ 得到的 Roofline 等价但坐标系不同。
+\end{description}
+
+\paragraph{ceiling 与 slope 的来源}
+公式~\eqref{eq:channel_principle} 背后还有一个对几何形态有直接影响的观察。在所有通道中存在一个特殊通道 $c^{*}$, 其需求量恰等于进展量, 即 $Q_{c^{*}} = \Xi$。它的强度 $I_{c^{*}} = 1$, 对 Roofline 的贡献是一个 workload 无关的常数 $\Lambda_{c^{*}}$, 这正是 Roofline 中 ceiling ($P = \Lambda_{c^{*}}$ 水平段) 的来源。其他通道的强度 $I_c$ 随 workload 变化, 各自给出一条 slope (斜率段)。任何 Roofline 的几何形态都是 “一条 ceiling 加若干 slope”: ceiling 来自进展量内禀通道 ($Q_c = \Xi$), slope 来自其他通道。
+
+\subsection{GPU 与 CIM 作为原理的两种特化}
+\label{sec:gpu_cim_specialization}
+
+把通道分解原理应用到 GPU 与 CIM, 各自的具体化与得到的 Roofline 公式如下。两者都只激活了一条异构维度 (另一条合并), 因此都呈现 “一条 ceiling 加一条 slope” 的几何。
+
+\paragraph{GPU: 资源异构的特化}
+GPU 的异构状态为: 资源维度分裂 (compute 单元与 memory 通道是物理上独立的硬件客体), 数据角色维度合并 (权重、激活、中间结果同质化为 Byte)。取进展量 $\Xi = \mathrm{OP}$ (GPU 服务计算, OP 是最直接的输出度量)。两个通道:
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{} l c c c c @{}}
+\toprule
+\textbf{通道} & \textbf{需求 $Q_c$} & \textbf{速率 $\Lambda_c$} & \textbf{强度 $I_c$} & \textbf{Roofline 段} \\
+\midrule
+compute (进展量内禀) & $\mathrm{OP}$   & $\pi$   & $1$   & $\pi$ (ceiling) \\
+memory               & $\mathrm{Byte}$ & $\beta$ & $\AI$ & $\beta \cdot \AI$ (slope) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+代入公式~\eqref{eq:channel_principle} 直接给出 $Y_{\mathrm{GPU}} \le \min(\pi,\ \beta \cdot \AI)$, 即经典 GPU Roofline。ceiling 与 slope 都来自资源异构; 数据角色维度被同质化, 不贡献额外通道。
+
+\paragraph{CIM: 数据角色异构的特化}
+CIM 的异构状态为: 资源维度合并 (存算一体, 计算与存储不再是分离的硬件客体), 数据角色维度分裂 (resident 与 streaming 走不同物理通路)。取进展量 $\Xi = Q_S$ (CIM 是 transducer, 服务 streaming 数据流过阵列, $Q_S$ 是最直接的输出度量)。两个通道:
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{} l c c c c @{}}
+\toprule
+\textbf{通道} & \textbf{需求 $Q_c$} & \textbf{速率 $\Lambda_c$} & \textbf{强度 $I_c$} & \textbf{Roofline 段} \\
+\midrule
+streaming (进展量内禀) & $Q_S$ & $\rho$  & $1$   & $\rho$ (ceiling) \\
+resident               & $Q_R$ & $\tau$  & $\RI$ & $\tau \cdot \RI$ (slope) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+代入公式~\eqref{eq:channel_principle} 直接给出 $Y_{\mathrm{CIM}} \le \min(\rho,\ \tau \cdot \RI)$, 即第~\ref{sec:cim_formula} 节构建的 CIM Roofline 公式~\eqref{eq:cim_roofline}。ceiling 与 slope 都来自数据角色异构; 资源维度被合并, 不贡献独立通道。
+
+\paragraph{结构对偶}
+GPU 与 CIM 是同一原理在两种不同异构选择下的两个特例。表~\ref{tab:dual_projections} 把它们的对偶在原理层级摆在一起: GPU 的资源分裂对应 CIM 的角色分裂; 两者各自的进展量内禀通道给出 ceiling, 另一通道给出 slope。这把第~\ref{sec:transform} 节表~\ref{tab:comparison} 里两套 Roofline 的形式同构还原为同一原理的必然结果, 而不是巧合。
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{} l c c @{}}
+\toprule
+& \textbf{GPU} & \textbf{CIM} \\
+\midrule
+资源维度          & 分裂          & 合并 \\
+数据角色维度      & 合并          & 分裂 \\
+\midrule
+进展量 $\Xi$      & $\mathrm{OP}$ & $Q_S$ \\
+进展量内禀通道    & compute       & streaming \\
+另一通道          & memory        & resident \\
+\midrule
+ceiling 高度      & $\pi$         & $\rho$ \\
+slope 斜率        & $\beta$       & $\tau$ \\
+强度              & $\AI = \mathrm{OP}/\mathrm{Byte}$ & $\RI = Q_S/Q_R$ \\
+\bottomrule
+\end{tabular}
+\caption{GPU 与 CIM 在通道分解原理下的结构对偶。两者都只激活了一条异构维度, 因此都自然产生 “一条 ceiling (来自进展量内禀通道) 加一条 slope (来自另一通道)” 的几何。形式同构由此被还原为同一原理在两种正交异构选择下的必然结果。}
+\label{tab:dual_projections}
+\end{table}
+
+\subsection{时空对偶作为架构投影}
+\label{sec:duality_projection}
+
+通道分解原理还有一个推论涉及经典算法分析中长期被视为算法基本属性的对偶: “时间复杂度 vs 空间复杂度”。在原理框架下, 这一对偶可以被重新理解为冯诺依曼架构的特化投影; CIM 给出同一底层对偶的另一种具体形式。
+
+\paragraph{冯诺依曼下的时间-空间对偶}
+经典算法分析以 OP 总数 (时间复杂度) 与 Byte 总量 (空间复杂度) 作为算法的两个基本属性。在 GPU Roofline 中这一对偶表现为横轴 $\AI = \mathrm{OP}/\mathrm{Byte}$, 把任务分摊到时间能力 (compute 单元) 与空间能力 (memory 通道) 两边; 量纲上 $\AI$ 是跨量纲比 ($\mathrm{OP}/\mathrm{Byte}$)。物理基础是: GPU 把硬件分裂成 compute 与 memory, 任务分解 $(\mathrm{OP}, \mathrm{Byte})$ 与硬件分解 $(\text{compute}, \text{memory})$ 在功能维度上一一对应 (第~\ref{sec:transform} 节末段已论及)。
+
+\paragraph{CIM 下的流动-驻留对偶}
+CIM 不再分 compute 与 memory, $\mathrm{OP}$ 与 $\mathrm{Byte}$ 这一分解在 CIM 上失去对应物理。workload 在 CIM 上按操作数角色分解为 $Q_S$ (streaming 通路上的字节, 即 “流动复杂度”) 与 $Q_R$ (resident 通路上的字节, 即 “驻留复杂度”)。这一对偶在 CIM Roofline 中表现为横轴 $\RI = Q_S/Q_R$, 把任务分摊到流动能力 (streaming 通路) 与驻留能力 (resident 通路) 两边; 量纲上 $\RI$ 是同量纲比 (无量纲)。物理基础是: CIM 把数据角色分裂, 任务分解 $(Q_S, Q_R)$ 与硬件分解 $(\text{streaming}, \text{resident})$ 在角色维度上一一对应。
+
+\paragraph{统一陈述}
+综合两种情形, 可以给出一般陈述: workload 本身具有一个二维正交分解, 但这一分解的具体坐标轴由执行架构的异构维度决定。在冯诺依曼架构 (按硬件功能分裂) 下, 该分解呈现为 “时间复杂度 vs 空间复杂度”; 在 CIM 架构 (按数据角色分裂) 下, 同一分解呈现为 “流动复杂度 vs 驻留复杂度”。两者都是同一底层二维分解的特化, 区别只在投影坐标系。表~\ref{tab:duality_projection} 把这一对偶在不同语境下的呈现汇总。
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{} l l l l @{}}
+\toprule
+\textbf{语境} & \textbf{任务量 A} & \textbf{任务量 B} & \textbf{对偶本质} \\
+\midrule
+经典算法分析 & OP (时间复杂度)  & Byte (空间复杂度) & 计算 vs 存储 \\
+GPU Roofline & $\mathrm{OP}/\mathrm{s}$ & $\mathrm{OP}/\mathrm{Byte}$ & 计算速率 vs 搬运速率 \\
+CIM Roofline & $Q_S$ (流动复杂度) & $Q_R$ (驻留复杂度) & 流动 vs 驻留 \\
+\bottomrule
+\end{tabular}
+\caption{二维分解在不同语境下的呈现。底层都是同一 workload 的二维正交分解, 具体坐标轴由执行架构的异构维度决定: 冯诺依曼按硬件功能分裂, 投影出时间复杂度与空间复杂度; CIM 按数据角色分裂, 投影出流动复杂度与驻留复杂度。}
+\label{tab:duality_projection}
+\end{table}
+
+\paragraph{小结}
+通道分解原理把 GPU 与 CIM 两套 Roofline 统一为同一原理在两种正交异构选择下的两个特例, 形式同构是必然结果而非巧合。经典算法分析里 “时间复杂度 vs 空间复杂度” 对偶被还原为冯诺依曼架构的特化投影, CIM 给出 “流动复杂度 vs 驻留复杂度” 这一同样合法的另一形式。Roofline 由此从冯诺依曼专属工具推广为架构无关的理论: 任何架构的性能上界由其独立服务通道中最慢的一条决定; 架构的异构维度决定通道集合, 通道集合决定 Roofline 形状。
+\newpage
+
+%% ===================================================================

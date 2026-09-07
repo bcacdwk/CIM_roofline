@@ -1,0 +1,98 @@
+# CIM Roofline
+
+本项目研究面向 Compute-in-Memory（CIM）的 resident–streaming Roofline。
+目标是将现有中文理论长稿整理为面向 ISCAS 2027 的短文，工作篇幅按
+“四页技术内容＋一页参考文献”规划；最终以会议正式要求为准。
+
+核心主线：从 compute–memory 的功能分解，转向 resident–streaming
+的操作数角色分解，显式描述驻留状态建立／更新与流式求值之间的关系。
+
+保留的核心模型：
+- 分析窗口内的需求：Q_S、Q_R。
+- 对应的服务能力：ρ、τ。
+- 驻留强度：RI = Q_S / Q_R。
+- 流式吞吐上界：P ≤ min(ρ, τ·RI)，ridge 为 RI* = ρ/τ。
+
+本项目强调物理直觉、计量一致性和设计指导，不以增加复杂公式或堆积
+未经验证的器件数字为目标。
+
+## 文件入口
+
+- `CIM_Roofline_Paper/cim_roofline.tex`：当前论文主源文件。
+- `CIM_Roofline_Paper/cim_roofline.pdf`：编译产物；使用前确认与主源同步。
+- `CIM_Roofline_Paper/VERIFICATION_REPORT.md`：历史审查记录，不代表当前验证状态。
+- 根目录的文献 PDF、演示文稿及已有备份：参考材料，不是当前模型定义的权威入口。
+- `docs/MODEL_CONVENTIONS.md`：Task 0 建立的计量约定及版本状态。
+- `docs/TASK0_REPORT.md`：Task 0 修订、检查和交接记录。
+- `CIM_Roofline_Paper/archive/task0_legacy.tex`：未按当前约定复核的旧分析，不参与编译。
+- `scripts/check_task0.py`：标准库代数、示意数值及源文引用检查。
+
+尚不存在的任务文档由对应任务创建，不需要预先搭建完整目录体系。
+
+## 工作规则
+
+每轮 Agent 先阅读本 README、当前任务 prompt、计量约定和相关正文，
+再检查 Git 工作区。只执行当轮任务，不自动进入下一阶段。
+
+保持论文的 resident–streaming 主线与现有符号。必要修订直接落实到
+TeX，不能只在报告里指出问题。正文应简洁；详细计量规则放入约定文档。
+
+所有数据必须区分：原文直接报告、由原文参数推导、示意假设、尚未核实。
+历史报告及另一 Agent 的判断不是一手证据。不得为了填满表格补造数据，
+不得预设某种介质或某类 workload 必须得到特定结论。
+
+需求量与服务率必须使用相同的边界、精度、配置和计数口径。上界不等于
+实测性能；进入 ridge 或 streaming-bound 不自动意味着性能最优。
+
+每轮结束更新状态、记录检查结果、提交可审查的 commit，并报告是否推送。
+“已提交待审阅”不等于“已验收”；未经审阅，不自行冻结新结论。
+
+## 任务进度
+
+| 任务 | 产物 | 状态 |
+|---|---|---|
+| Task 0 | 修订模型正文，统一计量约定，完成基础检查 | 已提交待审阅 |
+| Task 1 | Table I：文献支持的硬件能力及适用条件 | 未开始 |
+| Task 2 | Table II：明确映射下的 workload 需求 | 未开始 |
+| Task 3 | Table III：硬件–负载适配关系及稳健性 | 未开始 |
+| Task 4 | Fig. 3：两路能力提升的收益与瓶颈迁移 | 未开始 |
+| Task 5 | Fig. 1/2 定稿、全文组织及四页排版 | 未开始 |
+
+Task 1、Task 2 在 Task 0 验收后开展；Task 3 依赖两者。
+各任务的具体范围以当轮 prompt 为准，不在 README 中预写实验结论。
+
+## 最终文章与图表规划
+
+文章：I Introduction；II CIM Roofline Model；
+III Hardware and Workload Characterization；
+IV Matching and Design Implications；V Conclusion。
+
+全文目标为三图三表：
+Fig. 1 架构及操作数路径；Fig. 2 两套 Roofline 与精简对应关系；
+Table I 硬件能力；Table II workload 需求；Table III 适配矩阵；
+Fig. 3 瓶颈导向的能力提升分析。
+
+后两页围绕“硬件供给 → 负载需求 → 适配判断 → 设计选择”展开。
+PD 融合、通道分解及时间／空间复杂度的大范围推广不进入短文主线。
+
+## 当前交接
+
+Task 0 已完成修订并交付候选基线，尚未验收。旧硬件标定、PD 融合与
+通道分解已原样归档；摘要及结论不再依赖其数值发现。
+
+- 状态：已提交待审阅；执行分支 `main`。
+- 基线 commit：`1cf153e7934283ebf728c403ddf06209ee4c6acf`。
+- 计量约定版本：`v0.1-candidate`（Task 0 修订候选，待审阅）。
+- 检查及编译：代数、单位及引用结构检查通过；XeLaTeX 完整编译为 14 页，
+  PDF 已同步并渲染检查。具体命令、环境与轻微排版提示见 Task 0 报告。
+- 剩余事项：Table I/II 仍须按固定配置与映射逐项重建；旧表及 bibliography
+  中的旧数字注释不能作为已验证输入。当前未发现阻塞理论基线的代数矛盾。
+- 下一步：等待 Task 0 审阅验收，再按新任务指令开展 Task 1 / Task 2。
+
+检查入口：`python3 scripts/check_task0.py`；本机使用已有 Anaconda Python。
+构建入口：在 `CIM_Roofline_Paper/` 内先创建 `build/task0/`，再运行
+`latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir=build/task0 cim_roofline.tex`。
+构建目录不提交，主源旁 PDF 为本轮编译产物；历史 aux/log 等保持原状。
+
+最终交付 commit SHA 在 Agent 的交付回复中报告，不为把 commit 自身的
+SHA 写回文件而反复修改提交。
