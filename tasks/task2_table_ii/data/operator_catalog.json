@@ -1,0 +1,290 @@
+[
+  {
+    "wl_id": "wl_7b_q_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "q",
+    "logical_n_out": 3584,
+    "logical_n_in": 3584,
+    "matrix_elements": 12845056,
+    "bias": true,
+    "bias_elements": 3584,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_k_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "k",
+    "logical_n_out": 512,
+    "logical_n_in": 3584,
+    "matrix_elements": 1835008,
+    "bias": true,
+    "bias_elements": 512,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_v_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "v",
+    "logical_n_out": 512,
+    "logical_n_in": 3584,
+    "matrix_elements": 1835008,
+    "bias": true,
+    "bias_elements": 512,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_o_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "o",
+    "logical_n_out": 3584,
+    "logical_n_in": 3584,
+    "matrix_elements": 12845056,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_gate_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "gate",
+    "logical_n_out": 18944,
+    "logical_n_in": 3584,
+    "matrix_elements": 67895296,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_up_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "up",
+    "logical_n_out": 18944,
+    "logical_n_in": 3584,
+    "matrix_elements": 67895296,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_down_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "down",
+    "logical_n_out": 3584,
+    "logical_n_in": 18944,
+    "matrix_elements": 67895296,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 28,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_7b_lm_head_shape",
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "operator": "lm_head",
+    "logical_n_out": 152064,
+    "logical_n_in": 3584,
+    "matrix_elements": 544997376,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 1,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen7b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_q_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "q",
+    "logical_n_out": 5120,
+    "logical_n_in": 5120,
+    "matrix_elements": 26214400,
+    "bias": true,
+    "bias_elements": 5120,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_k_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "k",
+    "logical_n_out": 1024,
+    "logical_n_in": 5120,
+    "matrix_elements": 5242880,
+    "bias": true,
+    "bias_elements": 1024,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_v_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "v",
+    "logical_n_out": 1024,
+    "logical_n_in": 5120,
+    "matrix_elements": 5242880,
+    "bias": true,
+    "bias_elements": 1024,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_o_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "o",
+    "logical_n_out": 5120,
+    "logical_n_in": 5120,
+    "matrix_elements": 26214400,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_gate_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "gate",
+    "logical_n_out": 13824,
+    "logical_n_in": 5120,
+    "matrix_elements": 70778880,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_up_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "up",
+    "logical_n_out": 13824,
+    "logical_n_in": 5120,
+    "matrix_elements": 70778880,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_down_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "down",
+    "logical_n_out": 5120,
+    "logical_n_in": 13824,
+    "matrix_elements": 70778880,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 48,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  },
+  {
+    "wl_id": "wl_14b_lm_head_shape",
+    "model": "Qwen/Qwen2.5-14B",
+    "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9",
+    "operator": "lm_head",
+    "logical_n_out": 152064,
+    "logical_n_in": 5120,
+    "matrix_elements": 778567680,
+    "bias": false,
+    "bias_elements": 0,
+    "instances_in_model": 1,
+    "scope": "matrix multiply only; bias is external vector addition",
+    "source_ids": [
+      "t2_qwen14b_config",
+      "t2_transformers"
+    ],
+    "derivation_id": "D1"
+  }
+]

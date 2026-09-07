@@ -1,0 +1,27 @@
+{
+  "schema_version": "t2.1",
+  "baseline_commit": "6817194a3be1ba18ad2c3eb9273bb25a0fa470c2",
+  "access_date": "2026-09-07",
+  "models": {
+    "7b": {"repo": "Qwen/Qwen2.5-7B", "revision": "d149729398750b98c0af14eb82c78cfe92750796", "config": "qwen7B_config.json"},
+    "14b": {"repo": "Qwen/Qwen2.5-14B", "revision": "97e1e76335b7017d8f67c08a19d103c0504298c9", "config": "qwen14B_config.json"}
+  },
+  "inference_batch": [1, 8],
+  "prefill_tokens": [2048, 8192],
+  "decode_visible_after_append": [2048, 8192],
+  "training": {"microbatch": 1, "tokens": 2048, "accumulations": [1, 16], "maintained_weight_copies": 2},
+  "formats": {
+    "input": {"name": "BF16", "bytes": "2"},
+    "weight": {"name": "BF16", "bytes": "2"},
+    "kv": {"name": "BF16", "bytes": "2"},
+    "probability": {"name": "BF16", "bytes": "2"},
+    "gradient": {"name": "BF16", "bytes": "2"},
+    "activation": {"name": "BF16", "bytes": "2"}
+  },
+  "tile_examples": [{"r": 128, "c": 128}, {"r": 192, "c": 160}],
+  "tile_example_status": "analysis examples only; r and c remain arbitrary positive logical dimensions",
+  "kv_replicas": 1,
+  "reload_policy": {"operator": "gate", "tokens": 2048, "epoch_vectors": [512, 512, 512, 512], "cause": "evict this operator between token chunks to schedule other operators in a shared resident region"},
+  "attention_policy": "causal_visible_prefix_including_current",
+  "display": {"payload_unit": "MiB", "bytes_per_unit": 1048576, "rounding": "ROUND_HALF_UP", "decimal_places": 4, "RI": "exact reduced fraction or terminating decimal"}
+}

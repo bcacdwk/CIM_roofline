@@ -1,0 +1,28 @@
+TABLEI
+LITERATURE-GROUNDEDSTREAMINGANDRESIDENT-WRITECAPABILITIESOFREPRESENTATIVECIMIMPLEMENTATIONS
+Technology/ Mode;logicalnout×nin ; ρ τ RI∗ Evidence/keycondition
+implementation input/weight
+[GB/s]
+SRAM/Jiaetal.[1] ACIM;64×1152;4b/4b 2.9 — — M/C;4inputphases;20MS/sADCs.
+SRAM/D6CIM[2] DCIM;16×128;8b/8b 0.72 — — M/C;64clocks/MVMat360MHz.
+DRAM/Ambit[3] In-arrayBooleanrowlogic — — — S/D;49nsAAP;nofullMVMschedule.
+Gain-celleDRAM/ ACIM;1×27;8b/8b 1.4 — — M/C;oneMAVgroup,4phases/20ns.
+Xie[4]
+3DNAND/Shim–Yu[5] ACIMmodel;16×4608;8b/8b — — — S/D;303nsWLsetuponly;verifyuntimed.
+2DNORFlash/Guo[6], Analogcascade; — — — M/D;<1µsclassification;preloadexcluded.
+[7] 784→64→10
+RRAM/NeuRRAM[8] ACIM;256×128;4b/analog 0.016 — — M/C;3.9µs;56µs/cellwriteisprojected.
+MRAM/Jung[9] ACIM;64×64;bipolar1b/1b 0.089 0.044 2 M/C;rowwrite:64weightsin2clocks.
+PCM/64-corechip[10] ACIM;256×256;8b/analog 0.49 — — S/C;measured-chipRTL,4phases/520ns.
+FeRAM/C2FeRAM[11] ProposedACIM;discrete2T2C — — — D/D;devicetests;nocompletetimedmacro.
+3DFeNOR/Zhou Devicemultiply;binarystate — — — D/D;+4.25/-3.25V,50ns;RAWdelay<100ns.
+2025[12]
+VerticalFeFET/Zhou Memoryarray;binarystate — — — D/D;±2V,20ns;1Kibpatternsverified.
+2026[13]
+Scope: Native local service boundaries; one core/group unless specified. Packed logical input bytes are counted once per complete stated-precision
+evaluation;physicalbitslicesandcomplementarycellsarenotextrapayload.Analogoutputsretainthereportedquantization/errorcontract.RI∗=ρ/τ
+onlyforacompatiblepair;GB/sisdecimal.Theseconfigurationsarenotnormalizedforprocess,area,capacityorpower.
+Evidence:Firstcode:M,measuredchip;D,measureddevice;S,simulation.Secondcode:D,directlyreportedparameter;C,convertedcapability.PCM
+timingisRTL-derivedonameasured-chiparchitecture.—meansinsufficientevidenceforthisserviceboundary,notimpossibility.AAPisaDRAM
+row-operation primitive; RAW means read-after-write. FeNOR switching pulses and RAW delays do not specify CIM throughput. Full conditions,
+write/verifyevidenceandunavailabletimingareretainedinthesupportingrecords.

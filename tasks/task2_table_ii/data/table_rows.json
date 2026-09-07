@@ -1,0 +1,566 @@
+[
+  {
+    "short_id": "S1",
+    "workload_ids": [
+      "wl_7b_k_decode_b1_static_lo"
+    ],
+    "label_tex": "K projection",
+    "window_tex": "G0: pre-resident; decode",
+    "dimensions_tex": "$U=1$; $W_K:512\\times3584$",
+    "display": [
+      {
+        "wl_id": "wl_7b_k_decode_b1_static_lo",
+        "Q_R": {
+          "text": "0",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 0,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "0.0068",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 7,
+            "denominator": 1024
+          }
+        },
+        "RI_tex": "\\infty",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 7168,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "M_OP": 3670016,
+          "RI": {
+            "status": "infinite"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S2",
+    "workload_ids": [
+      "wl_7b_k_decode_b1_load_lo"
+    ],
+    "label_tex": "K projection",
+    "window_tex": "G1: load once; decode",
+    "dimensions_tex": "$B=U=1$",
+    "display": [
+      {
+        "wl_id": "wl_7b_k_decode_b1_load_lo",
+        "Q_R": {
+          "text": "3.5",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 7,
+            "denominator": 2
+          }
+        },
+        "Q_S": {
+          "text": "0.0068",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 7,
+            "denominator": 1024
+          }
+        },
+        "RI_tex": "\\frac{1}{512}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 7168,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 3670016,
+            "denominator": 1
+          },
+          "M_OP": 3670016,
+          "RI": {
+            "status": "finite",
+            "numerator": 1,
+            "denominator": 512
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S3",
+    "workload_ids": [
+      "wl_7b_k_decode_b8_load_lo",
+      "wl_14b_k_decode_b8_load_lo"
+    ],
+    "label_tex": "K, 7B / 14B",
+    "window_tex": "G1: load once; decode",
+    "dimensions_tex": "$B=U=8$; shared $W_K$",
+    "display": [
+      {
+        "wl_id": "wl_7b_k_decode_b8_load_lo",
+        "Q_R": {
+          "text": "3.5",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 7,
+            "denominator": 2
+          }
+        },
+        "Q_S": {
+          "text": "0.0547",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 7,
+            "denominator": 128
+          }
+        },
+        "RI_tex": "\\frac{1}{64}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 57344,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 3670016,
+            "denominator": 1
+          },
+          "M_OP": 29360128,
+          "RI": {
+            "status": "finite",
+            "numerator": 1,
+            "denominator": 64
+          }
+        }
+      },
+      {
+        "wl_id": "wl_14b_k_decode_b8_load_lo",
+        "Q_R": {
+          "text": "10",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 10,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "0.0781",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 5,
+            "denominator": 64
+          }
+        },
+        "RI_tex": "\\frac{1}{128}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 81920,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 10485760,
+            "denominator": 1
+          },
+          "M_OP": 83886080,
+          "RI": {
+            "status": "finite",
+            "numerator": 1,
+            "denominator": 128
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S4",
+    "workload_ids": [
+      "wl_7b_gate_prefill_b1_l2048_load_lo"
+    ],
+    "label_tex": "MLP gate",
+    "window_tex": "G1: load once; prefill",
+    "dimensions_tex": "$U=2048$; $W_g:18944\\times3584$",
+    "display": [
+      {
+        "wl_id": "wl_7b_gate_prefill_b1_l2048_load_lo",
+        "Q_R": {
+          "text": "129.5",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 259,
+            "denominator": 2
+          }
+        },
+        "Q_S": {
+          "text": "14",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 14,
+            "denominator": 1
+          }
+        },
+        "RI_tex": "\\frac{4}{37}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 14680064,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 135790592,
+            "denominator": 1
+          },
+          "M_OP": 278099132416,
+          "RI": {
+            "status": "finite",
+            "numerator": 4,
+            "denominator": 37
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S5",
+    "workload_ids": [
+      "wl_7b_gate_reload_b1_l2048_e4_lo"
+    ],
+    "label_tex": "MLP gate",
+    "window_tex": "G2: 4 placement epochs",
+    "dimensions_tex": "$U=2048$; $512$ vectors/epoch",
+    "display": [
+      {
+        "wl_id": "wl_7b_gate_reload_b1_l2048_e4_lo",
+        "Q_R": {
+          "text": "518",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 518,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "14",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 14,
+            "denominator": 1
+          }
+        },
+        "RI_tex": "\\frac{1}{37}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 14680064,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 543162368,
+            "denominator": 1
+          },
+          "M_OP": 278099132416,
+          "RI": {
+            "status": "finite",
+            "numerator": 1,
+            "denominator": 37
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S6",
+    "workload_ids": [
+      "wl_7b_attn_prefill_b1_l2048_lo"
+    ],
+    "label_tex": "Causal prefill",
+    "window_tex": "A1: empty KV; append prefixes",
+    "dimensions_tex": "$B=1$, $C=0$, $N=2048$",
+    "display": [
+      {
+        "wl_id": "wl_7b_attn_prefill_b1_l2048_lo",
+        "Q_R": {
+          "text": "4",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 4,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "126.0547",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 16135,
+            "denominator": 128
+          }
+        },
+        "RI_tex": "\\frac{16135}{512}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 132177920,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 4194304,
+            "denominator": 1
+          },
+          "M_OP": 30079451136,
+          "RI": {
+            "status": "finite",
+            "numerator": 16135,
+            "denominator": 512
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S7",
+    "workload_ids": [
+      "wl_7b_attn_decode_b8_v8192_lo"
+    ],
+    "label_tex": "KV-append decode",
+    "window_tex": "A1: keep history; append one",
+    "dimensions_tex": "$B=8$, $N=1$, $L_v=8192$",
+    "display": [
+      {
+        "wl_id": "wl_7b_attn_decode_b8_v8192_lo",
+        "Q_R": {
+          "text": "0.0156",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 1,
+            "denominator": 64
+          }
+        },
+        "Q_S": {
+          "text": "3.5547",
+          "unit": "MiB",
+          "rounded": true,
+          "exact_MiB": {
+            "numerator": 455,
+            "denominator": 128
+          }
+        },
+        "RI_tex": "227.5",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 3727360,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 16384,
+            "denominator": 1
+          },
+          "M_OP": 939524096,
+          "RI": {
+            "status": "finite",
+            "numerator": 455,
+            "denominator": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S8",
+    "workload_ids": [
+      "wl_7b_train_gate_u2048_a1_lo_dx"
+    ],
+    "label_tex": "Gate input grad. $dX$",
+    "window_tex": "T1: pre-resident $W^\\top$",
+    "dimensions_tex": "$dY:2048\\times18944$",
+    "display": [
+      {
+        "wl_id": "wl_7b_train_gate_u2048_a1_lo_dx",
+        "Q_R": {
+          "text": "0",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 0,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "74",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 74,
+            "denominator": 1
+          }
+        },
+        "RI_tex": "\\infty",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 77594624,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "M_OP": 278099132416,
+          "RI": {
+            "status": "infinite"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S9",
+    "workload_ids": [
+      "wl_7b_train_gate_u2048_a1_lo_dw"
+    ],
+    "label_tex": "Gate weight grad. $dW$",
+    "window_tex": "T1: load $X^\\top$ once",
+    "dimensions_tex": "$X^\\top:3584\\times2048$",
+    "display": [
+      {
+        "wl_id": "wl_7b_train_gate_u2048_a1_lo_dw",
+        "Q_R": {
+          "text": "14",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 14,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "74",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 74,
+            "denominator": 1
+          }
+        },
+        "RI_tex": "\\frac{37}{7}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 77594624,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 14680064,
+            "denominator": 1
+          },
+          "M_OP": 278099132416,
+          "RI": {
+            "status": "finite",
+            "numerator": 37,
+            "denominator": 7
+          }
+        }
+      }
+    ]
+  },
+  {
+    "short_id": "S10",
+    "workload_ids": [
+      "wl_7b_train_gate_u2048_a1_lo",
+      "wl_7b_train_gate_u2048_a16_lo"
+    ],
+    "label_tex": "Gate update cycle",
+    "window_tex": "T1: two weight layouts updated",
+    "dimensions_tex": "$U=2048$; $A=1\\,/\\,16$",
+    "display": [
+      {
+        "wl_id": "wl_7b_train_gate_u2048_a1_lo",
+        "Q_R": {
+          "text": "273",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 273,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "162",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 162,
+            "denominator": 1
+          }
+        },
+        "RI_tex": "\\frac{54}{91}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 169869312,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 286261248,
+            "denominator": 1
+          },
+          "M_OP": 834297397248,
+          "RI": {
+            "status": "finite",
+            "numerator": 54,
+            "denominator": 91
+          }
+        }
+      },
+      {
+        "wl_id": "wl_7b_train_gate_u2048_a16_lo",
+        "Q_R": {
+          "text": "483",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 483,
+            "denominator": 1
+          }
+        },
+        "Q_S": {
+          "text": "2592",
+          "unit": "MiB",
+          "rounded": false,
+          "exact_MiB": {
+            "numerator": 2592,
+            "denominator": 1
+          }
+        },
+        "RI_tex": "\\frac{864}{161}",
+        "exact": {
+          "Q_S_Byte": {
+            "numerator": 2717908992,
+            "denominator": 1
+          },
+          "Q_R_Byte": {
+            "numerator": 506462208,
+            "denominator": 1
+          },
+          "M_OP": 13348758355968,
+          "RI": {
+            "status": "finite",
+            "numerator": 864,
+            "denominator": 161
+          }
+        }
+      }
+    ]
+  }
+]

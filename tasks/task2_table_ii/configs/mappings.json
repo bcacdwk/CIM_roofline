@@ -1,0 +1,29 @@
+{
+  "schema_version": "t2.1",
+  "provenance": "All schedules and boundaries below are Task 2 analytical choices. ISAAC supports the resident-MVM concept and partitioned input/reduction, not a Qwen hardware implementation or BF16 support claim.",
+  "notation": {"r": "positive logical output rows per tile", "c": "positive logical input columns per tile", "E": "actual placement epochs", "U": "vectors served, partitioned across epochs and copies; model weights shared across batch", "C": "history before appending", "N": "new tokens", "t_j": "C+j, j=1..N, current token included", "g": "H_q/H_kv", "D": "maintained replicas of each K/V layout"},
+  "boundary_rules": {
+    "logical_operator": "One declared full matrix service, with internal output sharing, complete dot products and output availability. Requires full logical resident capacity; may require a macro group.",
+    "tile_port": "Count receiving tile ports separately. For every placement epoch, traverse output blocks then input blocks; each tile serves that epoch's vectors before eviction. Split input columns into segments, replicate across output blocks. All static tiles and all growing KV tiles must remain resident.",
+    "padding": "Only valid logical elements cross input/write boundaries; invalid slots internally zeroed or disabled. Slot occupancy is capacity/utilization metadata, not useful payload. Zero gating and partial writes are pairing conditions.",
+    "output": "Reduction across input-column tiles is required. Partial-sum accumulation and output completion must be represented by compatible service capability. Their outputs are not added to Q_S unless used as a later CIM input.",
+    "precision": "All payload accounting is logical; bit slicing, ADC passes and write verify do not multiply these bytes. Named BF16 and INT16 modes are distinct.",
+    "replicas": "U/query heads partitioned across resident replicas; every maintained copy is written, no duplicate useful computation. Capacity scales with copies. Serial sharing is allowed; no common performance rate asserted."
+  },
+  "mapping_ids": {
+    "G0_LO": {"schedule": "matrix pre-resident; unchanged during U-vector window", "writes": 0},
+    "G0_TP": {"schedule": "all matrix tiles pre-resident; each receiving tile serves its segments", "writes": 0},
+    "G1_LO": {"schedule": "load full matrix once, serve U vectors", "writes": "n_out*n_in*b_R"},
+    "G1_TP": {"schedule": "for each tile: load valid weights once, serve all U corresponding segments, emit partial results; one scratch tile can suffice with external input/partial-sum storage", "writes": "sum valid tile elements*b_R"},
+    "G2_LO": {"schedule": "shared operator region evicts weights between chunks; load same full matrix once per epoch", "writes": "E*n_out*n_in*b_R"},
+    "G2_TP": {"schedule": "each epoch traverses all tiles anew; inputs served once per output block per epoch's vector subset", "writes": "E*sum valid tile elements*b_R"},
+    "A1_LO": {"schedule": "per new token j: append K row and V-transposed column; each query head uses its group's current prefix in QK then AV; retain all KV", "writes": "B*H_kv*D*N*d*(b_K+b_V)"},
+    "A1_TP": {"schedule": "fixed tile coordinates as prefix grows; append only new valid elements, preserving old values; for each query traverse its visible K tiles, finish scores/softmax, traverse V-transposed tiles; retain all KV tiles", "Q_S": "B*H_q*[d*b_Q*sum_j ceil((C+j)/r) + b_A*ceil(d/r)*sum_j(C+j)]", "writes": "same valid KV append payload as A1_LO; partial row/column updates required"},
+    "T1_LO": {"schedule": "W and W-transposed initially resident; each microbatch: forward(X,W), dX(dY,W-transposed), dW(dY-transposed,X-transposed); external dW accumulation; end: update W and W-transposed once each", "writes": "A*U*n_in*b_X + 2*n_out*n_in*b_W", "alternative": "dW-transposed via resident dY-transposed and streaming X-transposed; separate sensitivity component"},
+    "T1_TP": {"schedule": "retain all W and W-transposed tiles; tile temporary X-transposed in scratch per microbatch; accumulate complete dW externally; write each valid weight element once in each maintained layout at cycle end", "writes": "same logical elements as T1_LO; tile output splits change component streaming inputs"},
+    "F1_LO": {"schedule": "concatenate independent Q/K/V or gate/up resident output rows and receive one shared X per vector; a different service boundary from independent projections", "writes": "sum component weights", "Q_S": "one U*n_in*b_S service, not the sum of separate input receptions"}
+  },
+  "capacity_conditions": ["Dynamic tile GEMM can use one scratch tile plus declared external activation and partial-sum workspace.", "Static logical GEMM and G0_TP require the full matrix or all tiles already present.", "A1 requires all final per-session K/V tiles retained; decode initial history is already resident, prefill initial history is empty.", "T1 retains both full weight layouts. Temporary activation capacity can be tiled; gradient accumulator and optimizer workspace are external to this operand scope.", "Logical slot counts are not physical bitcell counts."],
+  "formula_ids": {"D1": "SUPPORT.zh.md section 2", "D2": "SUPPORT.zh.md sections 3-4", "D3": "SUPPORT.zh.md section 5", "D4": "SUPPORT.zh.md section 6"},
+  "excluded_scope": ["embedding lookup", "bias vector additions", "softmax/scaling/dropout", "RoPE", "RMSNorm", "SwiGLU elementwise multiply/SiLU", "residual addition", "optimizer arithmetic and state accesses", "communication", "checkpoint recomputation", "complete LLM training performance"]
+}

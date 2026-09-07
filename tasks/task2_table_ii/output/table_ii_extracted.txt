@@ -1,0 +1,81 @@
+TABLEII
+WINDOWEDOPERANDDEMANDSOFREPRESENTATIVELLMWORKLOADSUNDEREXPLICITCIMMAPPINGS
+Workload / operator Window and residency mapping Key dimensions / parameters Q Q RI
+R S
+(MiB) (MiB)
+S1 K projection G0: pre-resident; decode U =1; W :512×3584 0 0.0068 ∞
+K
+S2 K projection G1: load once; decode B =U =1 3.5 0.0068 1
+512
+S3 K, 7B / 14B G1: load once; decode B =U =8; shared W 3.5 / 10 0.0547 / 0.0781 1 / 1
+K 64 128
+S4 MLP gate G1: load once; prefill U =2048; W :18944×3584 129.5 14 4
+g 37
+S5 MLP gate G2: 4 placement epochs U =2048; 512 vectors/epoch 518 14 1
+37
+S6 Causal prefill A1: empty KV; append prefixes B =1, C =0, N =2048 4 126.0547 16135
+512
+S7 KV-append decode A1: keep history; append one B =8, N =1, L =8192 0.0156 3.5547 227.5
+v
+S8 Gate input grad. dX T1: pre-resident W⊤ dY :2048×18944 0 74 ∞
+S9Gateweightgrad.dW T1: load X⊤ once X⊤ :3584×2048 14 74 37
+7
+S10 Gate update cycle T1: two weight layouts updated U =2048; A=1/16 273 / 483 162 / 2592 54 / 864
+91 161
+All rows use logical_operator boundaries and BF16 (2 Byte/element). One projection or one attention layer is counted; 7B is used except for the
+paired 7B/14B values in S3. Model dimensions follow fixed official configurations and implementation [1]–[4]. G0/G1/G2: independent weight-stationary
+projections;QS =UninbS,QR=EnoutninbR,withE=0,1,4respectively.A1:Hq =28,H
+kv
+=4,d=128;onesharedKVcopypergroup,separate
+K and V layouts. Lv =C+N is the final visible length, including the current token. For T =NC+N(N+1)/2, QS =BHq(NdbQ+TbA) and
+QR = BH kv Nd(bK +bV); QK and AV are separate services [5], [6]. T1: forward, dX = dYW, dW = dY⊤X; temporary resident X⊤ is replaced
+eachmicrobatch,andpre-residentW,W⊤ areeachupdatedoncepercycle[7].S8–S9arepermicrobatch;S10givescycletotalsforA=1/16.S6–S7and
+S10 are demand sums with retained components, without a common service-rate claim. The parameterized tile-port export uses arbitrary (r,c) and counts
+eachreceivingoutputtile;ISAACsupportstheunderlyingresident-MVMandpartitioned-inputconcept[8],whiletheseschedulesareourreferencechoices.
+Payloadsareroundedto4decimalplaceswhereneeded(1MiB=220Byte);RIfractionsareexact.Softmax,RoPE,biasandothernon-matrixworkareoutside
+scope.AnAVinputdoesnotrequireexternalmaterializationoftheentireattentionmatrix;thesedemandsarenotFlashAttentionHBMtraffic[9].
+REFERENCES
+[1] QwenTeam,“Qwen2.5-7B:Officialconfigurationandmodelcard,”
+2024,revisiond149729398750b98c0af14eb82c78cfe92750796.
+AccessedSep.7,2026.[Online].Available:https://huggingface.co/
+Qwen/Qwen2.5-7B/tree/d149729398750b98c0af14eb82c78cfe92750796
+[2] ——,“Qwen2.5-14B:Officialconfigurationandmodelcard,”2024,
+revision97e1e76335b7017d8f67c08a19d103c0504298c9.AccessedSep.
+7,2026.[Online].Available:https://huggingface.co/Qwen/Qwen2.
+5-14B/tree/97e1e76335b7017d8f67c08a19d103c0504298c9
+[3] HuggingFace,“Transformers:Qwen2modelimplementation,”2024,
+v4.45.2,commit53fad641cfdb5105e2470bcf3ef17ea8e25cc300,
+modeling_qwen2.py,lines265–391,1089.AccessedSep.7,2026.
+[Online].Available:https://github.com/huggingface/transformers/tree/
+53fad641cfdb5105e2470bcf3ef17ea8e25cc300/src/transformers/models/
+qwen2
+[4] QwenTeam,“Qwen2.5technicalreport,”2024,arXiv:2412.15115v1,
+Sec.2andTable1.[Online].Available:
+https://arxiv.org/abs/2412.15115v1
+[5] A.Vaswani,N.Shazeer,N.Parmar,J.Uszkoreit,L.Jones,A.N.
+Gomez,L.Kaiser,andI.Polosukhin,“Attentionisallyouneed,”in
+AdvancesinNeuralInformationProcessingSystems,vol.30,2017,sec.
+3.2,Eq.(1);accessedversionarXiv:1706.03762v7.[Online].Available:
+https://arxiv.org/abs/1706.03762v7
+[6] J.Ainslie,J.Lee-Thorp,M.deJong,Y.Zemlyanskiy,F.Lebron,and
+S.Sanghai,“GQA:Traininggeneralizedmulti-querytransformer
+modelsfrommulti-headcheckpoints,”inProc.EMNLP,2023,pp.
+4895–4901,sec.2.2andFig.2;accessedversionarXiv:2305.13245v3.
+[Online].Available:https://aclanthology.org/2023.emnlp-main.298/
+[7] PyTorchContributors,“PyTorch:Linearandmatrix-multiplication
+autogradimplementations,”2024,v2.4.1,commit
+ee1b6804381c57161c477caa380a840a84167676;Linear.cpp,
+derivatives.yaml,FunctionsManual.cpp(lines1415–1451).Accessed
+Sep.7,2026.[Online].Available:https://github.com/pytorch/pytorch/
+tree/ee1b6804381c57161c477caa380a840a84167676
+[8] A.Shafiee,A.Nag,N.Muralimanohar,R.Balasubramonian,J.P.
+Strachan,M.Hu,R.S.Williams,andV.Srikumar,“ISAAC:A
+convolutionalneuralnetworkacceleratorwithin-situanalogarithmetic
+incrossbars,”inProc.ACM/IEEEISCA,2016,pp.14–26,author
+manuscript,Fig.1andSecs.III,VI.[Online].Available:
+https://svivek.com/research/publications/isca16.pdf
+[9] T.Dao,D.Y.Fu,S.Ermon,A.Rudra,andC.Ré,“FlashAttention:Fast
+andmemory-efficientexactattentionwithIO-awareness,”inAdvances
+inNeuralInformationProcessingSystems,vol.35,2022,algorithm1,
+Sec.3;accessedversionarXiv:2205.14135v2.[Online].Available:
+https://arxiv.org/abs/2205.14135v2

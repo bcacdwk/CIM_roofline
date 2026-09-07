@@ -1,0 +1,175 @@
+{
+  "access_date": "2026-09-07",
+  "log_type": "Retrospective factual access summary; exact request timestamps are not asserted.",
+  "access_policy": "Only public author/institution/publisher endpoints and user-supplied files. Failed access responses were not treated as PDFs or read full text. No access-control bypass.",
+  "entries": [
+    {
+      "source_id": "t1_jia2022",
+      "access_url": "https://www.princeton.edu/~nverma/VermaLabSite/Publications/2022/JiaOzatayTangValaviPathakLeeVerma_JSSC2022.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/jia2022.pdf",
+      "checked_path": "Read JSSC full paper, architecture and evaluation including discussion of external weight buffering.",
+      "result_and_gap": "Ordinary SRAM write energy is supplied; weight-load ready interval and effective concurrent port width are not jointly timed. No tau."
+    },
+    {
+      "source_id": "t1_d6cim2023",
+      "access_url": "https://par.nsf.gov/servlets/purl/10526026",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/d6cim2023.pdf",
+      "checked_path": "Read ESSCIRC full paper and ordinary SRAM write diagram; pursued 2026 TCAS-I expansion t1_d6cim2026.",
+      "result_and_gap": "Full 64-cycle UINT8 VMM available; single-cycle ordinary write is unverified. Reference scenario is separate."
+    },
+    {
+      "source_id": "t1_d6cim2026",
+      "access_url": "https://doi.org/10.1109/TCSI.2026.3665839",
+      "access_status": "metadata_only",
+      "local_file": null,
+      "checked_path": "Located formal DOI, title and publication metadata for the TCAS-I extension.",
+      "result_and_gap": "Full text not acquired; no additional write timing extracted."
+    },
+    {
+      "source_id": "t1_ambit2017",
+      "access_url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2017/09/MICRO-50_347.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/ambit2017.pdf",
+      "checked_path": "Read original MICRO paper and command sequence; pursued measured DRAM Dyamond 2024/2025 separately.",
+      "result_and_gap": "49 ns AAP is a primitive. Four AAPs give AND, while a complete integer MVM schedule remains absent."
+    },
+    {
+      "source_id": "t1_dyamond2025",
+      "access_url": "https://ssl.kaist.ac.kr/bbs/board.php?bo_table=Journal&wr_id=250",
+      "access_status": "author_listing_and_institution_abstract_only",
+      "local_file": null,
+      "checked_path": "Consulted KAIST author publication listing and institution-hosted original abstract; followed DOI and VLSI precursor.",
+      "result_and_gap": "Full text not acquired. Bitline-sense-amplifier architecture identified but precision/II/write timing unavailable."
+    },
+    {
+      "source_id": "t1_dyamond2024",
+      "access_url": "https://doi.org/10.1109/VLSITechnologyandCir46783.2024.10631334",
+      "access_status": "metadata_only",
+      "local_file": null,
+      "checked_path": "Located original VLSI precursor and DOI through author/institution metadata.",
+      "result_and_gap": "Metadata only; do not infer operation count or throughput from energy efficiency."
+    },
+    {
+      "source_id": "t1_gaincell2022",
+      "access_url": "https://sites.utexas.edu/CRL/files/2022/06/Gain_cell_CIM_VLSI2022.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/gaincell2022.pdf",
+      "checked_path": "Read both original VLSI pages, including precision dataflow and comparison timing; consulted preceding 2021 eDRAM paper.",
+      "result_and_gap": "One 27-input MAV group is timed; whole-macro replication, complete normal write and refresh duty require more evidence."
+    },
+    {
+      "source_id": "t1_edram2021",
+      "access_url": "https://sites.utexas.edu/CRL/files/2021/02/eDRAM_CIM_ISSCC2021_paper.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/edram2021.pdf",
+      "checked_path": "Read the ISSCC paper, figures and measured/simulated comparison as gain-cell antecedent.",
+      "result_and_gap": "1T1C eDRAM and 2T1C gain-cell are distinct. MAV-stage time does not include full input/output conversion."
+    },
+    {
+      "source_id": "t1_nand2021",
+      "access_url": "https://www.researchgate.net/publication/352865690_System-Technology_Codesign_of_3-D_NAND_Flash-Based_Compute-in-Memory_Inference_Engine",
+      "access_status": "full_article_text_read_online_figures_unavailable",
+      "local_file": null,
+      "checked_path": "Read original article text on a publicly accessible full-text page. Direct PDF attempts returned 403/404. Followed cited IEDM 2019 chip, t1_lue2019.",
+      "result_and_gap": "No usable PDF or original Table 1 image. Preserve text-grounded geometry and WL setup only; complete phase timing, verify and erase mode remain unavailable."
+    },
+    {
+      "source_id": "t1_lue2019",
+      "access_url": "https://ieee-iedm.org/wp-content/uploads/2026/05/2019-IEDM-Archive.pdf",
+      "access_status": "official_program_abstract_only",
+      "local_file": null,
+      "checked_path": "Located formal IEDM archive abstract for the specific cited NAND chip paper.",
+      "result_and_gap": "Only abstract acquired; full programming and complete MVM schedules not established."
+    },
+    {
+      "source_id": "t1_nor2017",
+      "access_url": "https://web.ece.ucsb.edu/~strukov/papers/2017/iedm2017.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/nor2017.pdf",
+      "checked_path": "Read original classifier paper and followed its exact tuning citation to t1_nor_tuning2016.",
+      "result_and_gap": "Measured multilayer classifier latency excludes serial preload. No single-MVM initiation interval or complete tuned weight-load transaction."
+    },
+    {
+      "source_id": "t1_nor_tuning2016",
+      "access_url": "https://web.ece.ucsb.edu/~strukov/papers/2016/DRCflash2016.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/nor_tuning2016.pdf",
+      "checked_path": "Read author-hosted original DRC tuning paper, Figs.2–6 and pulse parameters.",
+      "result_and_gap": "Related 100-cell ESF1 test, not the same classifier; pulse count plus pulse types do not establish full ready time or concurrent write scale."
+    },
+    {
+      "source_id": "t1_neurram2022",
+      "access_url": "https://par.nsf.gov/servlets/purl/10406027",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/neurram2022.pdf",
+      "checked_path": "Read Nature article, Methods and Extended Data in institution-hosted complete PDF. Traced programming, relaxation and power/throughput sections.",
+      "result_and_gap": "56 us/cell belongs to a projected integrated controller, not the measured external control setup. Continuous target weights lack a defined b_R codebook."
+    },
+    {
+      "source_id": "t1_liu2025",
+      "access_url": "https://www.jos.ac.cn/article/doi/10.1088/1674-4926/24100017",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/liu2025.pdf",
+      "checked_path": "Read full publisher PDF obtained through normal public checkArticlePdf (result=true) and exportPdf flow. Investigated absolute programming timing as additional RRAM evidence.",
+      "result_and_gap": "Pulse-count speedup, not absolute write-ready time. 16-state tolerance data do not establish pulse/verify durations; 4.31/4.67 speed values differ in the article."
+    },
+    {
+      "source_id": "t1_jung2022",
+      "access_url": "https://ciqm.harvard.edu/uploads/2/3/3/4/23349210/jung2022.pdf",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/jung2022.pdf",
+      "checked_path": "Read original Nature full text including Methods and Extended Data; rechecked row writes and 11.1 MHz operating frequency together.",
+      "result_and_gap": "Compatible two-clock row write and one-clock bipolar evaluation available. Native approximate TDC output; host SPI preparation and calibration excluded."
+    },
+    {
+      "source_id": "t1_chiu2023",
+      "access_url": "https://www.nature.com/articles/s41928-023-00994-0",
+      "access_status": "full_text_not_acquired",
+      "local_file": null,
+      "checked_path": "Verified original Nature Electronics article identity as additional MRAM lead; PDF endpoint returned login/access HTML.",
+      "result_and_gap": "Full text not acquired; no numerical rate or cross-chip write substitution."
+    },
+    {
+      "source_id": "t1_pcm64",
+      "access_url": "https://arxiv.org/pdf/2212.02872",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/pcm64.pdf",
+      "checked_path": "Read dated author arXiv full manuscript, programming Methods and RTL timing statement; checked final publication identity.",
+      "result_and_gap": "Numeric source is the dated preprint, not independently reverified final journal revision. Actual 32 writeheads and iteration stopping do not specify complete achieved write throughput or logical analog byte format."
+    },
+    {
+      "source_id": "t1_c2feram2023",
+      "access_url": "https://par.nsf.gov/servlets/purl/10417066",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/c2feram2023.pdf",
+      "checked_path": "Read original accepted manuscript at NSF PAR, separating discrete measurements from simulated nanoscale components and array application.",
+      "result_and_gap": "No complete timed digital CIM macro; endurance device area is above 2500 um2. Ordinary FeRAM datasheet pursued separately, not used as this scheme tau."
+    },
+    {
+      "source_id": "t1_feram_datasheet",
+      "access_url": "https://www.infineon.com/dgdl/Infineon-CY15B101N-1-Mbit-64K-X-16-Automotive-EF-RAM-Memory-DataSheet-v01_00-EN.pdf?fileId=8ac78c8c85ecb34701864a5c5a343940",
+      "access_status": "publisher_pdf_read_with_web_tool_local_download_failed",
+      "local_file": null,
+      "checked_path": "Read manufacturer-hosted PDF through web PDF text access, especially AC timing and revision pages. Direct official and distributor downloads did not yield usable local PDF.",
+      "result_and_gap": "90 ns random 16-bit word write is ordinary storage bandwidth. It is not an analog weight-programming or CIM-ready transaction."
+    },
+    {
+      "source_id": "t1_zhou2025",
+      "access_url": "https://doi.org/10.23919/VLSITechnologyandCir65189.2025.11074820",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/zhou2025.pdf",
+      "checked_path": "Read all three user-supplied pages; copied original without relocation; verified hash and compared figures individually with 2026 follow-up.",
+      "result_and_gap": "50 ns pulses and <100 ns RAW are device conditions. No full MVM/ADC schedule, verified concurrent writer count or complete resident transaction."
+    },
+    {
+      "source_id": "t1_zhou2026",
+      "access_url": "https://vlsi26.mapyourshow.com/8_0/sessions/session-details.cfm?ScheduleID=251",
+      "access_status": "full_text_local",
+      "local_file": "sources/local-only/zhou2026.pdf",
+      "checked_path": "Read all three user-supplied pages; copied original without relocation; checked identity against official VLSI T11.1 program.",
+      "result_and_gap": "O-rich and O-poor conditions kept separate. 4096 fabricated cells versus 1024 shown pattern cells. No complete CIM evaluation or confirmed parallel write/ready schedule."
+    }
+  ]
+}
