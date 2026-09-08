@@ -1,0 +1,3449 @@
+{
+  "schema_version": "analysis-corpus-1.0",
+  "status": "READY_FOR_ANALYSIS",
+  "prepared_on": "2026-09-08",
+  "corpus_scope": "统一 28 nm 外围参考条件下的小规模 CIM 参考设计估算；十类介质，不含独立 DRAM 行",
+  "policy": "以本地已审全文开展后续分析，不再自动检索/下载；缺少的定值作为边界、模型假设或不确定性明确处理。",
+  "counts": {
+    "sources": 55,
+    "main_pdfs": 55,
+    "supplement_pdfs": 4,
+    "total_pdfs": 59,
+    "core_sources": 44,
+    "support_sources": 11,
+    "missing_required_files": 0
+  },
+  "groups": [
+    {
+      "directory": "00_cmos_periphery",
+      "title": "00 — 28 nm CMOS 外围参考",
+      "meaning": "用实测 SAR、普通 SRAM 局部服务和实际 CIM 宏共同建立外围参考。此组保留 3 份主文件，并复用 5 份 CIM 主文，形成 8 份共同依据；转换率、输入建立和完整求值周期不互相替代。",
+      "shared_sources": [
+        "SACIM-03",
+        "SACIM-05",
+        "SDCIM-01",
+        "SDCIM-03",
+        "SDCIM-05"
+      ]
+    },
+    {
+      "directory": "01_sram_acim",
+      "title": "01 — SRAM ACIM",
+      "meaning": "电荷域 macro 补输入方式、转换共享、复位/建立和规定输出。不同工艺仅用作结构与条件交叉；普通 SRAM 写服务由共同组支持。",
+      "shared_sources": [
+        "CMOS-03",
+        "CMOS-07"
+      ]
+    },
+    {
+      "directory": "02_sram_dcim",
+      "title": "02 — SRAM DCIM",
+      "meaning": "五篇全文覆盖位串行、两位/四位输入展开、动态逻辑、可调加法器及转置访问。把 clock、完整精度服务、memory 模式写入和精确/近似结果分别记录。",
+      "shared_sources": [
+        "CMOS-03",
+        "CMOS-07"
+      ]
+    },
+    {
+      "directory": "03_nor_2d",
+      "title": "03 — 2D NOR Flash",
+      "meaning": "正式厂商资料提供字/页/sector 与内部 program/erase/BUSY，原始模拟 NOR 研究补细调与 CIM 联系。存储接口与阵列模拟读出是不同层级。",
+      "shared_sources": []
+    },
+    {
+      "directory": "04_nand_3d",
+      "title": "04 — 3D NAND Flash",
+      "meaning": "MLC/TLC、QLC 与 SLC 器件/模式分开。制造商芯片、实际 SLC 器件和 RC/外围模型互补；不使用 SSD 带宽代表 local NAND 服务。",
+      "shared_sources": []
+    },
+    {
+      "directory": "05_rram",
+      "title": "05 — RRAM",
+      "meaning": "CIM 宏、产业 raw/P&V 与正式产品资料覆盖读出、写验、脉冲/终止和操作层级。binary 与模拟目标、SET/RESET、FORMING 与日常更新分开。",
+      "shared_sources": []
+    },
+    {
+      "directory": "06_mram",
+      "title": "06 — MRAM",
+      "meaning": "电阻求和和 bitcell 数字 CIM 分成不同参考机制；普通存储宏和正式 datasheet 支持读写与更新语义。互补 MTJ、两步写入、读验与位串行不能略去。",
+      "shared_sources": []
+    },
+    {
+      "directory": "07_pcm",
+      "title": "07 — PCM",
+      "meaning": "两类 IBM 芯片及逐行闭环、混合 SLC/MLC 宏和独立材料/器件测量互补。SET/RESET、连续模拟权重、离散状态及脉冲测试终点分别使用。",
+      "shared_sources": []
+    },
+    {
+      "directory": "08_feram_hfo2",
+      "title": "08 — FeRAM（HfO₂-based）",
+      "meaning": "主体为真实 HfO₂ 系 1T1C 电容阵列、C2FeRAM 机制与电容器件测量。破坏性读后恢复、两步行更新与混合 FeCAP/memristor 中的 FeCAP 证据分别标明。",
+      "shared_sources": []
+    },
+    {
+      "directory": "09_gain_cell_edram",
+      "title": "09 — Gain-cell eDRAM",
+      "meaning": "2T1C/4T/3T1C 结构、硅/oxide 通道、模拟/数字求值分别处理。保持分布、刷新占用与 storage/stationary 更新关系共同约束服务。",
+      "shared_sources": []
+    },
+    {
+      "directory": "10_fenor_3d",
+      "title": "10 — 3D FeNOR／vertical FeFET",
+      "meaning": "保留四篇直接相关的器件/小阵列和栅堆栈研究，包括指定的 Zhou 2025/2026。NOR 与 AND 拓扑、半选/相邻扰动、器件脉冲与宏级模拟分开。",
+      "shared_sources": []
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "CMOS-02",
+      "group": "00_cmos_periphery",
+      "title": "A 28 nm CMOS 10 bit 100 MS/s Asynchronous SAR ADC with Low-Power Switching Procedure and Timing-Protection Scheme",
+      "authors": [
+        "Fang Tang",
+        "Qiyun Ma",
+        "Zhou Shu",
+        "Yuanjin Zheng",
+        "Amine Bermak"
+      ],
+      "year": 2021,
+      "venue": "Electronics",
+      "publication_date": "2021-11-19",
+      "publication_dates": {
+        "published-online": [
+          [
+            2021,
+            11,
+            19
+          ]
+        ],
+        "issued": [
+          [
+            2021,
+            11,
+            19
+          ]
+        ],
+        "published": [
+          [
+            2021,
+            11,
+            19
+          ]
+        ]
+      },
+      "doi": "10.3390/electronics10222856",
+      "official_url": "https://doi.org/10.3390/electronics10222856",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "ADC 转换",
+        "输入建立"
+      ],
+      "evidence_level": "外围电路（实测 ADC）",
+      "process_condition": "直接的 28 nm 证据",
+      "confirmed_evidence": "28 nm 实测差分 SAR；正文区分采样、逐次比较、CDAC 建立和时序保护。测试含输入 buffer 与参考电路，实测频谱随输入频率变化。",
+      "limitations": "PVT 表是后仿真；有效精度低于名义 10 bit。正文与 Fig.10 的 SNDR 数字不一致，后续不可混抄；CIM 共模与负载适配仍须建模。",
+      "anchors": "pp.2–6，Figs.1–7；pp.7–8，Figs.8–12",
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-02_2021_AsynchronousSAR.pdf",
+        "pages": 10,
+        "bytes": 1103757,
+        "sha256": "435ff772b6fa1a338433d583c333b3f8042b795375b3229272e5c15aaf124811"
+      },
+      "supplements": [],
+      "notes": "literature/00_cmos_periphery/NOTES.zh.md#CMOS-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "CMOS-03",
+      "group": "00_cmos_periphery",
+      "title": "SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS",
+      "authors": [
+        "Brian Zimmer",
+        "Seng Oon Toh",
+        "Huy Vo",
+        "Yunsup Lee",
+        "Olivier Thomas",
+        "Krste Asanovic",
+        "Borivoje Nikolic"
+      ],
+      "year": 2012,
+      "venue": "IEEE Transactions on Circuits and Systems II: Express Briefs",
+      "publication_date": "2012-12",
+      "publication_dates": {
+        "published-print": [
+          [
+            2012,
+            12
+          ]
+        ],
+        "issued": [
+          [
+            2012,
+            12
+          ]
+        ],
+        "published": [
+          [
+            2012,
+            12
+          ]
+        ]
+      },
+      "doi": "10.1109/tcsii.2012.2231015",
+      "official_url": "https://doi.org/10.1109/tcsii.2012.2231015",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "读写时序",
+        "负载与驱动条件"
+      ],
+      "evidence_level": "器件／SRAM 局部电路（建模与仿真）",
+      "process_condition": "直接的 28 nm 证据（模型条件）",
+      "confirmed_evidence": "给出读写成功终点、back-to-back 服务、WL 脉宽与 BL 电容的显式参考条件；适合通用 SRAM 写入换算方法。",
+      "limitations": "28 nm、50 FO4 时钟及 128-cell 负载属于作者模型假设，不能写成量产 compiler 或流片保证。",
+      "anchors": "pp.1–3，动态读写定义、IV-A／IV-C；pp.4–5，assist 比较",
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-03_2012_SRAM_Assist.pdf",
+        "pages": 5,
+        "bytes": 768510,
+        "sha256": "e6edc7bb5b0fad11aed2672c01fbadb4cbae8d0f7ad84e38c266bc912750af54"
+      },
+      "supplements": [],
+      "notes": "literature/00_cmos_periphery/NOTES.zh.md#CMOS-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "CMOS-07",
+      "group": "00_cmos_periphery",
+      "title": "Disturbance Aware Dynamic Power Reduction in Synchronous 2RW Dual-Port 8T SRAM by Self-Adjusting Wordline Pulse Timing",
+      "authors": [
+        "Yoshisato Yokoyama",
+        "Koji Nii",
+        "Yuichiro Ishii",
+        "Shinji Tanaka",
+        "Kazutoshi Kobayashi"
+      ],
+      "year": 2023,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2023,
+              7
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2023,
+              7
+            ]
+          ]
+        }
+      },
+      "doi": "10.1109/jssc.2022.3229828",
+      "official_url": "https://doi.org/10.1109/jssc.2022.3229828",
+      "document_version": "作者机构公开修订稿；当前唯一采用版本，内容足以支撑所列用途",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "读写周期与端口条件"
+      ],
+      "evidence_level": "局部 SRAM macro／外围实测",
+      "process_condition": "直接 28 nm eFlash CMOS 平台证据；特殊高阈值条件保留",
+      "confirmed_evidence": "实际 28 nm eFlash CMOS 平台上的同步 2RW 8T SRAM，区分 clock、WL 脉冲、read access 与端口操作；Table II 有 macro 配置、频率和读写测试条件。",
+      "limitations": "该工艺针对 eFlash 优化、core/SRAM 阈值较高，不能等同所有 28 nm logic compiler。当前采用机构公开作者修订稿，内容完整但有排版占位；仅用明确的 28 nm 条件。",
+      "anchors": "作者修订稿 pp.1–2，Figs.1–2；pp.4–6，WL tracking；pp.8–9，Table II",
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-07_2023_LowPower_DualPort_SRAM_AuthorRevision.pdf",
+        "pages": 11,
+        "bytes": 2372216,
+        "sha256": "c63c21e5c4a6eee45ed35be0703ed1f6380009edc17e41dfc13d22f66a24d6a1"
+      },
+      "supplements": [],
+      "notes": "literature/00_cmos_periphery/NOTES.zh.md#CMOS-07",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SACIM-01",
+      "group": "01_sram_acim",
+      "title": "Scalable and Programmable Neural Network Inference Accelerator Based on In-Memory Computing",
+      "authors": [
+        "Hongyang Jia",
+        "Murat Ozatay",
+        "Yinqi Tang",
+        "Hossein Valavi",
+        "Rakshit Pathak",
+        "Jinseok Lee",
+        "Naveen Verma"
+      ],
+      "year": 2022,
+      "venue": "IEEE JSSC 57(1), 198–211",
+      "publication_date": "2022",
+      "doi": "10.1109/JSSC.2021.3119018",
+      "official_url": "https://doi.org/10.1109/JSSC.2021.3119018",
+      "document_version": "Published paper",
+      "priority": "核心",
+      "roles": [
+        "完整多位求值",
+        "操作粒度与局部并行度",
+        "CIM 求值桥接"
+      ],
+      "evidence_level": "阵列／局部 macro 及整芯片",
+      "process_condition": "其他工艺的量级交叉参考（65 nm）",
+      "confirmed_evidence": "可区分本地 CIMA、SIMD、片上网络及权重装载网络；完整精度需位平面与数字累加配合。实测数字时钟与 ADC 输出服务率分列。",
+      "limitations": "目标 500 MHz 与受封装供电限制的实测频率不同；28 MB 权重 buffer 未集成在原型中；整芯片吞吐不能直接作为 local macro 服务。",
+      "anchors": "pp.4–7，CIMU／CIMA 与 BPBS；p.9，V-A／Table III",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-01_2022_Scalable_IMC.pdf",
+        "pages": 14,
+        "bytes": 4126182,
+        "sha256": "26bd395f41879bec0d555e2db0f05d98f266fe6e6d3c76a0e95d358fe46a0128"
+      },
+      "supplements": [],
+      "notes": "literature/01_sram_acim/NOTES.zh.md#SACIM-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SACIM-02",
+      "group": "01_sram_acim",
+      "title": "PICO-RAM: A PVT-Insensitive Analog Compute-In-Memory SRAM Macro With In Situ Multi-Bit Charge Computing and 6T Thin-Cell-Compatible Layout",
+      "authors": [
+        "Zhiyu Chen",
+        "Ziyuan Wen",
+        "Weier Wan",
+        "Akhil Reddy Pakala",
+        "Yiwei Zou",
+        "Wei-Chen Wei",
+        "Zengyi Li",
+        "Yubei Chen",
+        "Kaiyuan Yang"
+      ],
+      "year": 2025,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2025-01",
+      "publication_dates": {
+        "published-print": [
+          [
+            2025,
+            1
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            1
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            1
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2024.3422826",
+      "official_url": "https://doi.org/10.1109/jssc.2024.3422826",
+      "document_version": "与 2025 期刊对应的 2024 作者稿；正文有实际芯片测量，引用正式期刊 DOI",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "输入 DAC／ADC 共享",
+        "完整多位求值"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "其他工艺的量级交叉参考（65 nm）",
+      "confirmed_evidence": "实测 65 nm 电荷域 macro；同一组电容依次用于两阶段 DAC、MAC、移位累加与 ADC，说明外围开销可重用，不能简单串加独立转换器延时。",
+      "limitations": "本地为作者稿，2024 预印本与 2025 期刊记录关联；65 nm 不是共同 28 nm 的直接速度证据。",
+      "anchors": "pp.4–7，Figs.4–14；pp.8–10，测量与 PVT",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-02_2025_PICO_RAM.pdf",
+        "pages": 13,
+        "bytes": 4723145,
+        "sha256": "4c067d2fc7c0821ba84db5f0c14123c06ace118c8741acd0759d3b381aa96874"
+      },
+      "supplements": [],
+      "notes": "literature/01_sram_acim/NOTES.zh.md#SACIM-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SACIM-03",
+      "group": "01_sram_acim",
+      "title": "A 28nm 32Kb SRAM Computing-in-Memory Macro With Hierarchical Capacity Attenuator and Input Sparsity-Optimized ADC for 4b Mac Operation",
+      "authors": [
+        "Kanglin Xiao",
+        "Xiaoxin Cui",
+        "Xin Qiao",
+        "Jiahao Song",
+        "Haoyang Luo",
+        "Xin’an Wang",
+        "Yuan Wang"
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Circuits and Systems II: Express Briefs",
+      "publication_date": "2023-06",
+      "publication_dates": {
+        "published-print": [
+          [
+            2023,
+            6
+          ]
+        ],
+        "issued": [
+          [
+            2023,
+            6
+          ]
+        ],
+        "published": [
+          [
+            2023,
+            6
+          ]
+        ]
+      },
+      "doi": "10.1109/tcsii.2023.3234620",
+      "official_url": "https://doi.org/10.1109/tcsii.2023.3234620",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "CIM 求值桥接",
+        "ADC 与局部读出"
+      ],
+      "evidence_level": "28 nm 实测局部 macro；2022 会议前作仿真",
+      "process_condition": "直接的 28 nm 实测证据（期刊扩展版）",
+      "confirmed_evidence": "2023 期刊明确新增流片测量；28 nm 128×256 9T1C 阵列、128 路 4-bit 输入 DAC、64 路 4-bit ADC，给出 reset/evaluation/readout 关系与 die photo。",
+      "limitations": "4-bit ADC 输出不等于完整无损 MAC 精度；普通权重写入绝对周期仍未闭合。电荷复位、建立、稀疏判读与 MAC 读出必须按 Fig.5 区分。",
+      "anchors": "p.2，扩展版说明、Figs.1–3；p.3，Fig.5／III；p.4，Figs.6–8",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-03_2023_Hierarchical_Attenuator.pdf",
+        "pages": 5,
+        "bytes": 2851947,
+        "sha256": "4a0318542c1d90b3722e7f944f66dbc50bc2fd1601e12d47f98df243603c9bc8"
+      },
+      "supplements": [],
+      "notes": "literature/01_sram_acim/NOTES.zh.md#SACIM-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SACIM-04",
+      "group": "01_sram_acim",
+      "title": "A Charge Domain SRAM Compute-in-Memory Macro With C-2C Ladder-Based 8-Bit MAC Unit in 22-nm FinFET Process for Edge Inference",
+      "authors": [
+        "Hechen Wang",
+        "Renzhi Liu",
+        "Richard Dorrance",
+        "Deepak Dasalukunte",
+        "Dan Lake",
+        "Brent Carlton"
+      ],
+      "year": 2023,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2023-04",
+      "publication_dates": {
+        "published-print": [
+          [
+            2023,
+            4
+          ]
+        ],
+        "issued": [
+          [
+            2023,
+            4
+          ]
+        ],
+        "published": [
+          [
+            2023,
+            4
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2022.3232601",
+      "official_url": "https://doi.org/10.1109/jssc.2022.3232601",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "完整多位求值",
+        "独立结构交叉核查"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "其他工艺的量级交叉参考（22 nm FinFET）",
+      "confirmed_evidence": "实际 22 nm 电荷域 macro；DAC/MAC 建立可重叠，SAR 内部八步放在另一半周期；R2R 驱动选型明确考虑 C2C 无法驱动的扇出负载。",
+      "limitations": "完整周期与内部 SAR 步骤不能混用；工艺不是 28 nm。",
+      "anchors": "p.5，Fig.10；pp.7–9，Figs.16–20；pp.10–11，测量",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-04_2023_C2C_ChargeDomain.pdf",
+        "pages": 14,
+        "bytes": 6538944,
+        "sha256": "5bb8359ab3ee61d4e897513f89009f95e4414477f6e7287290474487223ab8c6"
+      },
+      "supplements": [],
+      "notes": "literature/01_sram_acim/NOTES.zh.md#SACIM-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SACIM-05",
+      "group": "01_sram_acim",
+      "title": "8-Bit Precision 6T SRAM Compute-in-Memory Macro Using Global Bitline-Combining Scheme for Edge AI Chips",
+      "authors": [
+        "Jian-Wei Su",
+        "Pei-Jung Lu",
+        "Ping-Chun Wu",
+        "Yen-Chi Chou",
+        "Ta-Wei Liu",
+        "Yen-Lin Chung",
+        "Li-Yang Hung",
+        "Jin-Sheng Ren",
+        "Wei-Hsing Huang",
+        "Chih-Han Chien",
+        "Peng-I Mei",
+        "Sih-Han Li",
+        "Shyh-Shyuan Sheu",
+        "Wei-Chung Lo",
+        "Shih-Chieh Chang",
+        "Hao-Chiao Hong",
+        "Chung-Chuan Lo",
+        "Ren-Shuo Liu",
+        "Chih-Cheng Hsieh",
+        "Kea-Tiong Tang",
+        "Meng-Fan Chang"
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Circuits and Systems II: Express Briefs",
+      "publication_date": "2023-11-09",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              4
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2024,
+              4
+            ]
+          ]
+        }
+      },
+      "doi": "10.1109/tcsii.2023.3331375",
+      "official_url": "https://doi.org/10.1109/tcsii.2023.3331375",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "完整精度求值",
+        "ADC 共享"
+      ],
+      "evidence_level": "28 nm 实测 SRAM 局部 macro 与读写/转换外围",
+      "process_condition": "直接的 28 nm 实测证据；普通写入绝对周期仍未闭合",
+      "confirmed_evidence": "28 nm 实测 6T SRAM macro；32 个 cell 共享 HIPCC，本地/全局 BL 与普通读写路径明确。8-bit 输入分成四组 2-bit DAC 电压并行输入；GBL-comb 将同位权部分和合并，SAR 数量由 96 减到 69，并以数字移位累加形成输出。",
+      "limitations": "不是一个独立 8-bit DAC 直接驱动全部字线。voltage-stacking 有初始化、采样、叠加三阶段；输出数字位数不代表模拟无误精度；仍未明确普通写入的绝对完整服务周期。",
+      "anchors": "p.2 III-A/B、Fig.4；pp.3–4 III-C/D、IV、Figs.5–10；p.5 Fig.11",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-05_2024_GlobalBitlineCombining_8bit.pdf",
+        "pages": 5,
+        "bytes": 5663951,
+        "sha256": "8ef65c168abf00686f7e3b08dd6025a4297cd89f4218fb232f0b06dadec4f35d"
+      },
+      "supplements": [],
+      "notes": "literature/01_sram_acim/NOTES.zh.md#SACIM-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SDCIM-01",
+      "group": "02_sram_dcim",
+      "title": "D6CIM: 60.4-TOPS/W, 1.46-TOPS/mm2, 1005-Kb/mm2 Digital 6T-SRAM-Based Compute-in-Memory Macro Supporting 1-to-8b Fixed-Point Arithmetic in 28-nm CMOS",
+      "authors": [
+        "Jonghyun Oh",
+        "Chuan-Tung Lin",
+        "Mingoo Seok"
+      ],
+      "year": 2023,
+      "venue": "ESSCIRC, 413–416",
+      "publication_date": "2023",
+      "doi": "10.1109/ESSCIRC59616.2023.10268725",
+      "official_url": "https://doi.org/10.1109/ESSCIRC59616.2023.10268725",
+      "document_version": "Published paper",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "数字累加／位串行",
+        "普通写入粒度"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "直接的 28 nm 证据",
+      "confirmed_evidence": "28 nm 数字 6T macro；128-bit 普通写入端口与 CIM 控制分开；8-bit 128×16 VMM 需要 64 个时钟，提供完整精度服务粒度。",
+      "limitations": "一个 clock 不是一次完整 8-bit VMM；写端口宽度不等于已量测独立写入周期。",
+      "anchors": "p.1，Fig.1、完整 VMM 步骤；pp.2–4，架构／测量",
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-01_2023_D6CIM.pdf",
+        "pages": 4,
+        "bytes": 1140748,
+        "sha256": "bbb72fb65095bfeee511c7ef5ca4f12c8a427a6718347695c0a462f1f4358e9e"
+      },
+      "supplements": [],
+      "notes": "literature/02_sram_dcim/NOTES.zh.md#SDCIM-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SDCIM-02",
+      "group": "02_sram_dcim",
+      "title": "A Digital Bit-Reconfigurable Versatile Compute-In-Memory Macro for Machine Learning Acceleration",
+      "authors": [
+        "Xin Zhang",
+        "Yuncheng Lu",
+        "Bo Wang",
+        "Tony Tae-Hyoung Kim"
+      ],
+      "year": 2023,
+      "venue": "IEEE Transactions on Circuits and Systems II: Express Briefs",
+      "publication_date": "2023-05",
+      "publication_dates": {
+        "published-print": [
+          [
+            2023,
+            5
+          ]
+        ],
+        "issued": [
+          [
+            2023,
+            5
+          ]
+        ],
+        "published": [
+          [
+            2023,
+            5
+          ]
+        ]
+      },
+      "doi": "10.1109/tcsii.2023.3257058",
+      "official_url": "https://doi.org/10.1109/tcsii.2023.3257058",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "补充",
+      "roles": [
+        "数字求值与控制",
+        "操作粒度",
+        "独立量级交叉核查"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "其他工艺的量级交叉参考（65 nm）",
+      "confirmed_evidence": "65 nm 数字 macro 给出重构运算、n-bit 加法、位串行乘法和 carry 写回的逐周期关系。",
+      "limitations": "精度与运算类型改变所需周期；不能把 65 nm headline TOPS/W 直接映射为共同 28 nm 服务。",
+      "anchors": "pp.2–4，Figs.3–8；p.5，测量比较",
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-02_2023_BitReconfigurable_CIM.pdf",
+        "pages": 5,
+        "bytes": 2960897,
+        "sha256": "be80de0fd0cea419340a3db4fe14f320c1fc84b86e2f8738b0dd797c9a9fb339"
+      },
+      "supplements": [],
+      "notes": "literature/02_sram_dcim/NOTES.zh.md#SDCIM-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SDCIM-03",
+      "group": "02_sram_dcim",
+      "title": "A 1.041-Mb/mm^2 27.38-TOPS/W Signed-INT8 Dynamic-Logic-Based ADC-less SRAM Compute-in-Memory Macro in 28nm with Reconfigurable Bitwise Operation for AI and Embedded Applications",
+      "authors": [
+        "Bonan Yan",
+        "Jeng-Long Hsu",
+        "Pang-Cheng Yu",
+        "Chia-Chi Lee",
+        "Yaojun Zhang",
+        "Wenshuo Yue",
+        "Guoqiang Mei",
+        "Yuchao Yang",
+        "Yue Yang",
+        "Hai Li",
+        "Yiran Chen",
+        "Ru Huang"
+      ],
+      "year": 2022,
+      "venue": "2022 IEEE International Solid- State Circuits Conference (ISSCC)",
+      "publication_date": "2022-02-20",
+      "publication_dates": {
+        "published-print": [
+          [
+            2022,
+            2,
+            20
+          ]
+        ],
+        "issued": [
+          [
+            2022,
+            2,
+            20
+          ]
+        ],
+        "published": [
+          [
+            2022,
+            2,
+            20
+          ]
+        ]
+      },
+      "doi": "10.1109/isscc42614.2022.9731545",
+      "official_url": "https://doi.org/10.1109/isscc42614.2022.9731545",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 外围服务",
+        "数字求值与控制",
+        "完整精度输出"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "直接的 28 nm 证据",
+      "confirmed_evidence": "28 nm 动态逻辑数字 macro；先存权重再计算，8-bit 输入按八拍展开，并有可选 post-sum 维度。",
+      "limitations": "引言的普通 SRAM 小于 1 ns 是背景陈述；测得 clock 与完整精度输出须区分。memory 权重装载与 CIM 求值不自动重叠。",
+      "anchors": "p.1，memory/CIM 模式、8-clock 展开；p.2，Figs.11.7.2–6",
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-03_2022_DynamicLogic_INT8.pdf",
+        "pages": 3,
+        "bytes": 1395232,
+        "sha256": "c2fa5e30cdcde37e60fa9a04359df6f148b9dc5da0f6f5ff10a0fe29b6fe6978"
+      },
+      "supplements": [],
+      "notes": "literature/02_sram_dcim/NOTES.zh.md#SDCIM-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SDCIM-04",
+      "group": "02_sram_dcim",
+      "title": "A 28 nm 16-kb Sign-Extension-Less Digital-Compute-in-Memory Macro With Extension-Friendly Compute Units and Accuracy-Adjustable Adder-Tree",
+      "authors": [
+        "Xin Si",
+        "Fangyuan Dong",
+        "Shengnan He",
+        "Yuhui Shi",
+        "Anran Yin",
+        "Hui Gao",
+        "Xiang Li"
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Very Large Scale Integration (VLSI) Systems",
+      "publication_date": "2024-07-03",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              11
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2024,
+              11
+            ]
+          ]
+        }
+      },
+      "doi": "10.1109/tvlsi.2024.3418888",
+      "official_url": "https://ieeexplore.ieee.org/document/10582884/",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "补充",
+      "roles": [
+        "数字求值与控制",
+        "精度与必要步骤",
+        "局部操作粒度",
+        "独立结构交叉核查"
+      ],
+      "evidence_level": "局部 DCIM 电路研究；作者报告芯片/测试，性能图仿真与实测标签混用",
+      "process_condition": "28 nm 设计/作者报告；无歧义证据为结构、模式和四拍展开",
+      "state_mode": "signed INT8，2-bit 输入/拍；完整/近似 adder 分模式",
+      "confirmed_evidence": "28 nm 16-kb compact-6T 数字 MAC：128×128-bit SRAM 分为一个 signed-weight bank 与七个 unsigned-weight banks，128×2-bit 输入 buffer；8-bit 输入分四拍完成 signed INT8 MAC。ALC=0 是完整精度，其余配置控制近似加法器。memory 与 compute 模式分开。",
+      "limitations": "Fig.7 分列完整精度 6.4 ns 与近似 5.6 ns；不能把 5.6 ns 记为无损模式。摘要/正文及 Fig.10 内使用 fabricated/measured，但 IV-C 标题和 Fig.10 图注又标 simulation：性能来源标签不一致，保留作者报告，不能作为无歧义的独立硅测定值。普通写入绝对周期未给出。",
+      "anchors": "pp.1–3，II-A/III-A、Figs.1–6；p.4，Figs.7/10、Table I",
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-04_2024_SignExtensionLess_DigitalCIM.pdf",
+        "pages": 5,
+        "bytes": 4541919,
+        "sha256": "3e01971dc9c05e4020f12bbb1e499d5b03ab0fef9f97409276a3fa7f0c7ecd8f"
+      },
+      "supplements": [],
+      "notes": "literature/02_sram_dcim/NOTES.zh.md#SDCIM-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "SDCIM-05",
+      "group": "02_sram_dcim",
+      "title": "A 28-nm Digital Transpose SRAM Compute-in-Memory Macro With Accurate/Approximate Dual Mode for Floating-Point Edge Training and Inference",
+      "authors": [
+        "Yiyang Yuan",
+        "Bingxin Zhang",
+        "Yiming Yang",
+        "Yishan Luo",
+        "Qirui Chen",
+        "Haitao Wang",
+        "Qihao Liu",
+        "Zhiming Chen",
+        "Hao Wu",
+        "Jinshan Yue",
+        "Shidong Lv",
+        "Xinghua Wang",
+        "Pui-In Mak",
+        "Xiaoran Li",
+        "Feng Zhang"
+      ],
+      "year": 2026,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2026-04-07",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2026,
+              9
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2026,
+              9
+            ]
+          ]
+        }
+      },
+      "doi": "10.1109/jssc.2026.3679560",
+      "official_url": "https://ieeexplore.ieee.org/document/11475654/",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "数字求值与控制",
+        "精度与必要步骤",
+        "局部操作粒度",
+        "独立结构交叉核查"
+      ],
+      "evidence_level": "28 nm 实测局部数字 SRAM macro；部分容量/模式标注有内部差异",
+      "process_condition": "直接 28 nm 实测证据；配置/单位须服从明确的局部结构",
+      "state_mode": "INT4/8、FP8、BF16；FF/BP；accurate/approximate 分模式",
+      "confirmed_evidence": "实际 28 nm 数字 transpose SRAM；上下两组 cyclic-weight-mapping SRAM 与 bit-parallel MAC，共用 FF/BP 数据通路。普通读写为 32-bit 端口，计算时提供 256-bit 驻留向量；INT4/FP8 一 MAC 拍，INT8/BF16 将输入分段用两 MAC 拍。有 die photo、测试平台与按模式区分的结果。",
+      "limitations": "Fig.6 省略 write 电路，32-bit 端口不直接给完整写周期。正文多处写 32 kB，但 Table III 写 32 Kb，后者与图示两组 64×64 个 4-bit cell 的局部结构一致；边界/容量换算须显式说明此差异。p.10 文字与 Table III 对 FP8 的 2.5/2.7 ns 精确/近似归属相反，不拼接模式指标。AHB/APB 外部服务与本地 MAC 分开。",
+      "anchors": "pp.3–5，III、Figs.4–7；pp.9–11，VI、Figs.19–23、Table III",
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-05_2026_DigitalTranspose_AccurateApprox.pdf",
+        "pages": 13,
+        "bytes": 3614134,
+        "sha256": "010078586a3b93c1ae16547c690eb80b1dbd25b2798132b29f39b2006d1310ba"
+      },
+      "supplements": [],
+      "notes": "literature/02_sram_dcim/NOTES.zh.md#SDCIM-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NOR-01",
+      "group": "03_nor_2d",
+      "title": "S29GL01GS, S29GL512S, S29GL256S, S29GL128S — 128 Mb / 256 Mb / 512 Mb / 1 Gb GL-S MIRRORBIT Flash, Parallel, 3.0 V, Military",
+      "authors": [
+        "Infineon Technologies"
+      ],
+      "year": 2024,
+      "venue": "厂商 datasheet，002-18741 Rev. *E",
+      "publication_date": "2024-09-04",
+      "official_url": "https://www.infineon.com/dgdl/Infineon-S29GL01GS_S29GL512S_S29GL256S_S29GL128S_128_Mb_256_Mb_512_Mb_1_Gb_GL-S_MIRRORBIT_Flash_Parallel_3-DataSheet-v06_00-EN.pdf?fileId=8ac78c8c7d0d8da4017d0ee99af9726b",
+      "document_id": "002-18741 Rev. *E，2024-09-04；官方 URL v06_00-EN",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "读侧时间尺度",
+        "编程／擦除周期",
+        "字／buffer／sector 粒度"
+      ],
+      "evidence_level": "整芯片存储规格，含局部操作定义",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "数字 NOR／MirrorBit，军规产品条件；非模拟精度声明",
+      "confirmed_evidence": "完整厂商 datasheet 明确 512-byte 写 buffer、32-byte ECC page、128 KB erase sector；内置擦除含 pre-program，typ/max 和负载／温度脚注可追溯。",
+      "limitations": "这是 65 nm GL-S 军规器件；effective per-word 数字是整 buffer 摊销值；读接口时序不是 CIM 模拟求值时间。",
+      "anchors": "pp.7、22–32；p.45，Table 16；AC timing 小节",
+      "pdf": {
+        "path": "literature/03_nor_2d/NOR-01_2024_GL_S_MIRRORBIT_Military.pdf",
+        "pages": 106,
+        "bytes": 2165748,
+        "sha256": "c09592a765a5dc6a66d6af4aaa23cd98699c74fcf96149f0dc249d6df5d387d8"
+      },
+      "supplements": [],
+      "notes": "literature/03_nor_2d/NOTES.zh.md#NOR-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NOR-02",
+      "group": "03_nor_2d",
+      "title": "W25Q128JV — 3V 128M-BIT Serial Flash Memory with Dual/Quad SPI",
+      "authors": [
+        "Winbond Electronics"
+      ],
+      "year": 2019,
+      "venue": "厂商 datasheet，Revision G",
+      "publication_date": "2019-04-08",
+      "official_url": "https://www.winbond.com/hq/support/documentation/?__locale=en&pno=W25Q128JV",
+      "document_id": "W25Q128JV Rev. G，2019-04-08",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "核心",
+      "roles": [
+        "编程／擦除周期",
+        "操作粒度",
+        "接口与内部 busy 区分"
+      ],
+      "evidence_level": "整芯片存储规格",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "普通数字 NOR（未作多级模拟精度假设）",
+      "confirmed_evidence": "Winbond Rev.G 给出 1–256-byte page program、4/32/64 KB 擦除、BUSY 完成定义及 typ/max；正文指出 Quad 输入加速可能被内部编程时间淹没。",
+      "limitations": "SPI 传输率不能替代编程完成或 cell 读出；只支持普通 binary 存储模式的更新时间尺度。",
+      "anchors": "p.14，BUSY；pp.37–43，program／erase；pp.65–66，AC 表",
+      "pdf": {
+        "path": "literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
+        "pages": 78,
+        "bytes": 1682526,
+        "sha256": "5e2f6a77e0225a5c61b8f4b5b9680b57e0e1fe68cfc011465e30f665fe282057"
+      },
+      "supplements": [],
+      "notes": "literature/03_nor_2d/NOTES.zh.md#NOR-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NOR-03",
+      "group": "03_nor_2d",
+      "title": "SST26VF064B/SST26VF064BA — 2.5V/3.0V 64-Mbit Serial Quad I/O (SQI) Flash Memory",
+      "authors": [
+        "Microchip Technology"
+      ],
+      "year": 2022,
+      "venue": "厂商 datasheet，DS20005119K",
+      "publication_date": "2022-03",
+      "official_url": "https://www.microchip.com/en-us/product/SST26VF064B",
+      "document_id": "DS20005119K，March 2022",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "补充",
+      "roles": [
+        "编程／擦除周期",
+        "操作粒度",
+        "独立量级交叉核查"
+      ],
+      "evidence_level": "整芯片存储规格",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "普通数字 SuperFlash NOR",
+      "confirmed_evidence": "Microchip 独立产品系列补 page、erase、suspend/resume 与 self-timed BUSY；正式时序表和 SFDP 超时定义可交叉核查。",
+      "limitations": "SFDP 最大 timeout 不应冒充 typ；与 NOR-04/05 同为 SST 相关生态，不将其全部视为独立器件团队。",
+      "anchors": "pp.10–14，状态／命令；pp.25–31，编程／挂起；pp.45–49，AC；p.82，SFDP",
+      "pdf": {
+        "path": "literature/03_nor_2d/NOR-03_2022_SST26VF064B_RevK.pdf",
+        "pages": 90,
+        "bytes": 3468227,
+        "sha256": "25dc401ad06c3512023ce2405c4bb06d4a233a00ef905ad383dfec74e5276b67"
+      },
+      "supplements": [],
+      "notes": "literature/03_nor_2d/NOTES.zh.md#NOR-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NOR-04",
+      "group": "03_nor_2d",
+      "title": "Fast, Energy-Efficient, Robust, and Reproducible Mixed-Signal Neuromorphic Classifier Based on Embedded NOR Flash Memory Technology",
+      "authors": [
+        "Xinjie Guo",
+        "Farnood Merrikh Bayat",
+        "Mohammad Bavandpour",
+        "Michael Klachko",
+        "Mohammad Reza Mahmoodi",
+        "Mirko Prezioso",
+        "Konstantin K. Likharev",
+        "Dmitri B. Strukov"
+      ],
+      "year": 2017,
+      "venue": "IEDM, 6.5.1–6.5.4",
+      "publication_date": "2017",
+      "doi": "10.1109/IEDM.2017.8268341",
+      "official_url": "https://doi.org/10.1109/IEDM.2017.8268341",
+      "document_version": "Author-hosted original manuscript",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "输入驱动与输出边界",
+        "阵列结构"
+      ],
+      "evidence_level": "阵列与两层网络实验",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "模拟调谐浮栅权重",
+      "confirmed_evidence": "实际嵌入式 NOR 模拟分类器，区分输入串行装载与网络内部传播；权重细调、half-select disturb 和神经元外围均影响整体服务。",
+      "limitations": "实测原型与更先进 ESF3 工艺预测分开；细调设定精度并非最精确单 cell 示范值；同 NOR-05 的研究关系不独立。",
+      "anchors": "pp.1–2，II–IV；pp.3–4，Figs.4–16",
+      "pdf": {
+        "path": "literature/03_nor_2d/NOR-04_2017_EmbeddedNOR_Classifier.pdf",
+        "pages": 4,
+        "bytes": 1287027,
+        "sha256": "987806007d2283dc8b8acc8282a15ccbdd1e7e48a73d0729dcfa3cd17fec03b6"
+      },
+      "supplements": [],
+      "notes": "literature/03_nor_2d/NOTES.zh.md#NOR-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 NOR-05 同团队/技术线；两篇分别补系统求值与细调方法。"
+    },
+    {
+      "source_id": "NOR-05",
+      "group": "03_nor_2d",
+      "title": "Model-Based High-Precision Tuning of NOR Flash Memory Cells for Analog Computing Applications",
+      "authors": [
+        "Farnood Merrikh Bayat",
+        "Xinjie Guo",
+        "Michael Klachko",
+        "N. Do",
+        "Konstantin K. Likharev",
+        "Dmitri B. Strukov"
+      ],
+      "year": 2016,
+      "venue": "Device Research Conference",
+      "publication_date": "2016",
+      "official_url": "https://web.ece.ucsb.edu/~strukov/papers/2016/DRCflash2016.pdf",
+      "document_version": "Author-hosted original manuscript",
+      "priority": "核心",
+      "roles": [
+        "写入／编程周期",
+        "擦除与更新方式",
+        "精度与 verify"
+      ],
+      "evidence_level": "器件／小阵列",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "模拟多级调谐",
+      "confirmed_evidence": "100-cell 实验提供 write-verify 算法、脉冲数与目标调谐精度的关系，是普通 Flash 到模拟权重更新的重要桥接。",
+      "limitations": "固定脉冲数不是完整更新时间；不是大规模并行 array 写入保证；与 NOR-04 同团队。",
+      "anchors": "pp.1–2，模型与 Fig.1 调谐流程",
+      "pdf": {
+        "path": "literature/03_nor_2d/NOR-05_2016_NOR_ModelBased_Tuning.pdf",
+        "pages": 2,
+        "bytes": 548301,
+        "sha256": "87ea1a0bcb77e62d01e4b357384dc5972af4c3c2cef86d529512d987db9bab5f"
+      },
+      "supplements": [],
+      "notes": "literature/03_nor_2d/NOTES.zh.md#NOR-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 NOR-04 同技术线；不重复计为独立器件交叉证据。"
+    },
+    {
+      "source_id": "NAND-01",
+      "group": "04_nand_3d",
+      "title": "Micron 3D NAND Flash Memory Technology",
+      "authors": [
+        "Micron Technology"
+      ],
+      "year": 2016,
+      "venue": "厂商技术产品简表，02/16",
+      "publication_date": "2016-02",
+      "official_url": "https://www.micron.com/products/storage/nand-flash/3d-nand/part-catalog",
+      "document_id": "3d-nand-flyer.pdf，02/16",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "读侧时间尺度",
+        "编程／擦除周期",
+        "页／块／plane 粒度"
+      ],
+      "evidence_level": "厂商器件／die 规格简表",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "MLC 2b/c；TLC 3b/c（分列）",
+      "confirmed_evidence": "Micron 官方资料虽为两页 flyer，正文实际有 MLC/TLC 分列的 read/program/erase typ/max、页／块尺寸和具体料号，值得保留。",
+      "limitations": "不是完整部件 datasheet，部分并行命令／busy 约束仍缺；2016 年而非近期下载年。",
+      "anchors": "p.2，产品／时序表",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-01_2016_Micron_3DNAND.pdf",
+        "pages": 2,
+        "bytes": 249609,
+        "sha256": "2e982c8755b6e2ef3ddef4362d76cdb2e3006264b869740b06d5be94d9b5bfd2"
+      },
+      "supplements": [],
+      "notes": "literature/04_nand_3d/NOTES.zh.md#NAND-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NAND-02",
+      "group": "04_nand_3d",
+      "title": "A 2Tb 4b/Cell 6-Plane 3D-Flash Memory with 37.6Gb/mm^2 Bit Density and >85MB/s Write Throughput",
+      "authors": [
+        "Jayanth M. Thimmaiah",
+        "Ryuji Yamashita",
+        "In-Soo Yoon",
+        "Jason Li",
+        "Cynthia Hsu",
+        "Takuya Ariki",
+        "Naoki Ookuma",
+        "Yosuke Kato",
+        "Koichiro Hayashi",
+        "Kazuki Yamauchi",
+        "Indra K V",
+        "Masahiro Kano",
+        "Sirisha Bhamidipati",
+        "Sneha Bhatia",
+        "Seema Malhotra",
+        "Naoki Ojima",
+        "Ella Wu",
+        "Zhiyong Yang",
+        "Frank W. Tsai",
+        "Mathias Bayle",
+        "Naoyuki Minami",
+        "Yasuyuki Fujihara",
+        "Kei Kitamura",
+        "Tomofumi Kitani",
+        "Takuyo Kodama",
+        "Takaya Handa",
+        "Naoaki Kanagawa",
+        "Yuki Ishizaki",
+        "Susumu Fujimura",
+        "Yoshinao Suzuki",
+        "Mario Sako",
+        "Yumi Higashi",
+        "Yoshihisa Watanabe",
+        "Toshiyuki Kouchi",
+        "Aravinth V",
+        "Chin-Yi Chen",
+        "Xiang Yang",
+        "Guirong Liang",
+        "Jenny Wang"
+      ],
+      "year": 2026,
+      "venue": "2026 IEEE International Solid-State Circuits Conference (ISSCC)",
+      "publication_date": "2026-02-15",
+      "publication_dates": {
+        "published-print": [
+          [
+            2026,
+            2,
+            15
+          ]
+        ],
+        "issued": [
+          [
+            2026,
+            2,
+            15
+          ]
+        ],
+        "published": [
+          [
+            2026,
+            2,
+            15
+          ]
+        ]
+      },
+      "doi": "10.1109/isscc49663.2026.11409136",
+      "official_url": "https://doi.org/10.1109/isscc49663.2026.11409136",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "编程周期",
+        "plane 并行条件",
+        "独立产品交叉核查"
+      ],
+      "evidence_level": "阵列／die 与整芯片",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "QLC 4b/c，6-plane；另含 SLC burst 操作模式，分别使用",
+      "confirmed_evidence": "Sandisk/KIOXIA 2026 原始 QLC 芯片；六 plane、物理/逻辑 page 区别、verify 与读搜索明确，还含 QLC 芯片的 SLC burst 模式。",
+      "limitations": "die program throughput 包含内部并行；SLC burst 不是独立 SLC 产品；完整 erase 条件仍不足。",
+      "anchors": "p.1，架构与模式；pp.2–3，Figs.15.1.1–7",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-02_2026_Sandisk_KIOXIA_6Plane_QLC.pdf",
+        "pages": 3,
+        "bytes": 1564139,
+        "sha256": "a0e53038d67b516bb11a5b6efbe9e1983422d1c2d368e6fd6d5358fd6bb38e93"
+      },
+      "supplements": [],
+      "notes": "literature/04_nand_3d/NOTES.zh.md#NAND-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NAND-03",
+      "group": "04_nand_3d",
+      "title": "A 321-Layer 2Tb 4b/cell 3D-NAND-Flash Memory with a 75MB/s Program Throughput",
+      "authors": [
+        "Wanik Cho",
+        "Chanhui Jeong",
+        "Jongwoo Kim",
+        "Jongseok Jung",
+        "Keunseon Ahn",
+        "Jayoon Goo",
+        "Sangkyu Lee",
+        "Kayoung Cho",
+        "Tei Cho",
+        "Dauni Kim",
+        "Gwan Park",
+        "Yushin Ahn",
+        "Sooyeol Chai",
+        "Gwihan Ko",
+        "Sunyoung Jung",
+        "Eunwoo Jo",
+        "Taehun Park",
+        "Jinhyun Ban",
+        "Cheoljoong Park",
+        "Jae Hyun Park",
+        "Sanghoon Oh",
+        "Sojin Jeong",
+        "Youngjun Kwak",
+        "Kyungsoo Jeong",
+        "Jinyeop Kim",
+        "Minchol Shin",
+        "Eunho Yang",
+        "Taisik Shin",
+        "Youngil Kim",
+        "Jiseong Mun",
+        "Chanyang Ryu",
+        "Huihyeon Park",
+        "Changwan Ha",
+        "Jong Tai Park",
+        "Peng Zhang",
+        "Sooyong Park",
+        "Rezaul Haque",
+        "Hang Tian",
+        "Sunghwa Ok",
+        "Wonbeom Choi",
+        "Junyoun Lim",
+        "Dongkyu Yoon",
+        "Sechun Park",
+        "Wonsun Park",
+        "Kichang Gwon",
+        "Seungpil Lee",
+        "Hwang Huh",
+        "Woopyo Jeong",
+        "Jungdal Choi"
+      ],
+      "year": 2025,
+      "venue": "2025 IEEE International Solid-State Circuits Conference (ISSCC)",
+      "publication_date": "2025-02-16",
+      "publication_dates": {
+        "published-print": [
+          [
+            2025,
+            2,
+            16
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            2,
+            16
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            2,
+            16
+          ]
+        ]
+      },
+      "doi": "10.1109/isscc49661.2025.10904748",
+      "official_url": "https://doi.org/10.1109/isscc49661.2025.10904748",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "编程周期",
+        "操作粒度与局部并行度",
+        "独立量级交叉核查"
+      ],
+      "evidence_level": "阵列／die 与整芯片",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "QLC 4b/c（不是 TLC）",
+      "confirmed_evidence": "SK hynix 321-layer QLC 实际芯片，给出 page-program 时间、六 plane 与 page 大小；HV 供电、WL 电阻与干扰条件可支持特殊驱动分析。",
+      "limitations": "75 MB/s 是 die 并行 program 结果；不能当作单 page latency 或外部 I/O 速度。",
+      "anchors": "p.1，programming／HV 配置；p.2，Fig.30.5.6",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-03_2025_SKhynix_321Layer_QLC.pdf",
+        "pages": 3,
+        "bytes": 424718,
+        "sha256": "c021e8c4d41cc9d8830d30afb38afaa64590978129bac2030a684adbbc4b4da1"
+      },
+      "supplements": [],
+      "notes": "literature/04_nand_3d/NOTES.zh.md#NAND-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "NAND-04",
+      "group": "04_nand_3d",
+      "title": "System-Technology Codesign of 3-D NAND Flash-Based Compute-in-Memory Inference Engine",
+      "authors": [
+        "Wonbo Shim",
+        "Shimeng Yu"
+      ],
+      "year": 2021,
+      "venue": "IEEE JXCDC 7(1), 61–69",
+      "publication_date": "2021-06",
+      "publication_dates": {
+        "published-print": [
+          [
+            2021,
+            6
+          ]
+        ],
+        "issued": [
+          [
+            2021,
+            6
+          ]
+        ],
+        "published": [
+          [
+            2021,
+            6
+          ]
+        ]
+      },
+      "doi": "10.1109/jxcdc.2021.3093772",
+      "official_url": "https://doi.org/10.1109/JXCDC.2021.3093772",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "字线／位线与重构",
+        "局部阵列边界"
+      ],
+      "evidence_level": "阵列／外围与系统仿真",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "CIM 选定阈值态／权重编码，不能自动等同商品 TLC 页模式",
+      "confirmed_evidence": "给出 NAND 串读、映射、64-block subarray 边界和 RC／HSPICE 求值方法，可复用估算思路。",
+      "limitations": "Table 1 是作者估计；外围为 32 nm 并另用高压器件，不能称统一 28 nm 实测。器件数据与 NAND-05 有来源关联。",
+      "anchors": "pp.2–4，II、Table 1、Fig.3；后续建模小节",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
+        "pages": 9,
+        "bytes": 6526810,
+        "sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5"
+      },
+      "supplements": [],
+      "notes": "literature/04_nand_3d/NOTES.zh.md#NAND-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 NAND-05 的 Macronix 器件依据有关联；模型和器件测量不是两次独立硅验证。"
+    },
+    {
+      "source_id": "NAND-05",
+      "group": "04_nand_3d",
+      "title": "Optimal Design Methods to Transform 3D NAND Flash into a High-Density, High-Bandwidth and Low-Power Nonvolatile Computing in Memory (nvCIM) Accelerator for Deep-Learning Neural Networks (DNN)",
+      "authors": [
+        "Hang-Ting Lue",
+        "Po-Kai Hsu",
+        "Ming-Liang Wei",
+        "Teng-Hao Yeh",
+        "Pei-Ying Du",
+        "Wei-Chen Chen",
+        "Keh-Chung Wang",
+        "Chih-Yuan Lu"
+      ],
+      "year": 2019,
+      "venue": "IEDM, 38.1.1–38.1.4",
+      "publication_date": "2019-12",
+      "publication_dates": {
+        "published-print": [
+          [
+            2019,
+            12
+          ]
+        ],
+        "issued": [
+          [
+            2019,
+            12
+          ]
+        ],
+        "published": [
+          [
+            2019,
+            12
+          ]
+        ]
+      },
+      "doi": "10.1109/iedm19573.2019.8993652",
+      "official_url": "https://doi.org/10.1109/IEDM19573.2019.8993652",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "局部并行组织",
+        "NAND 结构依据"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "实际 16-layer 64 Gb SLC SGVC 器件，multi-bit 用 SLC 复制/选择编码",
+      "confirmed_evidence": "实际 16-layer 64 Gb SLC SGVC 器件与电流分布，用 SSL／BL／SL 解释多位输入及 SLC 复制编码；补直接 SLC 结构证据。",
+      "limitations": "多位感测及 accelerator 指标含设计预估，不是完整已流片 CIM 性能；缺完整 SLC program/erase 服务。",
+      "anchors": "pp.1–2，器件与映射；pp.3–4，Figs.1–16",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
+        "pages": 4,
+        "bytes": 898744,
+        "sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833"
+      },
+      "supplements": [],
+      "notes": "literature/04_nand_3d/NOTES.zh.md#NAND-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "器件结果与 NAND-04 建模存在来源关系。"
+    },
+    {
+      "source_id": "RRAM-01",
+      "group": "05_rram",
+      "title": "A compute-in-memory chip based on resistive random-access memory",
+      "authors": [
+        "Weier Wan",
+        "Rajkumar Kubendran",
+        "Clemens Schaefer",
+        "Sukru Burc Eryilmaz",
+        "Wenqiang Zhang",
+        "Dabin Wu",
+        "Stephen Deiss",
+        "Priyanka Raina",
+        "He Qian",
+        "Bin Gao",
+        "Siddharth Joshi",
+        "Huaqiang Wu",
+        "H.-S. Philip Wong",
+        "Gert Cauwenberghs"
+      ],
+      "year": 2022,
+      "venue": "Nature 608, 504–512",
+      "publication_date": "2022",
+      "doi": "10.1038/s41586-022-04992-8",
+      "official_url": "https://doi.org/10.1038/s41586-022-04992-8",
+      "document_version": "Published article including Methods and Extended Data",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "闭环编程",
+        "状态精度与验证"
+      ],
+      "evidence_level": "阵列／局部 macro 及整芯片",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "模拟多级、差分权重",
+      "confirmed_evidence": "NeuRRAM 正文含完整 set-read/reset-read 闭环、导电目标容差、超时条件与 MVM 实测；读／写测试条件可以分开记录。",
+      "limitations": "1–10 ns 控制脉冲能力不能替代 Methods 中实际微秒级 program/verify 配置；网络级效果与 local MVM 分开。主文含所需 Methods/Extended Data。",
+      "anchors": "p.10，Methods：编程／控制；p.27，Extended Data Fig.12",
+      "pdf": {
+        "path": "literature/05_rram/RRAM-01_2022_NeuRRAM.pdf",
+        "pages": 29,
+        "bytes": 14098086,
+        "sha256": "4e75d89025e0e3bc7c04bf00f50bf0f618935c3e405612fd23c95856bf209a5b"
+      },
+      "supplements": [],
+      "notes": "literature/05_rram/NOTES.zh.md#RRAM-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "RRAM-02",
+      "group": "05_rram",
+      "title": "A 28 nm 576K RRAM-based computing-in-memory macro featuring hybrid programming with area efficiency of 2.82 TOPS/mm2",
+      "authors": [
+        "Siqi Liu",
+        "Songtao Wei",
+        "Peng Yao",
+        "Dong Wu",
+        "Lu Jie",
+        "Sining Pan",
+        "Jianshi Tang",
+        "Bin Gao",
+        "He Qian",
+        "Huaqiang Wu"
+      ],
+      "year": 2025,
+      "venue": "Journal of Semiconductors 46(6), 062304",
+      "publication_date": "2025",
+      "doi": "10.1088/1674-4926/24100017",
+      "official_url": "https://doi.org/10.1088/1674-4926/24100017",
+      "document_version": "Publisher PDF; June 5, 2025",
+      "priority": "核心",
+      "roles": [
+        "28 nm 读出",
+        "写入／编程方式",
+        "操作粒度"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "直接的 28 nm 证据（专用 RRAM 外围）",
+      "state_mode": "多级／2T2R 差分",
+      "confirmed_evidence": "28 nm 实测 macro，分段 WL、单 cell verify、八步 ADC 与 1T1R/2T2R 混合闭环相互对应；提供程序步骤与容差。",
+      "limitations": "速度改善主要按平均脉冲数比较，不能从倍数独立得到绝对完整写周期。",
+      "anchors": "pp.3–6，Figs.2–8；后续芯片测试",
+      "pdf": {
+        "path": "literature/05_rram/RRAM-02_2025_HybridProgramming.pdf",
+        "pages": 9,
+        "bytes": 9480049,
+        "sha256": "d55cb5abda2d3374d86ea094c82396c86d5c408489816a0fb1d4abd8e4f55752"
+      },
+      "supplements": [],
+      "notes": "literature/05_rram/NOTES.zh.md#RRAM-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "RRAM-03",
+      "group": "05_rram",
+      "title": "High temperature stability embedded ReRAM for 2x nm node and beyond",
+      "authors": [
+        "G. Molas",
+        "G. Piccolboni",
+        "A. Bricalli",
+        "A. Verdy",
+        "I. Naot",
+        "Y. Cohen",
+        "A. Regev",
+        "I. Naveh",
+        "D. Deleruyelle",
+        "Q. Rafhay",
+        "N. Castellani",
+        "L. Reganaz",
+        "A. Persico",
+        "R. Segaud",
+        "J. F. Nodin",
+        "V. Meli",
+        "S. Martin",
+        "F. Andrieu",
+        "L. Grenouillet"
+      ],
+      "year": 2022,
+      "venue": "2022 IEEE International Memory Workshop (IMW)",
+      "publication_date": "2022-05",
+      "publication_dates": {
+        "published-print": [
+          [
+            2022,
+            5
+          ]
+        ],
+        "issued": [
+          [
+            2022,
+            5
+          ]
+        ],
+        "published": [
+          [
+            2022,
+            5
+          ]
+        ]
+      },
+      "doi": "10.1109/imw52921.2022.9779293",
+      "official_url": "https://doi.org/10.1109/imw52921.2022.9779293",
+      "document_version": "Weebit 厂商托管作者接受稿，前附 IEEE 作者转载声明",
+      "priority": "补充",
+      "roles": [
+        "器件编程条件",
+        "binary 存储",
+        "独立产业交叉核查"
+      ],
+      "evidence_level": "器件／测试阵列",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "数字存储；多级适用性未主张",
+      "confirmed_evidence": "Weebit/CEA-Leti 实际阵列对照 raw 与 P&V 的分布，说明固定脉冲、温度、可靠性终点改变可用写策略。",
+      "limitations": "重点是可靠性；读扰应力脉冲不是完整 array access。不能提供独立的完整 CIM 求值周期。",
+      "anchors": "pp.2–5，raw reliability、读扰与 Program and verify",
+      "pdf": {
+        "path": "literature/05_rram/RRAM-03_2022_Weebit_28nm.pdf",
+        "pages": 5,
+        "bytes": 764957,
+        "sha256": "2ad046df73ffe73b760074f1321cd1c5856ca6f8aad962ed70c3f449d1aaaf1b"
+      },
+      "supplements": [],
+      "notes": "literature/05_rram/NOTES.zh.md#RRAM-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "RRAM-04",
+      "group": "05_rram",
+      "title": "MB85AS4MT — Memory ReRAM 4M (512 K × 8) Bit SPI",
+      "authors": [
+        "Fujitsu Semiconductor"
+      ],
+      "year": 2016,
+      "venue": "厂商 datasheet，DS501-00045-1v0-E",
+      "publication_date": "2016-12",
+      "official_url": "https://www.fujitsu.com/global/documents/products/devices/semiconductor/memory/reram/MB85AS4MT-DS501-00045-1v0-E.pdf",
+      "document_id": "DS501-00045-1v0-E，2016.12",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "补充",
+      "roles": [
+        "普通写入完成",
+        "操作粒度",
+        "存储时序定义"
+      ],
+      "evidence_level": "整芯片存储规格",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "普通数字存储",
+      "confirmed_evidence": "正式 ReRAM 产品资料区分写 buffer、串行数据接收与非易失提交；tWC 表按数据翻转比例给出内部完整写周期。",
+      "limitations": "内部 tWC 为毫秒量级，不能用 5 MHz SPI 或单 cell ns 切换替换，也不能强行推广到其他 RRAM。",
+      "anchors": "pp.7–13，WRITE/WIP；p.17，AC：tWC；pp.19–21，接口图",
+      "pdf": {
+        "path": "literature/05_rram/RRAM-04_2016_MB85AS4MT.pdf",
+        "pages": 28,
+        "bytes": 961717,
+        "sha256": "c62ba591e01c41ab8eeb68ab6ef28e455a8ddf9f772b14fb38fc9b3b8087f284"
+      },
+      "supplements": [],
+      "notes": "literature/05_rram/NOTES.zh.md#RRAM-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "RRAM-05",
+      "group": "05_rram",
+      "title": "A 28-nm RRAM Computing-in-Memory Macro Using Weighted Hybrid 2T1R Cell Array and Reference Subtracting Sense Amplifier for AI Edge Inference",
+      "authors": [
+        "Wang Ye",
+        "Linfang Wang",
+        "Zhidao Zhou",
+        "Junjie An",
+        "Weizeng Li",
+        "Hanghang Gao",
+        "Zhi Li",
+        "Jinshan Yue",
+        "Hongyang Hu",
+        "Xiaoxin Xu",
+        "Jianguo Yang",
+        "Jing Liu",
+        "Dashan Shang",
+        "Feng Zhang",
+        "Jinghui Tian",
+        "Chunmeng Dou",
+        "Qi Liu",
+        "Ming Liu"
+      ],
+      "year": 2023,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2023-10",
+      "publication_dates": {
+        "published-print": [
+          [
+            2023,
+            10
+          ]
+        ],
+        "issued": [
+          [
+            2023,
+            10
+          ]
+        ],
+        "published": [
+          [
+            2023,
+            10
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2023.3280357",
+      "official_url": "https://doi.org/10.1109/jssc.2023.3280357",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 专用感测",
+        "CIM 求值桥接",
+        "局部并行组织"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "直接的 28 nm 证据（专用 RRAM 外围）",
+      "state_mode": "binary HRS/LRS；2T1R 晶体管尺寸与多 subarray 的空间权重映射",
+      "confirmed_evidence": "28 nm 2T1R 混合阵列，binary HRS/LRS 与不同晶体管尺寸构造空间权重；完整读流程含 PH0 稳定和 PH1–4 参考扣除。",
+      "limitations": "Fig.18 实测 66 ns 与估计优化 13 ns 必须分列；测试板外部 DAC 供偏置；缺完整写入/verify 周期。",
+      "anchors": "p.3，Fig.4；pp.5–7，Figs.10、18；测量环境",
+      "pdf": {
+        "path": "literature/05_rram/RRAM-05_2023_WeightedHybrid_2T1R.pdf",
+        "pages": 12,
+        "bytes": 2258700,
+        "sha256": "2770738ae1d93c87e37d71e25bd832c7280008523104adcda5d59ee3fe0833d4"
+      },
+      "supplements": [],
+      "notes": "literature/05_rram/NOTES.zh.md#RRAM-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "RRAM-06",
+      "group": "05_rram",
+      "title": "A 40nm 2Mb ReRAM Macro with 85% Reduction in FORMING Time and 99% Reduction in Page-Write Time Using Auto-FORMING and Auto-Write Schemes",
+      "authors": [
+        "Yen-Cheng Chiu",
+        "Han-Wen Hu",
+        "Li-Ya Lai",
+        "Tsung-Yuan Huang",
+        "Hui-Yao Kao",
+        "Kuang-Tang Chang",
+        "Mon-Shu Ho",
+        "Chung-Cheng Chou",
+        "Yu-Der Chih",
+        "Tsung-Yung Chang",
+        "Meng-Fan Chang"
+      ],
+      "year": 2019,
+      "venue": "2019 Symposium on VLSI Technology",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2019,
+              6
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2019,
+              6
+            ]
+          ]
+        }
+      },
+      "doi": "10.23919/vlsit.2019.8776540",
+      "official_url": "https://doi.org/10.23919/vlsit.2019.8776540",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "完整写入周期",
+        "局部并行",
+        "RESET/SET 控制"
+      ],
+      "evidence_level": "实测普通 ReRAM macro；时序图/归一化测量",
+      "process_condition": "40 nm 专用外围；其他工艺交叉参考",
+      "confirmed_evidence": "实际 40 nm 2 Mb bipolar ReRAM；两组 IO/column 控制、等待组内完成、地址跳过、timeout 和 FORMING/SET/RESET 终止机制清楚。HRPW 把 page RESET 放在 idle，再对所需 cell SET，支持显式更新步骤/资源占用建模。",
+      "limitations": "Fig.9 使用 normalized time unit，Fig.10 也是归一化时间/相对改善；全文没有因此补出绝对 page 延时。99% 改善包含 hidden-RESET，不能解释为省掉 RESET，FORMING 也不能算作每次更新。",
+      "anchors": "p.1 AF/ARST/ASET 与测量小节；p.2 Figs.3–10",
+      "pdf": {
+        "path": "literature/05_rram/RRAM-06_2019_AutoForming_AutoWrite.pdf",
+        "pages": 2,
+        "bytes": 856528,
+        "sha256": "e789140d24294a197f05ba88d221a47bdef6d2bf6606029d010a71703735fc6c"
+      },
+      "supplements": [],
+      "notes": "literature/05_rram/NOTES.zh.md#RRAM-06",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "MRAM-01",
+      "group": "06_mram",
+      "title": "A crossbar array of magnetoresistive memory devices for in-memory computing",
+      "authors": [
+        "Seungchul Jung",
+        "Hyungwoo Lee",
+        "Sungmeen Myung",
+        "Hyunsoo Kim",
+        "Seung Keun Yoon",
+        "Soon-Wan Kwon",
+        "Yongmin Ju",
+        "Minje Kim",
+        "Wooseok Yi",
+        "Shinhee Han",
+        "Baeseong Kwon",
+        "Boyoung Seo",
+        "Kilho Lee",
+        "Gwan-Hyeob Koh",
+        "Kangho Lee",
+        "Yoonjong Song",
+        "Changkyu Choi",
+        "Donhee Ham",
+        "Sang Joon Kim"
+      ],
+      "year": 2022,
+      "venue": "Nature 601, 211–216",
+      "publication_date": "2022",
+      "doi": "10.1038/s41586-021-04196-6",
+      "official_url": "https://doi.org/10.1038/s41586-021-04196-6",
+      "document_version": "Published article including Methods and Extended Data",
+      "priority": "核心",
+      "roles": [
+        "读写服务",
+        "CIM 求值桥接",
+        "互补单元与局部并行度"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "二值互补 MTJ；电阻求和／TDC",
+      "confirmed_evidence": "28 nm 电阻串联求和、TDC 读出及互补 MTJ 权重；Methods 明确一行左侧、右侧分两次并行编程，每次一个写时钟。",
+      "limitations": "互补权重的两次写、read resistance sum 和普通 STT RAM 感测是不同机制；scaling 小节属于分析，不能作为追加实测样本。",
+      "anchors": "pp.6–8，Methods：MTJ write/read、weight update、operating frequency",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-01_2022_ResistanceSum_Crossbar.pdf",
+        "pages": 17,
+        "bytes": 4214474,
+        "sha256": "8ae3c42c9e811194bc3ae2af456144e7fa475c798040bec1bdeb3a6986fd38a5"
+      },
+      "supplements": [],
+      "notes": "literature/06_mram/NOTES.zh.md#MRAM-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "MRAM-03",
+      "group": "06_mram",
+      "title": "A 1-Mb 28-nm 1T1MTJ STT-MRAM With Single-Cap Offset-Cancelled Sense Amplifier and In Situ Self-Write-Termination",
+      "authors": [
+        "Qing Dong",
+        "Zhehong Wang",
+        "Jongyup Lim",
+        "Yiqun Zhang",
+        "Mahmut E. Sinangil",
+        "Yi-Chun Shih",
+        "Yu-Der Chih",
+        "Jonathan Chang",
+        "David Blaauw",
+        "Dennis Sylvester"
+      ],
+      "year": 2019,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2019-01",
+      "publication_dates": {
+        "published-print": [
+          [
+            2019,
+            1
+          ]
+        ],
+        "issued": [
+          [
+            2019,
+            1
+          ]
+        ],
+        "published": [
+          [
+            2019,
+            1
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2018.2872584",
+      "official_url": "https://doi.org/10.1109/jssc.2018.2872584",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "写入完成与终止",
+        "感测服务",
+        "28 nm 专用外围"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "直接的 28 nm 证据（专用 MRAM 外围）",
+      "state_mode": "binary 1T1MTJ STT-MRAM",
+      "confirmed_evidence": "28 nm 1T1MTJ 实测 macro，local subarray/SA、预充与 offset cancel、写稳定与自终止信号明确；读写成功率随时间/温度改变。",
+      "limitations": "读写指标附 BER 条件；自终止的节能收益不自动证明缩短固定外部写周期。",
+      "anchors": "pp.3–7，Figs.7–21，read timing／write termination",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-03_2019_SelfWriteTermination.pdf",
+        "pages": 9,
+        "bytes": 3268187,
+        "sha256": "2bf428be6500c2aa917c253bd15ee029dba1a3774ac8fe28932320eec20e32d3"
+      },
+      "supplements": [],
+      "notes": "literature/06_mram/NOTES.zh.md#MRAM-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "MRAM-04",
+      "group": "06_mram",
+      "title": "A 28nm 32Kb embedded 2T2MTJ STT-MRAM macro with 1.3ns read-access time for fast and reliable read applications",
+      "authors": [
+        "Tzu-Hsien Yang",
+        "Kai-Xiang Li",
+        "Yen-Ning Chiang",
+        "Wei-Yu Lin",
+        "Huan-Ting Lin",
+        "Meng-Fan Chang"
+      ],
+      "year": 2018,
+      "venue": "2018 IEEE International Solid - State Circuits Conference - (ISSCC)",
+      "publication_date": "2018-02",
+      "publication_dates": {
+        "published-print": [
+          [
+            2018,
+            2
+          ]
+        ],
+        "issued": [
+          [
+            2018,
+            2
+          ]
+        ],
+        "published": [
+          [
+            2018,
+            2
+          ]
+        ]
+      },
+      "doi": "10.1109/isscc.2018.8310394",
+      "official_url": "https://doi.org/10.1109/isscc.2018.8310394",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "补充",
+      "roles": [
+        "读侧时间尺度",
+        "感测与操作粒度",
+        "结构交叉核查"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "直接的 28 nm 证据（专用 MRAM 外围）",
+      "state_mode": "binary 2T2MTJ STT-MRAM",
+      "confirmed_evidence": "28 nm 2T2MTJ 实测快速读，包含预充、发展与感测三阶段，可独立核查读侧电路量级。",
+      "limitations": "互补物理单元与逻辑 bit 数不同；读 access 不能替代写时间或 CIM 多位求值。",
+      "anchors": "p.1，CREVSA；p.2，Figs.30.3.2–6",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-04_2018_2T2MTJ_ReadMacro.pdf",
+        "pages": 3,
+        "bytes": 840630,
+        "sha256": "655d6de6b37e688f24aae81b3451bc98aa47f64069b9ffc131e9fdf9f6f55bfc"
+      },
+      "supplements": [],
+      "notes": "literature/06_mram/NOTES.zh.md#MRAM-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "MRAM-05",
+      "group": "06_mram",
+      "title": "EMxxxLX/B/HR — Expanded Serial Peripheral Interface (xSPI) Industrial STT-MRAM Persistent Memory",
+      "authors": [
+        "Everspin Technologies"
+      ],
+      "year": 2026,
+      "venue": "Everspin datasheet, EMxxxLX/B/HR v3.7",
+      "publication_date": "2026-07-23",
+      "official_url": "https://www.everspin.com/design-support",
+      "document_id": "EMxxxLX/B/HR v3.7, July 23, 2026",
+      "document_version": "Everspin v3.7；修订史 2026-07-23，部分内页仍沿用 ©2025",
+      "priority": "补充",
+      "roles": [
+        "直接更新语义",
+        "字节粒度",
+        "普通存储交叉核查"
+      ],
+      "evidence_level": "整芯片／封装接口",
+      "process_condition": "功能与时序定义参考（该文件不证明 28 nm）",
+      "state_mode": "binary STT-MRAM；NOR erase 指令可模拟",
+      "confirmed_evidence": "Everspin EMxxxLX/B/HR v3.7（2026-07-23）正式 datasheet：back-to-back 写、无页跨越限制，读写命令、恢复条件和直接更新语义明确。",
+      "limitations": "xSPI 是封装接口，不是局部 cell 服务。ERASE 是兼容命令，不能由命令名断言 STT 介质必须先物理擦除；该文件不证明 28 nm。",
+      "anchors": "pp.15、41–48，WRITE/ERASE；pp.69–71，AC；pp.81–82，修订史",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-05_2026_EMxxxLX_B_HR_v3p7.pdf",
+        "pages": 82,
+        "bytes": 3758533,
+        "sha256": "3ab6e4c97bf3e5abe4352eca5ac730318b967e452bd0e3f6c42097f546b57e83"
+      },
+      "supplements": [],
+      "notes": "literature/06_mram/NOTES.zh.md#MRAM-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "MRAM-06",
+      "group": "06_mram",
+      "title": "A lossless and fully parallel spintronic compute-in-memory macro for artificial intelligence chips",
+      "authors": [
+        "Humiao Li",
+        "Zheng Chai",
+        "Weirong Dong",
+        "Junjie He",
+        "Ruijie Peng",
+        "Shiheng Li",
+        "Zhen Kong",
+        "Xihui Yuan",
+        "Xianwang Wang",
+        "Zhengke Yang",
+        "Haoran Lyu",
+        "Haofeng Yu",
+        "Xue Zhou",
+        "Jiamin Li",
+        "Feichi Zhou",
+        "Yida Li",
+        "Zongben Xu",
+        "Tai Min",
+        "Longyang Lin"
+      ],
+      "year": 2025,
+      "venue": "Nature Electronics",
+      "publication_date": "2025-10-16",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2025,
+              10,
+              16
+            ]
+          ]
+        },
+        "published-online": {
+          "date-parts": [
+            [
+              2025,
+              10,
+              16
+            ]
+          ]
+        }
+      },
+      "doi": "10.1038/s41928-025-01479-y",
+      "official_url": "https://doi.org/10.1038/s41928-025-01479-y",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "互补权重写入步骤",
+        "独立团队核查"
+      ],
+      "evidence_level": "实测 STT-MRAM bitcell 数字 CIM／局部 bank/macro",
+      "process_condition": "40 nm STT-MRAM；其他工艺条件保留",
+      "state_mode": "binary 互补 2T2MTJ；输入位串行、bank 内并行，4/8/12/16-bit 分模式",
+      "confirmed_evidence": "实际 40 nm STT-MRAM 数字 CIM；bitcell 内乘法/数字化，64 bank 各 256×4，输入 MSB-first 位串行、bank 内并行乘加，多精度由累加和 bank 合并实现。写互补 MTJ 分两步，测试按 row 写后读验，错误 row 重写。",
+      "limitations": "“Fully parallel”不是任意多位 MVM 一拍完成：4-bit 输入用四拍。数字无损算术也不保证所有电压下存储读无误；p.4 区分低压实测读错误与较高电压无观测错误。不能将最佳能效、时钟及无错条件拼接为同一工作点；未给出完整写验绝对周期。",
+      "anchors": "pp.2–5 Figs.2/3；pp.8–9 Methods；p.15 Extended Data Fig.2；已归档 SI Fig.2",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM.pdf",
+        "pages": 24,
+        "bytes": 14152374,
+        "sha256": "970c5d694e51446846ae4da6160b86a924b33a53f5aa7a72ee8bf58053048eff"
+      },
+      "supplements": [
+        {
+          "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM_Supplement.pdf",
+          "pages": 15,
+          "bytes": 807278,
+          "sha256": "2d44a1c47166c532f492a046cb414238e5b13f091d90dc77fb83b7e0d9c27b82"
+        }
+      ],
+      "notes": "literature/06_mram/NOTES.zh.md#MRAM-06",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "PCM-01",
+      "group": "07_pcm",
+      "title": "A 64-core mixed-signal in-memory compute chip based on phase-change memory for deep neural network inference",
+      "authors": [
+        "Manuel Le Gallo",
+        "Riduan Khaddam-Aljameh",
+        "Milos Stanisavljevic",
+        "Athanasios Vasilopoulos",
+        "Benedikt Kersting",
+        "Martino Dazzi",
+        "Geethan Karunaratne",
+        "Matthias Braendli",
+        "Abhairaj Singh",
+        "Silvia M. Mueller",
+        "Julian Buechel",
+        "Xavier Timoneda",
+        "Vinay Joshi",
+        "Urs Egger",
+        "Angelo Garofalo",
+        "Anastasios Petropoulos",
+        "Theodore Antonakopoulos",
+        "Kevin Brew",
+        "Samuel Choi",
+        "Injo Ok",
+        "Timothy Philip",
+        "Victor Chan",
+        "Claire Silvestre",
+        "Ishtiaq Ahsan",
+        "Nicole Saulnier",
+        "Vijay Narayanan",
+        "Pier Andrea Francese",
+        "Evangelos Eleftheriou",
+        "Abu Sebastian"
+      ],
+      "year": 2023,
+      "venue": "Nature Electronics 6, 680–693",
+      "publication_date": "2023",
+      "doi": "10.1038/s41928-023-01010-1",
+      "official_url": "https://doi.org/10.1038/s41928-023-01010-1",
+      "document_version": "与 2023 正式论文对应的作者稿，包含 Methods/Extended Data",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "并行 writehead",
+        "多级编程与校验"
+      ],
+      "evidence_level": "阵列／局部 macro 及整芯片",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "模拟多级 PCM、差分映射",
+      "confirmed_evidence": "64-core 芯片的 diagonal selection 一次选不同 row/column 的器件，局部 write DAC、SET/RESET 形状与读 ADC 边界清楚。",
+      "limitations": "部分 latency 由 RTL 得到，不能全部称直接测量；14 nm、四 PCM/cell 与其他芯片条件不同。",
+      "anchors": "pp.2–3，diagonal programming/ADC；Methods 与 p.10，Power measurements",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-01_2023_PCM64_Core.pdf",
+        "pages": 25,
+        "bytes": 5342960,
+        "sha256": "81c512921e635d20769b9a0752d958f6820158f8459728e9333cb320d39b1278"
+      },
+      "supplements": [],
+      "notes": "literature/07_pcm/NOTES.zh.md#PCM-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 PCM-02/06 同为 IBM 相关技术生态；不同芯片/编程组织不代表完全独立的材料工艺证据。"
+    },
+    {
+      "source_id": "PCM-02",
+      "group": "07_pcm",
+      "title": "An analog-AI chip for energy-efficient speech recognition and transcription",
+      "authors": [
+        "S. Ambrogio",
+        "P. Narayanan",
+        "A. Okazaki",
+        "A. Fasoli",
+        "C. Mackin",
+        "K. Hosokawa",
+        "A. Nomura",
+        "T. Yasuda",
+        "A. Chen",
+        "A. Friz",
+        "M. Ishii",
+        "J. Luquin",
+        "Y. Kohda",
+        "N. Saulnier",
+        "K. Brew",
+        "S. Choi",
+        "I. Ok",
+        "T. Philip",
+        "V. Chan",
+        "C. Silvestre",
+        "I. Ahsan",
+        "V. Narayanan",
+        "H. Tsai",
+        "G. W. Burr"
+      ],
+      "year": 2023,
+      "venue": "Nature",
+      "publication_date": "2023-08-23",
+      "publication_dates": {
+        "published-print": [
+          [
+            2023,
+            8,
+            24
+          ]
+        ],
+        "published-online": [
+          [
+            2023,
+            8,
+            23
+          ]
+        ],
+        "issued": [
+          [
+            2023,
+            8,
+            23
+          ]
+        ],
+        "published": [
+          [
+            2023,
+            8,
+            23
+          ]
+        ]
+      },
+      "doi": "10.1038/s41586-023-06337-5",
+      "official_url": "https://doi.org/10.1038/s41586-023-06337-5",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "行并行编程",
+        "局部与系统边界"
+      ],
+      "evidence_level": "阵列／tile、芯片与系统",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "模拟多级、2/4 PCM-per-weight",
+      "confirmed_evidence": "14 nm 芯片支持 row-wise 同时调谐 512 个权重，但一次选每权重的一个 PCM；闭环、校正与 tile 控制在正文交代。",
+      "limitations": "约 1 GHz controller clock 不是一次完整 MVM 或写入；写算法细节转引 ref.4，值得获取原始 2021 TED。",
+      "anchors": "p.3，Fig.1f；pp.9–10，Methods：weight programming、controller、calibration",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-02_2023_AnalogAI_Speech.pdf",
+        "pages": 23,
+        "bytes": 46785924,
+        "sha256": "2bca03f1948f981c48b361891014605f84b55ecc7ea6e370854a05f9ecf7f4be"
+      },
+      "supplements": [],
+      "notes": "literature/07_pcm/NOTES.zh.md#PCM-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "PCM-06 是本工作明确引用的逐行编程依据，同技术线作方法补充。"
+    },
+    {
+      "source_id": "PCM-03",
+      "group": "07_pcm",
+      "title": "A 40-nm, 2M-Cell, 8b-Precision, Hybrid SLC-MLC PCM Computing-in-Memory Macro with 20.5 - 65.0TOPS/W for Tiny-AI Edge Devices",
+      "authors": [
+        "Win-San Khwa",
+        "Yen-Cheng Chiu",
+        "Chuan-Jia Jhang",
+        "Sheng-Po Huang",
+        "Chun-Ying Lee",
+        "Tai-Hao Wen",
+        "Fu-Chun Chang",
+        "Shao-Ming Yu",
+        "Tung-Yin Lee",
+        "Meng-Fan Chang"
+      ],
+      "year": 2022,
+      "venue": "2022 IEEE International Solid- State Circuits Conference (ISSCC)",
+      "publication_date": "2022-02-20",
+      "publication_dates": {
+        "published-print": [
+          [
+            2022,
+            2,
+            20
+          ]
+        ],
+        "issued": [
+          [
+            2022,
+            2,
+            20
+          ]
+        ],
+        "published": [
+          [
+            2022,
+            2,
+            20
+          ]
+        ]
+      },
+      "doi": "10.1109/isscc42614.2022.9731670",
+      "official_url": "https://doi.org/10.1109/isscc42614.2022.9731670",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "binary／multi-level",
+        "操作粒度"
+      ],
+      "evidence_level": "阵列／局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "hybrid SLC／MLC（分模式）",
+      "confirmed_evidence": "40 nm 实测 PCM CIM，8-bit weight 以 2 SLC+3 MLC 编码，8-bit input 默认八拍；VSA 四阶段与 sparsity 重排解释求值粒度。",
+      "limitations": "低功耗全 MLC 与混合模式不同；input-reordering 的跳过拍数依赖数据；没有完整 SET/RESET 更新周期。",
+      "anchors": "p.1，Figs.11.3.2–6 的说明；pp.2–3，图与 summary",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-03_2022_Hybrid_SLC_MLC.pdf",
+        "pages": 3,
+        "bytes": 1754128,
+        "sha256": "91ae3c12a4d505f13863934b2cd244e108f3755e1a3dbabc119d4a9ad611ba60"
+      },
+      "supplements": [],
+      "notes": "literature/07_pcm/NOTES.zh.md#PCM-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "PCM-04",
+      "group": "07_pcm",
+      "title": "Reducing the stochasticity of crystal nucleation to enable subnanosecond memory writing",
+      "authors": [
+        "Feng Rao",
+        "Keyuan Ding",
+        "Yuxing Zhou",
+        "Yonghui Zheng",
+        "Mengjiao Xia",
+        "Shilong Lv",
+        "Zhitang Song",
+        "Songlin Feng",
+        "Ider Ronneberger",
+        "Riccardo Mazzarello",
+        "Wei Zhang",
+        "Evan Ma"
+      ],
+      "year": 2017,
+      "venue": "Science",
+      "publication_date": "2017-12-15",
+      "publication_dates": {
+        "published-print": [
+          [
+            2017,
+            12,
+            15
+          ]
+        ],
+        "issued": [
+          [
+            2017,
+            12,
+            15
+          ]
+        ],
+        "published": [
+          [
+            2017,
+            12,
+            15
+          ]
+        ]
+      },
+      "doi": "10.1126/science.aao3212",
+      "official_url": "https://doi.org/10.1126/science.aao3212",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "补充",
+      "roles": [
+        "器件写入时间尺度",
+        "材料差异",
+        "独立量级交叉核查"
+      ],
+      "evidence_level": "器件／材料",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "Sc-Sb-Te 晶化／相变条件；非默认多级 PCM 写入",
+      "confirmed_evidence": "补充材料确认 0.13 μm 平台、190 nm BEC 的 T-shaped 器件、外部源表/脉冲发生器和示波器；亚纳秒为特定材料/偏置下的器件 SET 结果，适合作材料时间尺度对照。",
+      "limitations": "SI Fig.S6 刻意采用 2 ms 脉冲间隔避免累积作用，既不能把脉宽当连续写服务，也不能把 2 ms 当介质必需延时。S5/S6 的 700 ps 示例偏置不同，应保留各自条件；不支持整阵列或多级闭环写入速度。",
+      "anchors": "主文 pp.2–4；SI p.2 §2、p.8 Fig.S5、p.9 Fig.S6",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-04_2017_Subnanosecond_Nucleation.pdf",
+        "pages": 5,
+        "bytes": 1235262,
+        "sha256": "8d3bafdeb91da1afce8b8e73b5a39b4094352dcea8f6fab33b568c3e96aa627b"
+      },
+      "supplements": [
+        {
+          "path": "literature/07_pcm/PCM-04_2017_Subnanosecond_ScSbTe_Supplement.pdf",
+          "pages": 18,
+          "bytes": 1825754,
+          "sha256": "019a76ed6a8770166921b0fca9667008032794682ae7962c4ec1f7555f6973b5"
+        }
+      ],
+      "notes": "literature/07_pcm/NOTES.zh.md#PCM-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "PCM-05",
+      "group": "07_pcm",
+      "title": "Phase Change Memory Drift Compensation in Spiking Neural Networks Using a Non-Linear Current Scaling Strategy",
+      "authors": [
+        "Joao Henrique Quintino Palhares",
+        "Nikhil Garg",
+        "Yann Beilliard",
+        "Lorena Anghel",
+        "Fabien Alibart",
+        "Dominique Drouin",
+        "Philippe Galy"
+      ],
+      "year": 2024,
+      "venue": "Journal of Low Power Electronics and Applications",
+      "publication_date": "2024-10-22",
+      "publication_dates": {
+        "published-online": [
+          [
+            2024,
+            10,
+            22
+          ]
+        ],
+        "issued": [
+          [
+            2024,
+            10,
+            22
+          ]
+        ],
+        "published": [
+          [
+            2024,
+            10,
+            22
+          ]
+        ]
+      },
+      "doi": "10.3390/jlpea14040050",
+      "official_url": "https://doi.org/10.3390/jlpea14040050",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "补充",
+      "roles": [
+        "SET／RESET 与多级编程",
+        "测试条件",
+        "独立量级交叉核查"
+      ],
+      "evidence_level": "器件测量与电路／网络仿真",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "Ge-rich GST 多级 PCM；SET／RESET 分开",
+      "confirmed_evidence": "28 nm FD-SOI 相关 PCM 原始器件测试明确 75 ns SET/RESET、幅值／compliance 和多次序列；用读后等待跟踪漂移。",
+      "limitations": "75 ns 是实验单脉冲；1000 次测试序列不是每次逻辑写入的必需脉冲数；SNN 补偿结果不能直接转为 local CIM 服务。",
+      "anchors": "p.3，§2.1–2.2；后续漂移补偿验证",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-05_2024_PCM_Drift.pdf",
+        "pages": 12,
+        "bytes": 3484759,
+        "sha256": "05992e1bd33299c663bbc7c8cb71baeb568d4d00380c35356d8449a0f483cdd7"
+      },
+      "supplements": [],
+      "notes": "literature/07_pcm/NOTES.zh.md#PCM-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "PCM-06",
+      "group": "07_pcm",
+      "title": "Fully On-Chip MAC at 14 nm Enabled by Accurate Row-Wise Programming of PCM-Based Weights and Parallel Vector-Transport in Duration-Format",
+      "authors": [
+        "P. Narayanan",
+        "S. Ambrogio",
+        "A. Okazaki",
+        "K. Hosokawa",
+        "H. Tsai",
+        "A. Nomura",
+        "T. Yasuda",
+        "C. Mackin",
+        "S. C. Lewis",
+        "A. Friz",
+        "M. Ishii",
+        "Y. Kohda",
+        "H. Mori",
+        "K. Spoon",
+        "R. Khaddam-Aljameh",
+        "N. Saulnier",
+        "M. Bergendahl",
+        "J. Demarest",
+        "K. W. Brew",
+        "V. Chan",
+        "S. Choi",
+        "I. Ok",
+        "I. Ahsan",
+        "F. L. Lie",
+        "W. Haensch",
+        "V. Narayanan",
+        "G. W. Burr"
+      ],
+      "year": 2021,
+      "venue": "IEEE Transactions on Electron Devices",
+      "publication_dates": {
+        "published": {
+          "date-parts": [
+            [
+              2021,
+              12
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2021,
+              12
+            ]
+          ]
+        }
+      },
+      "doi": "10.1109/ted.2021.3115993",
+      "official_url": "https://doi.org/10.1109/ted.2021.3115993",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "写入闭环",
+        "并行粒度",
+        "编程控制与读验"
+      ],
+      "evidence_level": "局部 tile／实际芯片（官方摘要确认）",
+      "process_condition": "14 nm PCM 专用外围，非共同 28 nm",
+      "state_mode": "连续模拟电导与 4 PCM/weight；CLT 与 FPGA 控制，非固定离散 MLC",
+      "confirmed_evidence": "14 nm PCM 原始逐行 CLT；同一 row 的 512 列共享幅度 DAC而各列使用独立脉宽。每次脉冲后读验，FPGA 算误差并装入下一轮脉宽；次级 PCM 可补偿过冲，器件/周期差异有实际测量。",
+      "limitations": "“Fully on-chip MAC”不代表闭环调谐控制全部片上。60/120/240 ns 是示例脉冲，1.2 ns/tick 是读数编码；都不是完整写入周期。原文明确为连续模拟目标，不是固定离散级的商品 MLC。与 PCM-02 同技术线，不新增独立工艺证据。",
+      "anchors": "pp.3–5 III/IV、Figs.2–9；p.4 Fig.6；p.5 闭环算法",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-06_2021_RowWise_ClosedLoopProgramming.pdf",
+        "pages": 8,
+        "bytes": 2933352,
+        "sha256": "7b2e5d3b71928bf8be4720fc9edece45d3a4e759b4b8a530bb09dcdbaa67b7c8"
+      },
+      "supplements": [],
+      "notes": "literature/07_pcm/NOTES.zh.md#PCM-06",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "为 PCM-02 的编程方法支撑，不另算独立工艺交叉验证。"
+    },
+    {
+      "source_id": "FERAM-01",
+      "group": "08_feram_hfo2",
+      "title": "A 2-Transistor-2-Capacitor Ferroelectric Edge Compute-in-Memory Scheme with Disturb-Free Inference and High Endurance",
+      "authors": [
+        "Xiaoyang Ma",
+        "Shan Deng",
+        "Juejian Wu",
+        "Zijian Zhao",
+        "David Lehninger",
+        "Tarek Ali",
+        "Konrad Seidel",
+        "Sourav De",
+        "Xiyu He",
+        "Yiming Chen",
+        "Huazhong Yang",
+        "Vijaykrishnan Narayanan",
+        "Suman Datta",
+        "Thomas Kaempfe",
+        "Qing Luo",
+        "Kai Ni",
+        "Xueqing Li"
+      ],
+      "year": 2023,
+      "venue": "IEEE Electron Device Letters 44(7), 1088–1091",
+      "publication_date": "2023",
+      "doi": "10.1109/LED.2023.3274362",
+      "official_url": "https://doi.org/10.1109/LED.2023.3274362",
+      "document_version": "作者接受稿；实际离散器件实验和电路/架构模型分开使用",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "读／恢复机制",
+        "写入步骤"
+      ],
+      "evidence_level": "HfO₂ 系 FeCAP 器件实验与电路仿真",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "HfO₂ 系 FeCAP；2T2C",
+      "confirmed_evidence": "C2FeRAM 的 2T2C 路径解释非破坏读与电流求和；行写入明确先 write-0 再 write-1，MLC 需 verify；离散 FeCAP/MOS 实验支持器件机制。",
+      "limitations": "大阵列／网络 latency 为模型，3D 集成为提议；不能当作完整已流片 28 nm FeRAM CIM。非破坏性读也不消除浮置节点漏电恢复。",
+      "anchors": "pp.2–3，Figs.3–6、II–III",
+      "pdf": {
+        "path": "literature/08_feram_hfo2/FERAM-01_2023_C2FeRAM.pdf",
+        "pages": 4,
+        "bytes": 782484,
+        "sha256": "1e878eb85396e3c7ca67c4ae0006bd6344d1acd668eed06eaa18267c1d51b88a"
+      },
+      "supplements": [],
+      "notes": "literature/08_feram_hfo2/NOTES.zh.md#FERAM-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "FERAM-02",
+      "group": "08_feram_hfo2",
+      "title": "Low Voltage and High Speed 1Xnm 1T1C FE-RAM with Ultra-Thin 5nm HZO",
+      "authors": [
+        "Minchul Sung",
+        "Kwangmyoung Rho",
+        "Jayong Kim",
+        "Junho Cheon",
+        "Kiyoung Choi",
+        "Dohee Kim",
+        "Hoseok Em",
+        "Gyeongcheol Park",
+        "Jungwook Woo",
+        "Yeongyu Lee",
+        "Jaehyeon Ko",
+        "Moonhoi Kim",
+        "Gwangyeob Lee",
+        "Seung Wook Ryu",
+        "Dong Sun Sheen",
+        "Yangsung Joo",
+        "Seiyon Kim",
+        "Chang Hyun Cho",
+        "Myung-Hee Na",
+        "Jinkook Kim"
+      ],
+      "year": 2021,
+      "venue": "2021 IEEE International Electron Devices Meeting (IEDM)",
+      "publication_date": "2021-12-11",
+      "publication_dates": {
+        "published-print": [
+          [
+            2021,
+            12,
+            11
+          ]
+        ],
+        "issued": [
+          [
+            2021,
+            12,
+            11
+          ]
+        ],
+        "published": [
+          [
+            2021,
+            12,
+            11
+          ]
+        ]
+      },
+      "doi": "10.1109/iedm19574.2021.9720545",
+      "official_url": "https://doi.org/10.1109/iedm19574.2021.9720545",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "读写时间尺度",
+        "1T1C 阵列操作",
+        "低压条件"
+      ],
+      "evidence_level": "器件／存储阵列",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "5 nm HZO；1T1C FeRAM",
+      "confirmed_evidence": "SK hynix 8 Gb 1T1C、5 nm HZO 真正阵列；SAWAR 读后明确重写；write-recovery 扫描显示极化随写时间继续增加。",
+      "limitations": "20 ns 对应部分极化响应，不是全部 cell/完整周期通用终点；5 nm 薄膜厚度不是 CMOS 工艺节点。",
+      "anchors": "pp.1–2，II-B／III-B；pp.3–4，Figs.3、8–10",
+      "pdf": {
+        "path": "literature/08_feram_hfo2/FERAM-02_2021_UltrathinHZO_1T1C.pdf",
+        "pages": 4,
+        "bytes": 863360,
+        "sha256": "07f1125ad2e587c3cf175cfd59680ef743bb839e3e06387e7cf5f63dc208b43f"
+      },
+      "supplements": [],
+      "notes": "literature/08_feram_hfo2/NOTES.zh.md#FERAM-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "FERAM-03",
+      "group": "08_feram_hfo2",
+      "title": "SoC Compatible 1T1C FeRAM Memory Array Based on Ferroelectric Hf0.5Zr0.5O2",
+      "authors": [
+        "Jun Okuno",
+        "Takafumi Kunihiro",
+        "Kenta Konishi",
+        "Hideki Maemura",
+        "Yusuke Shuto",
+        "Fumitaka Sugaya",
+        "Monica Materano",
+        "Tarek Ali",
+        "Kati Kuehnel",
+        "Konrad Seidel",
+        "Uwe Schroeder",
+        "Thomas Mikolajick",
+        "Masanori Tsukamoto",
+        "Taku Umebayashi"
+      ],
+      "year": 2020,
+      "venue": "2020 IEEE Symposium on VLSI Technology",
+      "publication_date": "2020-06",
+      "publication_dates": {
+        "published-print": [
+          [
+            2020,
+            6
+          ]
+        ],
+        "issued": [
+          [
+            2020,
+            6
+          ]
+        ],
+        "published": [
+          [
+            2020,
+            6
+          ]
+        ]
+      },
+      "doi": "10.1109/vlsitechnology18217.2020.9265063",
+      "official_url": "https://doi.org/10.1109/vlsitechnology18217.2020.9265063",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "阵列读写",
+        "局部操作粒度",
+        "独立交叉核查"
+      ],
+      "evidence_level": "器件／1T1C 阵列及外围",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "Hf0.5Zr0.5O2；1T1C",
+      "confirmed_evidence": "Sony/NaMLab 的 64 kbit HZO 1T1C 实测读写 shmoo；Fig.9 明确读状态翻转和 data writeback 阶段。",
+      "limitations": "8 ns sense 与 14 ns write 是分别测量，不把单独 sense 当成含恢复的读周期；不是 28 nm 外围流片。",
+      "anchors": "p.1，64 kbit array demonstration；p.2，Figs.8–11",
+      "pdf": {
+        "path": "literature/08_feram_hfo2/FERAM-03_2020_SoC_1T1C_HZO.pdf",
+        "pages": 2,
+        "bytes": 618837,
+        "sha256": "3baca7408c4bb97570f0a03e4e8d4c206013a3b3793313c283b36d5efa97afe2"
+      },
+      "supplements": [],
+      "notes": "literature/08_feram_hfo2/NOTES.zh.md#FERAM-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "FERAM-04",
+      "group": "08_feram_hfo2",
+      "title": "NVDRAM: A 32Gb Dual Layer 3D Stacked Non-volatile Ferroelectric Memory with Near-DRAM Performance for Demanding AI Workloads",
+      "authors": [
+        "N. Ramaswamy",
+        "A. Calderoni",
+        "J. Zahurak",
+        "G. Servalli",
+        "A. Chavan",
+        "S. Chhajed",
+        "M. Balakrishnan",
+        "M. Fischer",
+        "M. Hollander",
+        "D. P. Ettisserry",
+        "A. Liao",
+        "K. Karda",
+        "M. Jerry",
+        "M. Mariani",
+        "A. Visconti",
+        "B. R. Cook",
+        "B. D. Cook",
+        "D. Mills",
+        "A. Torsi",
+        "C. Mouli",
+        "E. Byers",
+        "M. Helm",
+        "S. Pawlowski",
+        "S. Shiratake",
+        "N. Chandrasekaran"
+      ],
+      "year": 2023,
+      "venue": "2023 International Electron Devices Meeting (IEDM)",
+      "publication_date": "2023-12-09",
+      "publication_dates": {
+        "published-print": [
+          [
+            2023,
+            12,
+            9
+          ]
+        ],
+        "issued": [
+          [
+            2023,
+            12,
+            9
+          ]
+        ],
+        "published": [
+          [
+            2023,
+            12,
+            9
+          ]
+        ]
+      },
+      "doi": "10.1109/iedm45741.2023.10413848",
+      "official_url": "https://doi.org/10.1109/iedm45741.2023.10413848",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "完整读写服务",
+        "操作粒度",
+        "大阵列交叉核查"
+      ],
+      "evidence_level": "阵列／die 与整芯片",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "HZO 1T1C 铁电存储；不归为普通 DRAM",
+      "confirmed_evidence": "正文明确 5.7 nm 掺杂 HfZrOx 电容、双层 1T1C；Fig.13 同时给 sensing、writeback、precharge 和完整 tRC，属于 HfO₂ 系电容 FeRAM。",
+      "limitations": "短 tWR 将部分恢复代价转到 tRP；不能摘取 10 ns 宣称完整写入结束。LPDDR5 兼容不等于 DRAM 相同阵列时序。",
+      "anchors": "p.2，Memory Cell／Component Performance；p.4，Fig.13",
+      "pdf": {
+        "path": "literature/08_feram_hfo2/FERAM-04_2023_NVDRAM_32Gb.pdf",
+        "pages": 4,
+        "bytes": 1856876,
+        "sha256": "5498a6eda09eb2e32ca98e699da8ea9a750894b57c4ef8ed46f33987aefd1028"
+      },
+      "supplements": [],
+      "notes": "literature/08_feram_hfo2/NOTES.zh.md#FERAM-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "FERAM-05",
+      "group": "08_feram_hfo2",
+      "title": "Enhanced polarization switching characteristics of HfO2 ultrathin films via acceptor-donor co-doping",
+      "authors": [
+        "Chao Zhou",
+        "Liyang Ma",
+        "Yanpeng Feng",
+        "Chang-Yang Kuo",
+        "Yu-Chieh Ku",
+        "Cheng-En Liu",
+        "Xianlong Cheng",
+        "Jingxuan Li",
+        "Yangyang Si",
+        "Haoliang Huang",
+        "Yan Huang",
+        "Hongjian Zhao",
+        "Chun-Fu Chang",
+        "Sujit Das",
+        "Shi Liu",
+        "Zuhuang Chen"
+      ],
+      "year": 2024,
+      "venue": "Nature Communications",
+      "publication_date": "2024-04-03",
+      "publication_dates": {
+        "published-online": [
+          [
+            2024,
+            4,
+            3
+          ]
+        ],
+        "issued": [
+          [
+            2024,
+            4,
+            3
+          ]
+        ],
+        "published": [
+          [
+            2024,
+            4,
+            3
+          ]
+        ]
+      },
+      "doi": "10.1038/s41467-024-47194-8",
+      "official_url": "https://doi.org/10.1038/s41467-024-47194-8",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "补充",
+      "roles": [
+        "器件切换时间尺度",
+        "测试偏置与终点",
+        "独立交叉核查"
+      ],
+      "evidence_level": "器件／铁电电容",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "共掺杂 HfO₂ 铁电电容",
+      "confirmed_evidence": "La/Ta 共掺 hafnia 原始材料测量提供厚度、偏置、成核/畴壁与极化终点，适合解释同类器件时间差异。",
+      "limitations": "外延薄膜/电极/测量层级不同于集成 1T1C array；高速切换不是 macro 服务。",
+      "anchors": "pp.4–7，switching kinetics／Methods；已归档 SI",
+      "pdf": {
+        "path": "literature/08_feram_hfo2/FERAM-05_2024_Codoped_Hafnia.pdf",
+        "pages": 10,
+        "bytes": 3044673,
+        "sha256": "213d6a142e41e945979aa579bfebfb25ed8a49501f4dc28fe16a676980b017d8"
+      },
+      "supplements": [
+        {
+          "path": "literature/08_feram_hfo2/FERAM-05_2024_Codoped_Hafnia_Supplement.pdf",
+          "pages": 34,
+          "bytes": 3147408,
+          "sha256": "4894f8e30fd16e9d0abc56e22585306f200c6e3abfda46950b87ba264704ffb4"
+        }
+      ],
+      "notes": "literature/08_feram_hfo2/NOTES.zh.md#FERAM-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "FERAM-06",
+      "group": "08_feram_hfo2",
+      "title": "A ferroelectric–memristor memory for both training and inference",
+      "authors": [
+        "Michele Martemucci",
+        "François Rummens",
+        "Yannick Malot",
+        "Tifenn Hirtzlin",
+        "Olivier Guille",
+        "Simon Martin",
+        "Catherine Carabasse",
+        "Adrien F. Vincent",
+        "Sylvain Saïghi",
+        "Laurent Grenouillet",
+        "Damien Querlioz",
+        "Elisa Vianello"
+      ],
+      "year": 2025,
+      "venue": "Nature Electronics",
+      "publication_date": "2025-09-22",
+      "publication_dates": {
+        "published-online": [
+          [
+            2025,
+            9,
+            22
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            9,
+            22
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            9,
+            22
+          ]
+        ]
+      },
+      "doi": "10.1038/s41928-025-01454-7",
+      "official_url": "https://doi.org/10.1038/s41928-025-01454-7",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "补充",
+      "roles": [
+        "FeCAP 阵列写入",
+        "并行粒度",
+        "训练／推理桥接"
+      ],
+      "evidence_level": "FeCAP／memristor 阵列与计算实验",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "Si:HfO₂ FeCAP 为本组主体；memristor 支路另区分",
+      "confirmed_evidence": "真实共集成 FeCAP 与 memristor 及权重转移实验，给 FeCAP 电压/时间扫描、读写节点与外部脉冲测量条件。",
+      "limitations": "推理主路径是 memristor；全突触含多 FeCAP 和两个 memristor，不能把混合推理性能归为纯 FeRAM CIM；网络部分为仿真。",
+      "anchors": "pp.3–5，FeCAP/混合阵列；p.9，Methods；已归档 SI",
+      "pdf": {
+        "path": "literature/08_feram_hfo2/FERAM-06_2025_Ferroelectric_Memristor.pdf",
+        "pages": 13,
+        "bytes": 2693557,
+        "sha256": "d6df9f0b82c8bfd2ad310fbb023cfa5aa929a21dac798872763470ef15b40b58"
+      },
+      "supplements": [
+        {
+          "path": "literature/08_feram_hfo2/FERAM-06_2025_Ferroelectric_Memristor_Supplement.pdf",
+          "pages": 18,
+          "bytes": 1279698,
+          "sha256": "97354cde7b95e87023f670394f40874e9b643d3f1f1adc63b39406f3bffd7a68"
+        }
+      ],
+      "notes": "literature/08_feram_hfo2/NOTES.zh.md#FERAM-06",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "GC-01",
+      "group": "09_gain_cell_edram",
+      "title": "Gain-Cell CIM: Leakage and Bitline Swing Aware 2T1C Gain-Cell eDRAM Compute in Memory Design with Bitline Precharge DACs and Compact Schmitt Trigger ADCs",
+      "authors": [
+        "Shanshan Xie",
+        "Can Ni",
+        "Pulkit Jain",
+        "Fatih Hamzaoglu",
+        "Jaydeep P. Kulkarni"
+      ],
+      "year": 2022,
+      "venue": "VLSI Symposium, 112–113",
+      "publication_date": "2022",
+      "doi": "10.1109/VLSITechnologyandCir46769.2022.9830338",
+      "official_url": "https://doi.org/10.1109/VLSITechnologyandCir46769.2022.9830338",
+      "document_version": "Published paper",
+      "priority": "核心",
+      "roles": [
+        "完整求值",
+        "读写端口",
+        "保持与泄漏"
+      ],
+      "evidence_level": "2T1C gain-cell 局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "65 nm CMOS 2T1C gain-cell；数字权重",
+      "confirmed_evidence": "65 nm 2T1C gain-cell CIM 的读写端口分离、BL 输入预充、泄漏夹位和 ST-ADC 有明确电路与测试证据。",
+      "limitations": "2-bit 输入顺序展开及 complementary weight 不等于单次完整 8-bit 运算；不能取普通 1T1C DRAM 代替。",
+      "anchors": "p.1，三步 MAV／Measurement Results；p.2，Figs.2–7",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-01_2022_GainCell_CIM.pdf",
+        "pages": 2,
+        "bytes": 797910,
+        "sha256": "c5e1c9c42668751b94220d9457f894a7ab43d6d26211605678dfe3a100921542"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "GC-02",
+      "group": "09_gain_cell_edram",
+      "title": "An 800-MHz Mixed-VT 4T IFGC Embedded DRAM in 28-nm CMOS Bulk Process for Approximate Storage Applications",
+      "authors": [
+        "Robert Giterman",
+        "Alexander Fish",
+        "Narkis Geuli",
+        "Elad Mentovich",
+        "Andreas Burg",
+        "Adam Teman"
+      ],
+      "year": 2018,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2018-07",
+      "publication_dates": {
+        "published-print": [
+          [
+            2018,
+            7
+          ]
+        ],
+        "issued": [
+          [
+            2018,
+            7
+          ]
+        ],
+        "published": [
+          [
+            2018,
+            7
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2018.2820145",
+      "official_url": "https://doi.org/10.1109/jssc.2018.2820145",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 读写服务",
+        "保持／刷新",
+        "普通 gain-cell 粒度"
+      ],
+      "evidence_level": "实测 gain-cell 局部 macro",
+      "process_condition": "直接的 28 nm 证据（gain-cell 存储）",
+      "state_mode": "28 nm bulk mixed-VT 4T gain-cell",
+      "confirmed_evidence": "28 nm 4T IFGC 实测 128×32 macro，WWL 升压与时序、SA、读写频率和保持分布；直接支撑刷新占用与局部边界。",
+      "limitations": "5 µs 刷新对应文中约 99% bit 可靠性条件，不是全 bit 无误保证；平均保持不能代替最差 cell。",
+      "anchors": "pp.4–8，Figs.4–11；pp.9–10，retention/availability",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-02_2018_MixedVT_4T_GainCell.pdf",
+        "pages": 13,
+        "bytes": 4277140,
+        "sha256": "479cfca9f57b23021bfba1a43cac97f467e1220afe9d36cba3bf479131d5847a"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "GC-03",
+      "group": "09_gain_cell_edram",
+      "title": "Design Guidelines for Oxide Semiconductor Gain Cell Memory on a Logic Platform",
+      "authors": [
+        "Shuhan Liu",
+        "Koustav Jana",
+        "Kasidit Toprasertpong",
+        "Jian Chen",
+        "Zheng Liang",
+        "Qi Jiang",
+        "Sumaiya Wahid",
+        "Shengjun Qin",
+        "Wei-Chen Chen",
+        "Eric Pop",
+        "H.-S. Philip Wong"
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Electron Devices 71(5), 3329–3335",
+      "publication_date": "2024-05",
+      "doi": "10.1109/TED.2024.3372938",
+      "official_url": "https://poplab.stanford.edu/pdfs/Liu-DesignOSFETgainCell-ted24.pdf",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "核心",
+      "roles": [
+        "读写设计方法",
+        "保持与刷新",
+        "28 nm 映射桥接"
+      ],
+      "evidence_level": "器件依据与局部 macro 仿真／建模",
+      "process_condition": "直接的 28 nm 模型条件／其他工艺器件依据（须逐项区分）",
+      "state_mode": "OS–OS／hybrid gain-cell，保留不同通道结构",
+      "confirmed_evidence": "以 28 nm macro 模型将保持、读取电流和刷新阻塞联系起来，能支持从 oxide 器件到 local service 的透明换算。",
+      "limitations": "GEMTOO/Timeloop 是设计评估，非实测完整 oxide CIM 芯片。",
+      "anchors": "pp.2–4，top-down macro/refresh；pp.4–6，器件规格",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-03_2024_OxideGainCell.pdf",
+        "pages": 7,
+        "bytes": 2807451,
+        "sha256": "053621a099f2aeb7c4a3253e8749b8f6e52da9816535beab3cb28d8886a2058d"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "GC-04",
+      "group": "09_gain_cell_edram",
+      "title": "A 4-bit Calibration-Free Computing-In-Memory Macro With 3T1C Current-Programed Dynamic-Cascode Multi-Level-Cell eDRAM",
+      "authors": [
+        "Jiahao Song",
+        "Xiyuan Tang",
+        "Haoyang Luo",
+        "Haoyi Zhang",
+        "Xin Qiao",
+        "Zixuan Sun",
+        "Xiangxing Yang",
+        "Zihan Wu",
+        "Yuan Wang",
+        "Runsheng Wang",
+        "Ru Huang"
+      ],
+      "year": 2024,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2024-03",
+      "publication_dates": {
+        "published-print": [
+          [
+            2024,
+            3
+          ]
+        ],
+        "issued": [
+          [
+            2024,
+            3
+          ]
+        ],
+        "published": [
+          [
+            2024,
+            3
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2023.3339887",
+      "official_url": "https://doi.org/10.1109/jssc.2023.3339887",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "写入建立",
+        "多级状态",
+        "CIM 求值与保持"
+      ],
+      "evidence_level": "3T1C gain-cell 型局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "3T1C current-programmed dynamic-cascode MLC",
+      "confirmed_evidence": "65 nm 3T1C MLC gain-cell，电流写入自校正，先电压粗写再电流精写；完整 CIM 含 precharge、DTC 求值和 SAR。",
+      "limitations": "5 ns 仅粗写；60 ns 建立结论在 Fig.12 仿真中，不能称实测完整更新；180 ns compute 与保持漂移精度相关。",
+      "anchors": "pp.4–7，Figs.4–11；p.8，Fig.12／measurement",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",
+        "pages": 13,
+        "bytes": 2777062,
+        "sha256": "d4c926b1f4d3fdae724fffaab9b13e1845424ae23ab6b6cfd297925bfd355194"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "GC-05",
+      "group": "09_gain_cell_edram",
+      "title": "An Integer-Floating-Point Dual-Mode Gain-Cell Computing-in-Memory Macro for Advanced AI Edge Chips",
+      "authors": [
+        "Ping-Chun Wu",
+        "Win-San Khwa",
+        "Jui-Jen Wu",
+        "Jian-Wei Su",
+        "Chuan-Jia Jhang",
+        "Ho-Yu Chen",
+        "Zhao-En Ke",
+        "Ting-Chien Chiu",
+        "Jun-Ming Hsu",
+        "Chiao-Yen Cheng",
+        "Yu-Chen Chen",
+        "Chung-Chuan Lo",
+        "Ren-Shuo Liu",
+        "Chih-Cheng Hsieh",
+        "Kea-Tiong Tang",
+        "Meng-Fan Chang"
+      ],
+      "year": 2025,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2025-01",
+      "publication_dates": {
+        "published-print": [
+          [
+            2025,
+            1
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            1
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            1
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2024.3470215",
+      "official_url": "https://doi.org/10.1109/jssc.2024.3470215",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "完整精度求值",
+        "局部并行度",
+        "近期产业交叉核查"
+      ],
+      "evidence_level": "gain-cell 局部 macro",
+      "process_condition": "其他工艺的量级交叉参考（16 nm）",
+      "state_mode": "16 nm 4T gain-cell 存储 + 7T stationary unit；数字 INT/FP，分模式",
+      "confirmed_evidence": "16 nm 4T gain-cell 存储配 7T stationary unit 的数字 CIM，明确 storage update、stationary update、self-refresh 和计算重叠模式。",
+      "limitations": "计算使用 stationary 数据；更新 storage 不代表同一权重立即参加计算。INT/FP 服务不同，也不是 3T1C 电荷域方案。",
+      "anchors": "pp.2–3，4T GC+STU 架构；pp.6–8，Figs.13–20",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-05_2025_DualMode_GainCell.pdf",
+        "pages": 13,
+        "bytes": 4967904,
+        "sha256": "915155c209875904b121dc929b0c1635b88f14067ea520c40c725a2e8c0218e9"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    {
+      "source_id": "FENOR-01",
+      "group": "10_fenor_3d",
+      "title": "3D NOR-type FeFETs with Record Endurance of 10^11, Fast Erase of 50 ns, and Immediate Read-After-Write for In-Memory Learning",
+      "authors": [
+        "Yuejia Zhou",
+        "Runteng Zhu",
+        "Wenpu Luo",
+        "Xiaojian Xu",
+        "Siyuan Qi",
+        "Zhiyuan Ning",
+        "Liang Chen",
+        "Hanyong Shao",
+        "Kechao Tang",
+        "Ru Huang"
+      ],
+      "year": 2025,
+      "venue": "Symposium on VLSI Technology and Circuits",
+      "publication_date": "2025-06-08",
+      "publication_dates": {
+        "published-print": [
+          [
+            2025,
+            6,
+            8
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            6,
+            8
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            6,
+            8
+          ]
+        ]
+      },
+      "doi": "10.23919/vlsitechnologyandcir65189.2025.11074820",
+      "official_url": "https://doi.org/10.23919/VLSITechnologyandCir65189.2025.11074820",
+      "document_version": "User-supplied 3-page manuscript; no version/date identifier on PDF",
+      "priority": "核心",
+      "roles": [
+        "器件读写时间尺度",
+        "更新步骤",
+        "局部阵列结构"
+      ],
+      "evidence_level": "器件／三层小阵列与 CIM 仿真",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "IGO／HZO；NOR-type；器件偏置分条件",
+      "confirmed_evidence": "指定 Zhou 2025 文件确认 8×8×3 IGO/HZO NOR-type；PGM/ERS、read-after-write、层间差异及 cell 逻辑有实际测量。",
+      "limitations": "NN benchmark 与大阵列延时为模拟；单 cell/小阵列测试不等于全精度 macro 周期。",
+      "anchors": "p.1，Fabrication/Speed/Simulation；pp.2–3，Figs.2–12",
+      "pdf": {
+        "path": "literature/10_fenor_3d/FENOR-01_2025_3DNOR_FeFET.pdf",
+        "pages": 3,
+        "bytes": 1252162,
+        "sha256": "1fbb27c7d95d0239b1e179323a980d16a49c352c0bd1206e36e666d64d2e0289"
+      },
+      "supplements": [],
+      "notes": "literature/10_fenor_3d/NOTES.zh.md#FENOR-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 FENOR-02/06 同团队；逐篇保留不同结构、栅堆栈和测试条件。"
+    },
+    {
+      "source_id": "FENOR-02",
+      "group": "10_fenor_3d",
+      "title": "3D Vertical FeFET Array with Record Endurance (>10^12), Fast Writing (±2V, 20 ns), Disturb Immunity, and Kb-scale Verification for High Density 1T RAM",
+      "authors": [
+        "Yuejia Zhou",
+        "Yuancheng Yang",
+        "Liang Chen",
+        "Mingxiang Yu",
+        "Wenpu Luo",
+        "Zhiyuan Ning",
+        "Weiqin Huang",
+        "Xiaojian Xu",
+        "Jing Guo",
+        "Runteng Zhu",
+        "Hanyong Shao",
+        "Zhiliang Xia",
+        "Zongliang Huo",
+        "Kechao Tang",
+        "Ru Huang"
+      ],
+      "year": 2026,
+      "venue": "Symposium on VLSI Technology and Circuits T11.1",
+      "publication_date": "2026-06-14",
+      "publication_dates": {
+        "published-print": [
+          [
+            2026,
+            6,
+            14
+          ]
+        ],
+        "issued": [
+          [
+            2026,
+            6,
+            14
+          ]
+        ],
+        "published": [
+          [
+            2026,
+            6,
+            14
+          ]
+        ]
+      },
+      "doi": "10.1109/vlsitechnologyandcir65830.2026.11577291",
+      "official_url": "https://vlsi26.mapyourshow.com/8_0/sessions/session-details.cfm?ScheduleID=251",
+      "document_version": "User-supplied 3-page manuscript; no version/date identifier on PDF",
+      "priority": "核心",
+      "roles": [
+        "器件读写",
+        "写扰与并行选择条件",
+        "局部阵列验证"
+      ],
+      "evidence_level": "器件／四层阵列与 TCAD／SPICE",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "IGO／HZO；AND-type vertical FeFET；SL/SS 与 O-rich/O-poor 分条件",
+      "confirmed_evidence": "指定 Zhou 2026 文件实际为 3D-AND FeFET；32×32×4 制造结构与 16×16×4 验证范围分开，写入/半选/相邻扰动方案有直接依据。",
+      "limitations": "20 ns 为偏置和结构限定的 switching；TCAD/SPICE read 与密度预测不当作实测宏；不因简称 FeNOR 忽略 AND 结构。",
+      "anchors": "p.1，array/disturb/benchmark；pp.2–3，Figs.7–11",
+      "pdf": {
+        "path": "literature/10_fenor_3d/FENOR-02_2026_Vertical_FeFET_Array.pdf",
+        "pages": 3,
+        "bytes": 1379850,
+        "sha256": "322482d834c279a278d0aaa007a0cfeb26dee49253fe50661d0483975d9b19d5"
+      },
+      "supplements": [],
+      "notes": "literature/10_fenor_3d/NOTES.zh.md#FENOR-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 FENOR-01/06 同团队；最新结果不替代不同器件条件下的证据。"
+    },
+    {
+      "source_id": "FENOR-04",
+      "group": "10_fenor_3d",
+      "title": "Efficient Large Scale Neural Network Acceleration With 3-D FeNOR-Based Computing-in-Memory Design",
+      "authors": [
+        "Yang Feng",
+        "Dong Zhang",
+        "Chen Sun",
+        "Zijie Zheng",
+        "Yue Chen",
+        "Qiwen Kong",
+        "Gan Liu",
+        "Xiaolin Wang",
+        "Yuye Kang",
+        "Kaizhen Han",
+        "Zuopu Zhou",
+        "Leming Jiao",
+        "Jixuan Wu",
+        "Jiezhi Chen",
+        "Xiao Gong"
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Electron Devices",
+      "publication_date": "2025-05",
+      "publication_dates": {
+        "published-print": [
+          [
+            2025,
+            5
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            5
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            5
+          ]
+        ]
+      },
+      "doi": "10.1109/ted.2025.3554164",
+      "official_url": "https://doi.org/10.1109/ted.2025.3554164",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "CIM 求值桥接",
+        "局部读出／并行条件",
+        "独立团队交叉核查"
+      ],
+      "evidence_level": "器件／阵列及计算建模",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "ZnO/MFMIS 3D FeNOR；小阵列测量 + 大阵列网络模拟",
+      "confirmed_evidence": "ZnO/MFMIS 3D FeNOR 器件、阵列电流逻辑实测，与 4096×4096 网络/外围仿真分开；扩展版补写入偏置与变异条件。",
+      "limitations": "大阵列 4096×4096 不是流片尺寸；高电压时 charge injection 影响 MW；system energy 不作为实测统一外围。",
+      "anchors": "p.2，版本声明；pp.4–6，Figs.7–14、III–IV",
+      "pdf": {
+        "path": "literature/10_fenor_3d/FENOR-04_2025_FeNOR_CIM_Design.pdf",
+        "pages": 8,
+        "bytes": 5242950,
+        "sha256": "21d033ef6ca63d9f2db6547e7b90a01d7fc3517dcc72276d18c77a9c197a7fe7"
+      },
+      "supplements": [],
+      "notes": "literature/10_fenor_3d/NOTES.zh.md#FENOR-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "以当前期刊全文作为该工作的唯一资料文件。"
+    },
+    {
+      "source_id": "FENOR-06",
+      "group": "10_fenor_3d",
+      "title": "Gate Stack Engineering of 3D Oxide Channel FeNOR Memory with High-Speed and Reliabilitity",
+      "authors": [
+        "Yuejia Zhou",
+        "Ru Huang",
+        "Kechao Tang"
+      ],
+      "year": 2026,
+      "venue": "2026 10th IEEE Electron Devices Technology & Manufacturing Conference (EDTM)",
+      "publication_date": "2026-03-01",
+      "publication_dates": {
+        "published-print": [
+          [
+            2026,
+            3,
+            1
+          ]
+        ],
+        "issued": [
+          [
+            2026,
+            3,
+            1
+          ]
+        ],
+        "published": [
+          [
+            2026,
+            3,
+            1
+          ]
+        ]
+      },
+      "doi": "10.1109/edtm65772.2026.11498024",
+      "official_url": "https://doi.org/10.1109/edtm65772.2026.11498024",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "器件读写与偏置",
+        "栅堆栈差异",
+        "更新约束"
+      ],
+      "evidence_level": "器件／三维 FeNOR",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "3D oxide-channel FeNOR；不同栅堆栈分条件",
+      "confirmed_evidence": "2026 EDTM 对照 MFS/MFIS/MIFS/MIFIS，写速度随栅堆栈与偏置改变，可解释 Zhou 系列与其他 FeNOR 差异。",
+      "limitations": "与 Zhou 同团队，不能当独立外部验证；耐久与写速测试偏置不同，不能拼接最优点。",
+      "anchors": "pp.1–2，B/C；p.3，Figs.5–10",
+      "pdf": {
+        "path": "literature/10_fenor_3d/FENOR-06_2026_GateStack_FeNOR.pdf",
+        "pages": 3,
+        "bytes": 1541555,
+        "sha256": "9ee85b57af6e50097a71a351ed08388710e66ce52fedc88b7b2aa7686c92fb04"
+      },
+      "supplements": [],
+      "notes": "literature/10_fenor_3d/NOTES.zh.md#FENOR-06",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
+      "evidence_relationship": "与 FENOR-01/02 同团队；FENOR-04 提供另一团队/结构的直接交叉。"
+    }
+  ]
+}

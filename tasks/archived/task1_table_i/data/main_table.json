@@ -1,0 +1,486 @@
+[
+  {
+    "row_id": "I-01",
+    "record_id": "hw_sram_acim_jia2022_4b",
+    "technology_display": "SRAM / Jia et al.",
+    "configuration_tex": "ACIM; $64\\times1152$; 4b/4b",
+    "evidence_condition_tex": "M/C; 4 input phases; 20 MS/s ADCs.",
+    "display_bindings": {
+      "adc_rate": {
+        "evidence_id": "ev_jia",
+        "key": "adc_rate",
+        "original_unit": "MS/s"
+      }
+    },
+    "display_values": {
+      "n_out": 64,
+      "n_in": 1152,
+      "s_bits": 4,
+      "r_bits": 4,
+      "adc_rate": 20
+    },
+    "source_ids": [
+      "t1_jia2022"
+    ],
+    "evidence_ids": [
+      "ev_jia"
+    ],
+    "rho_GB_per_s": 2.88,
+    "rho_display": "2.9",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-02",
+    "record_id": "hw_sram_dcim_d6cim2023_u8",
+    "technology_display": "SRAM / D6CIM",
+    "configuration_tex": "DCIM; $16\\times128$; 8b/8b",
+    "evidence_condition_tex": "M/C; 64 clocks/MVM at 360 MHz.",
+    "display_bindings": {
+      "cycles": {
+        "evidence_id": "ev_d6",
+        "key": "cycles",
+        "original_unit": "clock/MVM"
+      },
+      "frequency": {
+        "evidence_id": "ev_d6",
+        "key": "frequency",
+        "original_unit": "MHz"
+      }
+    },
+    "display_values": {
+      "n_out": 16,
+      "n_in": 128,
+      "s_bits": 8,
+      "r_bits": 8,
+      "cycles": 64,
+      "frequency": 360
+    },
+    "source_ids": [
+      "t1_d6cim2023"
+    ],
+    "evidence_ids": [
+      "ev_d6"
+    ],
+    "rho_GB_per_s": 0.72,
+    "rho_display": "0.72",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-03",
+    "record_id": "hw_dram_ambit2017",
+    "technology_display": "DRAM / Ambit",
+    "configuration_tex": "In-array Boolean row logic",
+    "evidence_condition_tex": "S/D; 49 ns AAP; no full MVM schedule.",
+    "display_bindings": {
+      "aap": {
+        "evidence_id": "ev_ambit",
+        "key": "aap",
+        "original_unit": "ns"
+      }
+    },
+    "display_values": {
+      "n_out": null,
+      "n_in": null,
+      "s_bits": 1,
+      "r_bits": 1,
+      "aap": 49
+    },
+    "source_ids": [
+      "t1_ambit2017"
+    ],
+    "evidence_ids": [
+      "ev_ambit"
+    ],
+    "rho_GB_per_s": null,
+    "rho_display": "—",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-04",
+    "record_id": "hw_edram_gaincell_xie2022_8b",
+    "technology_display": "Gain-cell eDRAM / Xie",
+    "configuration_tex": "ACIM; $1\\times27$; 8b/8b",
+    "evidence_condition_tex": "M/C; one MAV group, 4 phases / 20 ns.",
+    "display_bindings": {
+      "bits_per_phase": {
+        "evidence_id": "ev_gaincell",
+        "key": "input_bits_per_phase",
+        "original_unit": "bit/element"
+      },
+      "phases": {
+        "formula": "s_bits / bits_per_phase"
+      },
+      "access": {
+        "evidence_id": "ev_gaincell",
+        "key": "full_access",
+        "original_unit": "ns"
+      }
+    },
+    "display_values": {
+      "n_out": 1,
+      "n_in": 27,
+      "s_bits": 8,
+      "r_bits": 8,
+      "bits_per_phase": 2,
+      "phases": 4.0,
+      "access": 20
+    },
+    "source_ids": [
+      "t1_gaincell2022"
+    ],
+    "evidence_ids": [
+      "ev_gaincell"
+    ],
+    "rho_GB_per_s": 1.35,
+    "rho_display": "1.4",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-05",
+    "record_id": "hw_nand_shim2021_int8",
+    "technology_display": "3D NAND / Shim--Yu",
+    "configuration_tex": "ACIM model; $16\\times4608$; 8b/8b",
+    "evidence_condition_tex": "S/D; 303 ns WL setup only; verify untimed.",
+    "display_bindings": {
+      "setup": {
+        "evidence_id": "ev_nand",
+        "key": "wl_setup",
+        "original_unit": "ns"
+      }
+    },
+    "display_values": {
+      "n_out": 16,
+      "n_in": 4608,
+      "s_bits": 8,
+      "r_bits": 8,
+      "setup": 303
+    },
+    "source_ids": [
+      "t1_nand2021"
+    ],
+    "evidence_ids": [
+      "ev_nand"
+    ],
+    "rho_GB_per_s": null,
+    "rho_display": "—",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-06",
+    "record_id": "hw_nor_guo2017",
+    "technology_display": "2D NOR Flash / Guo",
+    "configuration_tex": "Analog cascade; $784\\to64\\to10$",
+    "evidence_condition_tex": "M/D; $<1\\,\\mu$s classification; preload excluded.",
+    "display_bindings": {
+      "inputs": {
+        "evidence_id": "ev_nor",
+        "key": "input_elements",
+        "original_unit": "element"
+      },
+      "hidden": {
+        "evidence_id": "ev_nor",
+        "key": "hidden_elements",
+        "original_unit": "element"
+      },
+      "outputs": {
+        "evidence_id": "ev_nor",
+        "key": "output_elements",
+        "original_unit": "element"
+      },
+      "time": {
+        "evidence_id": "ev_nor",
+        "key": "classification_time_upper",
+        "original_unit": "us"
+      }
+    },
+    "display_values": {
+      "n_out": null,
+      "n_in": null,
+      "s_bits": 1,
+      "r_bits": null,
+      "inputs": 784,
+      "hidden": 64,
+      "outputs": 10,
+      "time": 1
+    },
+    "source_ids": [
+      "t1_nor2017",
+      "t1_nor_tuning2016"
+    ],
+    "evidence_ids": [
+      "ev_nor",
+      "ev_nor_tuning"
+    ],
+    "rho_GB_per_s": null,
+    "rho_display": "—",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-07",
+    "record_id": "hw_rram_neurram2022_4b",
+    "technology_display": "RRAM / NeuRRAM",
+    "configuration_tex": "ACIM; $256\\times128$; 4b/analog",
+    "evidence_condition_tex": "M/C; 3.9 $\\mu$s; 56 $\\mu$s/cell write is projected.",
+    "display_bindings": {
+      "latency": {
+        "evidence_id": "ev_neurram",
+        "key": "latency",
+        "original_unit": "us"
+      },
+      "projected": {
+        "evidence_id": "ev_neurram_projection",
+        "key": "projected_program_time",
+        "original_unit": "us/cell"
+      }
+    },
+    "display_values": {
+      "n_out": 256,
+      "n_in": 128,
+      "s_bits": 4,
+      "r_bits": null,
+      "latency": 3.9,
+      "projected": 56
+    },
+    "source_ids": [
+      "t1_neurram2022"
+    ],
+    "evidence_ids": [
+      "ev_neurram",
+      "ev_neurram_projection"
+    ],
+    "rho_GB_per_s": 0.01641025641025641,
+    "rho_display": "0.016",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-08",
+    "record_id": "hw_mram_jung2022_binary",
+    "technology_display": "MRAM / Jung",
+    "configuration_tex": "ACIM; $64\\times64$; bipolar 1b/1b",
+    "evidence_condition_tex": "M/C; row write: 64 weights in 2 clocks.",
+    "display_bindings": {
+      "weights": {
+        "evidence_id": "ev_mram",
+        "key": "parallel_weights",
+        "original_unit": "element"
+      },
+      "cycles": {
+        "evidence_id": "ev_mram",
+        "key": "row_write_cycles",
+        "original_unit": "clock"
+      }
+    },
+    "display_values": {
+      "n_out": 64,
+      "n_in": 64,
+      "s_bits": 1,
+      "r_bits": 1,
+      "weights": 64,
+      "cycles": 2
+    },
+    "source_ids": [
+      "t1_jung2022"
+    ],
+    "evidence_ids": [
+      "ev_mram"
+    ],
+    "rho_GB_per_s": 0.0888,
+    "rho_display": "0.089",
+    "tau_GB_per_s": 0.0444,
+    "tau_display": "0.044",
+    "ridge": 2.0,
+    "ridge_display": "2"
+  },
+  {
+    "row_id": "I-09",
+    "record_id": "hw_pcm_hermes64_4phase",
+    "technology_display": "PCM / 64-core chip",
+    "configuration_tex": "ACIM; $256\\times256$; 8b/analog",
+    "evidence_condition_tex": "S/C; measured-chip RTL, 4 phases / 520 ns.",
+    "display_bindings": {
+      "latency": {
+        "evidence_id": "ev_pcm",
+        "key": "four_phase_latency",
+        "original_unit": "ns"
+      }
+    },
+    "display_values": {
+      "n_out": 256,
+      "n_in": 256,
+      "s_bits": 8,
+      "r_bits": null,
+      "latency": 520
+    },
+    "source_ids": [
+      "t1_pcm64"
+    ],
+    "evidence_ids": [
+      "ev_pcm"
+    ],
+    "rho_GB_per_s": 0.4923076923076923,
+    "rho_display": "0.49",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-10",
+    "record_id": "hw_feram_c2feram2023",
+    "technology_display": "FeRAM / C2FeRAM",
+    "configuration_tex": "Proposed ACIM; discrete 2T2C",
+    "evidence_condition_tex": "D/D; device tests; no complete timed macro.",
+    "display_bindings": {},
+    "display_values": {
+      "n_out": null,
+      "n_in": null,
+      "s_bits": null,
+      "r_bits": 1
+    },
+    "source_ids": [
+      "t1_c2feram2023"
+    ],
+    "evidence_ids": [
+      "ev_c2feram"
+    ],
+    "rho_GB_per_s": null,
+    "rho_display": "—",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-11",
+    "record_id": "hw_fenor_zhou2025",
+    "technology_display": "3D FeNOR / Zhou 2025",
+    "configuration_tex": "Device multiply; binary state",
+    "evidence_condition_tex": "D/D; +4.25/-3.25 V, 50 ns; RAW delay $<100$ ns.",
+    "display_bindings": {
+      "program_voltage": {
+        "evidence_id": "ev_zhou25",
+        "key": "program_voltage",
+        "original_unit": "V"
+      },
+      "erase_voltage": {
+        "evidence_id": "ev_zhou25",
+        "key": "erase_voltage",
+        "original_unit": "V"
+      },
+      "pulse": {
+        "evidence_id": "ev_zhou25",
+        "key": "program_pulse",
+        "original_unit": "ns"
+      },
+      "raw_delay": {
+        "evidence_id": "ev_zhou25",
+        "key": "raw_delay_upper",
+        "original_unit": "ns"
+      }
+    },
+    "display_values": {
+      "n_out": null,
+      "n_in": null,
+      "s_bits": null,
+      "r_bits": 1,
+      "program_voltage": 4.25,
+      "erase_voltage": -3.25,
+      "pulse": 50,
+      "raw_delay": 100
+    },
+    "source_ids": [
+      "t1_zhou2025"
+    ],
+    "evidence_ids": [
+      "ev_zhou25"
+    ],
+    "rho_GB_per_s": null,
+    "rho_display": "—",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  },
+  {
+    "row_id": "I-12",
+    "record_id": "hw_fenor_zhou2026",
+    "technology_display": "Vertical FeFET / Zhou 2026",
+    "configuration_tex": "Memory array; binary state",
+    "evidence_condition_tex": "D/D; $\\pm2$ V, 20 ns; 1 Kib patterns verified.",
+    "display_bindings": {
+      "voltage": {
+        "evidence_id": "ev_zhou26",
+        "key": "program_voltage",
+        "original_unit": "V"
+      },
+      "pulse": {
+        "evidence_id": "ev_zhou26",
+        "key": "program_pulse",
+        "original_unit": "ns"
+      },
+      "layers": {
+        "evidence_id": "ev_zhou26",
+        "key": "layers",
+        "original_unit": "layer"
+      },
+      "rows": {
+        "evidence_id": "ev_zhou26",
+        "key": "pattern_rows",
+        "original_unit": "row"
+      },
+      "columns": {
+        "evidence_id": "ev_zhou26",
+        "key": "pattern_columns",
+        "original_unit": "column"
+      },
+      "pattern_kib": {
+        "formula": "layers * rows * columns / 1024"
+      }
+    },
+    "display_values": {
+      "n_out": null,
+      "n_in": null,
+      "s_bits": null,
+      "r_bits": 1,
+      "voltage": 2,
+      "pulse": 20,
+      "layers": 4,
+      "rows": 16,
+      "columns": 16,
+      "pattern_kib": 1.0
+    },
+    "source_ids": [
+      "t1_zhou2026"
+    ],
+    "evidence_ids": [
+      "ev_zhou26"
+    ],
+    "rho_GB_per_s": null,
+    "rho_display": "—",
+    "tau_GB_per_s": null,
+    "tau_display": "—",
+    "ridge": null,
+    "ridge_display": "—"
+  }
+]

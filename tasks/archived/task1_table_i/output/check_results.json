@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "check_groups": [
+    "Raw JSON -> normalized records -> table/Task3 export reproducible byte-for-byte",
+    "IDs, references, orthogonal evidence labels, formats, null reasons, dimensions, positive units and compatible ridge pairs",
+    "bit/Byte, Ki-bit/Byte, ns/us/minute/second, MHz and decimal GB/s; storage and projected values are not CIM measurements",
+    "Spatial slices, differential pairs, NAND duplication and fabricated-vs-validated FeFET cell counts",
+    "Independent D6CIM OP/kappa calculation, MRAM full-array refill calculation and Jia 16-core TOPS cross-check",
+    "Interval direction checked; no hardware capability interval or confidence interval manufactured",
+    "All ten technology groups covered, SRAM modes separated, and every main citation present",
+    "Available local PDF signatures/hashes and original repository copies verified; missing ignored PDFs explicitly reported"
+  ],
+  "main_rows": 12,
+  "hardware_records": 16,
+  "local_source_hashes_verified": [
+    "t1_jia2022",
+    "t1_d6cim2023",
+    "t1_ambit2017",
+    "t1_gaincell2022",
+    "t1_edram2021",
+    "t1_nor2017",
+    "t1_nor_tuning2016",
+    "t1_neurram2022",
+    "t1_liu2025",
+    "t1_jung2022",
+    "t1_pcm64",
+    "t1_c2feram2023",
+    "t1_zhou2025",
+    "t1_zhou2026"
+  ],
+  "local_sources_absent": [],
+  "evidence_origin_counts": {
+    "measured_chip": 9,
+    "simulation": 3,
+    "reference_scenario": 2,
+    "measured_device": 3
+  },
+  "individual_fact_origin_counts": {
+    "measured_chip": 110,
+    "simulation": 27,
+    "reference_scenario": 8,
+    "measured_device": 45
+  },
+  "manual_controls": {
+    "d6_rho_Byte_per_s": 720000000.0,
+    "mram_rho_Byte_per_s": 88800000.0,
+    "mram_tau_Byte_per_s": 44400000.0,
+    "mram_full_refill_second": 1.153153153153153e-05,
+    "mram_ridge": 2,
+    "jia_chip_TOPS": 11.79648
+  },
+  "limitations": [
+    "Schema and arithmetic checks cannot prove truth of literature facts; source reading remains required.",
+    "No empirical interval data is supplied; unknown throughput does not imply a ridge."
+  ]
+}

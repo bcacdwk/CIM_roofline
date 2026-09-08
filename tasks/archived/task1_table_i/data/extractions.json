@@ -1,0 +1,1382 @@
+[
+  {
+    "evidence_id": "ev_d6",
+    "source_ids": [
+      "t1_d6cim2023"
+    ],
+    "location": "PDF p.1 / proceedings p.413, Sec.II-A and Fig.1; PDF p.3 / p.415, Sec.III; p.4 Fig.10",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "rows": {
+        "value": 128,
+        "unit": "row",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 128,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "output_bits": {
+        "value": 23,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "cycles": {
+        "value": 64,
+        "unit": "clock/MVM",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "frequency": {
+        "value": 360,
+        "unit": "MHz",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "write_bus": {
+        "value": 128,
+        "unit": "bit",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "voltage": {
+        "value": 1.1,
+        "unit": "V",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 28,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Complete 8-bit VMM schedule and measured operating point; ordinary SRAM R/W port.",
+    "does_not_support": "No measured normal-write frequency or ready interval. Fig.10 label 363 MHz differs from text ~360 MHz; use textual 360, not extra precision.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_jia",
+    "source_ids": [
+      "t1_jia2022"
+    ],
+    "location": "PDF pp.5–6 / journal pp.202–203, Figs.7–9; PDF p.9 / p.206 Sec.V-A; PDF p.11 / p.208 Table IV",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "rows": {
+        "value": 1152,
+        "unit": "row",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 256,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "cores": {
+        "value": 16,
+        "unit": "core",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "adc_rate": {
+        "value": 20,
+        "unit": "MS/s",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "digital_clock": {
+        "value": 200,
+        "unit": "MHz",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 4,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_bits": {
+        "value": 4,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "adc_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns_per_simd": {
+        "value": 4,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "peak_chip": {
+        "value": 11.8,
+        "unit": "TOPS",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "voltage": {
+        "value": 0.8,
+        "unit": "V",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 16,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Native BPBS mode; four spatial weight columns and four input bit phases; SIMD reconstructs full multibit results; peak 4b chip rate consistent with geometry.",
+    "does_not_support": "No full weight-load timing. 500 MHz is timing-closure target. 28 MB weight buffer is proposed system component, not prototype capacity.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_ambit",
+    "source_ids": [
+      "t1_ambit2017"
+    ],
+    "location": "PDF pp.7–8, Fig.8 and Sec.5.3; PDF p.10 Table 3",
+    "result_origin": "simulation",
+    "value_status": "directly_reported",
+    "values": {
+      "aap": {
+        "value": 49,
+        "unit": "ns",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "and_aaps": {
+        "value": 4,
+        "unit": "operation",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "row_bytes": {
+        "value": 8192,
+        "unit": "Byte",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "rows_per_subarray_typical_low": {
+        "value": 512,
+        "unit": "row",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "rows_per_subarray_typical_high": {
+        "value": 1024,
+        "unit": "row",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "SPICE-based optimized AAP; full AND sequence has four AAPs; modeled system uses 8 KB rows.",
+    "does_not_support": "No full integer-MVM schedule; AAP or Boolean row throughput is not rho; rank row width cannot be assigned to every physical chip automatically.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_gaincell",
+    "source_ids": [
+      "t1_gaincell2022"
+    ],
+    "location": "PDF p.1 / p.112 dataflow; PDF p.2 / p.113 Figs.2 and 7",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "capacity": {
+        "value": 32,
+        "unit": "Kibit",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "dot_inputs": {
+        "value": 27,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_slices": {
+        "value": 8,
+        "unit": "slice",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits_per_phase": {
+        "value": 2,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "phase_time": {
+        "value": 5,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "full_access": {
+        "value": 20,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "output_bits": {
+        "value": 16,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "gops": {
+        "value": 22,
+        "unit": "GOPS",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 65,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "voltage": {
+        "value": 1,
+        "unit": "V",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "One 27-input MAV group with eight parallel weight slices and four 2-bit input phases; 16-bit combiner output.",
+    "does_not_support": "Macro engine replication/layout not fully specified. Do not infer 8 simultaneous independent groups solely from rounded 22 GOPS. Normal-write width, cycle and refresh duty missing. Access-time-based rate is a scheduled nominal capability, not an external-port throughput test.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_edram",
+    "source_ids": [
+      "t1_edram2021"
+    ],
+    "location": "PDF pp.1–3, Figs.16.2.2–16.2.7",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "capacity": {
+        "value": 16,
+        "unit": "Kibit",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "measured_clock": {
+        "value": 4,
+        "unit": "MHz",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "simulated_clock": {
+        "value": 200,
+        "unit": "MHz",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "mav_stage": {
+        "value": 10,
+        "unit": "ns",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "precision": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "65 nm 1T1C eDRAM prototype; dataflow includes input DAC, weight fetch, MAV, pooling and SAR ADC.",
+    "does_not_support": "10 ns two-cycle MAV stage is not a complete input-to-output service interval. 4 MHz measured / 200 MHz simulation are explicitly distinct in Fig.16.2.7.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_nand",
+    "source_ids": [
+      "t1_nand2021"
+    ],
+    "location": "Published pp.62–64, Sec.II-A/B/C; article text read online; Table 1 image not inspected",
+    "result_origin": "simulation",
+    "value_status": "directly_reported",
+    "values": {
+      "layers": {
+        "value": 32,
+        "unit": "layer",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "blocks": {
+        "value": 64,
+        "unit": "block",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "bl_per_block": {
+        "value": 13824,
+        "unit": "bitline",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "ssl_per_block": {
+        "value": 3,
+        "unit": "SSL",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "logical_inputs": {
+        "value": 4608,
+        "unit": "element",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "wl_setup": {
+        "value": 303,
+        "unit": "ns",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "bl_setup": {
+        "value": 12,
+        "unit": "ns",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "adc_bits": {
+        "value": 7,
+        "unit": "bit/element",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "logic_node": {
+        "value": 32,
+        "unit": "nm",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "NeuroSim/HSPICE design; 16 outputs, four blocks per 8-bit weight; 3 SSL encode two weight bits and three BL copies encode two input bits.",
+    "does_not_support": "Missing complete phase timing and verified-write/erase service. 303 ns WL setup is not MVM time. Capacity does not imply write parallelism.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_nor",
+    "source_ids": [
+      "t1_nor2017"
+    ],
+    "location": "PDF pp.1–2, Sec.II–III; PDF pp.3–4 Figs.6,8,9,14",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "input_elements": {
+        "value": 784,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "hidden_elements": {
+        "value": 64,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "output_elements": {
+        "value": 10,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "physical_cells": {
+        "value": 101780,
+        "unit": "cell",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_shift_register": {
+        "value": 785,
+        "unit": "bit",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "tuned_fraction": {
+        "value": 0.3,
+        "unit": "fraction",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "target_tuning_error": {
+        "value": 0.05,
+        "unit": "relative",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "classification_time_upper": {
+        "value": 1,
+        "unit": "us",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_voltage": {
+        "value": 4.2,
+        "unit": "V",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 180,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Two cascaded arrays with differential analog weights; binary image input; ten external analog voltages; average preloaded classification delay below 1 us.",
+    "does_not_support": "No single MVM interval, serialized input-load timing or digital output requirement; 5% target not fixed INT bit width; no full verified weight import time.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_nor_tuning",
+    "source_ids": [
+      "t1_nor_tuning2016"
+    ],
+    "location": "PDF p.1 abstract and procedure; PDF p.2 Figs.2–6",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "tested_cells": {
+        "value": 100,
+        "unit": "cell",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "program_pulse": {
+        "value": 100,
+        "unit": "us",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "erase_pulse": {
+        "value": 2.5,
+        "unit": "ms",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "pulses_3percent": {
+        "value": 10,
+        "unit": "pulse",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "pulses_point3percent": {
+        "value": 35,
+        "unit": "pulse",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Original 180 nm ESF1 tuning experiment, alternating program/erase and measured feedback, no global erase required.",
+    "does_not_support": "Separate 10x10 array, not 2017 classifier timing. Pulse totals do not include read/algorithm overhead or specify SET/erase counts. Do not transplant to main NOR row.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_neurram",
+    "source_ids": [
+      "t1_neurram2022"
+    ],
+    "location": "PDF p.3 Fig.2h; Methods PDF pp.10–11 and 14–15; PDF p.28 Extended Data Table 1",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "rows": {
+        "value": 256,
+        "unit": "row",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 256,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "cores": {
+        "value": 48,
+        "unit": "core",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "cells_per_weight": {
+        "value": 2,
+        "unit": "cell/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 4,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "output_bits": {
+        "value": 6,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "latency": {
+        "value": 3.9,
+        "unit": "us",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "program_pulse": {
+        "value": 1,
+        "unit": "us",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "verify_min": {
+        "value": 1,
+        "unit": "us",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "verify_max": {
+        "value": 10,
+        "unit": "us",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "pulse_mean": {
+        "value": 8.52,
+        "unit": "pulse",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "acceptance": {
+        "value": 1,
+        "unit": "uS",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "timeout_reversals": {
+        "value": 30,
+        "unit": "reversal",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "program_passes": {
+        "value": 3,
+        "unit": "pass",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "wait_before_inference": {
+        "value": 30,
+        "unit": "minute",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 130,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "128-input, 256-output logical per-core forward MVM after differential-row mapping. Source 256x256 logical characterization uses two cores, not one. Complete precision includes neuron integration and output conversion.",
+    "does_not_support": "Analog unquantized targets, not a 4-bit resident codebook; 4-bit weight label in comparison reflects software-equivalent accuracy. External-control programming interval unreported.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_neurram_projection",
+    "source_ids": [
+      "t1_neurram2022"
+    ],
+    "location": "Methods PDF p.10, RRAM programming paragraph",
+    "result_origin": "reference_scenario",
+    "value_status": "directly_reported",
+    "values": {
+      "projected_program_time": {
+        "value": 56,
+        "unit": "us/cell",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Authors explicitly project fully integrated write-verify, after measuring mean pulse counts.",
+    "does_not_support": "Not measured programming latency; would require integrated DAC/ADC control and scheduling, not present external-control setup.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_liu",
+    "source_ids": [
+      "t1_liu2025"
+    ],
+    "location": "PDF pp.3–5 / article pp.2–4, Figs.1–5; PDF pp.7–8 / article pp.6–7, Figs.10–11",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "rows": {
+        "value": 576,
+        "unit": "row",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 512,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "cells_per_weight": {
+        "value": 2,
+        "unit": "cell/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "adc_count": {
+        "value": 64,
+        "unit": "ADC",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "output_mux": {
+        "value": 8,
+        "unit": "cycle",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "adc_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_levels": {
+        "value": 16,
+        "unit": "level",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "tolerance": {
+        "value": 6,
+        "unit": "uS",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "tested_weights": {
+        "value": 5760,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "max_pulses": {
+        "value": 1000,
+        "unit": "pulse",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "speed_ratio": {
+        "value": 4.67,
+        "unit": "ratio",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_test_parallel_small": {
+        "value": 32,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_test_parallel_large": {
+        "value": 128,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Hybrid 1T1R then 2T2R programming; verified differential state; measured CIM and 16 state tests.",
+    "does_not_support": "Absolute program pulse/verify/control timing absent; speed defined using pulse counts. Table normalization 1.5b x 1.5b cannot serve as native full-precision throughput. 4.31/4.67 speed wording inconsistent across abstract/body; not used for tau.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_mram",
+    "source_ids": [
+      "t1_jung2022"
+    ],
+    "location": "PDF p.2 / Nature p.212 Fig.1; PDF p.3 / p.213 Fig.2; Methods PDF pp.7–8, Crossbar array weight update and Operating frequency",
+    "result_origin": "measured_chip",
+    "value_status": "directly_reported",
+    "values": {
+      "rows": {
+        "value": 64,
+        "unit": "row",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 64,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "mtjs_per_weight": {
+        "value": 2,
+        "unit": "cell/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 1,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "weight_bits": {
+        "value": 1,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "frequency": {
+        "value": 11.1,
+        "unit": "MHz",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "row_write_cycles": {
+        "value": 2,
+        "unit": "clock",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "parallel_weights": {
+        "value": 64,
+        "unit": "element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "write_voltage": {
+        "value": 1.5,
+        "unit": "V",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "tdc_counter_bits": {
+        "value": 4,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "max_delay": {
+        "value": 29,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "theoretical_frequency": {
+        "value": 17.2,
+        "unit": "MHz",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 28,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "64 bipolar logical weights written per row in two clocks: left MTJs concurrently, then complementary right MTJs. Same 11.1 MHz evaluation clock includes digital control.",
+    "does_not_support": "Exclude PC/USB/SPI loading, LUT calibration setup and external offset arithmetic; use native TDC output. No write-error-rate/endurance claim added; no independent simultaneous read/write assumption.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_pcm",
+    "source_ids": [
+      "t1_pcm64"
+    ],
+    "location": "Dated preprint PDF pp.2–3 architecture; pp.7–8 Methods programming; p.10 power/performance; p.18 Table I; p.25 Extended Data Table I",
+    "result_origin": "simulation",
+    "value_status": "directly_reported",
+    "values": {
+      "rows": {
+        "value": 256,
+        "unit": "row",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 256,
+        "unit": "column",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "cores": {
+        "value": 64,
+        "unit": "core",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "devices_per_weight": {
+        "value": 4,
+        "unit": "cell/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "input_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "output_bits": {
+        "value": 8,
+        "unit": "bit/element",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "four_phase_latency": {
+        "value": 520,
+        "unit": "ns",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "one_phase_latency": {
+        "value": 133,
+        "unit": "ns",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "four_phase_tops": {
+        "value": 16.1,
+        "unit": "TOPS",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "one_phase_tops": {
+        "value": 63.1,
+        "unit": "TOPS",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "write_parallel_devices": {
+        "value": 32,
+        "unit": "cell",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "reset_pulse": {
+        "value": 125,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "set_pulse": {
+        "value": 250,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "set_trailing_edge": {
+        "value": 50,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "iteration_pulse": {
+        "value": 125,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "verify_read": {
+        "value": 512,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "verify_precharge": {
+        "value": 256,
+        "unit": "ns",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "max_iterations": {
+        "value": 30,
+        "unit": "iteration",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "acceptance": {
+        "value": 5,
+        "unit": "ADC count",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      },
+      "process": {
+        "value": 14,
+        "unit": "nm",
+        "result_origin": "measured_chip",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Measured PCM chip and accuracy; Table I latency obtained from RTL execution, so rate origin is simulation on measured-chip architecture. 4-phase mode used for accuracy experiments.",
+    "does_not_support": "Analog weight format not INT8. Eight-bit I/O does not establish resident payload size. Full weight programming time lacks convergence distribution and complete scheduling; 256 diagonal devices are not 256 simultaneous writeheads.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_c2feram",
+    "source_ids": [
+      "t1_c2feram2023"
+    ],
+    "location": "Accepted manuscript PDF pp.2–3, Figs.3–5; p.3 Fig.6 application simulation",
+    "result_origin": "measured_device",
+    "value_status": "directly_reported",
+    "values": {
+      "write_voltage": {
+        "value": 2,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "read_vds": {
+        "value": 0.05,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "cpl_measured": {
+        "value": 470,
+        "unit": "pF",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "cfe_low": {
+        "value": 165,
+        "unit": "pF",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "cfe_high": {
+        "value": 195,
+        "unit": "pF",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "cpl_simulated": {
+        "value": 5,
+        "unit": "fF",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "cfe_sim_low": {
+        "value": 3,
+        "unit": "fF",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "cfe_sim_high": {
+        "value": 7,
+        "unit": "fF",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "read_test_cycles": {
+        "value": 1000000.0,
+        "unit": "cycle",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "on_off_ratio": {
+        "value": 1000.0,
+        "unit": "ratio",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "endurance": {
+        "value": 100000000.0,
+        "unit": "cycle",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "test_area": {
+        "value": 2500,
+        "unit": "um2",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported",
+        "relation": ">",
+        "condition": "Large in-house device size above 2500 um2; reported endurance limited to 1e8 cycles."
+      }
+    },
+    "supports": "FeCAP plus plate capacitor and two MOSFETs, measured as discrete components; proposed two-step erase/program and simulated current summation.",
+    "does_not_support": "No fabricated timed CIM macro with ADC; waveform current-MAC is not complete digital MVM throughput. Tiny simulated capacitors not same as discrete measured components.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_feram_memory",
+    "source_ids": [
+      "t1_feram_datasheet"
+    ],
+    "location": "Manufacturer datasheet 002-10175 Rev.*A pp.1,9–10,12–13,19; accessed PDF text online",
+    "result_origin": "reference_scenario",
+    "value_status": "directly_reported",
+    "values": {
+      "word_bits": {
+        "value": 16,
+        "unit": "bit",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      },
+      "words": {
+        "value": 65536,
+        "unit": "word",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      },
+      "random_write_cycle": {
+        "value": 90,
+        "unit": "ns",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      },
+      "low_voltage_write_cycle": {
+        "value": 105,
+        "unit": "ns",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      },
+      "page_write_cycle": {
+        "value": 40,
+        "unit": "ns",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      },
+      "voltage_min": {
+        "value": 2.7,
+        "unit": "V",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      },
+      "voltage_max": {
+        "value": 3.6,
+        "unit": "V",
+        "result_origin": "reference_scenario",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Formal ordinary F-RAM storage timing; random full-word rewrite bandwidth can be calculated; minimum cycle includes required control/precharge constraints.",
+    "does_not_support": "Not CIM; native storage bandwidth is not tau for C2FeRAM or any FeFET. Page-mode timing cannot replace random-word cycle.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_zhou25",
+    "source_ids": [
+      "t1_zhou2025"
+    ],
+    "location": "PDF p.2 Figs.2–6; PDF p.3 Fig.12 and Table 1; PDF p.1 narrative",
+    "result_origin": "measured_device",
+    "value_status": "directly_reported",
+    "values": {
+      "layers": {
+        "value": 3,
+        "unit": "layer",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "rows": {
+        "value": 8,
+        "unit": "row",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "columns": {
+        "value": 8,
+        "unit": "column",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "channel_length": {
+        "value": 100,
+        "unit": "nm",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "channel_width": {
+        "value": 70,
+        "unit": "nm",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "program_voltage": {
+        "value": 4.25,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "erase_voltage": {
+        "value": -3.25,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "program_pulse": {
+        "value": 50,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "erase_pulse": {
+        "value": 50,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "raw_delay_upper": {
+        "value": 100,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "read_vds": {
+        "value": 0.1,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "endurance_lower": {
+        "value": 100000000000.0,
+        "unit": "cycle",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "endurance_window_end": {
+        "value": 0.3,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "retention_measured": {
+        "value": 4000,
+        "unit": "s",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "layer_test_program_voltage": {
+        "value": 4,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "layer_test_erase_voltage": {
+        "value": -3,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "layer_test_pulse": {
+        "value": 60,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Fabricated 8x8x3 structure, single-cell switching/endurance; read-after-write delay; Fig.12b measured four one-bit multiplication states.",
+    "does_not_support": "Array-wide parallel write number and complete CIM cycle not given; Fig.12a hybrid bonded CIM is proposed and Fig.12c accuracy simulated. Fig.6a uses -3.5V and layer endurance uses +/-4/3V 60ns, separate from fastest-mode conditions; endurance temperature not specified.",
+    "extraction_method": "text and original figure labels read"
+  },
+  {
+    "evidence_id": "ev_zhou26",
+    "source_ids": [
+      "t1_zhou2026"
+    ],
+    "location": "PDF p.2 Figs.2–5; PDF p.3 Figs.7–11 and Table 1; p.1 narrative",
+    "result_origin": "measured_device",
+    "value_status": "directly_reported",
+    "values": {
+      "layers": {
+        "value": 4,
+        "unit": "layer",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "fabricated_rows": {
+        "value": 32,
+        "unit": "row",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "fabricated_columns": {
+        "value": 32,
+        "unit": "column",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "pattern_rows": {
+        "value": 16,
+        "unit": "row",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "pattern_columns": {
+        "value": 16,
+        "unit": "column",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "channel_length": {
+        "value": 50,
+        "unit": "nm",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "channel_width": {
+        "value": 20,
+        "unit": "nm",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "vertical_pitch": {
+        "value": 40,
+        "unit": "nm",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "program_voltage": {
+        "value": 2,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "erase_voltage": {
+        "value": -2,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "program_pulse": {
+        "value": 20,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "erase_pulse": {
+        "value": 20,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "raw_delay_upper": {
+        "value": 100,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "read_gate": {
+        "value": -0.5,
+        "unit": "V",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "read_disturb_pulse": {
+        "value": 20,
+        "unit": "ns",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "endurance_lower": {
+        "value": 1000000000000.0,
+        "unit": "cycle",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "disturb_cycles": {
+        "value": 1000000000.0,
+        "unit": "cycle",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "retention_measured": {
+        "value": 3000,
+        "unit": "s",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "halfselect_O_pulse": {
+        "value": 0.1,
+        "unit": "s",
+        "result_origin": "measured_device",
+        "derivation_kind": "directly_reported"
+      },
+      "highdensity_sim_layers": {
+        "value": 256,
+        "unit": "layer",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      },
+      "highdensity_sim": {
+        "value": 8.37,
+        "unit": "Gb/mm2",
+        "result_origin": "simulation",
+        "derivation_kind": "directly_reported"
+      }
+    },
+    "supports": "Optimized SL-HZO/O-poor cell has +/-2V20ns and >1e12 cycles. Fabricated 4x32x32, explicitly shown error-free patterns cover 4x16x16. Vw/3 disturb scheme, read gate -0.5V.",
+    "does_not_support": "20 ns read-disturb pulse is not full read/ADC interval. No CIM MVM. Layer-scaled read latency and 256-layer density are TCAD/SPICE estimates. Parallel-write scale and array programming schedule not reported; no temperature specified for endurance/retention.",
+    "extraction_method": "text and original figure labels read"
+  }
+]

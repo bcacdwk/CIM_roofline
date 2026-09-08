@@ -1,0 +1,226 @@
+[
+  {
+    "technology": "SRAM",
+    "covered": true,
+    "record_ids": [
+      "hw_sram_acim_jia2022_4b",
+      "hw_sram_dcim_d6cim2023_u8"
+    ],
+    "main_record_ids": [
+      "hw_sram_acim_jia2022_4b",
+      "hw_sram_dcim_d6cim2023_u8"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_sram_acim_jia2022_4b",
+        "rho": null,
+        "tau": "CIMA write energy is measured, but complete write schedule/rate and loader granularity are absent.",
+        "next_match": "Check signed encoding, 4-bit packing, all 64 reconstructed outputs, CIMA-SIMD initiation alignment and local input readiness. Do not use 16-core chip rate for a single core."
+      },
+      {
+        "record_id": "hw_sram_dcim_d6cim2023_u8",
+        "rho": null,
+        "tau": "128-bit write bus is documented; normal write cycle at the 360 MHz compute point is not.",
+        "next_match": "Unsigned mode selected; verify requested signedness and local input loading. 64-clock complete service must be retained; normal write shmoo still needed."
+      }
+    ]
+  },
+  {
+    "technology": "DRAM",
+    "covered": true,
+    "record_ids": [
+      "hw_dram_ambit2017",
+      "hw_dram_dyamond2025"
+    ],
+    "main_record_ids": [
+      "hw_dram_ambit2017"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_dram_ambit2017",
+        "rho": "AAP/AND latency is not a full precision MVM interval.",
+        "tau": "No resident-MVM representation or complete load schedule.",
+        "next_match": "Need integer multiply, accumulation, carry, reduction and reserved-row schedule; include operand initialization and row copy. Retain rank/chip/bank distinction."
+      },
+      {
+        "record_id": "hw_dram_dyamond2025",
+        "rho": "Full paper unavailable.",
+        "tau": "Full paper unavailable.",
+        "next_match": "Acquire conference/extension paper before interpreting headline TOPS/W or array capacity."
+      }
+    ]
+  },
+  {
+    "technology": "eDRAM / gain-cell",
+    "covered": true,
+    "record_ids": [
+      "hw_edram_gaincell_xie2022_8b",
+      "hw_edram_xie2021_1t1c"
+    ],
+    "main_record_ids": [
+      "hw_edram_gaincell_xie2022_8b"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_edram_gaincell_xie2022_8b",
+        "rho": null,
+        "tau": "Write-cycle time, effective parallel word width, and refresh duty are not reported.",
+        "next_match": "Confirm signed encoding and 16-bit output combiner contract. Rate uses one shown MAV group; no arbitrary macro replication. Quantized analog sums are not exact integer accumulation."
+      },
+      {
+        "record_id": "hw_edram_xie2021_1t1c",
+        "rho": "Stage-only 10ns MAV timing, measured4MHz vs simulation200MHz and ADC clipping complicate full service interval.",
+        "tau": "Normal write timing not closed.",
+        "next_match": "Obtain one complete no-clipping or specified-clipping service schedule; do not use 22nm scaling projections."
+      }
+    ]
+  },
+  {
+    "technology": "3D NAND",
+    "covered": true,
+    "record_ids": [
+      "hw_nand_shim2021_int8"
+    ],
+    "main_record_ids": [
+      "hw_nand_shim2021_int8"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_nand_shim2021_int8",
+        "rho": "Complete phase/ADC/digital-accumulation timing not recovered; Table 1 image unavailable.",
+        "tau": "Verified programming granularity, latency and erase policy absent.",
+        "next_match": "Obtain complete subarray phase timing and implementation-specific program/verify/erase scheduling. Do not use storage-page bandwidth."
+      }
+    ]
+  },
+  {
+    "technology": "2D NOR Flash",
+    "covered": true,
+    "record_ids": [
+      "hw_nor_guo2017"
+    ],
+    "main_record_ids": [
+      "hw_nor_guo2017"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_nor_guo2017",
+        "rho": "Average classification delay below 1 us excludes serial preload and is not complete single-MVM throughput.",
+        "tau": "No compatible full weight-import timing or logical analog payload bit width.",
+        "next_match": "Choose an actual service boundary and analog output contract; require target codebook/packing before assigning b_R. 2016 10x10 tuning study is related technology, not the same classifier."
+      }
+    ]
+  },
+  {
+    "technology": "RRAM",
+    "covered": true,
+    "record_ids": [
+      "hw_rram_neurram2022_4b",
+      "hw_rram_liu2025"
+    ],
+    "main_record_ids": [
+      "hw_rram_neurram2022_4b"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_rram_neurram2022_4b",
+        "rho": null,
+        "tau": "External-controlled write-verify time unreported; 56 us/cell is a projected integrated design; b_R unknown.",
+        "next_match": "Check sign-magnitude input, analog target codebook and whether 3.9 us schedule transfers unchanged to one segment; full-256-input MVM needs second core and external accumulation."
+      },
+      {
+        "record_id": "hw_rram_liu2025",
+        "rho": "No absolute complete MVM clock interval; normalized area efficiency is not native throughput.",
+        "tau": "Pulse counts and speed ratios only; absolute program/verify/scheduling interval absent.",
+        "next_match": "Specify codebook and tolerances, success rate and relaxation; keep32/128-input MVM tests distinct from 576-input capacity."
+      }
+    ]
+  },
+  {
+    "technology": "MRAM",
+    "covered": true,
+    "record_ids": [
+      "hw_mram_jung2022_binary"
+    ],
+    "main_record_ids": [
+      "hw_mram_jung2022_binary"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_mram_jung2022_binary",
+        "rho": null,
+        "tau": null,
+        "next_match": "This ridge concerns packed bipolar payloads and native noisy TDC output, not INT8 arithmetic. Small partial-row updates have lower useful tau. No claim of simultaneous compute/write, host delivery capacity or error-free exact sums."
+      }
+    ]
+  },
+  {
+    "technology": "PCM",
+    "covered": true,
+    "record_ids": [
+      "hw_pcm_hermes64_4phase"
+    ],
+    "main_record_ids": [
+      "hw_pcm_hermes64_4phase"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_pcm_hermes64_4phase",
+        "rho": null,
+        "tau": "Analog b_R and complete convergence/scheduling time missing. Device pulses cannot determine tau.",
+        "next_match": "Use dated 2022 preprint timing; check final journal revision before strict cross-paper matching. 4-phase mode aligns with accuracy experiments; one-phase speed is a different mode."
+      }
+    ]
+  },
+  {
+    "technology": "FeRAM",
+    "covered": true,
+    "record_ids": [
+      "hw_feram_c2feram2023",
+      "hw_feram_cy15b101n_storage"
+    ],
+    "main_record_ids": [
+      "hw_feram_c2feram2023"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_feram_c2feram2023",
+        "rho": "No complete timed precision MVM/ADC.",
+        "tau": "Measured parallel array write schedule and ready timing absent.",
+        "next_match": "Do not substitute ordinary F-RAM datasheet write bandwidth or FeFET device pulses. Need actual geometry, precision and complete services."
+      },
+      {
+        "record_id": "hw_feram_cy15b101n_storage",
+        "rho": "No CIM architecture.",
+        "tau": "No CIM architecture; separate native storage write bandwidth only.",
+        "next_match": "Cannot pair with C2FeRAM/FeFET rho. Page-mode is a different access mode."
+      }
+    ]
+  },
+  {
+    "technology": "3D FeNOR / vertical FeFET",
+    "covered": true,
+    "record_ids": [
+      "hw_fenor_zhou2025",
+      "hw_fenor_zhou2026"
+    ],
+    "main_record_ids": [
+      "hw_fenor_zhou2025",
+      "hw_fenor_zhou2026"
+    ],
+    "gaps": [
+      {
+        "record_id": "hw_fenor_zhou2025",
+        "rho": "No complete CIM MVM/ADC interval.",
+        "tau": "No verified parallel logical write transaction or full ready interval.",
+        "next_match": "Preserve cell process/pulse/test pairing; read-after-write delay and switching pulse are separate from complete service. Layer count is capacity, not write concurrency."
+      },
+      {
+        "record_id": "hw_fenor_zhou2026",
+        "rho": "No complete CIM MVM/ADC interval.",
+        "tau": "No verified parallel logical write transaction or full ready interval.",
+        "next_match": "Preserve cell process/pulse/test pairing; read-after-write delay and switching pulse are separate from complete service. Layer count is capacity, not write concurrency."
+      }
+    ]
+  }
+]
