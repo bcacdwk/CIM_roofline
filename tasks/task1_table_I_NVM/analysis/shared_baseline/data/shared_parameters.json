@@ -1,0 +1,809 @@
+{
+  "baseline_version": "v0.1",
+  "status": "proposed_for_review",
+  "base_head": "88c0913fdece731d99c627af7f73df23ee5bffb8",
+  "created_on": "2026-09-08",
+  "units": {
+    "b_S_b_R": "Byte/element",
+    "bits_per_Byte": 8,
+    "GB_Byte": 1000000000,
+    "ns_s": 1e-09,
+    "us_s": 1e-06,
+    "MSps_Sps": 1000000
+  },
+  "logical_configuration": {
+    "kind": "reference_choice",
+    "scope": "common_fixed_pending_review",
+    "n_out": 128,
+    "n_in": 128,
+    "stream_format": "signed INT8 two-complement",
+    "resident_format": "signed INT8 two-complement",
+    "b_S": 1,
+    "b_R": 1,
+    "output_count": 128,
+    "output_container_bits": 24,
+    "B_S_Byte": 128,
+    "resident_capacity_Byte": 16384,
+    "precision_contract": "DCIM: exact integer result with sufficient accumulator width; ACIM: calibrated approximate partial sums, reconstructed into 24-bit container; no algorithm-accuracy validation"
+  },
+  "service_boundary": {
+    "kind": "reference_choice",
+    "scope": "common_fixed_pending_review",
+    "description": "一个 128x128 逻辑矩阵及必要的 8 个二进制权重位平面或等效局部结构，加本地输入寄存器、驱动、读出、重构、输出寄存器与单个更新控制域",
+    "stream_start": "128 个 INT8 输入在本地宽向量接口被接收；两拍边界开销覆盖捕获/输出提交",
+    "stream_end": "128 个 24-bit 结果在本地输出寄存器就绪",
+    "resident_start": "本地写端口接收更新命令/数据",
+    "resident_end": "对应逻辑状态完整映射并可计算",
+    "independent_replication": 1,
+    "off_boundary": "上游传输与下游搬运；跨 bank/plane/die 独立复制加速；不含等面积预算",
+    "array_components_are_bit_slices_not_replicas": true
+  },
+  "operating_reference": {
+    "kind": "reference_choice",
+    "scope": "common",
+    "process_nm": 28,
+    "core_supply_reference_V": 0.9,
+    "temperature_reference_C": 25,
+    "description": "近标称电压的 28 nm CMOS 参考设计；来源的 0.8/1.0/1.1 V 保留原值作交叉依据；范围不是固定 0.9 V 的 PVT 验证；器件高压及电平转换另计"
+  },
+  "periphery_parameters": {
+    "input_step": {
+      "symbol": "T_I",
+      "label": "输入形成与公共复位",
+      "range": [
+        2,
+        10
+      ],
+      "reference": 5,
+      "unit": "ns",
+      "granularity": "每次物理求值步骤；128 路二电平输入、本地缓冲与复位控制",
+      "sources": [
+        "SACIM-03",
+        "SACIM-05",
+        "CMOS-03"
+      ],
+      "kind": "reference_choice",
+      "scope": "path_acim",
+      "use": "保留阵列 RC、积分及专用电压建立为介质输入；每个 ADC 复用组重新求值"
+    },
+    "adc_batch": {
+      "symbol": "T_A",
+      "label": "采样、转换与局部读出",
+      "range": [
+        10,
+        50
+      ],
+      "reference": 20,
+      "unit": "ns",
+      "granularity": "每个 ADC 每个样本的完整可复用时隙；128 个 ADC 同时服务一批",
+      "sources": [
+        "CMOS-02",
+        "SACIM-03",
+        "SACIM-05"
+      ],
+      "kind": "reference_choice",
+      "scope": "path_acim",
+      "use": "10-bit 名义 SAR、约 8-bit 有效精度目标；包括 mux/采样/转换/局部锁存"
+    },
+    "digital_tick": {
+      "symbol": "T_D",
+      "label": "数字服务节拍",
+      "range": [
+        2,
+        10
+      ],
+      "reference": 5,
+      "unit": "ns",
+      "granularity": "局部数字阶段一拍；ACIM 每批重构两拍，DCIM 每组运算一拍",
+      "sources": [
+        "SDCIM-01",
+        "SDCIM-03",
+        "SDCIM-05"
+      ],
+      "kind": "reference_choice",
+      "scope": "common",
+      "use": "200 MHz 参考；2 ns 为有资源预算的积极设计端，10 ns 为带负载裕量端；非覆盖全部低电压模式"
+    },
+    "write_control": {
+      "symbol": "T_W",
+      "label": "写入准备与完成控制",
+      "range": [
+        4,
+        20
+      ],
+      "reference": 10,
+      "unit": "ns",
+      "granularity": "每个独立更新事务两拍；不含后续数据拍、器件驱动与 verify sensing",
+      "sources": [
+        "CMOS-03",
+        "CMOS-07",
+        "SDCIM-01",
+        "SDCIM-05"
+      ],
+      "kind": "derived",
+      "scope": "common",
+      "formula": "2 * digital_tick",
+      "use": "首拍捕获一组 128-bit 数据并发出命令，末拍接收完成状态；整周期证据包含该项时替代而非再加"
+    }
+  },
+  "reported_evidence": {
+    "CMOS-02": {
+      "kind": "reported",
+      "condition": "28 nm CMOS, 0.9 V, room temperature, input buffer and reference included",
+      "pdf_pages": [
+        7,
+        8,
+        9
+      ],
+      "locators": [
+        "Fig.10",
+        "Fig.11",
+        "Table 2"
+      ],
+      "values": {
+        "nominal_adc_bits": 10,
+        "sampling_rate_MSps": 100,
+        "SNDR_1MHz_text_dB": 55.13,
+        "SNDR_1MHz_Fig10_dB": 56.91,
+        "ENOB_1MHz_reported_bit": 8.86,
+        "SNDR_Nyquist_dB": 51.54,
+        "ENOB_Nyquist_reported_bit": 8.27
+      },
+      "use": "10 ns sample period anchor; retain text/figure inconsistency; no claim of exact 10-bit conversion"
+    },
+    "CMOS-03": {
+      "kind": "reported_model",
+      "condition": "HD 28 nm 6T 0.120 um^2; TT; nominal 1 V",
+      "pdf_pages": [
+        1,
+        3
+      ],
+      "locators": [
+        "dynamic read/write definitions",
+        "IV-C"
+      ],
+      "values": {
+        "period_FO4": 50,
+        "period_approx_ns": 1,
+        "wordline_pulse_FO4": 25,
+        "bitline_load_fF": 15,
+        "cells_per_bitline": 128,
+        "sense_amplifier_offset_V": 0.1
+      },
+      "use": "load and complete-cycle methodology; not silicon timing"
+    },
+    "CMOS-07": {
+      "kind": "reported",
+      "condition": "28 nm eFlash CMOS high-threshold platform; Table III typical 1.05 V; Fig.21 measured 25 C, TT",
+      "pdf_pages": [
+        8,
+        9
+      ],
+      "locators": [
+        "V-B",
+        "Table II",
+        "Table III",
+        "Fig.21"
+      ],
+      "values": {
+        "capacity_Kbit": 48,
+        "word_bits": 48,
+        "words": 1024,
+        "column_mux": 4,
+        "read_access_ns": 1.54,
+        "frequency_MHz": 455
+      },
+      "use": "2.20 ns full synchronous tick and 1.54 ns read access remain distinct; no isolated peripheral subtraction"
+    },
+    "SACIM-03": {
+      "kind": "reported",
+      "condition": "28 nm measured charge-domain 4b/4b/4b; p.3 and Table II 0.9 V, conclusion p.5 says 1.2 V",
+      "pdf_pages": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "locators": [
+        "Figs.1-3",
+        "Fig.5",
+        "III",
+        "Table II"
+      ],
+      "values": {
+        "physical_rows": 128,
+        "physical_columns": 256,
+        "input_dac_bits": 4,
+        "input_dac_count": 128,
+        "adc_bits": 4,
+        "adc_count": 64,
+        "macro_frequency_MHz": 100
+      },
+      "use": "10 ns full macro cross-check only; input voltage discrepancy recorded"
+    },
+    "SACIM-05": {
+      "kind": "reported",
+      "condition": "28 nm measured; 8b input, 8b weight, 20b digital output; 16-term sums",
+      "pdf_pages": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "locators": [
+        "Figs.4-6",
+        "Fig.10",
+        "Fig.11"
+      ],
+      "values": {
+        "input_groups": 4,
+        "input_group_bits": 2,
+        "adc_before": 96,
+        "adc_after": 69,
+        "latency_ns_at_1V": 3.6,
+        "latency_ns_at_0p9V": 3.8,
+        "sum_terms": 16
+      },
+      "use": "full macro and input/stacking/shift-add structure; no standalone DAC or ADC timing extraction"
+    },
+    "SDCIM-01": {
+      "kind": "reported",
+      "condition": "28 nm D6CIM full precision VMM; 1.1 V clock point",
+      "pdf_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "locators": [
+        "Fig.1",
+        "Fig.5",
+        "Fig.10",
+        "Table I"
+      ],
+      "values": {
+        "input_elements": 128,
+        "output_elements": 16,
+        "precision_bit": 8,
+        "full_vmm_cycles": 64,
+        "write_port_bit": 128,
+        "clock_MHz_text": 360,
+        "clock_MHz_plot": 363
+      },
+      "use": "about 2.8 ns per clock; 64 cycles include input bit serial and spatial folding, not 64 complete vectors"
+    },
+    "SDCIM-03": {
+      "kind": "reported",
+      "condition": "28 nm dynamic logic; 0.8 V; INT8; 32-element post-sum",
+      "pdf_pages": [
+        1,
+        2
+      ],
+      "locators": [
+        "main text",
+        "Figs.11.7.2-5"
+      ],
+      "values": {
+        "clock_ns": 3,
+        "input_bit_cycles": 8,
+        "sum_terms": 32
+      },
+      "use": "bit-serial lossless digital path; LVDS 2 GHz test clock is not compute rate"
+    },
+    "SDCIM-05": {
+      "kind": "reported",
+      "condition": "28 nm; ordinary 32-bit R/W; two 64x64 four-bit arrays; 0.9 V access times from Table III",
+      "pdf_pages": [
+        3,
+        4,
+        5,
+        10,
+        11
+      ],
+      "locators": [
+        "Figs.4-6",
+        "Fig.21",
+        "Table III"
+      ],
+      "values": {
+        "memory_port_bit": 32,
+        "INT4_MAC_cycles": 1,
+        "INT8_MAC_cycles": 2,
+        "INT4_AC_access_ns": 1.0,
+        "INT8_AC_access_ns": 2.1,
+        "FP8_AP_access_ns_table": 2.5,
+        "FP8_AC_access_ns_table": 2.7,
+        "capacity_Kbit_table": 32
+      },
+      "use": "structural/cycle check; FP8 text reverses AP/AC labels; text capacity 32 kB conflicts with table 32 Kb"
+    }
+  },
+  "acim": {
+    "kind": "reference_choice",
+    "scope": "path_fixed_pending_review",
+    "input_bits_per_step": 1,
+    "parallel_input_drivers": 128,
+    "weight_cell_bits": 1,
+    "weight_planes": 8,
+    "parallel_weight_planes": 8,
+    "rows_per_step": 128,
+    "adc_nominal_bits": 10,
+    "adc_effective_bits_target": 8,
+    "partial_sum_code_bits": 8,
+    "partial_sum_max": 128,
+    "adc_per_weight_plane": 16,
+    "adc_total": 128,
+    "adc_mux_per_plane": 8,
+    "digital_output_lanes": 16,
+    "digital_ticks_per_batch": 2,
+    "boundary_ticks": 2,
+    "input_bit_steps": 8,
+    "physical_steps_per_vector": 64,
+    "adc_batches_per_vector": 64,
+    "scalar_conversions_per_vector": 8192,
+    "schedule": "serial; each input-bit/ADC-mux group re-establishes/evaluates selected outputs, then converts, then reconstructs; no long analog hold or inter-vector overlap assumed",
+    "interval_ns": "64*(input_step + media_acim_step + adc_batch + 2*digital_tick) + 2*digital_tick",
+    "media_acim_step_definition": "所选 16 输出 x 8 位平面在一次求值中所需 RC/积分/器件响应/专用驱动与恢复，所有必要串行片段；若行折叠或位平面轮询则重新计次数"
+  },
+  "dcim": {
+    "kind": "reference_choice",
+    "scope": "path_fixed_pending_review",
+    "input_bits_per_tick": 1,
+    "weight_bits_parallel": 8,
+    "rows_per_group": 32,
+    "output_lanes": 16,
+    "input_bit_steps": 8,
+    "row_groups": 4,
+    "output_groups": 8,
+    "compute_steps_per_vector": 256,
+    "digital_ticks_per_compute_step": 1,
+    "boundary_ticks": 2,
+    "schedule": "serial across input bits, row groups and output groups; one local group physical response followed by one digital tick including multiply/reduction/partial-sum register",
+    "interval_ns": "256*(media_dcim_step + digital_tick) + 2*digital_tick",
+    "integrated_cycle_rule": "完整宏时钟已经含阵列与数字阶段时，用该时钟替代括号；不追加同一阶段；必须兼容所选共同资源/精度/时隙，否则只作实例检查或显式例外"
+  },
+  "resident": {
+    "kind": "reference_choice",
+    "scope": "common_resource_and_media_mapping",
+    "physical_write_data_lanes": 128,
+    "write_domains": 1,
+    "default_first_data_beat_in_command": true,
+    "subsequent_data_beat_ns": "digital_tick",
+    "control_ns": "2*digital_tick",
+    "default_binary_unredundant_completed_Byte_per_parallel_batch": 16,
+    "parallel_write_note": "128 是物理编码 bit 的低压数据/驱动接口上限；只有 128 cell 同时完成、8 个权重位平面均完成时才得到 16 Byte；专用驱动能力较小则降低并行量",
+    "verify_rule": "verify 读回用所选 sensing/ADC 与比较资源，脉冲序列另计；完整周期已含则只计一次",
+    "native_page_rule": "保留真实 page/block；有效 payload 仅为本逻辑单元被更新的部分；页未用字节不增加 B_R；单局部编程域，记录擦除情景",
+    "page_data_load_rule": "页例采用命令控制 2 拍 + 全部数据拍；若第一拍携带数据或原 program cycle 含数据输入则据实减少，不重复计数"
+  },
+  "propagation": {
+    "kind": "reference_choice",
+    "profiles": [
+      "short",
+      "reference",
+      "long"
+    ],
+    "profile_values": {
+      "short": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "reference": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "long": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      }
+    },
+    "profile_meaning": "共同工程时隙情景，非三个已测 PVT 角；所有介质沿用同一映射；介质参数独立给范围，只组合物理兼容的模式",
+    "pairing": "derive ridge inside each scenario; also report independent endpoint envelope separately if useful",
+    "rounding": "retain raw calculation; tables use source-rounded shared endpoints; illustrative derived ranges use outward 2 significant digits; service-overhead text uses outward 1 significant digit",
+    "nature": "情景估计范围，不是统计置信区间或所有实现的严格包络",
+    "cancellation": "仅相同比例作用于两路的复制/服务聚合因子可抵消"
+  },
+  "media_required_inputs": [
+    "baseline_version",
+    "device_state_and_mapping",
+    "array_response_and_endpoint",
+    "update_sequence_and_complete_timings",
+    "local_read_write_grain_and_parallelism",
+    "native_page_block_mapping",
+    "dedicated_drive_and_maintenance",
+    "compatibility_of_parameter_pairs",
+    "exceptions_to_common_configuration",
+    "paired_rho_tau_ridge_and_driver_summary"
+  ],
+  "examples": [
+    {
+      "id": "illustrative_acim_direct",
+      "kind": "illustrative_assumption_and_derivation",
+      "bound_to_medium": false,
+      "scenarios": [
+        {
+          "profile": "short",
+          "B_S_Byte": 128,
+          "B_R_Byte": 16,
+          "delta_S_ns": 1668,
+          "delta_R_ns": 24,
+          "rho_Byte_per_s": 76738609.11270982,
+          "tau_Byte_per_s": 666666666.6666666,
+          "ridge": 0.11510791366906474,
+          "inputs": {
+            "media_read_ns": 10,
+            "complete_physical_update_ns": 20,
+            "physical_bits_completed": 128,
+            "control_ns": 4
+          }
+        },
+        {
+          "profile": "reference",
+          "B_S_Byte": 128,
+          "B_R_Byte": 16,
+          "delta_S_ns": 3850,
+          "delta_R_ns": 60,
+          "rho_Byte_per_s": 33246753.246753242,
+          "tau_Byte_per_s": 266666666.66666663,
+          "ridge": 0.12467532467532468,
+          "inputs": {
+            "media_read_ns": 25,
+            "complete_physical_update_ns": 50,
+            "physical_bits_completed": 128,
+            "control_ns": 10
+          }
+        },
+        {
+          "profile": "long",
+          "B_S_Byte": 128,
+          "B_R_Byte": 16,
+          "delta_S_ns": 7700,
+          "delta_R_ns": 120,
+          "rho_Byte_per_s": 16623376.623376621,
+          "tau_Byte_per_s": 133333333.33333331,
+          "ridge": 0.12467532467532468,
+          "inputs": {
+            "media_read_ns": 40,
+            "complete_physical_update_ns": 100,
+            "physical_bits_completed": 128,
+            "control_ns": 20
+          }
+        }
+      ]
+    },
+    {
+      "id": "illustrative_dcim_page",
+      "kind": "illustrative_assumption_and_derivation",
+      "bound_to_medium": false,
+      "scenarios": [
+        {
+          "profile": "short",
+          "B_S_Byte": 128,
+          "B_R_Byte": 256,
+          "delta_S_ns": 1284,
+          "delta_R_ns": 11286.0,
+          "rho_Byte_per_s": 99688473.52024922,
+          "tau_Byte_per_s": 22682970.051391102,
+          "ridge": 4.394859813084112,
+          "inputs": {
+            "media_read_ns": 3,
+            "page_program_full_us": 5,
+            "erase_us": 100,
+            "pages_per_erase": 16,
+            "mapped_page_bits": 2048,
+            "data_load_ticks": 16,
+            "data_load_ns": 32,
+            "control_ns": 4
+          }
+        },
+        {
+          "profile": "reference",
+          "B_S_Byte": 128,
+          "B_R_Byte": 256,
+          "delta_S_ns": 3850,
+          "delta_R_ns": 22590.0,
+          "rho_Byte_per_s": 33246753.246753242,
+          "tau_Byte_per_s": 11332447.985834438,
+          "ridge": 2.933766233766234,
+          "inputs": {
+            "media_read_ns": 10,
+            "page_program_full_us": 10,
+            "erase_us": 200,
+            "pages_per_erase": 16,
+            "mapped_page_bits": 2048,
+            "data_load_ticks": 16,
+            "data_load_ns": 80,
+            "control_ns": 10
+          }
+        },
+        {
+          "profile": "long",
+          "B_S_Byte": 128,
+          "B_R_Byte": 256,
+          "delta_S_ns": 10260,
+          "delta_R_ns": 45180.0,
+          "rho_Byte_per_s": 12475633.528265107,
+          "tau_Byte_per_s": 5666223.992917219,
+          "ridge": 2.2017543859649127,
+          "inputs": {
+            "media_read_ns": 30,
+            "page_program_full_us": 20,
+            "erase_us": 400,
+            "pages_per_erase": 16,
+            "mapped_page_bits": 2048,
+            "data_load_ticks": 16,
+            "data_load_ns": 160,
+            "control_ns": 20
+          }
+        }
+      ],
+      "program_cycle_includes_verify": true
+    }
+  ],
+  "sources": {
+    "CMOS-02": {
+      "title": "A 28 nm CMOS 10 bit 100 MS/s Asynchronous SAR ADC with Low-Power Switching Procedure and Timing-Protection Scheme",
+      "doi": "10.3390/electronics10222856",
+      "year": 2021,
+      "authors": [
+        "Fang Tang",
+        "Qiyun Ma",
+        "Zhou Shu",
+        "Yuanjin Zheng",
+        "Amine Bermak"
+      ],
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-02_2021_AsynchronousSAR.pdf",
+        "pages": 10,
+        "bytes": 1103757,
+        "sha256": "435ff772b6fa1a338433d583c333b3f8042b795375b3229272e5c15aaf124811"
+      }
+    },
+    "CMOS-03": {
+      "title": "SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS",
+      "doi": "10.1109/tcsii.2012.2231015",
+      "year": 2012,
+      "authors": [
+        "Brian Zimmer",
+        "Seng Oon Toh",
+        "Huy Vo",
+        "Yunsup Lee",
+        "Olivier Thomas",
+        "Krste Asanovic",
+        "Borivoje Nikolic"
+      ],
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-03_2012_SRAM_Assist.pdf",
+        "pages": 5,
+        "bytes": 768510,
+        "sha256": "e6edc7bb5b0fad11aed2672c01fbadb4cbae8d0f7ad84e38c266bc912750af54"
+      }
+    },
+    "CMOS-07": {
+      "title": "Disturbance Aware Dynamic Power Reduction in Synchronous 2RW Dual-Port 8T SRAM by Self-Adjusting Wordline Pulse Timing",
+      "doi": "10.1109/jssc.2022.3229828",
+      "year": 2023,
+      "authors": [
+        "Yoshisato Yokoyama",
+        "Koji Nii",
+        "Yuichiro Ishii",
+        "Shinji Tanaka",
+        "Kazutoshi Kobayashi"
+      ],
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-07_2023_LowPower_DualPort_SRAM_AuthorRevision.pdf",
+        "pages": 11,
+        "bytes": 2372216,
+        "sha256": "c63c21e5c4a6eee45ed35be0703ed1f6380009edc17e41dfc13d22f66a24d6a1"
+      }
+    },
+    "SACIM-03": {
+      "title": "A 28nm 32Kb SRAM Computing-in-Memory Macro With Hierarchical Capacity Attenuator and Input Sparsity-Optimized ADC for 4b Mac Operation",
+      "doi": "10.1109/tcsii.2023.3234620",
+      "year": 2023,
+      "authors": [
+        "Kanglin Xiao",
+        "Xiaoxin Cui",
+        "Xin Qiao",
+        "Jiahao Song",
+        "Haoyang Luo",
+        "Xin’an Wang",
+        "Yuan Wang"
+      ],
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-03_2023_Hierarchical_Attenuator.pdf",
+        "pages": 5,
+        "bytes": 2851947,
+        "sha256": "4a0318542c1d90b3722e7f944f66dbc50bc2fd1601e12d47f98df243603c9bc8"
+      }
+    },
+    "SACIM-05": {
+      "title": "8-Bit Precision 6T SRAM Compute-in-Memory Macro Using Global Bitline-Combining Scheme for Edge AI Chips",
+      "doi": "10.1109/tcsii.2023.3331375",
+      "year": 2024,
+      "authors": [
+        "Jian-Wei Su",
+        "Pei-Jung Lu",
+        "Ping-Chun Wu",
+        "Yen-Chi Chou",
+        "Ta-Wei Liu",
+        "Yen-Lin Chung",
+        "Li-Yang Hung",
+        "Jin-Sheng Ren",
+        "Wei-Hsing Huang",
+        "Chih-Han Chien",
+        "Peng-I Mei",
+        "Sih-Han Li",
+        "Shyh-Shyuan Sheu",
+        "Wei-Chung Lo",
+        "Shih-Chieh Chang",
+        "Hao-Chiao Hong",
+        "Chung-Chuan Lo",
+        "Ren-Shuo Liu",
+        "Chih-Cheng Hsieh",
+        "Kea-Tiong Tang",
+        "Meng-Fan Chang"
+      ],
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-05_2024_GlobalBitlineCombining_8bit.pdf",
+        "pages": 5,
+        "bytes": 5663951,
+        "sha256": "8ef65c168abf00686f7e3b08dd6025a4297cd89f4218fb232f0b06dadec4f35d"
+      }
+    },
+    "SDCIM-01": {
+      "title": "D6CIM: 60.4-TOPS/W, 1.46-TOPS/mm2, 1005-Kb/mm2 Digital 6T-SRAM-Based Compute-in-Memory Macro Supporting 1-to-8b Fixed-Point Arithmetic in 28-nm CMOS",
+      "doi": "10.1109/ESSCIRC59616.2023.10268725",
+      "year": 2023,
+      "authors": [
+        "Jonghyun Oh",
+        "Chuan-Tung Lin",
+        "Mingoo Seok"
+      ],
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-01_2023_D6CIM.pdf",
+        "pages": 4,
+        "bytes": 1140748,
+        "sha256": "bbb72fb65095bfeee511c7ef5ca4f12c8a427a6718347695c0a462f1f4358e9e"
+      }
+    },
+    "SDCIM-03": {
+      "title": "A 1.041-Mb/mm^2 27.38-TOPS/W Signed-INT8 Dynamic-Logic-Based ADC-less SRAM Compute-in-Memory Macro in 28nm with Reconfigurable Bitwise Operation for AI and Embedded Applications",
+      "doi": "10.1109/isscc42614.2022.9731545",
+      "year": 2022,
+      "authors": [
+        "Bonan Yan",
+        "Jeng-Long Hsu",
+        "Pang-Cheng Yu",
+        "Chia-Chi Lee",
+        "Yaojun Zhang",
+        "Wenshuo Yue",
+        "Guoqiang Mei",
+        "Yuchao Yang",
+        "Yue Yang",
+        "Hai Li",
+        "Yiran Chen",
+        "Ru Huang"
+      ],
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-03_2022_DynamicLogic_INT8.pdf",
+        "pages": 3,
+        "bytes": 1395232,
+        "sha256": "c2fa5e30cdcde37e60fa9a04359df6f148b9dc5da0f6f5ff10a0fe29b6fe6978"
+      }
+    },
+    "SDCIM-05": {
+      "title": "A 28-nm Digital Transpose SRAM Compute-in-Memory Macro With Accurate/Approximate Dual Mode for Floating-Point Edge Training and Inference",
+      "doi": "10.1109/jssc.2026.3679560",
+      "year": 2026,
+      "authors": [
+        "Yiyang Yuan",
+        "Bingxin Zhang",
+        "Yiming Yang",
+        "Yishan Luo",
+        "Qirui Chen",
+        "Haitao Wang",
+        "Qihao Liu",
+        "Zhiming Chen",
+        "Hao Wu",
+        "Jinshan Yue",
+        "Shidong Lv",
+        "Xinghua Wang",
+        "Pui-In Mak",
+        "Xiaoran Li",
+        "Feng Zhang"
+      ],
+      "pdf": {
+        "path": "literature/02_sram_dcim/SDCIM-05_2026_DigitalTranspose_AccurateApprox.pdf",
+        "pages": 13,
+        "bytes": 3614134,
+        "sha256": "010078586a3b93c1ae16547c690eb80b1dbd25b2798132b29f39b2006d1310ba"
+      }
+    }
+  },
+  "field_provenance": {
+    "rule": "未单列字段继承所在对象 kind；reported/reported_model 均为文献原值，后者是作者模型而非实测；reference_choice 为本文选择；derived 为公式推导。示意物理输入是参考选择，不是文献原值。",
+    "logical_configuration": {
+      "B_S_Byte": {
+        "kind": "derived",
+        "formula": "n_in*b_S"
+      },
+      "resident_capacity_Byte": {
+        "kind": "derived",
+        "formula": "n_in*n_out*b_R"
+      },
+      "output_count": {
+        "kind": "derived",
+        "formula": "n_out"
+      }
+    },
+    "acim": {
+      "adc_total": {
+        "kind": "derived",
+        "formula": "adc_per_weight_plane*parallel_weight_planes"
+      },
+      "adc_mux_per_plane": {
+        "kind": "derived",
+        "formula": "ceil(n_out/adc_per_weight_plane)"
+      },
+      "input_bit_steps": {
+        "kind": "derived",
+        "formula": "ceil(8*b_S/input_bits_per_step)"
+      },
+      "physical_steps_per_vector": {
+        "kind": "derived",
+        "formula": "input_bit_steps*adc_mux_per_plane"
+      },
+      "adc_batches_per_vector": {
+        "kind": "derived",
+        "formula": "physical_steps_per_vector"
+      },
+      "scalar_conversions_per_vector": {
+        "kind": "derived",
+        "formula": "adc_batches_per_vector*adc_total"
+      },
+      "partial_sum_max": {
+        "kind": "derived",
+        "formula": "rows_per_step for binary products"
+      }
+    },
+    "dcim": {
+      "input_bit_steps": {
+        "kind": "derived",
+        "formula": "ceil(8*b_S/input_bits_per_tick)"
+      },
+      "row_groups": {
+        "kind": "derived",
+        "formula": "ceil(n_in/rows_per_group)"
+      },
+      "output_groups": {
+        "kind": "derived",
+        "formula": "ceil(n_out/output_lanes)"
+      },
+      "compute_steps_per_vector": {
+        "kind": "derived",
+        "formula": "input_bit_steps*row_groups*output_groups"
+      }
+    },
+    "resident": {
+      "default_binary_unredundant_completed_Byte_per_parallel_batch": {
+        "kind": "derived",
+        "formula": "128 physical bits / (8 binary cells per INT8 weight) * b_R, only if all complete together"
+      }
+    },
+    "examples": {
+      "inputs": "reference_choice (illustrative only)",
+      "B_S_Byte": "derived",
+      "B_R_Byte": "derived",
+      "delta_S_ns": "derived",
+      "delta_R_ns": "derived",
+      "rho_Byte_per_s": "derived",
+      "tau_Byte_per_s": "derived",
+      "ridge": "derived"
+    }
+  },
+  "observed_head_at_delivery": "fbf91aa053e11b05c97984ad35c5c7901cb5a2ee"
+}

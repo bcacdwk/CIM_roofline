@@ -1,0 +1,35 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,pdftitle={Table I 共享估算基线 v0.1}}
+\setstretch{1.13}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.22}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Table I 共享估算基线 v0.1}
+\fancyhead[R]{\small 中文研究底稿 · 待审阅}
+\fancyfoot[C]{\thepage}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\sid}[1]{\texttt{#1}}
+\newcommand{\ns}{\,\mathrm{ns}}
+\newcommand{\us}{\,\mu\mathrm{s}}
+\newcommand{\GBs}{\,\mathrm{GB/s}}
+\title{\bfseries Table I 共享估算基线 v0.1\\[4pt]\large 28 nm CMOS 外围参考与两路吞吐估算方法}
+\author{}
+\date{2026 年 9 月 8 日 · 参考条件提案}
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+\noindent 本底稿建立后续介质分析共同使用的参考设计与计算入口。研究对象是局部 CIM 服务单元，依次讨论共同外围、完整服务及两路吞吐；本版本止于这两节。
+\input{01_cmos_periphery}
+\clearpage
+\input{02_estimation_method}
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{references}
+\end{document}
