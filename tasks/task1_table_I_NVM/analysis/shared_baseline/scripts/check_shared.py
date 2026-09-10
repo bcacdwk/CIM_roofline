@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute v0.2 templates, R0 regression and bounded sensitivity (stdlib only).
+"""Recompute service templates, the R0 reference and bounded sensitivity (stdlib only).
 
 Default is read-only. --emit refreshes generated TeX and sensitivity_results.json.
 The formulas model sequential execution; they do not infer pipeline throughput.
@@ -172,7 +172,7 @@ def sensitivity_results():
                 for metric in ['rho_Byte_per_s','tau_Byte_per_s','ridge']:
                     row[metric+'_relative_change'] = row[metric]/by_id[base_id][metric]-1
                 timing.append(row)
-    return dict(baseline_version=D['baseline_version'], status=D['status'],
+    return dict(baseline_id=D['baseline_id'],
                 kind='illustrative_derived_no_medium_binding', structural=rows, small_timing=timing)
 
 
@@ -275,7 +275,7 @@ class SharedChecks(unittest.TestCase):
         self.assertAlmostEqual(1e9/(455e6), 2.1978021978)
         self.assertAlmostEqual(metrics(1,1,1,1)['rho_Byte_per_s']/1e9, 1)
 
-    def test_R0_general_templates_match_v01(self):
+    def test_R0_general_templates_match_expanded_formulas(self):
         self.assertEqual(acim_counts(R['acim']), R['acim']['derived'])
         self.assertEqual(dcim_counts(R['dcim']), R['dcim']['derived'])
         for v in C['propagation']['profile_values'].values():
@@ -361,7 +361,7 @@ class SharedChecks(unittest.TestCase):
                 self.assertAlmostEqual(1024*s['B_R_Byte']/seconds(1024*s['delta_R_ns'],'ns'),t)
                 self.assertLess(s['B_S_Byte']/seconds(2*s['delta_S_ns'],'ns'),r)
 
-    def test_preserved_regression_pairs(self):
+    def test_illustrative_pairs(self):
         self.assertEqual(len(D['examples']),2)
         for e in D['examples']:
             self.assertFalse(e['bound_to_medium'])
@@ -393,10 +393,8 @@ class SharedChecks(unittest.TestCase):
         self.assertEqual([s['delta_S_ns'] for s in result['small_timing']],[3594,4106,3720,3980,3592,4108])
         self.assertEqual([s['delta_R_ns'] for s in result['small_timing']],[60,60,58,62,58,62])
 
-    def test_profiles_and_unchanged_periphery(self):
-        self.assertEqual(D['baseline_version'],'v0.2')
-        self.assertEqual(D['status'],'pending_review')
-        self.assertFalse(R['structure_changed_from_v01'])
+    def test_profiles_and_periphery(self):
+        self.assertEqual(D['baseline_id'],'shared_baseline')
         self.assertEqual([(p['range'],p['reference']) for p in P.values()],
                          [([2,10],5),([10,50],20),([2,10],5),([4,20],10)])
         for v in C['propagation']['profile_values'].values():
@@ -433,7 +431,7 @@ class SharedChecks(unittest.TestCase):
             self.assertIn(text,one)
         for text in ['8192','22590','1024','240','3850']:
             self.assertIn(text,two)
-        self.assertIn('v0.2',(BASE/'tex/shared_baseline.tex').read_text())
+        self.assertIn('Table I 共享估算基线',(BASE/'tex/shared_baseline.tex').read_text())
 
 
 if __name__=='__main__':

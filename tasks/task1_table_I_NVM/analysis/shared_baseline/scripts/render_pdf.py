@@ -10,7 +10,7 @@ base = Path(__file__).resolve().parents[1]
 target = base / 'tmp/pdfs/rendered'
 target.mkdir(parents=True, exist_ok=True)
 document = pdfium.PdfDocument(base / 'output/shared_baseline.pdf')
-# Remove only stale page renders from a previously longer version.
+# Discard page renders outside the current PDF page range.
 for old in target.glob('page-*'):
     if old.suffix in {'.png', '.txt'} and old.stem[5:].isdigit():
         if int(old.stem[5:]) > len(document):

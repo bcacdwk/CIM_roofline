@@ -1,10 +1,5 @@
 {
-  "baseline_version": "v0.2",
-  "status": "pending_review",
-  "status_zh": "待审阅",
-  "base_head": "3cab061c92cae9bc5e7e0e02fe8bba9394f43c3d",
-  "reviewed_v01_commit": "3cab061c92cae9bc5e7e0e02fe8bba9394f43c3d",
-  "updated_on": "2026-09-10",
+  "baseline_id": "shared_baseline",
   "units": {
     "b_S_b_R": "Byte/element",
     "bits_per_Byte": 8,
@@ -16,7 +11,7 @@
   "common_conditions": {
     "logical_configuration": {
       "kind": "reference_choice",
-      "scope": "common_fixed_pending_review",
+      "scope": "common_fixed",
       "n_out": 128,
       "n_in": 128,
       "stream_format": "signed INT8 two-complement",
@@ -31,7 +26,7 @@
     },
     "service_boundary": {
       "kind": "reference_choice",
-      "scope": "common_fixed_pending_review",
+      "scope": "common_fixed",
       "description": "一份 128x128 逻辑矩阵的等效局部状态实现，本地输入、驱动、读出、重构、输出寄存器与单个更新域",
       "stream_start": "128 个 INT8 输入在本地宽向量接口被接收；捕获与提交的拍数属于参考结构",
       "stream_end": "128 个 24-bit 结果在本地输出寄存器就绪",
@@ -43,7 +38,7 @@
     },
     "operating_reference": {
       "kind": "reference_choice",
-      "scope": "common_fixed_pending_review",
+      "scope": "common_fixed",
       "process_nm": 28,
       "core_supply_reference_V": 0.9,
       "temperature_reference_C": 25,
@@ -163,9 +158,8 @@
   "reference_instance": {
     "id": "R0",
     "kind": "reference_choice",
-    "scope": "recommended_instance_pending_review",
+    "scope": "recommended_instance",
     "equal_area_constraint": false,
-    "structure_changed_from_v01": false,
     "acim": {
       "input_bits_per_slice": 1,
       "rows_per_group": 128,
@@ -236,7 +230,7 @@
   "selection_rules": [
     {
       "id": "R1",
-      "rule": "统一边界、128x128 INT8 逻辑任务、128x24-bit 输出及 v0.1 精度合同，统一外围情景；默认采用 R0。"
+      "rule": "统一边界、128x128 INT8 逻辑任务与128x24-bit输出；精度合同为ACIM近似重构、DCIM精确整数，采用共同外围情景与默认R0。"
     },
     {
       "id": "R2",
@@ -257,7 +251,7 @@
   ],
   "media_required_inputs": {
     "required_fields": [
-      "baseline_version",
+      "baseline_id",
       "device_state_and_mapping",
       "array_response_and_endpoint",
       "update_sequence_and_complete_timings",
@@ -302,7 +296,7 @@
     "direct": "eq:direct: complete logical weights with physical batches and encoded input beats",
     "program": "eq:program and eq:page: full steps/verify, applicable erase amortization",
     "provenance": "reported_evidence/sources retain original values; common_conditions/reference_instance are reference choices unless derived; synthetic example/sensitivity inputs are not measured",
-    "derived_data": "examples retain v0.1 regression values; data/sensitivity_results.json and generated TeX rebuilt by --emit; default verifies without writes"
+    "derived_data": "examples provide illustrative paired scenarios; data/sensitivity_results.json and generated TeX rebuilt by --emit; default verifies without writes"
   },
   "examples": [
     {
@@ -451,7 +445,7 @@
       "first_data_in_command": true,
       "complete_physical_update_ns": 50
     },
-    "precision_condition": "同一逻辑任务及原路径精度合同；对照时新增负载与噪声须满足同一目标，本轮未作电路/误差验证",
+    "precision_condition": "同一逻辑任务及各路径精度合同；对照时新增负载与噪声须满足同一目标，结果为带资源与精度条件的估算，未经电路/误差验证",
     "scenarios": [
       {
         "id": "A0",
