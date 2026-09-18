@@ -74,8 +74,7 @@ N_D=8\times1\times4\times8=256,\qquad
 
 \subsection{C. 直接更新型 resident：完成多少权重，执行多少批}
 
-\textbf{通用模板。} 一次事务更新 $L$ 个完整逻辑权重，每权重映射为 $c$ 个 cell，一批可同时完成 $p$ 个 cell 的完整目标状态。分组对齐、可独立选通且每 cell 一次完整更新时，物理批数 $n_w=\lceil Lc/p\rceil$；受行/平面限制时改用映射中的实际批列表。令编码装入量为 $D_{\rm enc}$ bit、接口宽 $w_{
-m IO}$，数据批数 $n_b=\lceil D_{\rm enc}/w_{\rm IO}\rceil$。则
+\textbf{通用模板。} 一次事务更新 $L$ 个完整逻辑权重，每权重映射为 $c$ 个 cell，一批可同时完成 $p$ 个 cell 的完整目标状态。分组对齐、可独立选通且每 cell 一次完整更新时，物理批数 $n_w=\lceil Lc/p\rceil$；受行/平面限制时改用映射中的实际批列表。令编码装入量为 $D_{\rm enc}$ bit、接口宽 $w_{\rm IO}$，数据批数 $n_b=\lceil D_{\rm enc}/w_{\rm IO}\rceil$。则
 \begin{equation}
 B_R=Lb_R,\quad
 \Delta_R=T_{\rm front}+\sum_{j=1}^{n_w}t_{{\rm update,full},j},\quad

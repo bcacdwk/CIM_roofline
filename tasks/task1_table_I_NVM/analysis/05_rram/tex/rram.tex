@@ -1,0 +1,28 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={RRAM 二状态位切片的局部服务估算}}
+\setstretch{1.12}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.20}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small RRAM 二状态位切片的局部服务估算}
+\fancyhead[R]{\small 28 nm 共同外围参考}
+\fancyfoot[C]{\thepage}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\sid}[1]{\texttt{#1}}
+\newcommand{\ns}{\,\mathrm{ns}}
+\newcommand{\us}{\,\mu\mathrm{s}}
+\newcommand{\GBs}{\,\mathrm{GB/s}}
+\title{\bfseries RRAM 二状态位切片的局部服务估算}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-2em}
+\input{05_rram}
+\clearpage
+\input{generated_evidence}
+\end{document}

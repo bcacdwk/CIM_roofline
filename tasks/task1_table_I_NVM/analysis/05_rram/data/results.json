@@ -1,0 +1,219 @@
+{
+  "schema_version": "rram-pilot-results-1.0",
+  "status": "binary_read_conditional_estimate_write_parameterized",
+  "baseline_json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+  "baseline_script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
+  "input_sha256": "f39eefaf04d6ce82b60107534c54af0770dee17497ce32924e1ab593b12bc337",
+  "numerical_media_write_point_available": false,
+  "rho_conditional_range_Byte_per_s": [
+    5876951.331496785,
+    23791821.56133829
+  ],
+  "warning": "The read range assumes h_A=0 and compatible calibrated analog interface. Write boundaries are mathematical bounds for the declared serial verified update policy, not finite media throughput estimates.",
+  "scenarios": [
+    {
+      "profile": "short",
+      "periphery_ns": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 4,
+        "weight_groups": 1,
+        "base_combinations": 32,
+        "evaluations": 256,
+        "adc_batches": 256,
+        "reconstruction_rounds": 256,
+        "digital_ticks": 512,
+        "useful_scalar_conversions": 32768,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "hold_extra_ns": 0,
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns_conditional_hA0": 5380,
+      "rho_Byte_per_s_conditional_hA0": 23791821.56133829,
+      "R0_same_frontend_delta_S_ns": 1348,
+      "rho_ratio_to_unconstrained_R0": 0.2505576208178439,
+      "write_absolute_time_identified": false,
+      "tau_Byte_per_s": null,
+      "ridge": null,
+      "write_boundary_not_physical_estimate": {
+        "assumptions": "p=1; K_j=1; unknown HV/pulse/recovery contribution is set to its zero mathematical lower boundary; h_A=0",
+        "delta_R_ns_lower_boundary": 2692.0,
+        "tau_Byte_per_s_upper_boundary": 5943536.404160475,
+        "ridge_lower_boundary": 4.002973977695167,
+        "complete_cell_update_ns_lower_boundary": 21.0,
+        "details": {
+          "cells": 128,
+          "data_beats": 1,
+          "front_ns": 4,
+          "program_verify_attempts": 128,
+          "control_ns_per_attempt": 2,
+          "verify_including_compare_ns": 19,
+          "unknown_HV_pulse_recover_ns_per_attempt": 0,
+          "steps": [
+            {
+              "count": 128,
+              "drive_program_ns": 2,
+              "verify_ns": 19,
+              "recover_ns": 0
+            }
+          ]
+        }
+      },
+      "complete_cell_update_threshold_ns": {
+        "1": 5.22265625,
+        "10": 52.50781249999999,
+        "100": 525.359375
+      },
+      "unknown_hA_extra_streaming_multiplier": 256
+    },
+    {
+      "profile": "reference",
+      "periphery_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 4,
+        "weight_groups": 1,
+        "base_combinations": 32,
+        "evaluations": 256,
+        "adc_batches": 256,
+        "reconstruction_rounds": 256,
+        "digital_ticks": 512,
+        "useful_scalar_conversions": 32768,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "hold_extra_ns": 0,
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns_conditional_hA0": 10250,
+      "rho_Byte_per_s_conditional_hA0": 12487804.87804878,
+      "R0_same_frontend_delta_S_ns": 2570,
+      "rho_ratio_to_unconstrained_R0": 0.25073170731707317,
+      "write_absolute_time_identified": false,
+      "tau_Byte_per_s": null,
+      "ridge": null,
+      "write_boundary_not_physical_estimate": {
+        "assumptions": "p=1; K_j=1; unknown HV/pulse/recovery contribution is set to its zero mathematical lower boundary; h_A=0",
+        "delta_R_ns_lower_boundary": 5130.0,
+        "tau_Byte_per_s_upper_boundary": 3118908.382066277,
+        "ridge_lower_boundary": 4.00390243902439,
+        "complete_cell_update_ns_lower_boundary": 40.0,
+        "details": {
+          "cells": 128,
+          "data_beats": 1,
+          "front_ns": 10,
+          "program_verify_attempts": 128,
+          "control_ns_per_attempt": 5,
+          "verify_including_compare_ns": 35,
+          "unknown_HV_pulse_recover_ns_per_attempt": 0,
+          "steps": [
+            {
+              "count": 128,
+              "drive_program_ns": 5,
+              "verify_ns": 35,
+              "recover_ns": 0
+            }
+          ]
+        }
+      },
+      "complete_cell_update_threshold_ns": {
+        "1": 9.931640625,
+        "10": 100.01953124999999,
+        "100": 1000.8984375
+      },
+      "unknown_hA_extra_streaming_multiplier": 256
+    },
+    {
+      "profile": "long",
+      "periphery_ns": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      },
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 4,
+        "weight_groups": 1,
+        "base_combinations": 32,
+        "evaluations": 256,
+        "adc_batches": 256,
+        "reconstruction_rounds": 256,
+        "digital_ticks": 512,
+        "useful_scalar_conversions": 32768,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "hold_extra_ns": 0,
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns_conditional_hA0": 21780,
+      "rho_Byte_per_s_conditional_hA0": 5876951.331496785,
+      "R0_same_frontend_delta_S_ns": 5460,
+      "rho_ratio_to_unconstrained_R0": 0.25068870523415976,
+      "write_absolute_time_identified": false,
+      "tau_Byte_per_s": null,
+      "ridge": null,
+      "write_boundary_not_physical_estimate": {
+        "assumptions": "p=1; K_j=1; unknown HV/pulse/recovery contribution is set to its zero mathematical lower boundary; h_A=0",
+        "delta_R_ns_lower_boundary": 10900.0,
+        "tau_Byte_per_s_upper_boundary": 1467889.9082568807,
+        "ridge_lower_boundary": 4.003673094582185,
+        "complete_cell_update_ns_lower_boundary": 85.0,
+        "details": {
+          "cells": 128,
+          "data_beats": 1,
+          "front_ns": 20,
+          "program_verify_attempts": 128,
+          "control_ns_per_attempt": 10,
+          "verify_including_compare_ns": 75,
+          "unknown_HV_pulse_recover_ns_per_attempt": 0,
+          "steps": [
+            {
+              "count": 128,
+              "drive_program_ns": 10,
+              "verify_ns": 75,
+              "recover_ns": 0
+            }
+          ]
+        }
+      },
+      "complete_cell_update_threshold_ns": {
+        "1": 21.11328125,
+        "10": 212.5390625,
+        "100": 2126.796875
+      },
+      "unknown_hA_extra_streaming_multiplier": 256
+    }
+  ],
+  "frontend_sensitivity": [
+    {
+      "h_A_ns": 0,
+      "meaning": "additional one-PH0-sized interface allowance, not measured delay range",
+      "delta_S_ns": 10250,
+      "rho_Byte_per_s": 12487804.87804878,
+      "tau_upper_boundary_Byte_per_s": 3118908.382066277,
+      "ridge_lower_boundary": 4.00390243902439
+    },
+    {
+      "h_A_ns": 5,
+      "meaning": "additional one-PH0-sized interface allowance, not measured delay range",
+      "delta_S_ns": 11530,
+      "rho_Byte_per_s": 11101474.414570684,
+      "tau_upper_boundary_Byte_per_s": 2772963.604852686,
+      "ridge_lower_boundary": 4.003469210754553
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={SRAM DCIM：完整精度数字求值与普通 SRAM 更新}}
+\setstretch{1.12}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small SRAM DCIM 介质分析}\fancyhead[R]{\small 28 nm 局部参考设计}
+\fancyfoot[C]{\thepage}
+\newcommand{\sid}[1]{\texttt{#1}}
+\title{\bfseries SRAM DCIM\\[4pt]\large 完整精度数字求值与普通 SRAM 更新}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-1.7em}
+\noindent 在共同 $128\times128$ INT8 逻辑任务下，保留有原文依据的 16 项数字归约与普通 128-bit SRAM 写入组织，估算同一局部服务边界上的 $\rho$、$\tau$ 和 $\mathrm{RI}^{*}$。这是文献支持的条件性参考设计。
+\input{02_sram_dcim}
+\end{document}

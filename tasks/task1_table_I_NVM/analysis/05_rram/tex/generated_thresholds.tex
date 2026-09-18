@@ -1,0 +1,9 @@
+% Generated capacity thresholds, not assumed RRAM times.
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrrrr@{}}\toprule
+情景 & 已计控制/校验下边界 (ns/cell) & $u_{\RI^*=1}$ & $u_{\RI^*=10}$ & $u_{\RI^*=100}$\\\midrule
+短时隙 & 21 & 5.223 & 52.508 & 525.359\\
+参考 & 40 & 9.932 & 100.020 & 1000.898\\
+长时隙 & 85 & 21.113 & 212.539 & 2126.797\\
+\bottomrule\end{tabular}
+\caption{完整单 cell 服务时间 $u$ 的 ridge 门槛，后三列单位均为 ns。由 $\Delta_R=2T_D+128u$ 与共同服务公式反解，只回答“多快的完整更新对应这个 ridge”，不宣称器件具备该速度。}\label{tab:threshold}\end{table}

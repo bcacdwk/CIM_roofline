@@ -1,0 +1,33 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,pdftitle={3D NAND 局部 CIM 服务估算}}
+\setstretch{1.12}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small 3D NAND 局部 CIM 服务估算}
+\fancyhead[R]{\small 28 nm 共同外围参考}
+\fancyfoot[C]{\thepage}
+\newcommand{\sid}[1]{\texttt{#1}}
+\newcommand{\RI}{\mathrm{RI}}
+\title{\bfseries 3D NAND 局部 CIM 服务估算\\[4pt]\large SLC 映射、完整操作与两路能力边界}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-2.5em}
+\input{04_nand_3d}
+\begin{thebibliography}{9}
+\bibitem{nand04}\texttt{NAND-04}: W. Shim and S. Yu, ``System-Technology Codesign of 3-D NAND Flash-Based Compute-in-Memory Inference Engine,'' IEEE JXCDC, 7(1), 61--69, 2021. DOI: 10.1109/JXCDC.2021.3093772.
+\bibitem{nand05}\texttt{NAND-05}: H.-T. Lue et al., ``Optimal Design Methods to Transform 3D NAND Flash into a High-Density, High-Bandwidth and Low-Power Nonvolatile Computing in Memory Accelerator for DNN,'' IEDM, 38.1.1--38.1.4, 2019. DOI: 10.1109/IEDM19573.2019.8993652.
+\bibitem{nand01}\texttt{NAND-01}: Micron Technology, ``Micron 3D NAND Flash Memory Technology,'' product flyer, 02/16, 2016, p.2.
+\bibitem{nand02}{\raggedright \texttt{NAND-02}: J. M. Thimmaiah et al., ``A 2Tb 4b/Cell 6-Plane 3D-Flash Memory with 37.6Gb/mm$^2$ Bit Density and $>$85MB/s Write Throughput,'' ISSCC, 15.1, 2026. DOI: 10.1109/ISSCC49663.2026.11409136.\par}
+\bibitem{nand03}\texttt{NAND-03}: W. Cho et al., ``A 321-Layer 2Tb 4b/cell 3D-NAND-Flash Memory with a 75MB/s Program Throughput,'' ISSCC, 30.5, 2025. DOI: 10.1109/ISSCC49661.2025.10904748.
+\end{thebibliography}
+\clearpage
+\section*{参数证据与定位}
+\input{generated_evidence}
+\end{document}

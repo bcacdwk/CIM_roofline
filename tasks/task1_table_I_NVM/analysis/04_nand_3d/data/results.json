@@ -1,0 +1,395 @@
+{
+  "schema_version": "nand-3d-results-1",
+  "baseline_json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+  "baseline_script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
+  "baseline_method_tex_sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
+  "geometry": {
+    "blocks": 128,
+    "subarrays": 2,
+    "physical_page_bits": 13824,
+    "physical_page_Byte": 1728,
+    "physical_pages_per_block": 96,
+    "useful_data_pages_per_block": 8,
+    "data_pages_per_matrix": 1024,
+    "logical_matrix_Byte": 16384,
+    "logical_bit_payload_per_data_page_Byte": 16.0,
+    "encoded_data_Byte": 1769472,
+    "physical_array_cells": 169869312,
+    "weight_bit_cell_copies": 108,
+    "physical_data_cells": 14155776,
+    "adc_count": 128,
+    "maximum_sum_current_uA": 27.648,
+    "useful_count_LSB_current_nA": 216,
+    "iid_cell_variation_sigma_in_count_LSB": 0.16329931618554522
+  },
+  "scenarios": [
+    {
+      "profile": "short",
+      "periphery_ns": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "sl_setup_ns": 530,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "wl_setup_count": 8,
+      "wl_setup_total_ns": 2424,
+      "delta_S_ns": 38140.0,
+      "rho_Byte_per_s": 3356056.633455689,
+      "extra_media_ns_per_evaluation_coefficient": 64,
+      "read_result_kind": "conditional engineering estimate; not measured SLC macro result",
+      "resident": [
+        {
+          "mode": "append",
+          "calibration_wl_per_block": 0,
+          "operation_counts": {
+            "program_cycles": 1024,
+            "data_pages": 1024,
+            "calibration_pages": 0,
+            "erase_cycles": 0,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 220,
+            "front_total_ns": 225280
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 225.28,
+            "P_us_coefficient": 1024.0,
+            "E_us_coefficient": 0.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.04614577871001573,
+            "P_us": 0.2097535395909806,
+            "E_us": 0.0,
+            "C_us": 0.00020483744100681698
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 4.5475,
+          "E_us_at_ridge_1_given_P_C_zero": null,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        },
+        {
+          "mode": "rewrite",
+          "calibration_wl_per_block": 1,
+          "operation_counts": {
+            "program_cycles": 1152,
+            "data_pages": 1024,
+            "calibration_pages": 128,
+            "erase_cycles": 128,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 220,
+            "front_total_ns": 253440
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 253.44,
+            "P_us_coefficient": 1152.0,
+            "E_us_coefficient": 128.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.0519140010487677,
+            "P_us": 0.23597273203985317,
+            "E_us": 0.026219192448872573,
+            "C_us": 0.00020483744100681698
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 4.017777777777777,
+          "E_us_at_ridge_1_given_P_C_zero": 36.16,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        },
+        {
+          "mode": "rewrite",
+          "calibration_wl_per_block": 2,
+          "operation_counts": {
+            "program_cycles": 1280,
+            "data_pages": 1024,
+            "calibration_pages": 256,
+            "erase_cycles": 128,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 220,
+            "front_total_ns": 281600
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 281.6,
+            "P_us_coefficient": 1280.0,
+            "E_us_coefficient": 128.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.05768222338751967,
+            "P_us": 0.26219192448872575,
+            "E_us": 0.026219192448872573,
+            "C_us": 0.00020483744100681698
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 3.594,
+          "E_us_at_ridge_1_given_P_C_zero": 35.94,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        }
+      ]
+    },
+    {
+      "profile": "reference",
+      "periphery_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "sl_setup_ns": 640,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "wl_setup_count": 8,
+      "wl_setup_total_ns": 2424,
+      "delta_S_ns": 46402.0,
+      "rho_Byte_per_s": 2758501.7887160038,
+      "extra_media_ns_per_evaluation_coefficient": 64,
+      "read_result_kind": "conditional engineering estimate; not measured SLC macro result",
+      "resident": [
+        {
+          "mode": "append",
+          "calibration_wl_per_block": 0,
+          "operation_counts": {
+            "program_cycles": 1024,
+            "data_pages": 1024,
+            "calibration_pages": 0,
+            "erase_cycles": 0,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 550,
+            "front_total_ns": 563200
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 563.2,
+            "P_us_coefficient": 1024.0,
+            "E_us_coefficient": 0.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.09482349898711262,
+            "P_us": 0.17240636179475022,
+            "E_us": 0.0,
+            "C_us": 0.00016836558769018576
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 5.25025,
+          "E_us_at_ridge_1_given_P_C_zero": null,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        },
+        {
+          "mode": "rewrite",
+          "calibration_wl_per_block": 1,
+          "operation_counts": {
+            "program_cycles": 1152,
+            "data_pages": 1024,
+            "calibration_pages": 128,
+            "erase_cycles": 128,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 550,
+            "front_total_ns": 633600
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 633.6,
+            "P_us_coefficient": 1152.0,
+            "E_us_coefficient": 128.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.1066764363605017,
+            "P_us": 0.193957157019094,
+            "E_us": 0.021550795224343777,
+            "C_us": 0.00016836558769018576
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 4.605777777777778,
+          "E_us_at_ridge_1_given_P_C_zero": 41.452,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        },
+        {
+          "mode": "rewrite",
+          "calibration_wl_per_block": 2,
+          "operation_counts": {
+            "program_cycles": 1280,
+            "data_pages": 1024,
+            "calibration_pages": 256,
+            "erase_cycles": 128,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 550,
+            "front_total_ns": 704000
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 704.0,
+            "P_us_coefficient": 1280.0,
+            "E_us_coefficient": 128.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.11852937373389077,
+            "P_us": 0.21550795224343777,
+            "E_us": 0.021550795224343777,
+            "C_us": 0.00016836558769018576
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 4.0902,
+          "E_us_at_ridge_1_given_P_C_zero": 40.902,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        }
+      ]
+    },
+    {
+      "profile": "long",
+      "periphery_ns": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      },
+      "sl_setup_ns": 750,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "wl_setup_count": 8,
+      "wl_setup_total_ns": 2424,
+      "delta_S_ns": 56332.0,
+      "rho_Byte_per_s": 2272243.1300149113,
+      "extra_media_ns_per_evaluation_coefficient": 64,
+      "read_result_kind": "conditional engineering estimate; not measured SLC macro result",
+      "resident": [
+        {
+          "mode": "append",
+          "calibration_wl_per_block": 0,
+          "operation_counts": {
+            "program_cycles": 1024,
+            "data_pages": 1024,
+            "calibration_pages": 0,
+            "erase_cycles": 0,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 1100,
+            "front_total_ns": 1126400
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 1126.4,
+            "P_us_coefficient": 1024.0,
+            "E_us_coefficient": 0.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.15621671518852517,
+            "P_us": 0.14201519562593198,
+            "E_us": 0.0,
+            "C_us": 0.0001386867144784492
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 5.9415,
+          "E_us_at_ridge_1_given_P_C_zero": null,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        },
+        {
+          "mode": "rewrite",
+          "calibration_wl_per_block": 1,
+          "operation_counts": {
+            "program_cycles": 1152,
+            "data_pages": 1024,
+            "calibration_pages": 128,
+            "erase_cycles": 128,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 1100,
+            "front_total_ns": 1267200
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 1267.2,
+            "P_us_coefficient": 1152.0,
+            "E_us_coefficient": 128.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.17574380458709082,
+            "P_us": 0.15976709507917347,
+            "E_us": 0.017751899453241498,
+            "C_us": 0.0001386867144784492
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 5.159111111111112,
+          "E_us_at_ridge_1_given_P_C_zero": 46.432,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        },
+        {
+          "mode": "rewrite",
+          "calibration_wl_per_block": 2,
+          "operation_counts": {
+            "program_cycles": 1280,
+            "data_pages": 1024,
+            "calibration_pages": 256,
+            "erase_cycles": 128,
+            "data_beats_per_page": 108,
+            "front_ns_per_page": 1100,
+            "front_total_ns": 1408000
+          },
+          "delta_R_us_coefficients": {
+            "front_us": 1408.0,
+            "P_us_coefficient": 1280.0,
+            "E_us_coefficient": 128.0,
+            "C_us_coefficient": 1.0
+          },
+          "ridge_coefficients": {
+            "constant": 0.19527089398565647,
+            "P_us": 0.17751899453241496,
+            "E_us": 0.017751899453241498,
+            "C_us": 0.0001386867144784492
+          },
+          "P_us_at_ridge_1_given_E_C_zero": 4.5332,
+          "E_us_at_ridge_1_given_P_C_zero": 45.332,
+          "tau_Byte_per_s": null,
+          "ridge": null,
+          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+        }
+      ]
+    }
+  ],
+  "conditional_rho_MB_per_s_range": [
+    2.2722431300149113,
+    3.356056633455689
+  ],
+  "no_finite_supported_numeric_tau_ridge_range": true
+}

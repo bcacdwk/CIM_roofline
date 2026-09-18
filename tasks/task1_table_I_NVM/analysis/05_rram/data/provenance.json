@@ -1,0 +1,115 @@
+{
+  "corpus_sources": [
+    {
+      "source_id": "RRAM-01",
+      "title": "A compute-in-memory chip based on resistive random-access memory",
+      "doi": "10.1038/s41586-022-04992-8",
+      "path": "literature/05_rram/RRAM-01_2022_NeuRRAM.pdf",
+      "sha256": "4e75d89025e0e3bc7c04bf00f50bf0f618935c3e405612fd23c95856bf209a5b",
+      "pages": 29
+    },
+    {
+      "source_id": "RRAM-02",
+      "title": "A 28 nm 576K RRAM-based computing-in-memory macro featuring hybrid programming with area efficiency of 2.82 TOPS/mm2",
+      "doi": "10.1088/1674-4926/24100017",
+      "path": "literature/05_rram/RRAM-02_2025_HybridProgramming.pdf",
+      "sha256": "d55cb5abda2d3374d86ea094c82396c86d5c408489816a0fb1d4abd8e4f55752",
+      "pages": 9
+    },
+    {
+      "source_id": "RRAM-03",
+      "title": "High temperature stability embedded ReRAM for 2x nm node and beyond",
+      "doi": "10.1109/imw52921.2022.9779293",
+      "path": "literature/05_rram/RRAM-03_2022_Weebit_28nm.pdf",
+      "sha256": "2ad046df73ffe73b760074f1321cd1c5856ca6f8aad962ed70c3f449d1aaaf1b",
+      "pages": 5
+    },
+    {
+      "source_id": "RRAM-04",
+      "title": "MB85AS4MT — Memory ReRAM 4M (512 K × 8) Bit SPI",
+      "doi": null,
+      "path": "literature/05_rram/RRAM-04_2016_MB85AS4MT.pdf",
+      "sha256": "c62ba591e01c41ab8eeb68ab6ef28e455a8ddf9f772b14fb38fc9b3b8087f284",
+      "pages": 28
+    },
+    {
+      "source_id": "RRAM-05",
+      "title": "A 28-nm RRAM Computing-in-Memory Macro Using Weighted Hybrid 2T1R Cell Array and Reference Subtracting Sense Amplifier for AI Edge Inference",
+      "doi": "10.1109/jssc.2023.3280357",
+      "path": "literature/05_rram/RRAM-05_2023_WeightedHybrid_2T1R.pdf",
+      "sha256": "2770738ae1d93c87e37d71e25bd832c7280008523104adcda5d59ee3fe0833d4",
+      "pages": 12
+    },
+    {
+      "source_id": "RRAM-06",
+      "title": "A 40nm 2Mb ReRAM Macro with 85% Reduction in FORMING Time and 99% Reduction in Page-Write Time Using Auto-FORMING and Auto-Write Schemes",
+      "doi": "10.23919/vlsit.2019.8776540",
+      "path": "literature/05_rram/RRAM-06_2019_AutoForming_AutoWrite.pdf",
+      "sha256": "e789140d24294a197f05ba88d221a47bdef6d2bf6606029d010a71703735fc6c",
+      "pages": 2
+    }
+  ],
+  "read_files": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "e560e8e695010439004b1f1cdbae1c69557012f9e130405bf5777617c1a3788c"
+    },
+    {
+      "path": "README.md",
+      "sha256": "ad77d5c306171b42d589fe2400a08cdbea6eef1432335d226358f67bb5ed833b"
+    },
+    {
+      "path": "COVERAGE.md",
+      "sha256": "ce15649b5046d75ce96375c47b0c844625626f8df119bb672bf237f1b3f7ec64"
+    },
+    {
+      "path": "LITERATURE_CATALOG.md",
+      "sha256": "3567b17527b7ec8b9af6b338b5b395bc73fb1b4e5d17d9391db831744611a269"
+    },
+    {
+      "path": "source_manifest.json",
+      "sha256": "b2f6189c6553ad11f4b6c723d00973d9446b8236a5cadab2f072d421757e6ee7"
+    },
+    {
+      "path": "literature/05_rram/NOTES.zh.md",
+      "sha256": "e46b8e1085b79f14be7aa9e740b85ab0095f08113e4c2402a0ab9d9637f75ae7"
+    },
+    {
+      "path": "analysis/shared_baseline/README.md",
+      "sha256": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d"
+    },
+    {
+      "path": "analysis/shared_baseline/tex/01_cmos_periphery.tex",
+      "sha256": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a"
+    },
+    {
+      "path": "analysis/shared_baseline/tex/02_estimation_method.tex",
+      "sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9"
+    },
+    {
+      "path": "analysis/shared_baseline/data/shared_parameters.json",
+      "sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42"
+    },
+    {
+      "path": "analysis/shared_baseline/scripts/check_shared.py",
+      "sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+    }
+  ],
+  "conventions": {
+    "path": "docs/MODEL_CONVENTIONS.md",
+    "sha256": "a30b164190fa974d5b72a8de65a8cb937780f5f9d9ad7f03eac422b55a5d36bf"
+  },
+  "final_baseline_confirmation": {
+    "confirmed": true,
+    "shared_method_tex_sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
+    "change_scope": "C节w_IO排印修复；公式、参数和计算API不变",
+    "shared_json_unchanged": true,
+    "shared_script_unchanged": true,
+    "derived_results_byte_identical_to_first_delivery": true,
+    "results_sha256": "e14f3fc06e9d3d1c53ef91d3a6e73aad282b0e714bca9e66404eacccb35824b2",
+    "pdf_pages": 6,
+    "forced_xelatex_rebuild_passed": true,
+    "final_render_visual_review_passed": true,
+    "write_evidence_gap_retained": true
+  }
+}

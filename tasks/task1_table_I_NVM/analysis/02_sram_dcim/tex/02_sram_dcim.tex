@@ -1,0 +1,88 @@
+\section{SRAM DCIM：完整精度数字求值与普通 SRAM 更新}
+
+\subsection{状态、局部结构与共同逻辑任务}
+
+本节采用二进制 6T SRAM 储存补码 INT8 权重，数字逻辑完成精确整数乘加；每个逻辑权重由八个 cell 表示，内部互补节点不增加逻辑字节。主结构依据为 D6CIM（\sid{SDCIM-01}）\footnote{J. Oh et al., D6CIM, ESSCIRC 2023, pp.413--416. DOI: 10.1109/ESSCIRC59616.2023.10268725.}：每个 $128\times128$ \emph{物理 bit} 阵列只容纳 $128\times16$ 个八位权重；每八列共用一个混合压缩加法树 HCA 和位优先移位累加器 BFA，共有 16 条输出通道。一个时钟处理一个输入 bit、八位权重及 16 个输入项，先遍历输入的八个位，再更换行组。原宏的完整 $128\times16$ INT8 VMM 因而需要 64 个时钟，输出 16 个 23-bit 精确结果，而非每拍交付一个完整 VMM（PDF pp.1--3，Figs.1、4、5）。
+
+共同任务仍为 $128\times128$ INT8 矩阵乘 INT8 向量，输入 $B_S=128$ Byte，状态容量 16384 Byte，交付 128 个 24-bit 结果。本参考实现采用八个上述\emph{容量分片}，分别存放不同的 16 个输出，合计 $8\times128\times128=131072$ 个数据 bit；一次仅启用一个分片，单个控制器按序覆盖全部输出，更新域也只有一个。保留原分片内部归约负载，意味着总共安装八组 HCA/BFA、合计 128 条，但同时活动的输出通道只有 16 条。这是明确的资源选择，没有等面积主张，也没有把八个独立服务单元的峰值相加。共同输入捕获寄存器为 1024 bit，结果寄存器为 3072 bit；原宏 23-bit 结果符号扩展到共同 24-bit 容器。
+
+这一路径遵守 R1 的边界和精度合同，但按 R2 保留原生 16 项归约。R0 的 32 项、16 输出、逐 bit 输入对应 256 轮，本实现的 16 项归约对应 512 轮；两者代表不同计算资源，计数均成立。本文不将 D6CIM 的 64 拍搬到 128 输出，也不把其时钟认定为 32 项归约的实测时钟。后文只将后者列为带资源条件的 R0 对照。
+
+\subsection{时间证据及近标称参考预算}
+
+D6CIM 的 Fig.10(a)（PDF p.4）在 0.9 V 标示 233 MHz，即约 4.292 ns/拍；本文向上取 4.3 ns。正文在 1.1 V 报告 360 MHz，而图中标 363 MHz，保留这一小差异，不用较高电压的极限时钟外推 0.9 V。共同短、参考、长数字节拍仍为 $T_D=2/5/10$ ns；与其配对的\emph{完整本地 MAC 槽}选择 $T_C=4.3/5/10$ ns。短时隙中的捕获和提交仍各用 2 ns，MAC 则必须占满 4.3 ns。5 和 10 ns 是共同工程预算；三个值不是同一芯片测得的 PVT 角，D6CIM 图中也未明确给出测试温度。
+
+一个 $T_C$ 已覆盖该轮 SRAM 静态读/保持、NOR 乘法、HCA 归约，以及 BFA 的符号处理、移位和累加。因此按 R4 用完整 MAC 槽替代已覆盖的读出和数字阶段，不再附加普通 SRAM 的 read access，也不加入 ADC 或 DAC。D6CIM 在同一组输入的八个位期间保持静态字线连接；512 个带读服务的计算槽只有 64 次行组选择。这里没有为复用另加数字权重锁存，不能误用需要额外锁存容量的共享 \texttt{read\_reuse} 配置。
+
+写侧依据独立于上述计算时钟。D6CIM 的 Fig.1 给出普通 memory 模式的 128-bit 写口与地址、写使能，但未报告独立写周期。\sid{CMOS-07}\footnote{Y. Yokoyama et al., Disturbance Aware Dynamic Power Reduction in Synchronous 2RW Dual-Port 8T SRAM by Self-Adjusting Wordline Pulse Timing, JSSC, 2023. DOI: 10.1109/JSSC.2022.3229828.} 的 Fig.2（PDF p.2）明确展示共同上升沿接受地址、命令和数据的同步读写，以及连续写、随后读的操作；Table II（p.9）给出典型 455 MHz，对应 2.1978 ns 完整时钟。其结构是 48-bit、1k-word、2RW 8T SRAM，工艺为 28 nm eFlash，Table III 给出的典型供电为 1.05 V；25\,$^{\circ}$C 是所报告读写功耗测试条件。455 MHz 是典型宏频率，\emph{不是独立测得的最小写脉宽}。同表 1.54 ns 是 read access，不能作为写完成时间。
+
+\sid{CMOS-03}\footnote{B. Zimmer et al., SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS, TCAS-II, 2012. DOI: 10.1109/TCSII.2012.2231015.}（PDF p.1 II、p.3 IV-C）提供 6T 互补证据：在 TT、1 V、128-cell/15 fF 位线负载的瞬态模型中，以约 1 ns 完整周期、半周期字线脉冲检查读写成功，要求周期末内部节点达到目标以支持连续访问。它支持普通 6T 写入的步骤和数 ns 量级，不能视作 D6CIM 的 128-bit 写硅测值。本文据此选择 $T_M=2.2/5/10$ ns 的完整同步 memory 周期：2.2 ns 来自 455 MHz 的向上取整，5/10 ns 沿用公共节拍预算。将 48-bit 8T/eFlash 的周期锚点移植到 128-bit 6T 写口，要求相应 128 路驱动与供电能力；此处是明确条件的参考设计，未证明固定 0.9 V/25\,$^{\circ}$C 下的写时序收敛。它是主要证据缺口，而不是把 read access 当作 write 的理由。
+
+\subsection{Streaming：完整输入、操作次数与服务时间}
+
+服务从本地宽接口接受一份 128-Byte 向量开始，至全部 128 个结果就绪结束。输入先捕获一拍，随后依次执行八个输出分片；每片按八个行组、每组八个输入位进行精确归约和累加，最后提交全部结果一拍。符号位按补码负位权处理；数字累加保留完整精度。每次内部广播和逐 bit 展开只改变占用，不重复计入输入字节。
+
+共同计数模板代入 $u_D=1,v_D=8,r_D=16,d_D=16$ 得
+\[
+N_D=\left\lceil8/1\right\rceil
+\left\lceil8/8\right\rceil
+\left\lceil128/16\right\rceil
+\left\lceil128/16\right\rceil=512.
+\]
+完整宏时钟已覆盖计算轮内全部必要阶段，故本例为
+\begin{equation}
+ B_S=128\ \mathrm{Byte},\qquad
+ \Delta_S=512T_C+2T_D,\qquad
+ \rho\approx\frac{128}{\Delta_S}.
+ \label{eq:dcim-local-stream}
+\end{equation}
+参考时隙下，$\Delta_S=512\times5+2\times5=2570$ ns。无跨向量流水，服务间隔等于这一完整时长；每片结果在其第 64 拍形成，所有分片输出完成后才计一次逻辑 streaming 服务。容量分片选择及本地寄存器时序需要包含在所选槽及边界预算内；若实际连接不能在此预算内完成，应加其未覆盖时间，不能直接使用原宏最快时钟。
+
+\subsection{Resident：完整普通写周期与有效更新粒度}
+
+一次对齐事务向一个分片的一行写入 128 个 binary cell，恰好完成 16 个八位权重，因此
+\[
+B_R=16\ \mathrm{Byte},\quad c=8\ \mathrm{cell/weight},\quad
+p=128\ \mathrm{cell/batch},\quad n_w=n_b=1.
+\]
+命令、地址和 128-bit 数据在本地 memory 写口同一上升沿捕获；译码后驱动互补位线、打开对应字线，使交叉耦合节点翻转到目标状态，随后结束字线脉冲并恢复至下一次访问/计算可用状态。$T_M$ 是这整段\emph{成功周期}的预算，包含驱动及恢复，既不只是字线脉宽，也不只是 cell 翻转延迟。标准二进制 SRAM 更新不要求先擦除、program/verify 迭代或读后 restore。内部互补电位不使 $B_R$ 加倍；同一次写操作没有额外编码数据。
+
+本例的服务边界就在该同步写口：命令/数据已被接受，到下一个可计算周期为止；没有另行要求的任务级握手。因此 R4 的完整周期替代规则适用，$T_M$ 已覆盖本地准备、数据捕获及可用终点，\emph{不再附加}同一事务的 $T_W=2T_D$。由此
+\begin{equation}
+ \Delta_R=T_M,\qquad \tau\approx16/T_M.
+ \label{eq:dcim-local-resident}
+\end{equation}
+参考情景 $\Delta_R=5$ ns、$\tau=3.2$ GB/s。整矩阵需要 1024 个对齐事务、5120 ns；按 16384 Byte 聚合得到同一 $\tau$。不把宏容量当作每次写的分子。若系统在 primitive memory 周期之外确有准备/提交各一拍，则应另用 $\Delta_R=T_M+2T_D$；这一边界敏感性单列于表~\ref{tab:dcim-sensitivity}，不是默认重复计费。
+
+本模型讨论正常供电下的 volatile SRAM。没有周期性刷新、破坏性读后恢复或擦除块摊销；掉电后重载属于新 resident 需求。计算和 memory 模式使用同一状态及控制资源，本节没有安排它们同时运行；两路能力分别计算，共享资源互斥时总必要时间可按两路占用相加。原有 $P\leq\min(\rho,\tau\mathrm{RI})$ 上界仍成立，但不保证同一实现同时达到两个独立峰值。
+
+\subsection{成对范围、主导因素与 R0 对接}
+
+所有数值由同一共享脚本接口计算。时间用 ns、字节用 Byte 时，$B/\Delta$ 的数值就是十进制 GB/s。两路粒度不同，ridge 必须保留因子 $B_S/B_R=8$：
+\begin{equation}
+\rho\approx\frac{B_S}{\Delta_S},\qquad
+\tau\approx\frac{B_R}{\Delta_R},\qquad
+\mathrm{RI}^{*}\approx\frac{B_S}{B_R}\frac{\Delta_R}{\Delta_S}
+=\frac{8T_M}{512T_C+2T_D}.
+\label{eq:dcim-local-ridge}
+\end{equation}
+\input{generated_results}
+
+三组成对情景给出 $\rho=0.02490$--0.05803 GB/s、$\tau=1.600$--7.273 GB/s、$\mathrm{RI}^{*}=0.007980$--0.01556。向外取两位有效数字，展示范围为 $\rho=0.024$--0.059 GB/s、$\tau=1.6$--7.3 GB/s、ridge 为 0.0079--0.016。独立组合两路最小/最大端点可得到更宽的 0.003424--0.03627 外包络，但其中组合并非表中成对情景，不能当成同一设计的实测分布。
+
+在此结构中，streaming 主要由 512 个完整 MAC 槽决定，参考情景的捕获/提交仅占 $10/2570\approx0.39\%$。resident 主要由一次 128-bit 完整同步写周期决定，不能从 MAC 时钟反推其极限。参考、长时隙中两路周期同比放大，ridge 保持不变；短时隙的 MAC 受 4.3 ns 槽限制，而写周期为 2.2 ns，所以 ridge 更小。上述 ridge 描述需求时间平衡，不代表宏的精度、能效或总体优劣。
+
+\input{generated_sensitivity}
+
+如果在相同时钟下确实提供 R0 的 32 项归约与匹配的读带宽，轮数减为 256，参考 $\Delta_S$ 为 1290 ns，$\rho$ 约翻倍；普通写端口未变，$\tau$ 不变。这一对照是资源条件的影响，未被称为 D6CIM 原宏性能。另一方面，若同步写之外另有两拍任务握手，则参考 $\Delta_R$ 从 5 ns 增为 15 ns，$\tau$ 降为原来的三分之一、ridge 增为三倍；它说明完整周期覆盖声明对 SRAM 尤其重要。
+
+\subsection{对共享方法的检验与剩余限制}
+
+本例可由现有 R4 替代规则和操作块组合接口完整表达，未发现需要修改共同公式的反例。调用时必须明确\emph{哪些阶段已被完整宏周期覆盖}：共享脚本的 \texttt{direct\_service} 默认加入公共前端，\texttt{dcim\_service} 默认按读项与数字项相加，不能把已含这些阶段的完整宏周期直接塞入某一分项。本案例以薄适配层先用共享接口计算操作次数，再用现有完整操作块组合函数，仅加入未覆盖的边界时间；不修改共享文件，不复制另一套服务公式。逐情景记录覆盖字段足以使这一调用可审计，额外的 API 覆盖掩码只是可选防误用便利。
+
+另外，SRAM 的静态访问意味着“计算槽的读服务次数”和“字线切换次数”不是同一个物理量。本文保留 512 个计算槽和 64 次行组选择两项记录，避免用错误读复用语义要求并不存在的额外权重锁存。物理 bit 列、逻辑 INT8 输出数、已安装与活动通道数也分别声明，才能解释 R0 与原宏的差别。
+
+最后，主要不确定性仍在\emph{128-bit 6T 普通写周期的移植}以及八容量分片边界连线的时序。现有资料足以形成明确条件的 2.2--10 ns 普通更新预算和完整数字计算情景，但不足以将其宣称为同一 D6CIM 芯片上配对测得的 $\rho,\tau$。\sid{SDCIM-03} 的 0.8 V、3 ns 时钟及八拍输入展开只用作量级和流程交叉证据；其他来源的四拍近似模式、两拍多位模式或标题 TOPS 均未拼接进本结果。机器输入、每情景覆盖清单、来源哈希和结构例外随文保存；最终共享基线已核对，复算、编译和逐页目视检查通过。
+
+\subsection*{紧凑参数证据表}
+\input{generated_evidence}

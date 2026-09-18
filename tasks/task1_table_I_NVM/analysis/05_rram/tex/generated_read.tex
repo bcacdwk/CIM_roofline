@@ -1,0 +1,9 @@
+% Generated from data/inputs.json through shared calculation API.
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+情景 & $T_I/T_A/T_D$ (ns) & $\Delta_S$ (ns) & $\rho$ (GB/s) & $\tau_{\rm ceiling}$ (GB/s) & $\RI^*_{\rm floor}$\\\midrule
+短时隙 & 2/10/2 & 5380 & 0.02379 & 0.00594 & 4.0030\\
+参考 & 5/20/5 & 10250 & 0.01249 & 0.00312 & 4.0039\\
+长时隙 & 10/50/10 & 21780 & 0.00588 & 0.00147 & 4.0037\\
+\bottomrule\end{tabular}
+\caption{B32 的条件读侧结果与串行校验写策略的数学边界。全部取 $h_A=0$。$\tau_{\rm ceiling}$ 忽略未知脉冲、高压建立与恢复并令每 cell 一次成功，是上边界；$\RI^*_{\rm floor}$ 是对应下边界。两列均非 RRAM 完整写入实测或预测点。}\label{tab:read}\end{table}

@@ -1,0 +1,370 @@
+{
+  "analysis_id": "02_sram_dcim",
+  "baseline_id": "shared_baseline",
+  "baseline_files_actual": {
+    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
+    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
+    "tex/02_estimation_method.tex": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "status": "conditional_reference_estimate_not_measured_paired_chip",
+  "scenarios": [
+    {
+      "id": "short",
+      "label": "短时隙",
+      "common_profile": "short",
+      "inputs": {
+        "common_T_D_ns": 2,
+        "complete_compute_round_ns": 4.3,
+        "complete_memory_cycle_ns": 2.2,
+        "extra_physical_read_ns": 0
+      },
+      "counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 8,
+        "output_groups": 8,
+        "compute_rounds": 512,
+        "read_rounds": 512,
+        "digital_ticks": 512
+      },
+      "physical_static_row_group_activations": 64,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "whole_vector_capture",
+            "count": 1,
+            "duration_each_ns": 2,
+            "coverage": "1024-bit local input latch and schedule admission"
+          },
+          {
+            "stage": "complete_MAC_round",
+            "count": 512,
+            "duration_each_ns": 4.3,
+            "coverage": "static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation"
+          },
+          {
+            "stage": "whole_vector_commit",
+            "count": 1,
+            "duration_each_ns": 2,
+            "coverage": "all128 results ready in24-bit registers; sign extension wiring"
+          },
+          {
+            "stage": "extra_read_or_ADC",
+            "count": 0,
+            "duration_each_ns": 0,
+            "coverage": "read already included; no ADC/DAC"
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_memory_cycle",
+            "count": 1,
+            "duration_each_ns": 2.2,
+            "coverage": "command/address/all128 data captured; decode, BL/WL write, flip, recovery; compute-ready at next edge"
+          },
+          {
+            "stage": "additional_task_handshake",
+            "count": 0,
+            "duration_each_ns": 0,
+            "coverage": "none assumed; shared front replaced by covered macro cycle"
+          }
+        ],
+        "replaced_shared_front_ns": 4,
+        "direct_template_without_replacement_ns": 6.2
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 2205.6,
+      "delta_R_ns": 2.2,
+      "rho_Byte_per_s": 58034095.03083061,
+      "tau_Byte_per_s": 7272727272.727272,
+      "ridge": 0.00797968806673921
+    },
+    {
+      "id": "reference",
+      "label": "参考",
+      "common_profile": "reference",
+      "inputs": {
+        "common_T_D_ns": 5,
+        "complete_compute_round_ns": 5,
+        "complete_memory_cycle_ns": 5,
+        "extra_physical_read_ns": 0
+      },
+      "counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 8,
+        "output_groups": 8,
+        "compute_rounds": 512,
+        "read_rounds": 512,
+        "digital_ticks": 512
+      },
+      "physical_static_row_group_activations": 64,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "whole_vector_capture",
+            "count": 1,
+            "duration_each_ns": 5,
+            "coverage": "1024-bit local input latch and schedule admission"
+          },
+          {
+            "stage": "complete_MAC_round",
+            "count": 512,
+            "duration_each_ns": 5,
+            "coverage": "static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation"
+          },
+          {
+            "stage": "whole_vector_commit",
+            "count": 1,
+            "duration_each_ns": 5,
+            "coverage": "all128 results ready in24-bit registers; sign extension wiring"
+          },
+          {
+            "stage": "extra_read_or_ADC",
+            "count": 0,
+            "duration_each_ns": 0,
+            "coverage": "read already included; no ADC/DAC"
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_memory_cycle",
+            "count": 1,
+            "duration_each_ns": 5,
+            "coverage": "command/address/all128 data captured; decode, BL/WL write, flip, recovery; compute-ready at next edge"
+          },
+          {
+            "stage": "additional_task_handshake",
+            "count": 0,
+            "duration_each_ns": 0,
+            "coverage": "none assumed; shared front replaced by covered macro cycle"
+          }
+        ],
+        "replaced_shared_front_ns": 10,
+        "direct_template_without_replacement_ns": 15
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 2570.0,
+      "delta_R_ns": 5.0,
+      "rho_Byte_per_s": 49805447.47081712,
+      "tau_Byte_per_s": 3200000000.0,
+      "ridge": 0.01556420233463035
+    },
+    {
+      "id": "long",
+      "label": "长时隙",
+      "common_profile": "long",
+      "inputs": {
+        "common_T_D_ns": 10,
+        "complete_compute_round_ns": 10,
+        "complete_memory_cycle_ns": 10,
+        "extra_physical_read_ns": 0
+      },
+      "counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 8,
+        "output_groups": 8,
+        "compute_rounds": 512,
+        "read_rounds": 512,
+        "digital_ticks": 512
+      },
+      "physical_static_row_group_activations": 64,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "whole_vector_capture",
+            "count": 1,
+            "duration_each_ns": 10,
+            "coverage": "1024-bit local input latch and schedule admission"
+          },
+          {
+            "stage": "complete_MAC_round",
+            "count": 512,
+            "duration_each_ns": 10,
+            "coverage": "static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation"
+          },
+          {
+            "stage": "whole_vector_commit",
+            "count": 1,
+            "duration_each_ns": 10,
+            "coverage": "all128 results ready in24-bit registers; sign extension wiring"
+          },
+          {
+            "stage": "extra_read_or_ADC",
+            "count": 0,
+            "duration_each_ns": 0,
+            "coverage": "read already included; no ADC/DAC"
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_memory_cycle",
+            "count": 1,
+            "duration_each_ns": 10,
+            "coverage": "command/address/all128 data captured; decode, BL/WL write, flip, recovery; compute-ready at next edge"
+          },
+          {
+            "stage": "additional_task_handshake",
+            "count": 0,
+            "duration_each_ns": 0,
+            "coverage": "none assumed; shared front replaced by covered macro cycle"
+          }
+        ],
+        "replaced_shared_front_ns": 20,
+        "direct_template_without_replacement_ns": 30
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 5140.0,
+      "delta_R_ns": 10.0,
+      "rho_Byte_per_s": 24902723.73540856,
+      "tau_Byte_per_s": 1600000000.0,
+      "ridge": 0.01556420233463035
+    }
+  ],
+  "sensitivities": [
+    {
+      "id": "R0_same_clock_short",
+      "kind": "conditional_resource_comparison",
+      "premise": "32-term/16-output round reaches same full clock; not measured D6 timing",
+      "counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 1104.8,
+      "delta_R_ns": 2.2,
+      "rho_Byte_per_s": 115858073.85952209,
+      "tau_Byte_per_s": 7272727272.727272,
+      "ridge": 0.01593048515568429
+    },
+    {
+      "id": "extra_handshake_short",
+      "kind": "boundary_sensitivity",
+      "premise": "additional external preparation/completion not covered by primitive; one common tick each",
+      "added_handshake_ns": 4,
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 2205.6,
+      "delta_R_ns": 6.2,
+      "rho_Byte_per_s": 58034095.03083061,
+      "tau_Byte_per_s": 2580645161.2903223,
+      "ridge": 0.022488211824446862
+    },
+    {
+      "id": "R0_same_clock_reference",
+      "kind": "conditional_resource_comparison",
+      "premise": "32-term/16-output round reaches same full clock; not measured D6 timing",
+      "counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 1290.0,
+      "delta_R_ns": 5.0,
+      "rho_Byte_per_s": 99224806.20155038,
+      "tau_Byte_per_s": 3200000000.0,
+      "ridge": 0.031007751937984492
+    },
+    {
+      "id": "extra_handshake_reference",
+      "kind": "boundary_sensitivity",
+      "premise": "additional external preparation/completion not covered by primitive; one common tick each",
+      "added_handshake_ns": 10,
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 2570.0,
+      "delta_R_ns": 15,
+      "rho_Byte_per_s": 49805447.47081712,
+      "tau_Byte_per_s": 1066666666.6666665,
+      "ridge": 0.04669260700389106
+    },
+    {
+      "id": "R0_same_clock_long",
+      "kind": "conditional_resource_comparison",
+      "premise": "32-term/16-output round reaches same full clock; not measured D6 timing",
+      "counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 2580.0,
+      "delta_R_ns": 10.0,
+      "rho_Byte_per_s": 49612403.10077519,
+      "tau_Byte_per_s": 1600000000.0,
+      "ridge": 0.031007751937984492
+    },
+    {
+      "id": "extra_handshake_long",
+      "kind": "boundary_sensitivity",
+      "premise": "additional external preparation/completion not covered by primitive; one common tick each",
+      "added_handshake_ns": 20,
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 5140.0,
+      "delta_R_ns": 30,
+      "rho_Byte_per_s": 24902723.73540856,
+      "tau_Byte_per_s": 533333333.33333325,
+      "ridge": 0.04669260700389106
+    }
+  ],
+  "ranges": {
+    "delta_S_ns": [
+      2205.6,
+      5140.0
+    ],
+    "delta_R_ns": [
+      2.2,
+      10.0
+    ],
+    "rho_Byte_per_s": [
+      24902723.73540856,
+      58034095.03083061
+    ],
+    "tau_Byte_per_s": [
+      1600000000.0,
+      7272727272.727272
+    ],
+    "ridge": [
+      0.00797968806673921,
+      0.01556420233463035
+    ],
+    "independent_endpoint_ridge_envelope": [
+      0.0034241245136186773,
+      0.036271309394269126
+    ]
+  },
+  "whole_matrix_updates": {
+    "logical_payload_Byte": 16384,
+    "aligned_transactions": 1024
+  }
+}
