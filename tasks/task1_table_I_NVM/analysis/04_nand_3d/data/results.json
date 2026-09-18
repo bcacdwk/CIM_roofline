@@ -1,37 +1,46 @@
 {
-  "schema_version": "nand-3d-results-1",
+  "schema_version": "nand-3d-results-2",
   "baseline_json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
   "baseline_script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
   "baseline_method_tex_sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
-  "geometry": {
-    "blocks": 128,
-    "subarrays": 2,
-    "physical_page_bits": 13824,
-    "physical_page_Byte": 1728,
-    "physical_pages_per_block": 96,
-    "useful_data_pages_per_block": 8,
-    "data_pages_per_matrix": 1024,
-    "logical_matrix_Byte": 16384,
-    "logical_bit_payload_per_data_page_Byte": 16.0,
-    "encoded_data_Byte": 1769472,
-    "physical_array_cells": 169869312,
-    "weight_bit_cell_copies": 108,
-    "physical_data_cells": 14155776,
-    "adc_count": 128,
-    "maximum_sum_current_uA": 27.648,
-    "useful_count_LSB_current_nA": 216,
-    "iid_cell_variation_sigma_in_count_LSB": 0.16329931618554522
-  },
-  "scenarios": [
+  "main_scenarios": [
     {
+      "id": "c1_short",
+      "kind": "main",
       "profile": "short",
+      "copies": 1,
+      "geometry": {
+        "copies": 1,
+        "blocks": 128,
+        "subarrays": 2,
+        "physical_page_bits": 13824,
+        "physical_page_Byte": 1728,
+        "physical_pages_per_block": 96,
+        "useful_data_pages_per_block": 8,
+        "calibration_pages_per_block": 2,
+        "data_pages_per_matrix": 1024,
+        "calibration_pages_per_matrix": 256,
+        "logical_matrix_Byte": 16384,
+        "logical_bit_payload_per_data_page_Byte": 16.0,
+        "physical_data_target_cells": 131072,
+        "active_bitlines_per_page": 128,
+        "encoded_data_Byte": 1769472,
+        "physical_array_cells": 169869312,
+        "adc_count": 128,
+        "added_integration_capacitance_pF": 2048,
+        "maximum_sum_current_nA": 256,
+        "required_fullscale_drive_uA_per_channel": 0.256,
+        "total_fullscale_signal_current_mA": 0.032768,
+        "required_integrator_slew_V_per_us": 0.016000000000000004,
+        "useful_count_LSB_current_nA": 2,
+        "iid_sigma_in_count_LSB": 1.697056274847714
+      },
       "periphery_ns": {
         "input_step": 2,
         "adc_batch": 10,
         "digital_tick": 2
       },
-      "sl_setup_ns": 530,
-      "counts": {
+      "read_counts": {
         "input_slices": 8,
         "row_groups": 1,
         "weight_groups": 1,
@@ -39,120 +48,121 @@
         "evaluations": 64,
         "adc_batches": 64,
         "reconstruction_rounds": 64,
-        "digital_ticks": 128,
+        "digital_ticks": 192,
         "useful_scalar_conversions": 8192,
         "adc_total": 128,
         "max_batch_code_slots": 128,
         "max_hold_window_ns": 0
       },
       "wl_setup_count": 8,
-      "wl_setup_total_ns": 2424,
-      "delta_S_ns": 38140.0,
-      "rho_Byte_per_s": 3356056.633455689,
-      "extra_media_ns_per_evaluation_coefficient": 64,
-      "read_result_kind": "conditional engineering estimate; not measured SLC macro result",
-      "resident": [
-        {
-          "mode": "append",
-          "calibration_wl_per_block": 0,
-          "operation_counts": {
-            "program_cycles": 1024,
-            "data_pages": 1024,
-            "calibration_pages": 0,
-            "erase_cycles": 0,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 220,
-            "front_total_ns": 225280
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 225.28,
-            "P_us_coefficient": 1024.0,
-            "E_us_coefficient": 0.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.04614577871001573,
-            "P_us": 0.2097535395909806,
-            "E_us": 0.0,
-            "C_us": 0.00020483744100681698
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 4.5475,
-          "E_us_at_ridge_1_given_P_C_zero": null,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
-        },
-        {
-          "mode": "rewrite",
-          "calibration_wl_per_block": 1,
-          "operation_counts": {
-            "program_cycles": 1152,
-            "data_pages": 1024,
-            "calibration_pages": 128,
-            "erase_cycles": 128,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 220,
-            "front_total_ns": 253440
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 253.44,
-            "P_us_coefficient": 1152.0,
-            "E_us_coefficient": 128.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.0519140010487677,
-            "P_us": 0.23597273203985317,
-            "E_us": 0.026219192448872573,
-            "C_us": 0.00020483744100681698
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 4.017777777777777,
-          "E_us_at_ridge_1_given_P_C_zero": 36.16,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
-        },
-        {
-          "mode": "rewrite",
-          "calibration_wl_per_block": 2,
-          "operation_counts": {
-            "program_cycles": 1280,
-            "data_pages": 1024,
-            "calibration_pages": 256,
-            "erase_cycles": 128,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 220,
-            "front_total_ns": 281600
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 281.6,
-            "P_us_coefficient": 1280.0,
-            "E_us_coefficient": 128.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.05768222338751967,
-            "P_us": 0.26219192448872575,
-            "E_us": 0.026219192448872573,
-            "C_us": 0.00020483744100681698
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 3.594,
-          "E_us_at_ridge_1_given_P_C_zero": 35.94,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+      "integration_ns_per_evaluation": 24999.999999999996,
+      "read_service_components_ns": {
+        "wl": 2424,
+        "input": 128,
+        "bl": 768,
+        "sl_setup": 33920,
+        "integration": 1599999.9999999998,
+        "recovery": 33920,
+        "adc": 640,
+        "digital": 384,
+        "boundary": 4
+      },
+      "media_ns_per_evaluation": 26071.999999999996,
+      "program_budget_ns": 1300000.0,
+      "erase_budget_ns": 15000000.0,
+      "calibration_counts": {
+        "sample_rounds": 3,
+        "wl_setups": 2,
+        "coefficient_batches": 8,
+        "digital_ticks": 226,
+        "coefficients": 128,
+        "division_steps": 24
+      },
+      "calibration_total_ns": 79309.99999999999,
+      "delta_S_ns": 1672187.9999999998,
+      "result_nature": "finite reference estimate with explicit resources and accepted-operation budgets; not measured device bounds",
+      "append": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 1672187.9999999998,
+        "delta_R_ns": 1331504590.0,
+        "rho_Byte_per_s": 76546.41702966414,
+        "tau_Byte_per_s": 12304.876846124878,
+        "ridge": 6.220819435000731,
+        "operations": {
+          "data_pages": 1024,
+          "calibration_pages": 0,
+          "program_cycles": 1024,
+          "erase_cycles": 0,
+          "data_beats_per_page": 108,
+          "front_ns_per_page": 220,
+          "front_total_ns": 225280,
+          "complete_program_total_ns": 1331200000.0,
+          "complete_erase_total_ns": 0.0,
+          "calibration_total_ns": 79309.99999999999,
+          "physical_loaded_Byte": 1769472
         }
-      ]
+      },
+      "rewrite": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 1672187.9999999998,
+        "delta_R_ns": 3584360910.0,
+        "rho_Byte_per_s": 76546.41702966414,
+        "tau_Byte_per_s": 4570.968273392983,
+        "ridge": 16.746214904888088,
+        "operations": {
+          "data_pages": 1024,
+          "calibration_pages": 256,
+          "program_cycles": 1280,
+          "erase_cycles": 128,
+          "data_beats_per_page": 108,
+          "front_ns_per_page": 220,
+          "front_total_ns": 281600,
+          "complete_program_total_ns": 1664000000.0,
+          "complete_erase_total_ns": 1920000000.0,
+          "calibration_total_ns": 79309.99999999999,
+          "physical_loaded_Byte": 2211840
+        }
+      }
     },
     {
+      "id": "c1_reference",
+      "kind": "main",
       "profile": "reference",
+      "copies": 1,
+      "geometry": {
+        "copies": 1,
+        "blocks": 128,
+        "subarrays": 2,
+        "physical_page_bits": 13824,
+        "physical_page_Byte": 1728,
+        "physical_pages_per_block": 96,
+        "useful_data_pages_per_block": 8,
+        "calibration_pages_per_block": 2,
+        "data_pages_per_matrix": 1024,
+        "calibration_pages_per_matrix": 256,
+        "logical_matrix_Byte": 16384,
+        "logical_bit_payload_per_data_page_Byte": 16.0,
+        "physical_data_target_cells": 131072,
+        "active_bitlines_per_page": 128,
+        "encoded_data_Byte": 1769472,
+        "physical_array_cells": 169869312,
+        "adc_count": 128,
+        "added_integration_capacitance_pF": 2048,
+        "maximum_sum_current_nA": 256,
+        "required_fullscale_drive_uA_per_channel": 0.256,
+        "total_fullscale_signal_current_mA": 0.032768,
+        "required_integrator_slew_V_per_us": 0.016000000000000004,
+        "useful_count_LSB_current_nA": 2,
+        "iid_sigma_in_count_LSB": 1.697056274847714
+      },
       "periphery_ns": {
         "input_step": 5,
         "adc_batch": 20,
         "digital_tick": 5
       },
-      "sl_setup_ns": 640,
-      "counts": {
+      "read_counts": {
         "input_slices": 8,
         "row_groups": 1,
         "weight_groups": 1,
@@ -160,120 +170,121 @@
         "evaluations": 64,
         "adc_batches": 64,
         "reconstruction_rounds": 64,
-        "digital_ticks": 128,
+        "digital_ticks": 192,
         "useful_scalar_conversions": 8192,
         "adc_total": 128,
         "max_batch_code_slots": 128,
         "max_hold_window_ns": 0
       },
       "wl_setup_count": 8,
-      "wl_setup_total_ns": 2424,
-      "delta_S_ns": 46402.0,
-      "rho_Byte_per_s": 2758501.7887160038,
-      "extra_media_ns_per_evaluation_coefficient": 64,
-      "read_result_kind": "conditional engineering estimate; not measured SLC macro result",
-      "resident": [
-        {
-          "mode": "append",
-          "calibration_wl_per_block": 0,
-          "operation_counts": {
-            "program_cycles": 1024,
-            "data_pages": 1024,
-            "calibration_pages": 0,
-            "erase_cycles": 0,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 550,
-            "front_total_ns": 563200
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 563.2,
-            "P_us_coefficient": 1024.0,
-            "E_us_coefficient": 0.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.09482349898711262,
-            "P_us": 0.17240636179475022,
-            "E_us": 0.0,
-            "C_us": 0.00016836558769018576
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 5.25025,
-          "E_us_at_ridge_1_given_P_C_zero": null,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
-        },
-        {
-          "mode": "rewrite",
-          "calibration_wl_per_block": 1,
-          "operation_counts": {
-            "program_cycles": 1152,
-            "data_pages": 1024,
-            "calibration_pages": 128,
-            "erase_cycles": 128,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 550,
-            "front_total_ns": 633600
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 633.6,
-            "P_us_coefficient": 1152.0,
-            "E_us_coefficient": 128.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.1066764363605017,
-            "P_us": 0.193957157019094,
-            "E_us": 0.021550795224343777,
-            "C_us": 0.00016836558769018576
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 4.605777777777778,
-          "E_us_at_ridge_1_given_P_C_zero": 41.452,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
-        },
-        {
-          "mode": "rewrite",
-          "calibration_wl_per_block": 2,
-          "operation_counts": {
-            "program_cycles": 1280,
-            "data_pages": 1024,
-            "calibration_pages": 256,
-            "erase_cycles": 128,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 550,
-            "front_total_ns": 704000
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 704.0,
-            "P_us_coefficient": 1280.0,
-            "E_us_coefficient": 128.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.11852937373389077,
-            "P_us": 0.21550795224343777,
-            "E_us": 0.021550795224343777,
-            "C_us": 0.00016836558769018576
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 4.0902,
-          "E_us_at_ridge_1_given_P_C_zero": 40.902,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+      "integration_ns_per_evaluation": 24999.999999999996,
+      "read_service_components_ns": {
+        "wl": 2424,
+        "input": 320,
+        "bl": 768,
+        "sl_setup": 40960,
+        "integration": 1599999.9999999998,
+        "recovery": 40960,
+        "adc": 1280,
+        "digital": 960,
+        "boundary": 10
+      },
+      "media_ns_per_evaluation": 26291.999999999996,
+      "program_budget_ns": 2500000.0,
+      "erase_budget_ns": 30000000.0,
+      "calibration_counts": {
+        "sample_rounds": 3,
+        "wl_setups": 2,
+        "coefficient_batches": 8,
+        "digital_ticks": 226,
+        "coefficients": 128,
+        "division_steps": 24
+      },
+      "calibration_total_ns": 80686.99999999999,
+      "delta_S_ns": 1687681.9999999998,
+      "result_nature": "finite reference estimate with explicit resources and accepted-operation budgets; not measured device bounds",
+      "append": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 1687681.9999999998,
+        "delta_R_ns": 2560643887.0,
+        "rho_Byte_per_s": 75843.6719713785,
+        "tau_Byte_per_s": 6398.390687271696,
+        "ridge": 11.85355438239402,
+        "operations": {
+          "data_pages": 1024,
+          "calibration_pages": 0,
+          "program_cycles": 1024,
+          "erase_cycles": 0,
+          "data_beats_per_page": 108,
+          "front_ns_per_page": 550,
+          "front_total_ns": 563200,
+          "complete_program_total_ns": 2560000000.0,
+          "complete_erase_total_ns": 0.0,
+          "calibration_total_ns": 80686.99999999999,
+          "physical_loaded_Byte": 1769472
         }
-      ]
+      },
+      "rewrite": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 1687681.9999999998,
+        "delta_R_ns": 7040784687.0,
+        "rho_Byte_per_s": 75843.6719713785,
+        "tau_Byte_per_s": 2327.0133555214625,
+        "ridge": 32.59271021862383,
+        "operations": {
+          "data_pages": 1024,
+          "calibration_pages": 256,
+          "program_cycles": 1280,
+          "erase_cycles": 128,
+          "data_beats_per_page": 108,
+          "front_ns_per_page": 550,
+          "front_total_ns": 704000,
+          "complete_program_total_ns": 3200000000.0,
+          "complete_erase_total_ns": 3840000000.0,
+          "calibration_total_ns": 80686.99999999999,
+          "physical_loaded_Byte": 2211840
+        }
+      }
     },
     {
+      "id": "c1_long",
+      "kind": "main",
       "profile": "long",
+      "copies": 1,
+      "geometry": {
+        "copies": 1,
+        "blocks": 128,
+        "subarrays": 2,
+        "physical_page_bits": 13824,
+        "physical_page_Byte": 1728,
+        "physical_pages_per_block": 96,
+        "useful_data_pages_per_block": 8,
+        "calibration_pages_per_block": 2,
+        "data_pages_per_matrix": 1024,
+        "calibration_pages_per_matrix": 256,
+        "logical_matrix_Byte": 16384,
+        "logical_bit_payload_per_data_page_Byte": 16.0,
+        "physical_data_target_cells": 131072,
+        "active_bitlines_per_page": 128,
+        "encoded_data_Byte": 1769472,
+        "physical_array_cells": 169869312,
+        "adc_count": 128,
+        "added_integration_capacitance_pF": 2048,
+        "maximum_sum_current_nA": 256,
+        "required_fullscale_drive_uA_per_channel": 0.256,
+        "total_fullscale_signal_current_mA": 0.032768,
+        "required_integrator_slew_V_per_us": 0.016000000000000004,
+        "useful_count_LSB_current_nA": 2,
+        "iid_sigma_in_count_LSB": 1.697056274847714
+      },
       "periphery_ns": {
         "input_step": 10,
         "adc_batch": 50,
         "digital_tick": 10
       },
-      "sl_setup_ns": 750,
-      "counts": {
+      "read_counts": {
         "input_slices": 8,
         "row_groups": 1,
         "weight_groups": 1,
@@ -281,115 +292,242 @@
         "evaluations": 64,
         "adc_batches": 64,
         "reconstruction_rounds": 64,
-        "digital_ticks": 128,
+        "digital_ticks": 192,
         "useful_scalar_conversions": 8192,
         "adc_total": 128,
         "max_batch_code_slots": 128,
         "max_hold_window_ns": 0
       },
       "wl_setup_count": 8,
-      "wl_setup_total_ns": 2424,
-      "delta_S_ns": 56332.0,
-      "rho_Byte_per_s": 2272243.1300149113,
-      "extra_media_ns_per_evaluation_coefficient": 64,
-      "read_result_kind": "conditional engineering estimate; not measured SLC macro result",
-      "resident": [
-        {
-          "mode": "append",
-          "calibration_wl_per_block": 0,
-          "operation_counts": {
-            "program_cycles": 1024,
-            "data_pages": 1024,
-            "calibration_pages": 0,
-            "erase_cycles": 0,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 1100,
-            "front_total_ns": 1126400
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 1126.4,
-            "P_us_coefficient": 1024.0,
-            "E_us_coefficient": 0.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.15621671518852517,
-            "P_us": 0.14201519562593198,
-            "E_us": 0.0,
-            "C_us": 0.0001386867144784492
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 5.9415,
-          "E_us_at_ridge_1_given_P_C_zero": null,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
-        },
-        {
-          "mode": "rewrite",
-          "calibration_wl_per_block": 1,
-          "operation_counts": {
-            "program_cycles": 1152,
-            "data_pages": 1024,
-            "calibration_pages": 128,
-            "erase_cycles": 128,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 1100,
-            "front_total_ns": 1267200
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 1267.2,
-            "P_us_coefficient": 1152.0,
-            "E_us_coefficient": 128.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.17574380458709082,
-            "P_us": 0.15976709507917347,
-            "E_us": 0.017751899453241498,
-            "C_us": 0.0001386867144784492
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 5.159111111111112,
-          "E_us_at_ridge_1_given_P_C_zero": 46.432,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
-        },
-        {
-          "mode": "rewrite",
-          "calibration_wl_per_block": 2,
-          "operation_counts": {
-            "program_cycles": 1280,
-            "data_pages": 1024,
-            "calibration_pages": 256,
-            "erase_cycles": 128,
-            "data_beats_per_page": 108,
-            "front_ns_per_page": 1100,
-            "front_total_ns": 1408000
-          },
-          "delta_R_us_coefficients": {
-            "front_us": 1408.0,
-            "P_us_coefficient": 1280.0,
-            "E_us_coefficient": 128.0,
-            "C_us_coefficient": 1.0
-          },
-          "ridge_coefficients": {
-            "constant": 0.19527089398565647,
-            "P_us": 0.17751899453241496,
-            "E_us": 0.017751899453241498,
-            "C_us": 0.0001386867144784492
-          },
-          "P_us_at_ridge_1_given_E_C_zero": 4.5332,
-          "E_us_at_ridge_1_given_P_C_zero": 45.332,
-          "tau_Byte_per_s": null,
-          "ridge": null,
-          "status": "unknown absolute SLC program/erase/calibration; coefficients only"
+      "integration_ns_per_evaluation": 24999.999999999996,
+      "read_service_components_ns": {
+        "wl": 2424,
+        "input": 640,
+        "bl": 768,
+        "sl_setup": 48000,
+        "integration": 1599999.9999999998,
+        "recovery": 48000,
+        "adc": 3200,
+        "digital": 1920,
+        "boundary": 20
+      },
+      "media_ns_per_evaluation": 26511.999999999996,
+      "program_budget_ns": 5000000.0,
+      "erase_budget_ns": 45000000.0,
+      "calibration_counts": {
+        "sample_rounds": 3,
+        "wl_setups": 2,
+        "coefficient_batches": 8,
+        "digital_ticks": 226,
+        "coefficients": 128,
+        "division_steps": 24
+      },
+      "calibration_total_ns": 82581.99999999999,
+      "delta_S_ns": 1704971.9999999998,
+      "result_nature": "finite reference estimate with explicit resources and accepted-operation budgets; not measured device bounds",
+      "append": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 1704971.9999999998,
+        "delta_R_ns": 5121208982.0,
+        "rho_Byte_per_s": 75074.54667877244,
+        "tau_Byte_per_s": 3199.2445646304222,
+        "ridge": 23.46633561834154,
+        "operations": {
+          "data_pages": 1024,
+          "calibration_pages": 0,
+          "program_cycles": 1024,
+          "erase_cycles": 0,
+          "data_beats_per_page": 108,
+          "front_ns_per_page": 1100,
+          "front_total_ns": 1126400,
+          "complete_program_total_ns": 5120000000.0,
+          "complete_erase_total_ns": 0.0,
+          "calibration_total_ns": 82581.99999999999,
+          "physical_loaded_Byte": 1769472
         }
-      ]
+      },
+      "rewrite": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 1704971.9999999998,
+        "delta_R_ns": 12161490582.0,
+        "rho_Byte_per_s": 75074.54667877244,
+        "tau_Byte_per_s": 1347.2032798553212,
+        "ridge": 55.72622023814761,
+        "operations": {
+          "data_pages": 1024,
+          "calibration_pages": 256,
+          "program_cycles": 1280,
+          "erase_cycles": 128,
+          "data_beats_per_page": 108,
+          "front_ns_per_page": 1100,
+          "front_total_ns": 1408000,
+          "complete_program_total_ns": 6400000000.0,
+          "complete_erase_total_ns": 5760000000.0,
+          "calibration_total_ns": 82581.99999999999,
+          "physical_loaded_Byte": 2211840
+        }
+      }
     }
   ],
-  "conditional_rho_MB_per_s_range": [
-    2.2722431300149113,
-    3.356056633455689
-  ],
-  "no_finite_supported_numeric_tau_ridge_range": true
+  "organization_comparison": {
+    "id": "c108_reference",
+    "kind": "organization_comparison",
+    "profile": "reference",
+    "copies": 108,
+    "geometry": {
+      "copies": 108,
+      "blocks": 128,
+      "subarrays": 2,
+      "physical_page_bits": 13824,
+      "physical_page_Byte": 1728,
+      "physical_pages_per_block": 96,
+      "useful_data_pages_per_block": 8,
+      "calibration_pages_per_block": 2,
+      "data_pages_per_matrix": 1024,
+      "calibration_pages_per_matrix": 256,
+      "logical_matrix_Byte": 16384,
+      "logical_bit_payload_per_data_page_Byte": 16.0,
+      "physical_data_target_cells": 14155776,
+      "active_bitlines_per_page": 13824,
+      "encoded_data_Byte": 1769472,
+      "physical_array_cells": 169869312,
+      "adc_count": 128,
+      "added_integration_capacitance_pF": 2048,
+      "maximum_sum_current_nA": 27648,
+      "required_fullscale_drive_uA_per_channel": 27.648,
+      "total_fullscale_signal_current_mA": 3.538944,
+      "required_integrator_slew_V_per_us": 1.728,
+      "useful_count_LSB_current_nA": 216,
+      "iid_sigma_in_count_LSB": 0.16329931618554522
+    },
+    "periphery_ns": {
+      "input_step": 5,
+      "adc_batch": 20,
+      "digital_tick": 5
+    },
+    "read_counts": {
+      "input_slices": 8,
+      "row_groups": 1,
+      "weight_groups": 1,
+      "base_combinations": 8,
+      "evaluations": 64,
+      "adc_batches": 64,
+      "reconstruction_rounds": 64,
+      "digital_ticks": 192,
+      "useful_scalar_conversions": 8192,
+      "adc_total": 128,
+      "max_batch_code_slots": 128,
+      "max_hold_window_ns": 0
+    },
+    "wl_setup_count": 8,
+    "integration_ns_per_evaluation": 231.4814814814815,
+    "read_service_components_ns": {
+      "wl": 2424,
+      "input": 320,
+      "bl": 768,
+      "sl_setup": 40960,
+      "integration": 14814.814814814816,
+      "recovery": 40960,
+      "adc": 1280,
+      "digital": 960,
+      "boundary": 10
+    },
+    "media_ns_per_evaluation": 1523.4814814814815,
+    "program_budget_ns": 2500000.0,
+    "erase_budget_ns": 30000000.0,
+    "calibration_counts": {
+      "sample_rounds": 3,
+      "wl_setups": 2,
+      "coefficient_batches": 8,
+      "digital_ticks": 226,
+      "coefficients": 128,
+      "division_steps": 24
+    },
+    "calibration_total_ns": 6381.444444444444,
+    "delta_S_ns": 102496.81481481482,
+    "result_nature": "finite reference estimate with explicit resources and accepted-operation budgets; not measured device bounds",
+    "append": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 102496.81481481482,
+      "delta_R_ns": 2560569581.4444447,
+      "rho_Byte_per_s": 1248819.2948362622,
+      "tau_Byte_per_s": 6398.576363137771,
+      "ridge": 195.17142938712368,
+      "operations": {
+        "data_pages": 1024,
+        "calibration_pages": 0,
+        "program_cycles": 1024,
+        "erase_cycles": 0,
+        "data_beats_per_page": 108,
+        "front_ns_per_page": 550,
+        "front_total_ns": 563200,
+        "complete_program_total_ns": 2560000000.0,
+        "complete_erase_total_ns": 0.0,
+        "calibration_total_ns": 6381.444444444444,
+        "physical_loaded_Byte": 1769472
+      }
+    },
+    "rewrite": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 102496.81481481482,
+      "delta_R_ns": 7040710381.444445,
+      "rho_Byte_per_s": 1248819.2948362622,
+      "tau_Byte_per_s": 2327.037914125751,
+      "ridge": 536.6561873597292,
+      "operations": {
+        "data_pages": 1024,
+        "calibration_pages": 256,
+        "program_cycles": 1280,
+        "erase_cycles": 128,
+        "data_beats_per_page": 108,
+        "front_ns_per_page": 550,
+        "front_total_ns": 704000,
+        "complete_program_total_ns": 3200000000.0,
+        "complete_erase_total_ns": 3840000000.0,
+        "calibration_total_ns": 6381.444444444444,
+        "physical_loaded_Byte": 2211840
+      }
+    },
+    "relative_to_main_reference": {
+      "rho_Byte_per_s": 16.465701915217597,
+      "tau_Byte_per_s": 1.0000105537014776,
+      "ridge": 16.465528142948912
+    }
+  },
+  "main_paired_ranges": {
+    "append": {
+      "rho_Byte_per_s": [
+        75074.54667877244,
+        76546.41702966414
+      ],
+      "tau_Byte_per_s": [
+        3199.2445646304222,
+        12304.876846124878
+      ],
+      "ridge": [
+        6.220819435000731,
+        23.46633561834154
+      ]
+    },
+    "rewrite": {
+      "rho_Byte_per_s": [
+        75074.54667877244,
+        76546.41702966414
+      ],
+      "tau_Byte_per_s": [
+        1347.2032798553212,
+        4570.968273392983
+      ],
+      "ridge": [
+        16.746214904888088,
+        55.72622023814761
+      ]
+    }
+  },
+  "numeric_estimation_complete": true,
+  "range_kind": "paired reference-design budgets, not statistical confidence intervals or universal SLC bounds"
 }

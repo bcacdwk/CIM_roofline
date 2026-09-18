@@ -1,5 +1,5 @@
 {
-  "schema_version": "nand-3d-pilot-1",
+  "schema_version": "nand-3d-reference-2",
   "baseline": {
     "id": "shared_baseline",
     "json_path": "../shared_baseline/data/shared_parameters.json",
@@ -8,10 +8,10 @@
     "script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
     "method_tex_path": "../shared_baseline/tex/02_estimation_method.tex",
     "method_tex_sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
-    "final_confirmation": "Final baseline confirmed: JSON and calculation API unchanged; shared method TeX only corrected w_IO typesetting."
+    "final_confirmation": "Same shared JSON, calculation API and method TeX hashes retained throughout the focused NAND reference-design revision."
   },
   "scope": {
-    "head_at_start": "49d11fe3ea994b63fc27e3d35e65602071ba1c0f",
+    "head_at_start": "ad6db3a54dc22f055401022933445349d529b5ca",
     "logical_matrix": [
       128,
       128
@@ -19,97 +19,97 @@
     "logical_precision": "signed INT8",
     "service_units": 1,
     "update_domains": 1,
-    "precision": "R0 ACIM calibrated approximate reconstruction; no final application accuracy claim"
+    "precision": "R0 ACIM approximate partial sums and 24-bit outputs; same logical format, different random-error capability for c=1 versus c=108"
   },
   "raw_evidence": [
     {
       "id": "E01",
       "source": "NAND-04",
-      "locator": "PDF p.2 II-A, Fig.1; p.3 II-C, Fig.3",
+      "locator": "PDF pp.2–3 II-A/C, Figs.1/3",
       "raw": "13824 BL × 32 WL × 3 SSL/block; 64 blocks/subarray; BL length 144 μm",
-      "condition": "作者CIM结构/RC模型，32 nm逻辑外围；不是量产页手册",
-      "adoption": "原样保留物理几何。两subarray、128 blocks构成一份矩阵；一WL/一SSL的一页为13824 bit=1728 Byte。",
+      "condition": "作者32 nm外围CIM结构模型；非商品16-KiB页",
+      "adoption": "保留几何；2个subarray共128块组成一份状态。每WL/SSL物理页13824 bit=1728 Byte；每块8个数据页，另2校准页。",
       "kind": "reported_model_and_mapping"
     },
     {
       "id": "E02",
-      "source": "NAND-05",
-      "locator": "PDF p.1 II-(b); p.3 Figs.5–6",
-      "raw": "16-layer, 64 Gb SLC; ION mean 2 nA, sigma 0.3 nA; IOFF <0.5 pA; Vg=1 V, VBL=0.2 V, Vpass=4.5 V",
-      "condition": "SGVC实际器件电流；full-block random code；非完整CIM芯片速度",
-      "adoption": "二阈值SLC依据。NAND-04的32 WL结构另属模型，不把16层和32层说成同一实测芯片。",
-      "kind": "measured"
+      "source": "NAND-05 / NAND-04",
+      "locator": "05 PDF pp.1–3, Fig.6; 04 PDF p.7 Figs.7/8",
+      "raw": "SLC ION≈2 nA, sigma≈0.3 nA; IOFF<0.5 pA; selected VG=1 V, VBL=0.2 V, Vpass=4.5 V; no-input-copy SL current distribution also reported",
+      "condition": "05为16-layer SGVC实际器件；04为32-WL模型。饱和平台降低对Vth漂移敏感性，仍有cell电流变异",
+      "adoption": "主情景c=1，一逻辑bit对应一个SLC cell；128输入最大256 nA。108复制是组织对照，非INT8逻辑必需。保留近似误差，不施加逐cell多级电流精调。",
+      "kind": "measured_and_reported_model"
     },
     {
       "id": "E03",
       "source": "NAND-04",
-      "locator": "PDF p.3 Table 1及II-C",
-      "raw": "WL setup 303 ns; BL setup 12 ns @50% sparsity; SL setup 530–750 ns @max-bit input; SL capacitance ~16 pF",
-      "condition": "RC/HSPICE估计，64-block subarray；SL不是完整SLC read cycle",
-      "adoption": "WL每输出组一次(8次/向量)；BL和SL每求值一次(64次)。SL中点640 ns仅插值情景；复制108份使电流接近原负载，范围仍以适配成功为条件。",
-      "kind": "reported_model"
+      "locator": "PDF p.3 Table 1 / II-C",
+      "raw": "WL setup 303 ns; BL setup 12 ns @50% sparsity; SL setup 530–750 ns @max-bit input; native SL capacitance ~16 pF",
+      "condition": "RC/HSPICE估计，非新积分前端实测",
+      "adoption": "WL每输出组一次(8次/向量)，BL每求值一次。新前端建立用530/640/750 ns负载锚定预算；恢复另分配同长预算，属新增选择。640是中点。",
+      "kind": "reported_model_to_service_budget"
     },
     {
       "id": "E04",
-      "source": "NAND-05",
-      "locator": "PDF p.1 II-(a); p.4 Fig.15",
-      "raw": "Tread ~1 μs with multibit output; ~10 μA MAC current; 7–8-bit SA resolution",
-      "condition": "加速器设计预估，非单cell测量；包括多位SA输出",
-      "adoption": "仅对530–750 ns阵列建立加共同ADC的微秒量级交叉检查，不把1 μs再叠加或当独立硅证据。",
-      "kind": "reported_design_estimate"
+      "source": "本文设计 / NAND-04",
+      "locator": "参考前端选择；04 PDF p.3的16 pF负载锚点",
+      "raw": "Added feedback/integration capacitor CF=16 pF/channel; useful output swing 0.4 V; 128 channels",
+      "condition": "工程资源选择；额外总积分电容2048 pF，不能冒称原文已有。虚地SL保持源文器件偏置",
+      "adoption": "Tint=CF×0.4V/(128×c×2nA)：c=1为25 μs，c=108为0.231481 μs。新电容、摆幅与时间推导分开标记；普通存储tR不作CIM周期。",
+      "kind": "explicit_reference_choice_and_charge_derivation"
     },
     {
       "id": "E05",
-      "source": "NAND-04",
-      "locator": "PDF p.2 II-A; p.4 II-C",
-      "raw": "Both states programmed with write-verify; programming voltage ~20 V",
-      "condition": "两阈值都细调以控制导通电流",
-      "adoption": "完整P必须含charge-pump建立、所有program/verify循环、恢复及可计算终点；完整P未给，保持未知。",
-      "kind": "reported_requirement_missing_timing"
+      "source": "NAND-04 / NAND-05",
+      "locator": "04 PDF p.2 II-A及p.4; 05 PDF p.2及p.3 Fig.6",
+      "raw": "Both binary threshold states use write-verify; programming voltage ~20 V; selected VG lies on ON-current plateau",
+      "condition": "SLC两阈值分类及饱和读；不是8-bit模拟cell目标",
+      "adoption": "完整P覆盖泵建立、program/verify循环、恢复；目标是源文SLC窗口/电流分离量级，剩余0.3nA随机变异由近似计算承担。",
+      "kind": "reported_operation_to_program_policy"
     },
     {
       "id": "E06",
-      "source": "NAND-05",
-      "locator": "PDF p.2 II-(e); p.4 Fig.12",
-      "raw": "Sacrifice one or two WLs per block for known-code SA calibration; on-the-fly calibration",
-      "condition": "读取已知码后校准SA；重写/漂移可能需要重新校准",
-      "adoption": "主情景1个校准WL，另核对2个。擦除后每块增加1或2个完整校准页program；C_cal为整矩阵事务的总校准时间，未报告，参数化。",
-      "kind": "reported_method"
+      "source": "NAND-01",
+      "locator": "PDF p.2 Key Specifications",
+      "raw": "MLC tPROG typ/max=1.3/2.5 ms; TLC=1.63/5 ms; both tBERS typ/max=15/45 ms",
+      "condition": "32-stack floating-gate商品MLC/TLC，非所选SGVC SLC；完整内部操作块含相应模式的verify",
+      "adoption": "选择P=1.3/2.5/5 ms，E=15/30/45 ms作为两阈值参考服务预算；30是擦除中点。借用完整高压/写验/擦除的量级，不迁移其多级终点或保证，不按小页/有效cell数缩时。",
+      "kind": "reported_product_to_explicit_engineering_budget"
     },
     {
       "id": "E07",
-      "source": "NAND-01",
-      "locator": "PDF p.2 Key Specifications",
-      "raw": "MLC: tPROG 1300/2500 μs, tBERS 15/45 ms, tR 77 μs; TLC: 1630/5000 μs, 15/45 ms, 100 μs (typ/max)",
-      "condition": "MLC 2b/c与TLC 3b/c分列；16,384+2,208 Byte/page; 1024/1536 pages/block",
-      "adoption": "仅说明商品存储模式完整周期及粒度不同；全部不代入SLC主情景，也不充当SLC上/下界。",
-      "kind": "reported_product_not_adopted"
+      "source": "NAND-02",
+      "locator": "PDF pp.1–3, Figs.15.1.2/5",
+      "raw": "Verify includes CLK_UP/sense/CLK_DOWN/strobe and low/high levels; SLC burst saves ~11% interior time by pump set/reset skip",
+      "condition": "QLC产品的SLC-cache机制；未报告SLC绝对P/E",
+      "adoption": "确认verify与泵建立/恢复不能漏计；参考程序逐页完整执行、不取11%折扣。截止仍未通过阈值verify则失败，不把该payload计为成功。",
+      "kind": "reported_mechanism"
     },
     {
       "id": "E08",
-      "source": "NAND-02",
-      "locator": "PDF p.1及p.3 Fig.15.1.5",
-      "raw": "Fast SLC burst ~11% interior tPROG reduction; first/last ~5.5%; pump held between pages",
-      "condition": "332-WL QLC产品的SLC-cache burst；未给SLC绝对P或E",
-      "adoption": "证明泵建立/最终恢复必须计入有限窗口；不把11%或QLC >85 MB/s作为SLC绝对时间，不采用burst收益。",
-      "kind": "reported_relative_only"
+      "source": "NAND-05",
+      "locator": "PDF p.2 II-(e); p.4 Fig.12",
+      "raw": "One or two WL known codes; calibration divider/register and inference multiplier",
+      "condition": "已知码校准与数字校正结构；固定拍数由本文选择",
+      "adoption": "固定2校准WL，零/满量程两读后计算系数，再半输入复测，共3读/2WL建立；16通道24步倒数、比较与存储计226TD。每次求值另1拍数字校正，kA=3。",
+      "kind": "reported_method_to_finite_schedule"
     },
     {
       "id": "E09",
-      "source": "NAND-03",
-      "locator": "PDF p.1及p.2 Fig.30.5.6",
-      "raw": "QLC 4b/c; 6 planes; 16 kB page; tPROG 1.3 ms; die throughput 75 MB/s",
-      "condition": "321-layer 2 Tb芯片；6-plane并行",
-      "adoption": "仅核对die/plane吞吐与页cycle不同；不代入SLC单更新域。",
-      "kind": "reported_product_not_adopted"
+      "source": "NAND-01 / NAND-03",
+      "locator": "01 PDF p.2; 03 PDF p.1及p.2 Fig.30.5.6",
+      "raw": "MLC/TLC normal tR=77/100 μs; QLC 6 planes,16kB page,1.3ms program,75MB/s die throughput",
+      "condition": "普通存储判决/多阈值模式，且die throughput含plane并行",
+      "adoption": "仅作数量级和层级核查；不用tR代替SL-CIM积分，不用die吞吐或接口带宽代替单更新域。",
+      "kind": "cross_check_not_direct_substitution"
     },
     {
       "id": "E10",
       "source": "shared_baseline",
-      "locator": "shared_parameters.json: common_conditions / reference_instance",
-      "raw": "128×128 INT8; BS=128 Byte; BR(full)=16384 Byte; R0: 8 weight planes, 16 ADC/plane; (TI,TA,TD)=(2,10,2)/(5,20,5)/(10,50,10) ns; 128-bit write interface",
-      "condition": "已接受公共工程选择；ACIM校准近似部分和、128×24-bit输出",
-      "adoption": "逻辑合同和时隙不变；所有次数由导入的acim_service/front_ns/program_sequence_ns接口计算。",
+      "locator": "shared_parameters.json: common_conditions / R0",
+      "raw": "128×128 INT8; BS=128 Byte; BR=16384 Byte; 8 planes ×16 ADC; (TI,TA,TD)=(2,10,2)/(5,20,5)/(10,50,10) ns; write port128 bit",
+      "condition": "已接受共同选择；ACIM近似、128×24-bit输出；无等面积约束",
+      "adoption": "逻辑/时隙不改；导入共享接口算服务。额外数字校正与积分资源显式列为结构接入选择；不声称c=1/c=108等最终误差。",
       "kind": "accepted_common_choice"
     }
   ],
@@ -170,8 +170,31 @@
       "actual_sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833"
     }
   },
+  "reported_numeric": {
+    "cell_on_current_nA": 2,
+    "cell_on_sigma_nA": 0.3,
+    "cell_off_current_upper_pA": 0.5,
+    "native_sl_capacitance_pF": 16,
+    "wl_setup_ns": 303,
+    "bl_setup_ns": 12,
+    "sl_setup_model_range_ns": [
+      530,
+      750
+    ],
+    "MLC_program_typ_max_ms": [
+      1.3,
+      2.5
+    ],
+    "TLC_program_typ_max_ms": [
+      1.63,
+      5
+    ],
+    "MLC_TLC_erase_typ_max_ms": [
+      15,
+      45
+    ]
+  },
   "mapping": {
-    "kind": "explicit_reference_choice_on_reported_native_geometry",
     "bitlines_per_page": 13824,
     "wordlines_per_block": 32,
     "ssl_per_block": 3,
@@ -181,40 +204,73 @@
     "outputs_per_wl_group": 16,
     "output_wl_groups": 8,
     "logical_inputs": 128,
-    "input_copies": 108,
+    "main_input_copies": 1,
+    "comparison_input_copies": 108,
     "active_ssl_per_block": 1,
-    "calibration_wl_per_block_main": 1,
-    "calibration_wl_per_block_sensitivity": 2,
+    "calibration_wl_per_block": 2,
     "program_domains": 1,
-    "native_page_convention": "One selected WL and SSL, all 13824 BL; do not replace with Micron 16-KiB product page",
-    "unused_wls_are_not_append_generations": true,
-    "first_data_in_command": false
+    "first_data_in_command": false,
+    "unused_bl": "BL input held at SL virtual ground; programming inhibited. Full physical page loading retained.",
+    "unused_wls_are_not_append_generations": true
   },
-  "read": {
-    "wl_setup_ns": 303,
-    "bl_setup_ns": 12,
-    "sl_setup_ns_by_profile": {
+  "design_choices": {
+    "kind": "explicit_reference_design_choices_not_measurements",
+    "integration": {
+      "feedback_capacitance_pF_per_channel": 16,
+      "useful_output_swing_V": 0.4,
+      "frontends": 128,
+      "physical_basis": "16pF native SL load anchors a deliberately non-aggressive added capacitor choice; added feedback capacitance is separate from native SL capacitance",
+      "device_bias": "Selected VG=1V, unselected Vpass=4.5V, VBL=0.2V relative to virtually grounded SL; integrator output swing does not move SL",
+      "ADC_interface": "Local sample/reference adaptation provides guard around the 0.4V useful swing; calibration rejects clipping",
+      "time_formula": "C_F * V_swing / (n_in * copies * I_on)",
+      "frontend_drive_qualification": "For each organization, the same capacitor and output swing require output charge/discharge current equal to the full-scale summed current and slew at least V_swing/T_int. c=108 requires 27.648 uA/channel, 1.728 V/us and 3.538944 mA total signal current across 128 channels; these are drive requirements, not measured power."
+    },
+    "sl_setup_budget_ns_by_profile": {
       "short": 530,
       "reference": 640,
       "long": 750
     },
-    "sl_midpoint_is_interpolation": true,
-    "extra_media_recovery_ns_per_evaluation": null,
-    "reported_range_applicability": "Conditional budget: same native dimensions and ~16 pF SL; input duplication brings current toward source regime; retained 12 ns BL budget under stated load. Reset/transimpedance settling must fit listed stages, else add nonnegative extra time.",
-    "wl_schedule": "For each of eight WL/output groups: one WL setup, then eight input-bit evaluations; all eight weight planes parallel."
+    "sl_recovery_budget_rule": "One additional slot equal to setup budget after each sample; new engineering allocation, not reported recovery time",
+    "program_full_budget_ms_by_profile": {
+      "short": 1.3,
+      "reference": 2.5,
+      "long": 5
+    },
+    "erase_full_budget_ms_by_profile": {
+      "short": 15,
+      "reference": 30,
+      "long": 45
+    },
+    "program_budget_bridge": "MLC typical -> MLC maximum -> TLC maximum provide complete operation scale. Use as reserved SLC reference windows, with upper window allowing implementation/refinement margin; do not assert SLC bounds or divide by page-size/cell-count.",
+    "erase_budget_bridge": "Both source MLC/TLC columns share15/45ms, anchoring common block-HV/erase/verify/recovery scale;30ms is midpoint. Different charge storage technology remains an explicit transfer assumption.",
+    "digital_correction_ticks_per_round": 1,
+    "correction_parallel_multipliers": 128,
+    "calibration": {
+      "reference_wordlines": 2,
+      "sample_rounds": 3,
+      "wl_setups": 2,
+      "coefficient_channels": 16,
+      "division_steps": 24,
+      "subtract_ticks": 1,
+      "store_ticks": 1,
+      "validation_ticks_per_batch": 2,
+      "boundary_ticks": 2,
+      "coefficient_bits": 24,
+      "coefficient_fractional_bits": 16,
+      "residual_limit_logical_counts": 4,
+      "procedure": "Read zero and full references, compute affine correction, read full reference with half the128 logical inputs enabled, correct and check residual/clipping; no unbounded calibration loop.",
+      "residual_limit_reason": "Explicit reference acceptance threshold: four counts gives margin over c=1 half-pattern stochastic variation plus converter error; not an all-vector INT8 error guarantee."
+    },
+    "read_operation_order": "Low-voltage input and BL/SL setup -> fixed integration -> ADC sample/conversion and code latch -> restore/reset -> digital correction and reconstruction. Media time is aggregated across the nonoverlapped stages; reset occurs only after ADC sampling."
   },
   "resident": {
-    "program_full_us": null,
-    "erase_full_us": null,
-    "calibration_total_us": null,
-    "unknowns": [
-      "P: full single SLC-CIM page program including target-current write-verify and recovery",
-      "E: full block erase including erase verify and recovery",
-      "C_app/C_rw: total additional calibration time per full-matrix transaction; initial state and new back patterns determine need"
-    ],
-    "append_initial_state": "All eight data WLs erased; calibration WL(s) already programmed. C_app may be zero only if new layout/back pattern preserves valid calibration.",
-    "rewrite": "Whole matrix replaced at same eight data WL addresses; 128 blocks erased in one serial update domain; calibration pages rebuilt; no copy-forward of unrelated state.",
-    "numeric_tau_or_ridge_claimed": false
+    "transaction_Byte": 16384,
+    "append_initial_state": "Eight dataWLs erased and two referenceWLs already programmed per block; all coefficients remeasured after loading, so calibration is always charged.",
+    "rewrite": "Same-address full-matrix replacement:128 serial erases,1024 data-page programs plus256 reference-page programs,then finite calibration.",
+    "failure_policy": "If a page misses binary threshold verification within P, an erase misses its verify within E, or calibration clips/fails the4-count reference test, do not publish the matrix or count its payload as completed. Return failure; no hidden automatic retry. Numerical ranges describe successful reference operations satisfying these chosen windows, not yield or all-device guarantees.",
+    "P_includes": "pump/driver setup, every internal program/verify iteration and recovery to ready; data loading is separately counted once",
+    "C_is": "whole-matrix finite calibration sequence after every append/rewrite; no free C=0 branch",
+    "numeric_estimate_complete": true
   },
   "shared_exceptions": [
     {
@@ -222,49 +278,45 @@
         "R1",
         "R2"
       ],
-      "change": "Two native 64-block subarrays implement 128 simultaneous scalar partial sums; eight binary bit planes ×16 output lanes; eight WL groups provide128 outputs",
-      "r0": "128 rows/evaluation, 8 planes parallel,16 outputs/evaluation",
-      "effect": "Counts remain64 evaluations/64 ADC batches/128 reconstruction ticks; added8 WL setups; no independent input replication"
+      "change": "128 native blocks implement 8 weight planes × 16 parallel outputs; 8 WL output groups; no independent input replication",
+      "effect": "64 evaluations / 64 ADC batches, 8 WL setups; same 128 Byte stream and 16384 Byte matrix"
     },
     {
       "rule_ids": [
         "R2",
         "R3"
       ],
-      "change": "108 copies of each logical input/weight bit across full physical page; only one SSL active",
-      "r0": "No required physical copies",
-      "effect": "Same input-bit/evaluation count and logical payload; scalar current normalized by108 before/throughADC calibration; encoded data per logical128-bit plane-page is13824 bits; analog applicability conditional"
+      "change": "Main c=1, only 128 active BL/page; c=108 is the sole comparison; both retain full 1728 Byte page loading and native dimensions",
+      "effect": "Integration time changes with summed current; same page/block counts and write budgets. Error capability differs at fixed logical format."
     },
     {
       "rule_ids": [
+        "R3",
         "R4"
       ],
-      "change": "Use NAND-04 WL/BL/SL component estimates; 32 nm low-voltage peripheral replaced by shared28 nm slots, HV geometry kept",
-      "r0": "Single media-read term per evaluation",
-      "effect": "acim_service uses BL+SL; eight separate WL-setup blocks added; no ordinary tR or1us double-count"
+      "change": "128 virtual-ground integrating frontends, each with 16 pF feedback capacitance and 0.4 V useful swing; explicit setup/integration/conversion/recovery sequence",
+      "effect": "2048 pF added integration capacitance; 530–750 ns setup and matching recovery are budgets; integration time is charge-derived, not a borrowed normal-read cycle"
     },
     {
       "rule_ids": [
+        "R2",
         "R5"
       ],
-      "change": "Native page1728 Byte but16 Byte logical bit payload; full matrix1024 data pages; one or two additional calibration pages per block",
-      "r0": "128-bit coding port; single update domain",
-      "effect": "Full transaction BR16384 Byte; 128serialblockerase; Np/e=8 useful pages, not32or96; calibrationprogram consumes time only"
+      "change": "One additional digital correction tick per reconstruction round, 128 small multipliers; 2 calibration WLs/block and finite 3-read calibration",
+      "effect": "kA=3, 192 digital ticks; full rewrite requires 1280 program cycles + 128 erases; calibration does not increase payload"
     },
     {
       "rule_ids": [
+        "R4",
         "R5"
       ],
-      "change": "SLC write/erase/current-finetune times unavailable locally",
-      "r0": "Complete program/erase input required",
-      "effect": "tau/ridge remain explicit functions; no MLC/TLC/QLC substitution or invented typical times"
+      "change": "Cross-source full program/erase scale used as reserved reference windows with binary-verification deadlines",
+      "effect": "Finite P/E/C and tau/ridge; source MLC/TLC endpoints and mode guarantees are not transferred; one update domain and 8 useful data pages/erase are preserved"
     }
   ],
-  "method_issues": [
-    "Media-dependent stages with different invocation counts (WL per output group, BL/SL per input bit) are handled by existing explicit sequential composition and exception rules; scalar t_m must not silently charge WL64 times or amortize over unlimited vectors.",
-    "Native physical page payload can be only a weight-bit slice; aggregate all8 planes/allstate before crediting complete INT8 payload.",
-    "Erase also destroys calibration state; useful pages per erase excludes calibration and unusedWL/SSL.",
-    "ADC sharing and array output selection differ: NAND block has one SL scalar, multiple outputs reside on different WLs.",
-    "No SLC-CIM program/erase absolute timing exists in supplied corpus; ratio-onlySLC burst and dense product throughput cannot bound it."
+  "method_notes": [
+    "Shared sequential composition already expresses different WL/SL/digital counts; common formulas and API are unchanged.",
+    "This case completes numerical estimates using explicitly chosen resource and service budgets; arithmetic checks alone do not validate analog settling or program yield.",
+    "P/E budgets are not SLC measurement bounds; calibration and failure policy define the reference-operation class."
   ]
 }

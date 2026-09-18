@@ -1,0 +1,9 @@
+% Generated one controlled comparison.
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+参考点组织 & 活动写lane & verify读回 (ns) & $\Delta_R$ (\,$\mu$s) & $\tau$ (MB/s) & $\RI^*$\\\midrule
+B32-W16 binary & 16 & 30 & 72.970 & 0.219268 & 56.952\\
+B32-W1 binary & 1 & 30 & 1167.370 & 0.013706 & 911.118\\
+B32-W1 SAR & 1 & 30 & 1167.370 & 0.013706 & 911.118\\
+\bottomrule\end{tabular}
+\caption{同一两阶段程序、脉冲、HV预留、成功窗和 $K_R/K_S=2/1$，仅改变活动并行度或校验通路。三行读侧相同，$\Delta_S=10.25\,\mu$s；W1仅启用已配置硬件中的一个lane，SAR复用原CIM转换器。}\label{tab:comparison}\end{table}

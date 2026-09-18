@@ -1,0 +1,9 @@
+% Generated from results.json.
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrrrr@{}}\toprule
+参考事务 & 数据/参考页 & program次数 & erase次数 & $\Delta_R$ (s)\\\midrule
+预擦除append & 1024/0 & 1024 & 0 & 2.560644\\
+同地址持续重写 & 1024/256 & 1280 & 128 & 7.040785\\
+\bottomrule\end{tabular}
+\caption{整矩阵服务操作计数与参考时间。两行都完成$B_R=16384$ Byte；每页完整装入108拍加两拍控制，串行单更新域。}
+\label{tab:operations}\end{table}

@@ -1,20 +1,29 @@
 # RRAM 二状态位切片的局部服务估算
 
-本分析固定共同 128×128 INT8 任务与 28 nm 外围，采用二状态 HRS/LRS、八个等尺度权重位平面、32 项输入分组和单 cell 顺序写验。它是首轮介质参考设计，不是最终 Table I 速率行。
+已完成同一共享基线下的有限条件工程估算：二状态 HRS/LRS、八个等尺度权重位平面、32项读分组，16个独立编程/二状态窗口读验通道。完整RESET、masked SET、重试、HV建立/恢复及本地读回全部计入。这是参考设计服务预算，不是同一芯片实测复原或材料保证区间。
 
-- [中文章节 PDF](output/pdf/rram.pdf)：6 页；前 4 页为连贯分析，后 2 页为紧凑参数证据表。
-- [章节 TeX](tex/05_rram.tex) 与 [独立编译入口](tex/rram.tex)。
-- [参数证据表](notes/parameter_evidence.zh.md)：PDF 页序/图表、原值单位与条件、采用理由；由 JSON 生成。
-- [原始证据及参考输入](data/inputs.json)、[派生结果](data/results.json)、[实际读取来源与哈希](data/provenance.json)。
-- [方法审阅记录](notes/method_review.zh.md) 与 [最小计算检查脚本](scripts/check_rram.py)。
+- [中文章节 PDF](output/pdf/rram.pdf)、[章节 TeX](tex/05_rram.tex)、[独立入口](tex/rram.tex)。
+- [参数证据表](notes/parameter_evidence.zh.md)：原值、PDF定位、操作锚点和工程选择分开。
+- [输入及R1–R5记录](data/inputs.json)、[结果/物理映射/对照](data/results.json)、[来源与哈希](data/provenance.json)。
+- [方法审阅](notes/method_review.zh.md)、[计算检查](scripts/check_rram.py)。
 
-在前端电流到电压接口能纳入原 PH0=5 ns 预算（`h_A=0`）的条件下，短/参考/长公共时隙得到 ΔS=5380/10250/21780 ns，ρ≈0.02379/0.01249/0.00588 GB/s。额外接口建立时长 `h_A` 以参数保留；这不是未经条件限定的物理范围。
+<!-- BEGIN GENERATED RESULTS -->
+| 成对情景 | ΔS (µs) | ΔR (µs) | ρ (GB/s) | τ (MB/s) | RI* |
+|---|---:|---:|---:|---:|---:|
+| 短预算 | 5.380 | 48.340 | 0.02379 | 0.33099 | 71.881 |
+| 参考 | 10.250 | 72.970 | 0.01249 | 0.21927 | 56.952 |
+| 长预算 | 21.780 | 148.100 | 0.00588 | 0.10804 | 54.399 |
+<!-- END GENERATED RESULTS -->
 
-完整二状态写周期尚缺同一实现的绝对 SET/RESET、高压建立、恢复、校准窗口及成功重试分布。主结果的 τ、RI* 点值因此设为 `null`，保留完整操作公式；不借用 NeuRRAM 的多级 8.52 次/56 µs 或 Fujitsu 封装产品的毫秒时长。对于已选择的单 cell、至少一次 pulse+ADC verify 策略，可以给出数学边界：参考点 τ≤3.1189 MB/s、RI*≥4.0039。物理编程和重试只会收紧它，边界不是介质测量。另给完整单 cell 时间对应 RI*=1/10/100 的反解门槛，不指定任意典型写时间。
+主成对范围：ρ≈0.00588–0.02379 GB/s、τ≈0.10804–0.33099 MB/s、RI*≈54.4–71.9。GB/MB均为十进制。
 
-相对 R0 的主结构例外是 128→32 输入项/组（RRAM-05 的本地线性证据）；仍有八平面并行、每平面16 ADC、16数字通道、顺序调度。128-bit 写口只装入编码数据，实际编程并行度取 `p=1`。所有 R1–R5 记录在输入 JSON。
+16-lane来自八位平面×两个列组；同一输出WL上分两相位写，八批覆盖16个完整INT8权重。需要16个耐压/限流驱动、32个binary比较器、2个组地址计数器及mask/done状态；电源预算0.30 mA/lane、总4.8 mA，最高1.8 V需专用耐压I/O。没有从128-bit数据口推出128-cell并行。
 
-复算命令从本目录执行：
+程序采用文献实际1 µs SET/RESET脉宽作为跨stack操作预算，高压建立/回读各预留1 µs；本地binary完整sense采用共同10/20/50 ns能力预算，另计输入选通、5 ns建立和控制。尝试次数RESET/SET为1/1、2/1、4/2；成功条件是每批全部活动cell在对应次数内达到所选LRS 8–12 kΩ、HRS≥70 kΩ窗口。窗口和次数是参考设计选择，未移用NeuRRAM的8.52次、56 µs、成功率或电导终点。其1–10 µs外部受限读回不压入主本地服务。
+
+参考点仅启用一个lane时，保持相同binary预算得到ΔR=1167.370 µs、τ=0.013706 MB/s、RI*=911.118；同lane改用已有SAR，在统一完整sense预算下数值相同。这个对照分离了并行资源收益与感测选择，没有无依据删除校验时间。
+
+从本目录复算：
 
 ```sh
 /opt/anaconda3/bin/python scripts/check_rram.py
@@ -22,8 +31,6 @@ sh scripts/build.sh
 /opt/anaconda3/bin/python scripts/render_pdf.py
 ```
 
-更新原始 JSON 后先执行 `scripts/check_rram.py --emit` 生成结果与表格。脚本通过 `importlib` 导入共享 `check_shared.py`，不重写吞吐公式，不在共享目录生成 bytecode。默认检查不修改任何文件。`build/` 和 `tmp/` 被本目录 `.gitignore` 忽略。
+更新输入后用 `scripts/check_rram.py --emit` 刷新数字表与结果。脚本通过 `importlib` 调用共享接口，关闭bytecode；`build/`、`tmp/`被本目录忽略。
 
-已完成最终同基线核对：JSON SHA256 `6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42`；脚本 SHA256 `eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3`。原文哈希均与资料清单一致。编译无 overfull、未定义引用或缺字警告；最终 6 页已逐页渲染目视检查。来源未复制、下载或修改。
-
-最终共享方法 TeX SHA256 为 `b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9`。共享修改仅为 C 节接口 `w_IO` 的排印修复，公共公式、JSON 参数及计算 API 不变；已同步 `data/provenance.json`，重新计算、编译并核对 PDF，全部数值与首轮完全一致。二状态完整写周期、校准窗口、成功重试分布及前端接口条件缺口仍保留。
+共享JSON SHA256：`6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42`；共享脚本：`eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3`；方法TeX：`b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9`。三者未修改。

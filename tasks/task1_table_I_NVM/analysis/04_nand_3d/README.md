@@ -1,24 +1,17 @@
-# 3D NAND 局部 CIM 试算
+# 3D NAND 局部 CIM 参考估算
 
-本案例固定共同128×128 INT8逻辑任务，以SLC二阈值、BL输入/SL求和实现R0近似ACIM。已完成中文章节、独立编译PDF、逐项证据表、机器输入/结果及导入共享计算接口的检查脚本。它是带明确适配条件的参考设计，不是实测芯片性能或最终Table I。
+本案例已完成有限ρ、τ、RI*估算：主情景采用一个逻辑bit对应一个SLC cell（c=1），显式电流积分前端；108次等权复制为唯一组织对照。共同128×128 INT8任务、28 nm外围、原生页/块和单更新域保持不变。原始器件值、工程预算与推导量分开记录，不把参考预算称为SLC实测边界。
 
-- [中文PDF](output/nand_3d.pdf)（6页）；[连贯章节TeX](tex/04_nand_3d.tex)；[独立入口](tex/nand_3d.tex)。
-- [原始参数、选择、例外与实际哈希](data/inputs.json)；[派生计数、结果及系数](data/results.json)。
-- [紧凑证据表](notes/parameter_evidence.md)；[方法问题与复核记录](notes/review.md)。
-- [最小检查脚本](scripts/check_nand.py)；[编译脚本](scripts/build.sh)；[渲染脚本](scripts/render_pdf.py)。
+- [中文报告PDF](output/nand_3d.pdf)（6页）；[连贯章节](tex/04_nand_3d.tex)；[独立编译入口](tex/nand_3d.tex)。
+- [参数及原始量→预算桥接表](notes/parameter_evidence.md)；[当前方法与验证说明](notes/review.md)。
+- [机器输入、选择和来源哈希](data/inputs.json)；[有限结果和完整服务计数](data/results.json)；[验证记录](data/validation.json)。
+- [计算检查](scripts/check_nand.py)；[编译](scripts/build.sh)；[渲染](scripts/render_pdf.py)。
 
-所选原生结构来自NAND-04：64块/subarray，每块13824 BL×32 WL×3 SSL。两个subarray的128块共同实现八个权重位平面×16个同时输出；八个WL组完成128输出。每个逻辑bit在一页内复制108次，匹配文献的大电流量级，仍逐输入bit计算。读侧条件范围ρ=2.27–3.36 MB/s（参考2.759 MB/s），完整ΔS=38.140/46.402/56.332 μs；它依赖SL模型时序、负载和新前端适配成功，未证明为硅测保证范围。
+主情景ρ=75.07–76.55 kB/s。预擦除append的τ=3.199–12.30 kB/s、RI*=6.221–23.47；同地址持续整矩阵重写的τ=1.347–4.571 kB/s、RI*=16.75–55.73。参考点ΔS=1.687682 ms；append/持续重写ΔR分别为2.560644/7.040785 s。范围由三个成对参考预算生成，单位kB为10³ Byte。
 
-resident主事务固定16384 Byte整矩阵、1024数据页；一页物理1728 Byte，但只有16 Byte逻辑位片段。每块仅八个有效数据页；持续同地址全矩阵重写需要128次块erase，并重建每块一或两个校准页。一个校准WL的参考情景为：
+读取采用128路虚地积分前端，每路新增16 pF反馈电容、有用输出摆幅0.4 V；按128×2 nA满量程电流推导积分25 μs。原生约16 pF的SL寄生另保留。建立与恢复各分配530–750 ns工程预算；每次求值在R0两拍重构前增加一拍数字校正。c=108在相同前端与参考写预算下ρ=1248.8 kB/s、持续τ≈2.3270 kB/s、RI*=536.66；它还要求每通道27.648 μA充放电能力、1.728 V/μs压摆能力，不能把复制收益视为无资源条件。
 
-```text
-ΔR,append (μs) = 563.2 + 1024 P + C_app
-ΔR,rewrite(μs) = 633.6 + 1152 P + 128 E + C_rw
-τ (MB/s) = 16384 / ΔR(μs)
-RI*,rewrite = (4.95 + 9 P + E + C_rw/128) / 46.402
-```
-
-P是完整SLC-CIM页program，E是完整块erase，C为整矩阵事务的额外校准时间，均以μs计。现有五篇NAND来源未给出所选两阈值电流细调状态的完整P/E绝对时间，因此数值τ/RI字段为null，保留线性系数和RI*=1对应的预算阈值，未使用MLC/TLC/QLC或共享合成物理时间代填。预擦除append只适用于声明的初始空间和校准状态；新布局/背面图案需要重校准时C_app不为零。
+写侧采用NAND-01完整操作量级支持的P=1.3/2.5/5 ms、E=15/30/45 ms参考服务预算，保留完整泵建立、program/verify、erase-verify及恢复。它们不迁移商品MLC/TLC终点或保证、不按小页缩时。主事务16384 Byte，对应1024数据页；持续重写还重建256校准页，支付128次块擦。两种写入都通过三次已知码读取和固定数字序列重算校准C。超出截止预算或校准未通过时返回失败，不发布状态、不计成功payload，也不隐含无限重试。
 
 从本目录复现：
 
@@ -28,6 +21,14 @@ sh scripts/build.sh
 /opt/anaconda3/bin/python scripts/render_pdf.py
 ```
 
-修改输入后先运行`/opt/anaconda3/bin/python scripts/check_nand.py --emit`刷新本目录派生数据与表格。默认检查不写文件。脚本通过importlib导入共享接口，禁用pycache，未复制/修改共享公式。build与tmp由本目录.gitignore忽略；PDF与数据为当前唯一交付版本。
+修改输入后执行`/opt/anaconda3/bin/python scripts/check_nand.py --emit`刷新本案例JSON与表格。默认检查只读；通过importlib导入共享计算接口并禁用pycache。当前8组案例检查通过，XeLaTeX及6页渲染目视检查通过，日志无Underfull/Overfull、缺字或未定义引用。检查证明计数、单位和同步，不能替代前端/程序实现能力论证。
 
-已核对共享JSON SHA256 `6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42`，共享脚本SHA256 `eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3`。本案例6组检查及共享12组检查通过；XeLaTeX编译、6页渲染目视检查完成，无越界或缺字。最终共享基线核对完成：参数JSON与计算API未变，方法TeX仅修正了 $w_{IO}$ 排印，其最终SHA256为 `b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9`。已按同一最终基线重跑与编译，所有数值保持不变。
+共享JSON、计算API及方法TeX均未改动，SHA256分别为：
+
+```text
+JSON  6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42
+API   eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3
+TeX   b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9
+```
+
+本目录仅保留当前有效结果与表格；build/tmp由本地.gitignore忽略。不修改SRAM案例、共享文件或主论文，也不生成最终Table I。

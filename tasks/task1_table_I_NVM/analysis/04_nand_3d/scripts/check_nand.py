@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""NAND mapping and conditional coefficients via the shared calculation API.
+"""Reference-design NAND estimates, composed through the unchanged shared API.
 
-Default verifies; --emit writes only this case's JSON/TeX/Markdown derivatives.
-P, E and C remain unknown. Unit-basis calls derive algebraic coefficients only;
-no synthetic device time is exposed as a real NAND scenario.
+--emit refreshes this case's results and tables. Source measurements, engineering
+budgets and charge-derived timings remain distinct in inputs.json. No shared
+files or source PDFs are written. A passed arithmetic check is not a silicon test.
 """
 import sys
 sys.dont_write_bytecode = True
@@ -15,195 +15,233 @@ import math
 from pathlib import Path
 import unittest
 
-BASE = Path(__file__).resolve().parents[1]
-CORPUS = BASE.parents[1]
-X = json.loads((BASE/'data/inputs.json').read_text())
-SHARED = BASE.parent/'shared_baseline'
-spec = importlib.util.spec_from_file_location('shared_nand_calculation_api', SHARED/'scripts/check_shared.py')
-S = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(S)
-M = X['mapping']
-sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+BASE=Path(__file__).resolve().parents[1]
+CORPUS=BASE.parents[1]
+SHARED=BASE.parent/'shared_baseline'
+X=json.loads((BASE/'data/inputs.json').read_text())
+M=X['mapping']; D=X['design_choices']; E=X['reported_numeric']
+spec=importlib.util.spec_from_file_location('shared_nand_api',SHARED/'scripts/check_shared.py')
+S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def geometry():
-    blocks = M['subarrays']*M['blocks_per_subarray']
-    data_pages = blocks*M['output_wl_groups']
-    return dict(blocks=blocks, subarrays=M['subarrays'], physical_page_bits=M['bitlines_per_page'],
-                physical_page_Byte=M['bitlines_per_page']//8,
-                physical_pages_per_block=M['wordlines_per_block']*M['ssl_per_block'],
-                useful_data_pages_per_block=M['output_wl_groups'],
-                data_pages_per_matrix=data_pages,
-                logical_matrix_Byte=S.L['resident_capacity_Byte'],
-                logical_bit_payload_per_data_page_Byte=S.L['resident_capacity_Byte']/data_pages,
-                encoded_data_Byte=data_pages*M['bitlines_per_page']//8,
-                physical_array_cells=blocks*M['bitlines_per_page']*M['wordlines_per_block']*M['ssl_per_block'],
-                weight_bit_cell_copies=M['input_copies'],
-                physical_data_cells=data_pages*M['bitlines_per_page'],
-                adc_count=S.R['acim']['parallel_weight_planes']*S.R['acim']['adc_per_weight_plane'],
-                maximum_sum_current_uA=2*M['bitlines_per_page']/1000,
-                useful_count_LSB_current_nA=2*M['input_copies'],
-                iid_cell_variation_sigma_in_count_LSB=0.3*math.sqrt(M['bitlines_per_page'])/(2*M['input_copies']))
+def geometry(copies):
+    blocks=M['subarrays']*M['blocks_per_subarray']
+    data_pages=blocks*M['output_wl_groups']
+    return dict(copies=copies,blocks=blocks,subarrays=M['subarrays'],physical_page_bits=M['bitlines_per_page'],
+        physical_page_Byte=M['bitlines_per_page']//8,physical_pages_per_block=M['wordlines_per_block']*M['ssl_per_block'],
+        useful_data_pages_per_block=M['output_wl_groups'],calibration_pages_per_block=M['calibration_wl_per_block'],
+        data_pages_per_matrix=data_pages,calibration_pages_per_matrix=blocks*M['calibration_wl_per_block'],
+        logical_matrix_Byte=S.L['resident_capacity_Byte'],logical_bit_payload_per_data_page_Byte=S.L['resident_capacity_Byte']/data_pages,
+        physical_data_target_cells=data_pages*M['logical_inputs']*copies,
+        active_bitlines_per_page=M['logical_inputs']*copies,
+        encoded_data_Byte=data_pages*M['bitlines_per_page']//8,
+        physical_array_cells=blocks*M['bitlines_per_page']*M['wordlines_per_block']*M['ssl_per_block'],
+        adc_count=S.R['acim']['parallel_weight_planes']*S.R['acim']['adc_per_weight_plane'],
+        added_integration_capacitance_pF=D['integration']['frontends']*D['integration']['feedback_capacitance_pF_per_channel'],
+        maximum_sum_current_nA=E['cell_on_current_nA']*M['logical_inputs']*copies,
+        required_fullscale_drive_uA_per_channel=E['cell_on_current_nA']*M['logical_inputs']*copies/1000,
+        total_fullscale_signal_current_mA=E['cell_on_current_nA']*M['logical_inputs']*copies*D['integration']['frontends']/1e6,
+        required_integrator_slew_V_per_us=D['integration']['useful_output_swing_V']/(integration_ns(copies)/1000),
+        useful_count_LSB_current_nA=E['cell_on_current_nA']*copies,
+        iid_sigma_in_count_LSB=E['cell_on_sigma_nA']*math.sqrt(M['logical_inputs']*copies)/(E['cell_on_current_nA']*copies))
 
 
-def resident_ns(v, mode, program_us, erase_us, calibration_us, qcal=1):
-    g=geometry()
-    pages=g['data_pages_per_matrix']+(qcal*g['blocks'] if mode=='rewrite' else 0)
-    front, beats=S.front_ns(g['physical_page_bits'],v['digital_tick'],False)
-    steps=[dict(count=pages, drive_program_ns=program_us*1000,verify_ns=0,recover_ns=0)]
-    # P is a full program block, so program-internal verify must not be charged twice.
-    ns=S.program_sequence_ns(pages*front,calibration_us*1000,steps,
-           erase=(g['blocks']*erase_us*1000 if mode=='rewrite' else 0),pages_per_erase=1)
-    return ns,dict(program_cycles=pages,data_pages=g['data_pages_per_matrix'],
-        calibration_pages=pages-g['data_pages_per_matrix'],erase_cycles=(g['blocks'] if mode=='rewrite' else 0),
-        data_beats_per_page=beats,front_ns_per_page=front,front_total_ns=pages*front)
+def integration_ns(copies):
+    # Physical input derivation, not a replacement of the shared service formulas.
+    a=D['integration']
+    q_coulomb=a['feedback_capacitance_pF_per_channel']*1e-12*a['useful_output_swing_V']
+    current_ampere=M['logical_inputs']*copies*E['cell_on_current_nA']*1e-9
+    return q_coulomb/current_ampere*1e9
+
+
+def cal_counts():
+    c=D['calibration'];n=math.ceil(D['integration']['frontends']/c['coefficient_channels'])
+    ticks=n*(c['subtract_ticks']+c['division_steps']+c['store_ticks']+c['validation_ticks_per_batch'])+c['boundary_ticks']
+    return dict(sample_rounds=c['sample_rounds'],wl_setups=c['wl_setups'],coefficient_batches=n,digital_ticks=ticks,
+        coefficients=D['integration']['frontends'],division_steps=c['division_steps'])
+
+
+def calibration_ns(v,media_ns):
+    n=cal_counts()
+    steps=[dict(count=n['wl_setups'],drive_program_ns=E['wl_setup_ns'],verify_ns=0,recover_ns=0),
+        dict(count=n['sample_rounds'],drive_program_ns=v['input_step']+media_ns+v['adc_batch'],verify_ns=0,recover_ns=0),
+        dict(count=n['digital_ticks'],drive_program_ns=v['digital_tick'],verify_ns=0,recover_ns=0)]
+    return S.program_sequence_ns(0,0,steps)
+
+
+def resident(v,mode,program_ns,erase_ns,cal_ns,g):
+    data_pages=g['data_pages_per_matrix']
+    cal_pages=g['calibration_pages_per_matrix'] if mode=='rewrite' else 0
+    pages=data_pages+cal_pages
+    erase_count=g['blocks'] if mode=='rewrite' else 0
+    front,beats=S.front_ns(g['physical_page_bits'],v['digital_tick'],False)
+    # In hardware each load is followed by its program. The sum below aggregates
+    # these serial front stages; it does not require an all-pages input buffer.
+    steps=[dict(count=pages,drive_program_ns=program_ns,verify_ns=0,recover_ns=0),
+           dict(count=1,drive_program_ns=cal_ns,verify_ns=0,recover_ns=0)]
+    dr=S.program_sequence_ns(pages*front,erase_count*erase_ns,steps)
+    return dr,dict(data_pages=data_pages,calibration_pages=cal_pages,program_cycles=pages,erase_cycles=erase_count,
+        data_beats_per_page=beats,front_ns_per_page=front,front_total_ns=pages*front,
+        complete_program_total_ns=pages*program_ns,complete_erase_total_ns=erase_count*erase_ns,
+        calibration_total_ns=cal_ns,physical_loaded_Byte=pages*g['physical_page_Byte'])
+
+
+def scenario(profile,copies,kind):
+    v=S.C['propagation']['profile_values'][profile];g=geometry(copies)
+    sl=D['sl_setup_budget_ns_by_profile'][profile]
+    tint=integration_ns(copies)
+    media=E['bl_setup_ns']+sl+tint+sl
+    cfg={**S.R['acim'],'digital_ticks_per_reconstruction_round':S.R['acim']['digital_ticks_per_reconstruction_round']+D['digital_correction_ticks_per_round']}
+    ds0,counts,_=S.acim_service(cfg,v,media)
+    ds=S.program_sequence_ns(ds0,0,[dict(count=M['output_wl_groups'],drive_program_ns=E['wl_setup_ns'],verify_ns=0,recover_ns=0)])
+    c=calibration_ns(v,media)
+    p=D['program_full_budget_ms_by_profile'][profile]*1e6
+    e=D['erase_full_budget_ms_by_profile'][profile]*1e6
+    result=dict(id=f'c{copies}_{profile}',kind=kind,profile=profile,copies=copies,geometry=g,periphery_ns=v,
+        read_counts=counts,wl_setup_count=M['output_wl_groups'],integration_ns_per_evaluation=tint,
+        read_service_components_ns=dict(wl=M['output_wl_groups']*E['wl_setup_ns'],input=counts['evaluations']*v['input_step'],
+            bl=counts['evaluations']*E['bl_setup_ns'],sl_setup=counts['evaluations']*sl,
+            integration=counts['evaluations']*tint,recovery=counts['evaluations']*sl,
+            adc=counts['adc_batches']*v['adc_batch'],digital=counts['digital_ticks']*v['digital_tick'],boundary=2*v['digital_tick']),
+        media_ns_per_evaluation=media,program_budget_ns=p,erase_budget_ns=e,calibration_counts=cal_counts(),calibration_total_ns=c,
+        delta_S_ns=ds,result_nature='finite reference estimate with explicit resources and accepted-operation budgets; not measured device bounds')
+    for mode in ['append','rewrite']:
+        dr,ops=resident(v,mode,p,e,c,g)
+        result[mode]={**S.metrics(S.L['B_S_Byte'],g['logical_matrix_Byte'],ds,dr),'operations':ops}
+    return result
 
 
 def recompute():
-    g=geometry(); rows=[]
-    for profile in ['short','reference','long']:
-        v=S.C['propagation']['profile_values'][profile]
-        sl=X['read']['sl_setup_ns_by_profile'][profile]
-        ds0,counts,hold=S.acim_service(S.R['acim'],v,X['read']['bl_setup_ns']+sl)
-        wl_count=M['output_wl_groups']
-        # Compose the media-specific WL control blocks using the shared sequence API.
-        ds=S.program_sequence_ns(ds0,0,[dict(count=wl_count,drive_program_ns=X['read']['wl_setup_ns'],verify_ns=0,recover_ns=0)])
-        # metrics called with a positive unit time only to obtain the defined streaming rate.
-        rho=S.metrics(S.L['B_S_Byte'],g['logical_matrix_Byte'],ds,1)['rho_Byte_per_s']
-        variants=[]
-        for mode,qcal in [('append',0),('rewrite',1),('rewrite',2)]:
-            f,detail=resident_ns(v,mode,0,0,0,qcal)
-            # Finite unit basis extracts exact linear coefficients, not device assumptions.
-            cp=(resident_ns(v,mode,1,0,0,qcal)[0]-f)/1000
-            ce=(resident_ns(v,mode,0,1,0,qcal)[0]-f)/1000
-            cc=(resident_ns(v,mode,0,0,1,qcal)[0]-f)/1000
-            ratio=S.L['B_S_Byte']/g['logical_matrix_Byte']
-            co=dict(front_us=f/1000,P_us_coefficient=cp,E_us_coefficient=ce,C_us_coefficient=cc)
-            variants.append(dict(mode=mode,calibration_wl_per_block=qcal,operation_counts=detail,
-                delta_R_us_coefficients=co,ridge_coefficients=dict(constant=ratio*f/ds,
-                    P_us=ratio*cp*1000/ds,E_us=ratio*ce*1000/ds,C_us=ratio*cc*1000/ds),
-                P_us_at_ridge_1_given_E_C_zero=((ds/ratio-f)/1000)/cp,
-                E_us_at_ridge_1_given_P_C_zero=(((ds/ratio-f)/1000)/ce if ce else None),
-                tau_Byte_per_s=None,ridge=None,status='unknown absolute SLC program/erase/calibration; coefficients only'))
-        rows.append(dict(profile=profile,periphery_ns=v,sl_setup_ns=sl,counts=counts,
-            wl_setup_count=wl_count,wl_setup_total_ns=wl_count*X['read']['wl_setup_ns'],
-            delta_S_ns=ds,rho_Byte_per_s=rho,extra_media_ns_per_evaluation_coefficient=counts['evaluations'],
-            read_result_kind='conditional engineering estimate; not measured SLC macro result',resident=variants))
-    return dict(schema_version='nand-3d-results-1',baseline_json_sha256=sha(SHARED/'data/shared_parameters.json'),
-        baseline_script_sha256=sha(SHARED/'scripts/check_shared.py'),baseline_method_tex_sha256=sha(SHARED/'tex/02_estimation_method.tex'),geometry=g,scenarios=rows,
-        conditional_rho_MB_per_s_range=[min(r['rho_Byte_per_s'] for r in rows)/1e6,max(r['rho_Byte_per_s'] for r in rows)/1e6],
-        no_finite_supported_numeric_tau_ridge_range=True)
+    rows=[scenario(p,M['main_input_copies'],'main') for p in ['short','reference','long']]
+    comp=scenario('reference',M['comparison_input_copies'],'organization_comparison')
+    ref=rows[1]
+    comp['relative_to_main_reference']={k:comp['rewrite'][k]/ref['rewrite'][k] for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
+    ranges={}
+    for mode in ['append','rewrite']:
+        ranges[mode]={k:[min(r[mode][k] for r in rows),max(r[mode][k] for r in rows)] for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
+    return dict(schema_version='nand-3d-results-2',baseline_json_sha256=sha(SHARED/'data/shared_parameters.json'),
+        baseline_script_sha256=sha(SHARED/'scripts/check_shared.py'),baseline_method_tex_sha256=sha(SHARED/'tex/02_estimation_method.tex'),
+        main_scenarios=rows,organization_comparison=comp,main_paired_ranges=ranges,
+        numeric_estimation_complete=True,range_kind='paired reference-design budgets, not statistical confidence intervals or universal SLC bounds')
 
 
-def latex_escape(x):
-    for a,b in [('\\',r'\textbackslash{}'),('&',r'\&'),('%',r'\%'),('_',r'\_\allowbreak{}'),('#',r'\#')]: x=x.replace(a,b)
-    return x.replace('μ',r'$\mu$').replace('×',r'$\times$').replace('~',r'$\sim$').replace('–','--')
+def esc(x):
+    for a,b in [('\\',r'\textbackslash{}'),('&',r'\&'),('%',r'\%'),('_',r'\_\allowbreak{}'),('#',r'\#')]:x=x.replace(a,b)
+    return x.replace('μ',r'$\mu$').replace('×',r'$\times$').replace('~',r'$\sim$').replace('≈',r'$\approx$').replace('–','--')
 
 
-def read_table(r):
-    t=[r'% Generated by scripts/check_nand.py --emit.',r'\begin{table}[htbp]\centering\small',
-       r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
-       r'情景 & $t_{SL}$ (ns) & $\Delta_S$ ($\mu$s) & $\rho$ (MB/s) & $F_{app}$ ($\mu$s) & $F_{rw,1}$ ($\mu$s)\\\midrule']
-    labels=dict(short='短时隙',reference='参考',long='长时隙')
-    for x in r['scenarios']:
-        f=[a['delta_R_us_coefficients']['front_us'] for a in x['resident']]
-        t.append(f"{labels[x['profile']]} & {x['sl_setup_ns']:g} & {x['delta_S_ns']/1000:.3f} & {x['rho_Byte_per_s']/1e6:.4g} & {f[0]:g} & {f[1]:g}\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{条件读侧结果与整矩阵写数据装入/控制开销。$F_{app}$ 为1024数据页；$F_{rw,1}$ 为1024数据页加128校准页。MB 为$10^6$ Byte。SL中点640 ns为插值；不是新增实测点。}',r'\label{tab:read}\end{table}']
-    return '\n'.join(t)+'\n'
+def budget_table(r):
+    t=[r'% Generated from inputs/results.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
+       r'情景 & 建立/恢复各(ns) & $T_{int}$ ($\mu$s) & $P$ (ms) & $E$ (ms) & $C$ ($\mu$s)\\\midrule']
+    for x in r['main_scenarios']:
+        t.append(f"{dict(short='短预算',reference='参考',long='长预算')[x['profile']]} & {D['sl_setup_budget_ns_by_profile'][x['profile']]} & {x['integration_ns_per_evaluation']/1000:g} & {x['program_budget_ns']/1e6:g} & {x['erase_budget_ns']/1e6:g} & {x['calibration_total_ns']/1000:.3f}\\\\")
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{主情景的选定预算及推导校准时间。$P/E$是完整操作预算；$T_{int}$由电荷守恒导出，$C$由三次参考读和固定数字序列导出。}',r'\label{tab:budget}\end{table}',''])
 
 
-def coeff_table(r):
-    x=next(q for q in r['scenarios'] if q['profile']=='reference')
-    t=[r'% Generated by scripts/check_nand.py --emit.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrl@{}}\toprule',r'事务 & program页数 & erase块数 & $F$ ($\mu$s) & $\Delta_R$ ($\mu$s)\\\midrule']
-    names=['预擦除append','重写，1校准WL','重写，2校准WL']
-    for label,z in zip(names,x['resident']):
-        d=z['delta_R_us_coefficients'];n=z['operation_counts']
-        e=(f"+{d['E_us_coefficient']:g}E" if d['E_us_coefficient'] else '')
-        t.append(f"{label} & {n['program_cycles']} & {n['erase_cycles']} & {d['front_us']:g} & ${d['front_us']:g}+{d['P_us_coefficient']:g}P{e}+C$\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{参考外围下的完整事务系数。每行$B_R=16384$ Byte；$P,E,C$均以$\mu$s计，分别为完整SLC-CIM页program、块erase、整事务额外校准时间。三者未被本地证据定值。}',r'\label{tab:coeff}\end{table}']
-    return '\n'.join(t)+'\n'
+def result_table(r):
+    t=[r'% Generated from results.json.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',
+       r'情景 & $\Delta_S$ (ms) & $\rho$ & $\tau_{app}$ & $\RI^*_{app}$ & $\tau_{rw}$ & $\RI^*_{rw}$\\\midrule']
+    for x in r['main_scenarios']:
+        a,w=x['append'],x['rewrite']
+        t.append(f"{dict(short='短预算',reference='参考',long='长预算')[x['profile']]} & {x['delta_S_ns']/1e6:.4f} & {w['rho_Byte_per_s']/1e3:.4g} & {a['tau_Byte_per_s']/1e3:.4g} & {a['ridge']:.4g} & {w['tau_Byte_per_s']/1e3:.4g} & {w['ridge']:.4g}\\\\")
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{有限主情景结果；三个吞吐列单位均为kB/s（$10^3$ Byte/s）。append只针对已有预擦除数据页和已编程参考页的窗口；两种写入均重新校准。}',r'\label{tab:results}\end{table}',''])
 
 
-def threshold_table(r):
-    t=[r'% Generated by scripts/check_nand.py --emit.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrr@{}}\toprule',r'外围情景 & append的$P$阈值 & 重写1校准WL的$P$阈值 & 重写1校准WL的$E$截距\\\midrule']
-    for x in r['scenarios']:
-        a,w=x['resident'][:2]
-        t.append(f"{dict(short='短时隙',reference='参考',long='长时隙')[x['profile']]} & {a['P_us_at_ridge_1_given_E_C_zero']:.3f} & {w['P_us_at_ridge_1_given_E_C_zero']:.3f} & {w['E_us_at_ridge_1_given_P_C_zero']:.3f}\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{由$\RI^*=1$反推的时间预算（$\mu$s）。$P$阈值设$E=C=0$；$E$截距设$P=C=0$。零值只用于求直线截距，不是物理情景或器件时间。}',r'\label{tab:threshold}\end{table}']
-    return '\n'.join(t)+'\n'
+def operation_table(r):
+    ref=r['main_scenarios'][1]
+    t=[r'% Generated from results.json.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrr@{}}\toprule',r'参考事务 & 数据/参考页 & program次数 & erase次数 & $\Delta_R$ (s)\\\midrule']
+    for mode,label in [('append','预擦除append'),('rewrite','同地址持续重写')]:
+        z=ref[mode];n=z['operations']
+        t.append(f"{label} & {n['data_pages']}/{n['calibration_pages']} & {n['program_cycles']} & {n['erase_cycles']} & {z['delta_R_ns']/1e9:.6f}\\\\")
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{整矩阵服务操作计数与参考时间。两行都完成$B_R=16384$ Byte；每页完整装入108拍加两拍控制，串行单更新域。}',r'\label{tab:operations}\end{table}',''])
+
+
+def comparison_table(r):
+    t=[r'% Generated from results.json.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'参考外围/写预算 & $T_{int}$ ($\mu$s) & $\rho$ (kB/s) & $\tau_{rw}$ (kB/s) & $\RI^*_{rw}$ & $\sigma$/LSB\\\midrule']
+    for x in [r['main_scenarios'][1],r['organization_comparison']]:
+        z=x['rewrite'];t.append(f"$c={x['copies']}$ & {x['integration_ns_per_evaluation']/1000:.4g} & {z['rho_Byte_per_s']/1e3:.5g} & {z['tau_Byte_per_s']/1e3:.5g} & {z['ridge']:.5g} & {x['geometry']['iid_sigma_in_count_LSB']:.4g}\\\\")
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{唯一组织对照：同一前端、字节、完整写预算和校准规则，仅复制数变化。随机误差列为独立同分布满量程估计；二者逻辑格式相同，最终误差能力不相等。}',r'\label{tab:comparison}\end{table}',''])
 
 
 def evidence_md():
-    t=['# 参数与证据定位','', '原值、采用选择和不采用理由独立记录；PDF页为本地1基页序。','', '| ID | 来源/定位 | 原值、单位与条件 | 采用与换算 |','|---|---|---|---|']
+    t=['# 原始量到参考预算的桥接','', 'PDF定位为本地1基页序；工程选择与原文值分列。','', '| ID | 来源/定位 | 原值、单位与条件 | 采用与桥接理由 |','|---|---|---|---|']
     for x in X['raw_evidence']:t.append(f"| {x['id']} | {x['source']} · {x['locator']} | {x['raw']}；{x['condition']} | {x['adoption']} |")
     return '\n'.join(t)+'\n'
 
 
 def evidence_tex():
-    t=[r'% Generated from raw_evidence in inputs.json.',r'\begingroup\footnotesize',r'\begin{longtable}{@{}>{\raggedright\arraybackslash}p{25mm}>{\raggedright\arraybackslash}p{61mm}>{\raggedright\arraybackslash}p{70mm}@{}}',r'\caption{紧凑证据表：原值与本分析采用方式。PDF定位为本地页序。}\\',r'\toprule 来源/定位 & 原值与条件 & 采用、换算及限制\\\midrule\endfirsthead',r'\toprule 来源/定位 & 原值与条件 & 采用、换算及限制\\\midrule\endhead']
+    t=[r'% Generated from raw_evidence in inputs.json.',r'\begingroup\footnotesize\setstretch{1.0}',r'\begin{longtable}{@{}>{\raggedright\arraybackslash}p{27mm}>{\raggedright\arraybackslash}p{59mm}>{\raggedright\arraybackslash}p{70mm}@{}}',
+       r'\caption{原始量、采用预算与换算理由。}\label{tab:evidence}\\',r'\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endfirsthead',r'\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endhead']
     for x in X['raw_evidence']:
-        t.append(' & '.join(latex_escape(a) for a in [('公共基线：参数JSON与R0' if x['source']=='shared_baseline' else x['source']+' '+x['locator']),x['raw']+'。'+x['condition'],x['adoption']])+r'\\')
+        t.append(' & '.join(esc(a) for a in [('公共基线：参数JSON与R0' if x['source']=='shared_baseline' else x['source']+' '+x['locator']),x['raw']+'。'+x['condition'],x['adoption']])+r'\\')
     return '\n'.join(t+[r'\bottomrule\end{longtable}\endgroup',''])
 
 
 def generated():
     r=recompute()
-    return {'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n','tex/generated_read.tex':read_table(r),
-        'tex/generated_coefficients.tex':coeff_table(r),'tex/generated_thresholds.tex':threshold_table(r),
+    return {'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n',
+        'tex/generated_budgets.tex':budget_table(r),'tex/generated_results.tex':result_table(r),
+        'tex/generated_operations.tex':operation_table(r),'tex/generated_comparison.tex':comparison_table(r),
         'tex/generated_evidence.tex':evidence_tex(),'notes/parameter_evidence.md':evidence_md()}
 
 
 class Checks(unittest.TestCase):
-    def test_baseline_hash_and_sources(self):
-        self.assertEqual(X['baseline']['json_sha256'],sha(SHARED/'data/shared_parameters.json'))
-        self.assertEqual(X['baseline']['script_sha256'],sha(SHARED/'scripts/check_shared.py'))
-        self.assertEqual(X['baseline']['method_tex_sha256'],sha(SHARED/'tex/02_estimation_method.tex'))
-        for source in X['sources'].values():
-            self.assertEqual(source['actual_sha256'],sha(CORPUS/source['pdf']['path']))
-            self.assertEqual(source['actual_sha256'],source['pdf']['sha256'])
-    def test_native_geometry_and_logical_coverage(self):
-        g=geometry()
-        self.assertEqual(M['logical_inputs']*M['input_copies'],M['bitlines_per_page'])
-        self.assertEqual(g['blocks'],M['weight_bit_planes']*M['outputs_per_wl_group'])
-        self.assertEqual(M['outputs_per_wl_group']*M['output_wl_groups'],128)
-        self.assertEqual(g['physical_data_cells']//M['input_copies'],g['logical_matrix_Byte']*8)
-        self.assertEqual(g['data_pages_per_matrix'],1024)
-        self.assertEqual(g['useful_data_pages_per_block'],8)
-        self.assertEqual(g['physical_pages_per_block'],96)
-        self.assertLess(M['output_wl_groups']+2,M['wordlines_per_block'])
-    def test_complete_transactions_and_single_domain(self):
-        v=S.C['propagation']['profile_values']['reference']
-        # Independent algebra only as a test oracle; production calculation imports shared templates.
-        for mode,q,pages in [('append',0,1024),('rewrite',1,1152),('rewrite',2,1280)]:
-            ns,d=resident_ns(v,mode,13,21,7,q)
-            erase=128*21000 if mode=='rewrite' else 0
-            self.assertEqual(ns,pages*(110*5+13000)+erase+7000)
-            self.assertEqual(d['data_beats_per_page'],108)
-        self.assertEqual(M['program_domains'],1)
-    def test_read_counts_wl_and_boundaries(self):
-        for x in recompute()['scenarios']:
-            n=x['counts'];v=x['periphery_ns']
-            self.assertEqual([n['evaluations'],n['adc_batches'],n['digital_ticks']],[64,64,128])
+    def test_unchanged_shared_api_and_source_hashes(self):
+        for key,path in [('json_sha256','data/shared_parameters.json'),('script_sha256','scripts/check_shared.py'),('method_tex_sha256','tex/02_estimation_method.tex')]:
+            self.assertEqual(X['baseline'][key],sha(SHARED/path))
+        for s in X['sources'].values():self.assertEqual(s['actual_sha256'],sha(CORPUS/s['pdf']['path']))
+    def test_native_mapping_and_complete_INT8_transaction(self):
+        for copies in [1,108]:
+            g=geometry(copies)
+            self.assertEqual(g['blocks'],128);self.assertEqual(g['data_pages_per_matrix'],1024)
+            self.assertEqual(g['calibration_pages_per_matrix'],256)
+            self.assertEqual(g['physical_data_target_cells']/copies,16384*8)
+            self.assertLessEqual(g['active_bitlines_per_page'],g['physical_page_bits'])
+            self.assertEqual(g['encoded_data_Byte'],1769472)
+            self.assertEqual(g['useful_data_pages_per_block'],8)
+            self.assertEqual(g['physical_pages_per_block'],96)
+    def test_charge_derived_time_and_physical_resources(self):
+        self.assertAlmostEqual(integration_ns(1),25000)
+        self.assertAlmostEqual(integration_ns(108)*108,integration_ns(1))
+        self.assertEqual(geometry(1)['added_integration_capacitance_pF'],2048)
+        self.assertEqual(D['correction_parallel_multipliers'],128)
+        self.assertAlmostEqual(geometry(108)['required_integrator_slew_V_per_us'],1.728)
+        self.assertAlmostEqual(geometry(108)['total_fullscale_signal_current_mA'],3.538944)
+    def test_separate_WL_evaluation_and_correction_counts(self):
+        for x in recompute()['main_scenarios']:
+            n=x['read_counts'];self.assertEqual([n['evaluations'],n['adc_batches'],n['digital_ticks']],[64,64,192])
             self.assertEqual(n['useful_scalar_conversions'],8192)
-            self.assertEqual(x['delta_S_ns'],64*(v['input_step']+12+x['sl_setup_ns']+v['adc_batch']+2*v['digital_tick'])+2*v['digital_tick']+8*303)
-    def test_missing_data_not_fabricated(self):
-        self.assertIsNone(X['resident']['program_full_us'])
-        self.assertIsNone(X['resident']['erase_full_us'])
-        for x in recompute()['scenarios']:
-            for r in x['resident']:
-                self.assertIsNone(r['tau_Byte_per_s']);self.assertIsNone(r['ridge'])
-                co=r['delta_R_us_coefficients'];coeff=r['ridge_coefficients']
-                dr=co['front_us']+co['P_us_coefficient']*17+co['E_us_coefficient']*23+7
-                expected=S.metrics(128,16384,x['delta_S_ns'],dr*1000)['ridge']
-                self.assertAlmostEqual(expected,coeff['constant']+coeff['P_us']*17+coeff['E_us']*23+coeff['C_us']*7)
-    def test_generated_files_are_current(self):
+            self.assertAlmostEqual(sum(x['read_service_components_ns'].values()),x['delta_S_ns'])
+            self.assertEqual(x['wl_setup_count'],8)
+    def test_calibration_is_finite_and_always_charged(self):
+        self.assertEqual(cal_counts()['digital_ticks'],226)
+        for x in recompute()['main_scenarios']:
+            v=x['periphery_ns'];oracle=2*303+3*(v['input_step']+x['media_ns_per_evaluation']+v['adc_batch'])+226*v['digital_tick']
+            self.assertAlmostEqual(x['calibration_total_ns'],oracle)
+            for mode in ['append','rewrite']:self.assertEqual(x[mode]['operations']['calibration_total_ns'],oracle)
+    def test_complete_program_erase_and_native_loading(self):
+        for x in recompute()['main_scenarios']:
+            for mode,pages,erases in [('append',1024,0),('rewrite',1280,128)]:
+                z=x[mode];n=z['operations']
+                self.assertEqual(n['data_beats_per_page'],108)
+                self.assertEqual(n['program_cycles'],pages);self.assertEqual(n['erase_cycles'],erases)
+                oracle=pages*(110*x['periphery_ns']['digital_tick']+x['program_budget_ns'])+erases*x['erase_budget_ns']+x['calibration_total_ns']
+                self.assertAlmostEqual(z['delta_R_ns'],oracle)
+                self.assertAlmostEqual(z['ridge'],(128/16384)*(z['delta_R_ns']/x['delta_S_ns']))
+                self.assertGreater(z['tau_Byte_per_s'],0)
+    def test_single_fair_organization_comparison(self):
+        r=recompute();a=r['main_scenarios'][1];b=r['organization_comparison']
+        for key in ['program_budget_ns','erase_budget_ns','periphery_ns','calibration_counts']:self.assertEqual(a[key],b[key])
+        for key in ['program_cycles','erase_cycles','physical_loaded_Byte']:self.assertEqual(a['rewrite']['operations'][key],b['rewrite']['operations'][key])
+        self.assertEqual(M['program_domains'],1)
+    def test_generated_files_current(self):
         for name,content in generated().items():self.assertEqual((BASE/name).read_text(),content,name)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--emit',action='store_true');a=p.parse_args()
-    if a.emit:
+    parser=argparse.ArgumentParser();parser.add_argument('--emit',action='store_true');args=parser.parse_args()
+    if args.emit:
         for name,content in generated().items():(BASE/name).write_text(content)
-    suite=unittest.defaultTestLoader.loadTestsFromTestCase(Checks)
-    result=unittest.TextTestRunner(verbosity=2).run(suite)
+    result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Checks))
     sys.exit(not result.wasSuccessful())

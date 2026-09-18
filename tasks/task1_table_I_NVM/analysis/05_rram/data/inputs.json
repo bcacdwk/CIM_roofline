@@ -1,16 +1,22 @@
 {
-  "schema_version": "rram-pilot-1.0",
-  "status": "binary_read_conditional_estimate_write_parameterized",
+  "schema_version": "rram-reference-2.0",
+  "status": "finite_engineering_reference_scenarios",
   "medium": "RRAM",
   "baseline": {
     "id": "shared_baseline",
     "reference_instance": "R0",
     "json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
     "script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
-    "entrypoints": ["acim_service", "front_ns", "program_sequence_ns", "direct_service", "metrics"]
+    "entrypoints": [
+      "acim_service",
+      "front_ns",
+      "program_sequence_ns",
+      "direct_service",
+      "metrics"
+    ]
   },
   "configuration": {
-    "id": "B32",
+    "id": "B32-W16",
     "state_mode": "二状态 HRS/LRS，8个等尺度位平面；补码位权由数字重构处理；非多级模拟权重",
     "compute_semantics": "ACIM校准近似部分和，24-bit结果容器，无已验证最终误差阈值",
     "cells_per_weight": 8,
@@ -18,53 +24,313 @@
     "native_subarray_input_terms": 32,
     "native_subarray_output_positions": 64,
     "physical_subarrays": 64,
-    "acim_overrides": {"rows_per_group": 32},
-    "parallel_program_cells": 1,
+    "acim_overrides": {
+      "rows_per_group": 32
+    },
+    "parallel_program_cells": 16,
     "logical_weights_per_update": 16,
     "encoded_load_bits": 128,
     "first_data_in_command": true,
-    "resident_policy": "顺序选通单cell、目标方向脉冲、恢复、同一路ADC校验、比较；失败重试；全部128cell通过才完成16Byte",
-    "resident_endpoint": "读回处于经该阵列校准、满足CIM电流区分及重构要求的HRS/LRS窗口；窗口数字边界和达到概率尚未由本地资料闭合",
+    "resident_policy": "16个局部编程通道；先RESET本16Byte更新域，再按目标mask SET；每相位每批以组内最慢活动cell完成次数计；完整binary窗口verify；不隐藏RESET",
+    "resident_endpoint": "LRS参考窗口8至12kΩ，HRS至少70kΩ；以专用memory路径的可切参考binary窗口比较器验收；为参考设计选择，非原文实测保证窗",
     "preservation": "不采用RRAM-05的m=1/2/4空间加权与MSB冗余择优，全部平面用m=1等尺度；不会增加互补cell",
-    "stream_and_update_exclusion": "同一阵列、前端和ADC共用，两路分别服务；不主张峰值同时可达"
+    "stream_and_update_exclusion": "同一数据cell和更新域，读写分别服务；memory verify与CIM ADC解耦，但不据此宣称同阵列读写同时可达",
+    "physical_update_mapping": "一个输出位置、同一32输入组内，两个16列组各选8个地址，组成16权重事务；每批每组每权重平面1cell，共8平面×2组=16cell，8批覆盖128cell",
+    "write_resources": {
+      "high_voltage_program_lanes": 16,
+      "groups": 2,
+      "weight_plane_IOs": 8,
+      "group_address_counters": 2,
+      "column_mux_groups_per_plane": 2,
+      "data_and_done_mask_bits": 16,
+      "binary_comparators_per_lane": 2,
+      "binary_comparators_total": 32,
+      "current_compliance_uA_per_lane": 300,
+      "peak_array_current_budget_mA": 4.8,
+      "encoded_buffer_bits": 128,
+      "independent_update_domains": 1,
+      "reason": "采用RRAM-06每IO双组驱动/自终止结构，IO数8由本设计八位平面选择；不是声称原40nm宏恰好为本配置",
+      "voltage_rated_program_IO_required_V": 1.8,
+      "voltage_condition": "专用耐压I/O、电平转换和限流实现；不能以RRAM-05的core0.8V/IO1.2V测量供电证明1.8V耐受"
+    }
   },
   "adopted_inputs": {
-    "front_end_settle_ns": {"value": 5, "kind": "reference_choice_anchored_by_measurement", "evidence": "E02", "condition": "输入形成在访问关闭时完成，再使能阵列并执行PH0稳定/漏电补偿；原5ns需能覆盖所选32项负载和公共SAR接口"},
-    "unverified_additional_frontend_ns": {"symbol": "h_A", "numeric_evaluation": 0, "kind": "conditional_boundary", "condition": "电流到电压接口、ADC采样负载适配的额外时长未测；表中h_A=0仅是接口能在5ns内建立的条件，不是零开销证据"},
-    "resident_complete_cell_update_ns": {"symbol": "u", "value": null, "kind": "missing_input", "condition": "完整单cell更新时间包括模式/地址、专用电压建立、SET或RESET、恢复、所有verify/retry和成功终点"},
-    "resident_program_extra_ns_per_attempt": {"symbol": "q_jk", "value": null, "kind": "missing_input", "condition": "SET/RESET脉宽及高压驱动/回零/恢复，不能由公共数字时隙推定"},
-    "attempt_counts": {"symbol": "K_j", "value": null, "minimum_under_mandatory_pulse_policy": 1, "kind": "missing_distribution", "condition": "成功事务内每cell实际尝试数；timeout不能记作完成payload，不用NeuRRAM多级8.52次代替"},
-    "address_and_pulse_control_ticks_per_attempt": {"value": 1, "kind": "reference_choice"},
-    "verify_compare_ticks_per_attempt": {"value": 1, "kind": "reference_choice"}
+    "front_end_settle_ns": {
+      "value": 5,
+      "kind": "reference_choice_anchored_by_measurement",
+      "evidence": "E02",
+      "condition": "32项读前端稳定/漏电补偿预算；公共SAR适配按参考条件采用"
+    },
+    "additional_frontend_ns": {
+      "value": 0,
+      "sensitivity_value": 5,
+      "kind": "engineering_interface_choice",
+      "condition": "主情景按5ns前端和公共SAR预算适配；额外5ns只作敏感性，未经接口电路验证不阻止工程估算"
+    },
+    "binary_windows": {
+      "LRS_resistance_kOhm": [
+        8,
+        12
+      ],
+      "HRS_min_resistance_kOhm": 70,
+      "kind": "reference_acceptance_choice",
+      "evidence": "E01",
+      "derivation": "围绕10/100kΩ典型二状态；LRS±20%，HRS门槛取典型值70%；原Fig7采用LRS10%/HRS30%变化模型仅为选择尺度锚点；并非良率界",
+      "condition": "LRS导纳83至125µS高于01 gmax30/40µS；窗口更宽只说明非多级精细调谐，不能证明目标更易到达或次数更少。次数仍为所选参考实现达窗的情景条件"
+    },
+    "program_pulse_ns": {
+      "SET": 1000,
+      "RESET": 1000,
+      "kind": "cross_implementation_waveform_budget",
+      "evidence": "E06",
+      "condition": "跨stack操作波形预算：RRAM-01为HfOx含TaOx热增强层，RRAM-05为TaOx；1µs是原文实际SET/RESET脉宽，非05测量、同材料上界或成功率保证"
+    },
+    "program_voltages": {
+      "initial_SET_V": 1.2,
+      "initial_RESET_V": 1.5,
+      "increment_on_same_polarity_retry_V": 0.1,
+      "largest_SET_V_in_scenarios": 1.3,
+      "largest_RESET_V_in_scenarios": 1.8,
+      "kind": "reference_program_schedule_anchored_by_E06_E10",
+      "condition": "可编程I/O电压域与限流；按实际cell极性施加，必要局部电压标定属于参考设计；不以电压推导切换时间"
+    },
+    "high_voltage_setup_ns_per_attempt": {
+      "value": 1000,
+      "kind": "explicit_engineering_reserve",
+      "derivation": "每次建立预留一个已采用的1µs波形时隙；非实测HV建立时间"
+    },
+    "high_voltage_return_recover_ns_per_attempt": {
+      "value": 1000,
+      "kind": "explicit_engineering_reserve",
+      "derivation": "每次回读偏置/恢复预留一个1µs波形时隙；与setup分列，不用低压数字拍替代"
+    },
+    "address_and_pulse_control_ticks_per_attempt": {
+      "value": 1,
+      "kind": "reference_schedule_using_common_tick"
+    },
+    "group_attempt_scenarios": {
+      "short": {
+        "RESET": 1,
+        "SET": 1,
+        "meaning": "两相位均一次到窗"
+      },
+      "reference": {
+        "RESET": 2,
+        "SET": 1,
+        "meaning": "RESET多一次修正；SET一次到窗"
+      },
+      "long": {
+        "RESET": 4,
+        "SET": 2,
+        "meaning": "RESET至多三次追加、SET一次追加"
+      }
+    },
+    "attempt_scenario_basis": {
+      "kind": "engineering_success_scenarios",
+      "evidence": [
+        "E04",
+        "E05"
+      ],
+      "meaning": "03二状态大多数名义条件一次、少数追加P&V支持一次与少量重试的模式；06支持RESET较慢/分组all-done。次数非实测分布、良率分位或可证明的材料上界；条件是每批最慢活动cell在所列次数内通过"
+    },
+    "data_pattern_and_mask": {
+      "policy": "每批为SET保留相位时隙；非目标cell由mask关断。即使某批无目标1也保留预算，不从稀疏或地址跳过额外加速",
+      "kind": "reference_scheduling_choice"
+    },
+    "failure_policy": {
+      "policy": "未到窗口的lane继续修正，超出该情景预算则该次服务不属于该情景；最终超时报告失败，不记成功payload。范围用于声明次数内完成的工程运行情景，不是失败尾部保证",
+      "kind": "service_endpoint_choice"
+    },
+    "binary_sense_slot_ns": {
+      "short": 10,
+      "reference": 20,
+      "long": 50,
+      "kind": "accepted_common_capability_as_binary_sense_budget",
+      "evidence": [
+        "E02",
+        "E09"
+      ],
+      "condition": "独立memory窗口比较器采用共同完整采样/转换/锁存能力时隙T_B=T_A；不是按SAR精度缩放，也不是测得binary SA内在时延"
+    },
+    "binary_verify_frontend_ns": {
+      "value": 5,
+      "kind": "reference_frontend_budget",
+      "evidence": "E02",
+      "condition": "PH0=5ns和PH1内在5ns支持局部建立/判决量级；新memory窗口前端采用5ns建立预算，仍另计T_I选通与T_B采样/判决/锁存"
+    },
+    "binary_verify_read_formula": "T_I + binary_verify_frontend_ns + T_B; T_B includes window decision/latch; separate one T_D for pulse/address control and one T_D for group done/mask commit",
+    "external_readback_us_not_in_main_budget": {
+      "range": [
+        1,
+        10
+      ],
+      "evidence": "E06",
+      "condition": "保留NeuRRAM原读回与外部DAC/ADC控制限制的层级；不作为本地binary SA主预算"
+    },
+    "verify_group_done_commit_ticks_per_attempt": {
+      "value": 1,
+      "kind": "reference_schedule_using_common_tick",
+      "meaning": "binary窗口判决及锁存已在T_B，额外T_D仅作组内done归约、失败mask与地址状态提交"
+    }
   },
   "reported_evidence": [
-    {"id":"E01","source_id":"RRAM-05","locator":"PDF p.3 Fig.3/4；p.4 Fig.7；p.7 Fig.16/17","original":"28nm；64×128 cell由4个64×32子阵列构成；32输入项；RHRS/RLRS典型100/10 kΩ；m=1的LRS约0.5 µA，HRS<30 nA","condition":"VTBL=0.1 V、VBL=0.3 V、VWL=0.6 V；3-bit空间权重、4-bit原读出","adoption":"仅取32项、二状态与m=1电流机制；八个等尺度位平面由本文选择；不把典型电阻当verify窗口","kind":"reported_and_mapping_choice"},
-    {"id":"E02","source_id":"RRAM-05","locator":"PDF p.5 Fig.9/10；p.7 Fig.18及正文","original":"PH0=5 ns；PH1–4各20 ns；4-bit输出access=66 ns；按5/1/1/1 ns估计优化access=13 ns","condition":"PH0电流稳定与漏电补偿；PH1–4比较和逐次参考扣除；测试板外部DAC提供偏置","adoption":"5 ns作前端条件锚点；公共SAR替换完整量化功能，保留前端补偿与接口要求；66和13 ns均不作为8-bit公共转换周期","kind":"reported_measured_and_author_estimated"},
-    {"id":"E03","source_id":"RRAM-05","locator":"PDF p.3 Fig.3(a)/(b)及D节","original":"memory模式以AX/AY选择cell，DIN/DOUT数据；CIM通路与memory通路解耦","condition":"IO器件承受写电压，core器件用于CIM；未报告完整write/verify时间或128cell并行","adoption":"单域单cell顺序写p=1；共享128-bit口只缓冲128个编码bit","kind":"reported_structure_and_conservative_choice"},
-    {"id":"E04","source_id":"RRAM-03","locator":"PDF p.5 E节及Fig.9；p.4 Fig.7","original":"28nm、1Mb；每SET/RESET后读比较阈值；大多数cell名义条件完成，数十cell需额外program；读扰测试10 ns脉冲","condition":"二状态P&V后HRS/LRS分布无重叠；不报告绝对SET/RESET/verify周期或重试分布","adoption":"证明二状态也需独立终点/重试建模；不将10 ns应力脉冲当array access；不给K=1/2概率","kind":"reported_with_missing_timing"},
-    {"id":"E05","source_id":"RRAM-06","locator":"PDF p.1 AF/ARST/ASET；p.2 Figs.3–10","original":"40nm、2Mb；两个G0/G1组，每IO每组选一列；组内全done再推进；timeout报fail；时间轴归一化；99.2% page-write缩短","condition":"HRPW先在idle RESET全页再SET所需cell；FORMING为另一步；无绝对page时长","adoption":"仅作分组/自终止/hidden-RESET机制约束；不把99.2%当绝对写时间或省掉RESET；不移植并行数","kind":"reported_normalized"},
-    {"id":"E06","source_id":"RRAM-01","locator":"PDF p.10 Methods；p.11延续；Extended Data Fig.3在PDF p.18","original":"130nm；SET初值1.2 V、RESET1.5 V、步进0.1 V；脉宽1 µs；read 1–10 µs；±1 µS；30次极性反转timeout；平均8.52脉冲；集成预测56 µs/cell","condition":"差分多级；gmin=1 µS，gmax=30/40 µS；99%达窗；外部DAC/ADC控制限速；3轮重编程后至少30min再测推理","adoption":"只作时间层级与多级模式对照，禁止嫁接为本二状态28nm写周期；1 µs=1000 ns仅记录单位换算","kind":"reported_plus_author_projection"},
-    {"id":"E07","source_id":"RRAM-02","locator":"PDF pp.3–5 Figs.2–5；p.7 Fig.11正文","original":"28nm、576K；64 ADC；512输出需8轮；单cell verify；模拟program最多1000脉冲；32/128输入MVM相对误差1.14%/2.03%","condition":"1T1R/2T2R/hybrid多级差分；速度按平均脉冲数比较","adoption":"确认verify与计算资源可共用且较大fan-in有精度代价；不能据此令二状态RRAM-05的32项变128项","kind":"reported"},
-    {"id":"E08","source_id":"RRAM-04","locator":"PDF p.9 WRITE；p.17 AC表","original":"256 Byte buffer；tWC在50%翻转为8500/17000 µs典型/最大，100%为16000/25000 µs；SPI最高5MHz","condition":"1.65–3.6 V，−40至85°C；CS上升启动NVM提交，WIP清零才结束","adoption":"完整数字存储提交证据，与本地CIM单元分开；µs到ns乘1000；不能配本读侧给ridge","kind":"reported_datasheet"},
-    {"id":"E09","source_id":"shared_baseline","locator":"shared_parameters.json common_conditions / reference_instance / selection_rules；tex/01、02","original":"128×128 INT8；BS=128 Byte；8权重平面、每平面16ADC、16数字通道、每轮2拍；TI/TA/TD为2/10/2、5/20/5、10/50/10 ns","condition":"共同28nm、0.9 V/25°C近标称参考，非实测PVT保证；顺序服务","adoption":"原样调用共享计算接口；唯一主读结构变化r=128→32；写p=1是媒体选择不是接口宽度","kind":"accepted_common_choice"}
+    {
+      "id": "E01",
+      "source_id": "RRAM-05",
+      "locator": "PDF p.3 Fig.3/4；p.4 Fig.7；p.7 Fig.16/17",
+      "original": "28nm；64×128 cell由4个64×32子阵列构成；32输入项；RHRS/RLRS典型100/10 kΩ；m=1的LRS约0.5 µA，HRS<30 nA；Fig.7(b)仿真使用LRS10%/HRS30%变化标准差",
+      "condition": "VTBL=0.1 V、VBL=0.3 V、VWL=0.6 V；3-bit空间权重、4-bit原读出；RRAM-05为BEOL TaOx",
+      "adoption": "二状态与m=1读取；选择LRS8–12kΩ/HRS≥70kΩ为设计验收窗，原typ与仿真标准差不冒充保证界",
+      "kind": "reported_and_mapping_choice"
+    },
+    {
+      "id": "E02",
+      "source_id": "RRAM-05",
+      "locator": "PDF p.5 Fig.9/10；p.7 Fig.18及正文",
+      "original": "PH0=5 ns；PH1–4各20 ns；4-bit输出access=66 ns；按5/1/1/1 ns估计优化access=13 ns",
+      "condition": "PH0电流稳定与漏电补偿；PH1–4比较和逐次参考扣除；测试板外部DAC提供偏置",
+      "adoption": "5ns作读前端锚点；PH1 intrinsic5ns支持本地判决量级；binary完整sense用共同10/20/50ns能力预算，另计选通/建立；非SAR精度缩放",
+      "kind": "reported_measured_and_author_estimated"
+    },
+    {
+      "id": "E03",
+      "source_id": "RRAM-05",
+      "locator": "PDF p.3 Fig.3(a)/(b)及D节",
+      "original": "memory模式以AX/AY选择cell，DIN/DOUT数据；CIM通路与memory通路解耦",
+      "condition": "IO器件承受写电压，core器件用于CIM；未报告完整write/verify时间或128cell并行",
+      "adoption": "memory电流SA与CIM读出解耦支持专用binary verify；不再把逐cell完整SAR当物理要求；本设计新增明确的16lane资源",
+      "kind": "reported_structure_and_conservative_choice"
+    },
+    {
+      "id": "E04",
+      "source_id": "RRAM-03",
+      "locator": "PDF p.5 E节及Fig.9；p.4 Fig.7",
+      "original": "28nm、1Mb；每SET/RESET后读比较阈值；大多数cell名义条件完成，数十cell需额外program；读扰测试10 ns脉冲",
+      "condition": "二状态P&V后HRS/LRS分布无重叠；不报告绝对SET/RESET/verify周期或重试分布",
+      "adoption": "二状态阈值P&V支持一次及少量追加尝试情景；K为设计情景而非统计；10ns读扰脉冲仍不替代完整读回",
+      "kind": "reported_with_missing_timing"
+    },
+    {
+      "id": "E05",
+      "source_id": "RRAM-06",
+      "locator": "PDF p.1 AF/ARST/ASET；p.2 Figs.3–10",
+      "original": "40nm、2Mb；两个G0/G1组，每IO每组选一列；组内全done再推进；timeout报fail；时间轴归一化；99.2% page-write缩短",
+      "condition": "HRPW先在idle RESET全页再SET所需cell；FORMING为另一步；无绝对page时长",
+      "adoption": "采用每IO双group、独立mask/done及分组等待机制，8位平面×双group选择16lane；显式RESET再SET并计全部RESET；不从归一化图取绝对时间",
+      "kind": "reported_normalized"
+    },
+    {
+      "id": "E06",
+      "source_id": "RRAM-01",
+      "locator": "PDF p.10 Methods；p.11延续；Extended Data Fig.3在PDF p.18",
+      "original": "130nm；SET初值1.2 V、RESET1.5 V、步进0.1 V；脉宽1 µs；read 1–10 µs；±1 µS；30次极性反转timeout；平均8.52脉冲；集成预测56 µs/cell",
+      "condition": "差分多级；gmin=1 µS，gmax=30/40 µS；99%达窗；外部DAC/ADC控制限速；3轮重编程后至少30min再测推理；HfOx加TaOx热增强层，与RRAM-05的TaOx不同stack",
+      "adoption": "跨stack借用实际1µs波形；1–10µs读回保留测试层级，不压入本地binary主服务。8.52次/56µs、成功概率和G目标不移用",
+      "kind": "reported_plus_author_projection"
+    },
+    {
+      "id": "E07",
+      "source_id": "RRAM-02",
+      "locator": "PDF pp.3–5 Figs.2–5；p.7 Fig.11正文",
+      "original": "28nm、576K；64 ADC；512输出需8轮；单cell verify；模拟program最多1000脉冲；32/128输入MVM相对误差1.14%/2.03%",
+      "condition": "1T1R/2T2R/hybrid多级差分；速度按平均脉冲数比较",
+      "adoption": "保留32项主读分组；28nm最终SET幅度见E10；多级平均脉冲数不充当binary分布",
+      "kind": "reported"
+    },
+    {
+      "id": "E08",
+      "source_id": "RRAM-04",
+      "locator": "PDF p.9 WRITE；p.17 AC表",
+      "original": "256 Byte buffer；tWC在50%翻转为8500/17000 µs典型/最大，100%为16000/25000 µs；SPI最高5MHz",
+      "condition": "1.65–3.6 V，−40至85°C；CS上升启动NVM提交，WIP清零才结束",
+      "adoption": "完整数字存储提交证据，与本地CIM单元分开；µs到ns乘1000；不能配本读侧给ridge",
+      "kind": "reported_datasheet"
+    },
+    {
+      "id": "E09",
+      "source_id": "shared_baseline",
+      "locator": "shared_parameters.json common_conditions / reference_instance / selection_rules；tex/01、02",
+      "original": "128×128 INT8；BS=128 Byte；8权重平面、每平面16ADC、16数字通道、每轮2拍；TI/TA/TD为2/10/2、5/20/5、10/50/10 ns",
+      "condition": "共同28nm、0.9 V/25°C近标称参考，非实测PVT保证；顺序服务",
+      "adoption": "共同逻辑/读ADC/数字预算不变；读r=32；写并行由16个驱动/双组寻址给出，非128bit口",
+      "kind": "accepted_common_choice"
+    },
+    {
+      "id": "E10",
+      "source_id": "RRAM-02",
+      "locator": "PDF p.7 Fig.8(b)",
+      "original": "最终SET编程BL电压约1.1–1.5V；插图WL约0.6–0.7V",
+      "condition": "28nm、1T1R/2T2R/hybrid模拟编程，图为末次SET的分布而非binary完整波形",
+      "adoption": "与RRAM-01共同支持1V量级可调专用写域；不据图反推脉宽或循环次数",
+      "kind": "reported_figure_anchor"
+    },
+    {
+      "id": "E11",
+      "source_id": "本文选择",
+      "locator": "adopted_inputs与configuration.write_resources",
+      "original": "16lane、32binary比较器；每lane限流300µA、总4.8mA；每次HV建立/回读各1µs；两目标验收窗；binary完整sense时隙10/20/50ns、另计选通和5ns建立",
+      "condition": "8位平面×双组，2计数器和独立mask/done；1.8V/8kΩ=225µA只作额定电流量级检查；1.8V需独立耐压I/O/电平转换，原core0.8V/IO1.2V测量不提供耐压证明",
+      "adoption": "补齐可审查资源及HV恢复预算，明确工程选择；不把欧姆比值声称为RRAM动态编程电流测量",
+      "kind": "reference_design_choice_and_derivation"
+    }
   ],
   "exceptions": [
-    {"rule_id":"R1","reason_and_source_locator":"保持逻辑容量/格式/边界与ACIM精度合同；RRAM-05的原3-bit/4-bit并非共同INT8结果","R0_values":"128×128 INT8，128×24-bit output","changed_values":"不变；物理cell为131072，64个32×64等尺度子阵列组成一份矩阵","resource_and_timing_consequences":"数字位权合并和行组累加，校准误差需另验证","effect_on_both_services":"写回同一套binary位平面；不重复计算逻辑payload"},
-    {"rule_id":"R2","reason_and_source_locator":"RRAM-05 PDF p.4 Fig.7、p.7 Fig.17支持32项线性求和","R0_values":{"rows_per_group":128,"weight_planes":8,"parallel_weight_planes":8},"changed_values":{"rows_per_group":32,"weight_planes":8,"parallel_weight_planes":8},"resource_and_timing_consequences":"4行组，NE=NC=256，Ndigital=512；ADC总数128不变","effect_on_both_services":"容量不变，分组选通与verify共享；resident有效Byte不变"},
-    {"rule_id":"R3","reason_and_source_locator":"RRAM-05空间m=1/2/4加权和MSB冗余不是R0；本文保持数字位切片","R0_values":"8等尺度binary位平面","changed_values":"不采用额外ADC、全输出保持、多位输入、MSB冗余择优","resource_and_timing_consequences":"每32项binary和0至32需6bit码；沿用公共名义10bit/有效约8bit SAR","effect_on_both_services":"8cell/INT8，不增加互补/冗余写入；不借原文accuracy结论"},
-    {"rule_id":"R4","reason_and_source_locator":"RRAM-05 p.5 Fig.10和p.7 Fig.18；66/13ns只覆盖原4-bit读链","R0_values":"TI与媒体前端、公共TA分列","changed_values":"输入准备TI之后的PH0锚点5ns+hA；量化功能使用公共SAR条件接口","resource_and_timing_consequences":"原PH1–4不再计；漏电补偿和电流转电压接口必须保留；hA未知，数值表仅评估hA=0","effect_on_both_services":"同一前端/SAR用于write verify；hA同步作用两路"},
-    {"rule_id":"R5","reason_and_source_locator":"RRAM-05 p.3 AX/AY/DIN单cell路径；RRAM-03 p.5 binary P&V","R0_values":"128-bit编码接口；物理编程并行度由媒体给出","changed_values":"p=1、BR=16Byte、128cell顺序完成；完整单cell时间u保留参数","resource_and_timing_consequences":"1数据beat和128次至少一次pulse+verify；失败不能计payload；高压/恢复不赋典型数","effect_on_both_services":"共享ADC导致更新/求值互斥；无独立复制；不能把读ADC数当写并行度"}
-  ],
-  "missing_inputs": [
-    "所选28nm二状态cell的SET/RESET脉宽、驱动建立、恢复与绝对完整写周期",
-    "CIM合格HRS/LRS校准窗口、binary成功概率、重试及超时后处理分布",
-    "PH0与公共SAR接口的负载/精度验证及额外h_A",
-    "binary保持漂移是否需要额外校准维护及相应服务占用"
+    {
+      "rule_id": "R1",
+      "reason_and_source_locator": "保持逻辑容量/格式/边界与ACIM精度合同；RRAM-05的原3-bit/4-bit并非共同INT8结果",
+      "R0_values": "128×128 INT8，128×24-bit output",
+      "changed_values": "不变；物理cell为131072，64个32×64等尺度子阵列组成一份矩阵",
+      "resource_and_timing_consequences": "数字位权合并和行组累加，校准误差需另验证",
+      "effect_on_both_services": "写回同一套binary位平面；不重复计算逻辑payload"
+    },
+    {
+      "rule_id": "R2",
+      "reason_and_source_locator": "RRAM-05 PDF p.4 Fig.7、p.7 Fig.17支持32项线性求和",
+      "R0_values": {
+        "rows_per_group": 128,
+        "weight_planes": 8,
+        "parallel_weight_planes": 8
+      },
+      "changed_values": {
+        "rows_per_group": 32,
+        "weight_planes": 8,
+        "parallel_weight_planes": 8
+      },
+      "resource_and_timing_consequences": "4行组，NE=NC=256，Ndigital=512；ADC总数128不变",
+      "effect_on_both_services": "容量不变，分组选通与verify共享；resident有效Byte不变"
+    },
+    {
+      "rule_id": "R3",
+      "reason_and_source_locator": "RRAM-05空间m=1/2/4加权和MSB冗余不是R0；本文保持数字位切片",
+      "R0_values": "8等尺度binary位平面",
+      "changed_values": "不采用额外ADC、全输出保持、多位输入、MSB冗余择优",
+      "resource_and_timing_consequences": "每32项binary和0至32需6bit码；沿用公共名义10bit/有效约8bit SAR",
+      "effect_on_both_services": "8cell/INT8，不增加互补/冗余写入；不借原文accuracy结论"
+    },
+    {
+      "rule_id": "R4",
+      "reason_and_source_locator": "RRAM-05 p.5 Fig.10和p.7 Fig.18；66/13ns只覆盖原4-bit读链",
+      "R0_values": "TI与媒体前端、公共TA分列",
+      "changed_values": "输入准备TI之后的PH0锚点5ns+hA；量化功能使用公共SAR条件接口",
+      "resource_and_timing_consequences": "原PH1–4不再计；漏电补偿和电流转电压接口必须保留；hA未知，数值表仅评估hA=0",
+      "effect_on_both_services": "主write verify采用解耦memory binary窗口sense；CIM h_A不进入主verify；原逐cell SAR对照同步采用读前端"
+    },
+    {
+      "rule_id": "R5",
+      "reason_and_source_locator": "RRAM-05 p.3解耦memory SA；RRAM-06 p.1及p.2 Fig3双组TM-WT、RESET/SET/mask；RRAM-03 p.5二状态P&V",
+      "R0_values": "128-bit编码接口；物理编程并行度由媒体给出",
+      "changed_values": "p=16、BR=16Byte，8批RESET再8批masked SET；组内最慢cell次数按1/1、2/1、4/2情景",
+      "resource_and_timing_consequences": "16HV/限流lane、32binary比较器、2组地址计数器、16mask/done；300µA每lane，4.8mA阵列预算；1µs脉冲和完整恢复/verify都计入",
+      "effect_on_both_services": "权重仍为同一binary位平面；读资源不变，write用独立memory sense；p1同binary与p1同SAR只作策略对照"
+    }
   ],
   "method_findings": [
-    "shared program_sequence_ns支持已完成操作列表，但不表示随机失败/重试分布；media须先定义成功payload与尝试占用，再送入共享接口。",
-    "R4需要区分部分阶段替换与完整宏周期替换；源4-bit66ns不能直接加共享ADC，也不能不校验接口便从中减去PH1–4。",
-    "公共128-bit写口、128颗ADC和实际可编程cell数是三个不同资源；当前R0文字正确，media记录须保证落实。",
-    "采用同一路校准后的ADC做binary verify形成可复算保守服务，但若实际binary sensing更快需另设有证据的模式，不能静默替换。"
+    "p=1+每次完整公共SAR不是binary RRAM物理必需；必须将策略成本和介质脉冲/恢复分开。",
+    "可以借用原文实际脉宽作有条件跨实现工程预算；本地binary sense统一采用共同能力时隙，不复制受外部控制限制的µs读回，也不移植8.52次/56µs统计",
+    "有限主情景应有完整成功终点、mask与RESET服务、具体驱动/比较资源；组内次数是情景输入，不是文献概率。"
+  ],
+  "decisive_uncertainties": [
+    "实际到窗的组内最大尝试数：本次给可复算1/1、2/1、4/2成功运行情景，未证明尾部概率或最大次数",
+    "跨stack1µs脉冲与目标窗的可实现性，以及参考binary接口建立/判决预算；属于有明确资源的工程移植条件，不要求先取得同芯片完整实测"
   ]
 }

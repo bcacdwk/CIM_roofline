@@ -1,17 +1,17 @@
 % Generated from raw_evidence in inputs.json.
-\begingroup\footnotesize
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{25mm}>{\raggedright\arraybackslash}p{61mm}>{\raggedright\arraybackslash}p{70mm}@{}}
-\caption{紧凑证据表：原值与本分析采用方式。PDF定位为本地页序。}\\
-\toprule 来源/定位 & 原值与条件 & 采用、换算及限制\\\midrule\endfirsthead
-\toprule 来源/定位 & 原值与条件 & 采用、换算及限制\\\midrule\endhead
-NAND-04 PDF p.2 II-A, Fig.1; p.3 II-C, Fig.3 & 13824 BL $\times$ 32 WL $\times$ 3 SSL/block; 64 blocks/subarray; BL length 144 $\mu$m。作者CIM结构/RC模型，32 nm逻辑外围；不是量产页手册 & 原样保留物理几何。两subarray、128 blocks构成一份矩阵；一WL/一SSL的一页为13824 bit=1728 Byte。\\
-NAND-05 PDF p.1 II-(b); p.3 Figs.5--6 & 16-layer, 64 Gb SLC; ION mean 2 nA, sigma 0.3 nA; IOFF <0.5 pA; Vg=1 V, VBL=0.2 V, Vpass=4.5 V。SGVC实际器件电流；full-block random code；非完整CIM芯片速度 & 二阈值SLC依据。NAND-04的32 WL结构另属模型，不把16层和32层说成同一实测芯片。\\
-NAND-04 PDF p.3 Table 1及II-C & WL setup 303 ns; BL setup 12 ns @50\% sparsity; SL setup 530--750 ns @max-bit input; SL capacitance $\sim$16 pF。RC/HSPICE估计，64-block subarray；SL不是完整SLC read cycle & WL每输出组一次(8次/向量)；BL和SL每求值一次(64次)。SL中点640 ns仅插值情景；复制108份使电流接近原负载，范围仍以适配成功为条件。\\
-NAND-05 PDF p.1 II-(a); p.4 Fig.15 & Tread $\sim$1 $\mu$s with multibit output; $\sim$10 $\mu$A MAC current; 7--8-bit SA resolution。加速器设计预估，非单cell测量；包括多位SA输出 & 仅对530--750 ns阵列建立加共同ADC的微秒量级交叉检查，不把1 $\mu$s再叠加或当独立硅证据。\\
-NAND-04 PDF p.2 II-A; p.4 II-C & Both states programmed with write-verify; programming voltage $\sim$20 V。两阈值都细调以控制导通电流 & 完整P必须含charge-pump建立、所有program/verify循环、恢复及可计算终点；完整P未给，保持未知。\\
-NAND-05 PDF p.2 II-(e); p.4 Fig.12 & Sacrifice one or two WLs per block for known-code SA calibration; on-the-fly calibration。读取已知码后校准SA；重写/漂移可能需要重新校准 & 主情景1个校准WL，另核对2个。擦除后每块增加1或2个完整校准页program；C\_\allowbreak{}cal为整矩阵事务的总校准时间，未报告，参数化。\\
-NAND-01 PDF p.2 Key Specifications & MLC: tPROG 1300/2500 $\mu$s, tBERS 15/45 ms, tR 77 $\mu$s; TLC: 1630/5000 $\mu$s, 15/45 ms, 100 $\mu$s (typ/max)。MLC 2b/c与TLC 3b/c分列；16,384+2,208 Byte/page; 1024/1536 pages/block & 仅说明商品存储模式完整周期及粒度不同；全部不代入SLC主情景，也不充当SLC上/下界。\\
-NAND-02 PDF p.1及p.3 Fig.15.1.5 & Fast SLC burst $\sim$11\% interior tPROG reduction; first/last $\sim$5.5\%; pump held between pages。332-WL QLC产品的SLC-cache burst；未给SLC绝对P或E & 证明泵建立/最终恢复必须计入有限窗口；不把11\%或QLC >85 MB/s作为SLC绝对时间，不采用burst收益。\\
-NAND-03 PDF p.1及p.2 Fig.30.5.6 & QLC 4b/c; 6 planes; 16 kB page; tPROG 1.3 ms; die throughput 75 MB/s。321-layer 2 Tb芯片；6-plane并行 & 仅核对die/plane吞吐与页cycle不同；不代入SLC单更新域。\\
-公共基线：参数JSON与R0 & 128$\times$128 INT8; BS=128 Byte; BR(full)=16384 Byte; R0: 8 weight planes, 16 ADC/plane; (TI,TA,TD)=(2,10,2)/(5,20,5)/(10,50,10) ns; 128-bit write interface。已接受公共工程选择；ACIM校准近似部分和、128$\times$24-bit输出 & 逻辑合同和时隙不变；所有次数由导入的acim\_\allowbreak{}service/front\_\allowbreak{}ns/program\_\allowbreak{}sequence\_\allowbreak{}ns接口计算。\\
+\begingroup\footnotesize\setstretch{1.0}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{27mm}>{\raggedright\arraybackslash}p{59mm}>{\raggedright\arraybackslash}p{70mm}@{}}
+\caption{原始量、采用预算与换算理由。}\label{tab:evidence}\\
+\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endfirsthead
+\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endhead
+NAND-04 PDF pp.2--3 II-A/C, Figs.1/3 & 13824 BL $\times$ 32 WL $\times$ 3 SSL/block; 64 blocks/subarray; BL length 144 $\mu$m。作者32 nm外围CIM结构模型；非商品16-KiB页 & 保留几何；2个subarray共128块组成一份状态。每WL/SSL物理页13824 bit=1728 Byte；每块8个数据页，另2校准页。\\
+NAND-05 / NAND-04 05 PDF pp.1--3, Fig.6; 04 PDF p.7 Figs.7/8 & SLC ION$\approx$2 nA, sigma$\approx$0.3 nA; IOFF<0.5 pA; selected VG=1 V, VBL=0.2 V, Vpass=4.5 V; no-input-copy SL current distribution also reported。05为16-layer SGVC实际器件；04为32-WL模型。饱和平台降低对Vth漂移敏感性，仍有cell电流变异 & 主情景c=1，一逻辑bit对应一个SLC cell；128输入最大256 nA。108复制是组织对照，非INT8逻辑必需。保留近似误差，不施加逐cell多级电流精调。\\
+NAND-04 PDF p.3 Table 1 / II-C & WL setup 303 ns; BL setup 12 ns @50\% sparsity; SL setup 530--750 ns @max-bit input; native SL capacitance $\sim$16 pF。RC/HSPICE估计，非新积分前端实测 & WL每输出组一次(8次/向量)，BL每求值一次。新前端建立用530/640/750 ns负载锚定预算；恢复另分配同长预算，属新增选择。640是中点。\\
+本文设计 / NAND-04 参考前端选择；04 PDF p.3的16 pF负载锚点 & Added feedback/integration capacitor CF=16 pF/channel; useful output swing 0.4 V; 128 channels。工程资源选择；额外总积分电容2048 pF，不能冒称原文已有。虚地SL保持源文器件偏置 & Tint=CF$\times$0.4V/(128$\times$c$\times$2nA)：c=1为25 $\mu$s，c=108为0.231481 $\mu$s。新电容、摆幅与时间推导分开标记；普通存储tR不作CIM周期。\\
+NAND-04 / NAND-05 04 PDF p.2 II-A及p.4; 05 PDF p.2及p.3 Fig.6 & Both binary threshold states use write-verify; programming voltage $\sim$20 V; selected VG lies on ON-current plateau。SLC两阈值分类及饱和读；不是8-bit模拟cell目标 & 完整P覆盖泵建立、program/verify循环、恢复；目标是源文SLC窗口/电流分离量级，剩余0.3nA随机变异由近似计算承担。\\
+NAND-01 PDF p.2 Key Specifications & MLC tPROG typ/max=1.3/2.5 ms; TLC=1.63/5 ms; both tBERS typ/max=15/45 ms。32-stack floating-gate商品MLC/TLC，非所选SGVC SLC；完整内部操作块含相应模式的verify & 选择P=1.3/2.5/5 ms，E=15/30/45 ms作为两阈值参考服务预算；30是擦除中点。借用完整高压/写验/擦除的量级，不迁移其多级终点或保证，不按小页/有效cell数缩时。\\
+NAND-02 PDF pp.1--3, Figs.15.1.2/5 & Verify includes CLK\_\allowbreak{}UP/sense/CLK\_\allowbreak{}DOWN/strobe and low/high levels; SLC burst saves $\sim$11\% interior time by pump set/reset skip。QLC产品的SLC-cache机制；未报告SLC绝对P/E & 确认verify与泵建立/恢复不能漏计；参考程序逐页完整执行、不取11\%折扣。截止仍未通过阈值verify则失败，不把该payload计为成功。\\
+NAND-05 PDF p.2 II-(e); p.4 Fig.12 & One or two WL known codes; calibration divider/register and inference multiplier。已知码校准与数字校正结构；固定拍数由本文选择 & 固定2校准WL，零/满量程两读后计算系数，再半输入复测，共3读/2WL建立；16通道24步倒数、比较与存储计226TD。每次求值另1拍数字校正，kA=3。\\
+NAND-01 / NAND-03 01 PDF p.2; 03 PDF p.1及p.2 Fig.30.5.6 & MLC/TLC normal tR=77/100 $\mu$s; QLC 6 planes,16kB page,1.3ms program,75MB/s die throughput。普通存储判决/多阈值模式，且die throughput含plane并行 & 仅作数量级和层级核查；不用tR代替SL-CIM积分，不用die吞吐或接口带宽代替单更新域。\\
+公共基线：参数JSON与R0 & 128$\times$128 INT8; BS=128 Byte; BR=16384 Byte; 8 planes $\times$16 ADC; (TI,TA,TD)=(2,10,2)/(5,20,5)/(10,50,10) ns; write port128 bit。已接受共同选择；ACIM近似、128$\times$24-bit输出；无等面积约束 & 逻辑/时隙不改；导入共享接口算服务。额外数字校正与积分资源显式列为结构接入选择；不声称c=1/c=108等最终误差。\\
 \bottomrule\end{longtable}\endgroup

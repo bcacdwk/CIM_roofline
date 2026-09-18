@@ -1,20 +1,67 @@
 {
-  "local_check_groups": 6,
-  "shared_check_groups": 12,
+  "local_check_groups": 8,
   "local_checks": "passed",
-  "shared_checks": "passed",
+  "numeric_estimation_complete": true,
   "pdf_pages": 6,
-  "pdf_sha256": "92d9168a4f9b5b71716714fd8b8eb28ed3e5ac68e73bbec875707d2509ffb530",
+  "pdf_sha256": "f2fb0ffce7594d64d59535231ff13a81fd2052d06bbee1fd0c1bdbe82bf31cf6",
   "latex_flags": {
+    "Underfull": false,
     "Overfull": false,
     "Missing character": false,
-    "undefined references": false,
-    "Underfull": false
+    "undefined references": false
   },
-  "visual_review": "Latest six-page contact sheet plus full-size pages inspected; no overlap, clipping, missing glyphs or continuation-only reference page.",
+  "visual_review": "Latest six-page rendering inspected: full-size pages1-4 and6 plus contact sheet/reference page; clear formulas, source locators, drive requirements and tables; no clipping, overlap or orphan continuation.",
   "baseline_json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
   "baseline_script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
-  "final_baseline_confirmation": "complete: final method TeX typography correction recorded; unchanged JSON/API; all scenario values identical after regeneration and rebuild",
   "baseline_method_tex_sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
-  "last_layout_fix": "Local ragged-right paragraph for NAND-02 bibliography entry only; title content unchanged; no global warning suppression."
+  "reference_result": {
+    "delta_S_ns": 1687681.9999999998,
+    "calibration_ns": 80686.99999999999,
+    "append": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 1687681.9999999998,
+      "delta_R_ns": 2560643887.0,
+      "rho_Byte_per_s": 75843.6719713785,
+      "tau_Byte_per_s": 6398.390687271696,
+      "ridge": 11.85355438239402,
+      "operations": {
+        "data_pages": 1024,
+        "calibration_pages": 0,
+        "program_cycles": 1024,
+        "erase_cycles": 0,
+        "data_beats_per_page": 108,
+        "front_ns_per_page": 550,
+        "front_total_ns": 563200,
+        "complete_program_total_ns": 2560000000.0,
+        "complete_erase_total_ns": 0.0,
+        "calibration_total_ns": 80686.99999999999,
+        "physical_loaded_Byte": 1769472
+      }
+    },
+    "rewrite": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 1687681.9999999998,
+      "delta_R_ns": 7040784687.0,
+      "rho_Byte_per_s": 75843.6719713785,
+      "tau_Byte_per_s": 2327.0133555214625,
+      "ridge": 32.59271021862383,
+      "operations": {
+        "data_pages": 1024,
+        "calibration_pages": 256,
+        "program_cycles": 1280,
+        "erase_cycles": 128,
+        "data_beats_per_page": 108,
+        "front_ns_per_page": 550,
+        "front_total_ns": 704000,
+        "complete_program_total_ns": 3200000000.0,
+        "complete_erase_total_ns": 3840000000.0,
+        "calibration_total_ns": 80686.99999999999,
+        "physical_loaded_Byte": 2211840
+      }
+    }
+  },
+  "estimate_scope": "Explicit resource and complete-operation budgets for successful reference operations; not measured SLC bounds or yield validation",
+  "calculation_and_evidence_distinction": "Arithmetic checks verify units/counts/synchronization. Engineering basis and transfer assumptions are independently stated in evidence table and chapter."
 }
