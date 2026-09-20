@@ -1,0 +1,144 @@
+\section{状态模式与证据的分工}
+NOR 的非易失状态可以表示二进制位，也可经精调表示连续模拟权重；两者有不同的成功终点。本章选择\textbf{二进制存储加局部数字计算}：读出各 bit 的 0/1 判决，数字逻辑完成乘法、符号处理和累加。一个 INT8 权重由八个逻辑存储 bit 表示，不要求某个 cell 提供 256 个稳定电流值。矩阵共 131072 个逻辑存储 bit；一次输入 $B_S=128$ Byte，完整矩阵更新 $B_R=16384$ Byte，结果为 128 个 24-bit 有符号容器。
+
+\sid{NOR-04} 则是经过阵列改造的 180 nm ESF1 模拟分类器。浮栅电荷改变晶体管阈值和导通电流，输入激励与已调好的权重产生电流贡献，列上求和，差分连接表示正负权重。其第一层采用二电平\emph{输入}，并不意味着其\emph{权重}是普通二进制 Flash。该原型有 101780 个浮栅 cell、784--64--10 网络，输入先串行装入 785-bit 寄存器。论文的亚微秒量级描述网络传播，不是本章 INT8 完整服务间隔；Fig.~14 的振荡与输入电路限制也不能略去。
+
+\sid{NOR-05} 给出 100-cell 调谐实验：平均约 10 次脉冲达到 3\% 调谐误差，35 次达到约 0.3\%。其 Fig.~2 包含全擦初始化、读状态、模型更新和交替擦写；Fig.~3 的 100\,$\mu$s 编程脉冲与 2.5 ms 擦除脉冲是动力学表征条件，不是完整权重调谐时延。\sid{NOR-04} 原型实际采用约 5\% 单 cell 导入目标，后续半选扰动也有影响。两篇同技术线分别支持模拟机制和调谐方法，不能当作独立的二进制写入验证。
+
+本章没有把模拟调谐的 10/35 次脉冲加在厂商页编程时间之后，也没有把普通 binary 页编程终点解释为模拟电流精度。所选数字路径与 binary 更新相容：判决只需满足数字读窗，权重位权和输入补码符号在数字域处理，输入符号位取 $-2^7$。它是一种包含本地 NOR 感测和归约资源的参考宏；库内尚无对应该映射的已制造 NOR DCIM 宏，因此不将本估算标成原型实测。
+
+\begin{table}[h]\centering\small
+\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule
+证据层次 & 本章采用方式\\\midrule
+\sid{NOR-01} & 完整随机二进制读周期的 100/120/130 ns 量级锚点；保留原电压、容量和速度选项。\\
+\sid{NOR-02} & 256 Byte 页、4 KiB sector、内部自定时 program/erase 与 BUSY 完成终点。\\
+\sid{NOR-04/05} & 说明电流域 VMM、精调与普通 binary 状态的区别，不直接提供本设计的读写时间。\\
+共享基线 & 导入 R0 的本地计算资源、操作计数、28 nm 数字节拍、写端口和统一吞吐 API。\\\bottomrule
+\end{tabularx}
+\caption{原始证据、参考结构和推导分开。不同来源只在明确的二进制模式下互补。}
+\end{table}
+
+\clearpage
+\section{本地读分片与原生更新域的映射}
+主布局保持共享 R0：每轮处理 32 个输入项、16 个输出，八位权重并行、输入逐 bit 展开。实现这一轮需要\textbf{32 个独立读分片，每片 128 个二进制 sense amplifier（SA），共 4096 SA}，以及 16 条 32 项数字归约/累加通道、128 个 24-bit 输出累加寄存器。一个读分片在一轮只选择自己的一个局部字线，不要求普通 NOR 在同一位线上同时辨认 32 个 cell。
+
+按输入索引 $i=0,\ldots,127$ 和输出 $o=0,\ldots,127$ 映射，分片 $s=i\bmod32$ 保存 $i=s,s+32,s+64,s+96$ 四行，每行 128 Byte，因此每片有效容量 512 Byte。读轮的组号 $g=0,\ldots,3$ 使各片选取输入行 $i=s+32g$；输出组 $h=0,\ldots,7$ 选择其中连续 16 个权重，共 128 bit。每个输入 bit 重读这些状态，沿用 R0 的无跨输入位复用、无跨向量流水条件。
+
+\textbf{独立读分片不等于独立擦除域。} 主布局将相邻八片的 $8\times512=4096$ Byte 放在一个 4 KiB sector，四个 sector 恰好覆盖整矩阵。每片的两张 256 Byte 页，各保存两个完整逻辑输入行；一个 sector 共 16 页，整矩阵共 64 页。该组织需局部字线/位线选择、读偏置缓冲和感测隔离，并让同一 sector 的八片在擦除时共享高压选择及擦除控制。编程时只选一页，其他页受抑制；全宏只有一个 program/erase 控制域和一套活动页缓冲。
+
+\sid{NOR-02} 规定页与 sector 的外显更新粒度，没有规定一个 sector 只能有一个本地读通道。本章把读分段与高压更新域分别设计，\emph{不是声称 W25Q128JV 内部已有这 32 个并行端口}。128-bit 本地数据接口、128-SA 读宽和 256-Byte 内部页算法是三个不同资源；接口宽度不能推导 128 个 cell 同时编程，更不能推出 32 页并行写。
+
+\begin{table}[h]\centering\small
+\begin{tabularx}{\textwidth}{@{}p{38mm}X@{}}\toprule
+项目 & 主布局的资源或计数\\\midrule
+逻辑/物理有效数据 & 16 KiB 权重，八个 binary bit/INT8；无额外模拟差分编码\\
+读分片 & 32 片，每片 512 Byte、128 SA；每轮读 4096 bit\\
+更新层次 & 8 读片/sector，4 sector，16 页/sector，64 页/矩阵\\
+写资源 & 一个 256-Byte 页缓冲，一个更新控制域；本地装入接口 128 bit\\
+数字计算 & 每轮 32 项$\times$16 输出；输入八轮位展开；两拍边界控制\\
+物理容量 & 4$\times$4 KiB=16 KiB；sector 不与无关状态共享，无需保存其他 payload\\\bottomrule
+\end{tabularx}
+\caption{这是为一份矩阵配置的内部并行分片，不是复制 32 份独立服务单元。没有等面积约束。}
+\end{table}
+
+原生更新可以合法聚合成整矩阵：页地址对齐且不跨界，64 次完成的页编程覆盖每个权重恰好一次；四个擦除操作覆盖它们的旧状态。所选事务是整矩阵任意重写，未使用预擦空白区、增量 append 或矩阵交换来隐藏擦除。稀疏更新及含无关有效数据的共享 sector 需要另算读改写，不能沿用本章 $B_R$。
+
+\clearpage
+\section{Streaming：完整二进制读与数字归约}
+采用共享 API \texttt{dcim\_service} 计算 R0，操作次数为
+\[
+N_D=N_{\rm rd}=8\times1\times4\times8=256,\qquad
+\Delta_S=256(t_{\rm rd}+T_D)+2T_D.
+\]
+一轮二进制读提供 32$\times$16 个 INT8 权重；随后一拍完成相应输入 bit 的选择乘法、32 项归约、符号处理和 16 个输出的部分和更新。公共 $T_D=2/5/10$ ns 分别取自共享 short/reference/long 情景；$T_I$ 和 ADC 时隙不用于本数字路径。必要读偏置建立、选择和感测都放入完整 $t_{\rm rd}$，不再重复叠加一个“cell read”周期。
+
+\sid{NOR-01} PDF p.~85 Table~57/58、p.~86 Table~59 的随机读周期分别为 100/120/130 ns。100 ns 档针对 512 Mb、$V_{\rm IO}=V_{\rm CC}=2.7$--3.6 V、$-55$ 至 $105\,^{\circ}\mathrm C$；120 ns 档覆盖更多容量与 $125\,^{\circ}\mathrm C$；130 ns 档包含低至 1.65 V 的 I/O 条件。原表分别给出最小允许读周期 $t_{\rm RC}$ 和最大地址到输出延时 $t_{\rm ACC}$，数值一致。这里用它们锚定三档\emph{完整本地二进制读预算}，不是将 $t_{\rm ACC}^{-1}$ 直接称作向量吞吐。
+
+这一步有明确工程桥接：商品的外部 16-bit 接口并不等于本地 bitline 感测宽度，本设计另配置 128-SA 宽的局部感测和 32 组读偏置/选择电路；假定其负载、输出隔离和数字读窗允许 100--130 ns 的完整周期。NOR-01 的原工艺为 65 nm、介质电压并非 0.9 V；28 nm 只指共享数字外围参考。既不凭工艺缩小比例加速 NOR，也不从 SPI 的 50/133 MHz 或连续数据速率推导介质读时间。移植后的宽度与读时间相容性仍是待电路验证的主要条件。
+
+\begin{table}[h]\centering\small
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+情景 & $t_{\rm rd}$ (ns) & $T_D$ (ns) & 读占用 ($\mu$s) & 数字/边界 ($\mu$s) & 总计 ($\mu$s)\\\midrule
+短 & 100 & 2 & 25.600 & 0.516 & 26.116\\
+参考 & 120 & 5 & 30.720 & 1.290 & 32.010\\
+长 & 130 & 10 & 33.280 & 2.580 & 35.860\\\bottomrule
+\end{tabular}
+\caption{阶段按顺序执行。参考点二进制读占完整 streaming 周期的约 96.0\%。}
+\end{table}
+
+在参考点，$\rho=128/(32.010\,\mu\mathrm s)\approx4.00\,\mathrm{MB/s}$。虽然每轮物理读出 4096 bit，整个向量又有 256 轮，逻辑输入分子始终只有 128 Byte；反复感测 resident 权重也不是新的 workload 更新。输出寄存就绪由末拍覆盖，输出 Byte 不加到 $B_S$。
+
+三档读周期来自不同商品条件，用于构造参考预算而非同一芯片的实测统计角。固定参考数字节拍和写预算，仅将本地读预算 120 ns 改为 96/144 ns，$\rho$ 与 ridge 约变化 $+23.8\%/-16.1\%$，$\tau$ 不变。这揭示读桥接的重要性；不能把数字外围只占少量时间误解为整体估算不依赖本地感测设计。
+
+\clearpage
+\section{Resident：页编程、sector 擦除和完成终点}
+\sid{NOR-02} PDF p.~37 规定 Page Program 向已擦为 FFh 的区域写入 1--256 Byte；命令与数据装入结束后，才启动内部自定时 $t_{\rm PP}$。PDF p.~39 规定 4 KiB Sector Erase 把整个 sector 置为 1；p.~14 定义 BUSY 在操作结束后归零。p.~66 的详细 AC 表给出 $t_{\rm PP}=0.4/3$ ms、$t_{\rm SE}=45/400$ ms（typ/max）。这些是普通 binary 状态的完整内部操作，所需脉冲、内部校验和恢复已由控制器覆盖，不能再套一个未报告的重试倍数或模拟精调循环。
+
+本章采用持续整矩阵任意重写，先逐 sector 完成擦除，再串行装入并提交有效页；四个 sector 的顺序可变，但不能并行借用 32 个更新引擎。每页在本地 128-bit 接口需 $256\times8/128=16$ 拍装入，加准备与完成各一拍，共 $18T_D$；每个擦除命令另计两拍本地控制。页缓存和完成信号处于宏内部，SPI 线缆命令传送在所选局部边界之外。专用高压建立不按低压 $T_D$ 替换，而保留在毫秒量级完整内部块中。
+
+主布局每次擦除支撑 $N_{p/e}=16$ 个有效页。等效页服务与完整矩阵服务分别为
+\begin{align*}
+\Delta_{R,\rm page}&=18T_D+t_{\rm PP}
+                 +\frac{t_{\rm SE}+2T_D}{16},& B_{R,\rm page}&=256\ \mathrm{Byte},\\
+\Delta_R&=64(18T_D+t_{\rm PP})+4(t_{\rm SE}+2T_D),&B_R&=16384\ \mathrm{Byte}.
+\end{align*}
+同一组字节和时间一起聚合，所以两种写法得到相同 $\tau$。参考点的 4 次 45 ms 擦除、64 次 0.4 ms 页编程及 5.8\,$\mu$s 装入/控制合计
+\[
+\Delta_R=180\,\mathrm{ms}+25.6\,\mathrm{ms}+0.0058\,\mathrm{ms}
+        =205.6058\,\mathrm{ms}.
+\]
+内部擦除占约 87.55\%，页编程占约 12.45\%，低压装入与控制不到 0.003\%。\sid{NOR-02} p.~38 也明确指出较高输入时钟下 Quad 输入的收益会被内部页编程时间淹没；缩短装入不能消除 $t_{\rm PP}$ 和 $t_{\rm SE}$。
+
+\textbf{互补核查不更换主预算。}\sid{NOR-01} p.~45 Table~16 的 512 Byte buffer 编程为 420/1050\,$\mu$s，128 KiB sector 擦除为 410/1100 ms；擦除已含把所有 word 预编为零。其 typ 条件是 25$^{\circ}$C、3.0 V、10000 次循环和随机数据，max 条件另见注 31。1.64\,$\mu$s/word 是满 buffer 的摊销量，不能当作独立 word 完成延时；p.~2 摘要速率不能优先于这个详细条件表。本章没有把 NOR-01 的 128 KiB 擦除时间配到 NOR-02 的 4 KiB 粒度。
+
+更新终点是页/sector 操作完成、状态可数字读取；初始上电、保护配置和异常操作恢复不属正常重复服务。NOR 的正常读不破坏状态，本时间窗口不增加 refresh 或 restore。有限 program/erase 耐久度单列为寿命约束，不并入瞬时 $\tau$。
+
+\clearpage
+\section{成对结果、组织对照与适用范围}
+采用共享吞吐 API，统一计算
+\[
+\rho=\frac{B_S}{\Delta_S},\qquad
+\tau=\frac{B_R}{\Delta_R},\qquad
+\mathrm{RI}^{*}=\frac{B_S}{B_R}\frac{\Delta_R}{\Delta_S}.
+\]
+短、参考情景均保留 NOR-02 的 typ program/erase；长情景采用其 max 列，分别配共享外围和上一节读预算。这是少量可解释的配对，不是已测联合 PVT 分布，也不是 NOR 材料边界。
+\input{generated_results}
+
+参考点手算为
+\[
+\mathrm{RI}^{*}=\frac{128}{16384}\frac{205605800}{32010}
+              =50.1810\ldots .
+\]
+若用等效页，$\Delta_{R,\rm page}=3212590.625$ ns，粒度因子变为 $128/256=1/2$，结果相同。不能把 $\Delta_R/\Delta_S\approx6423.2$ 直接称作 ridge。主配对范围约为 $\rho=(3.57$--$4.90)\times10^{-3}$ GB/s、$\tau=(9.14\times10^{-6}$--$7.97\times10^{-5})$ GB/s、ridge 约 50.2--390.4；它不是相互独立端点相除的任意组合。
+
+\subsection{唯一组织对照：每个读分片独占一个 sector}
+若实现约束使每个 512-Byte 读分片必须独占一个 4 KiB sector，仍有 32 个读分片和 4096 SA，但分配容量增加为 128 KiB。有效页仍为 64 页，擦除数增为 32，$N_{p/e}=2$，未用容量不能加入 $B_R$。在同一参考时间下得到：
+\input{generated_contrast}
+
+此对照 $\rho$ 不变，$\tau$ 降至主布局的约 $1/7.13$，ridge 增至约 357.7。区别来自实际有效页/擦除域利用率，既不是接口传输速率，也不是 binary cell 编程速度变了。主布局的共用 sector 与对照的独占 sector 都需相应高压隔离设计；读端口数本身不决定擦除域数。若实物只能实现后者，应采用对照值，不应保留主布局的四次擦除预算。
+
+\subsection{边界、可复现性和后续使用}
+本章以同一份 binary 状态连接两路估算：读资源保持 R0，写资源始终单域。读写共享阵列与高压选择，估算中不重叠，因此 $P\leq\min(\rho,\tau\mathrm{RI})$ 只是必要上界，不保证两路同时达到各自独立峰值。静态权重 $Q_R=0$ 时进入 $\mathrm{RI}=\infty$ 分支，只受 $\rho$ 限制。
+
+主要待验证条件是：128-SA 宽读分片的读窗/负载、32 片并行选择，sector 内八片共享擦除与页选择的隔离，以及在这些改造下仍保留所采用的完整 program/erase 时间。没有同芯片全链路实测，并不阻止本条件预算；也不能据此将结果推广为所有 NOR CIM、特别是连续模拟精调模式的性能。
+
+\clearpage
+\section{证据入口与复现说明}
+本地 \texttt{data/inputs.json} 分开记录原值和结构选择；复算脚本直接导入共享 JSON 与 API，保存二者和源 PDF 哈希，校验位覆盖、页/sector 映射、阶段覆盖、单位、成对结果和聚合一致性。默认复算只读，\texttt{--emit} 显式刷新结果与表格。证据全文定位和桥接边界见 \path{notes/parameter_evidence.zh.md}。
+
+
+\subsection{原文定位与条件保留}
+以下页码均为本地 PDF 页序，从 1 开始。资料保存在 \path{literature/03_nor_2d/}，源标识及 SHA-256 与本地 \path{source_manifest.json} 一致。
+\begin{enumerate}
+\item \sid{NOR-01}，Infineon，\emph{128 Mb / 256 Mb / 512 Mb / 1 Gb GL-S MIRRORBIT Flash, Parallel, 3.0 V, Military}，002-18741 Rev.~*E，2024-09-04。p.~22 给出内部算法及 1$\to$0 编程/擦除恢复为 1 的语义；p.~45 Table~16 给出带条件的完整更新；pp.~85--87 给出随机与页读时序。65 nm MirrorBit 的物理单元组织并未用于本章一 bit 一数字判决的 cell 面积换算。
+\item \sid{NOR-02}，Winbond，\emph{W25Q128JV: 3V 128M-BIT Serial Flash Memory with Dual/Quad SPI}，Revision G，2019-04-08。p.~5 给出 256-Byte 页、16 页/4 KiB sector 和耐久/保持特性；p.~14 是 BUSY 定义；pp.~37--39 是 program/erase 起止；pp.~65--66 是接口与内部时序。p.~66 的注 5 仅为带该注号条目的表征说明，不自动扩展为所有 program/erase 数字的实测条件。
+\item \sid{NOR-04}，X.~Guo 等，\emph{Fast, Energy-Efficient, Robust, and Reproducible Mixed-Signal Neuromorphic Classifier Based on Embedded NOR Flash Memory Technology}，IEDM，2017。pp.~1--2 的设计、导入精度和测试条件，p.~3 Figs.~1/2/6 的机制和结构，p.~4 Figs.~9/14 的导入统计与动态响应；55 nm 后续结果属于预测，未用作本章实测时间。
+\item \sid{NOR-05}，F.~Merrikh Bayat 等，\emph{Model-Based High-Precision Tuning of NOR Flash Memory Cells for Analog Computing Applications}，DRC，2016。p.~1 是算法和 100-cell 实验；p.~2 Fig.~2 为调谐流程、Fig.~3 为脉冲表征、Figs.~5/6 为精度与脉冲数。与 \sid{NOR-04} 同团队/技术线。
+\end{enumerate}
+
+\subsection{阶段、寿命与复算检查}
+共享规则 R4 在此有两处作用：完整随机读预算替代其已含的选择/建立/感测；完整 BUSY program/erase 替代内部脉冲、verify 和恢复。公共数字归约、页数据装入和本地控制另算。未报告的高压切换或内部重试没有再人为加一个跨介质统一倍数。
+
+\sid{NOR-02} p.~5 标称每 sector 至少 $10^5$ 次 program/erase 及超过 20 年保持。持续任意整矩阵重写每次消耗每个活动 sector 一次擦除寿命；这些商品条件不是改造后宏的寿命保证，也不是可以无限持续以 $\tau$ 更新的承诺。主预算未用这些寿命数去折减瞬时吞吐。
+
+从本案例目录执行 \texttt{python scripts/check\_nor.py} 可只读核对结果；修改明确输入后执行同一脚本的 \texttt{--emit}，再执行 \texttt{sh scripts/build.sh}。构建采用 XeLaTeX/ctex/Fandol，渲染检查全部页面。共享参数变更会触发哈希/派生结果不一致，需复核后显式更新；不会静默沿用旧表。

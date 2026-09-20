@@ -1,0 +1,5113 @@
+{
+  "case_id": "07_pcm",
+  "baseline_id": "shared_baseline",
+  "inputs_sha256": "d9cdd514435d14d0cf55f6f2626325bfe83fde9b36d347d12df7a4acef64931a",
+  "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+  "units": {
+    "time": "ns",
+    "payload": "Byte",
+    "rates": "Byte/s",
+    "ridge": "dimensionless"
+  },
+  "shared_sha256": {
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "sources": {
+    "PCM-01": {
+      "title": "A 64-core mixed-signal in-memory compute chip based on phase-change memory for deep neural network inference",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-01_2023_PCM64_Core.pdf",
+        "pages": 25,
+        "bytes": 5342960,
+        "sha256": "81c512921e635d20769b9a0752d958f6820158f8459728e9333cb320d39b1278"
+      },
+      "doi": "10.1038/s41928-023-01010-1"
+    },
+    "PCM-03": {
+      "title": "A 40-nm, 2M-Cell, 8b-Precision, Hybrid SLC-MLC PCM Computing-in-Memory Macro with 20.5 - 65.0TOPS/W for Tiny-AI Edge Devices",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-03_2022_Hybrid_SLC_MLC.pdf",
+        "pages": 3,
+        "bytes": 1754128,
+        "sha256": "91ae3c12a4d505f13863934b2cd244e108f3755e1a3dbabc119d4a9ad611ba60"
+      },
+      "doi": "10.1109/isscc42614.2022.9731670"
+    },
+    "PCM-05": {
+      "title": "Phase Change Memory Drift Compensation in Spiking Neural Networks Using a Non-Linear Current Scaling Strategy",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-05_2024_PCM_Drift.pdf",
+        "pages": 12,
+        "bytes": 3484759,
+        "sha256": "05992e1bd33299c663bbc7c8cb71baeb568d4d00380c35356d8449a0f483cdd7"
+      },
+      "doi": "10.3390/jlpea14040050"
+    },
+    "PCM-06": {
+      "title": "Fully On-Chip MAC at 14 nm Enabled by Accurate Row-Wise Programming of PCM-Based Weights and Parallel Vector-Transport in Duration-Format",
+      "pdf": {
+        "path": "literature/07_pcm/PCM-06_2021_RowWise_ClosedLoopProgramming.pdf",
+        "pages": 8,
+        "bytes": 2933352,
+        "sha256": "7b2e5d3b71928bf8be4720fc9edece45d3a4e759b4b8a530bb09dcdbaa67b7c8"
+      },
+      "doi": "10.1109/ted.2021.3115993"
+    }
+  },
+  "paired_scenarios": [
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 32,
+      "delta_S_ns": 24580,
+      "delta_R_ns": 4014.0,
+      "rho_Byte_per_s": 5207485.760781122,
+      "tau_Byte_per_s": 7972097.658196313,
+      "ridge": 0.653213995117982,
+      "profile": "short",
+      "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+      "baseline_id": "shared_baseline",
+      "writeheads": 32,
+      "verify_mode": "same_front_binary_endpoint",
+      "read_counts": {
+        "input_slices": 8,
+        "row_groups": 16,
+        "weight_groups": 1,
+        "base_combinations": 128,
+        "evaluations": 1024,
+        "adc_batches": 1024,
+        "reconstruction_rounds": 1024,
+        "digital_ticks": 2048,
+        "useful_scalar_conversions": 131072,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "program_batches": 8,
+      "verify_passes": 16,
+      "encoded_load_bits": 256,
+      "data_beats": 2,
+      "physical_cells_updated": 256,
+      "read_stages_ns": {
+        "front_including_TI": 10240,
+        "ADC": 10240,
+        "digital_decode_reconstruct": 4096,
+        "boundary": 4
+      },
+      "write_stages_ns": {
+        "interface": 6,
+        "batch_select": 16,
+        "current_driver_transitions": 240,
+        "RESET_pulses": 1000,
+        "SET_pulses": 2400,
+        "verify_front": 160,
+        "verify_ADC": 160,
+        "verify_endpoint_compare": 32
+      },
+      "shared_profile_ns": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "read_front_total_ns": 10,
+      "read_media_API_ns": 8,
+      "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+      "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+      "dominant_write": "SET+RESET pulses",
+      "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+      "matrix_reload": {
+        "B_R_Byte": 16384,
+        "delta_R_ns": 2055168.0,
+        "transactions": 512,
+        "tau_Byte_per_s": 7972097.658196313
+      }
+    },
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 32,
+      "delta_S_ns": 51210,
+      "delta_R_ns": 4655.0,
+      "rho_Byte_per_s": 2499511.8140988084,
+      "tau_Byte_per_s": 6874328.678839956,
+      "ridge": 0.3636008592071861,
+      "profile": "reference",
+      "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+      "baseline_id": "shared_baseline",
+      "writeheads": 32,
+      "verify_mode": "same_front_binary_endpoint",
+      "read_counts": {
+        "input_slices": 8,
+        "row_groups": 16,
+        "weight_groups": 1,
+        "base_combinations": 128,
+        "evaluations": 1024,
+        "adc_batches": 1024,
+        "reconstruction_rounds": 1024,
+        "digital_ticks": 2048,
+        "useful_scalar_conversions": 131072,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "program_batches": 8,
+      "verify_passes": 16,
+      "encoded_load_bits": 256,
+      "data_beats": 2,
+      "physical_cells_updated": 256,
+      "read_stages_ns": {
+        "front_including_TI": 20480,
+        "ADC": 20480,
+        "digital_decode_reconstruct": 10240,
+        "boundary": 10
+      },
+      "write_stages_ns": {
+        "interface": 15,
+        "batch_select": 40,
+        "current_driver_transitions": 480,
+        "RESET_pulses": 1000,
+        "SET_pulses": 2400,
+        "verify_front": 320,
+        "verify_ADC": 320,
+        "verify_endpoint_compare": 80
+      },
+      "shared_profile_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "read_front_total_ns": 20,
+      "read_media_API_ns": 15,
+      "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+      "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+      "dominant_write": "SET+RESET pulses",
+      "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+      "matrix_reload": {
+        "B_R_Byte": 16384,
+        "delta_R_ns": 2383360.0,
+        "transactions": 512,
+        "tau_Byte_per_s": 6874328.678839956
+      }
+    },
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 32,
+      "delta_S_ns": 122900,
+      "delta_R_ns": 6470.0,
+      "rho_Byte_per_s": 1041497.1521562245,
+      "tau_Byte_per_s": 4945904.173106645,
+      "ridge": 0.21057770545158666,
+      "profile": "long",
+      "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+      "baseline_id": "shared_baseline",
+      "writeheads": 32,
+      "verify_mode": "same_front_binary_endpoint",
+      "read_counts": {
+        "input_slices": 8,
+        "row_groups": 16,
+        "weight_groups": 1,
+        "base_combinations": 128,
+        "evaluations": 1024,
+        "adc_batches": 1024,
+        "reconstruction_rounds": 1024,
+        "digital_ticks": 2048,
+        "useful_scalar_conversions": 131072,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "program_batches": 8,
+      "verify_passes": 16,
+      "encoded_load_bits": 256,
+      "data_beats": 2,
+      "physical_cells_updated": 256,
+      "read_stages_ns": {
+        "front_including_TI": 51200,
+        "ADC": 51200,
+        "digital_decode_reconstruct": 20480,
+        "boundary": 20
+      },
+      "write_stages_ns": {
+        "interface": 30,
+        "batch_select": 80,
+        "current_driver_transitions": 1200,
+        "RESET_pulses": 1000,
+        "SET_pulses": 2400,
+        "verify_front": 800,
+        "verify_ADC": 800,
+        "verify_endpoint_compare": 160
+      },
+      "shared_profile_ns": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      },
+      "read_front_total_ns": 50,
+      "read_media_API_ns": 40,
+      "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+      "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+      "dominant_write": "SET+RESET pulses",
+      "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+      "matrix_reload": {
+        "B_R_Byte": 16384,
+        "delta_R_ns": 3312640.0,
+        "transactions": 512,
+        "tau_Byte_per_s": 4945904.173106645
+      }
+    }
+  ],
+  "paired_ranges": {
+    "rho_Byte_per_s": [
+      1041497.1521562245,
+      5207485.760781122
+    ],
+    "tau_Byte_per_s": [
+      4945904.173106645,
+      7972097.658196313
+    ],
+    "ridge": [
+      0.21057770545158666,
+      0.653213995117982
+    ]
+  },
+  "independent_endpoint_outer_envelope": [
+    0.1306427990235964,
+    1.0528885272579334
+  ],
+  "verify_organization_comparison": {
+    "B_S_Byte": 128,
+    "B_R_Byte": 32,
+    "delta_S_ns": 51210,
+    "delta_R_ns": 16623.0,
+    "rho_Byte_per_s": 2499511.8140988084,
+    "tau_Byte_per_s": 1925043.6142693858,
+    "ridge": 1.2984182776801403,
+    "profile": "reference",
+    "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+    "baseline_id": "shared_baseline",
+    "writeheads": 32,
+    "verify_mode": "weak_signal_analog_front",
+    "read_counts": {
+      "input_slices": 8,
+      "row_groups": 16,
+      "weight_groups": 1,
+      "base_combinations": 128,
+      "evaluations": 1024,
+      "adc_batches": 1024,
+      "reconstruction_rounds": 1024,
+      "digital_ticks": 2048,
+      "useful_scalar_conversions": 131072,
+      "adc_total": 128,
+      "max_batch_code_slots": 128,
+      "max_hold_window_ns": 0
+    },
+    "program_batches": 8,
+    "verify_passes": 16,
+    "encoded_load_bits": 256,
+    "data_beats": 2,
+    "physical_cells_updated": 256,
+    "read_stages_ns": {
+      "front_including_TI": 20480,
+      "ADC": 20480,
+      "digital_decode_reconstruct": 10240,
+      "boundary": 10
+    },
+    "write_stages_ns": {
+      "interface": 15,
+      "batch_select": 40,
+      "current_driver_transitions": 480,
+      "RESET_pulses": 1000,
+      "SET_pulses": 2400,
+      "verify_front": 12288,
+      "verify_ADC": 320,
+      "verify_endpoint_compare": 80
+    },
+    "shared_profile_ns": {
+      "input_step": 5,
+      "adc_batch": 20,
+      "digital_tick": 5
+    },
+    "read_front_total_ns": 20,
+    "read_media_API_ns": 15,
+    "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+    "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+    "dominant_write": "16 repeated768ns weak-signal read-front blocks",
+    "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+    "matrix_reload": {
+      "B_R_Byte": 16384,
+      "delta_R_ns": 8510976.0,
+      "transactions": 512,
+      "tau_Byte_per_s": 1925043.6142693858
+    }
+  },
+  "set_total250ns_sensitivity": {
+    "B_S_Byte": 128,
+    "B_R_Byte": 32,
+    "delta_S_ns": 51210,
+    "delta_R_ns": 4255.0,
+    "rho_Byte_per_s": 2499511.8140988084,
+    "tau_Byte_per_s": 7520564.042303173,
+    "ridge": 0.33235696153095096,
+    "profile": "reference",
+    "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+    "baseline_id": "shared_baseline",
+    "writeheads": 32,
+    "verify_mode": "same_front_binary_endpoint",
+    "read_counts": {
+      "input_slices": 8,
+      "row_groups": 16,
+      "weight_groups": 1,
+      "base_combinations": 128,
+      "evaluations": 1024,
+      "adc_batches": 1024,
+      "reconstruction_rounds": 1024,
+      "digital_ticks": 2048,
+      "useful_scalar_conversions": 131072,
+      "adc_total": 128,
+      "max_batch_code_slots": 128,
+      "max_hold_window_ns": 0
+    },
+    "program_batches": 8,
+    "verify_passes": 16,
+    "encoded_load_bits": 256,
+    "data_beats": 2,
+    "physical_cells_updated": 256,
+    "read_stages_ns": {
+      "front_including_TI": 20480,
+      "ADC": 20480,
+      "digital_decode_reconstruct": 10240,
+      "boundary": 10
+    },
+    "write_stages_ns": {
+      "interface": 15,
+      "batch_select": 40,
+      "current_driver_transitions": 480,
+      "RESET_pulses": 1000,
+      "SET_pulses": 2000,
+      "verify_front": 320,
+      "verify_ADC": 320,
+      "verify_endpoint_compare": 80
+    },
+    "shared_profile_ns": {
+      "input_step": 5,
+      "adc_batch": 20,
+      "digital_tick": 5
+    },
+    "read_front_total_ns": 20,
+    "read_media_API_ns": 15,
+    "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+    "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+    "dominant_write": "SET+RESET pulses",
+    "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+    "matrix_reload": {
+      "B_R_Byte": 16384,
+      "delta_R_ns": 2178560.0,
+      "transactions": 512,
+      "tau_Byte_per_s": 7520564.042303173
+    }
+  },
+  "mapping": {
+    "logical_transaction_count": 512,
+    "physical_cell_count": 131072,
+    "full_coverage_unique_weights": 16384,
+    "transaction_inventory": [
+      {
+        "diagonal": 0,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 0,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 0,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 0,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 1,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 1,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 1,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 1,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 2,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 2,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 2,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 2,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 3,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 3,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 3,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 3,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 4,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 4,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 4,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 4,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 5,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 5,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 5,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 5,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 6,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 6,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 6,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 6,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 7,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 7,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 7,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 7,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 8,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 8,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 8,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 8,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 9,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 9,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 9,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 9,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 10,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 10,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 10,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 10,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 11,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 11,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 11,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 11,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 12,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 12,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 12,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 12,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 13,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 13,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 13,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 13,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 14,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 14,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 14,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 14,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 15,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 15,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 15,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 15,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 16,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 16,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 16,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 16,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 17,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 17,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 17,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 17,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 18,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 18,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 18,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 18,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 19,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 19,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 19,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 19,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 20,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 20,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 20,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 20,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 21,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 21,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 21,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 21,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 22,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 22,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 22,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 22,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 23,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 23,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 23,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 23,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 24,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 24,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 24,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 24,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 25,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 25,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 25,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 25,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 26,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 26,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 26,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 26,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 27,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 27,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 27,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 27,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 28,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 28,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 28,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 28,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 29,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 29,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 29,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 29,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 30,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 30,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 30,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 30,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 31,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 31,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 31,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 31,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 32,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 32,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 32,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 32,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 33,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 33,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 33,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 33,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 34,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 34,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 34,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 34,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 35,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 35,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 35,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 35,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 36,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 36,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 36,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 36,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 37,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 37,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 37,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 37,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 38,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 38,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 38,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 38,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 39,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 39,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 39,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 39,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 40,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 40,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 40,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 40,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 41,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 41,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 41,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 41,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 42,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 42,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 42,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 42,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 43,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 43,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 43,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 43,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 44,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 44,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 44,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 44,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 45,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 45,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 45,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 45,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 46,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 46,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 46,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 46,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 47,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 47,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 47,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 47,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 48,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 48,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 48,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 48,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 49,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 49,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 49,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 49,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 50,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 50,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 50,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 50,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 51,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 51,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 51,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 51,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 52,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 52,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 52,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 52,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 53,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 53,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 53,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 53,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 54,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 54,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 54,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 54,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 55,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 55,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 55,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 55,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 56,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 56,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 56,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 56,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 57,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 57,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 57,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 57,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 58,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 58,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 58,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 58,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 59,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 59,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 59,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 59,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 60,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 60,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 60,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 60,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 61,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 61,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 61,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 61,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 62,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 62,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 62,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 62,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 63,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 63,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 63,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 63,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 64,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 64,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 64,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 64,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 65,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 65,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 65,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 65,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 66,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 66,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 66,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 66,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 67,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 67,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 67,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 67,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 68,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 68,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 68,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 68,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 69,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 69,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 69,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 69,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 70,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 70,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 70,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 70,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 71,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 71,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 71,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 71,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 72,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 72,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 72,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 72,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 73,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 73,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 73,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 73,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 74,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 74,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 74,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 74,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 75,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 75,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 75,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 75,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 76,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 76,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 76,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 76,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 77,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 77,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 77,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 77,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 78,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 78,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 78,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 78,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 79,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 79,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 79,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 79,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 80,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 80,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 80,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 80,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 81,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 81,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 81,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 81,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 82,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 82,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 82,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 82,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 83,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 83,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 83,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 83,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 84,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 84,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 84,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 84,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 85,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 85,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 85,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 85,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 86,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 86,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 86,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 86,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 87,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 87,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 87,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 87,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 88,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 88,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 88,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 88,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 89,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 89,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 89,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 89,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 90,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 90,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 90,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 90,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 91,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 91,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 91,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 91,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 92,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 92,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 92,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 92,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 93,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 93,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 93,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 93,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 94,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 94,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 94,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 94,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 95,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 95,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 95,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 95,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 96,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 96,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 96,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 96,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 97,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 97,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 97,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 97,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 98,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 98,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 98,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 98,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 99,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 99,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 99,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 99,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 100,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 100,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 100,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 100,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 101,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 101,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 101,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 101,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 102,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 102,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 102,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 102,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 103,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 103,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 103,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 103,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 104,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 104,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 104,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 104,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 105,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 105,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 105,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 105,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 106,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 106,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 106,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 106,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 107,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 107,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 107,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 107,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 108,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 108,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 108,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 108,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 109,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 109,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 109,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 109,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 110,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 110,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 110,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 110,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 111,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 111,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 111,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 111,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 112,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 112,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 112,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 112,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 113,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 113,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 113,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 113,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 114,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 114,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 114,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 114,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 115,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 115,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 115,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 115,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 116,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 116,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 116,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 116,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 117,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 117,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 117,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 117,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 118,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 118,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 118,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 118,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 119,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 119,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 119,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 119,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 120,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 120,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 120,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 120,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 121,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 121,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 121,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 121,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 122,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 122,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 122,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 122,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 123,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 123,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 123,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 123,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 124,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 124,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 124,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 124,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 125,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 125,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 125,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 125,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 126,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 126,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 126,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 126,
+        "column_slot": 3,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 127,
+        "column_slot": 0,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 127,
+        "column_slot": 1,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 127,
+        "column_slot": 2,
+        "logical_weights": 32
+      },
+      {
+        "diagonal": 127,
+        "column_slot": 3,
+        "logical_weights": 32
+      }
+    ],
+    "example_transaction_batches": [
+      {
+        "plane": 0,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 1,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 2,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 3,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 4,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 5,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 6,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      },
+      {
+        "plane": 7,
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            12,
+            12
+          ],
+          [
+            16,
+            16
+          ],
+          [
+            20,
+            20
+          ],
+          [
+            24,
+            24
+          ],
+          [
+            28,
+            28
+          ],
+          [
+            32,
+            32
+          ],
+          [
+            36,
+            36
+          ],
+          [
+            40,
+            40
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            48,
+            48
+          ],
+          [
+            52,
+            52
+          ],
+          [
+            56,
+            56
+          ],
+          [
+            60,
+            60
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            68,
+            68
+          ],
+          [
+            72,
+            72
+          ],
+          [
+            76,
+            76
+          ],
+          [
+            80,
+            80
+          ],
+          [
+            84,
+            84
+          ],
+          [
+            88,
+            88
+          ],
+          [
+            92,
+            92
+          ],
+          [
+            96,
+            96
+          ],
+          [
+            100,
+            100
+          ],
+          [
+            104,
+            104
+          ],
+          [
+            108,
+            108
+          ],
+          [
+            112,
+            112
+          ],
+          [
+            116,
+            116
+          ],
+          [
+            120,
+            120
+          ],
+          [
+            124,
+            124
+          ]
+        ],
+        "verify_passes": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              16,
+              16
+            ],
+            [
+              24,
+              24
+            ],
+            [
+              32,
+              32
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              48,
+              48
+            ],
+            [
+              56,
+              56
+            ],
+            [
+              64,
+              64
+            ],
+            [
+              72,
+              72
+            ],
+            [
+              80,
+              80
+            ],
+            [
+              88,
+              88
+            ],
+            [
+              96,
+              96
+            ],
+            [
+              104,
+              104
+            ],
+            [
+              112,
+              112
+            ],
+            [
+              120,
+              120
+            ]
+          ],
+          [
+            [
+              4,
+              4
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              20,
+              20
+            ],
+            [
+              28,
+              28
+            ],
+            [
+              36,
+              36
+            ],
+            [
+              44,
+              44
+            ],
+            [
+              52,
+              52
+            ],
+            [
+              60,
+              60
+            ],
+            [
+              68,
+              68
+            ],
+            [
+              76,
+              76
+            ],
+            [
+              84,
+              84
+            ],
+            [
+              92,
+              92
+            ],
+            [
+              100,
+              100
+            ],
+            [
+              108,
+              108
+            ],
+            [
+              116,
+              116
+            ],
+            [
+              124,
+              124
+            ]
+          ]
+        ]
+      }
+    ]
+  }
+}

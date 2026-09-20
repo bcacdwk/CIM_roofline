@@ -1,0 +1,526 @@
+{
+  "baseline_id": "shared_baseline",
+  "case_id": "09_gain_cell_edram",
+  "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+  "kind": "conditional_engineering_estimate",
+  "units": {
+    "time": "ns",
+    "payload": "Byte",
+    "rho_tau": "Byte/s",
+    "ridge": "dimensionless"
+  },
+  "baseline_hashes": {
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "mapping": {
+    "state": "0 or 700 nA per physical cell; a bit is a pseudodifferential pair (700,0) or (0,700)",
+    "cells_per_weight": 16,
+    "physical_cells": 262144,
+    "pair_count": 131072,
+    "native_rows": 64,
+    "native_pair_columns": 64,
+    "physical_tiles": 32,
+    "weight_planes": 8,
+    "parallel_weight_planes": 8,
+    "rows_per_group": 64,
+    "evaluation_output_width": 16,
+    "adc_per_weight_plane": 16,
+    "adc_kind": "differential; one converter per cell pair output, 128 total",
+    "digital_output_lanes": 16,
+    "encoded_bits_per_weight": 16,
+    "encoding_note": "Two complementary branch-selection bits per bit; 700 nA magnitude hardwired locally. Logical INT8 signed two complement is reconstructed digitally."
+  },
+  "write": {
+    "logical_weights_completed": 16,
+    "pair_drivers": 128,
+    "branches_per_driver": 2,
+    "parallel_cells": 256,
+    "encoded_load_bits": 256,
+    "first_data_in_command": true,
+    "target": "both branch states settled; release complete after common control",
+    "verify_cycles": 0,
+    "verify_note": "GC-04 uses current feedback/self-calibration during fine write, not a separate read/verify loop; 65 ns measured transfer settling is not all-cell BER certification",
+    "load_isolation": "Disconnect added integration/SAR sampling capacitance during programming using local switches; source 65 ns write anchor assumes approximately original 50 fF BL load including switch parasitics. Reconnect/settle is included in dedicated read slot; if write load increases, 65 ns must be revalidated/rebudgeted."
+  },
+  "refresh": {
+    "period_ns": 400000,
+    "policy": "Fixed round-robin read/decode/rewrite schedule; all selected ADCs, local code bus and write drivers reserved; no demand-write refresh credits; pure sequential whole-matrix new writes may make refresh redundant, but this deliberately simple policy does not suppress it",
+    "reader": "same differential ADC frontend, one row at a time; 128 bits decoded to 256 branch controls per group",
+    "decode_ticks": 1,
+    "logical_Byte": 0,
+    "scope": "all 16384 Byte; 1024 groups of 16 weights",
+    "reliability": "0.4 ms source: 99.7% tested +/-7 cells drift <1 source ADC LSB, not all-bit-error-free. Binary endpoint threshold at zero gives materially wider margin than MLC nearest-level rounding; tail, noise, repeated-refresh stability remain validation conditions.",
+    "mac_pulse_ns": 1,
+    "single_pair_pulse_ns": 64,
+    "integration_capacitance_fF_per_branch": 200,
+    "differential_adc_range_mV": [
+      -224,
+      224
+    ],
+    "sign_decode": "One local binary sign decoder per differential ADC, 128 in main or 256 in wide32; one TD parallel decode, independent of 16 MVM reconstruction lanes.",
+    "phase_control": "Before each fixed refresh start inhibit new batches for maximum nonpreemptive group length G; fixed order and fixed start ensure per-cell writeback period <=400 us. G is charged once per period. Establish phase after cold initialization; metrics are steady-state intervals, not first-load latency."
+  },
+  "profiles": [
+    {
+      "id": "short",
+      "program_complete_ns": 65,
+      "program_coarse_ns": 5,
+      "program_fine_ns": 60,
+      "dedicated_read_ns": 100
+    },
+    {
+      "id": "reference",
+      "program_complete_ns": 65,
+      "program_coarse_ns": 5,
+      "program_fine_ns": 60,
+      "dedicated_read_ns": 150
+    },
+    {
+      "id": "long",
+      "program_complete_ns": 75,
+      "program_coarse_ns": 5,
+      "program_fine_ns": 70,
+      "dedicated_read_ns": 200
+    }
+  ],
+  "frontend_selection": {
+    "kind": "reference_choice",
+    "anchor": "GC-04 PDF pp6-7 Fig10: 180 ns measured whole compute cycle includes 5b SAR. It is only a complete-cycle scale anchor, not a separated device response measurement. Dedicated response 100/150/200 ns is an engineering budget for adapted binary frontend; common TI and 10b-nominal/8b-effective TA are separately added through shared API.",
+    "conditions": "Retain native 64-cell bitline load. MAC pulse 1 ns and single-pair refresh pulse 64 ns are explicit engineering choices; endpoint integrated charge at 700 nA is 44.8 fC in either full-scale case. The 64 ns pulse is contained in dedicated read budget, leaving 36/86/136 ns for select/settle/recovery. Integration capacitance/ADC full-scale and noise must support 129 differential levels. These pulses and dedicated budgets are not measured ported results. Each readout branch has an engineered effective 200 fF integration capacitance including bitline and sampling adaptation; 44.8 fC causes at most 224 mV discharge and +/-224 mV differential ADC swing. Both branches of 128 differential ADC frontends total 51.2 pF. This explicit local resource must be validated after parasitics/CDAC loading, not treated as free analog gain."
+  },
+  "precision": {
+    "logical": "128x128 INT8 by INT8; 128x24-bit output containers",
+    "compute": "calibrated approximate ACIM; binary stored weights are sign-decoded during maintenance",
+    "sum": "64 endpoint signs -> -64..64, 129 levels; recover binary sum (differential normalized sum + input popcount)/2; digital two ticks must cover this correction and plane/input reconstruction",
+    "not_claimed": "No DCIM exactness or universal error threshold; no all-cell retention certification"
+  },
+  "structural_comparison": {
+    "id": "wide32",
+    "profile": "reference",
+    "evaluation_output_width": 32,
+    "adc_per_weight_plane": 32,
+    "pair_drivers": 256,
+    "logical_weights_completed": 32,
+    "encoded_load_bits": 512,
+    "note": "Double true differential ADC and write-pair drivers, retain 16 digital output lanes, same physical state and capacity; frontend budget conditioned to remain 175 ns at equal 64-cell local load"
+  },
+  "exceptions": [
+    {
+      "rule_id": "R2",
+      "R0": "128 rows per analog group",
+      "selected": "64 rows per analog group",
+      "source": "GC-04 pp6-7 Fig10; same BL load; doubles base row groups and evaluations"
+    },
+    {
+      "rule_id": "R2",
+      "R0": "one binary cell per stored bit",
+      "selected": "two pseudodifferential 3T1C cells per bit at opposite endpoint currents",
+      "source": "GC-04 p6 Fig8; endpoint-only choice; adds actual cells and branch controls, no payload duplication"
+    },
+    {
+      "rule_id": "R4",
+      "R0": "TI + media response + TA",
+      "selected": "Retained. Source full 180 ns is used only as a scale anchor and is not added as a fourth stage. Shared TA genuinely propagates.",
+      "source": "GC-04 pp6-7 180 ns full cycle uses 5b ADC; our dedicated budget and 10b SAR adaptation are explicitly engineering choices."
+    }
+  ],
+  "sources": {
+    "GC-01": {
+      "source_id": "GC-01",
+      "group": "09_gain_cell_edram",
+      "title": "Gain-Cell CIM: Leakage and Bitline Swing Aware 2T1C Gain-Cell eDRAM Compute in Memory Design with Bitline Precharge DACs and Compact Schmitt Trigger ADCs",
+      "authors": [
+        "Shanshan Xie",
+        "Can Ni",
+        "Pulkit Jain",
+        "Fatih Hamzaoglu",
+        "Jaydeep P. Kulkarni"
+      ],
+      "year": 2022,
+      "venue": "VLSI Symposium, 112–113",
+      "publication_date": "2022",
+      "doi": "10.1109/VLSITechnologyandCir46769.2022.9830338",
+      "official_url": "https://doi.org/10.1109/VLSITechnologyandCir46769.2022.9830338",
+      "document_version": "Published paper",
+      "priority": "核心",
+      "roles": [
+        "完整求值",
+        "读写端口",
+        "保持与泄漏"
+      ],
+      "evidence_level": "2T1C gain-cell 局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "65 nm CMOS 2T1C gain-cell；数字权重",
+      "confirmed_evidence": "65 nm 2T1C gain-cell CIM 的读写端口分离、BL 输入预充、泄漏夹位和 ST-ADC 有明确电路与测试证据。",
+      "limitations": "2-bit 输入顺序展开及 complementary weight 不等于单次完整 8-bit 运算；不能取普通 1T1C DRAM 代替。",
+      "anchors": "p.1，三步 MAV／Measurement Results；p.2，Figs.2–7",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-01_2022_GainCell_CIM.pdf",
+        "pages": 2,
+        "bytes": 797910,
+        "sha256": "c5e1c9c42668751b94220d9457f894a7ab43d6d26211605678dfe3a100921542"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-01",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    "GC-02": {
+      "source_id": "GC-02",
+      "group": "09_gain_cell_edram",
+      "title": "An 800-MHz Mixed-VT 4T IFGC Embedded DRAM in 28-nm CMOS Bulk Process for Approximate Storage Applications",
+      "authors": [
+        "Robert Giterman",
+        "Alexander Fish",
+        "Narkis Geuli",
+        "Elad Mentovich",
+        "Andreas Burg",
+        "Adam Teman"
+      ],
+      "year": 2018,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2018-07",
+      "publication_dates": {
+        "published-print": [
+          [
+            2018,
+            7
+          ]
+        ],
+        "issued": [
+          [
+            2018,
+            7
+          ]
+        ],
+        "published": [
+          [
+            2018,
+            7
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2018.2820145",
+      "official_url": "https://doi.org/10.1109/jssc.2018.2820145",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "28 nm 读写服务",
+        "保持／刷新",
+        "普通 gain-cell 粒度"
+      ],
+      "evidence_level": "实测 gain-cell 局部 macro",
+      "process_condition": "直接的 28 nm 证据（gain-cell 存储）",
+      "state_mode": "28 nm bulk mixed-VT 4T gain-cell",
+      "confirmed_evidence": "28 nm 4T IFGC 实测 128×32 macro，WWL 升压与时序、SA、读写频率和保持分布；直接支撑刷新占用与局部边界。",
+      "limitations": "5 µs 刷新对应文中约 99% bit 可靠性条件，不是全 bit 无误保证；平均保持不能代替最差 cell。",
+      "anchors": "pp.4–8，Figs.4–11；pp.9–10，retention/availability",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-02_2018_MixedVT_4T_GainCell.pdf",
+        "pages": 13,
+        "bytes": 4277140,
+        "sha256": "479cfca9f57b23021bfba1a43cac97f467e1220afe9d36cba3bf479131d5847a"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-02",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    "GC-03": {
+      "source_id": "GC-03",
+      "group": "09_gain_cell_edram",
+      "title": "Design Guidelines for Oxide Semiconductor Gain Cell Memory on a Logic Platform",
+      "authors": [
+        "Shuhan Liu",
+        "Koustav Jana",
+        "Kasidit Toprasertpong",
+        "Jian Chen",
+        "Zheng Liang",
+        "Qi Jiang",
+        "Sumaiya Wahid",
+        "Shengjun Qin",
+        "Wei-Chen Chen",
+        "Eric Pop",
+        "H.-S. Philip Wong"
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Electron Devices 71(5), 3329–3335",
+      "publication_date": "2024-05",
+      "doi": "10.1109/TED.2024.3372938",
+      "official_url": "https://poplab.stanford.edu/pdfs/Liu-DesignOSFETgainCell-ted24.pdf",
+      "document_version": "本地正式 PDF（已核验身份）",
+      "priority": "核心",
+      "roles": [
+        "读写设计方法",
+        "保持与刷新",
+        "28 nm 映射桥接"
+      ],
+      "evidence_level": "器件依据与局部 macro 仿真／建模",
+      "process_condition": "直接的 28 nm 模型条件／其他工艺器件依据（须逐项区分）",
+      "state_mode": "OS–OS／hybrid gain-cell，保留不同通道结构",
+      "confirmed_evidence": "以 28 nm macro 模型将保持、读取电流和刷新阻塞联系起来，能支持从 oxide 器件到 local service 的透明换算。",
+      "limitations": "GEMTOO/Timeloop 是设计评估，非实测完整 oxide CIM 芯片。",
+      "anchors": "pp.2–4，top-down macro/refresh；pp.4–6，器件规格",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-03_2024_OxideGainCell.pdf",
+        "pages": 7,
+        "bytes": 2807451,
+        "sha256": "053621a099f2aeb7c4a3253e8749b8f6e52da9816535beab3cb28d8886a2058d"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-03",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    "GC-04": {
+      "source_id": "GC-04",
+      "group": "09_gain_cell_edram",
+      "title": "A 4-bit Calibration-Free Computing-In-Memory Macro With 3T1C Current-Programed Dynamic-Cascode Multi-Level-Cell eDRAM",
+      "authors": [
+        "Jiahao Song",
+        "Xiyuan Tang",
+        "Haoyang Luo",
+        "Haoyi Zhang",
+        "Xin Qiao",
+        "Zixuan Sun",
+        "Xiangxing Yang",
+        "Zihan Wu",
+        "Yuan Wang",
+        "Runsheng Wang",
+        "Ru Huang"
+      ],
+      "year": 2024,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2024-03",
+      "publication_dates": {
+        "published-print": [
+          [
+            2024,
+            3
+          ]
+        ],
+        "issued": [
+          [
+            2024,
+            3
+          ]
+        ],
+        "published": [
+          [
+            2024,
+            3
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2023.3339887",
+      "official_url": "https://doi.org/10.1109/jssc.2023.3339887",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "写入建立",
+        "多级状态",
+        "CIM 求值与保持"
+      ],
+      "evidence_level": "3T1C gain-cell 型局部 macro",
+      "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
+      "state_mode": "3T1C current-programmed dynamic-cascode MLC",
+      "confirmed_evidence": "65 nm 3T1C MLC gain-cell，电流写入自校正，先电压粗写再电流精写；完整 CIM 含 precharge、DTC 求值和 SAR。",
+      "limitations": "5 ns 仅粗写；60 ns 建立结论在 Fig.12 仿真中，不能称实测完整更新；180 ns compute 与保持漂移精度相关。",
+      "anchors": "pp.4–7，Figs.4–11；p.8，Fig.12／measurement",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",
+        "pages": 13,
+        "bytes": 2777062,
+        "sha256": "d4c926b1f4d3fdae724fffaab9b13e1845424ae23ab6b6cfd297925bfd355194"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-04",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    },
+    "GC-05": {
+      "source_id": "GC-05",
+      "group": "09_gain_cell_edram",
+      "title": "An Integer-Floating-Point Dual-Mode Gain-Cell Computing-in-Memory Macro for Advanced AI Edge Chips",
+      "authors": [
+        "Ping-Chun Wu",
+        "Win-San Khwa",
+        "Jui-Jen Wu",
+        "Jian-Wei Su",
+        "Chuan-Jia Jhang",
+        "Ho-Yu Chen",
+        "Zhao-En Ke",
+        "Ting-Chien Chiu",
+        "Jun-Ming Hsu",
+        "Chiao-Yen Cheng",
+        "Yu-Chen Chen",
+        "Chung-Chuan Lo",
+        "Ren-Shuo Liu",
+        "Chih-Cheng Hsieh",
+        "Kea-Tiong Tang",
+        "Meng-Fan Chang"
+      ],
+      "year": 2025,
+      "venue": "IEEE Journal of Solid-State Circuits",
+      "publication_date": "2025-01",
+      "publication_dates": {
+        "published-print": [
+          [
+            2025,
+            1
+          ]
+        ],
+        "issued": [
+          [
+            2025,
+            1
+          ]
+        ],
+        "published": [
+          [
+            2025,
+            1
+          ]
+        ]
+      },
+      "doi": "10.1109/jssc.2024.3470215",
+      "official_url": "https://doi.org/10.1109/jssc.2024.3470215",
+      "document_version": "完整正式论文/技术资料",
+      "priority": "核心",
+      "roles": [
+        "完整精度求值",
+        "局部并行度",
+        "近期产业交叉核查"
+      ],
+      "evidence_level": "gain-cell 局部 macro",
+      "process_condition": "其他工艺的量级交叉参考（16 nm）",
+      "state_mode": "16 nm 4T gain-cell 存储 + 7T stationary unit；数字 INT/FP，分模式",
+      "confirmed_evidence": "16 nm 4T gain-cell 存储配 7T stationary unit 的数字 CIM，明确 storage update、stationary update、self-refresh 和计算重叠模式。",
+      "limitations": "计算使用 stationary 数据；更新 storage 不代表同一权重立即参加计算。INT/FP 服务不同，也不是 3T1C 电荷域方案。",
+      "anchors": "pp.2–3，4T GC+STU 架构；pp.6–8，Figs.13–20",
+      "pdf": {
+        "path": "literature/09_gain_cell_edram/GC-05_2025_DualMode_GainCell.pdf",
+        "pages": 13,
+        "bytes": 4967904,
+        "sha256": "915155c209875904b121dc929b0c1635b88f14067ea520c40c725a2e8c0218e9"
+      },
+      "supplements": [],
+      "notes": "literature/09_gain_cell_edram/NOTES.zh.md#GC-05",
+      "fulltext_review": "正文/Methods/相关图表已按估算用途审阅"
+    }
+  },
+  "reported_evidence": [
+    {
+      "id": "GC4-current",
+      "source_id": "GC-04",
+      "pdf_pages": [
+        6
+      ],
+      "figure": "8",
+      "kind": "reported",
+      "value": [
+        0,
+        700
+      ],
+      "unit": "nA",
+      "condition": "65 nm 3T1C eight levels per cell; pseudodifferential 15 signed levels per pair",
+      "use": "Binary +/-700nA endpoint subset"
+    },
+    {
+      "id": "GC4-compute",
+      "source_id": "GC-04",
+      "pdf_pages": [
+        6,
+        7
+      ],
+      "figure": "10",
+      "kind": "reported",
+      "value": 180,
+      "unit": "ns",
+      "condition": "64x64 pair 4b input, 5b SAR; complete precharge/DTC/MAC/ADC",
+      "use": "Scale anchor only; shared TI/10b-SAR TA are independently propagated"
+    },
+    {
+      "id": "GC4-write-simulation",
+      "source_id": "GC-04",
+      "pdf_pages": [
+        7,
+        8
+      ],
+      "figure": "11,12",
+      "kind": "simulation",
+      "value": 60,
+      "unit": "ns",
+      "condition": "Voltage-current two-step; voltage coarse 5 ns; 50 fF BL parasitics context",
+      "use": "Never called a measured complete service"
+    },
+    {
+      "id": "GC4-write-measured",
+      "source_id": "GC-04",
+      "pdf_pages": [
+        9,
+        10
+      ],
+      "figure": "16",
+      "kind": "reported_measured",
+      "value": [
+        65,
+        75
+      ],
+      "unit": "ns",
+      "condition": "Complete voltage-current programming; fixed 5 ns coarse and 60/70 ns fine; transfer-function settling",
+      "use": "65 ns short/reference and 75 ns long full physical update; no repeated coarse phase"
+    },
+    {
+      "id": "GC4-retention",
+      "source_id": "GC-04",
+      "pdf_pages": [
+        9,
+        10
+      ],
+      "figure": "17,18",
+      "kind": "reported_measured",
+      "value": 400000,
+      "unit": "ns",
+      "condition": "All +/-7 endpoint weights; adjusted RWL pulse single-row ADC read; 99.7% tested cells drift <1 original ADC LSB",
+      "use": "Conditional binary endpoint refresh; not universal error-free or 100 nA-LSB guarantee"
+    },
+    {
+      "id": "GC4-refresh-source",
+      "source_id": "GC-04",
+      "pdf_pages": [
+        10,
+        11
+      ],
+      "figure": "20",
+      "kind": "reported",
+      "value": 4160,
+      "unit": "ns",
+      "condition": "Original 64 rows times 65 ns rewrite; overhead expression4.16/(400-4.16)us",
+      "use": "Not reused as this capacity/ADC organization refresh cost"
+    },
+    {
+      "id": "GC2-retention",
+      "source_id": "GC-02",
+      "pdf_pages": [
+        8,
+        9
+      ],
+      "figure": "11,13",
+      "kind": "reported_measured",
+      "value": 5000,
+      "unit": "ns",
+      "condition": "800 MHz 128x32 28nm 4T; 99% bit yield; around93% native availability",
+      "use": "Incompatible with an all-bit-error-free interpretation"
+    },
+    {
+      "id": "GC5-stationary",
+      "source_id": "GC-05",
+      "pdf_pages": [
+        6,
+        7
+      ],
+      "figure": "13,14,15",
+      "kind": "reported_architecture",
+      "condition": "16nm 4T storage +7T STU, separate stationary update and local SRU read/rewrite self-refresh",
+      "use": "Resource-dependent overlap mechanism; storage write alone is not resident completion"
+    }
+  ]
+}

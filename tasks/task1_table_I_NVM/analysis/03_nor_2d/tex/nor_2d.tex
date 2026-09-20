@@ -1,0 +1,22 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={2D NOR Flash：二进制局部数字求值与完整页/扇区更新}}
+\setstretch{1.10}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small 2D NOR Flash 介质分析}\fancyhead[R]{\small 28 nm 局部参考设计}
+\fancyfoot[C]{\thepage}
+\newcommand{\sid}[1]{\texttt{#1}}
+\title{\bfseries 2D NOR Flash\\[4pt]\large 二进制局部数字求值与完整页/扇区更新}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-1.8em}
+\noindent 固定 $128\times128$ INT8 矩阵与 INT8 输入，采用二进制 NOR 状态和局部精确数字归约。参考点输入吞吐约 $4.00\,\mathrm{MB/s}$、完整更新吞吐约 $79.7\,\mathrm{kB/s}$，ridge 约 50.2。这是明确资源和更新粒度下的条件性设计估算。
+\input{03_nor_2d}
+\end{document}

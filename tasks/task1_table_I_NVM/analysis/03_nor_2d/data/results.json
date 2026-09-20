@@ -1,0 +1,579 @@
+{
+  "case_id": "03_nor_2d",
+  "baseline_id": "shared_baseline",
+  "mode": "binary NOR + local exact digital reduction",
+  "units": {
+    "payload": "Byte",
+    "interval": "ns",
+    "rate": "Byte/s",
+    "display_rate": "decimal GB/s",
+    "ridge": "dimensionless"
+  },
+  "provenance": {
+    "baseline_id": "shared_baseline",
+    "shared_sha256": {
+      "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+      "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+    },
+    "sources": {
+      "NOR-01": {
+        "title": "S29GL01GS, S29GL512S, S29GL256S, S29GL128S — 128 Mb / 256 Mb / 512 Mb / 1 Gb GL-S MIRRORBIT Flash, Parallel, 3.0 V, Military",
+        "year": 2024,
+        "pdf": {
+          "path": "literature/03_nor_2d/NOR-01_2024_GL_S_MIRRORBIT_Military.pdf",
+          "pages": 106,
+          "bytes": 2165748,
+          "sha256": "c09592a765a5dc6a66d6af4aaa23cd98699c74fcf96149f0dc249d6df5d387d8"
+        }
+      },
+      "NOR-02": {
+        "title": "W25Q128JV — 3V 128M-BIT Serial Flash Memory with Dual/Quad SPI",
+        "year": 2019,
+        "pdf": {
+          "path": "literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
+          "pages": 78,
+          "bytes": 1682526,
+          "sha256": "5e2f6a77e0225a5c61b8f4b5b9680b57e0e1fe68cfc011465e30f665fe282057"
+        }
+      },
+      "NOR-04": {
+        "title": "Fast, Energy-Efficient, Robust, and Reproducible Mixed-Signal Neuromorphic Classifier Based on Embedded NOR Flash Memory Technology",
+        "year": 2017,
+        "pdf": {
+          "path": "literature/03_nor_2d/NOR-04_2017_EmbeddedNOR_Classifier.pdf",
+          "pages": 4,
+          "bytes": 1287027,
+          "sha256": "987806007d2283dc8b8acc8282a15ccbdd1e7e48a73d0729dcfa3cd17fec03b6"
+        }
+      },
+      "NOR-05": {
+        "title": "Model-Based High-Precision Tuning of NOR Flash Memory Cells for Analog Computing Applications",
+        "year": 2016,
+        "pdf": {
+          "path": "literature/03_nor_2d/NOR-05_2016_NOR_ModelBased_Tuning.pdf",
+          "pages": 2,
+          "bytes": 548301,
+          "sha256": "87ea1a0bcb77e62d01e4b357384dc5972af4c3c2cef86d529512d987db9bab5f"
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "main_short",
+      "profile": "short",
+      "baseline_id": "shared_baseline",
+      "configuration_id": "R0",
+      "mode": "binary NOR + local exact digital reduction",
+      "mapping": {
+        "read_slices": 32,
+        "read_slices_per_sector": 8,
+        "sense_amplifiers_per_slice": 128,
+        "sense_amplifiers_total": 4096,
+        "logical_Byte_per_slice": 512,
+        "pages_per_slice": 2,
+        "page_Byte": 256,
+        "sector_Byte": 4096,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "effective_pages_per_erase": 16,
+        "allocated_physical_Byte": 16384,
+        "logical_capacity_Byte": 16384,
+        "logical_storage_bits": 131072,
+        "write_domains": 1,
+        "write_data_lanes": 128
+      },
+      "periphery_ns": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "media_budget": {
+        "read_full_ns": 100,
+        "page_program_ms": 0.4,
+        "sector_erase_ms": 45,
+        "write_column": "typical"
+      },
+      "operation_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "data_beats_per_page": 16,
+        "data_beats_total": 1024
+      },
+      "read_stages_ns": {
+        "binary_read": 25600,
+        "digital_reduction": 512,
+        "input_output_boundary": 4
+      },
+      "write_stages_ns": {
+        "page_data_and_control": 2304,
+        "erase_control": 16,
+        "internal_page_program": 25600000.0,
+        "internal_sector_erase": 180000000.0
+      },
+      "page_equivalent": {
+        "B_R_Byte": 256,
+        "delta_R_ns": 3212536.25,
+        "effective_pages_per_erase": 16
+      },
+      "dominant_read_stage": "binary_read",
+      "dominant_write_stage": "internal_sector_erase",
+      "binary_read_fraction": 0.9802419972430694,
+      "erase_fraction": 0.8754765024052258,
+      "source_ids": [
+        "NOR-01",
+        "NOR-02"
+      ],
+      "source_role": "complementary transferred binary budgets",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 26116,
+      "delta_R_ns": 205602320.0,
+      "rho_Byte_per_s": 4901209.9862153465,
+      "tau_Byte_per_s": 79687.81675226233,
+      "ridge": 61.505135740542194
+    },
+    {
+      "id": "main_reference",
+      "profile": "reference",
+      "baseline_id": "shared_baseline",
+      "configuration_id": "R0",
+      "mode": "binary NOR + local exact digital reduction",
+      "mapping": {
+        "read_slices": 32,
+        "read_slices_per_sector": 8,
+        "sense_amplifiers_per_slice": 128,
+        "sense_amplifiers_total": 4096,
+        "logical_Byte_per_slice": 512,
+        "pages_per_slice": 2,
+        "page_Byte": 256,
+        "sector_Byte": 4096,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "effective_pages_per_erase": 16,
+        "allocated_physical_Byte": 16384,
+        "logical_capacity_Byte": 16384,
+        "logical_storage_bits": 131072,
+        "write_domains": 1,
+        "write_data_lanes": 128
+      },
+      "periphery_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "media_budget": {
+        "read_full_ns": 120,
+        "page_program_ms": 0.4,
+        "sector_erase_ms": 45,
+        "write_column": "typical"
+      },
+      "operation_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "data_beats_per_page": 16,
+        "data_beats_total": 1024
+      },
+      "read_stages_ns": {
+        "binary_read": 30720,
+        "digital_reduction": 1280,
+        "input_output_boundary": 10
+      },
+      "write_stages_ns": {
+        "page_data_and_control": 5760,
+        "erase_control": 40,
+        "internal_page_program": 25600000.0,
+        "internal_sector_erase": 180000000.0
+      },
+      "page_equivalent": {
+        "B_R_Byte": 256,
+        "delta_R_ns": 3212590.625,
+        "effective_pages_per_erase": 16
+      },
+      "dominant_read_stage": "binary_read",
+      "dominant_write_stage": "internal_sector_erase",
+      "binary_read_fraction": 0.9597000937207123,
+      "erase_fraction": 0.875461684446645,
+      "source_ids": [
+        "NOR-01",
+        "NOR-02"
+      ],
+      "source_role": "complementary transferred binary budgets",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 32010,
+      "delta_R_ns": 205605800.0,
+      "rho_Byte_per_s": 3998750.390502968,
+      "tau_Byte_per_s": 79686.4679887435,
+      "ridge": 50.18104693845674
+    },
+    {
+      "id": "main_long",
+      "profile": "long",
+      "baseline_id": "shared_baseline",
+      "configuration_id": "R0",
+      "mode": "binary NOR + local exact digital reduction",
+      "mapping": {
+        "read_slices": 32,
+        "read_slices_per_sector": 8,
+        "sense_amplifiers_per_slice": 128,
+        "sense_amplifiers_total": 4096,
+        "logical_Byte_per_slice": 512,
+        "pages_per_slice": 2,
+        "page_Byte": 256,
+        "sector_Byte": 4096,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "effective_pages_per_erase": 16,
+        "allocated_physical_Byte": 16384,
+        "logical_capacity_Byte": 16384,
+        "logical_storage_bits": 131072,
+        "write_domains": 1,
+        "write_data_lanes": 128
+      },
+      "periphery_ns": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      },
+      "media_budget": {
+        "read_full_ns": 130,
+        "page_program_ms": 3,
+        "sector_erase_ms": 400,
+        "write_column": "maximum"
+      },
+      "operation_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "data_beats_per_page": 16,
+        "data_beats_total": 1024
+      },
+      "read_stages_ns": {
+        "binary_read": 33280,
+        "digital_reduction": 2560,
+        "input_output_boundary": 20
+      },
+      "write_stages_ns": {
+        "page_data_and_control": 11520,
+        "erase_control": 80,
+        "internal_page_program": 192000000.0,
+        "internal_sector_erase": 1600000000.0
+      },
+      "page_equivalent": {
+        "B_R_Byte": 256,
+        "delta_R_ns": 28000181.25,
+        "effective_pages_per_erase": 16
+      },
+      "dominant_read_stage": "binary_read",
+      "dominant_write_stage": "internal_sector_erase",
+      "binary_read_fraction": 0.928053541550474,
+      "erase_fraction": 0.8928513632389433,
+      "source_ids": [
+        "NOR-01",
+        "NOR-02"
+      ],
+      "source_role": "complementary transferred binary budgets",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 35860,
+      "delta_R_ns": 1792011600.0,
+      "rho_Byte_per_s": 3569436.6982710543,
+      "tau_Byte_per_s": 9142.797959566778,
+      "ridge": 390.4096660624652
+    }
+  ],
+  "organization_contrast": {
+    "id": "private_sector_reference",
+    "profile": "reference",
+    "baseline_id": "shared_baseline",
+    "configuration_id": "R0",
+    "mode": "binary NOR + local exact digital reduction",
+    "mapping": {
+      "read_slices": 32,
+      "read_slices_per_sector": 1,
+      "sense_amplifiers_per_slice": 128,
+      "sense_amplifiers_total": 4096,
+      "logical_Byte_per_slice": 512,
+      "pages_per_slice": 2,
+      "page_Byte": 256,
+      "sector_Byte": 4096,
+      "page_programs": 64,
+      "sector_erases": 32,
+      "effective_pages_per_erase": 2,
+      "allocated_physical_Byte": 131072,
+      "logical_capacity_Byte": 16384,
+      "logical_storage_bits": 131072,
+      "write_domains": 1,
+      "write_data_lanes": 128
+    },
+    "periphery_ns": {
+      "input_step": 5,
+      "adc_batch": 20,
+      "digital_tick": 5
+    },
+    "media_budget": {
+      "read_full_ns": 120,
+      "page_program_ms": 0.4,
+      "sector_erase_ms": 45,
+      "write_column": "typical"
+    },
+    "operation_counts": {
+      "input_slices": 8,
+      "weight_groups": 1,
+      "row_groups": 4,
+      "output_groups": 8,
+      "compute_rounds": 256,
+      "read_rounds": 256,
+      "digital_ticks": 256,
+      "page_programs": 64,
+      "sector_erases": 32,
+      "data_beats_per_page": 16,
+      "data_beats_total": 1024
+    },
+    "read_stages_ns": {
+      "binary_read": 30720,
+      "digital_reduction": 1280,
+      "input_output_boundary": 10
+    },
+    "write_stages_ns": {
+      "page_data_and_control": 5760,
+      "erase_control": 320,
+      "internal_page_program": 25600000.0,
+      "internal_sector_erase": 1440000000.0
+    },
+    "page_equivalent": {
+      "B_R_Byte": 256,
+      "delta_R_ns": 22900095.0,
+      "effective_pages_per_erase": 2
+    },
+    "dominant_read_stage": "binary_read",
+    "dominant_write_stage": "internal_sector_erase",
+    "binary_read_fraction": 0.9597000937207123,
+    "erase_fraction": 0.9825286750993828,
+    "source_ids": [
+      "NOR-01",
+      "NOR-02"
+    ],
+    "source_role": "complementary transferred binary budgets",
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "delta_S_ns": 32010,
+    "delta_R_ns": 1465606080.0,
+    "rho_Byte_per_s": 3998750.390502968,
+    "tau_Byte_per_s": 11178.992925575198,
+    "ridge": 357.70220243673856,
+    "ratios_to_reference": {
+      "rho_Byte_per_s": 1.0,
+      "tau_Byte_per_s": 0.14028721824079768,
+      "ridge": 7.128233152955802
+    }
+  },
+  "read_budget_sensitivity": [
+    {
+      "id": "read_x0.8_reference",
+      "profile": "reference",
+      "baseline_id": "shared_baseline",
+      "configuration_id": "R0",
+      "mode": "binary NOR + local exact digital reduction",
+      "mapping": {
+        "read_slices": 32,
+        "read_slices_per_sector": 8,
+        "sense_amplifiers_per_slice": 128,
+        "sense_amplifiers_total": 4096,
+        "logical_Byte_per_slice": 512,
+        "pages_per_slice": 2,
+        "page_Byte": 256,
+        "sector_Byte": 4096,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "effective_pages_per_erase": 16,
+        "allocated_physical_Byte": 16384,
+        "logical_capacity_Byte": 16384,
+        "logical_storage_bits": 131072,
+        "write_domains": 1,
+        "write_data_lanes": 128
+      },
+      "periphery_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "media_budget": {
+        "read_full_ns": 96.0,
+        "page_program_ms": 0.4,
+        "sector_erase_ms": 45,
+        "write_column": "typical"
+      },
+      "operation_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "data_beats_per_page": 16,
+        "data_beats_total": 1024
+      },
+      "read_stages_ns": {
+        "binary_read": 24576.0,
+        "digital_reduction": 1280,
+        "input_output_boundary": 10
+      },
+      "write_stages_ns": {
+        "page_data_and_control": 5760,
+        "erase_control": 40,
+        "internal_page_program": 25600000.0,
+        "internal_sector_erase": 180000000.0
+      },
+      "page_equivalent": {
+        "B_R_Byte": 256,
+        "delta_R_ns": 3212590.625,
+        "effective_pages_per_erase": 16
+      },
+      "dominant_read_stage": "binary_read",
+      "dominant_write_stage": "internal_sector_erase",
+      "binary_read_fraction": 0.9501275806077476,
+      "erase_fraction": 0.875461684446645,
+      "source_ids": [
+        "NOR-01",
+        "NOR-02"
+      ],
+      "source_role": "complementary transferred binary budgets",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 25866.0,
+      "delta_R_ns": 205605800.0,
+      "rho_Byte_per_s": 4948581.148998685,
+      "tau_Byte_per_s": 79686.4679887435,
+      "ridge": 62.10064611845666,
+      "rho_relative_change": 0.23753189515193673,
+      "ridge_relative_change": 0.23753189515193673
+    },
+    {
+      "id": "read_x1.2_reference",
+      "profile": "reference",
+      "baseline_id": "shared_baseline",
+      "configuration_id": "R0",
+      "mode": "binary NOR + local exact digital reduction",
+      "mapping": {
+        "read_slices": 32,
+        "read_slices_per_sector": 8,
+        "sense_amplifiers_per_slice": 128,
+        "sense_amplifiers_total": 4096,
+        "logical_Byte_per_slice": 512,
+        "pages_per_slice": 2,
+        "page_Byte": 256,
+        "sector_Byte": 4096,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "effective_pages_per_erase": 16,
+        "allocated_physical_Byte": 16384,
+        "logical_capacity_Byte": 16384,
+        "logical_storage_bits": 131072,
+        "write_domains": 1,
+        "write_data_lanes": 128
+      },
+      "periphery_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "media_budget": {
+        "read_full_ns": 144.0,
+        "page_program_ms": 0.4,
+        "sector_erase_ms": 45,
+        "write_column": "typical"
+      },
+      "operation_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256,
+        "page_programs": 64,
+        "sector_erases": 4,
+        "data_beats_per_page": 16,
+        "data_beats_total": 1024
+      },
+      "read_stages_ns": {
+        "binary_read": 36864.0,
+        "digital_reduction": 1280,
+        "input_output_boundary": 10
+      },
+      "write_stages_ns": {
+        "page_data_and_control": 5760,
+        "erase_control": 40,
+        "internal_page_program": 25600000.0,
+        "internal_sector_erase": 180000000.0
+      },
+      "page_equivalent": {
+        "B_R_Byte": 256,
+        "delta_R_ns": 3212590.625,
+        "effective_pages_per_erase": 16
+      },
+      "dominant_read_stage": "binary_read",
+      "dominant_write_stage": "internal_sector_erase",
+      "binary_read_fraction": 0.9661896524610788,
+      "erase_fraction": 0.875461684446645,
+      "source_ids": [
+        "NOR-01",
+        "NOR-02"
+      ],
+      "source_role": "complementary transferred binary budgets",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 38154.0,
+      "delta_R_ns": 205605800.0,
+      "rho_Byte_per_s": 3354825.1821565237,
+      "tau_Byte_per_s": 79686.4679887435,
+      "ridge": 42.1003122215233,
+      "rho_relative_change": -0.16103160874351308,
+      "ridge_relative_change": -0.1610316087435132
+    }
+  ],
+  "paired_ranges": {
+    "rho_Byte_per_s": [
+      3569436.6982710543,
+      4901209.9862153465
+    ],
+    "tau_Byte_per_s": [
+      9142.797959566778,
+      79687.81675226233
+    ],
+    "ridge": [
+      50.18104693845674,
+      390.4096660624652
+    ]
+  },
+  "independent_ridge_envelope": [
+    44.79275306748467,
+    536.0733123372645
+  ],
+  "interpretation": "conditional paired reference designs, not material bounds or same-chip measured pairs"
+}

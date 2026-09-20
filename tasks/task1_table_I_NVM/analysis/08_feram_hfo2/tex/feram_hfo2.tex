@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={HfO2系FeRAM局部数字CIM服务估算}}
+\setstretch{1.12}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small HfO$_2$系FeRAM局部数字CIM服务估算}
+\fancyhead[R]{\small 28 nm共同外围参考}
+\fancyfoot[C]{\thepage}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\sid}[1]{\texttt{#1}}
+\newcommand{\ns}{\,\mathrm{ns}}
+\newcommand{\us}{\,\mu\mathrm{s}}
+\newcommand{\GBs}{\,\mathrm{GB/s}}
+\title{\bfseries HfO$_2$系FeRAM的局部数字CIM服务估算}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-2em}
+\input{08_feram_hfo2}
+\begin{thebibliography}{9}\small
+\bibitem{feram03} J. Okuno et al., ``SoC compatible 1T1C FeRAM memory array based on ferroelectric Hf$_{0.5}$Zr$_{0.5}$O$_2$,'' VLSI Technology, 2020. DOI: \href{https://doi.org/10.1109/VLSITechnology18217.2020.9265063}{10.1109/VLSITechnology18217.2020.9265063}. 本地 \sid{FERAM-03}，2页。
+\bibitem{feram02} M. Sung et al., ``Low Voltage and High Speed 1Xnm 1T1C FE-RAM with Ultra-Thin 5nm HZO,'' IEDM, 2021. DOI: \href{https://doi.org/10.1109/IEDM19574.2021.9720545}{10.1109/IEDM19574.2021.9720545}. 本地 \sid{FERAM-02}，4页。
+\bibitem{feram04} N. Ramaswamy et al., ``NVDRAM: A 32Gb Dual Layer 3D Stacked Non-volatile Ferroelectric Memory with Near-DRAM Performance for Demanding AI Workloads,'' IEDM, 2023. DOI: \href{https://doi.org/10.1109/IEDM45741.2023.10413848}{10.1109/IEDM45741.2023.10413848}. 本地 \sid{FERAM-04}，4页。
+\bibitem{feram01} X. Ma et al., ``A 2-Transistor-2-Capacitor Ferroelectric Edge Compute-in-Memory Scheme with Disturb-Free Inference and High Endurance,'' IEEE EDL, vol.44, no.7, pp.1088--1091, 2023. DOI: \href{https://doi.org/10.1109/LED.2023.3274362}{10.1109/LED.2023.3274362}. 本地 \sid{FERAM-01}，4页作者接受稿。
+\end{thebibliography}
+\end{document}

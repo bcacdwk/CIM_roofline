@@ -1,0 +1,214 @@
+{
+  "baseline_id": "shared_baseline",
+  "case_id": "07_pcm",
+  "kind": "literature_supported_reference_design_not_measured_chip",
+  "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+  "precision": "Calibrated approximate partial sums; binary endpoint does not make cell currents identical; 24-bit output containers do not imply exact integer arithmetic.",
+  "mapping": {
+    "rows_per_group": 8,
+    "physical_cells_per_weight": 8,
+    "logical_weights_per_transaction": 32,
+    "writeheads": 32,
+    "write_planes_parallel": 1,
+    "program_source_line_group_width": 4,
+    "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+    "verify_adc_group_width": 8,
+    "verify_rule": "In each plane, 16 ADC lanes a=0..15; pass k=0,1 selects c=8*a+4*k+s and the selected diagonal row; repeat fullF_A/reset/re-read for each pass; no 32-sample hold.",
+    "read_resource": "128x128 binary arrays per plane; read selects eight input rows and 16 output columns, eight planes in parallel; program diagonal gate decode and column switches are mode-isolated from voltage MAC frontend.",
+    "write_resource": "One global domain with 32 current IDACs, each selects one of four columns in one active plane; 8:1 plane routing, current-compliance supply, mode switches, diagonal gate decoder, 256-bit transaction buffer, 32 data/mask latches; 16 ADC per plane reused for verify.",
+    "arbitrary_sparse_update": "The tabulated service is an aligned 32-weight diagonal transaction. Full matrix reload aggregates 512 such transactions. Sparse or contiguous writes with fewer useful selected weights require a smaller BR and cannot inherit full tau.",
+    "mode_access_selection": "Per-cell mode gate mux selects compute input-WL gate or diagonal gate, with two routing networks, level shifting and unselected-plane isolation; not simply co-wiring original gate decoders. Read F and write g include selected mux/parasitic settling; circuit timing remains a reference condition.",
+    "voltage_to_partial_sum": "128 parallel per-ADC 9-level calibrated decoders with column-dependent thresholds/LUT. First TD combines voltage decode and8-plane weighted sum, second TD accumulates input bit. Raw SAR code is not a popcount; intra-class conductance variation remains approximate error."
+  },
+  "profiles": {
+    "short": {
+      "read_front_including_TI_ns": 10,
+      "drive_transition_ns": 10
+    },
+    "reference": {
+      "read_front_including_TI_ns": 20,
+      "drive_transition_ns": 20
+    },
+    "long": {
+      "read_front_including_TI_ns": 50,
+      "drive_transition_ns": 50
+    }
+  },
+  "program": {
+    "reset_pulse_ns": 125,
+    "reset_current_uA": 700,
+    "set_flat_ns": 250,
+    "set_trailing_ns": 50,
+    "set_total_budget_ns": 300,
+    "set_current_uA": 125,
+    "pulse_sequence": "Per physical batch: select/configure one TD; driver establish g; RESET all32 once; quench/rebias g; masked SET target1 once; return to read bias g; verify all32 in two new reads; commit transaction only after all8 planes pass.",
+    "reset_attempts": 1,
+    "set_attempts": 1,
+    "verify_precharge_ns": 256,
+    "verify_low_current_read_ns": 512,
+    "verify_adc_timing": "Main binary verify uses the same IM/clamp/column voltage path with single-cell diagonal selection: full F_A already covers q=0 and q=1 endpoint levels at fixed bias/column load, followed by shared TA and16parallel two-class comparisons in one TD. No assumption that8cell signal always larger. Per-mode thresholds calibrate inactive-branch leakage/offset; same access-gate voltage and clamp compliance required. Each pass repeats full F_A; no hold.",
+    "acceptance": "Two calibrated endpoint classes: HRS below lower threshold, SET above upper threshold, with disjoint band and rail check; source |GRESET|<5 and GSET>50 ADC-count unit-cell distributions motivate separation only. New local thresholds are calibrated in the chosen SAR/voltage frontend, not copied as literal shared-ADC counts. No analog target-tuning or per-weight error guarantee.",
+    "normal_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+    "timing_ambiguity": "PCM01 p7 SET 'width of250ns with trailing edge of50ns' does not disambiguate inclusion. Main conservatively uses300ns; total250ns variant recorded as sensitivity.",
+    "driver_bridge": "10/20/50ns each for current-source/switch settle, post-RESET quench/rebias, and post-SET return are explicit engineering budgets around ns-to-hundreds-ns PCM waveforms, not measured recovery or microsecond HV overhead. Main verify repeats the same F_A bias/front settle; optional weak-signal comparison alone repeats256ns precharge.",
+    "driver_transition_endpoints": [
+      "Mode/IDAC route reaches intendedRESET programming current before pulse",
+      "AfterRESET completes: quench at zero current and change toSETbias before pulse",
+      "After complete300nsSET including50nstail: isolateIDAC and restore lowreadbias, no duplicate trailingedge"
+    ],
+    "verify_weak_signal_comparison": "Single alternative retains PCM01-inspired256ns precharge+512ns low-current read frontend, then replacement SAR+TD; source CCO not added. This is a deliberately conservative analog-style organization, not compulsory binary timing.",
+    "weak_source_verify_voltage_V": 0.2
+  },
+  "maintenance": {
+    "read_restore_required": false,
+    "refresh_within_local_service": false,
+    "scope": "Immediately usable endpoint state with calibrated read path; no periodic drift-compensation interval is inferred. Long-term recalibration must later consume service time. Endurance remains a feasibility constraint, separate from instantaneous tau."
+  },
+  "exceptions": [
+    {
+      "rule_id": "R2",
+      "R0": {
+        "rows_per_group": 128
+      },
+      "chosen": {
+        "rows_per_group": 8
+      },
+      "reason": "PCM03 p1/Fig11.3.2 voltage-summing topology activates8WL; pureSLC retains this representative grouping, not a PCM material limit.",
+      "both_services": "16 row groups multiply read rounds; programming uses separate diagonal selection and explicit batch list."
+    },
+    {
+      "rule_id": "R4",
+      "reason": "Read front F=10/20/50ns includes shared TI; API receives tm=F−TI. PCM03 full access3.25–15.9ns is an order anchor, never an isolated cell delay or extra macro cycle.",
+      "both_services": "Binary verify front repeats F_A per16cells, sharing the sameIM/clamp/column path and coveredq=0/1 endpoint level range;768ns analog weak-signal frontend only an explicit comparison. No free analog hold."
+    },
+    {
+      "rule_id": "R5",
+      "reason": "Actual32 IDACs fromPCM01, globally shared across8 bit planes;128-bit input port only determines2 data beats.",
+      "both_services": "BR32Byte/8physical batches;16verify passes. The single contrast changes binary frontF_A to768ns weak-signal front; streaming/read and all32IDAC resources unchanged."
+    }
+  ],
+  "sources": [
+    "PCM-01",
+    "PCM-03",
+    "PCM-05",
+    "PCM-06"
+  ],
+  "evidence": [
+    {
+      "id": "PCM-01",
+      "pdf_pages": [
+        7,
+        8
+      ],
+      "locator": "Methods Weight programming",
+      "kind": "reported",
+      "values": {
+        "parallel_IDAC": 32,
+        "original_source_lines_per_IDAC_per_polarity": 8,
+        "reset_ns": 125,
+        "reset_uA": 700,
+        "set_width_ns": 250,
+        "set_trailing_ns": 50,
+        "set_uA": 125,
+        "verify_read_ns": 512,
+        "verify_precharge_ns": 256,
+        "verify_V": 0.2,
+        "analog_target_max_iterations": 30,
+        "analog_target_margin_ADC_counts": 5
+      },
+      "use": "Driver/diagonal/pulse/weak-read anchors;30 is not mandatory binary retry count."
+    },
+    {
+      "id": "PCM-01",
+      "pdf_pages": [
+        4,
+        8,
+        10,
+        18
+      ],
+      "locator": "MVM characterization; weight programming; power measurements; TableI",
+      "kind": "reported_and_RTL",
+      "values": {
+        "binary_like_GRESET_max_ADC_counts": 5,
+        "binary_like_GSET_min_ADC_counts": 50,
+        "nominal_cores_unit_cell_yield_percent": 99,
+        "outlier_core_yield_percent": 98.4,
+        "one_phase_MVM_RTL_ns": 133,
+        "four_phase_MVM_RTL_ns": 520
+      },
+      "use": "State separation supports binary choice, does not prove new mapping batch yield. Original4PCM unit-cell/ADC counts are not scalar PCM universal conductance."
+    },
+    {
+      "id": "PCM-03",
+      "pdf_pages": [
+        1,
+        2,
+        3
+      ],
+      "locator": "Fig11.3.2,4,5,6,7 and main text",
+      "kind": "reported",
+      "values": {
+        "process_nm": 40,
+        "active_rows": 8,
+        "weight_bits": 8,
+        "hybrid_SLC_cells": 2,
+        "hybrid_MLC_cells": 3,
+        "input_serial_cycles": 8,
+        "access_range_ns": [
+          3.25,
+          15.9
+        ],
+        "access_0p95V_ns": 14.3,
+        "VSR_VSA_phases": 4
+      },
+      "use": "8-row voltage topology and pureSLC margin cross-check. Access includes native frontend/sensing/logic and cannot be appended to all shared stages."
+    },
+    {
+      "id": "PCM-06",
+      "pdf_pages": [
+        3,
+        4,
+        5
+      ],
+      "locator": "Figs3,4,6,7; III/IV",
+      "kind": "reported",
+      "values": {
+        "row_parallel_columns": 512,
+        "pulse_examples_ns": [
+          60,
+          120,
+          240
+        ],
+        "read_duration_tick_ns": 1.2
+      },
+      "use": "Endpoint variability weaker than intermediate state; actual512 resource topology is an alternative not automatically installed. CLT uses FPGA; no FPGA waiting put into local service."
+    },
+    {
+      "id": "PCM-05",
+      "pdf_pages": [
+        3
+      ],
+      "locator": "2.1 PCM Multilevel Programming;2.2 Drift",
+      "kind": "reported",
+      "values": {
+        "pulse_ns": 75,
+        "set_V": 1.5,
+        "reset_V_range": [
+          1.8,
+          2.7
+        ],
+        "selector_gate_V_range": [
+          0.8,
+          1.2
+        ],
+        "experiment_pulses": 1000,
+        "read_V": 0.1,
+        "state_resistance_kohm_range": [
+          75,
+          2000
+        ]
+      },
+      "use": "Independent Ge-richGST pulse scale; neither voltage nor1000 pulses imported into main schedule."
+    }
+  ]
+}

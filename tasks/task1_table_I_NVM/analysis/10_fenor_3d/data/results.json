@@ -1,0 +1,305 @@
+{
+  "case_id": "10_fenor_3d",
+  "baseline_id": "shared_baseline",
+  "units": {
+    "time": "ns",
+    "payload": "Byte",
+    "throughput": "Byte/s; divide by 1e9 for GB/s",
+    "ridge": "dimensionless"
+  },
+  "input_sha256": "4be02a976b9156c206de08eb7b4f9cbd24042463fbdd44c24adebd95bc8b5683",
+  "shared_parameter_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+  "shared_api_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
+  "sources": {
+    "FENOR-01": {
+      "path": "literature/10_fenor_3d/FENOR-01_2025_3DNOR_FeFET.pdf",
+      "pages": 3,
+      "bytes": 1252162,
+      "sha256": "1fbb27c7d95d0239b1e179323a980d16a49c352c0bd1206e36e666d64d2e0289"
+    },
+    "FENOR-02": {
+      "path": "literature/10_fenor_3d/FENOR-02_2026_Vertical_FeFET_Array.pdf",
+      "pages": 3,
+      "bytes": 1379850,
+      "sha256": "322482d834c279a278d0aaa007a0cfeb26dee49253fe50661d0483975d9b19d5"
+    },
+    "FENOR-04": {
+      "path": "literature/10_fenor_3d/FENOR-04_2025_FeNOR_CIM_Design.pdf",
+      "pages": 8,
+      "bytes": 5242950,
+      "sha256": "21d033ef6ca63d9f2db6547e7b90a01d7fc3517dcc72276d18c77a9c197a7fe7"
+    },
+    "FENOR-06": {
+      "path": "literature/10_fenor_3d/FENOR-06_2026_GateStack_FeNOR.pdf",
+      "pages": 3,
+      "bytes": 1541555,
+      "sha256": "9ee85b57af6e50097a71a351ed08388710e66ce52fedc88b7b2aa7686c92fb04"
+    }
+  },
+  "local_physical_cells": 131072,
+  "source_selection": "FENOR-02 timing/bias; FENOR-01 mechanism; FENOR-04 and 06 state-specific cross-checks",
+  "main_scenarios": [
+    {
+      "profile": "short",
+      "mode": "binary 3D vertical AND FeFET; digital local CIM",
+      "baseline_id": "shared_baseline",
+      "mapping_id": "R0_32_lateral_lanes_4_capacity_layers",
+      "input_parameters": {
+        "profile": "short",
+        "complete_binary_read_ns": 20,
+        "bias_transition_ns": 5
+      },
+      "common_periphery_ns": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "streaming_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "resident_counts": {
+        "physical_bits": 128,
+        "physical_batches": 8,
+        "data_beats": 1,
+        "cells_per_batch": 16,
+        "strips_per_batch": 1,
+        "polarity_pulse_slots": 16,
+        "verify_reads": 8,
+        "compare_ticks": 8,
+        "front_ns": 4,
+        "per_batch_stage_ns": {
+          "bias_setup_and_interphase_return_ns": 15,
+          "polarization_plateaus_ns": 40,
+          "post_last_pulse_guard_including_return_ns": 100,
+          "terminal_binary_read_ns": 20,
+          "terminal_compare_ns": 2
+        },
+        "total_stage_ns": {
+          "bias_setup_and_interphase_return_ns": 120,
+          "polarization_plateaus_ns": 320,
+          "post_last_pulse_guard_including_return_ns": 800,
+          "terminal_binary_read_ns": 160,
+          "terminal_compare_ns": 16
+        },
+        "complete_batch_ns": 177
+      },
+      "streaming_stages_ns": {
+        "binary_read": 5120,
+        "digital": 512,
+        "boundary": 4
+      },
+      "dominant_streaming": "binary read service over 256 rounds",
+      "dominant_resident": "post-pulse observation-window guard over eight strips",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 5636,
+      "delta_R_ns": 1420.0,
+      "rho_Byte_per_s": 22711142.654364794,
+      "tau_Byte_per_s": 11267605.633802816,
+      "ridge": 2.0156139105748756
+    },
+    {
+      "profile": "reference",
+      "mode": "binary 3D vertical AND FeFET; digital local CIM",
+      "baseline_id": "shared_baseline",
+      "mapping_id": "R0_32_lateral_lanes_4_capacity_layers",
+      "input_parameters": {
+        "profile": "reference",
+        "complete_binary_read_ns": 40,
+        "bias_transition_ns": 10
+      },
+      "common_periphery_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "streaming_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "resident_counts": {
+        "physical_bits": 128,
+        "physical_batches": 8,
+        "data_beats": 1,
+        "cells_per_batch": 16,
+        "strips_per_batch": 1,
+        "polarity_pulse_slots": 16,
+        "verify_reads": 8,
+        "compare_ticks": 8,
+        "front_ns": 10,
+        "per_batch_stage_ns": {
+          "bias_setup_and_interphase_return_ns": 30,
+          "polarization_plateaus_ns": 40,
+          "post_last_pulse_guard_including_return_ns": 100,
+          "terminal_binary_read_ns": 40,
+          "terminal_compare_ns": 5
+        },
+        "total_stage_ns": {
+          "bias_setup_and_interphase_return_ns": 240,
+          "polarization_plateaus_ns": 320,
+          "post_last_pulse_guard_including_return_ns": 800,
+          "terminal_binary_read_ns": 320,
+          "terminal_compare_ns": 40
+        },
+        "complete_batch_ns": 215
+      },
+      "streaming_stages_ns": {
+        "binary_read": 10240,
+        "digital": 1280,
+        "boundary": 10
+      },
+      "dominant_streaming": "binary read service over 256 rounds",
+      "dominant_resident": "post-pulse observation-window guard over eight strips",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 11530,
+      "delta_R_ns": 1730.0,
+      "rho_Byte_per_s": 11101474.414570684,
+      "tau_Byte_per_s": 9248554.913294796,
+      "ridge": 1.2003469210754554
+    },
+    {
+      "profile": "long",
+      "mode": "binary 3D vertical AND FeFET; digital local CIM",
+      "baseline_id": "shared_baseline",
+      "mapping_id": "R0_32_lateral_lanes_4_capacity_layers",
+      "input_parameters": {
+        "profile": "long",
+        "complete_binary_read_ns": 80,
+        "bias_transition_ns": 20
+      },
+      "common_periphery_ns": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      },
+      "streaming_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "resident_counts": {
+        "physical_bits": 128,
+        "physical_batches": 8,
+        "data_beats": 1,
+        "cells_per_batch": 16,
+        "strips_per_batch": 1,
+        "polarity_pulse_slots": 16,
+        "verify_reads": 8,
+        "compare_ticks": 8,
+        "front_ns": 20,
+        "per_batch_stage_ns": {
+          "bias_setup_and_interphase_return_ns": 60,
+          "polarization_plateaus_ns": 40,
+          "post_last_pulse_guard_including_return_ns": 100,
+          "terminal_binary_read_ns": 80,
+          "terminal_compare_ns": 10
+        },
+        "total_stage_ns": {
+          "bias_setup_and_interphase_return_ns": 480,
+          "polarization_plateaus_ns": 320,
+          "post_last_pulse_guard_including_return_ns": 800,
+          "terminal_binary_read_ns": 640,
+          "terminal_compare_ns": 80
+        },
+        "complete_batch_ns": 290
+      },
+      "streaming_stages_ns": {
+        "binary_read": 20480,
+        "digital": 2560,
+        "boundary": 20
+      },
+      "dominant_streaming": "binary read service over 256 rounds",
+      "dominant_resident": "post-pulse observation-window guard over eight strips",
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 23060,
+      "delta_R_ns": 2340.0,
+      "rho_Byte_per_s": 5550737.207285342,
+      "tau_Byte_per_s": 6837606.837606837,
+      "ridge": 0.8117953165654813
+    }
+  ],
+  "structural_contrast": {
+    "id": "W128",
+    "profile": "reference",
+    "baseline_id": "shared_baseline",
+    "mode": "binary 3D vertical AND FeFET; digital local CIM",
+    "resident_counts": {
+      "physical_bits": 128,
+      "physical_batches": 1,
+      "data_beats": 1,
+      "cells_per_batch": 128,
+      "strips_per_batch": 8,
+      "polarity_pulse_slots": 2,
+      "verify_reads": 1,
+      "compare_ticks": 8,
+      "front_ns": 10,
+      "per_batch_stage_ns": {
+        "bias_setup_and_interphase_return_ns": 30,
+        "polarization_plateaus_ns": 40,
+        "post_last_pulse_guard_including_return_ns": 100,
+        "terminal_binary_read_ns": 40,
+        "terminal_compare_ns": 40
+      },
+      "total_stage_ns": {
+        "bias_setup_and_interphase_return_ns": 30,
+        "polarization_plateaus_ns": 40,
+        "post_last_pulse_guard_including_return_ns": 100,
+        "terminal_binary_read_ns": 40,
+        "terminal_compare_ns": 40
+      },
+      "complete_batch_ns": 250
+    },
+    "B_S_Byte": 128,
+    "B_R_Byte": 16,
+    "delta_S_ns": 11530,
+    "delta_R_ns": 260.0,
+    "rho_Byte_per_s": 11101474.414570684,
+    "tau_Byte_per_s": 61538461.538461536,
+    "ridge": 0.18039895923677363,
+    "rho_ratio_to_reference": 1.0,
+    "tau_ratio_to_reference": 6.653846153846155,
+    "ridge_ratio_to_reference": 0.15028901734104044
+  },
+  "paired_range": {
+    "rho_Byte_per_s": [
+      5550737.207285342,
+      22711142.654364794
+    ],
+    "tau_Byte_per_s": [
+      6837606.837606837,
+      11267605.633802816
+    ],
+    "ridge": [
+      0.8117953165654813,
+      2.0156139105748756
+    ]
+  },
+  "full_matrix_aggregation": {
+    "native_logical_transactions": 1024,
+    "logical_Byte": 16384,
+    "reference_time_ns": 1771520.0,
+    "tau_Byte_per_s": 9248554.913294796
+  },
+  "guard_sensitivity": {
+    "extra_guard_ns_per_batch": 10,
+    "extra_transaction_ns": 80,
+    "relative_ridge_change": 0.046242774566473986
+  }
+}

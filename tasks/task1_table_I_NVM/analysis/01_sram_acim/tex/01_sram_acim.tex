@@ -1,0 +1,132 @@
+\section{状态、证据与参考电路}
+
+主情景采用 9T1C 类电荷耦合计算单元中的二进制 SRAM 存储。\sid{SACIM-03} 的 28 nm 实测宏含 $128\times256$ 个 9T1C 单元；每单元由传统 6T SRAM、传输门、一个 NMOS 和约 1.33 fF 电容组成，存储一位权重。128 行同时激励，原宏将四列经 HCA 电容网络合成四位权重，并用 64 个四位 Flash ADC 输出。Fig.3/5 将电容复位、求值和读出分相；SRAM 写入则有单独的存储模式与外围。
+
+本文保留其二进制状态与 128 行列求和机理，但\textbf{不把原四位宏直接称为 INT8 宏}。按共同 R0 构造八个独立位平面，每平面为 $128\times128$ 个物理 bit，合计
+\[
+8\times128\times128=131072\ \mathrm{bit}=16384\ \mathrm{Byte}.
+\]
+第 $k$ 平面存全部权重的第 $k$ 位。原四列 HCA 模拟位权合并不用，改为独立列接转换器后数字合并；原四位 Flash ADC 替换为共享基线的 SAR 资源。该改造有 \sid{SACIM-01} 的权重位并行、输入位串行（BPBS）结构作交叉支持，但该文是 65 nm，其时钟不能充当本设计的 28 nm 测量。
+
+每次选 16 个逻辑输出，在八平面各选相同的 16 列，128 行并行求和。每平面配置 16 个 SAR，总计 128 个；八个输出组顺序服务。输入驱动分段并隔离未选列，保证每次仅 128 个物理列活动，配足本地缓冲。未选列电容不能任由公共驱动承担全部负载；若实际布线无法隔离，本文前端时间必须重算。八平面共同表示一份矩阵，既不是八份权重复制，也不把八个独立单元的吞吐相加；不施加等面积要求。
+
+\begin{table}[htbp]\centering\small
+\begin{tabularx}{\textwidth}{@{}p{28mm}X@{}}\toprule
+共同资源/边界 & 本例的实际含义\\\midrule
+逻辑格式 & 输入和权重均为补码 INT8，$b_S=b_R=1$ Byte/element；一次向量 $B_S=128$ Byte；输出为128个24-bit寄存结果。\\
+转换与重构 & 每次16输出、8位平面并行；128个SAR产生一批128码；16条数字通道两拍重构，每输出有24-bit累加寄存器。\\
+模拟保存 & 每输出组重新复位、求值；仅在本批采样转换时保持输入和阵列稳定；无跨输出组模拟保持，无额外长保持槽。\\
+普通写入 & 128-bit编码数据锁存；每平面16对真实BL写驱动，共128对，八个局部行译码同步选同一行；一个更新控制域。\\
+状态与互斥 & 计算和普通写使用同一份SRAM权重；不假设同时计算/写入或跨向量重叠。上游传输和下游结果搬运在边界之外。\\\bottomrule
+\end{tabularx}
+\caption{R0 的具体物理解释。实际写驱动数是设计资源条件，不能只由128-bit接口推出。}
+\end{table}
+
+\section{完整 INT8 输入展开与规定输出}
+
+令 $x_{i,u}$、$w_{ji,k}$ 为输入、权重的二进制位，$c_0,\ldots,c_7=(1,2,4,8,16,32,64,-128)$。一次列求和给出近似部分和 $\hat q_{jku}$，最终为
+\begin{equation}
+q_{jku}=\sum_{i=0}^{127}x_{i,u}w_{ji,k},\qquad
+\hat y_j=\sum_{u=0}^{7}\sum_{k=0}^{7}c_uc_k\hat q_{jku}.
+\label{eq:reconstruction}
+\end{equation}
+理想 $q$ 为 $0\ldots128$，需要能表示129个等级；符号位的负权在数字重构中处理，不增加一轮符号模拟求值。每个输出有 $8\times8=64$ 个标量部分和，128输出共8192个。24-bit 容器足以容纳128项 INT8乘积之和，但容器宽度不能证明模拟结果精确。
+
+对一个输入位，依次处理八个输出组；各组同时完成八个权重位平面的16输出。然后换下一个输入位，共
+\[
+N_E=8\times8=64,\quad N_C=64,\quad
+N_{\mathrm{scalar}}=64\times128=8192.
+\]
+每批先用16条数字通道合并各输出的八个权重位，再按输入位权更新累加器，需两拍；故重构轮数64、数字服务拍数128。输入整向量捕获和最终结果提交另占两拍。SAR内部逐次比较已在一次 $T_A$ 中，不把名义十位再乘为十次外部转换。128Byte输入在八次位展开中只计一次，转换码和输出字节也不重复计入 $Q_S$。
+
+\textbf{精度条件。}采用共同 ACIM 合同：经校准的近似部分和及数字重构，而非精确整数结果。SAR 目标为名义10bit、有效约8bit。\sid{CMOS-02} 在28nm、0.9V、室温实测100MS/s和奈奎斯特输入 ENOB 8.27bit，支持该转换器资源量级；它未验证本阵列的共模、负载与整体误差。\sid{SACIM-03} Fig.8 的误差单位是四位ADC的LSB，不能移为八位误差保证。\sid{SACIM-01} 则在另一工艺测量了八位SAR及BPBS结果，支持这条结构路线，同时保留量化与模拟误差。本文不引入统一算法精度阈值。
+
+\section{求值时间：前端预算与 ADC 分别计入}
+
+共享输入、转换、数字时隙从共同JSON读取：三组 $(T_I,T_A,T_D)$ 分别为 $(2,10,2)$、$(5,20,5)$、$(10,50,10)$ ns。本例用 $T_F$ 表示公共复位、二电平输入形成及电荷求和建立的\emph{合并前端占用}；其终点为所选列已适于SAR采样。$T_A$ 包含采样、全部逐次逼近和局部锁存，数字重构另计。
+
+\sid{SACIM-03} 报告100MHz，即原四位宏的完整周期10ns；p.3测量段和p.5 Table II 给出0.9V，p.5结论却写1.2V。这里保留该文内差异，只将10ns作为128行电荷域\textbf{宏级量级锚点}。原文没有分别测得前端时间与高精度建立时间，不能从完整10ns减去另一个ADC数值来制造cell延迟。
+
+据此选 $T_F=10/20/50$ ns。短情景10ns要求上述二电平、局部缓冲与选通隔离后的前端在原完整宏周期量级内就绪；活动物理列128个少于原256列，但并不构成实测时序保证。参考20ns为原锚点两倍，容纳更精细建立、选通和驱动适配。若仅用单极点阶跃建立作量级解释，半LSB条件满足 $t\propto(q+1)\ln2$，四位到八位的时间比为 $9/5=1.8$；两倍预算与此相容，\emph{不是}已提取的RC常数或误差证明。长50ns为原锚点五倍的宽松工程端点，用来暴露前端余量的不确定性；静态失配或非线性不能靠等待自动消除。
+
+这些是新参考前端的预算，不是把原宏完整周期与其原Flash读出再次串加。参考设计只执行一次新SAR转换，并未执行原四位Flash。按共享规则R4，在API中令 $t_{m,A}=T_F-T_I=8/15/40$ ns，恰将共同输入与阵列预算合并为一次 $T_F$；该差值没有独立器件测量含义。于是
+\begin{equation}
+\Delta_S=64T_F+64T_A+128T_D+2T_D
+       =64(T_F+T_A+2T_D)+2T_D.
+\label{eq:ds}
+\end{equation}
+无跨向量流水，故此处完整服务延迟也是该串行组织的接续间隔。只使用100MHz宏headline而省略八次输入展开、输出组选通及最终重构，无法得到本任务的 $\rho$。
+
+\section{普通 SRAM 写入与整矩阵聚合}
+
+resident 状态是交叉耦合锁存器的二进制位。一次对齐事务接收16个INT8权重，数据重排到八个位平面，每平面16个bit。共同控制器使八个局部行译码选择同一输入行、相同16输出列组，128对写驱动各写一个cell；因此 $B_R=16$ Byte，而每权重 $b_R=1$ Byte。这里需要真实的128路BL驱动、列选择/写掩码、128bit锁存及译码分发，接口宽度只是必要条件之一。内部Q/QB互补节点不构成两份权重。
+
+普通写采用差分BL建立、打开WL、节点翻转、关断及恢复。\sid{SACIM-03} 明确先在SRAM模式装载权重；\sid{SACIM-05} p.2更详细给出GBL/GBLB经局部线写入6T的路径，并把普通读写与CIM模式分开。其16项八位MAC的3.8ns（0.9V）/3.6ns（1V）不能用作本128项求值，更不能用作普通写的完整周期。
+
+本地同宏普通写周期未报告，故与已完成的SRAM DCIM采用相同互补证据和移植标准。\sid{CMOS-07} p.2 Fig.2给出同步命令/地址/数据捕获及连续操作，p.9给出48bit$\times$1kword的28nm eFlash平台2RW 8T宏、典型455MHz，折合2.1978ns，取2.2ns作完整写槽下端；典型供电1.05V，不是共同0.9V的直接验证。其1.54ns为read access，不用作写周期。\sid{CMOS-03} 的28nm 6T模型在TT/1V下以128cell、15fF负载、约1ns完整周期检查周期末写成功并支持back-to-back；WL脉冲仅为半周期，亦不能替代完整更新。
+
+据此选择完整128bit同步写周期 $T_M=2.2/5/10$ ns，参考和长情景对应共同200/100MHz工程节拍。跨48到128bit、8T到9T1C内6T节点及工艺差异均为\textbf{参考电路适配}，不是ACIM或DCIM同芯片的实测配对。128cell写位线与局部分段驱动需维持该服务能力；若失配、布线或assist要求更长周期，应直接修订 $T_M$。
+
+服务从同步端口捕获命令/数据开始，到下一许可时钟沿相应状态可计算结束。完整槽已覆盖数据捕获、译码、BL/WL驱动和恢复，按R4替代共同的一拍命令与完成控制，不再加 $T_W$：
+\begin{equation}
+\Delta_R=T_M,\qquad \tau=16/T_M\quad(\mathrm{GB/s}).
+\label{eq:dr}
+\end{equation}
+计算切换不要求保持上一份模拟部分和，下一次正常求值本来就执行电容复位，已在 $T_F$ 内。若另有边界外握手，就需另加其占用；这里没有该额外协议。更新不需要erase、program/verify、周期refresh或破坏性读restore。SRAM须持续供电；不从本组资料推断非易失保持或具体写寿命次数。
+
+整矩阵可用同一域依次进行 $16384/16=1024$ 个对齐事务，无page/block障碍；成对时间为2.253、5.12、10.24\,$\mu$s，吞吐不变。不是把1024批并发。稀疏未合并写若只更新一个权重，有效 $B_R$ 应改为1Byte，不能继续领取16Byte满口吞吐。
+
+\section{成对结果、敏感性与适用范围}
+
+\input{generated_results}
+
+统一使用
+\[
+\rho=B_S/\Delta_S,\qquad \tau=B_R/\Delta_R,\qquad
+\mathrm{RI}^{*}=\frac{B_S}{B_R}\frac{\Delta_R}{\Delta_S}
+              =8\frac{\Delta_R}{\Delta_S}.
+\]
+时间用ns、字节用Byte时，前两个商的数值就是十进制GB/s。参考点手算为
+\begin{align*}
+\Delta_S&=64(20+20+2\times5)+2\times5=3210\ \mathrm{ns},\\
+\Delta_R&=5\ \mathrm{ns},\qquad
+\rho=128/3210=0.03988\ \mathrm{GB/s},\\
+\tau&=16/5=3.2\ \mathrm{GB/s},\qquad
+\mathrm{RI}^{*}=8\times5/3210=0.01246.
+\end{align*}
+前端1280ns与ADC 1280ns各占39.9\%，数字重构640ns占19.9\%，边界10ns占0.31\%。微秒级 $\Delta_S$ 来自完整INT8的64轮和串行转换/重构，不能与普通写的一个同步槽比较后误称SRAM cell读取慢数百倍。
+
+三组 $\rho$ 为0.0166--0.0831GB/s，$\tau$ 为1.6--7.27GB/s，成对ridge为0.01039--0.01246。后者较窄取决于这三组读写预算的配对变化；将端点独立混合会得到约0.002286--0.05195的外包络，不能冒充同一条件下的实测范围。为单独暴露关键前端不确定性，固定 $T_A=20$ns、$T_D=5$ns、$T_M=5$ns，再扫 $T_F$；另只改变一次真实写并行资源。
+
+\input{generated_sensitivity}
+
+固定外围时，前端从20ns降至10ns使 $\rho$ 和ridge增约24.9\%；升至50ns则减约37.4\%，$\tau$ 不变。可见主表的成对相近不能证明对模拟建立时间普遍不敏感。写驱动减为64对时，128bit数据仍可一次锁存，但要两个同步写槽才完成16个权重，$\tau$ 减半、ridge加倍，$\rho$ 不变；这说明不能只凭128bit接口认定写并行。
+
+结果适用于本文指定的单状态、单更新域、选通负载和顺序调度；共享读写资源意味着两路独立能力上界不保证同时达到。这里既未用原宏TOPS倒推共同任务，也未把更快的16项多位输入宏自动升级为SRAM必须采用的组织。主要未验证项是9T1C独立列到高精度SAR的实际前端误差/建立，以及128驱动普通写移植后的时序；现有证据足以形成条件预算，尚不足以宣称电路签核或算法精度达标。
+
+\clearpage
+\section{证据入口与复现}
+
+本地证据原值、PDF页/图表、条件、排除项及工程桥接逐条记录于\texttt{notes/evidence.zh.md}和\texttt{data/inputs.json}。独立复算从共享JSON/API读取逻辑合同、R0计数、外围时隙与指标公式；只读检查校验源PDF及共享文件哈希、全部8192部分和覆盖、补码重构、写驱动、阶段覆盖及整矩阵聚合。修改输入后用\texttt{check\_sram\_acim.py --emit}刷新结果与表格，再用\texttt{scripts/build.sh}构建此PDF。默认检查不写文件。
+
+\begin{table}[htbp]\centering\small
+\begin{tabularx}{\textwidth}{@{}p{27mm}p{38mm}X@{}}\toprule
+原值层级 & 关键锚点 & 本例用途与保留限制\\\midrule
+128行CIM宏实测 & 100MHz、4b输出 & 支持电荷域前端量级；电压文内0.9/1.2V差异保留，不能认证8b前端误差。\\
+独立ADC实测 & 100MS/s、ENOB 8.27bit & 支持10ns每样本下端；完整SAR包含所有内部决策；负载/共模需适配。\\
+同步SRAM宏 & 48bit、455MHz & 支持完整写槽锚点；128驱动、6T节点与工艺条件是显式移植。\\
+SRAM瞬态模型 & 128cell/15fF、约1ns周期 & 支持负载和周期末成功口径；非本ACIM宏实测。\\\bottomrule
+\end{tabularx}
+\caption{互补证据的分工。工程选择由不同层级共同支持，不将不同芯片最快点拼成同一实测实现。}
+\end{table}
+
+\begingroup\small
+\begin{description}[style=nextline,leftmargin=1em,labelwidth=0pt]
+\item[\sid{SACIM-03}] Xiao et al., 2023, 28nm 32Kb SRAM CIM with hierarchical capacity attenuator. DOI: \href{https://doi.org/10.1109/TCSII.2023.3234620}{10.1109/TCSII.2023.3234620}。本地pp.2--5，Figs.1--8及Table II。
+\item[\sid{SACIM-01}] Jia et al., 2022, Scalable and Programmable Neural Network Inference Accelerator Based on In-Memory Computing. DOI: \href{https://doi.org/10.1109/JSSC.2021.3119018}{10.1109/JSSC.2021.3119018}。本地p.2、p.5、pp.9--10。
+\item[\sid{SACIM-05}] Su et al., 2024, 8-Bit Precision 6T SRAM CIM Using Global Bitline-Combining. DOI: \href{https://doi.org/10.1109/TCSII.2023.3331375}{10.1109/TCSII.2023.3331375}。本地pp.2--5，Figs.4、8、11。
+\item[\sid{CMOS-02}] Tang et al., 2021, 28nm 10bit 100MS/s Asynchronous SAR ADC. DOI: \href{https://doi.org/10.3390/electronics10222856}{10.3390/electronics10222856}。本地pp.7--8，Figs.9--12。
+\item[\sid{CMOS-03}] Zimmer et al., 2012, SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS. DOI: \href{https://doi.org/10.1109/TCSII.2012.2231015}{10.1109/TCSII.2012.2231015}。本地p.1 II、p.3 IV-C。
+\item[\sid{CMOS-07}] Yokoyama et al., 2023, Disturbance Aware Dynamic Power Reduction in Synchronous 2RW Dual-Port 8T SRAM. DOI: \href{https://doi.org/10.1109/JSSC.2022.3229828}{10.1109/JSSC.2022.3229828}。本地作者修订稿p.2 Fig.2、p.9 Tables II/III。
+\end{description}
+\endgroup

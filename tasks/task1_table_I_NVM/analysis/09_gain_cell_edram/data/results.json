@@ -1,0 +1,363 @@
+{
+  "baseline_id": "shared_baseline",
+  "kind": "conditional_engineering_estimate",
+  "units": {
+    "time": "ns",
+    "payload": "Byte",
+    "rho_tau": "Byte/s",
+    "ridge": "dimensionless"
+  },
+  "baseline_hashes": {
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "scenarios": [
+    {
+      "id": "short",
+      "baseline_id": "shared_baseline",
+      "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+      "profile": "short",
+      "output_width": 16,
+      "adc_count": 128,
+      "pair_write_drivers": 128,
+      "physical_cells": 262144,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 2,
+        "weight_groups": 1,
+        "base_combinations": 16,
+        "evaluations": 128,
+        "adc_batches": 128,
+        "reconstruction_rounds": 128,
+        "digital_ticks": 256,
+        "useful_scalar_conversions": 16384,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "write_batches": 1,
+      "data_beats": 2,
+      "encoded_load_bits": 256,
+      "frontend_complete_ns": 112,
+      "dedicated_read_ns": 100,
+      "frontend_coverage": [
+        "input_step",
+        "dedicated_integration",
+        "adc_batch"
+      ],
+      "write_front_ns": 6,
+      "program_complete_ns": 65,
+      "nominal": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16,
+        "delta_S_ns": 14852,
+        "delta_R_ns": 71,
+        "rho_Byte_per_s": 8618367.896579584,
+        "tau_Byte_per_s": 225352112.67605633,
+        "ridge": 0.038244007541071906
+      },
+      "refresh": {
+        "period_ns": 400000,
+        "groups": 1024,
+        "scalar_pair_reads": 131072,
+        "cells_rewritten": 262144,
+        "group_read_ns": 112,
+        "group_decode_ns": 2,
+        "group_load_control_ns": 6,
+        "group_program_ns": 65,
+        "sign_decode_lanes": 128,
+        "group_service_ns": 185.0,
+        "total_ns": 189440.0,
+        "busy_fraction": 0.4736,
+        "scheduling_guard_ns": 116,
+        "availability": 0.5261100000000001,
+        "workload_payload_Byte": 0
+      },
+      "full_matrix_update": {
+        "logical_Byte": 16384,
+        "transactions": 1024,
+        "raw_service_ns": 72704,
+        "average_service_with_reserved_refresh_ns": 138191.632928475
+      },
+      "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+      "provenance": {
+        "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+        "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 28229.837866605838,
+      "delta_R_ns": 134.95276653171388,
+      "rho_Byte_per_s": 4534209.534069486,
+      "tau_Byte_per_s": 118560000.0,
+      "ridge": 0.03824400754107191
+    },
+    {
+      "id": "reference",
+      "baseline_id": "shared_baseline",
+      "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+      "profile": "reference",
+      "output_width": 16,
+      "adc_count": 128,
+      "pair_write_drivers": 128,
+      "physical_cells": 262144,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 2,
+        "weight_groups": 1,
+        "base_combinations": 16,
+        "evaluations": 128,
+        "adc_batches": 128,
+        "reconstruction_rounds": 128,
+        "digital_ticks": 256,
+        "useful_scalar_conversions": 16384,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "write_batches": 1,
+      "data_beats": 2,
+      "encoded_load_bits": 256,
+      "frontend_complete_ns": 175,
+      "dedicated_read_ns": 150,
+      "frontend_coverage": [
+        "input_step",
+        "dedicated_integration",
+        "adc_batch"
+      ],
+      "write_front_ns": 15,
+      "program_complete_ns": 65,
+      "nominal": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16,
+        "delta_S_ns": 23690,
+        "delta_R_ns": 80,
+        "rho_Byte_per_s": 5403123.680878007,
+        "tau_Byte_per_s": 200000000.0,
+        "ridge": 0.027015618404390034
+      },
+      "refresh": {
+        "period_ns": 400000,
+        "groups": 1024,
+        "scalar_pair_reads": 131072,
+        "cells_rewritten": 262144,
+        "group_read_ns": 175,
+        "group_decode_ns": 5,
+        "group_load_control_ns": 15,
+        "group_program_ns": 65,
+        "sign_decode_lanes": 128,
+        "group_service_ns": 260.0,
+        "total_ns": 266240.0,
+        "busy_fraction": 0.6656,
+        "scheduling_guard_ns": 185,
+        "availability": 0.3339375,
+        "workload_payload_Byte": 0
+      },
+      "full_matrix_update": {
+        "logical_Byte": 16384,
+        "transactions": 1024,
+        "raw_service_ns": 81920,
+        "average_service_with_reserved_refresh_ns": 245315.3658993075
+      },
+      "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+      "provenance": {
+        "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+        "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 70941.41867864496,
+      "delta_R_ns": 239.5657870110425,
+      "rho_Byte_per_s": 1804305.6141831996,
+      "tau_Byte_per_s": 66787500.0,
+      "ridge": 0.027015618404390037
+    },
+    {
+      "id": "long",
+      "baseline_id": "shared_baseline",
+      "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+      "profile": "long",
+      "output_width": 16,
+      "adc_count": 128,
+      "pair_write_drivers": 128,
+      "physical_cells": 262144,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 2,
+        "weight_groups": 1,
+        "base_combinations": 16,
+        "evaluations": 128,
+        "adc_batches": 128,
+        "reconstruction_rounds": 128,
+        "digital_ticks": 256,
+        "useful_scalar_conversions": 16384,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "write_batches": 1,
+      "data_beats": 2,
+      "encoded_load_bits": 256,
+      "frontend_complete_ns": 260,
+      "dedicated_read_ns": 200,
+      "frontend_coverage": [
+        "input_step",
+        "dedicated_integration",
+        "adc_batch"
+      ],
+      "write_front_ns": 30,
+      "program_complete_ns": 75,
+      "nominal": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16,
+        "delta_S_ns": 35860,
+        "delta_R_ns": 105,
+        "rho_Byte_per_s": 3569436.6982710543,
+        "tau_Byte_per_s": 152380952.3809524,
+        "ridge": 0.023424428332403793
+      },
+      "refresh": {
+        "period_ns": 400000,
+        "groups": 1024,
+        "scalar_pair_reads": 131072,
+        "cells_rewritten": 262144,
+        "group_read_ns": 260,
+        "group_decode_ns": 10,
+        "group_load_control_ns": 30,
+        "group_program_ns": 75,
+        "sign_decode_lanes": 128,
+        "group_service_ns": 375.0,
+        "total_ns": 384000.0,
+        "busy_fraction": 0.96,
+        "scheduling_guard_ns": 280,
+        "availability": 0.0393,
+        "workload_payload_Byte": 0
+      },
+      "full_matrix_update": {
+        "logical_Byte": 16384,
+        "transactions": 1024,
+        "raw_service_ns": 107520,
+        "average_service_with_reserved_refresh_ns": 2735877.86259542
+      },
+      "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+      "provenance": {
+        "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+        "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+      },
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 912468.1933842239,
+      "delta_R_ns": 2671.7557251908397,
+      "rho_Byte_per_s": 140278.86224205242,
+      "tau_Byte_per_s": 5988571.428571428,
+      "ridge": 0.023424428332403793
+    }
+  ],
+  "structure_comparison": {
+    "id": "wide32",
+    "baseline_id": "shared_baseline",
+    "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+    "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+    "profile": "reference",
+    "output_width": 32,
+    "adc_count": 256,
+    "pair_write_drivers": 256,
+    "physical_cells": 262144,
+    "counts": {
+      "input_slices": 8,
+      "row_groups": 2,
+      "weight_groups": 1,
+      "base_combinations": 16,
+      "evaluations": 64,
+      "adc_batches": 64,
+      "reconstruction_rounds": 128,
+      "digital_ticks": 256,
+      "useful_scalar_conversions": 16384,
+      "adc_total": 256,
+      "max_batch_code_slots": 256,
+      "max_hold_window_ns": 0
+    },
+    "write_batches": 1,
+    "data_beats": 4,
+    "encoded_load_bits": 512,
+    "frontend_complete_ns": 175,
+    "dedicated_read_ns": 150,
+    "frontend_coverage": [
+      "input_step",
+      "dedicated_integration",
+      "adc_batch"
+    ],
+    "write_front_ns": 25,
+    "program_complete_ns": 65,
+    "nominal": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 32,
+      "delta_S_ns": 12490,
+      "delta_R_ns": 90,
+      "rho_Byte_per_s": 10248198.558847077,
+      "tau_Byte_per_s": 355555555.5555555,
+      "ridge": 0.028823058446757407
+    },
+    "refresh": {
+      "period_ns": 400000,
+      "groups": 512,
+      "scalar_pair_reads": 131072,
+      "cells_rewritten": 262144,
+      "group_read_ns": 175,
+      "group_decode_ns": 5,
+      "group_load_control_ns": 25,
+      "group_program_ns": 65,
+      "sign_decode_lanes": 256,
+      "group_service_ns": 270.0,
+      "total_ns": 138240.0,
+      "busy_fraction": 0.3456,
+      "scheduling_guard_ns": 195,
+      "availability": 0.6539125,
+      "workload_payload_Byte": 0
+    },
+    "full_matrix_update": {
+      "logical_Byte": 16384,
+      "transactions": 512,
+      "raw_service_ns": 46080,
+      "average_service_with_reserved_refresh_ns": 70468.14367365664
+    },
+    "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+    "provenance": {
+      "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+      "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+      "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+    },
+    "B_S_Byte": 128,
+    "B_R_Byte": 32,
+    "delta_S_ns": 19100.414810850074,
+    "delta_R_ns": 137.63309311261062,
+    "rho_Byte_per_s": 6701425.14011209,
+    "tau_Byte_per_s": 232502222.2222222,
+    "ridge": 0.028823058446757407,
+    "ratios_to_reference": {
+      "rho_Byte_per_s": 3.7141297391272556,
+      "tau_Byte_per_s": 3.4812236155301846,
+      "ridge": 1.0669035228182546
+    }
+  },
+  "paired_ranges": {
+    "rho_Byte_per_s": [
+      140278.86224205242,
+      4534209.534069486
+    ],
+    "tau_Byte_per_s": [
+      5988571.428571428,
+      118560000.0
+    ],
+    "ridge": [
+      0.023424428332403793,
+      0.03824400754107191
+    ]
+  }
+}

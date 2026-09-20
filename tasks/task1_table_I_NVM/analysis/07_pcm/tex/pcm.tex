@@ -1,0 +1,20 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={二进制PCM局部CIM服务估算}}
+\setstretch{1.1}\setlength{\emergencystretch}{3em}\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small 二进制 PCM 局部 CIM 服务估算}\fancyhead[R]{\small 28 nm 共同外围参考}\fancyfoot[C]{\thepage}
+\newcommand{\RI}{\mathrm{RI}}\newcommand{\sid}[1]{\texttt{#1}}
+\newcommand{\ns}{\,\mathrm{ns}}\newcommand{\us}{\,\mu\mathrm{s}}\newcommand{\GBs}{\,\mathrm{GB/s}}
+\title{\bfseries 二进制 PCM 的局部 CIM 服务估算}\author{}\date{}
+\begin{document}\maketitle\vspace{-2em}
+\input{07_pcm}
+\begin{thebibliography}{9}\small
+\bibitem{pcm01} M. Le Gallo et al. A 64-core mixed-signal in-memory compute chip based on phase-change memory for deep neural network inference. Nature Electronics 6, 680--693, 2023. \href{https://doi.org/10.1038/s41928-023-01010-1}{doi:10.1038/s41928-023-01010-1}. 本地\sid{PCM-01}，25页作者稿。
+\bibitem{pcm03} W.-S. Khwa et al. A 40-nm, 2M-Cell, 8b-Precision, Hybrid SLC-MLC PCM Computing-in-Memory Macro with 20.5--65.0 TOPS/W for Tiny-AI Edge Devices. ISSCC, 2022. \href{https://doi.org/10.1109/ISSCC42614.2022.9731670}{doi:10.1109/ISSCC42614.2022.9731670}. 本地\sid{PCM-03}，3页。
+\bibitem{pcm06} P. Narayanan et al. Fully On-Chip MAC at 14 nm Enabled by Accurate Row-Wise Programming of PCM-Based Weights and Parallel Vector-Transport in Duration-Format. IEEE TED 68, 6629--6636, 2021. \href{https://doi.org/10.1109/TED.2021.3115993}{doi:10.1109/TED.2021.3115993}. 本地\sid{PCM-06}，8页。
+\bibitem{pcm05} J. H. Q. Palhares et al. Phase Change Memory Drift Compensation in Spiking Neural Networks Using a Non-Linear Current Scaling Strategy. JLPEA 14, 50, 2024. \href{https://doi.org/10.3390/jlpea14040050}{doi:10.3390/jlpea14040050}. 本地\sid{PCM-05}，12页。
+\end{thebibliography}\end{document}

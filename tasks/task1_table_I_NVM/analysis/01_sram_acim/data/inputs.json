@@ -1,0 +1,306 @@
+{
+  "analysis_id": "01_sram_acim",
+  "title": "SRAM ACIM：二进制电荷域展开与普通SRAM更新",
+  "baseline_id": "shared_baseline",
+  "baseline_files": {
+    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
+    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
+    "tex/02_estimation_method.tex": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "source_manifest_sha256": "b2f6189c6553ad11f4b6c723d00973d9446b8236a5cadab2f072d421757e6ee7",
+  "sources": {
+    "CMOS-02": {
+      "title": "A 28 nm CMOS 10 bit 100 MS/s Asynchronous SAR ADC with Low-Power Switching Procedure and Timing-Protection Scheme",
+      "doi": "10.3390/electronics10222856",
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-02_2021_AsynchronousSAR.pdf",
+        "pages": 10,
+        "bytes": 1103757,
+        "sha256": "435ff772b6fa1a338433d583c333b3f8042b795375b3229272e5c15aaf124811"
+      }
+    },
+    "CMOS-03": {
+      "title": "SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS",
+      "doi": "10.1109/tcsii.2012.2231015",
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-03_2012_SRAM_Assist.pdf",
+        "pages": 5,
+        "bytes": 768510,
+        "sha256": "e6edc7bb5b0fad11aed2672c01fbadb4cbae8d0f7ad84e38c266bc912750af54"
+      }
+    },
+    "CMOS-07": {
+      "title": "Disturbance Aware Dynamic Power Reduction in Synchronous 2RW Dual-Port 8T SRAM by Self-Adjusting Wordline Pulse Timing",
+      "doi": "10.1109/jssc.2022.3229828",
+      "pdf": {
+        "path": "literature/00_cmos_periphery/CMOS-07_2023_LowPower_DualPort_SRAM_AuthorRevision.pdf",
+        "pages": 11,
+        "bytes": 2372216,
+        "sha256": "c63c21e5c4a6eee45ed35be0703ed1f6380009edc17e41dfc13d22f66a24d6a1"
+      }
+    },
+    "SACIM-01": {
+      "title": "Scalable and Programmable Neural Network Inference Accelerator Based on In-Memory Computing",
+      "doi": "10.1109/JSSC.2021.3119018",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-01_2022_Scalable_IMC.pdf",
+        "pages": 14,
+        "bytes": 4126182,
+        "sha256": "26bd395f41879bec0d555e2db0f05d98f266fe6e6d3c76a0e95d358fe46a0128"
+      }
+    },
+    "SACIM-03": {
+      "title": "A 28nm 32Kb SRAM Computing-in-Memory Macro With Hierarchical Capacity Attenuator and Input Sparsity-Optimized ADC for 4b Mac Operation",
+      "doi": "10.1109/tcsii.2023.3234620",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-03_2023_Hierarchical_Attenuator.pdf",
+        "pages": 5,
+        "bytes": 2851947,
+        "sha256": "4a0318542c1d90b3722e7f944f66dbc50bc2fd1601e12d47f98df243603c9bc8"
+      }
+    },
+    "SACIM-05": {
+      "title": "8-Bit Precision 6T SRAM Compute-in-Memory Macro Using Global Bitline-Combining Scheme for Edge AI Chips",
+      "doi": "10.1109/tcsii.2023.3331375",
+      "pdf": {
+        "path": "literature/01_sram_acim/SACIM-05_2024_GlobalBitlineCombining_8bit.pdf",
+        "pages": 5,
+        "bytes": 5663951,
+        "sha256": "8ef65c168abf00686f7e3b08dd6025a4297cd89f4218fb232f0b06dadec4f35d"
+      }
+    }
+  },
+  "raw_evidence": [
+    {
+      "id": "E01",
+      "source_id": "SACIM-03",
+      "kind": "reported_architecture",
+      "locator": "PDF p.2 II-A/B, Figs.1–3",
+      "parameter": "二进制存储/原生行数",
+      "original_value": "128×256 9T1C；128个4b DAC；64个4b Flash ADC；每cell传统6T+TG+Mn+约1.33fF MOM电容",
+      "unit": "cells / bit / fF",
+      "conditions": "28nm；每cell存1b；128行并行；4列HCA合成4b权重",
+      "adopted": "保留128行及binary cell，改8个独立权重平面；每平面128列、16选通输出及16 SAR",
+      "conversion_reason": "原4列HCA与4b Flash不沿用；数字重构合成INT8，属于新参考电路而非原宏直接放大"
+    },
+    {
+      "id": "E02",
+      "source_id": "SACIM-03",
+      "kind": "reported_timing_and_measured_frequency",
+      "locator": "PDF p.2 Fig.3; p.3 Fig.5/III; p.5 Table II/Conclusion",
+      "parameter": "宏完整周期与电压文内差异",
+      "original_value": "100MHz=10ns；III与Table II给0.9V；Conclusion写1.2V",
+      "unit": "MHz / ns / V",
+      "conditions": "28nm实测宏；reset、evaluation、ADC readout分相；4b输出；温度未明确",
+      "adopted": "前端reset/input/array整体T_F=10/20/50ns，替代T_I+t_m；ADC另用新SAR时隙",
+      "conversion_reason": "10ns只锚定量级，不从总周期拆出测得cell延迟；参考2倍与长5倍为高精度建立/适配工程余量，非原周期加原ADC"
+    },
+    {
+      "id": "E03",
+      "source_id": "SACIM-03",
+      "kind": "measured_precision_condition",
+      "locator": "PDF p.4 Fig.8; p.5 Table II",
+      "parameter": "原精度边界",
+      "original_value": "单通道RMSE平均0.323 LSB、标准差0.467 LSB；4b ADC LSB",
+      "unit": "LSB of 4-bit output",
+      "conditions": "64输出；部分宏间测试跨4芯片；非8b部分和误差证书",
+      "adopted": "ACIM维持近似部分和合同，8有效位为ADC资源目标；不宣称精确INT8",
+      "conversion_reason": "提高ADC位数与建立时间不能消除电容/前端非线性；需要校准及后续电路验证"
+    },
+    {
+      "id": "E04",
+      "source_id": "SACIM-01",
+      "kind": "architecture_and_measured_crosscheck",
+      "locator": "PDF p.2 II-B; p.5 IV-A; p.9 V-A; p.10 Fig.18",
+      "parameter": "BPBS与转换率分开",
+      "original_value": "weight bits并行列、input bits串行；1152×256可配置2304×128；每列8b SAR；实测200MHz数字/20MS/s ADC",
+      "unit": "bits / rows / MHz / MSps",
+      "conditions": "65nm、0.8V；设计target500MHz未达到原型测试条件；wirebond供电影响",
+      "adopted": "支持8输入位×8权重位重构与SAR/DSP独立节拍；不作为28nm速度",
+      "conversion_reason": "独立列位平面是已有结构方法；原芯片容量/吞吐/20MSps不直接代入本局部边界"
+    },
+    {
+      "id": "E05",
+      "source_id": "SACIM-05",
+      "kind": "architecture_and_measured_crosscheck",
+      "locator": "PDF p.2 III-A/B Fig.4; p.3 III-C/D; p.4 Fig.8; p.5 Fig.11",
+      "parameter": "普通SRAM写与CIM分离",
+      "original_value": "32个6T cell共享HIPCC；GBL/GBLB经HWL接LBL/LBLB后选WL写；8b输入分4组2b；16项MAC为3.8ns@0.9V、3.6ns@1V",
+      "unit": "cells / bit / ns / V",
+      "conditions": "28nm；20bit输出；不同16项与GBL-comb组织；普通写绝对周期未报告",
+      "adopted": "证实普通BL/WL写与模拟求值为不同模式；不采用3.8ns作128项INT8求值或写周期",
+      "conversion_reason": "16项全8b宏与128项binary参考不同；计算周期不能充当普通写周期"
+    },
+    {
+      "id": "E06",
+      "source_id": "CMOS-02",
+      "kind": "measured_adc",
+      "locator": "PDF p.7 III; pp.7–8 Figs.9–12",
+      "parameter": "10b SAR完整样本时隙",
+      "original_value": "100MS/s；Nyquist ENOB8.27bit；0.9V、室温；输入buffer和reference包括在测试中",
+      "unit": "MSps / bit / V",
+      "conditions": "28nm；PVT表为后仿真；1MHz SNDR正文55.13dB与Fig.10 56.91dB不一致",
+      "adopted": "T_A=10/20/50ns读共享JSON；每颗每样本完整可复用时隙",
+      "conversion_reason": "10ns已含逐次逼近所有比较；128颗并行一次产生128码，不乘10个SAR步骤"
+    },
+    {
+      "id": "E07",
+      "source_id": "CMOS-07",
+      "kind": "measured_and_cycle_definition",
+      "locator": "PDF p.1 synchronous ports; p.2 Fig.2; p.9 Tables II/III",
+      "parameter": "普通完整同步周期锚点",
+      "original_value": "455MHz；48bit×1k word；2RW 8T；typical1.05V；25°C读写功耗测试",
+      "unit": "MHz / bit / V / °C",
+      "conditions": "28nm eFlash高阈值工艺；CLK上升沿捕获命令/地址/数据；可连续写读；非单独write-min测试",
+      "adopted": "2.2ns=1000/455向上取0.1ns；参考/长5/10ns；移植为128bit 6T存储端口完整周期",
+      "conversion_reason": "跨48→128bit和8T→9T1C内的6T是设计预算；必须配置128真实写驱动；与DCIM同锚点标准"
+    },
+    {
+      "id": "E08",
+      "source_id": "CMOS-07",
+      "kind": "measured_excluded",
+      "locator": "PDF p.9 Table II",
+      "parameter": "排除read access",
+      "original_value": "1.54ns typical read access",
+      "unit": "ns",
+      "conditions": "同一48kbit 2RW宏",
+      "adopted": "不作为写周期也不叠加到ACIM求值",
+      "conversion_reason": "读访问延迟与完整可复用同步周期不同"
+    },
+    {
+      "id": "E09",
+      "source_id": "CMOS-03",
+      "kind": "model_and_success_endpoint",
+      "locator": "PDF p.1 II; p.3 IV-C",
+      "parameter": "6T完整写成功/负载",
+      "original_value": "50FO4≈1ns周期；25FO4 WL脉冲；15fF/128cell；SA offset0.1V",
+      "unit": "FO4 / ns / fF / V",
+      "conditions": "HD28nm 6T，TT、nominal1V；瞬态模型；周期末内部节点到目标；back-to-back；BER<1e-9对应1MB/90%yield",
+      "adopted": "支持128cell位线、完整写终点与数ns量级；不把1ns当ACIM硅测写周期",
+      "conversion_reason": "同沿写入至下个可计算沿覆盖BL建立、WL、翻转、关断/恢复；半周期脉冲不等于完整事务"
+    },
+    {
+      "id": "E10",
+      "source_id": "shared_baseline",
+      "kind": "accepted_reference_choice",
+      "locator": "data/shared_parameters.json: R0/selection_rules R1–R5",
+      "parameter": "共同服务资源",
+      "original_value": "128×128 INT8；输入128Byte；输出128×24bit；8权重平面×16ADC；16数字通道、2拍/轮；128bit写口",
+      "unit": "elements / Byte / bit / lanes",
+      "conditions": "28nm、0.9V/25°C参考而非PVT保证；无等面积约束",
+      "adopted": "R0计数不变；前端R4合并；写R4完整同步周期替代front；独立单元/更新域1",
+      "conversion_reason": "b_R=1Byte/weight，事务B_R=16Byte；内部展开/编码不重复payload"
+    }
+  ],
+  "device_state_and_mapping": {
+    "state": "binary 6T SRAM state inside 9T1C charge-coupled compute cell",
+    "cells_per_weight": 8,
+    "weight_planes": 8,
+    "physical_rows_per_plane": 128,
+    "physical_columns_per_plane": 128,
+    "logical_weights": 16384,
+    "independent_service_units": 1,
+    "write_domains": 1,
+    "mapping": "plane k stores bit k of all weights; 16 selected output columns in each of 8 planes evaluate together; 128 inputs distributed through isolated local driver segments",
+    "analog_weight_HCA_used": false,
+    "complementary_cell_payload_factor": 1
+  },
+  "acim_overrides": {},
+  "update_geometry": {
+    "logical_weights_completed": 16,
+    "cells_per_weight": 8,
+    "parallel_cells": 128,
+    "encoded_load_bits": 128,
+    "first_data_in_command": true
+  },
+  "write_resources": {
+    "write_driver_pairs_per_plane": 16,
+    "active_planes": 8,
+    "row_decoders": 8,
+    "independent_update_controllers": 1,
+    "column_selector": "one 16-output group in each plane, same row index; masks protect unselected columns",
+    "write_data_latch_bits": 128,
+    "drive_load": "128-cell local write bitline, one selected cell/driver; adaptation to 9T1C storage nodes"
+  },
+  "cycle_semantics": {
+    "frontend": "T_F includes common reset/input plus array charge settling and selected-column ADC drive readiness; no ADC conversion and no digital reconstruction",
+    "front_adapter": "read_ns=T_F−shared.input_step; this difference is unreported engineering residual, not measured cell delay",
+    "ADC": "one reusable complete sample slot; all SAR decisions inside T_A",
+    "memory": "one synchronous complete 128-bit write cycle captures command/address/data, drives BL/WL, flips/recovers cell and ends compute-ready",
+    "write_control_substitution": "R4: complete memory cycle replaces the one-beat common front; additional task handshake absent",
+    "compute_memory_exclusion": "same state, no simultaneous compute/write assumed; ordinary per-evaluation charge reset charged to streaming"
+  },
+  "scenarios": [
+    {
+      "id": "short",
+      "label": "短时隙",
+      "common_profile": "short",
+      "frontend_complete_ns": 10,
+      "complete_memory_cycle_ns": 2.2,
+      "kind": "conditional_engineering_budget_not_measured_pair"
+    },
+    {
+      "id": "reference",
+      "label": "参考",
+      "common_profile": "reference",
+      "frontend_complete_ns": 20,
+      "complete_memory_cycle_ns": 5,
+      "kind": "conditional_engineering_budget_not_measured_pair"
+    },
+    {
+      "id": "long",
+      "label": "长时隙",
+      "common_profile": "long",
+      "frontend_complete_ns": 50,
+      "complete_memory_cycle_ns": 10,
+      "kind": "conditional_engineering_budget_not_measured_pair"
+    }
+  ],
+  "frontend_budget_selection": {
+    "anchor": "E02: complete 4b 128-row macro 10ns",
+    "short": "10ns conditional adapted front; 128 selected physical columns, binary excitation, isolated inactive columns and adequate local buffers",
+    "reference": "20ns=2×10ns; more precise settling plus reference/mux/driver adaptation; single-pole half-LSB 4→8-bit settling ratio9/5=1.8 is rationale, not a characterization",
+    "long": "50ns=5×10ns explicit loose engineering budget; not a statistical bound",
+    "precision_limit": "extra settling cannot guarantee removal of static nonlinearity/mismatch; approximate calibrated partial sums only"
+  },
+  "sensitivities": {
+    "frontend_at_reference_ns": [
+      10,
+      20,
+      50
+    ],
+    "write_resource_parallel_cells": 64
+  },
+  "exceptions_to_common_configuration": [
+    {
+      "rule_id": "R2/R3",
+      "change": "No R0 count changes; construct independent binary planes from SACIM-03 bitcell; bypass 4-column HCA and replace Flash with shared SAR",
+      "evidence": "E01/E04",
+      "required_resources": "128 selected-column front ends/SAR, isolated input segments, 16 digital reconstructor lanes",
+      "effect": "no native four-bit output reuse assumption"
+    },
+    {
+      "rule_id": "R4",
+      "change": "T_F replaces T_I+read_ns exactly; read_ns=T_F−T_I",
+      "evidence": "E02",
+      "required_resources": "no uncharged input reset or extra native ADC",
+      "effect": "stream timing only"
+    },
+    {
+      "rule_id": "R4",
+      "change": "complete ordinary memory cycle replaces shared front plus physical operation",
+      "evidence": "E07/E09",
+      "required_resources": "128 actual write drivers distributed16×8, common controller",
+      "effect": "resident timing uses2.2/5/10ns; not10ns ACIM compute"
+    },
+    {
+      "rule_id": "R5",
+      "change": "powered static binary state; no program/verify, erase, refresh or destructive-read restore",
+      "evidence": "E01/E05/E09",
+      "required_resources": "CIM mode isolated during writes; capacitors reset each evaluation",
+      "effect": "maintenance payload=0; no endurance-imposed retry factor"
+    }
+  ]
+}

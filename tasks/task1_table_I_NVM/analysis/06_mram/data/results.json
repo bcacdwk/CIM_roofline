@@ -1,0 +1,305 @@
+{
+  "case_id": "06_mram",
+  "baseline_id": "shared_baseline",
+  "baseline_hashes": {
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "units": {
+    "time": "ns",
+    "rho_tau": "Byte/s",
+    "ridge": "dimensionless"
+  },
+  "mode": "complementary 2T2MTJ bitcell digital CIM; exact integer arithmetic conditional on correct storage/sensing",
+  "mapping": {
+    "logical_capacity_Byte": 16384,
+    "logical_weight_bits": 131072,
+    "physical_MTJs": 262144,
+    "groups_per_matrix": 2048,
+    "weight_bits": 8,
+    "MTJs_per_weight_bit": 2,
+    "logical_weights_per_write_group": 8,
+    "encoded_load_bits": 128,
+    "encoding_location": "local 64-bit logical data expands to 128 physical P/AP target bits before shared physical interface",
+    "write_domains": 1,
+    "first_data_in_command": true,
+    "active_compute_pairs": 4096,
+    "physical_direction_driver_lanes": 128,
+    "selected_pairs_per_write_group": 64,
+    "first_phase_active_MTJs": 128,
+    "second_phase_active_MTJs": 64,
+    "verify_single_ended_sense_lanes": 64,
+    "verify_branch_batches": 2,
+    "verify_expected_bit_comparators": 64,
+    "verify_state_latch_bits": 128,
+    "polarity_switch_ticks": 1,
+    "compare_ticks_per_verify_batch": 1,
+    "boundary_restore": "covered by read-slot initialization and final control tick",
+    "required_resources": "one segmented selected row, 128 direction-capable write paths and aggregate SL current for 128 MTJs; left/right isolated absolute-state read mux, reference and 64 single-ended sense lanes; no extra replica"
+  },
+  "scenarios": [
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 8,
+      "delta_S_ns": 1284,
+      "delta_R_ns": 56.0,
+      "rho_Byte_per_s": 99688473.52024922,
+      "tau_Byte_per_s": 142857142.85714284,
+      "ridge": 0.6978193146417446,
+      "profile": "short",
+      "baseline_id": "shared_baseline",
+      "mode": "complementary 2T2MTJ bitcell digital CIM; exact integer arithmetic conditional on correct storage/sensing",
+      "granularity": "one vector / one 8-Byte completed write group",
+      "read_response_ns": 3,
+      "write_access_slot_ns": 20,
+      "stream_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "resident_counts": {
+        "encoded_data_beats": 1,
+        "first_phase_MTJ_commands": 128,
+        "second_phase_MTJ_commands": 64,
+        "total_MTJ_commands_per_attempt": 192,
+        "verify_batches": 2,
+        "verified_MTJs_per_attempt": 128,
+        "finite_attempts": 1
+      },
+      "retry_proxy_q": 0.0019200000000000003,
+      "service_interpretation": "one complete attempt, all branch states verified",
+      "write_breakdown_ns": {
+        "front": 4,
+        "one_attempt": 52.0,
+        "write_slots": 40,
+        "polarity_switch": 2,
+        "verify_read": 6,
+        "verify_compare": 4,
+        "retries": 0.0
+      },
+      "stream_breakdown_ns": {
+        "media": 768,
+        "digital": 512,
+        "boundary": 4
+      },
+      "dominant": "stream: repeated bitcell-read/digital rounds; resident: two write-access slots",
+      "sources": [
+        "MRAM-06 pp.2,4,5,9 / SI p.4",
+        "MRAM-03 pp.5-7",
+        "MRAM-04 pp.1-2",
+        "shared_baseline"
+      ],
+      "assumptions": [
+        "main scenario completes and passes both-branch absolute-state verify within one full attempt",
+        "comparison completes and passes after exactly one whole-group rewrite; failed attempt time is retained",
+        "verify must be qualified at the chosen bias/load; exact arithmetic contract is conditional on correct storage and sensing",
+        "failure outside the finite budget is not counted as completed payload; no indefinite retry policy or success-probability guarantee is asserted"
+      ]
+    },
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 8,
+      "delta_S_ns": 2570,
+      "delta_R_ns": 95.0,
+      "rho_Byte_per_s": 49805447.47081712,
+      "tau_Byte_per_s": 84210526.31578948,
+      "ridge": 0.5914396887159533,
+      "profile": "reference",
+      "baseline_id": "shared_baseline",
+      "mode": "complementary 2T2MTJ bitcell digital CIM; exact integer arithmetic conditional on correct storage/sensing",
+      "granularity": "one vector / one 8-Byte completed write group",
+      "read_response_ns": 5,
+      "write_access_slot_ns": 30,
+      "stream_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "resident_counts": {
+        "encoded_data_beats": 1,
+        "first_phase_MTJ_commands": 128,
+        "second_phase_MTJ_commands": 64,
+        "total_MTJ_commands_per_attempt": 192,
+        "verify_batches": 2,
+        "verified_MTJs_per_attempt": 128,
+        "finite_attempts": 1
+      },
+      "retry_proxy_q": 0.000192,
+      "service_interpretation": "one complete attempt, all branch states verified",
+      "write_breakdown_ns": {
+        "front": 10,
+        "one_attempt": 85.0,
+        "write_slots": 60,
+        "polarity_switch": 5,
+        "verify_read": 10,
+        "verify_compare": 10,
+        "retries": 0.0
+      },
+      "stream_breakdown_ns": {
+        "media": 1280,
+        "digital": 1280,
+        "boundary": 10
+      },
+      "dominant": "stream: repeated bitcell-read/digital rounds; resident: two write-access slots",
+      "sources": [
+        "MRAM-06 pp.2,4,5,9 / SI p.4",
+        "MRAM-03 pp.5-7",
+        "MRAM-04 pp.1-2",
+        "shared_baseline"
+      ],
+      "assumptions": [
+        "main scenario completes and passes both-branch absolute-state verify within one full attempt",
+        "comparison completes and passes after exactly one whole-group rewrite; failed attempt time is retained",
+        "verify must be qualified at the chosen bias/load; exact arithmetic contract is conditional on correct storage and sensing",
+        "failure outside the finite budget is not counted as completed payload; no indefinite retry policy or success-probability guarantee is asserted"
+      ]
+    },
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 8,
+      "delta_S_ns": 5140,
+      "delta_R_ns": 130.0,
+      "rho_Byte_per_s": 24902723.73540856,
+      "tau_Byte_per_s": 61538461.538461536,
+      "ridge": 0.4046692607003891,
+      "profile": "long",
+      "baseline_id": "shared_baseline",
+      "mode": "complementary 2T2MTJ bitcell digital CIM; exact integer arithmetic conditional on correct storage/sensing",
+      "granularity": "one vector / one 8-Byte completed write group",
+      "read_response_ns": 10,
+      "write_access_slot_ns": 30,
+      "stream_counts": {
+        "input_slices": 8,
+        "weight_groups": 1,
+        "row_groups": 4,
+        "output_groups": 8,
+        "compute_rounds": 256,
+        "read_rounds": 256,
+        "digital_ticks": 256
+      },
+      "resident_counts": {
+        "encoded_data_beats": 1,
+        "first_phase_MTJ_commands": 128,
+        "second_phase_MTJ_commands": 64,
+        "total_MTJ_commands_per_attempt": 192,
+        "verify_batches": 2,
+        "verified_MTJs_per_attempt": 128,
+        "finite_attempts": 1
+      },
+      "retry_proxy_q": 0.000192,
+      "service_interpretation": "one complete attempt, all branch states verified",
+      "write_breakdown_ns": {
+        "front": 20,
+        "one_attempt": 110.0,
+        "write_slots": 60,
+        "polarity_switch": 10,
+        "verify_read": 20,
+        "verify_compare": 20,
+        "retries": 0.0
+      },
+      "stream_breakdown_ns": {
+        "media": 2560,
+        "digital": 2560,
+        "boundary": 20
+      },
+      "dominant": "stream: repeated bitcell-read/digital rounds; resident: two write-access slots",
+      "sources": [
+        "MRAM-06 pp.2,4,5,9 / SI p.4",
+        "MRAM-03 pp.5-7",
+        "MRAM-04 pp.1-2",
+        "shared_baseline"
+      ],
+      "assumptions": [
+        "main scenario completes and passes both-branch absolute-state verify within one full attempt",
+        "comparison completes and passes after exactly one whole-group rewrite; failed attempt time is retained",
+        "verify must be qualified at the chosen bias/load; exact arithmetic contract is conditional on correct storage and sensing",
+        "failure outside the finite budget is not counted as completed payload; no indefinite retry policy or success-probability guarantee is asserted"
+      ]
+    }
+  ],
+  "comparison": {
+    "B_S_Byte": 128,
+    "B_R_Byte": 8,
+    "delta_S_ns": 2570,
+    "delta_R_ns": 180.0,
+    "rho_Byte_per_s": 49805447.47081712,
+    "tau_Byte_per_s": 44444444.44444444,
+    "ridge": 1.1206225680933852,
+    "profile": "reference",
+    "baseline_id": "shared_baseline",
+    "mode": "complementary 2T2MTJ bitcell digital CIM; exact integer arithmetic conditional on correct storage/sensing",
+    "granularity": "one vector / one 8-Byte completed write group",
+    "read_response_ns": 5,
+    "write_access_slot_ns": 30,
+    "stream_counts": {
+      "input_slices": 8,
+      "weight_groups": 1,
+      "row_groups": 4,
+      "output_groups": 8,
+      "compute_rounds": 256,
+      "read_rounds": 256,
+      "digital_ticks": 256
+    },
+    "resident_counts": {
+      "encoded_data_beats": 1,
+      "first_phase_MTJ_commands": 128,
+      "second_phase_MTJ_commands": 64,
+      "total_MTJ_commands_per_attempt": 192,
+      "verify_batches": 2,
+      "verified_MTJs_per_attempt": 128,
+      "finite_attempts": 2
+    },
+    "retry_proxy_q": 0.000192,
+    "service_interpretation": "exactly two attempts, second succeeds",
+    "write_breakdown_ns": {
+      "front": 10,
+      "one_attempt": 85.0,
+      "write_slots": 60,
+      "polarity_switch": 5,
+      "verify_read": 10,
+      "verify_compare": 10,
+      "retries": 85.0
+    },
+    "stream_breakdown_ns": {
+      "media": 1280,
+      "digital": 1280,
+      "boundary": 10
+    },
+    "dominant": "stream: repeated bitcell-read/digital rounds; resident: two write-access slots",
+    "sources": [
+      "MRAM-06 pp.2,4,5,9 / SI p.4",
+      "MRAM-03 pp.5-7",
+      "MRAM-04 pp.1-2",
+      "shared_baseline"
+    ],
+    "assumptions": [
+      "main scenario completes and passes both-branch absolute-state verify within one full attempt",
+      "comparison completes and passes after exactly one whole-group rewrite; failed attempt time is retained",
+      "verify must be qualified at the chosen bias/load; exact arithmetic contract is conditional on correct storage and sensing",
+      "failure outside the finite budget is not counted as completed payload; no indefinite retry policy or success-probability guarantee is asserted"
+    ],
+    "id": "one_group_rewrite"
+  },
+  "paired_ranges": {
+    "rho_Byte_per_s": [
+      24902723.73540856,
+      99688473.52024922
+    ],
+    "tau_Byte_per_s": [
+      61538461.538461536,
+      142857142.85714284
+    ],
+    "ridge": [
+      0.4046692607003891,
+      0.6978193146417446
+    ]
+  }
+}

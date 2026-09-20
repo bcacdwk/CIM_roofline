@@ -1,0 +1,170 @@
+{
+  "case_id": "06_mram",
+  "baseline_id": "shared_baseline",
+  "reference_instance": "R0",
+  "mode": "complementary 2T2MTJ bitcell digital CIM; exact integer arithmetic conditional on correct storage/sensing",
+  "kind": "conditional engineering estimate; not a measured combined macro or BER guarantee",
+  "mapping": {
+    "weight_bits": 8,
+    "MTJs_per_weight_bit": 2,
+    "logical_weights_per_write_group": 8,
+    "encoded_load_bits": 128,
+    "encoding_location": "local 64-bit logical data expands to 128 physical P/AP target bits before shared physical interface",
+    "write_domains": 1,
+    "first_data_in_command": true,
+    "active_compute_pairs": 4096,
+    "physical_direction_driver_lanes": 128,
+    "selected_pairs_per_write_group": 64,
+    "first_phase_active_MTJs": 128,
+    "second_phase_active_MTJs": 64,
+    "verify_single_ended_sense_lanes": 64,
+    "verify_branch_batches": 2,
+    "verify_expected_bit_comparators": 64,
+    "verify_state_latch_bits": 128,
+    "polarity_switch_ticks": 1,
+    "compare_ticks_per_verify_batch": 1,
+    "boundary_restore": "covered by read-slot initialization and final control tick",
+    "required_resources": "one segmented selected row, 128 direction-capable write paths and aggregate SL current for 128 MTJs; left/right isolated absolute-state read mux, reference and 64 single-ended sense lanes; no extra replica"
+  },
+  "stream_configuration_overrides": {},
+  "scenarios": [
+    {
+      "profile": "short",
+      "read_response_ns": 3,
+      "write_access_slot_ns": 20,
+      "write_error_proxy_per_state_command": 1e-05
+    },
+    {
+      "profile": "reference",
+      "read_response_ns": 5,
+      "write_access_slot_ns": 30,
+      "write_error_proxy_per_state_command": 1e-06
+    },
+    {
+      "profile": "long",
+      "read_response_ns": 10,
+      "write_access_slot_ns": 30,
+      "write_error_proxy_per_state_command": 1e-06
+    }
+  ],
+  "retry_model": {
+    "kind": "finite accepted service scenarios",
+    "main_attempts": 1,
+    "comparison_attempts": 2,
+    "group_pressure_rule": "192*p is a union-bound-scale pressure illustration only; it does not change main service time",
+    "pressure_limit": "p is imported from MRAM-03 and its finite zero-error floor, not a measured probability for the new 2T2MTJ implementation",
+    "assumptions": [
+      "main scenario completes and passes both-branch absolute-state verify within one full attempt",
+      "comparison completes and passes after exactly one whole-group rewrite; failed attempt time is retained",
+      "verify must be qualified at the chosen bias/load; exact arithmetic contract is conditional on correct storage and sensing",
+      "failure outside the finite budget is not counted as completed payload; no indefinite retry policy or success-probability guarantee is asserted"
+    ],
+    "complete_service": "front + finite_attempts * complete_attempt",
+    "payload_rule": "only one successfully completed logical group counted; all internal writes/verifies/retries are occupancy"
+  },
+  "comparison": {
+    "id": "one_group_rewrite",
+    "profile": "reference",
+    "attempts": 2,
+    "kind": "conditional successful completion on second full attempt, not universal or prescribed retry count"
+  },
+  "stage_coverage": {
+    "write_access": "20/30 ns engineering single-direction physical slots anchored to published full write access; cover drive initialization, pulse/switching/stop/recovery; published access has no portable substage decomposition",
+    "verify_read": "one complete reusable low-bias single-ended branch read/reset/mux slot per batch; two branches separately",
+    "turn": "one digital tick between two direction slots",
+    "compare": "one digital tick per 64-bit branch comparison; pair validity accumulated",
+    "front": "shared API front_ns physical encoded loading with first beat in command and two control ticks",
+    "stream": "complete media read/reset/digitization followed by shared integer compute tick; no ADC or TDC"
+  },
+  "maintenance": {
+    "refresh_ns": 0,
+    "destructive_read_restore_ns": 0,
+    "condition": "nondestructive qualified low-bias read; no retention-refresh claim outside service window",
+    "endurance": "separate feasibility constraint; two-phase complement refresh stresses cells unequally; no universal cycle rating imported"
+  },
+  "selection_rules": [
+    {
+      "id": "R1/R2",
+      "choice": "retain R0 digital 32-term/16-output schedule",
+      "reason": "MRAM-06 supports independent local bitcell digitization; its 256-term/64-bank organization is not a universal MRAM restriction"
+    },
+    {
+      "id": "R3",
+      "choice": "B_R=8 Byte and 128 physical target bits",
+      "reason": "64 complementary weight bits limited by explicitly provisioned 128 first-phase write paths"
+    },
+    {
+      "id": "R4",
+      "choice": "complete write-access slot replaces its internal timing; only interphase control, independent two-branch verify and local interface added",
+      "reason": "MRAM-03 full write access and MRAM-06 two-step write/row retry"
+    }
+  ],
+  "baseline_hashes": {
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "sources": {
+    "MRAM-01": {
+      "title": "A crossbar array of magnetoresistive memory devices for in-memory computing",
+      "doi": "10.1038/s41586-021-04196-6",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-01_2022_ResistanceSum_Crossbar.pdf",
+        "pages": 17,
+        "bytes": 4214474,
+        "sha256": "8ae3c42c9e811194bc3ae2af456144e7fa475c798040bec1bdeb3a6986fd38a5"
+      },
+      "supplements": []
+    },
+    "MRAM-03": {
+      "title": "A 1-Mb 28-nm 1T1MTJ STT-MRAM With Single-Cap Offset-Cancelled Sense Amplifier and In Situ Self-Write-Termination",
+      "doi": "10.1109/jssc.2018.2872584",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-03_2019_SelfWriteTermination.pdf",
+        "pages": 9,
+        "bytes": 3268187,
+        "sha256": "2bf428be6500c2aa917c253bd15ee029dba1a3774ac8fe28932320eec20e32d3"
+      },
+      "supplements": []
+    },
+    "MRAM-04": {
+      "title": "A 28nm 32Kb embedded 2T2MTJ STT-MRAM macro with 1.3ns read-access time for fast and reliable read applications",
+      "doi": "10.1109/isscc.2018.8310394",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-04_2018_2T2MTJ_ReadMacro.pdf",
+        "pages": 3,
+        "bytes": 840630,
+        "sha256": "655d6de6b37e688f24aae81b3451bc98aa47f64069b9ffc131e9fdf9f6f55bfc"
+      },
+      "supplements": []
+    },
+    "MRAM-05": {
+      "title": "EMxxxLX/B/HR — Expanded Serial Peripheral Interface (xSPI) Industrial STT-MRAM Persistent Memory",
+      "doi": null,
+      "pdf": {
+        "path": "literature/06_mram/MRAM-05_2026_EMxxxLX_B_HR_v3p7.pdf",
+        "pages": 82,
+        "bytes": 3758533,
+        "sha256": "3ab6e4c97bf3e5abe4352eca5ac730318b967e452bd0e3f6c42097f546b57e83"
+      },
+      "supplements": []
+    },
+    "MRAM-06": {
+      "title": "A lossless and fully parallel spintronic compute-in-memory macro for artificial intelligence chips",
+      "doi": "10.1038/s41928-025-01479-y",
+      "pdf": {
+        "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM.pdf",
+        "pages": 24,
+        "bytes": 14152374,
+        "sha256": "970c5d694e51446846ae4da6160b86a924b33a53f5aa7a72ee8bf58053048eff"
+      },
+      "supplements": [
+        {
+          "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM_Supplement.pdf",
+          "pages": 15,
+          "bytes": 807278,
+          "sha256": "2d44a1c47166c532f492a046cb414238e5b13f091d90dc77fb83b7e0d9c27b82"
+        }
+      ]
+    }
+  }
+}

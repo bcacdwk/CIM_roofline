@@ -1,0 +1,160 @@
+\section{主模式、服务边界与证据身份}
+
+本例归入 3D FeNOR／vertical FeFET 技术族，主实现明确采用 \sid{FENOR-02} 的\textbf{3D vertical AND FeFET} 二状态存储，配局部二进制感测和数字乘加。它与 2025 年 NOR-type FeFET 的拓扑、栅堆栈和偏置有区别。本文构造的是有条件的 28 nm CMOS 外围参考设计；器件脉冲、小阵列验证和仿真共同提供依据，整份 INT8 求值与完整写事务由本设计估算。
+
+共同任务为 $128\times128$ INT8 矩阵乘 INT8 向量，$b_S=b_R=1$ Byte/元素。每次输入 $B_S=128$ Byte，resident 逻辑容量 16384 Byte，输出为 $128\times24$ bit。边界含同一份矩阵的阵列、局部驱动、感测、数字归约及输出寄存器；独立服务单元和更新域均为一。数字路线在二进制状态正确读出、写入被接受的前提下给出精确整数结果。位切片、内部读回与正负两相写入不扩大逻辑 payload。
+
+\begin{table}[htbp]\centering\small
+\begin{tabularx}{\textwidth}{@{}p{24mm} X@{}}\toprule
+本地来源 & 原文证据及在本例的作用\\\midrule
+\sid{FENOR-02} & 2026 VLSI：SL-HZO＋O-poor IGO 下 $\pm2$ V、20 ns switching；Fig.3(d) 标注 RAWD$<100$ ns；Fig.9 提供 $V_w/3$ 邻层方案和最高 $2V_w/3$ 半选扰动；Fig.10 实际验证 $4\times16\times16$ cell。作为主器件与选通依据。\\
+\sid{FENOR-01} & 2025 VLSI：$8\times8\times3$ NOR-type 阵列；$+4.25/-3.25$ V、50 ns；Fig.12 示意横向多个 cell 组成多位权重，配 SA、寄存器与加法器。用于数字计算机制桥接，未将其延迟或电压嫁接为 2026 阵列实测值。\\
+\sid{FENOR-04} & 2025 TED：另一团队 ZnO/MFMIS；两 cell 电流求和实测与 $4096\times4096$ 网络／外围模拟分开。其 500 ns 多级脉冲和栅堆栈不能替换主模式的二状态更新。\\
+\sid{FENOR-06} & 2026 EDTM：MFS/MFIS/MIFS/MIFIS 的 switching 约为 0.25/1.5/2/5 $\mu$s，终点为最大窗口的 90\%。说明不同栅堆栈、偏置和终点必须保留，不能用一个“FeNOR 写速”覆盖所有状态。\\\bottomrule
+\end{tabularx}
+\caption{证据互补方式；页码、图号、原偏置和版本见证据笔记。}
+\end{table}
+
+主模式选择 6 nm SL-HZO、4 nm O-poor IGO，并采用 O-0.1s 工艺的扰动抑制条件。原文分别展示了这些优化方向，本例将其作为工艺相容的参考条件，未宣称已测完整 CMOS 宏。\sid{FENOR-01/02/06} 属同团队，不能算三份独立验证。尤其，\sid{FENOR-02} 的制造尺寸 $4\times32\times32$、图案验证尺寸 $4\times16\times16$ 与 Fig.11 的层数扩展仿真不是同一证据层级。
+
+\clearpage
+\section{同一份矩阵的物理映射与完整求值}
+
+\subsection{四层装容量，横向读通路提供并行}
+每个 INT8 权重使用八个二状态 cell，补码最高位取权 $-2^7$。构造 32 条独立的横向行读通路，每条使用四层存放四个输入索引；各层共享相应 BL/SL 时，每次只选一个层。每条行通路有 64 个局部条带：八个输出组乘八个位平面。每条带为四层、每层 16 个 BL/SL 列对，容量 64 cell。物理地址为
+\[
+W_{o,i}[b]\longmapsto
+\left(i\bmod32,\;\lfloor i/32\rfloor,\;8\lfloor o/16\rfloor+b,\;o\bmod16\right).
+\]
+四个坐标依次是横向行通路、层、条带和列。总容量
+\[
+32\times64\times(4\times16)=131072\ \text{binary cell}=16384\ \text{逻辑 Byte}.
+\]
+这是一种分段、局部选通的参考布局，采用原文竖直 BL/SL、横向 WL 和分层选择关系；原文没有流片本布局。16 列是与已测阵列尺度相接的工程条带宽度，并非该介质不可越过的上限。
+
+读侧保留共同 R0 的 $32$ 项、$16$ 输出、$8$ 权重 bit 并行：每条横向通路配置 128 个感测节点，合计 $32\times16\times8=4096$ 个二进制感测节点，八组输出复用这些节点。32 条通路各有独立层选择与局部偏置，故可在一轮获得 32 项操作数。\textbf{若只给一组共享 BL/SA，就不能使用这里的 32 项并行计数。}四层并未变成四个独立服务副本，也没有额外乘四的吞吐收益。
+
+本例先感测二进制权重，再与该轮输入 bit 做局部数字乘法，避免假设多层电流可以分别判为多个数字操作数。未选层需由关断偏置保持隔离，并在实际阈值分布下验证泄漏裕量。提供 16 条数字输出通道、32 项归约、八个权重位权合并和部分和寄存器；每轮一拍完成相应 R0 数字功能。无跨输入位缓存复用，每轮重新读取。
+
+\subsection{读预算与共同外围的分工}
+一次完整二进制读侧响应 $t_m$ 包含局部层／输出选择、偏置和 RC 建立、感测及恢复，选择短／参考／长为 20/40/80 ns。\sid{FENOR-02} Fig.5(c) 的 $-0.5$ V、20 ns 是\emph{读耐久应力波形}；Fig.11(d) 的读延迟由 TCAD 提取 RC 后在 SPICE 中模拟。两者支持数十 ns 的量级预算，均不能直接称为上述 4096 节点的完整实测读周期。移植后的负载、SA 裕量及层关断能力是预算成立条件。
+
+共同 JSON 给出 $T_D=2/5/10$ ns；数字路线不使用 ADC，也不再叠加 ACIM 的 $T_I,T_A$。输入逐 bit，权重八位并行，故
+\[
+N_D=N_{\rm rd}=8\times(128/32)\times(128/16)=256,
+\quad \boxed{\Delta_S=256(t_m+T_D)+2T_D.}
+\]
+边界两拍覆盖输入接收和结果提交。各轮顺序执行，未引入流水隐藏时间；完整参考求值为 $256(40+5)+10=11530$ ns。
+
+\clearpage
+\section{写入的行列选通、半选与有效更新粒度}
+
+主更新事务固定一个输入索引及连续 16 个输出，完成 16 个 INT8 权重，即 $B_R=16$ Byte。128-bit 编码数据装入一个缓冲；单个写域一次只驱动一个 16-cell 条带，八个位平面依次更新。实际写并行来自\textbf{16 个可掩码 BL/SL 列对和四层 WL 偏置驱动}，并非由 128-bit 接口自动产生。
+
+\subsection{从原文单目标偏置到同极性多列掩码}
+\sid{FENOR-02} Fig.9(a) 使目标栅沟道差为 $V_w$，相邻 WL 差为 $V_w/3$。令 $s=+1$ 或 $-1$，$V_w=2$ V；本例将同极性的多个目标列接到相同电位，其他列被抑制：
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lccc@{}}\toprule
+cell 类别 & WL 电位 & BL=SL 电位 & 栅沟道差\\\midrule
+本层本相目标 & $2sV_w/3$ & $-sV_w/3$ & $sV_w$\\
+本层被掩码列 & $2sV_w/3$ & $+sV_w/3$ & $sV_w/3$\\
+其他层、目标列 & $sV_w/3$ & $-sV_w/3$ & $2sV_w/3$\\
+其他层、抑制列 & $sV_w/3$ & $+sV_w/3$ & $0$\\\bottomrule
+\end{tabular}
+\caption{同一局部条带的写电压表。正负相分别取反；其他独立条带保持停驻。}
+\end{table}
+
+先用正相对目标 bit 1 施加 $+2$ V、20 ns，再用负相对目标 bit 0 施加 $-2$ V、20 ns。已在第一相写成 1 的列，在第二相只承受 $-V_w/3$，不是一次全幅反写。不同层的半选最大为 $2V_w/3$，邻层 WL 差仍为 $V_w/3$。两相均有非空目标的普通混合字决定服务预算；不以全 0／全 1 跳过一相来构造峰值。
+
+该多列掩码方案保留原图的每 cell 电场分类；它是需要相应扇出和供电的工程扩展，原文没有给出其 16 列并发写波形。Fig.9(b) 在 $2V_w/3$ 扰动下展示两种状态至 $10^9$ 次未见明显变化；Fig.9(c,d) 在 40 nm 竖直节距下将 C2C 阈值扰动控制到约 50 mV 内。这些结果支持采用上述有限局部选通条件，不能证明任意工艺、任意脉冲尾沿或无限重复都无扰动。
+
+\subsection{任意目标状态和矩阵聚合}
+极化的正负写入分别直接建立两个终态；这里不需要闪存块擦除，也不先把所有 cell RESET 再逐一 SET。两个掩码相是\emph{任意混合目标字}的构造步骤，不是每个 cell 必须经过两次全幅切换。terminal verify 检查该条带的全部 16 cell，之后才宣布可用；一次 16-Byte 事务在八个位平面都通过后完成。失败被报告为异常，本例未凭空指定重试次数或成功率。
+
+矩阵包含 $128\times(128/16)=1024$ 个上述对齐事务；完整重载顺序聚合全部 1024 次命令、脉冲、guard 和 verify。它们均更新本矩阵有效字节，故总 payload 为 16384 Byte，时间同比增加，$\tau$ 不变。稀疏、非对齐更新须按实际完成的权重数重算有效粒度，不能沿用 16 Byte 分子。
+
+\clearpage
+\section{从 20 ns 脉冲到完整可计算状态}
+
+\subsection{有限的驱动、写后观察和读回预算}
+专用偏置转换取 $t_e=5/10/20$ ns，覆盖局部选通、电平转换和所选电位建立。这是明确的电路预算，原文没有实测此驱动。为使量级可审查，选择每个被驱动局部节点有效负载不超过 100 fF，最大电位摆幅 $8/3$ V，则参考 10 ns 边沿需要
+\[
+I\ge C\Delta V/t_e=100\,\mathrm{fF}\times(8/3)\,\mathrm V/(10\ns)
+\simeq26.7\,\mu\mathrm A.
+\]
+参考配置每分支提供至少 $30\,\mu$A 瞬态能力；16 BL、16 SL 与四个 WL 节点共 36 个分支，约 1.08 mA 的总瞬态驱动能力。短／长情景相应取每分支 60/15 $\mu$A。Fig.11 的模型横向节距 120/170 nm 对应 16 列约 2--3 $\mu$m，四层按实测 40 nm 节距约 160 nm 高，支持采用短局部条带而非长全局线的设计。100 fF 是这种尺度下待版图验证的负载目标，不是文献提取值；$C\Delta V/I$ 检查也不构成驱动验证。局部偏置轨已就绪，未把电源冷启动藏入器件脉冲。实际负载更大时须增加驱动或延长 $t_e$。
+
+20 ns 只作为每个极性的电场平台宽度。最后一相脉冲结束后，采用 $g=100$ ns 的写后观察窗口，再发起终态二进制读回。依据是 Fig.3(d) 的 RAWD$<100$ ns；\textbf{100 ns 是本例保守观察窗口，不是实测必须等待的常数，也不意味着原文测得零延迟。}最后的偏置退回放在这 100 ns 之内，不另叠一次恢复。第一相与第二相之间的退回另需一个 $t_e$。
+
+每批严格按“建立正相、正脉冲、退回、建立负相、负脉冲、写后窗口、二进制读回、比较”顺序执行。因此，若一批比较占 $k_v$ 拍，
+\[
+t_{\rm batch}=3t_e+2t_p+\max(g,t_e)+t_m+k_vT_D.
+\]
+主情景 $t_p=20$ ns、$g=100$ ns、$k_v=1$，使用与 streaming 相同的二进制感测响应 $t_m$。16 路比较器一拍检查 16 cell；读回用既有读资源，无 ADC／数字比较重复收费。
+
+\subsection{完整时间账本与终点}
+共同接口按一批数据与命令同拍，$T_{\rm front}=2T_D$。八批物理更新后才完成 16 Byte，因此
+\[
+\boxed{\Delta_R=2T_D+8(3t_e+40+100+t_m+T_D).}
+\]
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrr@{}}\toprule
+参考事务的占用 & 次数与单项 & 总时间 (ns)\\\midrule
+接口／完成控制 & $2\times5$ & 10\\
+两次建立及相间退回 & $8\times3\times10$ & 240\\
+正负极化平台 & $8\times2\times20$ & 320\\
+最后脉冲后窗口（已含退回） & $8\times100$ & 800\\
+终态读回 & $8\times40$ & 320\\
+16 路比较 & $8\times5$ & 40\\\midrule
+完整 16-Byte 写服务 & & 1730\\\bottomrule
+\end{tabular}
+\caption{每项只计一次。最后窗口结束并读回／比较通过，才是 resident 可计算终点。}
+\end{table}
+
+\clearpage
+\section{配对结果、结构对照与适用边界}
+
+按共享 API 计算 $\rho=B_S/\Delta_S$、$\tau=B_R/\Delta_R$、$\RI^*=\rho/\tau$；Byte/ns 的数值等于十进制 GB/s。参考点手算为
+\[
+\rho=\frac{128}{11530}=0.01110\GBs,\qquad
+\tau=\frac{16}{1730}=0.009249\GBs,
+\]
+\[
+\boxed{\RI^*=\frac{128}{16}\frac{1730}{11530}\simeq1.200.}
+\]
+\input{generated_results}
+
+主情景的配对范围为 $\rho\approx0.00555$--0.02271 GB/s、$\tau\approx0.00684$--0.01127 GB/s，$\RI^*\approx0.812$--2.016。三组分别配共享短／参考／长外围以及本例读响应、偏置建立预算，是有条件情景范围，非置信区间或整个技术族的材料界。长情景中读侧相对写侧下降更多，故 ridge 随之减小；不能据此称两路变化普遍抵消。
+
+\subsection{只改变物理写资源的对照}
+保持同一容量、读侧、接口和单域控制，把一个字的八个位平面条带同时驱动：物理并行由 16 增至 128 cell，需要八组条带的 WL 驱动、128 个可掩码 BL/SL 列对及约八倍瞬态供电。参考每分支 30 $\mu$A、288 个节点合计约 8.64 mA；能否维持 10 ns 边沿须经实际电路验证，不能由数据接口推定。
+
+读回并行使用该行通路已有的 128 个 SA，比较仍只有 16 路，所以需八拍。完整服务变为
+\[
+\Delta_{R,128}=10+3(10)+2(20)+100+40+8(5)=260\ns.
+\]
+$B_R$ 仍为 16 Byte，$\rho$ 不变；$\tau$ 提高约 6.65 倍、ridge 降为 0.1804。这个变化来自可同时服务的\emph{实际写驱动和选通资源}，不是层数增加，也不是器件 pulse 变快。其结果仅为资源有条件的对照，不取代主情景。
+
+\subsection{主导项与未被数字消除的限制}
+参考读侧的 256 次物理读占 $10240/11530\approx88.8\%$；参考写侧的写后窗口占 $800/1730\approx46.2\%$，极化平台只占约 18.5\%。每批额外需要 10 ns 写后窗口，整事务增加 80 ns，固定读侧时 ridge 增加约 4.62\%。这比把 20 ns 直接作写服务周期更能说明本例的不确定性来源。完整矩阵重载为 $1024\times1730=1.77152$ ms，仍是相同 $\tau$。
+
+本局部服务窗口不安排周期 refresh 或破坏性读后 restore。原文写耐久 $>10^{12}$、读应力耐久 $>10^{12}$、半选耐受 $10^9$ 以及约 3000 s 保持测量／十年外推是不同条件；不能把它们合成全阵列、全寿命的无错承诺。半选累计、长读脉冲尾沿、工艺兼容性和阈值裕量需另作可靠性评估，不将寿命直接折算为瞬时 $\tau$。两路共用局部状态与感测／控制资源，表中分别服务能力不保证同时达到峰值。
+
+\clearpage
+\section{复核入口与结论的证据边界}
+
+本例得到的是\textbf{具有明确横向读资源、有限写条带及写后终点的二状态数字参考实现}。决定局部服务的量不止铁电切换脉冲：读侧需完成 256 轮感测和数字归约；写侧需完成八个位平面、两相掩码、偏置恢复、观察窗口及读回比较。四层仅承载相应 resident 容量。结果没有预设 FeNOR 必须最优，也未据来源文中的 LLM 应用描述推导 workload 匹配性。
+
+\subsection{原始文献定位}
+以下均按本地 PDF 页序；两篇 VLSI 的本地版本为用户提供的三页稿件，无文件内版本／日期标识。
+\begin{enumerate}
+\item \textbf{\sid{FENOR-02}}：Y. Zhou 等，\emph{3D Vertical FeFET Array with Record Endurance ($>10^{12}$), Fast Writing ($\pm2$V, 20 ns), Disturb Immunity, and Kb-scale Verification for High Density 1T RAM}，VLSI 2026。p.1 结构与工艺；p.2 Figs.2--5 的尺寸、脉冲、RAWD、耐久；p.3 Figs.7--10 的半选、C2C 与图案验证；Fig.11 是 TCAD/SPICE。DOI：\href{https://doi.org/10.1109/VLSITechnologyandCir65830.2026.11577291}{10.1109/VLSITechnologyandCir65830.2026.11577291}。
+\item \textbf{\sid{FENOR-01}}：Y. Zhou 等，\emph{3D NOR-type FeFETs with Record Endurance of $10^{11}$, Fast Erase of 50 ns, and Immediate Read-After-Write for In-Memory Learning}，VLSI 2025。p.2 Figs.2--5；p.3 Fig.12 的二进制逻辑测量与数字结构。DOI：\href{https://doi.org/10.23919/VLSITechnologyandCir65189.2025.11074820}{10.23919/VLSITechnologyandCir65189.2025.11074820}。
+\item \textbf{\sid{FENOR-04}}：Y. Feng 等，\emph{Efficient Large Scale Neural Network Acceleration With 3-D FeNOR-Based Computing-in-Memory Design}，IEEE TED 72(5)，2025。p.4 Figs.7--8 的电压、窗口及可靠性；p.5 Figs.9--11 的脉冲与两 cell 求和；pp.5--6 的大阵列为模型。DOI：\href{https://doi.org/10.1109/TED.2025.3554164}{10.1109/TED.2025.3554164}。
+\item \textbf{\sid{FENOR-06}}：Y. Zhou、R. Huang、K. Tang，\emph{Gate Stack Engineering of 3D Oxide Channel FeNOR Memory with High-Speed and Reliabilitity}，EDTM 2026。p.2 Sec.II-C 的 90\% 终点；p.3 Figs.8--10 的四种栅堆栈速度与可靠性。DOI：\href{https://doi.org/10.1109/EDTM65772.2026.11498024}{10.1109/EDTM65772.2026.11498024}。
+\end{enumerate}
+
+\subsection{可复算性与待主审条件}
+\texttt{data/inputs.json} 将原值、工程选择、映射、阶段覆盖和资源对照分开；\texttt{data/results.json} 保留全部未取整结果、计数及共享 JSON／API 的 SHA-256。\texttt{scripts/check\_fenor.py} 直接导入共享 API，不复制共同常数与吞吐公式；默认只读，\texttt{--emit} 才刷新结果和表格。检查覆盖所有 131072 cell 的唯一映射、正负偏置表、两路配对、阶段账本、整矩阵聚合和来源哈希。
+
+主审重点是四项条件是否与希望比较的参考资源一致：4096 个独立感测节点的物理代价；SL＋O-poor 与 O-0.1s 的组合条件；16 列多目标掩码下的负载／扰动；100 ns 写后观察窗口和一次终态 verify 是否足够。它们已通过有限预算进入结果，未用缺少完整实测宏作为拒绝估算的理由；也未以计算检查代替这些电路与器件条件的实验验证。

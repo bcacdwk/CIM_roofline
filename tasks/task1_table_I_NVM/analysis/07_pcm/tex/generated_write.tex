@@ -1,0 +1,13 @@
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrr@{}}\toprule
+参考点 resident 占用 & ns & 占比 (\%)\\\midrule
+命令、数据装入及提交 & 15 & 0.32\\
+八批选通/模式控制 & 40 & 0.86\\
+三段专用驱动转换 & 480 & 10.31\\
+RESET 脉冲 & 1000 & 21.48\\
+SET 平台及尾沿 & 2400 & 51.56\\
+二状态重新建立/读出 & 320 & 6.87\\
+替代 SAR 转换 & 320 & 6.87\\
+终态比较 & 80 & 1.72\\
+\bottomrule\end{tabular}
+\caption{完整写服务分解。接口与内部读验不增加逻辑写入字节。}\label{tab:write}\end{table}

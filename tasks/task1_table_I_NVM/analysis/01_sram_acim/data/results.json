@@ -1,0 +1,717 @@
+{
+  "analysis_id": "01_sram_acim",
+  "baseline_id": "shared_baseline",
+  "status": "conditional_reference_estimate_not_measured_paired_chip",
+  "units": {
+    "payload": "Byte",
+    "time": "ns",
+    "throughput": "Byte/s",
+    "ridge": "dimensionless"
+  },
+  "baseline_files_actual": {
+    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
+    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
+    "tex/02_estimation_method.tex": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "mapping": {
+    "state": "binary 6T SRAM state inside 9T1C charge-coupled compute cell",
+    "cells_per_weight": 8,
+    "weight_planes": 8,
+    "physical_rows_per_plane": 128,
+    "physical_columns_per_plane": 128,
+    "logical_weights": 16384,
+    "independent_service_units": 1,
+    "write_domains": 1,
+    "mapping": "plane k stores bit k of all weights; 16 selected output columns in each of 8 planes evaluate together; 128 inputs distributed through isolated local driver segments",
+    "analog_weight_HCA_used": false,
+    "complementary_cell_payload_factor": 1
+  },
+  "scenarios": [
+    {
+      "id": "short",
+      "label": "短时隙",
+      "common_profile": "short",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 10,
+      "engineering_read_residual_ns": 8,
+      "common_times_ns": {
+        "input_step": 2,
+        "adc_batch": 10,
+        "digital_tick": 2
+      },
+      "complete_memory_cycle_ns": 2.2,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "parallel_write_cells": 128,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 10,
+            "total_ns": 640
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 10,
+            "total_ns": 640
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 2,
+            "total_ns": 256
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 2,
+            "total_ns": 4
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 1,
+            "each_ns": 2.2,
+            "total_ns": 2.2
+          }
+        ],
+        "replaced_shared_front_ns": 4,
+        "uncollapsed_direct_template_ns": 6.2,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "reset_input_array_frontend",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 1540,
+      "delta_R_ns": 2.2,
+      "rho_Byte_per_s": 83116883.11688311,
+      "tau_Byte_per_s": 7272727272.727272,
+      "ridge": 0.011428571428571429
+    },
+    {
+      "id": "reference",
+      "label": "参考",
+      "common_profile": "reference",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 20,
+      "engineering_read_residual_ns": 15,
+      "common_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "complete_memory_cycle_ns": 5,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "parallel_write_cells": 128,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 5,
+            "total_ns": 640
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 5,
+            "total_ns": 10
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 1,
+            "each_ns": 5,
+            "total_ns": 5.0
+          }
+        ],
+        "replaced_shared_front_ns": 10,
+        "uncollapsed_direct_template_ns": 15,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "reset_input_array_frontend",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 3210,
+      "delta_R_ns": 5.0,
+      "rho_Byte_per_s": 39875389.40809969,
+      "tau_Byte_per_s": 3200000000.0,
+      "ridge": 0.012461059190031152
+    },
+    {
+      "id": "long",
+      "label": "长时隙",
+      "common_profile": "long",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 50,
+      "engineering_read_residual_ns": 40,
+      "common_times_ns": {
+        "input_step": 10,
+        "adc_batch": 50,
+        "digital_tick": 10
+      },
+      "complete_memory_cycle_ns": 10,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "parallel_write_cells": 128,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 50,
+            "total_ns": 3200
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 50,
+            "total_ns": 3200
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 10,
+            "total_ns": 1280
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 10,
+            "total_ns": 20
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 1,
+            "each_ns": 10,
+            "total_ns": 10.0
+          }
+        ],
+        "replaced_shared_front_ns": 20,
+        "uncollapsed_direct_template_ns": 30,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "reset_input_array_frontend",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 7700,
+      "delta_R_ns": 10.0,
+      "rho_Byte_per_s": 16623376.623376621,
+      "tau_Byte_per_s": 1600000000.0,
+      "ridge": 0.010389610389610388
+    }
+  ],
+  "sensitivities": [
+    {
+      "id": "frontend_10",
+      "kind": "frontend_at_fixed_reference_periphery",
+      "rho_ratio_to_reference": 1.2490272373540856,
+      "common_profile": "reference",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 10,
+      "engineering_read_residual_ns": 5,
+      "common_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "complete_memory_cycle_ns": 5,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "parallel_write_cells": 128,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 10,
+            "total_ns": 640
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 5,
+            "total_ns": 640
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 5,
+            "total_ns": 10
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 1,
+            "each_ns": 5,
+            "total_ns": 5.0
+          }
+        ],
+        "replaced_shared_front_ns": 10,
+        "uncollapsed_direct_template_ns": 15,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "complete_SAR_batch",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 2570,
+      "delta_R_ns": 5.0,
+      "rho_Byte_per_s": 49805447.47081712,
+      "tau_Byte_per_s": 3200000000.0,
+      "ridge": 0.01556420233463035
+    },
+    {
+      "id": "frontend_20",
+      "kind": "frontend_at_fixed_reference_periphery",
+      "rho_ratio_to_reference": 1.0,
+      "common_profile": "reference",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 20,
+      "engineering_read_residual_ns": 15,
+      "common_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "complete_memory_cycle_ns": 5,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "parallel_write_cells": 128,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 5,
+            "total_ns": 640
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 5,
+            "total_ns": 10
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 1,
+            "each_ns": 5,
+            "total_ns": 5.0
+          }
+        ],
+        "replaced_shared_front_ns": 10,
+        "uncollapsed_direct_template_ns": 15,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "reset_input_array_frontend",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 3210,
+      "delta_R_ns": 5.0,
+      "rho_Byte_per_s": 39875389.40809969,
+      "tau_Byte_per_s": 3200000000.0,
+      "ridge": 0.012461059190031152
+    },
+    {
+      "id": "frontend_50",
+      "kind": "frontend_at_fixed_reference_periphery",
+      "rho_ratio_to_reference": 0.6257309941520468,
+      "common_profile": "reference",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 50,
+      "engineering_read_residual_ns": 45,
+      "common_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "complete_memory_cycle_ns": 5,
+      "write_batches": 1,
+      "write_data_beats": 1,
+      "parallel_write_cells": 128,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 50,
+            "total_ns": 3200
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 5,
+            "total_ns": 640
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 5,
+            "total_ns": 10
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 1,
+            "each_ns": 5,
+            "total_ns": 5.0
+          }
+        ],
+        "replaced_shared_front_ns": 10,
+        "uncollapsed_direct_template_ns": 15,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "reset_input_array_frontend",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 5130,
+      "delta_R_ns": 5.0,
+      "rho_Byte_per_s": 24951267.056530215,
+      "tau_Byte_per_s": 3200000000.0,
+      "ridge": 0.0077972709551656924
+    },
+    {
+      "id": "64_write_drivers",
+      "kind": "actual_write_resource_comparison",
+      "common_profile": "reference",
+      "mode": "binary_charge_domain_approximate_BPBS",
+      "mapping_id": "8_planes_128x128_R0",
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 64,
+        "adc_batches": 64,
+        "reconstruction_rounds": 64,
+        "digital_ticks": 128,
+        "useful_scalar_conversions": 8192,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "frontend_complete_ns": 20,
+      "engineering_read_residual_ns": 15,
+      "common_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "complete_memory_cycle_ns": 5,
+      "write_batches": 2,
+      "write_data_beats": 1,
+      "parallel_write_cells": 64,
+      "hold_extra_ns": 0,
+      "stage_coverage": {
+        "streaming": [
+          {
+            "stage": "reset_input_array_frontend",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "complete_SAR_batch",
+            "count": 64,
+            "each_ns": 20,
+            "total_ns": 1280
+          },
+          {
+            "stage": "digital_reconstruction",
+            "count": 128,
+            "each_ns": 5,
+            "total_ns": 640
+          },
+          {
+            "stage": "input_capture_output_commit",
+            "count": 2,
+            "each_ns": 5,
+            "total_ns": 10
+          }
+        ],
+        "resident": [
+          {
+            "stage": "complete_synchronous_ordinary_write",
+            "count": 2,
+            "each_ns": 5,
+            "total_ns": 10.0
+          }
+        ],
+        "replaced_shared_front_ns": 10,
+        "uncollapsed_direct_template_ns": 20,
+        "extra_write_handshake_ns": 0
+      },
+      "streaming_dominant": "reset_input_array_frontend",
+      "resident_dominant": "ordinary synchronous write",
+      "sources": [
+        "E01",
+        "E02",
+        "E04",
+        "E06",
+        "E07",
+        "E09",
+        "E10"
+      ],
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 3210,
+      "delta_R_ns": 10.0,
+      "rho_Byte_per_s": 39875389.40809969,
+      "tau_Byte_per_s": 1600000000.0,
+      "ridge": 0.024922118380062305
+    }
+  ],
+  "ranges": {
+    "delta_S_ns": [
+      1540,
+      7700
+    ],
+    "delta_R_ns": [
+      2.2,
+      10.0
+    ],
+    "rho_Byte_per_s": [
+      16623376.623376621,
+      83116883.11688311
+    ],
+    "tau_Byte_per_s": [
+      1600000000.0,
+      7272727272.727272
+    ],
+    "ridge": [
+      0.010389610389610388,
+      0.012461059190031152
+    ],
+    "independent_endpoint_ridge_envelope": [
+      0.0022857142857142855,
+      0.051948051948051945
+    ]
+  },
+  "whole_matrix_updates": [
+    {
+      "profile": "short",
+      "logical_payload_Byte": 16384,
+      "transactions": 1024,
+      "delta_R_ns": 2252.8,
+      "tau_Byte_per_s": 7272727272.727272
+    },
+    {
+      "profile": "reference",
+      "logical_payload_Byte": 16384,
+      "transactions": 1024,
+      "delta_R_ns": 5120.0,
+      "tau_Byte_per_s": 3200000000.0
+    },
+    {
+      "profile": "long",
+      "logical_payload_Byte": 16384,
+      "transactions": 1024,
+      "delta_R_ns": 10240.0,
+      "tau_Byte_per_s": 1600000000.0
+    }
+  ]
+}

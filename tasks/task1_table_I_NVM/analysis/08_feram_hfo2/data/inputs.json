@@ -1,0 +1,130 @@
+{
+  "case_id": "08_feram_hfo2",
+  "baseline_id": "shared_baseline",
+  "mode": "HZO 1T1C binary memory with reference local exact-integer digital CIM, destructive sensing and mandatory full activated-row writeback",
+  "units": {
+    "time": "ns",
+    "payload": "Byte",
+    "rho_tau": "Byte/s",
+    "display_bandwidth": "decimal GB/s",
+    "ridge": "dimensionless"
+  },
+  "provenance": {
+    "shared_json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "shared_api_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
+    "original_values": "Local PDF pages/Figs audited; see notes/evidence.zh.md",
+    "reference_choice": "This is an engineering organization over measured HZO memory evidence, not a measured CIM macro"
+  },
+  "mapping": {
+    "id": "HZO_1T1C_32x32x128_D0",
+    "cell_state": "binary remanent polarization; 1 FeCAP per bit",
+    "cells_per_weight": 8,
+    "shards": 32,
+    "rows_per_shard": 32,
+    "local_row_bits": 128,
+    "sense_amplifiers_per_shard": 128,
+    "total_sense_amplifiers": 4096,
+    "logical_to_physical": "s=i mod32; physical_row=8 floor(i/32)+floor(j/16); column=8(j mod16)+k",
+    "read_active_rows": 32,
+    "resident_active_rows": 1,
+    "independent_payload_replicas": 1,
+    "update_domains": 1,
+    "write_BL_target_drivers": 128,
+    "read_restore_drivers": 4096,
+    "write_target_phases": 2,
+    "plate_sequence": "hold PL=Vw then hold PL=0; BL=0 for target0 and BL=Vw for target1; VFE is PL-BL",
+    "unselected_rows": "WL off; independently selected local row PL and write domain; no shared destructive activation beyond the 128-bit row",
+    "precision": "INT8 x INT8 to exact signed 24-bit output conditional on binary memory functionality; no analog multi-level weight",
+    "D0_round_readout_register_bits": 4096,
+    "D1_additional_long_hold_weight_bits": 4096
+  },
+  "paired_media_budgets_ns": {
+    "short": {
+      "sense": 8,
+      "polarization_hold_per_phase": 14,
+      "open_close_bias_total": 20
+    },
+    "reference": {
+      "sense": 20,
+      "polarization_hold_per_phase": 50,
+      "open_close_bias_total": 40
+    },
+    "long": {
+      "sense": 50,
+      "polarization_hold_per_phase": 100,
+      "open_close_bias_total": 80
+    }
+  },
+  "budget_rationale": {
+    "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
+    "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
+    "dedicated_open_close": "20/40/80 ns total allocation for BL precharge/reference, WL/PL bias establishment, pulse edges, SA reset and return to reusable state excluding polarization holds. Short=10+10 ns open/close (round above 8 ns observed sense); reference=20+20; long=40+40. FERAM-03 Fig9 establishes required stages; FERAM-04 Fig13 tRP=80 ns and complete tRC=185 ns cross-check scale, NOT a disjoint timing block to add. No PVT guarantee or measured per-stage split.",
+    "voltage": "Measured anchor FERAM-03: 11 nm TiN/HZO/TiN, 2.5 V, 1 um2 capacitor tested. Memory voltage domain and compatible access/level-shift circuitry retained as a design requirement; shared 28 nm 0.9 V applies to digital periphery only, with no geometric speed scaling.",
+    "write_parallelism": "128 target BL drivers and one selected local plate driver provisioned for a whole128bit row, independently of 128bit input interface; 32 read SA banks support parallel restore from their own latches. Updating externally is serialized by choice to one target-data/decoder domain.",
+    "endpoint": "Open-loop binary write, no analog verify or unspecified retries. Conditional capacity is for cells passing binary-state read/write qualification under stated window; failure beyond budget is failed service, not extra successful payload."
+  },
+  "stage_coverage": {
+    "read_includes": [
+      "precharge and reference formation",
+      "WL/PL bias establishment",
+      "sense and SA latch",
+      "capture SA output into 4096-bit round operand register before reset; budgeted in dedicated open/close control",
+      "one polarization restoration phase",
+      "line return and SA reset"
+    ],
+    "write_includes": [
+      "interface/control from shared front_ns",
+      "precharge and bias establish",
+      "two target-polarity holds",
+      "line return and reset"
+    ],
+    "destructive_restore_counted_in_media_read": true,
+    "extra_restore_after_complete_read": false,
+    "c2feram_timing_imported": false,
+    "NVDRAM_185ns_added_to_components": false,
+    "program_verify_loops": 0,
+    "erase_amortization": 0,
+    "refresh": "No scheduled refresh in active service window for remanent 1T1C state. Destructive writeback is paid every physical read. Retention/lifetime separate; no C2 floating-node assumption.",
+    "read_latch_condition": "D0 round output data survive SA reset; D1 adds independent 4096-bit hold and one capture tick per group for eight-input-bit reuse"
+  },
+  "reuse_sensitivity": {
+    "id": "D1_reuse",
+    "extra_weight_latch_bits": 4096,
+    "capture_ticks_per_read_group": 1,
+    "purpose": "Read and restore once, capture all 4096 bits, then compute all 8 input-bit rounds before next group; same matrix and same resident update domain"
+  },
+  "sources": [
+    {
+      "id": "FERAM-01",
+      "path": "literature/08_feram_hfo2/FERAM-01_2023_C2FeRAM.pdf",
+      "sha256": "1e878eb85396e3c7ca67c4ae0006bd6344d1acd668eed06eaa18267c1d51b88a",
+      "doi": "10.1109/LED.2023.3274362",
+      "title": "A 2-Transistor-2-Capacitor Ferroelectric Edge Compute-in-Memory Scheme with Disturb-Free Inference and High Endurance",
+      "anchors": "pp.2–3，Figs.3–6、II–III"
+    },
+    {
+      "id": "FERAM-02",
+      "path": "literature/08_feram_hfo2/FERAM-02_2021_UltrathinHZO_1T1C.pdf",
+      "sha256": "07f1125ad2e587c3cf175cfd59680ef743bb839e3e06387e7cf5f63dc208b43f",
+      "doi": "10.1109/iedm19574.2021.9720545",
+      "title": "Low Voltage and High Speed 1Xnm 1T1C FE-RAM with Ultra-Thin 5nm HZO",
+      "anchors": "pp.1–2，II-B／III-B；pp.3–4，Figs.3、8–10"
+    },
+    {
+      "id": "FERAM-03",
+      "path": "literature/08_feram_hfo2/FERAM-03_2020_SoC_1T1C_HZO.pdf",
+      "sha256": "3baca7408c4bb97570f0a03e4e8d4c206013a3b3793313c283b36d5efa97afe2",
+      "doi": "10.1109/vlsitechnology18217.2020.9265063",
+      "title": "SoC Compatible 1T1C FeRAM Memory Array Based on Ferroelectric Hf0.5Zr0.5O2",
+      "anchors": "p.1，64 kbit array demonstration；p.2，Figs.8–11"
+    },
+    {
+      "id": "FERAM-04",
+      "path": "literature/08_feram_hfo2/FERAM-04_2023_NVDRAM_32Gb.pdf",
+      "sha256": "5498a6eda09eb2e32ca98e699da8ea9a750894b57c4ef8ed46f33987aefd1028",
+      "doi": "10.1109/iedm45741.2023.10413848",
+      "title": "NVDRAM: A 32Gb Dual Layer 3D Stacked Non-volatile Ferroelectric Memory with Near-DRAM Performance for Demanding AI Workloads",
+      "anchors": "p.2，Memory Cell／Component Performance；p.4，Fig.13"
+    }
+  ]
+}

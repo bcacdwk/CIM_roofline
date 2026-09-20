@@ -1,0 +1,22 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
+\usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={MRAM：互补状态数字求值与完整写验}}
+\setstretch{1.12}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{14pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small MRAM 介质分析}\fancyhead[R]{\small 28 nm 局部参考设计}
+\fancyfoot[C]{\thepage}
+\newcommand{\sid}[1]{\texttt{#1}}
+\title{\bfseries MRAM\\[4pt]\large 互补状态数字求值与完整写验}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-1.8em}
+\noindent 以互补 MTJ 的 bitcell 数字 CIM 为代表路径，结合 28 nm 读写电路证据，估算同一局部状态的两路服务能力。结果是有资源与成功写验条件的工程预算，非同一芯片的两路实测。
+\input{06_mram}
+\end{document}

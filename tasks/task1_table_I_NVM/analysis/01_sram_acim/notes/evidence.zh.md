@@ -1,0 +1,16 @@
+# SRAM ACIM 证据表
+
+页码均为本地PDF页序，原值与工程采用值分开。由 inputs.json 生成；解释及手算见 method_review.zh.md。
+
+|编号/来源/定位|原值与单位|条件与性质|采用及桥接|
+|---|---|---|---|
+| E01 / SACIM-03 / PDF p.2 II-A/B, Figs.1–3 | 二进制存储/原生行数：128×256 9T1C；128个4b DAC；64个4b Flash ADC；每cell传统6T+TG+Mn+约1.33fF MOM电容 [cells / bit / fF] | 28nm；每cell存1b；128行并行；4列HCA合成4b权重；reported_architecture | 保留128行及binary cell，改8个独立权重平面；每平面128列、16选通输出及16 SAR；原4列HCA与4b Flash不沿用；数字重构合成INT8，属于新参考电路而非原宏直接放大 |
+| E02 / SACIM-03 / PDF p.2 Fig.3; p.3 Fig.5/III; p.5 Table II/Conclusion | 宏完整周期与电压文内差异：100MHz=10ns；III与Table II给0.9V；Conclusion写1.2V [MHz / ns / V] | 28nm实测宏；reset、evaluation、ADC readout分相；4b输出；温度未明确；reported_timing_and_measured_frequency | 前端reset/input/array整体T_F=10/20/50ns，替代T_I+t_m；ADC另用新SAR时隙；10ns只锚定量级，不从总周期拆出测得cell延迟；参考2倍与长5倍为高精度建立/适配工程余量，非原周期加原ADC |
+| E03 / SACIM-03 / PDF p.4 Fig.8; p.5 Table II | 原精度边界：单通道RMSE平均0.323 LSB、标准差0.467 LSB；4b ADC LSB [LSB of 4-bit output] | 64输出；部分宏间测试跨4芯片；非8b部分和误差证书；measured_precision_condition | ACIM维持近似部分和合同，8有效位为ADC资源目标；不宣称精确INT8；提高ADC位数与建立时间不能消除电容/前端非线性；需要校准及后续电路验证 |
+| E04 / SACIM-01 / PDF p.2 II-B; p.5 IV-A; p.9 V-A; p.10 Fig.18 | BPBS与转换率分开：weight bits并行列、input bits串行；1152×256可配置2304×128；每列8b SAR；实测200MHz数字/20MS/s ADC [bits / rows / MHz / MSps] | 65nm、0.8V；设计target500MHz未达到原型测试条件；wirebond供电影响；architecture_and_measured_crosscheck | 支持8输入位×8权重位重构与SAR/DSP独立节拍；不作为28nm速度；独立列位平面是已有结构方法；原芯片容量/吞吐/20MSps不直接代入本局部边界 |
+| E05 / SACIM-05 / PDF p.2 III-A/B Fig.4; p.3 III-C/D; p.4 Fig.8; p.5 Fig.11 | 普通SRAM写与CIM分离：32个6T cell共享HIPCC；GBL/GBLB经HWL接LBL/LBLB后选WL写；8b输入分4组2b；16项MAC为3.8ns@0.9V、3.6ns@1V [cells / bit / ns / V] | 28nm；20bit输出；不同16项与GBL-comb组织；普通写绝对周期未报告；architecture_and_measured_crosscheck | 证实普通BL/WL写与模拟求值为不同模式；不采用3.8ns作128项INT8求值或写周期；16项全8b宏与128项binary参考不同；计算周期不能充当普通写周期 |
+| E06 / CMOS-02 / PDF p.7 III; pp.7–8 Figs.9–12 | 10b SAR完整样本时隙：100MS/s；Nyquist ENOB8.27bit；0.9V、室温；输入buffer和reference包括在测试中 [MSps / bit / V] | 28nm；PVT表为后仿真；1MHz SNDR正文55.13dB与Fig.10 56.91dB不一致；measured_adc | T_A=10/20/50ns读共享JSON；每颗每样本完整可复用时隙；10ns已含逐次逼近所有比较；128颗并行一次产生128码，不乘10个SAR步骤 |
+| E07 / CMOS-07 / PDF p.1 synchronous ports; p.2 Fig.2; p.9 Tables II/III | 普通完整同步周期锚点：455MHz；48bit×1k word；2RW 8T；typical1.05V；25°C读写功耗测试 [MHz / bit / V / °C] | 28nm eFlash高阈值工艺；CLK上升沿捕获命令/地址/数据；可连续写读；非单独write-min测试；measured_and_cycle_definition | 2.2ns=1000/455向上取0.1ns；参考/长5/10ns；移植为128bit 6T存储端口完整周期；跨48→128bit和8T→9T1C内的6T是设计预算；必须配置128真实写驱动；与DCIM同锚点标准 |
+| E08 / CMOS-07 / PDF p.9 Table II | 排除read access：1.54ns typical read access [ns] | 同一48kbit 2RW宏；measured_excluded | 不作为写周期也不叠加到ACIM求值；读访问延迟与完整可复用同步周期不同 |
+| E09 / CMOS-03 / PDF p.1 II; p.3 IV-C | 6T完整写成功/负载：50FO4≈1ns周期；25FO4 WL脉冲；15fF/128cell；SA offset0.1V [FO4 / ns / fF / V] | HD28nm 6T，TT、nominal1V；瞬态模型；周期末内部节点到目标；back-to-back；BER<1e-9对应1MB/90%yield；model_and_success_endpoint | 支持128cell位线、完整写终点与数ns量级；不把1ns当ACIM硅测写周期；同沿写入至下个可计算沿覆盖BL建立、WL、翻转、关断/恢复；半周期脉冲不等于完整事务 |
+| E10 / shared_baseline / data/shared_parameters.json: R0/selection_rules R1–R5 | 共同服务资源：128×128 INT8；输入128Byte；输出128×24bit；8权重平面×16ADC；16数字通道、2拍/轮；128bit写口 [elements / Byte / bit / lanes] | 28nm、0.9V/25°C参考而非PVT保证；无等面积约束；accepted_reference_choice | R0计数不变；前端R4合并；写R4完整同步周期替代front；独立单元/更新域1；b_R=1Byte/weight，事务B_R=16Byte；内部展开/编码不重复payload |
