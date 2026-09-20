@@ -17,7 +17,10 @@
   },
   "mapping": {
     "kind": "reference_choice_supported_by_topology",
-    "source_locators": ["FENOR-02 p.3 Figs.9-11", "FENOR-01 p.3 Fig.12"],
+    "source_locators": [
+      "FENOR-02 p.3 Figs.9-11",
+      "FENOR-01 p.3 Fig.12"
+    ],
     "independent_row_read_lanes": 32,
     "input_rows_per_lane": 4,
     "outputs_per_strip": 16,
@@ -59,22 +62,49 @@
     "maintenance_in_payload": false
   },
   "profiles": [
-    {"profile": "short", "complete_binary_read_ns": 20, "bias_transition_ns": 5},
-    {"profile": "reference", "complete_binary_read_ns": 40, "bias_transition_ns": 10},
-    {"profile": "long", "complete_binary_read_ns": 80, "bias_transition_ns": 20}
+    {
+      "profile": "short",
+      "complete_binary_read_ns": 20,
+      "bias_transition_ns": 5
+    },
+    {
+      "profile": "reference",
+      "complete_binary_read_ns": 40,
+      "bias_transition_ns": 10
+    },
+    {
+      "profile": "long",
+      "complete_binary_read_ns": 80,
+      "bias_transition_ns": 20
+    }
   ],
   "engineering_read_budget": {
     "kind": "reference_choice",
-    "includes": ["local row/layer and output selection", "read bias establishment and local RC", "binary sensing and recovery"],
-    "excludes": ["digital multiplication/reduction tick", "input capture and output commit"],
-    "anchors": ["FENOR-02 p.2 Fig.5(c): -0.5 V, 20 ns read endurance stress pulse; not full read-cycle measurement", "FENOR-02 p.3 Fig.11(d): TCAD-extracted RC/SPICE read latency over layer count; not measured macro", "FENOR-02 p.3 Fig.10: array binary threshold states"],
+    "includes": [
+      "local row/layer and output selection",
+      "read bias establishment and local RC",
+      "binary sensing and recovery"
+    ],
+    "excludes": [
+      "digital multiplication/reduction tick",
+      "input capture and output commit"
+    ],
+    "anchors": [
+      "FENOR-02 p.2 Fig.5(c): -0.5 V, 20 ns read endurance stress pulse; not full read-cycle measurement",
+      "FENOR-02 p.3 Fig.11(d): TCAD-extracted RC/SPICE read latency over layer count; not measured macro",
+      "FENOR-02 p.3 Fig.10: array binary threshold states"
+    ],
     "meaning": "20/40/80 ns are complete local binary-read engineering allowances for the stated lateral resources, not extracted confidence bounds; no ADC is used."
   },
   "engineering_driver_budget": {
     "kind": "conditional_circuit_budget",
     "maximum_effective_capacitance_per_driven_node_fF": 100,
     "worst_swing_V": 2.6666666666666665,
-    "slew_current_uA_by_profile": {"short": 60, "reference": 30, "long": 15},
+    "slew_current_uA_by_profile": {
+      "short": 60,
+      "reference": 30,
+      "long": 15
+    },
     "driven_nodes_per_strip": 36,
     "node_count_definition": "16 independently controlled BLs + 16 SLs + 4 layer WL segments",
     "scope": "Local level-shifted rail drivers and isolation, not a measured FeFET driver macro; C and current are explicit design limits that support 5/10/20 ns transitions. Supply rails are already available locally. No off-boundary rail startup is claimed.",
@@ -91,8 +121,39 @@
     "description": "Eight weight-plane strips of the same aligned 16-weight word share two polarity phases under one controller. Requires eight times the write line drivers and rail transient capacity. Uses 128 existing binary sense nodes and eight compare ticks; does not multiply B_R or independent service units."
   },
   "exceptions": [
-    {"rule_id": "R2", "r0_value": "32 rows x 16 outputs x 8 weight bits per read round", "configured_value": "Unchanged operand width, realized with 32 separate lateral row lanes; only one of four shared-BL layers selected per lane", "reason": "FENOR-02 vertical AND topology and FENOR-01 horizontal n-bit weight/sense structure require explicit independent sense paths. Stack height alone provides no operand parallelism.", "consequence": "4096 binary sense nodes plus 16 digital reduction lanes; same capacity on both services."},
-    {"rule_id": "R3", "r0_value": "128-bit encoded-data interface, physical write width unspecified", "configured_value": "16-cell local strip in main design; W128 contrasts 128 cells", "reason": "FENOR-02 measured 4x16x16 array supports local selection and disturb pattern, not a 128-cell driver guarantee", "consequence": "Eight sequential physical write batches complete one 16-Byte logical transaction; W128 adds the explicit driver resources."},
-    {"rule_id": "R4", "r0_value": "Replace covered stages if complete macro timing exists", "configured_value": "No complete macro timing claimed; 20 ns write plateau, 100 ns post-pulse guard, read/verify, interface and digital stages separately budgeted", "reason": "FENOR-02 separates switching, RAWD, array pattern, and simulated RC", "consequence": "Final return is inside post-pulse guard, and read budget is used once before each digital round or terminal verify."}
-  ]
+    {
+      "rule_id": "R2",
+      "r0_value": "32 rows x 16 outputs x 8 weight bits per read round",
+      "configured_value": "Unchanged operand width, realized with 32 separate lateral row lanes; only one of four shared-BL layers selected per lane",
+      "reason": "FENOR-02 vertical AND topology and FENOR-01 horizontal n-bit weight/sense structure require explicit independent sense paths. Stack height alone provides no operand parallelism.",
+      "consequence": "4096 binary sense nodes plus 16 digital reduction lanes; same capacity on both services."
+    },
+    {
+      "rule_id": "R3",
+      "r0_value": "128-bit encoded-data interface, physical write width unspecified",
+      "configured_value": "16-cell local strip in main design; W128 contrasts 128 cells",
+      "reason": "FENOR-02 measured 4x16x16 array supports local selection and disturb pattern, not a 128-cell driver guarantee",
+      "consequence": "Eight sequential physical write batches complete one 16-Byte logical transaction; W128 adds the explicit driver resources."
+    },
+    {
+      "rule_id": "R4",
+      "r0_value": "Replace covered stages if complete macro timing exists",
+      "configured_value": "No complete macro timing claimed; 20 ns write plateau, 100 ns post-pulse guard, read/verify, interface and digital stages separately budgeted",
+      "reason": "FENOR-02 separates switching, RAWD, array pattern, and simulated RC",
+      "consequence": "Final return is inside post-pulse guard, and read budget is used once before each digital round or terminal verify."
+    }
+  ],
+  "technology": "2026 3D vertical AND FeFET (FENOR-02)",
+  "observation_sensitivity": {
+    "kind": "fixed_reference_periphery_engineering_reserve_sensitivity",
+    "observation_ns": [
+      100,
+      150
+    ],
+    "fixed": "16-cell strip, 40 ns complete binary read, 10 ns transition, 5 ns TD, two 20 ns plateaus; terminal verify retained",
+    "meaning": "100 ns remains the conservative reference; 150 ns tests 50 ns additional engineering reserve, not a measured upper bound or physical uncertainty interval. RAWD < 100 ns does not establish a specific shorter waiting time.",
+    "source_id": "FENOR-02",
+    "source_locator": "local PDF p.2 Fig.3(d), Read @ -0.5 V, RAWD < 100 ns; caption minimal read latency < 100 ns",
+    "coverage": "Chosen observation starts at final write plateau end and includes final write-bias return; complete binary read starts afterwards and includes read-bias setup/sensing/read recovery. This conservative schedule has no separately added final write return. The original plot does not decompose those stages."
+  }
 }

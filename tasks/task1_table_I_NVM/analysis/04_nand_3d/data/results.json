@@ -529,5 +529,17 @@
     }
   },
   "numeric_estimation_complete": true,
-  "range_kind": "paired reference-design budgets, not statistical confidence intervals or universal SLC bounds"
+  "range_kind": "paired conditional budgets at fixed 25 us integration; not physical uncertainty bounds",
+  "fixed_main_integration": {
+    "feedback_capacitance_pF": 16,
+    "useful_swing_V": 0.4,
+    "nominal_cell_current_nA": 2,
+    "copies": 1,
+    "integration_ns": 25000
+  },
+  "dominant_sensitivity": {
+    "kind": "existing_resource_contrast",
+    "entry": "organization_comparison",
+    "meaning": "c=108 changes signal current, required drive and random averaging; not an equal-precision comparison"
+  }
 }

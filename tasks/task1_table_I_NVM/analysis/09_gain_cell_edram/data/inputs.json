@@ -7,7 +7,8 @@
     "time": "ns",
     "payload": "Byte",
     "rho_tau": "Byte/s",
-    "ridge": "dimensionless"
+    "ridge": "dimensionless",
+    "summary_throughput": "decimal MB/s = 1e6 Byte/s"
   },
   "baseline_hashes": {
     "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
@@ -522,5 +523,19 @@
       "condition": "16nm 4T storage +7T STU, separate stationary update and local SRU read/rewrite self-refresh",
       "use": "Resource-dependent overlap mechanism; storage write alone is not resident completion"
     }
-  ]
+  ],
+  "scenario_policy": {
+    "recommended_reference": "reference",
+    "ordinary_paired_scenarios": [
+      "short",
+      "reference"
+    ],
+    "pressure_scenarios": [
+      "long"
+    ],
+    "meaning": "Conditional paired engineering scenarios, not a full uncertainty envelope. The long profile is refresh-critical pressure, not a representative throughput lower bound.",
+    "infeasibility": "Do not clip alpha. At alpha <= 0 export null effective intervals, throughput and ridge; preserve raw occupation and signed availability.",
+    "dominant_comparison": "Existing wide32 resource comparison at common reference peripheral timings.",
+    "targeted_stress": "Keep long periphery, 75 ns program and 400 us period; increase dedicated_read_ns from 200 to 216 to cross the exact 215.33658536585366 ns feasibility boundary."
+  }
 }

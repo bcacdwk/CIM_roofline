@@ -1,10 +1,10 @@
 % Generated; do not edit.
 \begin{table}[htbp]\centering\small
 \begin{tabular}{@{}lrrrrr@{}}\toprule
-条件 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (GB/s) & $\tau$ (GB/s) & $\mathrm{RI}^{*}$\\\midrule
-前端 10 ns & 2570 & 5 & 0.04981 & 3.2 & 0.01556\\
-前端 20 ns & 3210 & 5 & 0.03988 & 3.2 & 0.01246\\
-前端 50 ns & 5130 & 5 & 0.02495 & 3.2 & 0.00780\\
-64个实际写驱动 & 3210 & 10 & 0.03988 & 1.6 & 0.02492\\
+条件 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
+前端 10 ns & 2570 & 5 & 49.81 & 3200 & 0.01556\\
+前端 20 ns & 3210 & 5 & 39.88 & 3200 & 0.01246\\
+前端 50 ns & 5130 & 5 & 24.95 & 3200 & 0.00780\\
+64个实际写驱动 & 3210 & 10 & 39.88 & 1600 & 0.02492\\
 \bottomrule\end{tabular}
 \caption{固定共同参考外围的敏感性。前三行仅改前端预算；末行保持20ns前端，但写驱动减半、两个完整同步写槽完成同一16Byte事务。}\end{table}
