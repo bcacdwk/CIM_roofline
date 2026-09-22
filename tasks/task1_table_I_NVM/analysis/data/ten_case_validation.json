@@ -1,0 +1,179 @@
+{
+  "validation_kind": "independent representative arithmetic and cross-case semantics; not silicon/accuracy validation",
+  "cases": [
+    {
+      "case_id": "01_sram_acim",
+      "formula": "64(20+20+2×5)+2×5; complete SRAM write 5 ns",
+      "independent": {
+        "raw_streaming_ns": 3210,
+        "raw_resident_ns": 5,
+        "effective_streaming_ns": 3210.0,
+        "effective_resident_ns": 5.0,
+        "rho_MB_per_s": 39.87538940809969,
+        "tau_MB_per_s": 3200.0,
+        "RI_star": 0.012461059190031152
+      },
+      "matrix_transactions": 1024,
+      "matrix_raw_resident_ns": 5120.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "formula": "512 complete MAC slots×5+2×5; 64 static row-group selections; write 5 ns",
+      "independent": {
+        "raw_streaming_ns": 2570,
+        "raw_resident_ns": 5,
+        "effective_streaming_ns": 2570.0,
+        "effective_resident_ns": 5.0,
+        "rho_MB_per_s": 49.80544747081712,
+        "tau_MB_per_s": 3200.0,
+        "RI_star": 0.01556420233463035
+      },
+      "matrix_transactions": 1024,
+      "matrix_raw_resident_ns": 5120.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "03_nor_2d",
+      "formula": "256(120+5)+10; 4×45ms+64×0.4ms+(64×18+4×2)×5ns",
+      "independent": {
+        "raw_streaming_ns": 32010,
+        "raw_resident_ns": 205605800.0,
+        "effective_streaming_ns": 32010.0,
+        "effective_resident_ns": 205605800.0,
+        "rho_MB_per_s": 3.998750390502968,
+        "tau_MB_per_s": 0.07968646798874351,
+        "RI_star": 50.18104693845673
+      },
+      "matrix_transactions": 1,
+      "matrix_raw_resident_ns": 205605800.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "04_nand_3d",
+      "formula": "T_int=16pF×0.4V/(128×2nA)=25us; C=80687ns; 1280 complete P+128 E+C",
+      "independent": {
+        "raw_streaming_ns": 1687682,
+        "raw_resident_ns": 7040784687,
+        "effective_streaming_ns": 1687682.0,
+        "effective_resident_ns": 7040784687.0,
+        "rho_MB_per_s": 0.07584367197137849,
+        "tau_MB_per_s": 0.0023270133555214623,
+        "RI_star": 32.59271021862383
+      },
+      "matrix_transactions": 1,
+      "matrix_raw_resident_ns": 7040784687.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "05_rram",
+      "formula": "256(5+5+20+10)+10; 10+8(2+1)×3040",
+      "independent": {
+        "raw_streaming_ns": 10250,
+        "raw_resident_ns": 72970,
+        "effective_streaming_ns": 10250.0,
+        "effective_resident_ns": 72970.0,
+        "rho_MB_per_s": 12.487804878048781,
+        "tau_MB_per_s": 0.21926819240783885,
+        "RI_star": 56.95219512195122
+      },
+      "matrix_transactions": 1024,
+      "matrix_raw_resident_ns": 74721280.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "06_mram",
+      "formula": "256(5+5)+10; 10+2×30+5+2(5+5); two-phase write and two-branch verify",
+      "independent": {
+        "raw_streaming_ns": 2570,
+        "raw_resident_ns": 95,
+        "effective_streaming_ns": 2570.0,
+        "effective_resident_ns": 95.0,
+        "rho_MB_per_s": 49.80544747081712,
+        "tau_MB_per_s": 84.21052631578947,
+        "RI_star": 0.5914396887159533
+      },
+      "matrix_transactions": 2048,
+      "matrix_raw_resident_ns": 194560.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "07_pcm",
+      "formula": "1024(20+20+10)+10; 15+8[5+60+125+300+2(20+20+5)]",
+      "independent": {
+        "raw_streaming_ns": 51210,
+        "raw_resident_ns": 4655,
+        "effective_streaming_ns": 51210.0,
+        "effective_resident_ns": 4655.0,
+        "rho_MB_per_s": 2.499511814098809,
+        "tau_MB_per_s": 6.874328678839957,
+        "RI_star": 0.3636008592071861
+      },
+      "matrix_transactions": 512,
+      "matrix_raw_resident_ns": 2383360.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "formula": "32 physical sense/restore slots×110+256 digital rounds×5+10; 10+40+2×50",
+      "independent": {
+        "raw_streaming_ns": 4810,
+        "raw_resident_ns": 150,
+        "effective_streaming_ns": 4810.0,
+        "effective_resident_ns": 150.0,
+        "rho_MB_per_s": 26.611226611226613,
+        "tau_MB_per_s": 106.66666666666667,
+        "RI_star": 0.2494802494802495
+      },
+      "matrix_transactions": 1024,
+      "matrix_raw_resident_ns": 153600.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "formula": "raw 128×175+258×5; raw 15+65; alpha=(400000-1024×260-185)/400000",
+      "independent": {
+        "raw_streaming_ns": 23690,
+        "raw_resident_ns": 80,
+        "effective_streaming_ns": 70941.41867864496,
+        "effective_resident_ns": 239.5657870110425,
+        "rho_MB_per_s": 1.8043056141832,
+        "tau_MB_per_s": 66.7875,
+        "RI_star": 0.027015618404390037
+      },
+      "matrix_transactions": 1024,
+      "matrix_raw_resident_ns": 81920.0,
+      "pass_check": true
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "formula": "256(40+5)+10; 10+8(30+40+100+40+5); final return within observation window",
+      "independent": {
+        "raw_streaming_ns": 11530,
+        "raw_resident_ns": 1730,
+        "effective_streaming_ns": 11530.0,
+        "effective_resident_ns": 1730.0,
+        "rho_MB_per_s": 11.101474414570685,
+        "tau_MB_per_s": 9.248554913294798,
+        "RI_star": 1.2003469210754554
+      },
+      "matrix_transactions": 1024,
+      "matrix_raw_resident_ns": 1771520.0,
+      "pass_check": true
+    }
+  ],
+  "geometry_checks": [
+    "PCM 512 diagonal groups cover all 16384 weights once",
+    "RRAM grouped updates tile the full matrix",
+    "FeRAM 32 physical reads and 256 compute rounds",
+    "NOR independent read/erase partitions",
+    "NAND data/reference utilization"
+  ],
+  "gain_cell_infeasible_cases": 1,
+  "shared_hashes": {
+    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
+    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  },
+  "unique_case_prefixed_labels": 35,
+  "all_passed": true
+}

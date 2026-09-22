@@ -1,7 +1,7 @@
 {
   "case_id": "07_pcm",
   "baseline_id": "shared_baseline",
-  "inputs_sha256": "d9cdd514435d14d0cf55f6f2626325bfe83fde9b36d347d12df7a4acef64931a",
+  "inputs_sha256": "f9756f80161f0c488b73319ebefffe610584c49a0fd275ae6c4e4d6b1b6bdb3d",
   "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
   "units": {
     "time": "ns",
@@ -109,6 +109,7 @@
         "adc_batch": 10,
         "digital_tick": 2
       },
+      "drive_transition_ns": 10,
       "read_front_total_ns": 10,
       "read_media_API_ns": 8,
       "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
@@ -175,6 +176,7 @@
         "adc_batch": 20,
         "digital_tick": 5
       },
+      "drive_transition_ns": 20,
       "read_front_total_ns": 20,
       "read_media_API_ns": 15,
       "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
@@ -241,6 +243,7 @@
         "adc_batch": 50,
         "digital_tick": 10
       },
+      "drive_transition_ns": 50,
       "read_front_total_ns": 50,
       "read_media_API_ns": 40,
       "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
@@ -269,9 +272,141 @@
       0.653213995117982
     ]
   },
-  "independent_endpoint_outer_envelope": [
-    0.1306427990235964,
-    1.0528885272579334
+  "driver_transition_sensitivity": [
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 32,
+      "delta_S_ns": 51210,
+      "delta_R_ns": 4415.0,
+      "rho_Byte_per_s": 2499511.8140988084,
+      "tau_Byte_per_s": 7248018.1200453,
+      "ridge": 0.344854520601445,
+      "profile": "reference",
+      "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+      "baseline_id": "shared_baseline",
+      "writeheads": 32,
+      "verify_mode": "same_front_binary_endpoint",
+      "read_counts": {
+        "input_slices": 8,
+        "row_groups": 16,
+        "weight_groups": 1,
+        "base_combinations": 128,
+        "evaluations": 1024,
+        "adc_batches": 1024,
+        "reconstruction_rounds": 1024,
+        "digital_ticks": 2048,
+        "useful_scalar_conversions": 131072,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "program_batches": 8,
+      "verify_passes": 16,
+      "encoded_load_bits": 256,
+      "data_beats": 2,
+      "physical_cells_updated": 256,
+      "read_stages_ns": {
+        "front_including_TI": 20480,
+        "ADC": 20480,
+        "digital_decode_reconstruct": 10240,
+        "boundary": 10
+      },
+      "write_stages_ns": {
+        "interface": 15,
+        "batch_select": 40,
+        "current_driver_transitions": 240,
+        "RESET_pulses": 1000,
+        "SET_pulses": 2400,
+        "verify_front": 320,
+        "verify_ADC": 320,
+        "verify_endpoint_compare": 80
+      },
+      "shared_profile_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "drive_transition_ns": 10,
+      "read_front_total_ns": 20,
+      "read_media_API_ns": 15,
+      "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+      "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+      "dominant_write": "SET+RESET pulses",
+      "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+      "matrix_reload": {
+        "B_R_Byte": 16384,
+        "delta_R_ns": 2260480.0,
+        "transactions": 512,
+        "tau_Byte_per_s": 7248018.1200453
+      }
+    },
+    {
+      "B_S_Byte": 128,
+      "B_R_Byte": 32,
+      "delta_S_ns": 51210,
+      "delta_R_ns": 5375.0,
+      "rho_Byte_per_s": 2499511.8140988084,
+      "tau_Byte_per_s": 5953488.372093023,
+      "ridge": 0.4198398750244093,
+      "profile": "reference",
+      "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+      "baseline_id": "shared_baseline",
+      "writeheads": 32,
+      "verify_mode": "same_front_binary_endpoint",
+      "read_counts": {
+        "input_slices": 8,
+        "row_groups": 16,
+        "weight_groups": 1,
+        "base_combinations": 128,
+        "evaluations": 1024,
+        "adc_batches": 1024,
+        "reconstruction_rounds": 1024,
+        "digital_ticks": 2048,
+        "useful_scalar_conversions": 131072,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "program_batches": 8,
+      "verify_passes": 16,
+      "encoded_load_bits": 256,
+      "data_beats": 2,
+      "physical_cells_updated": 256,
+      "read_stages_ns": {
+        "front_including_TI": 20480,
+        "ADC": 20480,
+        "digital_decode_reconstruct": 10240,
+        "boundary": 10
+      },
+      "write_stages_ns": {
+        "interface": 15,
+        "batch_select": 40,
+        "current_driver_transitions": 1200,
+        "RESET_pulses": 1000,
+        "SET_pulses": 2400,
+        "verify_front": 320,
+        "verify_ADC": 320,
+        "verify_endpoint_compare": 80
+      },
+      "shared_profile_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5
+      },
+      "drive_transition_ns": 50,
+      "read_front_total_ns": 20,
+      "read_media_API_ns": 15,
+      "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+      "dominant_read": "16 row groups,1024 serial front/ADC/decode rounds",
+      "dominant_write": "SET+RESET pulses",
+      "successful_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
+      "matrix_reload": {
+        "B_R_Byte": 16384,
+        "delta_R_ns": 2752000.0,
+        "transactions": 512,
+        "tau_Byte_per_s": 5953488.372093023
+      }
+    }
   ],
   "verify_organization_comparison": {
     "B_S_Byte": 128,
@@ -326,6 +461,7 @@
       "adc_batch": 20,
       "digital_tick": 5
     },
+    "drive_transition_ns": 20,
     "read_front_total_ns": 20,
     "read_media_API_ns": 15,
     "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
@@ -392,6 +528,7 @@
       "adc_batch": 20,
       "digital_tick": 5
     },
+    "drive_transition_ns": 20,
     "read_front_total_ns": 20,
     "read_media_API_ns": 15,
     "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",

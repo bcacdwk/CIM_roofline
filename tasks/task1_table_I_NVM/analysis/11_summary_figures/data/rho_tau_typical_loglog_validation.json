@@ -1,0 +1,34 @@
+{
+  "all_passed": true,
+  "point_count": 10,
+  "selection": "recommended reference only",
+  "source": "data/ten_case_results.json",
+  "source_checks_passed": true,
+  "source_sha256": "a2825a24733966d130648566722d011f387289ab1eae2564a0211228bec6422b",
+  "x": {
+    "metric": "tau",
+    "scale": "log10",
+    "limits": [
+      0.001,
+      10000.0
+    ]
+  },
+  "y": {
+    "metric": "rho",
+    "scale": "log10",
+    "limits": [
+      0.001,
+      10000.0
+    ]
+  },
+  "unit": "decimal MB/s",
+  "square_plot_verified": true,
+  "equal_log_scale_verified": true,
+  "unmodified_coordinates_verified": true,
+  "guide_ratios": [
+    0.01,
+    1,
+    100
+  ],
+  "ratio_interpretation": "In log10 coordinates, log10(rho)-log10(tau)=log10(RI_star); constant ratios are parallel lines, not different slopes."
+}

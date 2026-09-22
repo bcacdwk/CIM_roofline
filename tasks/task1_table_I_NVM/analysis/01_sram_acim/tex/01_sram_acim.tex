@@ -28,7 +28,7 @@
 \begin{equation}
 q_{jku}=\sum_{i=0}^{127}x_{i,u}w_{ji,k},\qquad
 \hat y_j=\sum_{u=0}^{7}\sum_{k=0}^{7}c_uc_k\hat q_{jku}.
-\label{eq:reconstruction}
+\label{01_sram_acim:eq:reconstruction}
 \end{equation}
 理想 $q$ 为 $0\ldots128$，需要能表示129个等级；符号位的负权在数字重构中处理，不增加一轮符号模拟求值。每个输出有 $8\times8=64$ 个标量部分和，128输出共8192个。24-bit 容器足以容纳128项 INT8乘积之和，但容器宽度不能证明模拟结果精确。
 
@@ -53,7 +53,7 @@ N_{\mathrm{scalar}}=64\times128=8192.
 \begin{equation}
 \Delta_S=64T_F+64T_A+128T_D+2T_D
        =64(T_F+T_A+2T_D)+2T_D.
-\label{eq:ds}
+\label{01_sram_acim:eq:ds}
 \end{equation}
 无跨向量流水，故此处完整服务延迟也是该串行组织的接续间隔。只使用100MHz宏headline而省略八次输入展开、输出组选通及最终重构，无法得到本任务的 $\rho$。
 
@@ -70,7 +70,7 @@ resident 状态是交叉耦合锁存器的二进制位。一次对齐事务接�
 服务从同步端口捕获命令/数据开始，到下一许可时钟沿相应状态可计算结束。完整槽已覆盖数据捕获、译码、BL/WL驱动和恢复，按R4替代共同的一拍命令与完成控制，不再加 $T_W$：
 \begin{equation}
 \Delta_R=T_M,\qquad \tau=16/T_M\quad(\mathrm{GB/s}).
-\label{eq:dr}
+\label{01_sram_acim:eq:dr}
 \end{equation}
 计算切换不要求保持上一份模拟部分和，下一次正常求值本来就执行电容复位，已在 $T_F$ 内。若另有边界外握手，就需另加其占用；这里没有该额外协议。更新不需要erase、program/verify、周期refresh或破坏性读restore。SRAM须持续供电；不从本组资料推断非易失保持或具体写寿命次数。
 
@@ -96,7 +96,7 @@ resident 状态是交叉耦合锁存器的二进制位。一次对齐事务接�
 \end{align*}
 前端1280ns与ADC 1280ns各占39.9\%，数字重构640ns占19.9\%，边界10ns占0.31\%。微秒级 $\Delta_S$ 来自完整INT8的64轮和串行转换/重构，不能与普通写的一个同步槽比较后误称SRAM cell读取慢数百倍。
 
-三组 $\rho$ 为0.0166--0.0831GB/s，$\tau$ 为1.6--7.27GB/s，成对ridge为0.01039--0.01246。后者较窄取决于这三组读写预算的配对变化；将端点独立混合会得到约0.002286--0.05195的外包络，不能冒充同一条件下的实测范围。为单独暴露关键前端不确定性，固定 $T_A=20$ns、$T_D=5$ns、$T_M=5$ns，再扫 $T_F$；另只改变一次真实写并行资源。
+三组 $\rho$ 为0.0166--0.0831GB/s，$\tau$ 为1.6--7.27GB/s，成对ridge为0.01039--0.01246。后者较窄取决于这三组读写预算的配对变化；共享节拍与相应控制时间必须联动，故不将互不兼容的两路端点交叉成新的范围。为单独暴露关键前端不确定性，固定 $T_A=20$ns、$T_D=5$ns、$T_M=5$ns，再扫 $T_F$；另只改变一次真实写并行资源。
 
 \input{generated_sensitivity}
 

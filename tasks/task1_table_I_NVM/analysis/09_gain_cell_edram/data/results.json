@@ -5,7 +5,8 @@
     "time": "ns",
     "payload": "Byte",
     "rho_tau": "Byte/s",
-    "ridge": "dimensionless"
+    "ridge": "dimensionless",
+    "summary_throughput": "decimal MB/s = 1e6 Byte/s"
   },
   "baseline_hashes": {
     "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
@@ -16,6 +17,8 @@
       "id": "short",
       "baseline_id": "shared_baseline",
       "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "scenario_type": "paired_engineering_scenario",
+      "feasibility": "feasible_under_stated_conditions",
       "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
       "profile": "short",
       "output_width": 16,
@@ -71,14 +74,17 @@
         "total_ns": 189440.0,
         "busy_fraction": 0.4736,
         "scheduling_guard_ns": 116,
-        "availability": 0.5261100000000001,
+        "availability": 0.52611,
+        "total_reserved_fraction": 0.47389,
+        "workload_slack_ns": 210444.0,
+        "availability_not_clipped": true,
         "workload_payload_Byte": 0
       },
       "full_matrix_update": {
         "logical_Byte": 16384,
         "transactions": 1024,
         "raw_service_ns": 72704,
-        "average_service_with_reserved_refresh_ns": 138191.632928475
+        "average_service_with_reserved_refresh_ns": 138191.63292847504
       },
       "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
       "provenance": {
@@ -88,16 +94,18 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 28229.837866605838,
-      "delta_R_ns": 134.95276653171388,
-      "rho_Byte_per_s": 4534209.534069486,
-      "tau_Byte_per_s": 118560000.0,
+      "delta_S_ns": 28229.837866605845,
+      "delta_R_ns": 134.9527665317139,
+      "rho_Byte_per_s": 4534209.534069485,
+      "tau_Byte_per_s": 118559999.99999999,
       "ridge": 0.03824400754107191
     },
     {
       "id": "reference",
       "baseline_id": "shared_baseline",
       "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "scenario_type": "recommended_reference",
+      "feasibility": "feasible_under_stated_conditions",
       "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
       "profile": "reference",
       "output_width": 16,
@@ -154,6 +162,9 @@
         "busy_fraction": 0.6656,
         "scheduling_guard_ns": 185,
         "availability": 0.3339375,
+        "total_reserved_fraction": 0.6660625,
+        "workload_slack_ns": 133575.0,
+        "availability_not_clipped": true,
         "workload_payload_Byte": 0
       },
       "full_matrix_update": {
@@ -180,6 +191,8 @@
       "id": "long",
       "baseline_id": "shared_baseline",
       "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "scenario_type": "refresh_critical_stress",
+      "feasibility": "feasible_under_stated_conditions",
       "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
       "profile": "long",
       "output_width": 16,
@@ -236,6 +249,9 @@
         "busy_fraction": 0.96,
         "scheduling_guard_ns": 280,
         "availability": 0.0393,
+        "total_reserved_fraction": 0.9607,
+        "workload_slack_ns": 15720.0,
+        "availability_not_clipped": true,
         "workload_payload_Byte": 0
       },
       "full_matrix_update": {
@@ -263,6 +279,8 @@
     "id": "wide32",
     "baseline_id": "shared_baseline",
     "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+    "scenario_type": "resource_comparison",
+    "feasibility": "feasible_under_stated_conditions",
     "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
     "profile": "reference",
     "output_width": 32,
@@ -319,6 +337,9 @@
       "busy_fraction": 0.3456,
       "scheduling_guard_ns": 195,
       "availability": 0.6539125,
+      "total_reserved_fraction": 0.3460875,
+      "workload_slack_ns": 261565.0,
+      "availability_not_clipped": true,
       "workload_payload_Byte": 0
     },
     "full_matrix_update": {
@@ -346,18 +367,123 @@
       "ridge": 1.0669035228182546
     }
   },
+  "recommended_reference_id": "reference",
+  "ordinary_scenario_ids": [
+    "short",
+    "reference"
+  ],
+  "pressure_scenario_ids": [
+    "long",
+    "long_read216_infeasible"
+  ],
+  "infeasible_stress": {
+    "id": "long_read216_infeasible",
+    "baseline_id": "shared_baseline",
+    "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+    "scenario_type": "infeasible_stress",
+    "feasibility": "infeasible_fixed_refresh_schedule",
+    "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+    "profile": "long",
+    "output_width": 16,
+    "adc_count": 128,
+    "pair_write_drivers": 128,
+    "physical_cells": 262144,
+    "counts": {
+      "input_slices": 8,
+      "row_groups": 2,
+      "weight_groups": 1,
+      "base_combinations": 16,
+      "evaluations": 128,
+      "adc_batches": 128,
+      "reconstruction_rounds": 128,
+      "digital_ticks": 256,
+      "useful_scalar_conversions": 16384,
+      "adc_total": 128,
+      "max_batch_code_slots": 128,
+      "max_hold_window_ns": 0
+    },
+    "write_batches": 1,
+    "data_beats": 2,
+    "encoded_load_bits": 256,
+    "frontend_complete_ns": 276,
+    "dedicated_read_ns": 216,
+    "frontend_coverage": [
+      "input_step",
+      "dedicated_integration",
+      "adc_batch"
+    ],
+    "write_front_ns": 30,
+    "program_complete_ns": 75,
+    "nominal": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 16,
+      "delta_S_ns": 37908,
+      "delta_R_ns": 105,
+      "rho_Byte_per_s": 3376595.9691885617,
+      "tau_Byte_per_s": 152380952.3809524,
+      "ridge": 0.022158911047799934
+    },
+    "refresh": {
+      "period_ns": 400000,
+      "groups": 1024,
+      "scalar_pair_reads": 131072,
+      "cells_rewritten": 262144,
+      "group_read_ns": 276,
+      "group_decode_ns": 10,
+      "group_load_control_ns": 30,
+      "group_program_ns": 75,
+      "sign_decode_lanes": 128,
+      "group_service_ns": 391.0,
+      "total_ns": 400384.0,
+      "busy_fraction": 1.00096,
+      "scheduling_guard_ns": 296,
+      "availability": -0.0017,
+      "total_reserved_fraction": 1.0017,
+      "workload_slack_ns": -680.0,
+      "availability_not_clipped": true,
+      "workload_payload_Byte": 0
+    },
+    "full_matrix_update": {
+      "logical_Byte": 16384,
+      "transactions": 1024,
+      "raw_service_ns": 107520,
+      "average_service_with_reserved_refresh_ns": null
+    },
+    "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+    "provenance": {
+      "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+      "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+      "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+    },
+    "B_S_Byte": 128,
+    "B_R_Byte": 16,
+    "delta_S_ns": null,
+    "delta_R_ns": null,
+    "rho_Byte_per_s": null,
+    "tau_Byte_per_s": null,
+    "ridge": null
+  },
+  "range_meaning": "Ordinary paired engineering scenarios only; long is refresh-critical stress, not a lower uncertainty bound.",
   "paired_ranges": {
     "rho_Byte_per_s": [
-      140278.86224205242,
-      4534209.534069486
+      1804305.6141831996,
+      4534209.534069485
     ],
     "tau_Byte_per_s": [
-      5988571.428571428,
-      118560000.0
+      66787500.0,
+      118559999.99999999
     ],
     "ridge": [
-      0.023424428332403793,
+      0.027015618404390037,
       0.03824400754107191
     ]
+  },
+  "refresh_threshold": {
+    "profile": "long",
+    "fixed_period_ns": 400000,
+    "equation": "1025 * dedicated_read_ns + 179280 < 400000",
+    "dedicated_read_strict_upper_bound_ns": 215.33658536585367,
+    "margin_from_long_ns": 15.336585365853665,
+    "note": "Equality leaves zero workload availability; above it the schedule is infeasible. No throughput or finite ridge is exported at alpha <= 0."
   }
 }
