@@ -1,8 +1,5 @@
 # 首批三个案例的集中复核
 
-> **历史审阅记录，非当前结论。** 当前十例主模式、修订结果、范围分类与PDF入口统一见 [TEN_CASE_REVIEW.zh.md](TEN_CASE_REVIEW.zh.md)。本记录的旧FeRAM读调度、gain-cell普通下限及独立端点包络已由新入口取代；保留原文用于追溯。
-
-
 2026-09-18。入口：[共享方法](shared_baseline/README.md)、[SRAM DCIM](02_sram_dcim/README.md)、[3D NAND](04_nand_3d/README.md)、[RRAM](05_rram/README.md)。
 
 **结论：共享公式、参数与API不变，SRAM保持；NAND和RRAM已补成有限的条件工程估算。** 两个案例均明确了原始证据、跨实现可借用的操作、额外资源、成功终点和选定预算，并给出完整ρ／τ／RI*及组织对照。这里“数值估算完成”指选定参考设计的服务能力已有有限、可复算情景，不指原器件实测参数已被复原或已证明全部器件都满足预算。

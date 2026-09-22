@@ -1,21 +1,16 @@
-# 2D NOR Flash：binary 本地感测＋数字归约与完整更新
+# 2D NOR Flash：二进制局部数字求值与完整更新
 
-当前统一入口：[十例复核](../TEN_CASE_REVIEW.zh.md) · [结果JSON](../data/ten_case_results.json) · [结果CSV](../data/ten_case_results.csv)。PDF首页结果卡与这些导出由统一适配器生成；本例原始未取整结果仍在 `data/results.json`。摘要统一十进制MB/s，情景分类见统一复核。
-
-
-当前统一结论、推荐模式和情景定义见[十例统一复核](../TEN_CASE_REVIEW.zh.md)。本例保留有依据的主计算，属于条件工程情景估算。
+主 Agent 已完成全文、关键证据、独立复算和最终 PDF 审阅；结论为有条件的参考设计估算。统一结果与保留事项见[七例集中审阅](../REMAINING_SEVEN_REVIEW.zh.md)。
 
 主情景采用 binary NOR 状态、R0 的 32项×16输出数字路径：32个独立读分片、4096本地SA，八个读分片共用一个4KiB擦除域。完整16KiB矩阵需64个256Byte页program及4个sector erase；更新始终单域。原生粒度可以聚合整矩阵，无额外逻辑payload。
 
-参考结果：ΔS=32.010µs，ΔR=205.605800ms，ρ=3.99875MB/s，τ=0.0796865MB/s，RI*=50.1810。MB/s 均为十进制 10^6 Byte/s；容量 16 KiB=16384 Byte。短/参考/长条件配对ridge为61.51/50.18/390.41。读时延主要由二进制感测支配；更新87.55%为擦除。若32个读分片必须各自独占sector，读能力不变、τ降低约7.13倍，ridge升至约357.7。
-
-商品随机读周期向本地 100/120/130 ns 完整读槽的移植是工程预算，需要所选宽度、负载与数字读窗支持；它不是单器件固有延迟。
+参考结果：ΔS=32.010µs，ΔR=205.605800ms，ρ=0.00399875GB/s，τ=0.0000796865GB/s，RI*=50.1810。短/参考/长配对ridge为61.51/50.18/390.41。读时延主要由二进制感测支配；更新87.55%为擦除。若32个读分片必须各自独占sector，读能力不变、τ降低约7.13倍，ridge升至约357.7。
 
 这是文献支持的条件性参考宏，不是已制造NOR DCIM芯片。NOR-01完整随机读时间与NOR-02完整binary program/erase互补；NOR-04/05用于解释模拟电流VMM和精调为何是另一服务。未把SPI速率当编程完成，未把普通binary页写冒充模拟精度。
 
 ## 阅读入口
 
-- [独立中文PDF](output/nor_2d.pdf)，7页。
+- [独立中文PDF](output/nor_2d.pdf)，6页。
 - [章节TeX](tex/03_nor_2d.tex)；[独立入口](tex/nor_2d.tex)。
 - [参数原值、PDF页/图表和工程桥接](notes/parameter_evidence.zh.md)。
 - [输入](data/inputs.json)、[统一结果与操作计数](data/results.json)、[来源与共享哈希](data/provenance.json)、[校验项](data/validation.json)。

@@ -4,10 +4,10 @@
   "units": {
     "time": "ns",
     "payload": "Byte",
-    "throughput": "Byte/s; divide by 1e6 for decimal MB/s",
+    "throughput": "Byte/s; divide by 1e9 for GB/s",
     "ridge": "dimensionless"
   },
-  "input_sha256": "07feb8b7993edeee0ef15a6d7aeacccf03b377722ffb2696c9ae275546f437b0",
+  "input_sha256": "4be02a976b9156c206de08eb7b4f9cbd24042463fbdd44c24adebd95bc8b5683",
   "shared_parameter_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
   "shared_api_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
   "sources": {
@@ -43,9 +43,6 @@
       "profile": "short",
       "mode": "binary 3D vertical AND FeFET; digital local CIM",
       "baseline_id": "shared_baseline",
-      "scenario_type": "paired_engineering_scenario",
-      "feasibility": "conditional_on_binary_read_and_terminal_verify",
-      "maintenance": "none_in_local_service_window",
       "mapping_id": "R0_32_lateral_lanes_4_capacity_layers",
       "input_parameters": {
         "profile": "short",
@@ -70,9 +67,6 @@
         "physical_bits": 128,
         "physical_batches": 8,
         "data_beats": 1,
-        "chosen_observation_ns": 100,
-        "final_return_counted_in_observation": true,
-        "terminal_read_begins_after_observation": true,
         "cells_per_batch": 16,
         "strips_per_batch": 1,
         "polarity_pulse_slots": 16,
@@ -114,9 +108,6 @@
       "profile": "reference",
       "mode": "binary 3D vertical AND FeFET; digital local CIM",
       "baseline_id": "shared_baseline",
-      "scenario_type": "recommended_reference",
-      "feasibility": "conditional_on_binary_read_and_terminal_verify",
-      "maintenance": "none_in_local_service_window",
       "mapping_id": "R0_32_lateral_lanes_4_capacity_layers",
       "input_parameters": {
         "profile": "reference",
@@ -141,9 +132,6 @@
         "physical_bits": 128,
         "physical_batches": 8,
         "data_beats": 1,
-        "chosen_observation_ns": 100,
-        "final_return_counted_in_observation": true,
-        "terminal_read_begins_after_observation": true,
         "cells_per_batch": 16,
         "strips_per_batch": 1,
         "polarity_pulse_slots": 16,
@@ -185,9 +173,6 @@
       "profile": "long",
       "mode": "binary 3D vertical AND FeFET; digital local CIM",
       "baseline_id": "shared_baseline",
-      "scenario_type": "paired_engineering_scenario",
-      "feasibility": "conditional_on_binary_read_and_terminal_verify",
-      "maintenance": "none_in_local_service_window",
       "mapping_id": "R0_32_lateral_lanes_4_capacity_layers",
       "input_parameters": {
         "profile": "long",
@@ -212,9 +197,6 @@
         "physical_bits": 128,
         "physical_batches": 8,
         "data_beats": 1,
-        "chosen_observation_ns": 100,
-        "final_return_counted_in_observation": true,
-        "terminal_read_begins_after_observation": true,
         "cells_per_batch": 16,
         "strips_per_batch": 1,
         "polarity_pulse_slots": 16,
@@ -257,15 +239,11 @@
     "id": "W128",
     "profile": "reference",
     "baseline_id": "shared_baseline",
-    "scenario_type": "resource_comparison",
     "mode": "binary 3D vertical AND FeFET; digital local CIM",
     "resident_counts": {
       "physical_bits": 128,
       "physical_batches": 1,
       "data_beats": 1,
-      "chosen_observation_ns": 100,
-      "final_return_counted_in_observation": true,
-      "terminal_read_begins_after_observation": true,
       "cells_per_batch": 128,
       "strips_per_batch": 8,
       "polarity_pulse_slots": 2,
@@ -299,94 +277,6 @@
     "tau_ratio_to_reference": 6.653846153846155,
     "ridge_ratio_to_reference": 0.15028901734104044
   },
-  "observation_sensitivity": [
-    {
-      "id": "reference_guard100",
-      "profile": "reference",
-      "scenario_type": "independent_engineering_reserve_sensitivity",
-      "observation_ns": 100,
-      "resident_counts": {
-        "physical_bits": 128,
-        "physical_batches": 8,
-        "data_beats": 1,
-        "chosen_observation_ns": 100,
-        "final_return_counted_in_observation": true,
-        "terminal_read_begins_after_observation": true,
-        "cells_per_batch": 16,
-        "strips_per_batch": 1,
-        "polarity_pulse_slots": 16,
-        "verify_reads": 8,
-        "compare_ticks": 8,
-        "front_ns": 10,
-        "per_batch_stage_ns": {
-          "bias_setup_and_interphase_return_ns": 30,
-          "polarization_plateaus_ns": 40,
-          "post_last_pulse_guard_including_return_ns": 100,
-          "terminal_binary_read_ns": 40,
-          "terminal_compare_ns": 5
-        },
-        "total_stage_ns": {
-          "bias_setup_and_interphase_return_ns": 240,
-          "polarization_plateaus_ns": 320,
-          "post_last_pulse_guard_including_return_ns": 800,
-          "terminal_binary_read_ns": 320,
-          "terminal_compare_ns": 40
-        },
-        "complete_batch_ns": 215
-      },
-      "B_S_Byte": 128,
-      "B_R_Byte": 16,
-      "delta_S_ns": 11530,
-      "delta_R_ns": 1730.0,
-      "rho_Byte_per_s": 11101474.414570684,
-      "tau_Byte_per_s": 9248554.913294796,
-      "ridge": 1.2003469210754554
-    },
-    {
-      "id": "reference_guard150",
-      "profile": "reference",
-      "scenario_type": "independent_engineering_reserve_sensitivity",
-      "observation_ns": 150,
-      "resident_counts": {
-        "physical_bits": 128,
-        "physical_batches": 8,
-        "data_beats": 1,
-        "chosen_observation_ns": 150,
-        "final_return_counted_in_observation": true,
-        "terminal_read_begins_after_observation": true,
-        "cells_per_batch": 16,
-        "strips_per_batch": 1,
-        "polarity_pulse_slots": 16,
-        "verify_reads": 8,
-        "compare_ticks": 8,
-        "front_ns": 10,
-        "per_batch_stage_ns": {
-          "bias_setup_and_interphase_return_ns": 30,
-          "polarization_plateaus_ns": 40,
-          "post_last_pulse_guard_including_return_ns": 150,
-          "terminal_binary_read_ns": 40,
-          "terminal_compare_ns": 5
-        },
-        "total_stage_ns": {
-          "bias_setup_and_interphase_return_ns": 240,
-          "polarization_plateaus_ns": 320,
-          "post_last_pulse_guard_including_return_ns": 1200,
-          "terminal_binary_read_ns": 320,
-          "terminal_compare_ns": 40
-        },
-        "complete_batch_ns": 265
-      },
-      "B_S_Byte": 128,
-      "B_R_Byte": 16,
-      "delta_S_ns": 11530,
-      "delta_R_ns": 2130.0,
-      "rho_Byte_per_s": 11101474.414570684,
-      "tau_Byte_per_s": 7511737.089201878,
-      "ridge": 1.4778837814397223
-    }
-  ],
-  "recommended_reference_profile": "reference",
-  "range_meaning": "Paired engineering scenarios at fixed 100 ns observation; neither statistical confidence interval nor independent parameter envelope.",
   "paired_range": {
     "rho_Byte_per_s": [
       5550737.207285342,
@@ -408,8 +298,6 @@
     "tau_Byte_per_s": 9248554.913294796
   },
   "guard_sensitivity": {
-    "reference_formula_ns": "delta_R = 930 + 8 * observation_ns, observation_ns >= 10",
-    "evidence_limit": "RAWD < 100 ns does not establish a specific shorter waiting bound; 150 ns is an extra engineering reserve, not a measured upper bound.",
     "extra_guard_ns_per_batch": 10,
     "extra_transaction_ns": 80,
     "relative_ridge_change": 0.046242774566473986

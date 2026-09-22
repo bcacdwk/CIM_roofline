@@ -34,7 +34,7 @@ N_D=\left\lceil8/1\right\rceil
  B_S=128\ \mathrm{Byte},\qquad
  \Delta_S=512T_C+2T_D,\qquad
  \rho\approx\frac{128}{\Delta_S}.
- \label{02_sram_dcim:eq:dcim-local-stream}
+ \label{eq:dcim-local-stream}
 \end{equation}
 参考时隙下，$\Delta_S=512\times5+2\times5=2570$ ns。无跨向量流水，服务间隔等于这一完整时长；每片结果在其第 64 拍形成，所有分片输出完成后才计一次逻辑 streaming 服务。容量分片选择及本地寄存器时序需要包含在所选槽及边界预算内；若实际连接不能在此预算内完成，应加其未覆盖时间，不能直接使用原宏最快时钟。
 
@@ -50,9 +50,9 @@ p=128\ \mathrm{cell/batch},\quad n_w=n_b=1.
 本例的服务边界就在该同步写口：命令/数据已被接受，到下一个可计算周期为止；没有另行要求的任务级握手。因此 R4 的完整周期替代规则适用，$T_M$ 已覆盖本地准备、数据捕获及可用终点，\emph{不再附加}同一事务的 $T_W=2T_D$。由此
 \begin{equation}
  \Delta_R=T_M,\qquad \tau\approx16/T_M.
- \label{02_sram_dcim:eq:dcim-local-resident}
+ \label{eq:dcim-local-resident}
 \end{equation}
-参考情景 $\Delta_R=5$ ns、$\tau=3.2$ GB/s。整矩阵需要 1024 个对齐事务、5120 ns；按 16384 Byte 聚合得到同一 $\tau$。不把宏容量当作每次写的分子。若系统在 primitive memory 周期之外确有准备/提交各一拍，则应另用 $\Delta_R=T_M+2T_D$；这一边界敏感性单列于表~\ref{02_sram_dcim:tab:dcim-sensitivity}，不是默认重复计费。
+参考情景 $\Delta_R=5$ ns、$\tau=3.2$ GB/s。整矩阵需要 1024 个对齐事务、5120 ns；按 16384 Byte 聚合得到同一 $\tau$。不把宏容量当作每次写的分子。若系统在 primitive memory 周期之外确有准备/提交各一拍，则应另用 $\Delta_R=T_M+2T_D$；这一边界敏感性单列于表~\ref{tab:dcim-sensitivity}，不是默认重复计费。
 
 本模型讨论正常供电下的 volatile SRAM。没有周期性刷新、破坏性读后恢复或擦除块摊销；掉电后重载属于新 resident 需求。计算和 memory 模式使用同一状态及控制资源，本节没有安排它们同时运行；两路能力分别计算，共享资源互斥时总必要时间可按两路占用相加。原有 $P\leq\min(\rho,\tau\mathrm{RI})$ 上界仍成立，但不保证同一实现同时达到两个独立峰值。
 
@@ -64,11 +64,11 @@ p=128\ \mathrm{cell/batch},\quad n_w=n_b=1.
 \tau\approx\frac{B_R}{\Delta_R},\qquad
 \mathrm{RI}^{*}\approx\frac{B_S}{B_R}\frac{\Delta_R}{\Delta_S}
 =\frac{8T_M}{512T_C+2T_D}.
-\label{02_sram_dcim:eq:dcim-local-ridge}
+\label{eq:dcim-local-ridge}
 \end{equation}
 \input{generated_results}
 
-三组成对情景给出 $\rho=0.02490$--0.05803 GB/s、$\tau=1.600$--7.273 GB/s、$\mathrm{RI}^{*}=0.007980$--0.01556。向外取两位有效数字，展示范围为 $\rho=0.024$--0.059 GB/s、$\tau=1.6$--7.3 GB/s、ridge 为 0.0079--0.016。共同数字节拍及其派生控制时间必须联动；不将不同外围条件的两路端点交叉为一个物理范围。
+三组成对情景给出 $\rho=0.02490$--0.05803 GB/s、$\tau=1.600$--7.273 GB/s、$\mathrm{RI}^{*}=0.007980$--0.01556。向外取两位有效数字，展示范围为 $\rho=0.024$--0.059 GB/s、$\tau=1.6$--7.3 GB/s、ridge 为 0.0079--0.016。独立组合两路最小/最大端点可得到更宽的 0.003424--0.03627 外包络，但其中组合并非表中成对情景，不能当成同一设计的实测分布。
 
 在此结构中，streaming 主要由 512 个完整 MAC 槽决定，参考情景的捕获/提交仅占 $10/2570\approx0.39\%$。resident 主要由一次 128-bit 完整同步写周期决定，不能从 MAC 时钟反推其极限。参考、长时隙中两路周期同比放大，ridge 保持不变；短时隙的 MAC 受 4.3 ns 槽限制，而写周期为 2.2 ns，所以 ridge 更小。上述 ridge 描述需求时间平衡，不代表宏的精度、能效或总体优劣。
 

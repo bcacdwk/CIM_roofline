@@ -90,7 +90,7 @@
 - 擦除180ms占87.5462%，program25.6ms约12.45%，front5.8µs不到0.003%。降低低压接口时隙不消除erase支配。
 - private-sector对照：32×45ms+64×0.4ms+6080ns=1465606080ns。物理分配128KiB、逻辑仍16KiB；读相同，τ约降7.13倍。
 
-short/reference/long按同一映射，short/reference都采用typ写，long采用max写；共同外围每组同步传播。结果范围不是统计置信区间、不是材料界，也非“最大读配最小写”的跨情景拼接。本轮移除把不同共同外围端点直接相除的外包络；JSON与正文均以条件配对ridge范围为主。另固定写及TD，仅对移植read_full作±20%检查，其ρ/ridge分别+23.753%/−16.103%；未对不确定性作普遍稳健承诺。
+short/reference/long按同一映射，short/reference都采用typ写，long采用max写；共同外围每组同步传播。结果范围不是统计置信区间、不是材料界，也非“最大读配最小写”的跨情景拼接。独立端点包络另存在JSON，正文优先给配对ridge范围。另固定写及TD，仅对移植read_full作±20%检查，其ρ/ridge分别+23.753%/−16.103%；未对不确定性作普遍稳健承诺。
 
 ## 7. R4覆盖、维护、生命周期与未闭合条件
 
@@ -106,7 +106,3 @@ short/reference/long按同一映射，short/reference都采用typ写，long采�
 ## 8. 检查与文件范围
 
 只修改`analysis/03_nor_2d/`。`check_nor.py`默认只读，`--emit`才刷新JSON/TeX。校验共享基线/API与原PDF hash、R0计数、全部权重地址一一覆盖、页/sector对齐、64page/4erase与对照32erase、完整阶段sum、按页/按矩阵τ相等、手算与统一单位。构建XeLaTeX；所有PDF页渲染并逐页看图检查，记录在`notes/review.zh.md`。读源码和渲染PNG均在ignored tmp，不复制原PDF、不改共享文件、不做Git操作。
-
-## 本轮统一复核
-
-回查 NOR-01 PDF pp.85–86 与 NOR-02 pp.37/39/66，保留读周期、完整program/erase及4sector主布局数值。32读片、4096SA与4sector是不同层级的资源选择；binary本地感测＋数字归约的身份和商品读周期向本地读槽的工程桥接已在标题与结果入口明确。参考点仍为ρ=3.99875 MB/s、τ=0.0796865 MB/s、ridge=50.1810。无周期维护，原始占用即本地持续重复服务间隔；寿命另计。

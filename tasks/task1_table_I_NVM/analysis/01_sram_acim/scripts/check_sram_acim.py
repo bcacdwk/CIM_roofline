@@ -26,17 +26,18 @@ def compute():
   q=calculate('reference',tf,r['complete_memory_cycle_ns']);sens.append(dict(id=f'frontend_{tf}',kind='frontend_at_fixed_reference_periphery',rho_ratio_to_reference=q['rho_Byte_per_s']/r['rho_Byte_per_s'],**q))
  q=calculate('reference',r['frontend_complete_ns'],r['complete_memory_cycle_ns'],D['sensitivities']['write_resource_parallel_cells']);sens.append(dict(id='64_write_drivers',kind='actual_write_resource_comparison',**q))
  ranges={k:[min(x[k] for x in rows),max(x[k] for x in rows)] for k in ['delta_S_ns','delta_R_ns','rho_Byte_per_s','tau_Byte_per_s','ridge']}
+ ranges['independent_endpoint_ridge_envelope']=[ranges['rho_Byte_per_s'][0]/ranges['tau_Byte_per_s'][1],ranges['rho_Byte_per_s'][1]/ranges['tau_Byte_per_s'][0]]
  return dict(analysis_id=D['analysis_id'],baseline_id=S.D['baseline_id'],status='conditional_reference_estimate_not_measured_paired_chip',units=dict(payload='Byte',time='ns',throughput='Byte/s',ridge='dimensionless'),baseline_files_actual={f:sha(SH/f) for f in D['baseline_files']},mapping=D['device_state_and_mapping'],scenarios=rows,sensitivities=sens,ranges=ranges,whole_matrix_updates=[dict(profile=r['id'],logical_payload_Byte=S.L['resident_capacity_Byte'],transactions=S.L['resident_capacity_Byte']//r['B_R_Byte'],delta_R_ns=(S.L['resident_capacity_Byte']//r['B_R_Byte'])*r['delta_R_ns'],tau_Byte_per_s=r['tau_Byte_per_s']) for r in rows])
 def table(rows,sens=False):
  if not sens:
   head=r'情景 & $T_F$ & $T_A$ & $T_D$ & $\Delta_S$ & $\Delta_R$ & $\rho$ & $\tau$ & $\mathrm{RI}^{*}$';cols='lrrrrrrrr'
-  body=[f"{r['label']} & {r['frontend_complete_ns']:g} & {r['common_times_ns']['adc_batch']:g} & {r['common_times_ns']['digital_tick']:g} & {r['delta_S_ns']:g} & {r['delta_R_ns']:g} & {r['rho_Byte_per_s']/1e6:.4g} & {r['tau_Byte_per_s']/1e6:.4g} & {r['ridge']:.5f}"+r'\\' for r in rows]
-  caption='成对工程情景。所有时间为ns，吞吐为十进制MB/s；有效逻辑粒度固定为$B_S=128$ Byte、$B_R=16$ Byte。'
+  body=[f"{r['label']} & {r['frontend_complete_ns']:g} & {r['common_times_ns']['adc_batch']:g} & {r['common_times_ns']['digital_tick']:g} & {r['delta_S_ns']:g} & {r['delta_R_ns']:g} & {r['rho_Byte_per_s']/1e9:.4g} & {r['tau_Byte_per_s']/1e9:.4g} & {r['ridge']:.5f}"+r'\\' for r in rows]
+  caption='成对工程情景。所有时间为ns，吞吐为十进制GB/s；有效逻辑粒度固定为$B_S=128$ Byte、$B_R=16$ Byte。'
  else:
-  head=r'条件 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$';cols='lrrrrr';body=[]
+  head=r'条件 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (GB/s) & $\tau$ (GB/s) & $\mathrm{RI}^{*}$';cols='lrrrrr';body=[]
   for r in rows:
    label=(f"前端 {r['frontend_complete_ns']:g} ns" if r['kind'].startswith('frontend') else '64个实际写驱动')
-   body.append(f"{label} & {r['delta_S_ns']:g} & {r['delta_R_ns']:g} & {r['rho_Byte_per_s']/1e6:.4g} & {r['tau_Byte_per_s']/1e6:.4g} & {r['ridge']:.5f}"+r'\\')
+   body.append(f"{label} & {r['delta_S_ns']:g} & {r['delta_R_ns']:g} & {r['rho_Byte_per_s']/1e9:.4g} & {r['tau_Byte_per_s']/1e9:.4g} & {r['ridge']:.5f}"+r'\\')
   caption='固定共同参考外围的敏感性。前三行仅改前端预算；末行保持20ns前端，但写驱动减半、两个完整同步写槽完成同一16Byte事务。'
  return '\n'.join([r'% Generated; do not edit.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}'+cols+r'@{}}\toprule',head+r'\\\midrule',*body,r'\bottomrule\end{tabular}',r'\caption{'+caption+r'}\end{table}'])+'\n'
 def evidence():

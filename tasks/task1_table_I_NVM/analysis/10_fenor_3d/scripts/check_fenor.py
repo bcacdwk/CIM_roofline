@@ -30,7 +30,7 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def write_service(profile, cells=None, strips=None, observation_ns=None):
+def write_service(profile, cells=None, strips=None):
     v = API.C['propagation']['profile_values'][profile['profile']]
     cells = cells or W['parallel_cells']
     strips = strips or W['parallel_strips']
@@ -42,8 +42,8 @@ def write_service(profile, cells=None, strips=None, observation_ns=None):
     assert cells <= W['binary_sense_lanes_available']
     compare_ticks = math.ceil(cells/W['compare_lanes'])
     edge = profile['bias_transition_ns']
-    requested_guard = W['guard_after_final_pulse_ns'] if observation_ns is None else observation_ns
-    guard = max(requested_guard, edge)
+    guard = W['guard_after_final_pulse_ns']
+    assert guard >= edge
     # Ramp+, pulse+, return+, ramp-, pulse-, guard (including final return), read, compare.
     # Two ramps plus one inter-polarity return: no additional final return.
     stage = dict(bias_setup_and_interphase_return_ns=3*edge,
@@ -58,8 +58,6 @@ def write_service(profile, cells=None, strips=None, observation_ns=None):
            recover_ns=stage['post_last_pulse_guard_including_return_ns'])])
     # program_sequence_ns is a sum API; chronological order is explicitly in the ledger above.
     return dr, dict(physical_bits=physical_bits, physical_batches=batches, data_beats=beats,
-             chosen_observation_ns=requested_guard, final_return_counted_in_observation=True,
-             terminal_read_begins_after_observation=True,
              cells_per_batch=cells, strips_per_batch=strips, polarity_pulse_slots=2*batches,
              verify_reads=batches, compare_ticks=compare_ticks*batches,
              front_ns=front, per_batch_stage_ns=stage,
@@ -77,8 +75,6 @@ def recompute():
         dr, wc = write_service(p)
         metrics = API.metrics(API.L['B_S_Byte'], W['logical_weights_completed']*API.L['b_R'], ds, dr)
         out.append(dict(profile=p['profile'], mode=X['mode'], baseline_id=API.D['baseline_id'],
-                   scenario_type='recommended_reference' if p['profile']=='reference' else 'paired_engineering_scenario',
-                   feasibility='conditional_on_binary_read_and_terminal_verify', maintenance='none_in_local_service_window',
                    mapping_id='R0_32_lateral_lanes_4_capacity_layers',
                    input_parameters=p, common_periphery_ns=v, streaming_counts=counts, resident_counts=wc,
                    streaming_stages_ns=dict(binary_read=counts['read_rounds']*p['complete_binary_read_ns'],
@@ -91,51 +87,39 @@ def recompute():
     contrast = X['structural_contrast']
     dr, wc = write_service(p, contrast['parallel_cells'], contrast['parallel_strips'])
     c = dict(id=contrast['id'], profile='reference', baseline_id=API.D['baseline_id'],
-             scenario_type='resource_comparison',
              mode=X['mode'], resident_counts=wc,
              **API.metrics(API.L['B_S_Byte'],ref['B_R_Byte'],ref['delta_S_ns'],dr))
     c['rho_ratio_to_reference'] = c['rho_Byte_per_s']/ref['rho_Byte_per_s']
     c['tau_ratio_to_reference'] = c['tau_Byte_per_s']/ref['tau_Byte_per_s']
     c['ridge_ratio_to_reference'] = c['ridge']/ref['ridge']
-    window=[]
-    for guard in X['observation_sensitivity']['observation_ns']:
-        dr, wc=write_service(p,observation_ns=guard)
-        window.append(dict(id=f'reference_guard{guard}',profile='reference',
-            scenario_type='independent_engineering_reserve_sensitivity',
-            observation_ns=guard,resident_counts=wc,
-            **API.metrics(API.L['B_S_Byte'],ref['B_R_Byte'],ref['delta_S_ns'],dr)))
     manifest = json.loads((CORPUS/'source_manifest.json').read_text())
     sources = {s['source_id']:s['pdf'] for s in manifest['sources'] if s['group']=='10_fenor_3d'}
     rows = API.L['n_in']; outputs = API.L['n_out']; bits = int(API.L['b_R']*8)
     aggregation_count = rows*(outputs//W['logical_weights_completed'])
     return dict(case_id=X['case_id'], baseline_id=API.D['baseline_id'],
-        units=dict(time='ns', payload='Byte', throughput='Byte/s; divide by 1e6 for decimal MB/s', ridge='dimensionless'),
+        units=dict(time='ns', payload='Byte', throughput='Byte/s; divide by 1e9 for GB/s', ridge='dimensionless'),
         input_sha256=sha(BASE/'data/inputs.json'),
         shared_parameter_sha256=sha(SHARED/'data/shared_parameters.json'),
         shared_api_sha256=sha(SHARED/'scripts/check_shared.py'), sources=sources,
         local_physical_cells=rows*outputs*bits, source_selection='FENOR-02 timing/bias; FENOR-01 mechanism; FENOR-04 and 06 state-specific cross-checks',
-        main_scenarios=out, structural_contrast=c, observation_sensitivity=window,
-        recommended_reference_profile='reference',
-        range_meaning='Paired engineering scenarios at fixed 100 ns observation; neither statistical confidence interval nor independent parameter envelope.',
+        main_scenarios=out, structural_contrast=c,
         paired_range={key:[min(s[key] for s in out),max(s[key] for s in out)] for key in ['rho_Byte_per_s','tau_Byte_per_s','ridge']},
         full_matrix_aggregation=dict(native_logical_transactions=aggregation_count, logical_Byte=API.L['resident_capacity_Byte'],
                   reference_time_ns=aggregation_count*ref['delta_R_ns'], tau_Byte_per_s=ref['tau_Byte_per_s']),
-        guard_sensitivity=dict(reference_formula_ns='delta_R = 930 + 8 * observation_ns, observation_ns >= 10',
-                  evidence_limit='RAWD < 100 ns does not establish a specific shorter waiting bound; 150 ns is an extra engineering reserve, not a measured upper bound.',
-                  extra_guard_ns_per_batch=10, extra_transaction_ns=80,
+        guard_sensitivity=dict(extra_guard_ns_per_batch=10, extra_transaction_ns=80,
                   relative_ridge_change=80/ref['delta_R_ns']))
 
 
 def tex_table(result):
     s=[r'% Generated by scripts/check_fenor.py --emit.', r'\begin{table}[htbp]\centering\small',
        r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
-       r'情景 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
+       r'情景 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (GB/s) & $\tau$ (GB/s) & $\RI^*$\\\midrule']
     for r,label in zip(result['main_scenarios'],['短','参考','长']):
-        s.append(f"{label} & {r['delta_S_ns']:.0f} & {r['delta_R_ns']:.0f} & {r['rho_Byte_per_s']/1e6:.4g} & {r['tau_Byte_per_s']/1e6:.4g} & {r['ridge']:.4f}"+r'\\')
+        s.append(f"{label} & {r['delta_S_ns']:.0f} & {r['delta_R_ns']:.0f} & {r['rho_Byte_per_s']/1e9:.5f} & {r['tau_Byte_per_s']/1e9:.5f} & {r['ridge']:.4f}"+r'\\')
     r=result['structural_contrast']
-    s += [r'\midrule', f"参考，128-cell 写 & {r['delta_S_ns']:.0f} & {r['delta_R_ns']:.0f} & {r['rho_Byte_per_s']/1e6:.4g} & {r['tau_Byte_per_s']/1e6:.4g} & {r['ridge']:.4f}"+r'\\',
+    s += [r'\midrule', f"参考，128-cell 写 & {r['delta_S_ns']:.0f} & {r['delta_R_ns']:.0f} & {r['rho_Byte_per_s']/1e9:.5f} & {r['tau_Byte_per_s']/1e9:.5f} & {r['ridge']:.4f}"+r'\\',
        r'\bottomrule\end{tabular}',
-       r'\caption{2026 vertical AND FeFET 二状态数字参考结果，MB=$10^6$ Byte。主情景每批16 cell、$g=100$ ns；最后一行增加八倍写驱动资源，另列为结构对照。}', r'\label{10_fenor_3d:tab:result}\end{table}']
+       r'\caption{同一二状态映射的配对结果。主情景每批16 cell；最后一行增加八倍写驱动资源，另列为结构对照。}', r'\label{tab:result}\end{table}']
     return '\n'.join(s)+'\n'
 
 
@@ -192,11 +176,6 @@ def checks(result):
     assert not W['erase_block'] and not W['pre_reset']
     assert X['state']['independent_service_units']==W['write_domains']==1
     assert result['structural_contrast']['rho_ratio_to_reference']==1
-    for row in result['observation_sensitivity']:
-        assert row['delta_R_ns']==930+8*row['observation_ns']
-        assert row['delta_S_ns']==ref['delta_S_ns']
-        assert row['resident_counts']['final_return_counted_in_observation']
-    assert result['observation_sensitivity'][1]['delta_R_ns']==2130
 
 
 def main():
@@ -212,7 +191,7 @@ def main():
         assert p.read_text()==content, f'Stale generated file: {p}; run --emit explicitly'
     print('PASS: shared API, all-cell mapping, bias masks, staged services, paired units, matrix aggregation, source hashes and generated files')
     for row in result['main_scenarios']:
-        print(f"{row['profile']}: DS={row['delta_S_ns']} ns DR={row['delta_R_ns']} ns rho={row['rho_Byte_per_s']/1e6:.7f} MB/s tau={row['tau_Byte_per_s']/1e6:.7f} MB/s RI*={row['ridge']:.7f}")
+        print(f"{row['profile']}: DS={row['delta_S_ns']} ns DR={row['delta_R_ns']} ns rho={row['rho_Byte_per_s']/1e9:.7f} GB/s tau={row['tau_Byte_per_s']/1e9:.7f} GB/s RI*={row['ridge']:.7f}")
 
 
 if __name__=='__main__': main()

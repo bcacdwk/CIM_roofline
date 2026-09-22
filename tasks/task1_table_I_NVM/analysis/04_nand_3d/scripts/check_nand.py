@@ -123,7 +123,7 @@ def recompute():
     return dict(schema_version='nand-3d-results-2',baseline_json_sha256=sha(SHARED/'data/shared_parameters.json'),
         baseline_script_sha256=sha(SHARED/'scripts/check_shared.py'),baseline_method_tex_sha256=sha(SHARED/'tex/02_estimation_method.tex'),
         main_scenarios=rows,organization_comparison=comp,main_paired_ranges=ranges,
-        numeric_estimation_complete=True,range_kind='paired conditional budgets at fixed 25 us integration; not physical uncertainty bounds',fixed_main_integration=dict(feedback_capacitance_pF=16,useful_swing_V=0.4,nominal_cell_current_nA=2,copies=1,integration_ns=25000),dominant_sensitivity=dict(kind='existing_resource_contrast',entry='organization_comparison',meaning='c=108 changes signal current, required drive and random averaging; not an equal-precision comparison'))
+        numeric_estimation_complete=True,range_kind='paired reference-design budgets, not statistical confidence intervals or universal SLC bounds')
 
 
 def esc(x):
@@ -136,7 +136,7 @@ def budget_table(r):
        r'情景 & 建立/恢复各(ns) & $T_{int}$ ($\mu$s) & $P$ (ms) & $E$ (ms) & $C$ ($\mu$s)\\\midrule']
     for x in r['main_scenarios']:
         t.append(f"{dict(short='短预算',reference='参考',long='长预算')[x['profile']]} & {D['sl_setup_budget_ns_by_profile'][x['profile']]} & {x['integration_ns_per_evaluation']/1000:g} & {x['program_budget_ns']/1e6:g} & {x['erase_budget_ns']/1e6:g} & {x['calibration_total_ns']/1000:.3f}\\\\")
-    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{主情景的选定预算及推导校准时间。$P/E$是完整操作预算；$T_{int}$由电荷守恒导出，$C$由三次参考读和固定数字序列导出。}',r'\label{04_nand_3d:tab:budget}\end{table}',''])
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{主情景的选定预算及推导校准时间。$P/E$是完整操作预算；$T_{int}$由电荷守恒导出，$C$由三次参考读和固定数字序列导出。}',r'\label{tab:budget}\end{table}',''])
 
 
 def result_table(r):
@@ -144,8 +144,8 @@ def result_table(r):
        r'情景 & $\Delta_S$ (ms) & $\rho$ & $\tau_{app}$ & $\RI^*_{app}$ & $\tau_{rw}$ & $\RI^*_{rw}$\\\midrule']
     for x in r['main_scenarios']:
         a,w=x['append'],x['rewrite']
-        t.append(f"{dict(short='短预算',reference='参考',long='长预算')[x['profile']]} & {x['delta_S_ns']/1e6:.4f} & {w['rho_Byte_per_s']/1e6:.4g} & {a['tau_Byte_per_s']/1e6:.4g} & {a['ridge']:.4g} & {w['tau_Byte_per_s']/1e6:.4g} & {w['ridge']:.4g}\\\\")
-    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{有限主情景结果；三个吞吐列单位均为MB/s（$10^6$ Byte/s）。append只针对已有预擦除数据页和已编程参考页的窗口；两种写入均重新校准。}',r'\label{04_nand_3d:tab:results}\end{table}',''])
+        t.append(f"{dict(short='短预算',reference='参考',long='长预算')[x['profile']]} & {x['delta_S_ns']/1e6:.4f} & {w['rho_Byte_per_s']/1e3:.4g} & {a['tau_Byte_per_s']/1e3:.4g} & {a['ridge']:.4g} & {w['tau_Byte_per_s']/1e3:.4g} & {w['ridge']:.4g}\\\\")
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{有限主情景结果；三个吞吐列单位均为kB/s（$10^3$ Byte/s）。append只针对已有预擦除数据页和已编程参考页的窗口；两种写入均重新校准。}',r'\label{tab:results}\end{table}',''])
 
 
 def operation_table(r):
@@ -154,14 +154,14 @@ def operation_table(r):
     for mode,label in [('append','预擦除append'),('rewrite','同地址持续重写')]:
         z=ref[mode];n=z['operations']
         t.append(f"{label} & {n['data_pages']}/{n['calibration_pages']} & {n['program_cycles']} & {n['erase_cycles']} & {z['delta_R_ns']/1e9:.6f}\\\\")
-    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{整矩阵服务操作计数与参考时间。两行都完成$B_R=16384$ Byte；每页完整装入108拍加两拍控制，串行单更新域。}',r'\label{04_nand_3d:tab:operations}\end{table}',''])
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{整矩阵服务操作计数与参考时间。两行都完成$B_R=16384$ Byte；每页完整装入108拍加两拍控制，串行单更新域。}',r'\label{tab:operations}\end{table}',''])
 
 
 def comparison_table(r):
-    t=[r'% Generated from results.json.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'参考外围/写预算 & $T_{int}$ ($\mu$s) & $\rho$ (MB/s) & $\tau_{rw}$ (MB/s) & $\RI^*_{rw}$ & $\sigma$/LSB\\\midrule']
+    t=[r'% Generated from results.json.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'参考外围/写预算 & $T_{int}$ ($\mu$s) & $\rho$ (kB/s) & $\tau_{rw}$ (kB/s) & $\RI^*_{rw}$ & $\sigma$/LSB\\\midrule']
     for x in [r['main_scenarios'][1],r['organization_comparison']]:
-        z=x['rewrite'];t.append(f"$c={x['copies']}$ & {x['integration_ns_per_evaluation']/1000:.4g} & {z['rho_Byte_per_s']/1e6:.5g} & {z['tau_Byte_per_s']/1e6:.5g} & {z['ridge']:.5g} & {x['geometry']['iid_sigma_in_count_LSB']:.4g}\\\\")
-    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{唯一组织对照：同一前端、字节、完整写预算和校准规则，仅复制数变化。随机误差列为独立同分布满量程估计；二者逻辑格式相同，最终误差能力不相等。}',r'\label{04_nand_3d:tab:comparison}\end{table}',''])
+        z=x['rewrite'];t.append(f"$c={x['copies']}$ & {x['integration_ns_per_evaluation']/1000:.4g} & {z['rho_Byte_per_s']/1e3:.5g} & {z['tau_Byte_per_s']/1e3:.5g} & {z['ridge']:.5g} & {x['geometry']['iid_sigma_in_count_LSB']:.4g}\\\\")
+    return '\n'.join(t+[r'\bottomrule\end{tabular}',r'\caption{唯一组织对照：同一前端、字节、完整写预算和校准规则，仅复制数变化。随机误差列为独立同分布满量程估计；二者逻辑格式相同，最终误差能力不相等。}',r'\label{tab:comparison}\end{table}',''])
 
 
 def evidence_md():
@@ -172,7 +172,7 @@ def evidence_md():
 
 def evidence_tex():
     t=[r'% Generated from raw_evidence in inputs.json.',r'\begingroup\footnotesize\setstretch{1.0}',r'\begin{longtable}{@{}>{\raggedright\arraybackslash}p{27mm}>{\raggedright\arraybackslash}p{59mm}>{\raggedright\arraybackslash}p{70mm}@{}}',
-       r'\caption{原始量、采用预算与换算理由。}\label{04_nand_3d:tab:evidence}\\',r'\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endfirsthead',r'\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endhead']
+       r'\caption{原始量、采用预算与换算理由。}\label{tab:evidence}\\',r'\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endfirsthead',r'\toprule 来源/定位 & 原值与条件 & 采用及桥接\\\midrule\endhead']
     for x in X['raw_evidence']:
         t.append(' & '.join(esc(a) for a in [('公共基线：参数JSON与R0' if x['source']=='shared_baseline' else x['source']+' '+x['locator']),x['raw']+'。'+x['condition'],x['adoption']])+r'\\')
     return '\n'.join(t+[r'\bottomrule\end{longtable}\endgroup',''])

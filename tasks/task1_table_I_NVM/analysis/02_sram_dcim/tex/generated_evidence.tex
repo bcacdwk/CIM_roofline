@@ -1,7 +1,7 @@
 % Generated from data/inputs.json raw_evidence; original and adopted values separated.
 \begingroup\footnotesize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.08}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{27mm}>{\raggedright\arraybackslash}p{62mm}>{\raggedright\arraybackslash}p{65mm}@{}}
-\caption{参数证据与采用方法。页码均为本地PDF页序；原始值与本文预算分列。}\label{02_sram_dcim:tab:dcim-evidence}\\
+\caption{参数证据与采用方法。页码均为本地PDF页序；原始值与本文预算分列。}\label{tab:dcim-evidence}\\
 \toprule 证据与定位 & 原值、单位和条件 & 采用值与换算理由\\\midrule\endfirsthead
 \toprule 证据与定位 & 原值、单位和条件 & 采用值与换算理由\\\midrule\endhead
 E01 \texttt{SDCIM-01}\newline p.1 Fig.1；p.2首段 & 物理阵列与完整INT8求值：128×128 bit；128×16 INT8；16项×16输出/拍；64 clock/VMM。28 nm，6T binary SRAM，8-bit signed/unsigned full-precision；输出23 bit & 一份128×128 INT8需8个容量分片；单分片64拍，顺序覆盖512拍。128个物理bit列除以每权重8 bit，仅16个逻辑输出；16项归约保留原结构\\\addlinespace[2pt]

@@ -26,7 +26,7 @@ def physical_batches():
     return [[dict(payload_element=8*g+k,input_column=16*g+k,weight_plane=w,group=g,output_WL=0)
              for g in range(2) for w in range(8)] for k in range(8)]
 
-def write_service(name,parallel_cells=16,verify_mode='binary',attempt_profile=None):
+def write_service(name,parallel_cells=16,verify_mode='binary'):
     v=S.C['propagation']['profile_values'][name]
     front,beats=S.front_ns(C['encoded_load_bits'],v['digital_tick'],True)
     assert 128%parallel_cells==0
@@ -39,7 +39,7 @@ def write_service(name,parallel_cells=16,verify_mode='binary',attempt_profile=No
     guard_post=A['high_voltage_return_recover_ns_per_attempt']['value']
     stages=[];terms=[]
     for phase in ['RESET','SET']:
-        k=A['group_attempt_scenarios'][attempt_profile or name][phase]
+        k=A['group_attempt_scenarios'][name][phase]
         count=nb*k
         step=dict(count=count,
                   drive_program_ns=guard_pre+A['program_pulse_ns'][phase]+address_ticks*v['digital_tick'],
@@ -80,10 +80,6 @@ def calculate():
     for ha in [0,5]:
         d=S.acim_service(cfg,v,5+ha)[0];dr,_=write_service('reference')
         h.append(dict(h_A_ns=ha,meaning='additional front-end engineering budget; main binary verify is decoupled',**S.metrics(128,16,d,dr)))
-    attempts=[]
-    for k in ['short','reference','long']:
-        dr,wd=write_service('reference',attempt_profile=k)
-        attempts.append(dict(attempt_profile=k,common_profile='reference',scenario_type='independent_sensitivity',attempts=A['group_attempt_scenarios'][k],write_details=wd,**S.metrics(128,16,ds,dr)))
     ranges={m:[min(r[m] for r in rows),max(r[m] for r in rows)] for m in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
     return dict(schema_version='rram-reference-results-2.0',status=X['status'],
         baseline_json_sha256=digest(SHARED/'data/shared_parameters.json'),
@@ -94,35 +90,31 @@ def calculate():
             columns_in_this_transaction=list(range(8))+list(range(16,24)),
             complementary_transaction_columns=list(range(8,16))+list(range(24,32))),
         scenarios=rows,paired_ranges=ranges,
-        comparisons_at_reference=comparisons,frontend_sensitivity=h,attempt_sensitivity=attempts)
+        independent_endpoint_ridge_envelope=[ranges['rho_Byte_per_s'][0]/ranges['tau_Byte_per_s'][1],ranges['rho_Byte_per_s'][1]/ranges['tau_Byte_per_s'][0]],
+        comparisons_at_reference= comparisons,frontend_sensitivity=h)
 
 def esc(s):
     for a,b in [('\\',r'\textbackslash{}'),('&',r'\&'),('%',r'\%'),('_',r'\_'),('#',r'\#')]:s=s.replace(a,b)
     return s.replace('µ',r'$\mu$').replace('×',r'$\times$').replace('Ω',r'$\Omega$').replace('−','-').replace('–','--').replace('≥',r'$\geq$').replace('≤',r'$\leq$')
 
 def generate(r):
-    t=[r'% Generated from inputs JSON via shared API.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',r'情景 & $K_R/K_S$ & $\Delta_S$ (\,$\mu$s) & $\Delta_R$ (\,$\mu$s) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
+    t=[r'% Generated from inputs JSON via shared API.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',r'情景 & $K_R/K_S$ & $\Delta_S$ (\,$\mu$s) & $\Delta_R$ (\,$\mu$s) & $\rho$ (GB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
     for row in r['scenarios']:
         k=A['group_attempt_scenarios'][row['profile']]
-        t.append(f"{LABEL[row['profile']]} & {k['RESET']}/{k['SET']} & {row['delta_S_ns']/1000:.3f} & {row['delta_R_ns']/1000:.3f} & {row['rho_Byte_per_s']/1e6:.5f} & {row['tau_Byte_per_s']/1e6:.5f} & {row['ridge']:.3f}\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{同一 B32-W16 参考组织的有限成对服务预算。$B_S=128$ Byte，$B_R=16$ Byte；MB 为十进制。组内所有活动 cell 在所列尝试次数内达窗是情景完成条件，次数不是实测尾部上界。}\label{05_rram:tab:main}\end{table}']
+        t.append(f"{LABEL[row['profile']]} & {k['RESET']}/{k['SET']} & {row['delta_S_ns']/1000:.3f} & {row['delta_R_ns']/1000:.3f} & {row['rho_Byte_per_s']/1e9:.5f} & {row['tau_Byte_per_s']/1e6:.5f} & {row['ridge']:.3f}\\\\")
+    t += [r'\bottomrule\end{tabular}',r'\caption{同一 B32-W16 参考组织的有限成对服务预算。$B_S=128$ Byte，$B_R=16$ Byte；GB、MB 均为十进制。组内所有活动 cell 在所列尝试次数内达窗是情景完成条件，次数不是实测尾部上界。}\label{tab:main}\end{table}']
     br=[r'% Generated detailed occupancy.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'情景 & 脉冲时隙 & HV建立/恢复预留 & binary选通/感测 & 控制/提交 & 合计\\\midrule']
     for row in r['scenarios']:
         ps=row['write_details']['phase_details'];vals=[sum(q[k] for q in ps)/1000 for k in ['pulse_total_ns','HV_guard_total_ns','verify_read_total_ns']]
         ctrl=(row['write_details']['front_ns']+sum(q['local_control_total_ns'] for q in ps))/1000
         br.append(f"{LABEL[row['profile']]} & {vals[0]:g} & {vals[1]:g} & {vals[2]:g} & {ctrl:.3f} & {row['delta_R_ns']/1000:.3f}\\\\")
-    br += [r'\bottomrule\end{tabular}',r'\caption{完整 resident 占用分解，单位均为 $\mu$s。脉冲列按并行批预留时隙计，1 $\mu$s脉宽借自原文实际波形；HV前后各1 $\mu$s是工程余量，binary列含输入选通、5 ns建立以及10/20/50 ns完整sense时隙；该预算非本地SA实测内在延时。}\label{05_rram:tab:breakdown}\end{table}']
+    br += [r'\bottomrule\end{tabular}',r'\caption{完整 resident 占用分解，单位均为 $\mu$s。脉冲列按并行批预留时隙计，1 $\mu$s脉宽借自原文实际波形；HV前后各1 $\mu$s是工程余量，binary列含输入选通、5 ns建立以及10/20/50 ns完整sense时隙；该预算非本地SA实测内在延时。}\label{tab:breakdown}\end{table}']
     co=[r'% Generated one controlled comparison.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'参考点组织 & 活动写lane & verify读回 (ns) & $\Delta_R$ (\,$\mu$s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
     for row in r['comparisons_at_reference']:
         d=row['write_details']
         co.append(f"{esc(row['label'])} & {d['parallel_cells']} & {d['verify_read_ns_per_attempt']:g} & {row['delta_R_ns']/1000:.3f} & {row['tau_Byte_per_s']/1e6:.6f} & {row['ridge']:.3f}\\\\")
-    co += [r'\bottomrule\end{tabular}',r'\caption{同一两阶段程序、脉冲、HV预留、成功窗和 $K_R/K_S=2/1$，仅改变活动并行度或校验通路。三行读侧相同，$\Delta_S=10.25\,\mu$s；W1仅启用已配置硬件中的一个lane，SAR复用原CIM转换器。}\label{05_rram:tab:comparison}\end{table}']
-    at=[r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrr@{}}\toprule',r'$K_R/K_S$ & $\Delta_R$ ($\mu$s) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
-    for row in r['attempt_sensitivity']:
-        k=row['attempts']
-        at.append(f"{k['RESET']}/{k['SET']} & {row['delta_R_ns']/1000:.3f} & {row['rho_Byte_per_s']/1e6:.4g} & {row['tau_Byte_per_s']/1e6:.4g} & {row['ridge']:.4g}"+r'\\')
-    at += [r'\bottomrule\end{tabular}',r'\caption{固定参考外围、16路写验与前后各1 $\mu$s HV预留，仅改变已采用的组内尝试次数。读能力不变；次数不与外围速度物理绑定，也不是实测概率分布。}\label{05_rram:tab:attempts}\end{table}']
-    ev=[r'% Generated evidence table.',r'\begingroup\footnotesize',r'\begin{longtable}{@{}>{\raggedright\arraybackslash}p{16mm}>{\raggedright\arraybackslash}p{50mm}>{\raggedright\arraybackslash}p{42mm}>{\raggedright\arraybackslash}p{48mm}@{}}',r'\caption{原始证据与工程选择分列。页码为本地PDF页序。}\label{05_rram:tab:evidence}\\',r'\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endfirsthead',r'\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endhead']
+    co += [r'\bottomrule\end{tabular}',r'\caption{同一两阶段程序、脉冲、HV预留、成功窗和 $K_R/K_S=2/1$，仅改变活动并行度或校验通路。三行读侧相同，$\Delta_S=10.25\,\mu$s；W1仅启用已配置硬件中的一个lane，SAR复用原CIM转换器。}\label{tab:comparison}\end{table}']
+    ev=[r'% Generated evidence table.',r'\begingroup\footnotesize',r'\begin{longtable}{@{}>{\raggedright\arraybackslash}p{16mm}>{\raggedright\arraybackslash}p{50mm}>{\raggedright\arraybackslash}p{42mm}>{\raggedright\arraybackslash}p{48mm}@{}}',r'\caption{原始证据与工程选择分列。页码为本地PDF页序。}\label{tab:evidence}\\',r'\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endfirsthead',r'\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endhead']
     md=['# RRAM 参数证据表','','原值、跨实现操作锚点与工程选择分开；从 `data/inputs.json` 生成。','','| ID/来源 | 原值与单位 | 条件与定位 | 采用/换算理由 |','|---|---|---|---|']
     for e in X['reported_evidence']:
         sid=e['source_id'] if e['source_id']!='shared_baseline' else '共享基线'
@@ -133,11 +125,11 @@ def generate(r):
     readme=(BASE/'README.md').read_text()
     begin='<!-- BEGIN GENERATED RESULTS -->';end='<!-- END GENERATED RESULTS -->'
     before,rest=readme.split(begin,1);_,after=rest.split(end,1)
-    mt=['| 成对情景 | ΔS (µs) | ΔR (µs) | ρ (MB/s) | τ (MB/s) | RI* |','|---|---:|---:|---:|---:|---:|']
+    mt=['| 成对情景 | ΔS (µs) | ΔR (µs) | ρ (GB/s) | τ (MB/s) | RI* |','|---|---:|---:|---:|---:|---:|']
     for row in r['scenarios']:
-        mt.append(f"| {LABEL[row['profile']]} | {row['delta_S_ns']/1000:.3f} | {row['delta_R_ns']/1000:.3f} | {row['rho_Byte_per_s']/1e6:.5f} | {row['tau_Byte_per_s']/1e6:.5f} | {row['ridge']:.3f} |")
+        mt.append(f"| {LABEL[row['profile']]} | {row['delta_S_ns']/1000:.3f} | {row['delta_R_ns']/1000:.3f} | {row['rho_Byte_per_s']/1e9:.5f} | {row['tau_Byte_per_s']/1e6:.5f} | {row['ridge']:.3f} |")
     new_readme=before+begin+'\n'+'\n'.join(mt)+'\n'+end+after
-    return {'README.md':new_readme,'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n','tex/generated_read.tex':'\n'.join(t)+'\n','tex/generated_attempts.tex':'\n'.join(at)+'\n','tex/generated_write_breakdown.tex':'\n'.join(br)+'\n','tex/generated_comparison.tex':'\n'.join(co)+'\n','tex/generated_evidence.tex':'\n'.join(ev)+'\n','notes/parameter_evidence.zh.md':'\n'.join(md)+'\n'}
+    return {'README.md':new_readme,'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n','tex/generated_read.tex':'\n'.join(t)+'\n','tex/generated_write_breakdown.tex':'\n'.join(br)+'\n','tex/generated_comparison.tex':'\n'.join(co)+'\n','tex/generated_evidence.tex':'\n'.join(ev)+'\n','notes/parameter_evidence.zh.md':'\n'.join(md)+'\n'}
 
 def check(r):
     assert digest(SHARED/'data/shared_parameters.json')==X['baseline']['json_sha256']
@@ -163,8 +155,6 @@ def check(r):
         full=(row['delta_R_ns']-d['front_ns'])/8
         br,dr,nb,_=S.direct_service(dict(logical_weights_completed=16,cells_per_weight=8,parallel_cells=16,encoded_load_bits=128,first_data_in_command=True,complete_physical_update_ns=full),row['periphery_ns']['digital_tick'])
         assert br==16 and nb==8 and dr==row['delta_R_ns']
-    assert len({q['delta_S_ns'] for q in r['attempt_sensitivity']})==1
-    assert [q['delta_R_ns'] for q in r['attempt_sensitivity']]==[48650,72970,145930]
     a,b,c=r['comparisons_at_reference']
     assert math.isclose(b['delta_R_ns']-10,16*(a['delta_R_ns']-10))
     assert a['delta_R_ns']<c['delta_R_ns']==b['delta_R_ns']

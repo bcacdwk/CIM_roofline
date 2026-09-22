@@ -1,8 +1,8 @@
 {
   "baseline_id": "shared_baseline",
-  "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
+  "mode": "HZO 1T1C binary memory with reference local exact-integer digital CIM, destructive sensing and mandatory full activated-row writeback",
   "mapping": {
-    "id": "HZO_1T1C_32x32x128_D0_reuse",
+    "id": "HZO_1T1C_32x32x128_D0",
     "cell_state": "binary remanent polarization; 1 FeCAP per bit",
     "cells_per_weight": 8,
     "shards": 32,
@@ -22,15 +22,13 @@
     "unselected_rows": "WL off; independently selected local row PL and write domain; no shared destructive activation beyond the 128-bit row",
     "precision": "INT8 x INT8 to exact signed 24-bit output conditional on binary memory functionality; no analog multi-level weight",
     "D0_round_readout_register_bits": 4096,
-    "additional_weight_latch_bits": 0,
-    "register_lifetime": "capture once per (g,h) before SA reset; hold through eight read-only input-bit computations; overwrite only after eighth bit and before next (g,h)",
-    "read_reuse_input_slices": true
+    "D1_additional_long_hold_weight_bits": 4096
   },
   "units": {
     "time": "ns",
     "payload": "Byte",
     "rho_tau": "Byte/s",
-    "display_bandwidth": "decimal MB/s",
+    "display_bandwidth": "decimal GB/s",
     "ridge": "dimensionless"
   },
   "provenance": {
@@ -43,16 +41,9 @@
     {
       "id": "D0_short",
       "profile": "short",
-      "scenario_type": "paired_engineering",
-      "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
-      "schedule": "group_then_all_input_bits",
+      "mode": "HZO 1T1C binary memory with reference local exact-integer digital CIM, destructive sensing and mandatory full activated-row writeback",
       "baseline_id": "shared_baseline",
-      "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-      "media_budgets_ns": {
-        "sense": 8,
-        "polarization_hold_per_phase": 14,
-        "open_close_bias_total": 20
-      },
+      "mapping_id": "HZO_1T1C_32x32x128_D0",
       "media_read_complete_ns": 42,
       "media_write_complete_ns": 48,
       "counts": {
@@ -61,27 +52,23 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 32,
+        "read_rounds": 256,
         "digital_ticks": 256
       },
-      "existing_operand_register_bits": 4096,
-      "extra_weight_latch_bits": 0,
-      "latch_capture_extra_ns": 0,
       "read_bits_per_round": 4096,
       "restore_rows_per_round": 32,
-      "restore_row_services_per_vector": 1024,
-      "restore_bits_per_vector": 131072,
+      "restore_row_services_per_vector": 8192,
+      "restore_bits_per_vector": 1048576,
       "logical_update_rows": 1,
       "physical_write_phases": 2,
       "encoded_data_beats": 1,
-      "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
       "matrix_write_rows": 1024,
       "matrix_delta_R_ns": 53248.0,
       "matrix_B_R_Byte": 16384,
       "stream_components_ns": {
-        "sense": 256,
-        "destructive_restore": 448,
-        "dedicated_open_close": 640,
+        "sense": 2048,
+        "destructive_restore": 3584,
+        "dedicated_open_close": 5120,
         "compute": 512,
         "boundary": 4
       },
@@ -92,9 +79,6 @@
       },
       "stream_dominant": "dedicated_open_close",
       "resident_dominant": "target_polarity_phases",
-      "periodic_maintenance_fraction": 0,
-      "raw_equals_effective": true,
-      "feasibility": "conditional engineering design with full destructive restore included",
       "evidence_and_choices": {
         "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
         "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
@@ -105,25 +89,18 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16.0,
-      "delta_S_ns": 1860,
+      "delta_S_ns": 11268,
       "delta_R_ns": 52.0,
-      "rho_Byte_per_s": 68817204.30107526,
+      "rho_Byte_per_s": 11359602.413915511,
       "tau_Byte_per_s": 307692307.69230765,
-      "ridge": 0.22365591397849463
+      "ridge": 0.03691870784522542
     },
     {
       "id": "D0_reference",
       "profile": "reference",
-      "scenario_type": "recommended_reference",
-      "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
-      "schedule": "group_then_all_input_bits",
+      "mode": "HZO 1T1C binary memory with reference local exact-integer digital CIM, destructive sensing and mandatory full activated-row writeback",
       "baseline_id": "shared_baseline",
-      "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-      "media_budgets_ns": {
-        "sense": 20,
-        "polarization_hold_per_phase": 50,
-        "open_close_bias_total": 40
-      },
+      "mapping_id": "HZO_1T1C_32x32x128_D0",
       "media_read_complete_ns": 110,
       "media_write_complete_ns": 140,
       "counts": {
@@ -132,27 +109,23 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 32,
+        "read_rounds": 256,
         "digital_ticks": 256
       },
-      "existing_operand_register_bits": 4096,
-      "extra_weight_latch_bits": 0,
-      "latch_capture_extra_ns": 0,
       "read_bits_per_round": 4096,
       "restore_rows_per_round": 32,
-      "restore_row_services_per_vector": 1024,
-      "restore_bits_per_vector": 131072,
+      "restore_row_services_per_vector": 8192,
+      "restore_bits_per_vector": 1048576,
       "logical_update_rows": 1,
       "physical_write_phases": 2,
       "encoded_data_beats": 1,
-      "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
       "matrix_write_rows": 1024,
       "matrix_delta_R_ns": 153600.0,
       "matrix_B_R_Byte": 16384,
       "stream_components_ns": {
-        "sense": 640,
-        "destructive_restore": 1600,
-        "dedicated_open_close": 1280,
+        "sense": 5120,
+        "destructive_restore": 12800,
+        "dedicated_open_close": 10240,
         "compute": 1280,
         "boundary": 10
       },
@@ -163,9 +136,6 @@
       },
       "stream_dominant": "destructive_restore",
       "resident_dominant": "target_polarity_phases",
-      "periodic_maintenance_fraction": 0,
-      "raw_equals_effective": true,
-      "feasibility": "conditional engineering design with full destructive restore included",
       "evidence_and_choices": {
         "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
         "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
@@ -176,25 +146,18 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16.0,
-      "delta_S_ns": 4810,
+      "delta_S_ns": 29450,
       "delta_R_ns": 150.0,
-      "rho_Byte_per_s": 26611226.611226607,
+      "rho_Byte_per_s": 4346349.745331069,
       "tau_Byte_per_s": 106666666.66666666,
-      "ridge": 0.24948024948024947
+      "ridge": 0.04074702886247878
     },
     {
       "id": "D0_long",
       "profile": "long",
-      "scenario_type": "paired_engineering",
-      "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
-      "schedule": "group_then_all_input_bits",
+      "mode": "HZO 1T1C binary memory with reference local exact-integer digital CIM, destructive sensing and mandatory full activated-row writeback",
       "baseline_id": "shared_baseline",
-      "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-      "media_budgets_ns": {
-        "sense": 50,
-        "polarization_hold_per_phase": 100,
-        "open_close_bias_total": 80
-      },
+      "mapping_id": "HZO_1T1C_32x32x128_D0",
       "media_read_complete_ns": 230,
       "media_write_complete_ns": 280,
       "counts": {
@@ -203,27 +166,23 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 32,
+        "read_rounds": 256,
         "digital_ticks": 256
       },
-      "existing_operand_register_bits": 4096,
-      "extra_weight_latch_bits": 0,
-      "latch_capture_extra_ns": 0,
       "read_bits_per_round": 4096,
       "restore_rows_per_round": 32,
-      "restore_row_services_per_vector": 1024,
-      "restore_bits_per_vector": 131072,
+      "restore_row_services_per_vector": 8192,
+      "restore_bits_per_vector": 1048576,
       "logical_update_rows": 1,
       "physical_write_phases": 2,
       "encoded_data_beats": 1,
-      "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
       "matrix_write_rows": 1024,
       "matrix_delta_R_ns": 307200.0,
       "matrix_B_R_Byte": 16384,
       "stream_components_ns": {
-        "sense": 1600,
-        "destructive_restore": 3200,
-        "dedicated_open_close": 2560,
+        "sense": 12800,
+        "destructive_restore": 25600,
+        "dedicated_open_close": 20480,
         "compute": 2560,
         "boundary": 20
       },
@@ -234,9 +193,6 @@
       },
       "stream_dominant": "destructive_restore",
       "resident_dominant": "target_polarity_phases",
-      "periodic_maintenance_fraction": 0,
-      "raw_equals_effective": true,
-      "feasibility": "conditional engineering design with full destructive restore included",
       "evidence_and_choices": {
         "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
         "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
@@ -247,325 +203,61 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16.0,
-      "delta_S_ns": 9940,
+      "delta_S_ns": 61460,
       "delta_R_ns": 300.0,
-      "rho_Byte_per_s": 12877263.581488932,
+      "rho_Byte_per_s": 2082655.3856166613,
       "tau_Byte_per_s": 53333333.33333333,
-      "ridge": 0.24144869215291748
+      "ridge": 0.0390497884803124
     }
   ],
   "sensitivity": {
-    "id": "D_repeat_reference",
-    "profile": "reference",
-    "scenario_type": "scheduling_sensitivity",
-    "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, same 4096-bit read-code register with per-input-bit repeated reads, destructive full activated-row writeback",
-    "schedule": "reread_each_input_bit",
+    "id": "D1_reuse",
+    "mode": "HZO 1T1C binary memory with reference local exact-integer digital CIM, destructive sensing and mandatory full activated-row writeback",
     "baseline_id": "shared_baseline",
-    "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-    "media_budgets_ns": {
-      "sense": 20,
-      "polarization_hold_per_phase": 50,
-      "open_close_bias_total": 40
-    },
-    "media_read_complete_ns": 110,
-    "media_write_complete_ns": 140,
+    "mapping_id": "HZO_1T1C_32x32x128_D0",
     "counts": {
       "input_slices": 8,
       "weight_groups": 1,
       "row_groups": 4,
       "output_groups": 8,
       "compute_rounds": 256,
-      "read_rounds": 256,
+      "read_rounds": 32,
       "digital_ticks": 256
     },
-    "existing_operand_register_bits": 4096,
-    "extra_weight_latch_bits": 0,
-    "latch_capture_extra_ns": 0,
-    "read_bits_per_round": 4096,
-    "restore_rows_per_round": 32,
-    "restore_row_services_per_vector": 8192,
-    "restore_bits_per_vector": 1048576,
-    "logical_update_rows": 1,
-    "physical_write_phases": 2,
-    "encoded_data_beats": 1,
-    "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
-    "matrix_write_rows": 1024,
-    "matrix_delta_R_ns": 153600.0,
-    "matrix_B_R_Byte": 16384,
-    "stream_components_ns": {
-      "sense": 5120,
-      "destructive_restore": 12800,
-      "dedicated_open_close": 10240,
-      "compute": 1280,
-      "boundary": 10
-    },
-    "write_components_ns": {
-      "interface_control": 10,
-      "target_polarity_phases": 100,
-      "dedicated_open_close": 40
-    },
-    "stream_dominant": "destructive_restore",
-    "resident_dominant": "target_polarity_phases",
-    "periodic_maintenance_fraction": 0,
-    "raw_equals_effective": true,
-    "feasibility": "conditional engineering design with full destructive restore included",
-    "evidence_and_choices": {
-      "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
-      "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
-      "dedicated_open_close": "20/40/80 ns total allocation for BL precharge/reference, WL/PL bias establishment, pulse edges, SA reset and return to reusable state excluding polarization holds. Short=10+10 ns open/close (round above 8 ns observed sense); reference=20+20; long=40+40. FERAM-03 Fig9 establishes required stages; FERAM-04 Fig13 tRP=80 ns and complete tRC=185 ns cross-check scale, NOT a disjoint timing block to add. No PVT guarantee or measured per-stage split.",
-      "voltage": "Measured anchor FERAM-03: 11 nm TiN/HZO/TiN, 2.5 V, 1 um2 capacitor tested. Memory voltage domain and compatible access/level-shift circuitry retained as a design requirement; shared 28 nm 0.9 V applies to digital periphery only, with no geometric speed scaling.",
-      "write_parallelism": "128 target BL drivers and one selected local plate driver provisioned for a whole128bit row, independently of 128bit input interface; 32 read SA banks support parallel restore from their own latches. Updating externally is serialized by choice to one target-data/decoder domain.",
-      "endpoint": "Open-loop binary write, no analog verify or unspecified retries. Conditional capacity is for cells passing binary-state read/write qualification under stated window; failure beyond budget is failed service, not extra successful payload."
-    },
+    "extra_weight_latch_bits": 4096,
+    "latch_capture_ns": 160,
+    "restore_bits_per_vector": 131072,
     "B_S_Byte": 128,
     "B_R_Byte": 16.0,
-    "delta_S_ns": 29450,
+    "delta_S_ns": 4970,
     "delta_R_ns": 150.0,
-    "rho_Byte_per_s": 4346349.745331069,
+    "rho_Byte_per_s": 25754527.162977863,
     "tau_Byte_per_s": 106666666.66666666,
-    "ridge": 0.04074702886247878,
-    "rho_ratio_to_reference": 0.16332767402376913,
+    "ridge": 0.24144869215291748,
+    "rho_ratio_to_reference": 5.9255533199195165,
     "tau_ratio_to_reference": 1.0
   },
-  "polarization_sensitivity": [
-    {
-      "id": "fixed_hold_14ns",
-      "profile": "reference",
-      "scenario_type": "independent_hold_sensitivity",
-      "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
-      "schedule": "group_then_all_input_bits",
-      "baseline_id": "shared_baseline",
-      "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-      "media_budgets_ns": {
-        "sense": 20,
-        "polarization_hold_per_phase": 14,
-        "open_close_bias_total": 40
-      },
-      "media_read_complete_ns": 74,
-      "media_write_complete_ns": 68,
-      "counts": {
-        "input_slices": 8,
-        "weight_groups": 1,
-        "row_groups": 4,
-        "output_groups": 8,
-        "compute_rounds": 256,
-        "read_rounds": 32,
-        "digital_ticks": 256
-      },
-      "existing_operand_register_bits": 4096,
-      "extra_weight_latch_bits": 0,
-      "latch_capture_extra_ns": 0,
-      "read_bits_per_round": 4096,
-      "restore_rows_per_round": 32,
-      "restore_row_services_per_vector": 1024,
-      "restore_bits_per_vector": 131072,
-      "logical_update_rows": 1,
-      "physical_write_phases": 2,
-      "encoded_data_beats": 1,
-      "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
-      "matrix_write_rows": 1024,
-      "matrix_delta_R_ns": 79872.0,
-      "matrix_B_R_Byte": 16384,
-      "stream_components_ns": {
-        "sense": 640,
-        "destructive_restore": 448,
-        "dedicated_open_close": 1280,
-        "compute": 1280,
-        "boundary": 10
-      },
-      "write_components_ns": {
-        "interface_control": 10,
-        "target_polarity_phases": 28,
-        "dedicated_open_close": 40
-      },
-      "stream_dominant": "dedicated_open_close",
-      "resident_dominant": "dedicated_open_close",
-      "periodic_maintenance_fraction": 0,
-      "raw_equals_effective": true,
-      "feasibility": "conditional engineering design with full destructive restore included",
-      "evidence_and_choices": {
-        "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
-        "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
-        "dedicated_open_close": "20/40/80 ns total allocation for BL precharge/reference, WL/PL bias establishment, pulse edges, SA reset and return to reusable state excluding polarization holds. Short=10+10 ns open/close (round above 8 ns observed sense); reference=20+20; long=40+40. FERAM-03 Fig9 establishes required stages; FERAM-04 Fig13 tRP=80 ns and complete tRC=185 ns cross-check scale, NOT a disjoint timing block to add. No PVT guarantee or measured per-stage split.",
-        "voltage": "Measured anchor FERAM-03: 11 nm TiN/HZO/TiN, 2.5 V, 1 um2 capacitor tested. Memory voltage domain and compatible access/level-shift circuitry retained as a design requirement; shared 28 nm 0.9 V applies to digital periphery only, with no geometric speed scaling.",
-        "write_parallelism": "128 target BL drivers and one selected local plate driver provisioned for a whole128bit row, independently of 128bit input interface; 32 read SA banks support parallel restore from their own latches. Updating externally is serialized by choice to one target-data/decoder domain.",
-        "endpoint": "Open-loop binary write, no analog verify or unspecified retries. Conditional capacity is for cells passing binary-state read/write qualification under stated window; failure beyond budget is failed service, not extra successful payload."
-      },
-      "B_S_Byte": 128,
-      "B_R_Byte": 16.0,
-      "delta_S_ns": 3658,
-      "delta_R_ns": 78.0,
-      "rho_Byte_per_s": 34991798.797156915,
-      "tau_Byte_per_s": 205128205.1282051,
-      "ridge": 0.17058501913614
-    },
-    {
-      "id": "fixed_hold_50ns",
-      "profile": "reference",
-      "scenario_type": "independent_hold_sensitivity",
-      "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
-      "schedule": "group_then_all_input_bits",
-      "baseline_id": "shared_baseline",
-      "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-      "media_budgets_ns": {
-        "sense": 20,
-        "polarization_hold_per_phase": 50,
-        "open_close_bias_total": 40
-      },
-      "media_read_complete_ns": 110,
-      "media_write_complete_ns": 140,
-      "counts": {
-        "input_slices": 8,
-        "weight_groups": 1,
-        "row_groups": 4,
-        "output_groups": 8,
-        "compute_rounds": 256,
-        "read_rounds": 32,
-        "digital_ticks": 256
-      },
-      "existing_operand_register_bits": 4096,
-      "extra_weight_latch_bits": 0,
-      "latch_capture_extra_ns": 0,
-      "read_bits_per_round": 4096,
-      "restore_rows_per_round": 32,
-      "restore_row_services_per_vector": 1024,
-      "restore_bits_per_vector": 131072,
-      "logical_update_rows": 1,
-      "physical_write_phases": 2,
-      "encoded_data_beats": 1,
-      "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
-      "matrix_write_rows": 1024,
-      "matrix_delta_R_ns": 153600.0,
-      "matrix_B_R_Byte": 16384,
-      "stream_components_ns": {
-        "sense": 640,
-        "destructive_restore": 1600,
-        "dedicated_open_close": 1280,
-        "compute": 1280,
-        "boundary": 10
-      },
-      "write_components_ns": {
-        "interface_control": 10,
-        "target_polarity_phases": 100,
-        "dedicated_open_close": 40
-      },
-      "stream_dominant": "destructive_restore",
-      "resident_dominant": "target_polarity_phases",
-      "periodic_maintenance_fraction": 0,
-      "raw_equals_effective": true,
-      "feasibility": "conditional engineering design with full destructive restore included",
-      "evidence_and_choices": {
-        "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
-        "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
-        "dedicated_open_close": "20/40/80 ns total allocation for BL precharge/reference, WL/PL bias establishment, pulse edges, SA reset and return to reusable state excluding polarization holds. Short=10+10 ns open/close (round above 8 ns observed sense); reference=20+20; long=40+40. FERAM-03 Fig9 establishes required stages; FERAM-04 Fig13 tRP=80 ns and complete tRC=185 ns cross-check scale, NOT a disjoint timing block to add. No PVT guarantee or measured per-stage split.",
-        "voltage": "Measured anchor FERAM-03: 11 nm TiN/HZO/TiN, 2.5 V, 1 um2 capacitor tested. Memory voltage domain and compatible access/level-shift circuitry retained as a design requirement; shared 28 nm 0.9 V applies to digital periphery only, with no geometric speed scaling.",
-        "write_parallelism": "128 target BL drivers and one selected local plate driver provisioned for a whole128bit row, independently of 128bit input interface; 32 read SA banks support parallel restore from their own latches. Updating externally is serialized by choice to one target-data/decoder domain.",
-        "endpoint": "Open-loop binary write, no analog verify or unspecified retries. Conditional capacity is for cells passing binary-state read/write qualification under stated window; failure beyond budget is failed service, not extra successful payload."
-      },
-      "B_S_Byte": 128,
-      "B_R_Byte": 16.0,
-      "delta_S_ns": 4810,
-      "delta_R_ns": 150.0,
-      "rho_Byte_per_s": 26611226.611226607,
-      "tau_Byte_per_s": 106666666.66666666,
-      "ridge": 0.24948024948024947
-    },
-    {
-      "id": "fixed_hold_100ns",
-      "profile": "reference",
-      "scenario_type": "independent_hold_sensitivity",
-      "mode": "HZO 1T1C binary memory with local exact-integer digital CIM, existing 4096-bit read-code register reused across 8 input bits, destructive full activated-row writeback",
-      "schedule": "group_then_all_input_bits",
-      "baseline_id": "shared_baseline",
-      "mapping_id": "HZO_1T1C_32x32x128_D0_reuse",
-      "media_budgets_ns": {
-        "sense": 20,
-        "polarization_hold_per_phase": 100,
-        "open_close_bias_total": 40
-      },
-      "media_read_complete_ns": 160,
-      "media_write_complete_ns": 240,
-      "counts": {
-        "input_slices": 8,
-        "weight_groups": 1,
-        "row_groups": 4,
-        "output_groups": 8,
-        "compute_rounds": 256,
-        "read_rounds": 32,
-        "digital_ticks": 256
-      },
-      "existing_operand_register_bits": 4096,
-      "extra_weight_latch_bits": 0,
-      "latch_capture_extra_ns": 0,
-      "read_bits_per_round": 4096,
-      "restore_rows_per_round": 32,
-      "restore_row_services_per_vector": 1024,
-      "restore_bits_per_vector": 131072,
-      "logical_update_rows": 1,
-      "physical_write_phases": 2,
-      "encoded_data_beats": 1,
-      "update_pattern": "one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group",
-      "matrix_write_rows": 1024,
-      "matrix_delta_R_ns": 256000.0,
-      "matrix_B_R_Byte": 16384,
-      "stream_components_ns": {
-        "sense": 640,
-        "destructive_restore": 3200,
-        "dedicated_open_close": 1280,
-        "compute": 1280,
-        "boundary": 10
-      },
-      "write_components_ns": {
-        "interface_control": 10,
-        "target_polarity_phases": 200,
-        "dedicated_open_close": 40
-      },
-      "stream_dominant": "destructive_restore",
-      "resident_dominant": "target_polarity_phases",
-      "periodic_maintenance_fraction": 0,
-      "raw_equals_effective": true,
-      "feasibility": "conditional engineering design with full destructive restore included",
-      "evidence_and_choices": {
-        "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
-        "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
-        "dedicated_open_close": "20/40/80 ns total allocation for BL precharge/reference, WL/PL bias establishment, pulse edges, SA reset and return to reusable state excluding polarization holds. Short=10+10 ns open/close (round above 8 ns observed sense); reference=20+20; long=40+40. FERAM-03 Fig9 establishes required stages; FERAM-04 Fig13 tRP=80 ns and complete tRC=185 ns cross-check scale, NOT a disjoint timing block to add. No PVT guarantee or measured per-stage split.",
-        "voltage": "Measured anchor FERAM-03: 11 nm TiN/HZO/TiN, 2.5 V, 1 um2 capacitor tested. Memory voltage domain and compatible access/level-shift circuitry retained as a design requirement; shared 28 nm 0.9 V applies to digital periphery only, with no geometric speed scaling.",
-        "write_parallelism": "128 target BL drivers and one selected local plate driver provisioned for a whole128bit row, independently of 128bit input interface; 32 read SA banks support parallel restore from their own latches. Updating externally is serialized by choice to one target-data/decoder domain.",
-        "endpoint": "Open-loop binary write, no analog verify or unspecified retries. Conditional capacity is for cells passing binary-state read/write qualification under stated window; failure beyond budget is failed service, not extra successful payload."
-      },
-      "B_S_Byte": 128,
-      "B_R_Byte": 16.0,
-      "delta_S_ns": 6410,
-      "delta_R_ns": 250.0,
-      "rho_Byte_per_s": 19968798.751950078,
-      "tau_Byte_per_s": 63999999.99999999,
-      "ridge": 0.31201248049922
-    }
-  ],
   "paired_ranges": {
     "rho_Byte_per_s": [
-      12877263.581488932,
-      68817204.30107526
+      2082655.3856166613,
+      11359602.413915511
     ],
     "tau_Byte_per_s": [
       53333333.33333333,
       307692307.69230765
     ],
     "ridge": [
-      0.22365591397849463,
-      0.24948024948024947
+      0.03691870784522542,
+      0.04074702886247878
     ]
   },
-  "scenario_semantics": {
-    "paired": "short/reference/long pair digital tick and media design windows by choice, not a measured PVT relation or complete uncertainty envelope",
-    "recommended_reference": "D0_reference with existing-register reuse",
-    "scheduling_contrast": "D_repeat_reference uses the same hardware but rereads for every input bit",
-    "independent_sensitivity": "hold time alone changes; a common hold applies to both restore and external-write phases, so incompatible stream/write endpoints are not crossed",
-    "maintenance": "mandatory destructive writeback belongs to each raw read service; no separate periodic refresh is imposed in the active service window"
-  },
+  "independent_endpoint_ridge_envelope": [
+    0.00676863000325415,
+    0.21299254526091585
+  ],
   "restore_contribution_reference": {
-    "fraction": 0.33264033264033266,
-    "invalid_if_omitted_delta_S_ns": 3210,
-    "rho_overstatement_if_omitted": 1.4984423676012462
+    "fraction": 0.43463497453310695,
+    "invalid_if_omitted_delta_S_ns": 16650,
+    "rho_overstatement_if_omitted": 1.7687687687687688
   }
 }
