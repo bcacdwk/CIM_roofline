@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-09-23T06:25:17.954758+00:00",
+  "pdf_readability": [
+    {
+      "path": "literature/00_shared/raw/1706.03762v7.pdf",
+      "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+      "pages": 15,
+      "all_pages_text_extractable": true,
+      "visually_inspected_pdf_pages": [
+        4,
+        5
+      ],
+      "scope": "structure, definitions and context sections only"
+    },
+    {
+      "path": "literature/00_shared/raw/2002.05202v1.pdf",
+      "sha256": "7398ae8b163722a6b5410fb975722adbe6b5f6f9c7f1efa584f1c6b79eaa93e2",
+      "pages": 5,
+      "all_pages_text_extractable": true,
+      "visually_inspected_pdf_pages": [
+        2
+      ],
+      "scope": "structure, definitions and context sections only"
+    },
+    {
+      "path": "literature/00_shared/raw/2305.13245v3.pdf",
+      "sha256": "ba9094fe73db9bf515d47ae8b2d502fee9d8a6c7b1327e197ddb160f4c63b94a",
+      "pages": 7,
+      "all_pages_text_extractable": true,
+      "visually_inspected_pdf_pages": [
+        2
+      ],
+      "scope": "structure, definitions and context sections only"
+    },
+    {
+      "path": "literature/02_ministral3_8b/raw/2601.08584v1.pdf",
+      "sha256": "98cb4208c5c8d8246475dee31eab5c3681f4ec88fc4caa5a441d04007c2e5992",
+      "pages": 14,
+      "all_pages_text_extractable": true,
+      "visually_inspected_pdf_pages": [
+        2,
+        3
+      ],
+      "scope": "structure, definitions and context sections only"
+    },
+    {
+      "path": "literature/05_ling_1t/raw/2510.22115v2.pdf",
+      "sha256": "d404338065fe0528c30e271f049b3c13becdb33511a3aa91da3fe864e67b2efa",
+      "pages": 58,
+      "all_pages_text_extractable": true,
+      "visually_inspected_pdf_pages": [
+        4,
+        5,
+        13,
+        14
+      ],
+      "scope": "structure, definitions and context sections only"
+    }
+  ],
+  "total_pdf_pages": 99,
+  "no_weights_downloaded": true,
+  "no_model_execution": true,
+  "no_scenario_QS_QR_RI_results": true,
+  "baseline_HEAD": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
+  "git_actions": "No stage, commit, push, reset or branch switch.",
+  "missing_required_downloads": [],
+  "nonblocking_source_issues": [
+    "Ling reported active count rounding / series KV prose mismatch / RoPE config-to-remote-code mismatch; recorded in structure card",
+    "MTP topology intentionally excluded; Ling/MiMo report and lightweight runtime distinctions recorded",
+    "Ling exact public release day not independently established; revision and report dates fixed"
+  ],
+  "checks": {
+    "raw_sources_verified": 50,
+    "models": 6,
+    "authored_local_links_checked": 98,
+    "config_and_matrix_consistency": "PASS",
+    "json_parse_and_config_key_paths": "PASS",
+    "raw_implementation_syntax": "PASS (AST parse only, not execution)",
+    "source_hashes": "PASS",
+    "native_Ministral_params_vs_text_config": "PASS",
+    "task_local_copyright_ignore_rules": "PASS"
+  },
+  "command": "/opt/anaconda3/bin/python tasks/task2_table_II_workloads/scripts/check_step1.py",
+  "environment_note": "System /usr/bin/python3 is blocked by the local Xcode license setup; existing /opt/anaconda3/bin/python completed the check. No system configuration changed.",
+  "git_scope": {
+    "actual_end_HEAD": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
+    "new_task_directory": "tasks/task2_table_II_workloads/",
+    "preexisting_tracked_changes_preserved": [
+      ".DS_Store",
+      "2026.9.23 CIM Roofline 邵瀚雅.pptx"
+    ],
+    "no_tracked_repository_content_edited_by_this_task": true
+  },
+  "artifact_sha256": {
+    "README.md": "bd4395c9aab819c651b686ce9d3d22d473fbc7847f781fb78c6da9d861455d5f",
+    "STEP1_REVIEW.zh.md": "44381474cb48ed446dff2ae8deef97077a80123cf1fd6bbc65e5b5189f057704",
+    "data/models.json": "d74867a53de5adbc1ec6d7d2cd10903d3553e8993cdd3057e8c6fc8cf460e1a2",
+    "data/study_plan.json": "54cedcb93327b85c347b3a09f3798b4b6902a5aef20e2e14fbdab86b5538c2f9",
+    "data/sources.json": "377a1a648efc0c73a3370e048db23c6ea9c39862ed9d36c644f2a2d281c3b0d8",
+    "scripts/check_step1.py": "bdcb2b90226ddcf475af51d812aa6354b0d3d5150bec2bd0877d795450bcd820",
+    "literature/01_qwen35_2b/STRUCTURE.zh.md": "1bd0156b1b2ea57fdb75a9eafed62cfb621507bee5a2befa905c589d2ff8e945",
+    "literature/02_ministral3_8b/STRUCTURE.zh.md": "c08afba848714891484133b1561d1fb2df41233083623162dfb095c2ab49c37c",
+    "literature/03_qwen36_35b_a3b/STRUCTURE.zh.md": "89ed033cf897e676fee5b1957452efde7e39580a7acf2d8ec57a1a6f0aa5717b",
+    "literature/04_hy3_295b/STRUCTURE.zh.md": "a4d3c407403a23ea1daa6c98d4dcd0bca94cdc2bca8e55f1e313ee9a3a3cdb7c",
+    "literature/05_ling_1t/STRUCTURE.zh.md": "7502a77bd1db8576bbc84d44198ce7b951809ecdc17cf7461efc9dc4e75c1240",
+    "literature/06_mimo_v25_pro/STRUCTURE.zh.md": "a2a57d78aff31bf2af3e0b19e1c38236166043152f2736514911c3e74b635ddf"
+  }
+}

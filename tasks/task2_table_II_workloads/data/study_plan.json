@@ -1,0 +1,207 @@
+{
+  "schema_version": "1.0",
+  "status": "Step 1完成，待审阅",
+  "as_of": "2026-09-23",
+  "checkpoint_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
+  "actual_start_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
+  "scope": "resident–streaming CIM Roofline; language-backbone matrix sublayers only",
+  "definitions": {
+    "Q_S": "窗口内经过声明 streaming 输入边界并被服务的逻辑操作数字节累计量",
+    "Q_R": "窗口内建立、更新或重载可计算 resident 状态的逻辑写入字节累计量",
+    "RI": "Q_S/Q_R",
+    "Q_R_zero": "RI=Infinity (symbolic endpoint, not a JSON nonfinite number)",
+    "shape_N_K": "N output dimension, K input dimension",
+    "one_use": "one input-vector evaluation"
+  },
+  "fixed_task_I": {
+    "status": "completed and reviewed; immutable input",
+    "common_periphery_nm": 28,
+    "logical_matrix_shape": [
+      128,
+      128
+    ],
+    "input_dtype": "INT8",
+    "weight_dtype": "INT8",
+    "input_bytes_per_vector": 128,
+    "resident_matrix_bytes": 16384,
+    "resident_matrix_size_label": "16 KiB",
+    "review_path": "../task1_table_I_NVM/analysis/TEN_CASE_REVIEW.zh.md",
+    "not_automatically_compatible_with_model_native_precision": true
+  },
+  "parameters": {
+    "B": [
+      8,
+      64,
+      512
+    ],
+    "B_definition": "同一份FFN／单路由专家权重一次驻留期间实际服务的输入向量总数；不是批次数，不自动等于全局batch size",
+    "L_tokens": [
+      1024,
+      16384,
+      131072
+    ],
+    "L_labels": [
+      "1K",
+      "16K",
+      "128K"
+    ],
+    "K_in_L_labels": 1024,
+    "scan": "B only for FFN/MoE; L only for Attention rows; no B×L Cartesian product"
+  },
+  "table_IIa": {
+    "purpose": "model-independent residency endpoints",
+    "rows": [
+      {
+        "id": "weight_static",
+        "label": "Weight-static",
+        "resident_policy": "weights pre-resident; no writes inside the window"
+      },
+      {
+        "id": "per_use_reloaded",
+        "label": "Per-use reloaded",
+        "resident_policy": "fully load the analyzed weights before every one-vector use",
+        "not_equivalent_to_full_training_step": true
+      }
+    ],
+    "columns_N_K": [
+      [
+        128,
+        128
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        4096,
+        4096
+      ],
+      [
+        1024,
+        4096
+      ],
+      [
+        4096,
+        1024
+      ]
+    ],
+    "shapes_are": "logical tasks, not five physical macro designs",
+    "cell_fields": [
+      "Q_S",
+      "Q_R",
+      "RI"
+    ],
+    "build": "independent TeX/PDF in later stage"
+  },
+  "table_IIb": {
+    "purpose": "native matrix-stage inference scenarios",
+    "columns_model_ids": [
+      "qwen35_2b",
+      "ministral3_8b_2512",
+      "qwen36_35b_a3b",
+      "hy3_295b",
+      "ling_1t",
+      "mimo_v25_pro"
+    ],
+    "columns_display_names": [
+      "Qwen3.5-2B",
+      "Ministral 3 8B (2512)",
+      "Qwen3.6-35B-A3B",
+      "Tencent Hy3 (295B)",
+      "Ling-1T",
+      "MiMo-V2.5-Pro"
+    ],
+    "rows": [
+      {
+        "id": "qkv_projection",
+        "label": "QKV Projection",
+        "window": "one input token",
+        "resident_policy": "native QKV projection weights pre-resident",
+        "sweep": null
+      },
+      {
+        "id": "ffn_or_moe",
+        "label": "FFN / MoE",
+        "unit": "one dense FFN or one routed expert FFN",
+        "window": "one loading followed by B input-vector uses, then replacement",
+        "sweep": "B"
+      },
+      {
+        "id": "attention_prefill",
+        "label": "Attention Prefill",
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": "L",
+        "window": "establish segment KV and complete corresponding causal Attention matrix tasks",
+        "sweep": "L"
+      },
+      {
+        "id": "attention_decode",
+        "label": "Attention Decode",
+        "initial_KV_tokens": "L-1",
+        "append_tokens": 1,
+        "visible_KV_tokens": "L",
+        "sweep": "L"
+      }
+    ],
+    "main_table_priority": "RI; three values follow B/L order in the applicable rows",
+    "working_data_fields": [
+      "Q_S",
+      "Q_R",
+      "RI",
+      "configuration",
+      "derivation"
+    ],
+    "build": "independent TeX/PDF in later stage"
+  },
+  "selection_rules": [
+    "Keep the six models in fixed order; no substitution or ranking.",
+    "Language backbone only; exclude vision/audio encoders.",
+    "For hybrid architectures select native full GQA, not linear Attention, Mamba or MLA.",
+    "Use full/global GQA where global and sliding-window attention coexist.",
+    "Preserve native heads and actual QK/V dimensions; do not force GQA-8.",
+    "Record actual layer topology; selected sublayer is not the entire model.",
+    "Residency, B and L are study scenarios, not claimed execution facts from model reports."
+  ],
+  "pending_step2": {
+    "streaming_precision": null,
+    "resident_weight_precision": null,
+    "KV_precision": null,
+    "attention_coefficient_precision": null,
+    "mapping_and_counting_rules": null
+  },
+  "stages": [
+    {
+      "step": 1,
+      "title": "固定六模型及资料",
+      "status": "完成，待审阅"
+    },
+    {
+      "step": 2,
+      "title": "共享方法与通用端点",
+      "status": "未启动"
+    },
+    {
+      "step": 3,
+      "title": "少量真实模型试算",
+      "status": "未启动"
+    },
+    {
+      "step": 4,
+      "title": "分类并行分析",
+      "status": "未启动"
+    },
+    {
+      "step": 5,
+      "title": "统一复核和英文表格",
+      "status": "未启动"
+    }
+  ],
+  "step1_exclusions": [
+    "scenario Q_S/Q_R/RI computations",
+    "final TeX tables",
+    "full training modeling",
+    "hardware pairing or performance partitioning",
+    "end-to-end performance, accuracy or hardware simulation",
+    "weights download or model execution"
+  ]
+}
