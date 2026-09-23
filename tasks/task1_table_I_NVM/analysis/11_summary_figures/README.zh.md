@@ -1,4 +1,4 @@
-﻿# Table I 与最终 ρ–τ 图
+# Table I 与最终 ρ–τ 图
 
 本目录的正式交付为三情景汇总表和最终双对数图，下表只列正式文件。十例原始分析与估算数据未改动。
 
@@ -8,6 +8,7 @@
 
 | 内容 | 预览 | 矢量文件 / 数据 |
 |---|---|---|
+| 新增：短／长情景虚线圆 | [PNG](output/rho_tau_loglog_circles.png) | [PDF](output/rho_tau_loglog_circles.pdf) · [SVG](output/rho_tau_loglog_circles.svg) |
 | 最终 ρ–τ 图，10 个典型点 | [PNG](output/rho_tau_loglog.png) | [PDF](output/rho_tau_loglog.pdf) · [SVG](output/rho_tau_loglog.svg) |
 | Table I，短／典型／长三情景 | [PNG](output/table_I_three_scenarios.png) | [PDF](output/table_I_three_scenarios.pdf) · [SVG](output/table_I_three_scenarios.svg) |
 | 表格可编辑文本 | [Markdown](output/table_I_three_scenarios.md) | [LaTeX](output/table_I_three_scenarios.tex) |
@@ -45,3 +46,28 @@ python -X utf8 tasks/task1_table_I_NVM/analysis/11_summary_figures/build_figures
 脚本读取[统一未取整数据](../data/ten_case_results.json)，用现有适配器核对全部原生结果，并按各例 JSON 指针核对 30 组情景。Windows/POSIX 路径分隔符仅在比较时规范化，原文件不改写；另用既有独立阶段算式复核 10 个典型点。
 
 [通用验证记录](data/validation.json)保留来源文件 SHA-256；[最终图验证](data/rho_tau_loglog_validation.json)检查全部 10 点、RI=ρ/τ、相同对数比例、45° 参考线、四边框、标签完整入框且互不重叠、不遮住点。[PDF 检查](data/pdf_qa.json)核对页数、文字边界及字体嵌入。PNG 已人工查看。
+
+## 新图：短／长情景虚线圆
+
+在现有双对数图上新增与技术配色相同的虚线圆和6.5%透明度填充，保留十个reference点、标签与RI。原图不覆盖，新图文件名为`rho_tau_loglog_circles`。为完整显示圆，横轴上限扩至12000 MB/s、纵轴上限扩至160 MB/s；每个数量级的显示长度仍相同，因此圆在画面上保持正圆。
+
+短、长情景现在以同色小实心圆标出（面积56 pt²，reference为320 pt²），并用0.9 pt同色细实线分别连接到reference点；连接起点是参考数据点，不是几何圆心。[绘图点CSV](data/rho_tau_loglog_circles_points.csv)同步包含30个原始情景点。
+
+构造在`(log10 τ, log10 ρ)`坐标进行。记短、长点为a、b，reference为p，m=(a+b)/2、d=b−a。两个不同端点要求圆心位于它们的中垂线上；取p在该线上的正交投影，可唯一最小化圆心到reference的距离：
+
+```text
+c = p − [(p−m)·d / (d·d)] d
+r = ||a−c|| = ||b−c||
+```
+
+这是两端点在圆周、reference尽量接近圆心的圆，不要求reference也在圆周。现有十例的reference均位于各自圆内；NOR因短点与reference靠得很近，最优圆心仍不能接近reference。这是实际情景几何位置所致，没有移动或改写点坐标。
+
+圆用于概括有限的成对工程情景，不表示置信区间或圆内每个读写组合都可实现。Gain-cell圆按本次要求使用短／长两点，其中长点仍是刷新压力情景（α=3.93%），图副标题保留该身份，不将它改为普通范围。
+
+复现新图（只生成本新增图及其数据记录）：
+
+```sh
+/opt/anaconda3/bin/python tasks/task1_table_I_NVM/analysis/11_summary_figures/build_loglog_circles.py
+```
+
+[几何与布局检查](data/rho_tau_loglog_circles_validation.json)保存未取整圆心、半径、三个原始点及来源，验证20个端点在圆周、十个reference在圆内、圆心最邻近条件、等比例显示与完整入框。PNG及PDF渲染均已目视检查。

@@ -17,11 +17,14 @@ XLIMITS = (.0011, 6000)
 YLIMITS = (.04, 60)
 INCHES_PER_DECADE = 2.6
 MARKER_AREA = 320
+EXTREME_MARKER_AREA = 56
 STEM = "rho_tau_loglog"
 
 
-def render_final(groups, source_report):
+def render_final(groups, source_report, *, circle_specs=None, output_stem=STEM,
+                 xlimits=XLIMITS, ylimits=YLIMITS):
     """Return the figure for the combined review PDF; write final plot and data."""
+    XLIMITS, YLIMITS, STEM = xlimits, ylimits, output_stem
     OUT.mkdir(exist_ok=True)
     DATA.mkdir(exist_ok=True)
     rows = [group["reference"] for group in groups]
@@ -71,6 +74,36 @@ def render_final(groups, source_report):
                 bbox=dict(facecolor="#f3f8fb", edgecolor="none", pad=1.2)),
     ]
 
+    # Circles are Euclidean in (log10 tau, log10 rho), not in raw rates.
+    # Equal inches per decade makes these paths true circles on the page.
+    circle_artists = []
+    for i, spec in enumerate(circle_specs or []):
+        center = np.asarray(spec["center_log10"])
+        radius = spec["radius_decades"]
+        theta = np.linspace(0, 2 * np.pi, 1441)
+        log_xy = center[:, None] + radius * np.array([np.cos(theta), np.sin(theta)])
+        xy = 10 ** log_xy
+        fill = ax.fill(xy[0], xy[1], color=COLORS[i], alpha=.065,
+                       edgecolor="none", zorder=1.1)[0]
+        outline, = ax.plot(xy[0], xy[1], color=COLORS[i], alpha=.83,
+                           lw=1.45, ls=(0, (5, 3.2)), zorder=3)
+        circle_artists.append((fill, outline))
+
+    extreme_points, connector_lines = [], []
+    if circle_specs:
+        for i, group in enumerate(groups):
+            reference = group["reference"]
+            for profile in ("short", "long"):
+                endpoint = group[profile]
+                line, = ax.plot([reference["tau"], endpoint["tau"]],
+                                [reference["rho"], endpoint["rho"]],
+                                color=COLORS[i], lw=.9, alpha=.65, zorder=4)
+                marker = ax.scatter(endpoint["tau"], endpoint["rho"],
+                                    s=EXTREME_MARKER_AREA, c=COLORS[i],
+                                    edgecolors="white", linewidths=.75, zorder=7)
+                extreme_points.append((marker, endpoint))
+                connector_lines.append((line, reference, endpoint))
+
     points, annotations, labels_by_case = [], [], []
     for i, row in enumerate(rows):
         points.append(ax.scatter(row["tau"], row["rho"], s=MARKER_AREA, c=COLORS[i],
@@ -95,7 +128,8 @@ def render_final(groups, source_report):
     fig.text(left / fw, (bottom + height + .48) / fh,
              "Typical streaming and resident throughput", fontsize=22, weight="bold")
     fig.text(left / fw, (bottom + height + .18) / fh,
-             "Ten CIM reference designs  ·  RI = ρ/τ",
+             ("Ten CIM reference designs  ·  RI = ρ/τ" if not circle_specs else
+              "Large dots: reference  ·  Small dots: short/long  ·  Thin lines join scenarios  ·  Gain-cell long: refresh stress"),
              fontsize=12, color=MUTED)
 
     fig.canvas.draw()
@@ -114,6 +148,21 @@ def render_final(groups, source_report):
         assert name.get_window_extent(renderer).y1 < xy[1] - dot_radius
         assert ratio.get_window_extent(renderer).y1 < name.get_window_extent(renderer).y0
         assert math.isclose(row["RI_star"], row["rho"] / row["tau"], rel_tol=1e-12)
+    extreme_radius = (math.sqrt(EXTREME_MARKER_AREA) + .75) / 2 * fig.dpi / 72
+    for marker, row in extreme_points:
+        np.testing.assert_array_equal(marker.get_offsets().data[0], [row["tau"], row["rho"]])
+        xy = ax.transData.transform((row["tau"], row["rho"]))
+        assert bounds.contains(xy[0]-extreme_radius, xy[1]-extreme_radius)
+        assert bounds.contains(xy[0]+extreme_radius, xy[1]+extreme_radius)
+        for label in annotations:
+            box = label.get_window_extent(renderer)
+            distance = math.hypot(xy[0]-np.clip(xy[0], box.x0, box.x1),
+                                  xy[1]-np.clip(xy[1], box.y0, box.y1))
+            assert distance > extreme_radius, f"Label covers extreme point: {label.get_text()} / {row['case_id']}"
+    for line, reference, endpoint in connector_lines:
+        np.testing.assert_array_equal(line.get_xdata(), [reference["tau"], endpoint["tau"]])
+        np.testing.assert_array_equal(line.get_ydata(), [reference["rho"], endpoint["rho"]])
+
     for i, label in enumerate(annotations):
         assert label.arrow_patch is None
         box = label.get_window_extent(renderer)
@@ -130,13 +179,28 @@ def render_final(groups, source_report):
         assert bounds.contains(box.x0, box.y0) and bounds.contains(box.x1, box.y1), label.get_text()
     assert all(spine.get_visible() for spine in ax.spines.values())
 
+    for spec in circle_specs or []:
+        c, radius = np.asarray(spec["center_log10"]), spec["radius_decades"]
+        cardinal = 10 ** (c + radius * np.array([[1, 0], [0, 1], [-1, 0], [0, -1]]))
+        display = ax.transData.transform(cardinal)
+        displayed_center = ax.transData.transform(10 ** c)
+        radii = np.linalg.norm(display - displayed_center, axis=1)
+        np.testing.assert_allclose(radii, radii[0], rtol=1e-12)
+        assert all(bounds.contains(*point) for point in display), spec["case_id"]
+
     for extension in ("png", "pdf", "svg"):
         fig.savefig(OUT / f"{STEM}.{extension}", dpi=220, bbox_inches="tight", pad_inches=.14)
     with (DATA / f"{STEM}_points.csv").open("w", encoding="utf-8-sig", newline="") as handle:
         fields = ["case_id", "technology", "rho", "tau", "RI_star", "source_result"]
+        if circle_specs:
+            fields = ["profile"] + fields
+            exported_rows = [{"profile": profile, **group[profile]}
+                             for group in groups for profile in ("short", "reference", "long")]
+        else:
+            exported_rows = rows
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
-        writer.writerows({key: row[key] for key in fields} for row in rows)
+        writer.writerows({key: row[key] for key in fields} for row in exported_rows)
     report = {
         "all_passed": True, "point_count": 10, "selection": "recommended reference only",
         "x": {"metric": "tau", "label": "Resident throughput", "scale": "log10", "limits": XLIMITS},
@@ -155,6 +219,21 @@ def render_final(groups, source_report):
         "source_checks_passed": source_report["all_passed"],
         "source_sha256": source_report["sha256"]["data/ten_case_results.json"],
     }
+    if circle_specs:
+        report["point_count"] = 30
+        report["reference_point_count"] = 10
+        report["extreme_point_count"] = 20
+        report["selection"] = "Short/reference/long paired scenarios, including gain-cell long refresh stress"
+        report["extreme_marker_area_points_squared"] = EXTREME_MARKER_AREA
+        report["connector_count"] = len(connector_lines)
+        report["connector_origin"] = "reference point, not geometric circle center"
+        report["connector_style"] = {"linewidth_points": .9, "alpha": .65, "color": "matching technology"}
+        report["unmodified_extreme_coordinates_verified"] = True
+        report["all_extreme_points_contained_and_not_covered_by_labels"] = True
+        report["scenario_circles"] = circle_specs
+        report["circle_geometry"] = "Shortest distance from reference to the perpendicular bisector of short/long in log10 space"
+        report["circle_display_checks"] = "All four cardinal radii equal; all circles fully contained; reference points unchanged"
+        report["circle_meaning"] = "Geometric depiction of paired scenarios; not confidence bounds or a feasible-parameter envelope; gain-cell long is refresh stress"
     (DATA / f"{STEM}_validation.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("PASS: final log-log plot; all ten points and RI labels; equal scale and 45 degrees; four-sided frame; collision-free labels.")
     return fig

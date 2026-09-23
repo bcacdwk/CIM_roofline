@@ -1,0 +1,370 @@
+{
+  "all_passed": true,
+  "point_count": 30,
+  "selection": "Short/reference/long paired scenarios, including gain-cell long refresh stress",
+  "x": {
+    "metric": "tau",
+    "label": "Resident throughput",
+    "scale": "log10",
+    "limits": [
+      0.0011,
+      12000
+    ]
+  },
+  "y": {
+    "metric": "rho",
+    "label": "Streaming throughput",
+    "scale": "log10",
+    "limits": [
+      0.04,
+      160
+    ]
+  },
+  "title": "Typical streaming and resident throughput",
+  "footer_notes": false,
+  "plot_width_over_height": 1.9538232505380333,
+  "inches_per_decade": 2.6,
+  "equality_line_angle_degrees": 45.00000000000001,
+  "same_scale_per_decade_verified": true,
+  "all_ten_points_and_labels_contained": true,
+  "unmodified_coordinates_verified": true,
+  "label_content": "Technology name, then RI = rho/tau on the next line; RI denotes RI_star",
+  "no_label_leaders_verified": true,
+  "labels_below_points_verified": true,
+  "no_overlapping_labels_or_label_dot_collisions": true,
+  "all_four_spines_visible": true,
+  "marker_area_points_squared": 320,
+  "guide_lines": {
+    "1": {
+      "linewidth": 3.0,
+      "label_size": 16.5
+    },
+    "0.01": {
+      "linewidth": 1.65,
+      "label_size": 13.2
+    },
+    "100": {
+      "linewidth": 1.65,
+      "label_size": 13.2
+    }
+  },
+  "source_checks_passed": true,
+  "source_sha256": "f38bcaf4f03f47ada3e905921699d6d32961a70c4f9085c5314d35d20f20feb7",
+  "reference_point_count": 10,
+  "extreme_point_count": 20,
+  "extreme_marker_area_points_squared": 56,
+  "connector_count": 20,
+  "connector_origin": "reference point, not geometric circle center",
+  "connector_style": {
+    "linewidth_points": 0.9,
+    "alpha": 0.65,
+    "color": "matching technology"
+  },
+  "unmodified_extreme_coordinates_verified": true,
+  "all_extreme_points_contained_and_not_covered_by_labels": true,
+  "scenario_circles": [
+    {
+      "case_id": "01_sram_acim",
+      "center_log10": [
+        3.502961116985608,
+        1.5983782931029002
+      ],
+      "radius_decades": 0.48159358444407313,
+      "reference_center_distance_decades": 0.003194430605824397,
+      "reference_offset_over_radius": 0.006633042276740217,
+      "short_log10": [
+        3.8616973018337184,
+        1.9196892488114052
+      ],
+      "long_log10": [
+        3.2041199826559246,
+        1.2207192444753865
+      ],
+      "reference_log10": [
+        3.505149978319906,
+        1.6007049372429962
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "01_sram_acim/data/results.json#/scenarios/0",
+        "reference": "01_sram_acim/data/results.json#/scenarios/1",
+        "long": "01_sram_acim/data/results.json#/scenarios/2"
+      }
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "center_log10": [
+        3.476350090122589,
+        1.6811842501322811
+      ],
+      "radius_decades": 0.39407937402705917,
+      "reference_center_distance_decades": 0.032990986831688815,
+      "reference_offset_over_radius": 0.08371660382667861,
+      "short_log10": [
+        3.8616973018337184,
+        1.763683216550151
+      ],
+      "long_log10": [
+        3.2041199826559246,
+        1.3962468506525927
+      ],
+      "reference_log10": [
+        3.505149978319906,
+        1.697276846316574
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "02_sram_dcim/data/results.json#/scenarios/0",
+        "reference": "02_sram_dcim/data/results.json#/scenarios/1",
+        "long": "02_sram_dcim/data/results.json#/scenarios/2"
+      }
+    },
+    {
+      "case_id": "03_nor_2d",
+      "center_log10": [
+        -1.556093749023919,
+        0.534929117203672
+      ],
+      "radius_decades": 0.48315037488090895,
+      "reference_center_distance_decades": 0.4623578411677814,
+      "reference_offset_over_radius": 0.9569646743661273,
+      "short_log10": [
+        -1.0986080715990645,
+        0.6903033097154426
+      ],
+      "long_log10": [
+        -2.038920877302515,
+        0.5525996844217044
+      ],
+      "reference_log10": [
+        -1.098615422352727,
+        0.601924295503736
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "03_nor_2d/data/results.json#/scenarios/0",
+        "reference": "03_nor_2d/data/results.json#/scenarios/1",
+        "long": "03_nor_2d/data/results.json#/scenarios/2"
+      }
+    },
+    {
+      "case_id": "04_nand_3d",
+      "center_log10": [
+        -2.605289726700225,
+        -1.119637067737683
+      ],
+      "radius_decades": 0.26532184410015075,
+      "reference_center_distance_decades": 0.027914922018932958,
+      "reference_offset_over_radius": 0.10521154831260687,
+      "short_log10": [
+        -2.3399917930922434,
+        -1.1160751328646503
+      ],
+      "long_log10": [
+        -2.8705668685245525,
+        -1.124507281513291
+      ],
+      "reference_log10": [
+        -2.6332011241423077,
+        -1.1200806487936366
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "04_nand_3d/data/results.json#/main_scenarios/0/rewrite",
+        "reference": "04_nand_3d/data/results.json#/main_scenarios/1/rewrite",
+        "long": "04_nand_3d/data/results.json#/main_scenarios/2/rewrite"
+      }
+    },
+    {
+      "case_id": "05_rram",
+      "center_log10": [
+        -0.6957000797672943,
+        1.0506818055404348
+      ],
+      "radius_decades": 0.390584710995935,
+      "reference_center_distance_decades": 0.05867829187575514,
+      "reference_offset_over_radius": 0.15023192209990482,
+      "short_log10": [
+        -0.4801866634157068,
+        1.3764276939814792
+      ],
+      "long_log10": [
+        -0.9664350758652838,
+        0.7691520942281121
+      ],
+      "reference_log10": [
+        -0.6590243635967427,
+        1.0964861042560952
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "05_rram/data/results.json#/scenarios/0",
+        "reference": "05_rram/data/results.json#/scenarios/1",
+        "long": "05_rram/data/results.json#/scenarios/2"
+      }
+    },
+    {
+      "case_id": "06_mram",
+      "center_log10": [
+        1.938008825109088,
+        1.718098918615789
+      ],
+      "radius_decades": 0.35461063913821267,
+      "reference_center_distance_decades": 0.02435959913683812,
+      "reference_offset_over_radius": 0.06869393201523136,
+      "short_log10": [
+        2.154901959985743,
+        1.998644945915034
+      ],
+      "long_log10": [
+        1.7891466346851068,
+        1.3962468506525927
+      ],
+      "reference_log10": [
+        1.925366381703096,
+        1.697276846316574
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "06_mram/data/results.json#/scenarios/0",
+        "reference": "06_mram/data/results.json#/scenarios/1",
+        "long": "06_mram/data/results.json#/scenarios/2"
+      }
+    },
+    {
+      "case_id": "07_pcm",
+      "center_log10": [
+        0.825677426717747,
+        0.3589065262278923
+      ],
+      "radius_decades": 0.3656840122889259,
+      "reference_center_distance_decades": 0.040625945233143966,
+      "reference_offset_over_radius": 0.11109576538184973,
+      "short_log10": [
+        0.9015726101684393,
+        0.7166280910974331
+      ],
+      "long_log10": [
+        0.6942456976512055,
+        0.01765808676141421
+      ],
+      "reference_log10": [
+        0.8372302930025445,
+        0.39785519381347223
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "07_pcm/data/results.json#/paired_scenarios/0",
+        "reference": "07_pcm/data/results.json#/paired_scenarios/1",
+        "long": "07_pcm/data/results.json#/paired_scenarios/2"
+      }
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "center_log10": [
+        2.0938913932331435,
+        1.4880507818294204
+      ],
+      "radius_decades": 0.5269402623453223,
+      "reference_center_distance_decades": 0.0911323949442994,
+      "reference_offset_over_radius": 0.17294634981712056,
+      "short_log10": [
+        2.4881166390211256,
+        1.837697025429952
+      ],
+      "long_log10": [
+        1.7269987279362624,
+        1.109823585250555
+      ],
+      "reference_log10": [
+        2.0280287236002437,
+        1.4250648932740364
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "08_feram_hfo2/data/results.json#/paired/0",
+        "reference": "08_feram_hfo2/data/results.json#/paired/1",
+        "long": "08_feram_hfo2/data/results.json#/paired/2"
+      }
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "center_log10": [
+        1.480013374131223,
+        -0.14496586605866918
+      ],
+      "radius_decades": 0.9975453694121343,
+      "reference_center_distance_decades": 0.5289876686211963,
+      "reference_offset_over_radius": 0.5302893330384915,
+      "short_log10": [
+        2.073938190635253,
+        0.6565015857921505
+      ],
+      "long_log10": [
+        0.7773232339614135,
+        -0.853007765202869
+      ],
+      "reference_log10": [
+        1.8246951871909622,
+        0.25631010045208447
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "pressure_near_refresh_saturation",
+      "sources": {
+        "short": "09_gain_cell_edram/data/results.json#/scenarios/0",
+        "reference": "09_gain_cell_edram/data/results.json#/scenarios/1",
+        "long": "09_gain_cell_edram/data/results.json#/scenarios/2"
+      }
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "center_log10": [
+        0.965086359460922,
+        1.042595160484892
+      ],
+      "radius_decades": 0.3254184877733612,
+      "reference_center_distance_decades": 0.0029553707955750296,
+      "reference_offset_over_radius": 0.009081754438098513,
+      "short_log10": [
+        1.0518316382728683,
+        1.3562389852105494
+      ],
+      "long_log10": [
+        0.834904125245782,
+        0.744350666689188
+      ],
+      "reference_log10": [
+        0.9660738795271293,
+        1.0453806623531692
+      ],
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "long_scenario_type": "paired_conditional",
+      "sources": {
+        "short": "10_fenor_3d/data/results.json#/main_scenarios/0",
+        "reference": "10_fenor_3d/data/results.json#/main_scenarios/1",
+        "long": "10_fenor_3d/data/results.json#/main_scenarios/2"
+      }
+    }
+  ],
+  "circle_geometry": "Shortest distance from reference to the perpendicular bisector of short/long in log10 space",
+  "circle_display_checks": "All four cardinal radii equal; all circles fully contained; reference points unchanged",
+  "circle_meaning": "Geometric depiction of paired scenarios; not confidence bounds or a feasible-parameter envelope; gain-cell long is refresh stress"
+}
