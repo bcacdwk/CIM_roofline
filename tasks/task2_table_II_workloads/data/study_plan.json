@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "status": "Step 1完成，待审阅",
-  "as_of": "2026-09-23",
+  "status": "Step 1已通过；Step 2完成，待审阅",
+  "as_of": "2026-09-24",
   "checkpoint_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "actual_start_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "scope": "resident–streaming CIM Roofline; language-backbone matrix sublayers only",
@@ -91,7 +91,8 @@
       "Q_R",
       "RI"
     ],
-    "build": "independent TeX/PDF in later stage"
+    "build": "completed: independent English TeX/PDF; fragment and JSON generated from script",
+    "primary_boundary": "ports"
   },
   "table_IIb": {
     "purpose": "native matrix-stage inference scenarios",
@@ -151,7 +152,7 @@
       "configuration",
       "derivation"
     ],
-    "build": "independent TeX/PDF in later stage"
+    "build": "symbolic templates only in Step 2; formal model results and independent table compilation are not started"
   },
   "selection_rules": [
     "Keep the six models in fixed order; no substitution or ranking.",
@@ -162,23 +163,17 @@
     "Record actual layer topology; selected sublayer is not the entire model.",
     "Residency, B and L are study scenarios, not claimed execution facts from model reports."
   ],
-  "pending_step2": {
-    "streaming_precision": null,
-    "resident_weight_precision": null,
-    "KV_precision": null,
-    "attention_coefficient_precision": null,
-    "mapping_and_counting_rules": null
-  },
   "stages": [
     {
       "step": 1,
       "title": "固定六模型及资料",
-      "status": "完成，待审阅"
+      "status": "已通过",
+      "reviewed_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9"
     },
     {
       "step": 2,
       "title": "共享方法与通用端点",
-      "status": "未启动"
+      "status": "完成，待审阅"
     },
     {
       "step": 3,
@@ -203,5 +198,26 @@
     "hardware pairing or performance partitioning",
     "end-to-end performance, accuracy or hardware simulation",
     "weights download or model execution"
-  ]
+  ],
+  "start_head_field_scope": "checkpoint_head and actual_start_head above are preserved Step 1 history",
+  "step2": {
+    "reviewed_step1_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9",
+    "actual_start_head": "d60bc32ff83f1ab48cae0ffd106ebd9df46940d0",
+    "initial_worktree": "clean",
+    "status": "完成，待审阅",
+    "reference_id": "WS128-INT8-semantic-banks-v1",
+    "conventions": "../shared/data/conventions.json",
+    "method_pdf": "../shared/output/counting_method.zh.pdf",
+    "table_IIa_data": "../table_IIa/data/results.json",
+    "table_IIa_pdf": "../table_IIa/output/table_IIa.pdf",
+    "table_IIb_model_results": "not started"
+  },
+  "step2_reference": {
+    "streaming_precision": "INT8 logical reference, 1 Byte/element; role widths retained symbolically",
+    "resident_weight_precision": "INT8 logical reference, 1 Byte/element",
+    "KV_precision": "INT8 logical reference, 1 Byte/element for K and V separately",
+    "attention_coefficient_precision": "nonnegative subset of signed INT8, 1 Byte/element; re-quantized after softmax",
+    "mapping_and_counting_rules": "128x128 independent semantic-matrix tile banks; ports primary, operator-stage shared-input frontier contrast; fixed residency and causal prefix append",
+    "native_precision_records": "models.json unchanged; the selected INT8 reference is not an accuracy claim"
+  }
 }

@@ -1,0 +1,293 @@
+{
+  "schema_version": "1.0",
+  "reference_id": "WS128-INT8-semantic-banks-v1",
+  "status": "Step 2完成，待审阅",
+  "date": "2026-09-24",
+  "approved_step1_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9",
+  "actual_step2_start_head": "d60bc32ff83f1ab48cae0ffd106ebd9df46940d0",
+  "fixed_study_plan": "../../data/study_plan.json",
+  "fixed_models": "../../data/models.json",
+  "native_parameters_unchanged": true,
+  "boundaries": {
+    "ports": {
+      "primary": true,
+      "definition": "128x128 tile输入接收端累计；同一个源向量进入不同tile或不同逻辑求值调用均另计。",
+      "aggregation": "Sum distinct receiver events; ratio from total Q_S / total Q_R.",
+      "not_a_single_macro_time_prediction": true
+    },
+    "operator": {
+      "primary": false,
+      "definition": "整矩阵阶段入口；同阶段同一输入身份向并行分支分发只计一次；串行新阶段输入再次计。",
+      "not_external_io_of_entire_ffn": "FFN down的中间输入仍计数；不是只统计整个FFN外部的x。",
+      "standalone_component_values": "分项operator值是各矩阵独立入口；聚合QKV或gate/up必须扣除共享输入重叠，不能直接相加。"
+    }
+  },
+  "precision": {
+    "reference_format": "signed INT8 logical matrix operands; one Byte per element",
+    "role_bytes": {
+      "b_x": 1,
+      "b_z": 1,
+      "b_q": 1,
+      "b_p": 1,
+      "b_W": 1,
+      "b_gate": 1,
+      "b_up": 1,
+      "b_down": 1,
+      "b_K": 1,
+      "b_V": 1
+    },
+    "roles": {
+      "b_x": "线性投影/FFN的输入激活",
+      "b_z": "SwiGLU处理后的down输入",
+      "b_q": "Attention QK输入query",
+      "b_p": "softmax后重定标的Attention系数（非负INT8子域）",
+      "b_W": "一般resident权重；QKV预驻留窗口不收费",
+      "b_gate/b_up/b_down": "FFN三矩阵权重",
+      "b_K/b_V": "resident K/V（方向分别为序列行/序列列）"
+    },
+    "scales": "数字接口预置各层/头/角色的定标参数，窗口内固定；不把定标元数据算作矩阵数值payload。",
+    "handoff": "tile输出在数字域按输入分块累加为足够宽的部分和，再执行适用的norm/RoPE/softmax/SiLU/乘法/值缩放，按下一阶段角色重定标成INT8。",
+    "formula_widths_remain_symbolic": true,
+    "native_BF16_FP8_records_unchanged": true,
+    "six_model_INT8_accuracy_validated": false,
+    "payload_excludes": [
+      "outputs of current stage",
+      "digital partial-sum traffic",
+      "preconfigured scale metadata",
+      "internal bit planes / ADC conversions / encoding / verify / restore"
+    ],
+    "throughput_note": "数字衔接与尾块仍需实际实现时间/资源，不因排除于payload而无代价。"
+  },
+  "mapping": {
+    "tile_N": 128,
+    "tile_K": 128,
+    "W_orientation": "N output rows, K input columns",
+    "policy": "weight-stationary / resident-state-stationary within the declared residency",
+    "semantic_banks": "Q, optional attention-output G, K, V; FFN gate, up, down; each has independent row/column tile grids. No tile straddles two semantic matrices.",
+    "fusion_rule": "checkpoint fused tensors are logically sliced/reordered without duplicating weights; source fusion does not merge CIM receiver ports.",
+    "same_source_sharing": "input buffer shared upstream; operator frontier counts it once, each receiving tile bank counts its own valid input slice.",
+    "tile_order": "each matrix uses output blocks then input blocks; calls are logical service events, not an optimized clock schedule.",
+    "load_order": "dynamic residency: write each active resident tile once before first use; retain all tiles through declared uses; static weights loaded before window.",
+    "capacity": "enough logical service units for all declared resident tiles including final L; no capacity-induced reloads or cross-bank reuse of one physical tile assumed.",
+    "partial_sums": "sum input-block contributions in digital accumulator outside CIM input ports; no partial-sum reinjection as extra matvec input.",
+    "tail": "count only actual valid n_i x k_j resident elements and k_j streaming inputs; preserve tile shape/call count; no proportional-time inference.",
+    "append": "fixed absolute-token tile coordinates; K adds row slices 1 x k_j; V adds column slices n_i x 1. No shifting, compaction or whole-tile rewrite.",
+    "gqa": "one K/V state per KV head; sequentially service its query-head group, not persistent repeat_kv copies."
+  },
+  "symbols": {
+    "N": "matrix outputs",
+    "K": "matrix inputs",
+    "D": "language hidden size",
+    "F": "dense FFN or single routed expert width",
+    "B": "input vectors served during one FFN/expert residency",
+    "U": "uses in generic matrix template",
+    "A": "complete matrix loads in generic template",
+    "H_q": "native query heads",
+    "H_kv": "native KV heads; divides H_q",
+    "d_QK": "query/key head dimension",
+    "d_V": "value head dimension",
+    "D_g": "additional attention-output gate width, 0 when absent; H_q*d_V for selected Qwen layers",
+    "L": "visible tokens after append",
+    "T_N/T_K": "128 for reference; arbitrary positive integers in synthetic checks",
+    "b_*": "Byte per logical element"
+  },
+  "helpers": {
+    "c_N(x)": "ceil(x/T_N)",
+    "c_K(x)": "ceil(x/T_K)",
+    "tri(L)": "L*(L+1)/2 exactly",
+    "S_T(L)": "T*m*(m+1)/2 + (m+1)*r, m=floor(L/T), r=L-m*T; equals sum_{i=1}^L ceil(i/T)"
+  },
+  "formulas": {
+    "matrix": {
+      "operator_Q_S": "U*K*b_S",
+      "ports_Q_S": "U*c_N(N)*K*b_S",
+      "Q_R_both": "A*N*K*b_R",
+      "tile_evaluations": "U*c_N(N)*c_K(K)",
+      "RI": "Q_S/Q_R when Q_R>0; infinity if Q_R=0 and Q_S>0; empty window undefined"
+    },
+    "IIa": {
+      "uses": 1,
+      "weight_static_loads": 0,
+      "per_use_reloaded_loads": 1,
+      "dynamic_RI_operator": "b_S/(N*b_R)",
+      "dynamic_RI_ports": "c_N(N)*b_S/(N*b_R)"
+    },
+    "QKV": {
+      "window": "one input token; weights pre-resident",
+      "rows": {
+        "Q": "H_q*d_QK",
+        "G": "D_g (omit when zero)",
+        "K": "H_kv*d_QK",
+        "V": "H_kv*d_V"
+      },
+      "component_operator_Q_S": "D*b_x",
+      "component_ports_Q_S": "c_N(n_j)*D*b_x",
+      "Q_R_all": "0",
+      "aggregate_operator_Q_S": "D*b_x (subtract (m-1)*D*b_x from standalone component sum)",
+      "aggregate_ports_Q_S": "D*b_x*sum_j c_N(n_j)",
+      "tile_evaluations": "c_K(D)*sum_j c_N(n_j)",
+      "RI_all": "infinity"
+    },
+    "FFN": {
+      "window": "one load then B uses; one dense FFN or one routed expert only",
+      "shapes": {
+        "gate": [
+          "F",
+          "D"
+        ],
+        "up": [
+          "F",
+          "D"
+        ],
+        "down": [
+          "D",
+          "F"
+        ]
+      },
+      "components": {
+        "gate": {
+          "operator_Q_S": "B*D*b_x",
+          "ports_Q_S": "B*c_N(F)*D*b_x",
+          "Q_R": "F*D*b_gate"
+        },
+        "up": {
+          "operator_Q_S": "B*D*b_x",
+          "ports_Q_S": "B*c_N(F)*D*b_x",
+          "Q_R": "F*D*b_up"
+        },
+        "down": {
+          "operator_Q_S": "B*F*b_z",
+          "ports_Q_S": "B*c_N(D)*F*b_z",
+          "Q_R": "D*F*b_down"
+        }
+      },
+      "aggregate_operator_Q_S": "B*(D*b_x+F*b_z); subtract B*D*b_x shared gate/up input",
+      "aggregate_ports_Q_S": "B*(2*c_N(F)*D*b_x+c_N(D)*F*b_z)",
+      "aggregate_Q_R": "D*F*(b_gate+b_up+b_down)",
+      "tile_evaluations": "B*(2*c_N(F)*c_K(D)+c_N(D)*c_K(F))",
+      "RI": "aggregate Q_S / aggregate Q_R; component RI computed individually, never averaged",
+      "excluded_multipliers": [
+        "model layers",
+        "top-k",
+        "total experts",
+        "shared experts",
+        "routing balance",
+        "cache hit ratio"
+      ]
+    },
+    "Attention_prefix_i": {
+      "K_matrix": [
+        "i",
+        "d_QK"
+      ],
+      "V_matrix": [
+        "d_V",
+        "i"
+      ],
+      "query_vectors": "H_q distinct queries per token; no cross-head input deduplication",
+      "QK_operator_Q_S": "H_q*d_QK*b_q",
+      "QK_ports_Q_S": "H_q*d_QK*b_q*c_N(i)",
+      "AV_operator_Q_S": "H_q*i*b_p",
+      "AV_ports_Q_S": "H_q*i*b_p*c_N(d_V)",
+      "append_K_Q_R": "H_kv*d_QK*b_K",
+      "append_V_Q_R": "H_kv*d_V*b_V",
+      "QK_calls": "H_q*c_N(i)*c_K(d_QK)",
+      "AV_calls": "H_q*c_N(d_V)*c_K(i)"
+    },
+    "Attention_prefill": {
+      "window": "start empty segment KV; for i=1..L append token i once, evaluate all H_q causal queries at prefix i, then continue",
+      "QK_operator_Q_S": "H_q*L*d_QK*b_q",
+      "QK_ports_Q_S": "H_q*d_QK*b_q*S_T_N(L)",
+      "QK_Q_R": "L*H_kv*d_QK*b_K",
+      "AV_operator_Q_S": "H_q*b_p*tri(L)",
+      "AV_ports_Q_S": "H_q*c_N(d_V)*b_p*tri(L)",
+      "AV_Q_R": "L*H_kv*d_V*b_V",
+      "aggregate_operator_Q_S": "H_q*(L*d_QK*b_q+tri(L)*b_p)",
+      "aggregate_ports_Q_S": "H_q*(d_QK*b_q*S_T_N(L)+c_N(d_V)*tri(L)*b_p)",
+      "aggregate_Q_R": "L*H_kv*(d_QK*b_K+d_V*b_V)",
+      "tile_evaluations": "H_q*(c_K(d_QK)*S_T_N(L)+c_N(d_V)*S_T_K(L))",
+      "RI": "aggregate Q_S / aggregate Q_R"
+    },
+    "Attention_decode": {
+      "window": "start with L-1 resident tokens; append one; evaluate H_q queries with visible length L",
+      "QK_operator_Q_S": "H_q*d_QK*b_q",
+      "QK_ports_Q_S": "H_q*d_QK*b_q*c_N(L)",
+      "QK_Q_R": "H_kv*d_QK*b_K",
+      "AV_operator_Q_S": "H_q*L*b_p",
+      "AV_ports_Q_S": "H_q*c_N(d_V)*L*b_p",
+      "AV_Q_R": "H_kv*d_V*b_V",
+      "aggregate_operator_Q_S": "H_q*(d_QK*b_q+L*b_p)",
+      "aggregate_ports_Q_S": "H_q*(d_QK*b_q*c_N(L)+L*b_p*c_N(d_V))",
+      "aggregate_Q_R": "H_kv*(d_QK*b_K+d_V*b_V)",
+      "tile_evaluations": "H_q*(c_N(L)*c_K(d_QK)+c_N(d_V)*c_K(L))",
+      "RI": "aggregate Q_S / aggregate Q_R",
+      "telescoping": "prefill(L)-prefill(L-1)=decode(L) separately for Q_S,Q_R and calls under this same prefix policy; do not subtract RIs"
+    }
+  },
+  "attention_handoff": "K after required norm/RoPE, V after applicable value scaling, then quantize/write once. Scores are wide digital outputs; softmax coefficients are re-quantized and received only at AV input. Attention rows exclude projection/O-projection weights.",
+  "append_hardware_limit": "Logical append shape is preserved; no blanket full-tile rewriting or assumption all Task-I media realize the same update efficiency. Future physical feasibility requires compatible write modes and aggregation.",
+  "no_results_for_six_models": true,
+  "sources": [
+    {
+      "path": "../../../../docs/MODEL_CONVENTIONS.md",
+      "use": "logical payload and boundary definitions"
+    },
+    {
+      "path": "../../../task1_table_I_NVM/analysis/shared_baseline/README.md",
+      "use": "fixed 128x128 INT8 hardware service task"
+    },
+    {
+      "path": "../../literature/00_shared/raw/2305.13245v3.pdf",
+      "locator": "p.2 §2.2/Fig.2",
+      "use": "GQA sharing"
+    },
+    {
+      "path": "../../literature/00_shared/raw/1706.03762v7.pdf",
+      "locator": "pp.4-5 §3.2",
+      "use": "QK, AV and causal masking"
+    },
+    {
+      "path": "../../literature/00_shared/raw/2002.05202v1.pdf",
+      "locator": "pp.1-2 §2",
+      "use": "SwiGLU three matrices"
+    },
+    {
+      "path": "../../data/models.json",
+      "use": "native matrices and pinned implementation anchors; not batch evaluated"
+    }
+  ],
+  "path_base": "shared/data/ (the directory containing this file)",
+  "python_api": {
+    "module": "../scripts/counting.py",
+    "dimension_aliases": {
+      "D": "D",
+      "F": "F",
+      "H_q": "Hq",
+      "H_kv": "Hkv",
+      "d_QK": "dqk",
+      "d_V": "dv",
+      "D_g": "gate_width",
+      "T_N": "tile_n",
+      "T_K": "tile_k"
+    },
+    "generic_window_aliases": {
+      "U": "uses",
+      "A": "loads"
+    },
+    "byte_width_aliases": {
+      "b_S": "b_s",
+      "b_R": "b_r",
+      "b_K": "b_k",
+      "b_V": "b_v",
+      "b_g": "b_gate",
+      "b_u": "b_up",
+      "b_d": "b_down"
+    },
+    "tex_byte_aliases": {
+      "b_gate": "b_g",
+      "b_up": "b_u",
+      "b_down": "b_d"
+    },
+    "outputs": "All Q values are exact Fractions in Python. JSON rationals use numerator/denominator; infinity is a string."
+  }
+}

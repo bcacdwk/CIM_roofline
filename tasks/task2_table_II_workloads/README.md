@@ -1,16 +1,17 @@
 # Task II：resident–streaming 模型与矩阵工作量
 
-**状态：Step 1完成，待审阅。** 本轮日期：2026-09-23。
+**状态：Step 1已通过；Step 2完成，待审阅。** 本轮日期：2026-09-24。
 
 本任务建立模型无关的驻留端点，以及六个固定 LLM 的真实矩阵阶段需求。重点是操作数角色、状态写入与驻留复用。分析只覆盖语言主干矩阵子层，不进行端到端性能、精度、硬件仿真、完整训练建模或器件适配排名。
 
 ## 阅读入口
 
-1. [Step 1 中文审阅](STEP1_REVIEW.zh.md)：六模型概览、工况覆盖、来源差异及下一阶段问题。
-2. [研究配置](data/study_plan.json)：固定 B、L、两个子表的行列、窗口与五阶段状态。
-3. [模型结构数据](data/models.json)：六个固定 checkpoint/revision，配置键与实现定位，原生矩阵、缓存、专家及上下文条件。
-4. [来源清单](data/sources.json)：下载 URL/DOI、发布日期或明确缺省原因、revision、获取时间、本地路径、SHA-256。
-5. [共同算法与实现资料](literature/00_shared/README.md)。每个模型的中文结构卡见下表；`raw/` 保存原始文件，`extracted/` 是便于检索的派生文本，不冒充原件。
+1. [Step 2 审阅](STEP2_REVIEW.zh.md)：本轮选择、端点结果、符号模板与验证结论。
+2. [中文共享方法 PDF](shared/output/counting_method.zh.pdf) / [TeX](shared/tex/counting_method.zh.tex) / [共享入口](shared/README.md)。
+3. [Table II(a) 英文 PDF](table_IIa/output/table_IIa.pdf) / [独立入口](table_IIa/README.md) / [可复用片段](table_IIa/tex/table_fragment.tex) / [精确数据](table_IIa/data/results.json)。
+4. [研究配置](data/study_plan.json) 与 [共享机器约定](shared/data/conventions.json)：固定 B、L、表格设计、精度、双边界、窗口与公式。
+5. [模型结构数据](data/models.json)、[来源清单](data/sources.json) 与 [Step 1 审阅原稿](STEP1_REVIEW.zh.md)：已经审阅的固定模型/原始证据。原件中的历史状态及精度待定字段不重写，本轮状态以本 README/研究配置为准，计数精度以共享约定为准。
+6. [共同算法资料](literature/00_shared/README.md)。六模型结构卡见下表；`raw/` 是原件，`extracted/` 是派生检索文本。
 
 | 固定列序 | 显示名 | 结构卡与本地资料包 |
 |---|---|---|
@@ -23,7 +24,9 @@
 
 ## 起点与已完成基线
 
-用户给出的检查点与实际本地起点 HEAD 均为 `81b7c332c20b9b5be6890256e9cf0d3edab12785`，不回退。起点已有 `.DS_Store` 和 `2026.9.23 CIM Roofline 邵瀚雅.pptx` 修改，本轮未处理这些文件。全部交付位于本任务目录，不暂存、提交、推送或重置 Git。
+Step 1 已通过，审阅提交为 `e95de9e213d3dd0db9208459b07ce48152f102c9`。本轮实际本地起点 HEAD 为 `d60bc32ff83f1ab48cae0ffd106ebd9df46940d0`，工作区干净，不回退。全部修改局限本任务目录；本轮不暂存、提交、推送或重置 Git。
+
+Step 1 最初检查点为 `81b7c332c20b9b5be6890256e9cf0d3edab12785`，其原审阅记录和原始资料均保留。
 
 已阅读 [MODEL_CONVENTIONS](../../docs/MODEL_CONVENTIONS.md)、[Task I 共享基线](../task1_table_I_NVM/analysis/shared_baseline/README.md)、[十例约定](../task1_table_I_NVM/analysis/TEN_CASE_CONVENTIONS.zh.md) 与 [十例审阅](../task1_table_I_NVM/analysis/TEN_CASE_REVIEW.zh.md)。旧稿的 candidate/待审阅标签不推翻用户确认的完成状态。Task I 的十类硬件估算是固定输入：共同 28 nm 外围、128×128 INT8 矩阵乘向量、每次 128 Byte 输入、矩阵 16384 Byte=16 KiB；本轮未更改。
 
@@ -33,9 +36,9 @@
 
 Q_S 是窗口内经过声明 streaming 输入边界并被服务的逻辑操作数字节累计量；Q_R 是窗口内建立、更新或重载可计算 resident 状态的逻辑写入字节累计量。RI=Q_S/Q_R；静态驻留 Q_R=0 时 RI=∞。它们不是 GPU/HBM 流量或驻留容量的同义词。
 
-窗口内初始写入、更新、重载须按实际声明计入；内部编码、位串行、广播、verify、refresh/restore 不自动变成新的逻辑 payload。独立接收端口、映射重放和输入复用的边界留到 Step 2 明确。输出不直接加入本次 Q_S；若成为后续矩阵求值输入，在后次服务计数。Attention 的 query 与 Attention 系数是两次矩阵任务的不同输入。
+窗口内初始写入、更新、重载须按实际声明计入；内部编码、位串行、广播、verify、refresh/restore 不自动变成新的逻辑 payload。本轮采用 128×128 tile 接收端累计作为主边界 `ports`，整矩阵阶段的共享输入入口作为对照 `operator`。输出不直接加入本次 Q_S；若成为后续矩阵求值输入，在后次服务计数。Attention 的 query 与 Attention 系数是两次矩阵任务的不同输入。
 
-选择原生完整/全局 GQA 子层，保留原生 Q/K/V、额外门控、FFN 和专家结构。混合线性层、SWA、视觉/音频编码器、MTP、embedding/LM head 均不展开；选择的单层不代表整个模型。模型原生 dtype 与未来 CIM 参考精度分别记录，streaming、resident、KV、Attention 系数精度尚未选定，不能直接把 BF16 需求配 Task I 的 INT8 能力。
+选择原生完整/全局 GQA 子层，保留原生 Q/K/V、额外门控、FFN 和专家结构。混合线性层、SWA、视觉/音频编码器、MTP、embedding/LM head 均不展开；选择的单层不代表整个模型。模型原生 dtype 与本文参考精度分开记录。本轮把权重、激活、K/V、query 和 Attention 系数设为每元素 1 Byte 的 INT8 逻辑参考，公式仍保留独立角色宽度；这不是六模型 INT8 精度验证。数字部分和与非矩阵处理后重新定标进入下一阶段，不直接把 BF16 需求配 INT8 能力。
 
 ## Table II(a)：模型无关的驻留端点
 
@@ -44,7 +47,7 @@ Q_S 是窗口内经过声明 streaming 输入边界并被服务的逻辑操作�
 1. **Weight-static**：权重预驻留，窗口内不写入。
 2. **Per-use reloaded**：每次使用前完整写入被分析权重。
 
-“一次使用”按一个输入向量求值定义，第二行不是完整训练 step。resident 矩阵 W 为 N×K，N 是输出维度、K 是输入维度。五列依次是 **(128,128)、(1024,1024)、(4096,4096)、(1024,4096)、(4096,1024)**。它们是逻辑任务形状，不是五种新物理 macro。最终每格保留 Q_S、Q_R、RI。
+“一次使用”按一个输入向量求值定义，第二行不是完整训练 step。resident 矩阵 W 为 N×K，N 是输出维度、K 是输入维度。五列依次是 **(128,128)、(1024,1024)、(4096,4096)、(1024,4096)、(4096,1024)**。它们是逻辑任务形状，不是五种新物理 macro。英文主表每格保留 Q_S、Q_R、RI，本轮已完成。主口径是局部接收端：`Q_S=ceil(N/128)K Byte`，动态 `Q_R=NK Byte`；五形状动态 RI 都为 `1/128`，静态为 ∞。整算子对照保存在中文推导与机器数据中。
 
 ## Table II(b)：真实模型的四类推理工况
 
@@ -59,19 +62,19 @@ Q_S 是窗口内经过声明 streaming 输入边界并被服务的逻辑操作�
 
 驻留策略、B、L 是本研究选定工况，不是需要从模型报告验证的部署事实。主表优先突出 RI，适用行依既定 B/L 顺序显示三个值；完整 Q_S、Q_R、RI、配置与推导后续保存在底稿/机器数据中。
 
-两个子表后续独立制备、独立编译。本轮仅记录设计，没有场景 Q_S/Q_R/RI 数值或最终 TeX 表格。
+两个子表独立制备、独立编译。Table II(a) 的精确数值与独立英文表格本轮已完成；Table II(b) 仅在共享方法中建立四类符号模板和少量合成检查，六模型正式结果仍未开始。
 
 ## 五阶段与后续目录
 
 | 阶段 | 内容 | 状态 |
 |---|---|---|
-| Step 1 | 固定六模型、结构参数及本地资料 | **完成，待审阅** |
-| Step 2 | 共享方法与通用驻留端点 | 未启动 |
+| Step 1 | 固定六模型、结构参数及本地资料 | 已通过（e95de9e） |
+| Step 2 | 共享方法与通用驻留端点 | **完成，待审阅** |
 | Step 3 | 少量真实模型试算 | 未启动 |
 | Step 4 | 分类并行分析 | 未启动 |
 | Step 5 | 统一复核与英文表格 | 未启动 |
 
-未来 `shared/` 保存统一计数方法；`table_IIa/`、`table_IIb/` 各保存自己的推导、程序和独立 TeX/PDF。当前未创建这些目录中的空正文或占位结果。`literature/00_shared/` 的共同原始资料只存一份，模型卡以相对路径引用。
+`shared/` 已保存统一计数方法、符号模板和轻量检查；`table_IIa/` 已保存精确数据、片段及独立 TeX/PDF。`table_IIb/` 的正式推导结果与表格留待后续，当前不创建占位模型结果。`literature/00_shared/` 的共同原始资料只存一份，模型卡以相对路径引用。
 
 ## 本地可用性与检查
 
@@ -79,12 +82,15 @@ Q_S 是窗口内经过声明 streaming 输入边界并被服务的逻辑操作�
 
 `.gitignore` 只在本任务局部保护未经明确再分发授权的论文全文及其提取文本、官网全文快照；它们已在本机可读。新 checkout 不含这些忽略文件时，可按 `sources.json` 的固定版本 URL 补取。GQA 论文为 CC BY 4.0，保留原始署名及许可证元数据。模型卡声明许可证和实现文件头的许可证分别保留，不据模型权重许可证推定所有网页可再发布。
 
-运行轻量检查（Python 标准库，无网络、不加载模型；本机使用已可用的 Anaconda Python）：
+Step 2 检查与独立编译（数值检查只需 Python 标准库，PDF 需 XeLaTeX；本机已有工具）：
 
 ```sh
-/opt/anaconda3/bin/python tasks/task2_table_II_workloads/scripts/check_step1.py
+TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/shared/scripts/build.sh
+/opt/anaconda3/bin/python tasks/task2_table_II_workloads/shared/scripts/render_pdfs.py
 ```
 
-检查源文件哈希、JSON/配置键、六列与固定扫描参数、层型、矩阵形状、专家元素数及必要本地路径。检查记录见 [step1_validation.json](data/step1_validation.json)。PDF 的全文可提取性与结构相关页目视检查另记录其中；未声称逐页审读与本研究无关的 benchmark/训练章节。
+闭式公式、独立 tile/前缀求和和显式输入/写入事件枚举全部通过；结果见 [synthetic_checks.json](shared/data/synthetic_checks.json)。中文方法 9 页与英文表格 1 页均已渲染并逐页目视检查，见 [PDF 核验](shared/data/pdf_qa.json)。最终 TeX/PDF/JSON 保留，构建及页面渲染中间文件局部忽略。
 
-**停止点：等待用户审阅；不启动 Step 2。**
+原始资料仍可运行 `scripts/check_step1.py` 验证。Step 1 的 [原核验记录](data/step1_validation.json) 作为历史保留；本轮未更改其模型/来源原件，也未借本轮状态更新重写已审阅的数据。
+
+**停止点：等待用户审阅；不启动 Step 3 或 Table II(b) 六模型批量计数。**

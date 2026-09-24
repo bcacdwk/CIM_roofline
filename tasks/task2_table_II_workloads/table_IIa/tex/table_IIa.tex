@@ -1,0 +1,30 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=19mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,xcolor,placeins,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,pdftitle={Table II(a): Resident--streaming demand at two residency endpoints}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\thetable}{II(a)}
+\title{\bfseries Residency Endpoints for Logical Matrix--Vector Tasks}
+\author{}
+\date{24 September 2026}
+\begin{document}
+\maketitle
+\vspace{-1em}
+\textbf{Reference.} A logical weight matrix $W\in\mathbb{Z}^{N\times K}$ is partitioned over resident $128\times128$ service units. An input slice is counted once at each receiving tile, so one vector evaluation receives
+\[
+Q_S=\left\lceil\frac{N}{128}\right\rceil K\ \mathrm{B}.
+\]
+Each valid resident weight element is written once when loading is included:
+$Q_R=NK\ \mathrm{B}$ for per-use reloaded, and $Q_R=0$ for weight-static.
+
+\input{table_fragment.tex}
+\FloatBarrier
+
+\textbf{Interpretation.} All five shapes have output dimensions divisible by 128. Their local-receiver ratios therefore coincide at $1/128$ despite different demand volumes and tile counts. The two rectangular tasks also have the same local-receiver $Q_S$ and $Q_R$ in this reference.
+
+The contrast boundary, documented in the Chinese method and machine data, counts the whole-matrix input only once: $Q_S^{\mathrm{op}}=K\ \mathrm{B}$ and $\mathrm{RI}^{\mathrm{op}}=1/N$ for per-use reloaded. It is not mixed into the table cells above.
+
+\textbf{Scope.} One use is one vector evaluation. Per-use reloaded is neither an entire training step nor one load amortized over a multi-vector GEMM. Summed receiver demand is not a runtime prediction obtained by dividing by a single macro's throughput. A future hardware comparison must match the service-unit set, write mode and precision.
+\end{document}
