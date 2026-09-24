@@ -1,0 +1,525 @@
+{
+  "pilot_version": "task2-step3-pilot-v1",
+  "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+  "reviewed_step2_and_start_HEAD": "2eb7e7c59242c675594537002cc1316131be9226",
+  "date": "2026-09-24",
+  "precision_role_bytes": {
+    "b_x": 1,
+    "b_z": 1,
+    "b_q": 1,
+    "b_p": 1,
+    "b_W": 1,
+    "b_gate": 1,
+    "b_up": 1,
+    "b_down": 1,
+    "b_K": 1,
+    "b_V": 1
+  },
+  "tile_N_K": [
+    128,
+    128
+  ],
+  "primary_boundary": "ports",
+  "contrast_boundary": "operator",
+  "B": [
+    8,
+    64,
+    512
+  ],
+  "L": [
+    1024,
+    16384,
+    131072
+  ],
+  "mimo_L": [
+    1024
+  ],
+  "scope": "20 full-pilot cases + 2 MiMo attention spot cases; no Step 4",
+  "models": {
+    "ministral3_8b_2512": {
+      "display_name": "Ministral 3 8B (2512)",
+      "identity": {
+        "official_repository": "mistralai/Ministral-3-8B-Base-2512",
+        "repository_url": "https://huggingface.co/mistralai/Ministral-3-8B-Base-2512",
+        "checkpoint": "Ministral-3-8B-Base-2512",
+        "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+        "revision_date": "2026-01-15T11:17:01.000Z",
+        "repository_created_at": "2025-10-31T08:40:56.000Z",
+        "public_release_date": "2025-12-02",
+        "release_date_source_id": "02_ministral3_8b:release",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "Base 2512 (pretrained)",
+        "choice_reason": "official 2025-12 2512 Base, complete params.json and HF text_config, BF16 declaration simplifies provenance",
+        "evidence": [
+          "02_ministral3_8b:metadata",
+          "02_ministral3_8b:README.md"
+        ]
+      },
+      "selected_layer": 0,
+      "layer_type": "full causal GQA + dense FFN",
+      "D": 4096,
+      "attention": {
+        "query_heads": 32,
+        "kv_heads": 8,
+        "qk_head_dim": 128,
+        "v_head_dim": 128,
+        "queries_per_kv_head": 4,
+        "causal": true,
+        "projection_layout": "separate_q_k_v",
+        "weight_shapes_N_K": {
+          "q_logical": [
+            4096,
+            4096
+          ],
+          "k": [
+            1024,
+            4096
+          ],
+          "v": [
+            1024,
+            4096
+          ],
+          "output": [
+            4096,
+            4096
+          ]
+        },
+        "bias": false,
+        "qk_normalization": false,
+        "output_gate": false,
+        "selected_layer_sink_bias": false,
+        "value_scale": null,
+        "kv_cache": {
+          "logical_key_layout": [
+            "sequence_batch",
+            8,
+            "tokens",
+            128
+          ],
+          "logical_value_layout": [
+            "sequence_batch",
+            8,
+            "tokens",
+            128
+          ],
+          "saved_state": [
+            "K after RoPE; V projection"
+          ],
+          "gqa_sharing": "one K/V head shared by query_heads/kv_heads query heads; cache update before repeat_kv; do not reinterpret broadcast as extra persistent cache copies",
+          "physical_paging_or_replication": "runtime-dependent, outside Step 1"
+        },
+        "evidence": [
+          {
+            "source_id": "02_ministral3_8b:config.json",
+            "locator": "text_config.num_attention_heads"
+          },
+          {
+            "source_id": "02_ministral3_8b:config.json",
+            "locator": "text_config.num_key_value_heads"
+          },
+          {
+            "source_id": "02_ministral3_8b:config.json",
+            "locator": "text_config.head_dim"
+          },
+          {
+            "source_id": "transformers:modeling_ministral3.py",
+            "locator": "Ministral3Attention __init__/forward; repeat_kv / eager_attention_forward"
+          }
+        ]
+      },
+      "ffn": {
+        "selected_kind": "dense_swiglu",
+        "selected_layer_index_zero_based": 0,
+        "hidden_size": 4096,
+        "intermediate_size": 14336,
+        "matrices": {
+          "gate": [
+            14336,
+            4096
+          ],
+          "up": [
+            14336,
+            4096
+          ],
+          "down": [
+            4096,
+            14336
+          ]
+        },
+        "routed_expert_count": 0,
+        "routed_top_k": 0,
+        "shared_expert_count": 0,
+        "shared_intermediate_size": null,
+        "shared_matrices": null,
+        "router_matrix": null,
+        "shared_expert_output_gate_matrix": null,
+        "dense_layer_intermediate_size": 14336,
+        "parameter_element_counts": {
+          "scope": "Only gate/up/down matrix elements; excludes router, norms, biases, embeddings, attention, MTP. Not bytes or workload counts.",
+          "selected_ffn_or_single_expert": 176160768,
+          "active_routed_expert_set": null,
+          "all_routed_experts_in_one_layer": null,
+          "shared_expert_matrices": 0
+        },
+        "implementation_storage_note": "three separate matrices",
+        "evidence": [
+          {
+            "source_id": "02_ministral3_8b:config.json",
+            "locator": "text_config.intermediate_size"
+          },
+          {
+            "source_id": "transformers:modeling_ministral3.py",
+            "locator": "Ministral3MLP"
+          }
+        ]
+      },
+      "local_material": {
+        "structure_card": "literature/02_ministral3_8b/STRUCTURE.zh.md",
+        "raw_config": "literature/02_ministral3_8b/raw/config.json",
+        "raw_model_card": "literature/02_ministral3_8b/raw/README.md",
+        "implementation": "literature/00_shared/raw/transformers/modeling_ministral3.py",
+        "implementation_source_id": "transformers:modeling_ministral3.py",
+        "configuration_implementation_source_id": "transformers:configuration_ministral3.py",
+        "core_report": {
+          "source_id": "2601.08584v1:pdf",
+          "path": "literature/02_ministral3_8b/raw/2601.08584v1.pdf"
+        },
+        "report_status": "local PDF complete; checked relevant structure/context sections"
+      }
+    },
+    "qwen36_35b_a3b": {
+      "display_name": "Qwen3.6-35B-A3B",
+      "identity": {
+        "official_repository": "Qwen/Qwen3.6-35B-A3B",
+        "repository_url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
+        "checkpoint": "Qwen3.6-35B-A3B",
+        "revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+        "revision_date": "2026-04-24T02:53:42.000Z",
+        "repository_created_at": "2026-04-15T05:59:19.000Z",
+        "public_release_date": "2026-04-16",
+        "release_date_source_id": "qwen:project",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "post-trained",
+        "choice_reason": "exact requested model; officially reuses qwen3_5_moe implementation, not substituted Qwen3.5 weights",
+        "evidence": [
+          "03_qwen36_35b_a3b:metadata",
+          "03_qwen36_35b_a3b:README.md"
+        ]
+      },
+      "selected_layer": 3,
+      "layer_type": "full causal GQA + MoE",
+      "D": 2048,
+      "attention": {
+        "query_heads": 16,
+        "kv_heads": 2,
+        "qk_head_dim": 256,
+        "v_head_dim": 256,
+        "queries_per_kv_head": 8,
+        "causal": true,
+        "projection_layout": "q_plus_output_gate_packed; k/v separate",
+        "weight_shapes_N_K": {
+          "q_logical": [
+            4096,
+            2048
+          ],
+          "k": [
+            512,
+            2048
+          ],
+          "v": [
+            512,
+            2048
+          ],
+          "output": [
+            2048,
+            4096
+          ],
+          "q_output_gate_logical": [
+            4096,
+            2048
+          ],
+          "q_and_gate_packed": [
+            8192,
+            2048
+          ]
+        },
+        "bias": false,
+        "qk_normalization": true,
+        "output_gate": true,
+        "selected_layer_sink_bias": false,
+        "value_scale": null,
+        "kv_cache": {
+          "logical_key_layout": [
+            "sequence_batch",
+            2,
+            "tokens",
+            256
+          ],
+          "logical_value_layout": [
+            "sequence_batch",
+            2,
+            "tokens",
+            256
+          ],
+          "saved_state": [
+            "K after QK norm and RoPE; V projection"
+          ],
+          "gqa_sharing": "one K/V head shared by query_heads/kv_heads query heads; cache update before repeat_kv; do not reinterpret broadcast as extra persistent cache copies",
+          "physical_paging_or_replication": "runtime-dependent, outside Step 1"
+        },
+        "evidence": [
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.num_attention_heads"
+          },
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.num_key_value_heads"
+          },
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.head_dim"
+          },
+          {
+            "source_id": "transformers:modeling_qwen3_5_moe.py",
+            "locator": "Qwen3_5MoeAttention __init__/forward; repeat_kv / eager_attention_forward"
+          },
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.attn_output_gate"
+          }
+        ]
+      },
+      "ffn": {
+        "selected_kind": "single_routed_expert_swiglu",
+        "selected_layer_index_zero_based": 3,
+        "hidden_size": 2048,
+        "intermediate_size": 512,
+        "matrices": {
+          "gate": [
+            512,
+            2048
+          ],
+          "up": [
+            512,
+            2048
+          ],
+          "down": [
+            2048,
+            512
+          ]
+        },
+        "routed_expert_count": 256,
+        "routed_top_k": 8,
+        "shared_expert_count": 1,
+        "shared_intermediate_size": 512,
+        "shared_matrices": {
+          "gate": [
+            512,
+            2048
+          ],
+          "up": [
+            512,
+            2048
+          ],
+          "down": [
+            2048,
+            512
+          ]
+        },
+        "router_matrix": [
+          256,
+          2048
+        ],
+        "shared_expert_output_gate_matrix": [
+          1,
+          2048
+        ],
+        "dense_layer_intermediate_size": null,
+        "parameter_element_counts": {
+          "scope": "Only gate/up/down matrix elements; excludes router, norms, biases, embeddings, attention, MTP. Not bytes or workload counts.",
+          "selected_ffn_or_single_expert": 3145728,
+          "active_routed_expert_set": 25165824,
+          "all_routed_experts_in_one_layer": 805306368,
+          "shared_expert_matrices": 3145728
+        },
+        "implementation_storage_note": "upstream implementation stacks experts and packs gate/up; logical single expert remains three matrices",
+        "evidence": [
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.moe_intermediate_size"
+          },
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.num_experts"
+          },
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.num_experts_per_tok"
+          },
+          {
+            "source_id": "transformers:modeling_qwen3_5_moe.py",
+            "locator": "Qwen3_5MoeExperts / Qwen3_5MoeSparseMoeBlock"
+          },
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.shared_expert_intermediate_size"
+          },
+          {
+            "source_id": "transformers:modeling_qwen3_5_moe.py",
+            "locator": "Qwen3_5MoeExperts / Qwen3_5MoeSparseMoeBlock"
+          }
+        ]
+      },
+      "local_material": {
+        "structure_card": "literature/03_qwen36_35b_a3b/STRUCTURE.zh.md",
+        "raw_config": "literature/03_qwen36_35b_a3b/raw/config.json",
+        "raw_model_card": "literature/03_qwen36_35b_a3b/raw/README.md",
+        "implementation": "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py",
+        "implementation_source_id": "transformers:modeling_qwen3_5_moe.py",
+        "configuration_implementation_source_id": "transformers:configuration_qwen3_5_moe.py",
+        "core_report": null,
+        "report_status": "No separate report identified for this exact checkpoint; official model card + pinned config + implementation are the primary sources."
+      }
+    },
+    "mimo_v25_pro": {
+      "display_name": "MiMo-V2.5-Pro",
+      "identity": {
+        "official_repository": "XiaomiMiMo/MiMo-V2.5-Pro",
+        "repository_url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro",
+        "checkpoint": "MiMo-V2.5-Pro",
+        "revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+        "revision_date": "2026-07-09T04:20:08.000Z",
+        "repository_created_at": "2026-04-27T12:52:53.000Z",
+        "public_release_date": "2026-04-27",
+        "release_date_source_id": "06_mimo_v25_pro:release",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "post-trained Pro; not Base, V2.5 non-Pro, or V2-Pro",
+        "choice_reason": "exact requested Pro checkpoint with native FP8-mixed metadata and fused-QKV remote code",
+        "evidence": [
+          "06_mimo_v25_pro:metadata",
+          "06_mimo_v25_pro:README.md"
+        ]
+      },
+      "selected_layer": 7,
+      "layer_type": "full causal GQA + MoE",
+      "D": 6144,
+      "attention": {
+        "query_heads": 128,
+        "kv_heads": 8,
+        "qk_head_dim": 192,
+        "v_head_dim": 128,
+        "queries_per_kv_head": 16,
+        "causal": true,
+        "projection_layout": "fused_qkv",
+        "weight_shapes_N_K": {
+          "q_logical": [
+            24576,
+            6144
+          ],
+          "k": [
+            1536,
+            6144
+          ],
+          "v": [
+            1024,
+            6144
+          ],
+          "output": [
+            6144,
+            16384
+          ],
+          "qkv_packed": [
+            27136,
+            6144
+          ]
+        },
+        "bias": false,
+        "qk_normalization": false,
+        "output_gate": false,
+        "selected_layer_sink_bias": false,
+        "value_scale": 0.612,
+        "kv_cache": {
+          "logical_key_layout": [
+            "sequence_batch",
+            8,
+            "tokens",
+            192
+          ],
+          "logical_value_layout": [
+            "sequence_batch",
+            8,
+            "tokens",
+            128
+          ],
+          "saved_state": [
+            "K after partial RoPE; V after scale 0.612"
+          ],
+          "gqa_sharing": "one K/V head shared by query_heads/kv_heads query heads; cache update before repeat_kv; do not reinterpret broadcast as extra persistent cache copies",
+          "physical_paging_or_replication": "runtime-dependent, outside Step 1"
+        },
+        "evidence": [
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "num_attention_heads"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "num_key_value_heads"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "head_dim"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "v_head_dim"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:modeling_mimo_v2.py",
+            "locator": "MiMoV2Attention __init__/forward; repeat_kv / eager_attention_forward"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "attention_projection_layout"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "attention_value_scale"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "add_full_attention_sink_bias"
+          }
+        ]
+      },
+      "ffn": "not evaluated",
+      "local_material": {
+        "structure_card": "literature/06_mimo_v25_pro/STRUCTURE.zh.md",
+        "raw_config": "literature/06_mimo_v25_pro/raw/config.json",
+        "raw_model_card": "literature/06_mimo_v25_pro/raw/README.md",
+        "implementation": "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py",
+        "implementation_source_id": "06_mimo_v25_pro:modeling_mimo_v2.py",
+        "configuration_implementation_source_id": "06_mimo_v25_pro:configuration_mimo_v2.py",
+        "core_report": null,
+        "report_status": "No separate report identified for this exact checkpoint; official model card + pinned config + implementation are the primary sources."
+      }
+    }
+  },
+  "source_files_sha256": {
+    "data/models.json": "d74867a53de5adbc1ec6d7d2cd10903d3553e8993cdd3057e8c6fc8cf460e1a2",
+    "literature/00_shared/raw/transformers/modeling_ministral3.py": "3859fbe0f5b89cc14951ee9548896f20fc92addfc18fc7685dd395bf054c80c8",
+    "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py": "85e8683f1b7b043804357f2a6abdc63511d4a25eb34c454220bdaf5e58749f64",
+    "literature/02_ministral3_8b/STRUCTURE.zh.md": "c08afba848714891484133b1561d1fb2df41233083623162dfb095c2ab49c37c",
+    "literature/02_ministral3_8b/raw/config.json": "5aae04beb9f2a9949eb1df870cf47ba292012a066bdcdcb115a9ac43425f8086",
+    "literature/02_ministral3_8b/raw/params.json": "f1436e0548c9d66a1bd3db0e3b7c82734bd8c1b64788fa4a6c366a5e12901931",
+    "literature/03_qwen36_35b_a3b/STRUCTURE.zh.md": "89ed033cf897e676fee5b1957452efde7e39580a7acf2d8ec57a1a6f0aa5717b",
+    "literature/03_qwen36_35b_a3b/raw/config.json": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+    "literature/06_mimo_v25_pro/STRUCTURE.zh.md": "a2a57d78aff31bf2af3e0b19e1c38236166043152f2736514911c3e74b635ddf",
+    "literature/06_mimo_v25_pro/raw/config.json": "7e11c6cd358a841d5ac016fc80c030cad14d418ee125e9bde1eb6d0757b635d6",
+    "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py": "4d33f4bd84a23c0ada163113dea3f28ecaa130370a9c3ef317d965cb031d1d5a",
+    "shared/data/conventions.json": "4aac441f18149b85d4208042abec1999592ff88ee75a5b3e85e937361f45accc",
+    "shared/scripts/counting.py": "2bf0af027e7be80ec0f4a08e76aec1bbea78ee937849be128c979a97d05dcd06",
+    "shared/tex/counting_method.zh.tex": "3f9a390bb03d0f2f1b2cd2654e5b84e2a013969b1ce0303cc67557838d7725a9"
+  }
+}

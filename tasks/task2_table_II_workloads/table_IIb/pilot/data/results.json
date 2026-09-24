@@ -1,0 +1,5536 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "case_id": "ministral3_8b_2512/qkv_projection/one_token",
+      "model_id": "ministral3_8b_2512",
+      "row": "qkv_projection",
+      "L": null,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "Q": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 131072,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 1024
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 1024,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                4096,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 1024,
+              "valid_resident_bytes": 16777216,
+              "allocated_tile_bytes": 16777216
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          },
+          "K": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 32768,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 256
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 256,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 256,
+              "valid_resident_bytes": 4194304,
+              "allocated_tile_bytes": 4194304
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          },
+          "V": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 32768,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 256
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 256,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 256,
+              "valid_resident_bytes": 4194304,
+              "allocated_tile_bytes": 4194304
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 4096,
+          "Q_R": 0,
+          "RI": "infinity",
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 8192,
+        "ports": {
+          "Q_S": 196608,
+          "Q_R": 0,
+          "RI": "infinity",
+          "tile_evaluations": 1536
+        },
+        "capacity": {
+          "valid_resident_bytes": 25165824,
+          "allocated_tile_bytes": 25165824,
+          "resident_tiles": 1536,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/ffn_or_moe/8",
+      "model_id": "ministral3_8b_2512",
+      "row": "ffn_or_moe",
+      "B": 8,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "gate": {
+            "operator": {
+              "Q_S": 32768,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 1792
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 3670016,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 16
+              },
+              "tile_evaluations": 28672
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                14336,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 8,
+              "full_weight_loads": 1
+            }
+          },
+          "up": {
+            "operator": {
+              "Q_S": 32768,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 1792
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 3670016,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 16
+              },
+              "tile_evaluations": 28672
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                14336,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 8,
+              "full_weight_loads": 1
+            }
+          },
+          "down": {
+            "operator": {
+              "Q_S": 114688,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 512
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 3670016,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 16
+              },
+              "tile_evaluations": 28672
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                4096,
+                14336
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "input_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 8,
+              "full_weight_loads": 1
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 147456,
+          "Q_R": 176160768,
+          "RI": {
+            "numerator": 3,
+            "denominator": 3584
+          },
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 32768,
+        "ports": {
+          "Q_S": 11010048,
+          "Q_R": 176160768,
+          "RI": {
+            "numerator": 1,
+            "denominator": 16
+          },
+          "tile_evaluations": 86016
+        },
+        "capacity": {
+          "valid_resident_bytes": 176160768,
+          "allocated_tile_bytes": 176160768,
+          "resident_tiles": 10752,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/ffn_or_moe/64",
+      "model_id": "ministral3_8b_2512",
+      "row": "ffn_or_moe",
+      "B": 64,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "gate": {
+            "operator": {
+              "Q_S": 262144,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 224
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 29360128,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "tile_evaluations": 229376
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                14336,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 64,
+              "full_weight_loads": 1
+            }
+          },
+          "up": {
+            "operator": {
+              "Q_S": 262144,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 224
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 29360128,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "tile_evaluations": 229376
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                14336,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 64,
+              "full_weight_loads": 1
+            }
+          },
+          "down": {
+            "operator": {
+              "Q_S": 917504,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 29360128,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "tile_evaluations": 229376
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                4096,
+                14336
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "input_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 64,
+              "full_weight_loads": 1
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 1179648,
+          "Q_R": 176160768,
+          "RI": {
+            "numerator": 3,
+            "denominator": 448
+          },
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 262144,
+        "ports": {
+          "Q_S": 88080384,
+          "Q_R": 176160768,
+          "RI": {
+            "numerator": 1,
+            "denominator": 2
+          },
+          "tile_evaluations": 688128
+        },
+        "capacity": {
+          "valid_resident_bytes": 176160768,
+          "allocated_tile_bytes": 176160768,
+          "resident_tiles": 10752,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/ffn_or_moe/512",
+      "model_id": "ministral3_8b_2512",
+      "row": "ffn_or_moe",
+      "B": 512,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "gate": {
+            "operator": {
+              "Q_S": 2097152,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 28
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 234881024,
+              "Q_R": 58720256,
+              "RI": 4,
+              "tile_evaluations": 1835008
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                14336,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 512,
+              "full_weight_loads": 1
+            }
+          },
+          "up": {
+            "operator": {
+              "Q_S": 2097152,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 28
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 234881024,
+              "Q_R": 58720256,
+              "RI": 4,
+              "tile_evaluations": 1835008
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                14336,
+                4096
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "input_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 512,
+              "full_weight_loads": 1
+            }
+          },
+          "down": {
+            "operator": {
+              "Q_S": 7340032,
+              "Q_R": 58720256,
+              "RI": {
+                "numerator": 1,
+                "denominator": 8
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 234881024,
+              "Q_R": 58720256,
+              "RI": 4,
+              "tile_evaluations": 1835008
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 3584,
+              "load_events": 3584
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                4096,
+                14336
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "input_axis": {
+                "full_128_blocks": 112,
+                "tail_valid_elements": 0,
+                "blocks": 112
+              },
+              "resident_tiles": 3584,
+              "valid_resident_bytes": 58720256,
+              "allocated_tile_bytes": 58720256
+            },
+            "window": {
+              "input_vectors": 512,
+              "full_weight_loads": 1
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 9437184,
+          "Q_R": 176160768,
+          "RI": {
+            "numerator": 3,
+            "denominator": 56
+          },
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 2097152,
+        "ports": {
+          "Q_S": 704643072,
+          "Q_R": 176160768,
+          "RI": 4,
+          "tile_evaluations": 5505024
+        },
+        "capacity": {
+          "valid_resident_bytes": 176160768,
+          "allocated_tile_bytes": 176160768,
+          "resident_tiles": 10752,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/attention_prefill/1024",
+      "model_id": "ministral3_8b_2512",
+      "row": "attention_prefill",
+      "L": 1024,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4194304,
+              "Q_R": 1048576,
+              "RI": 4,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 18874368,
+              "Q_R": 1048576,
+              "RI": 18,
+              "tile_evaluations": 147456
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                128
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 8192,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 16793600,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1025,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 16793600,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1025,
+                "denominator": 64
+              },
+              "tile_evaluations": 147456
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                1024
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 8192,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 20987904,
+          "Q_R": 2097152,
+          "RI": {
+            "numerator": 1281,
+            "denominator": 128
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 35667968,
+          "Q_R": 2097152,
+          "RI": {
+            "numerator": 2177,
+            "denominator": 128
+          },
+          "tile_evaluations": 294912
+        },
+        "appended_tokens": 1024,
+        "kv_copies_per_head": 1,
+        "group_size": 4,
+        "prefix_sum_i": 524800,
+        "prefix_sum_ceil_output": 4608,
+        "prefix_sum_ceil_input": 4608,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            1024,
+            128
+          ],
+          "V_matrix_N_K": [
+            128,
+            1024
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            128
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 1024,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 2097152,
+          "allocated_tile_bytes": 2097152,
+          "resident_tiles": 128,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/attention_prefill/16384",
+      "model_id": "ministral3_8b_2512",
+      "row": "attention_prefill",
+      "L": 16384,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 67108864,
+              "Q_R": 16777216,
+              "RI": 4,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4328521728,
+              "Q_R": 16777216,
+              "RI": 258,
+              "tile_evaluations": 33816576
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                16384,
+                128
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "resident_tiles": 1024,
+              "valid_resident_bytes": 16777216,
+              "allocated_tile_bytes": 16777216
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 131072,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 4295229440,
+              "Q_R": 16777216,
+              "RI": {
+                "numerator": 16385,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4295229440,
+              "Q_R": 16777216,
+              "RI": {
+                "numerator": 16385,
+                "denominator": 64
+              },
+              "tile_evaluations": 33816576
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                16384
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "resident_tiles": 1024,
+              "valid_resident_bytes": 16777216,
+              "allocated_tile_bytes": 16777216
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 131072,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 4362338304,
+          "Q_R": 33554432,
+          "RI": {
+            "numerator": 16641,
+            "denominator": 128
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 8623751168,
+          "Q_R": 33554432,
+          "RI": {
+            "numerator": 32897,
+            "denominator": 128
+          },
+          "tile_evaluations": 67633152
+        },
+        "appended_tokens": 16384,
+        "kv_copies_per_head": 1,
+        "group_size": 4,
+        "prefix_sum_i": 134225920,
+        "prefix_sum_ceil_output": 1056768,
+        "prefix_sum_ceil_input": 1056768,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            16384,
+            128
+          ],
+          "V_matrix_N_K": [
+            128,
+            16384
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            128
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 16384,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 33554432,
+          "allocated_tile_bytes": 33554432,
+          "resident_tiles": 2048,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/attention_prefill/131072",
+      "model_id": "ministral3_8b_2512",
+      "row": "attention_prefill",
+      "L": 131072,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 536870912,
+              "Q_R": 134217728,
+              "RI": 4,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 275146342400,
+              "Q_R": 134217728,
+              "RI": 2050,
+              "tile_evaluations": 2149580800
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                131072,
+                128
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "resident_tiles": 8192,
+              "valid_resident_bytes": 134217728,
+              "allocated_tile_bytes": 134217728
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 1048576,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 274880004096,
+              "Q_R": 134217728,
+              "RI": {
+                "numerator": 131073,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 274880004096,
+              "Q_R": 134217728,
+              "RI": {
+                "numerator": 131073,
+                "denominator": 64
+              },
+              "tile_evaluations": 2149580800
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                131072
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "resident_tiles": 8192,
+              "valid_resident_bytes": 134217728,
+              "allocated_tile_bytes": 134217728
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 1048576,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 275416875008,
+          "Q_R": 268435456,
+          "RI": {
+            "numerator": 131329,
+            "denominator": 128
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 550026346496,
+          "Q_R": 268435456,
+          "RI": {
+            "numerator": 262273,
+            "denominator": 128
+          },
+          "tile_evaluations": 4299161600
+        },
+        "appended_tokens": 131072,
+        "kv_copies_per_head": 1,
+        "group_size": 4,
+        "prefix_sum_i": 8590000128,
+        "prefix_sum_ceil_output": 67174400,
+        "prefix_sum_ceil_input": 67174400,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            131072,
+            128
+          ],
+          "V_matrix_N_K": [
+            128,
+            131072
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            128
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 131072,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 268435456,
+          "allocated_tile_bytes": 268435456,
+          "resident_tiles": 16384,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/attention_decode/1024",
+      "model_id": "ministral3_8b_2512",
+      "row": "attention_decode",
+      "L": 1024,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 1024,
+              "RI": 4,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 32768,
+              "Q_R": 1024,
+              "RI": 32,
+              "tile_evaluations": 256
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                128
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 32768,
+              "Q_R": 1024,
+              "RI": 32,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 32768,
+              "Q_R": 1024,
+              "RI": 32,
+              "tile_evaluations": 256
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                1024
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 36864,
+          "Q_R": 2048,
+          "RI": 18,
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 65536,
+          "Q_R": 2048,
+          "RI": 32,
+          "tile_evaluations": 512
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 4,
+        "prefix_sum_i": 1024,
+        "prefix_sum_ceil_output": 8,
+        "prefix_sum_ceil_input": 8,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            1024,
+            128
+          ],
+          "V_matrix_N_K": [
+            128,
+            1024
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            128
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 1023,
+        "final_KV_tokens": 1024,
+        "initial_valid_resident_bytes": 2095104,
+        "capacity": {
+          "valid_resident_bytes": 2097152,
+          "allocated_tile_bytes": 2097152,
+          "resident_tiles": 128,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/attention_decode/16384",
+      "model_id": "ministral3_8b_2512",
+      "row": "attention_decode",
+      "L": 16384,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 1024,
+              "RI": 4,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 1024,
+              "RI": 512,
+              "tile_evaluations": 4096
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                16384,
+                128
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "resident_tiles": 1024,
+              "valid_resident_bytes": 16777216,
+              "allocated_tile_bytes": 16777216
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 524288,
+              "Q_R": 1024,
+              "RI": 512,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 1024,
+              "RI": 512,
+              "tile_evaluations": 4096
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                16384
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "resident_tiles": 1024,
+              "valid_resident_bytes": 16777216,
+              "allocated_tile_bytes": 16777216
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 528384,
+          "Q_R": 2048,
+          "RI": 258,
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 1048576,
+          "Q_R": 2048,
+          "RI": 512,
+          "tile_evaluations": 8192
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 4,
+        "prefix_sum_i": 16384,
+        "prefix_sum_ceil_output": 128,
+        "prefix_sum_ceil_input": 128,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            16384,
+            128
+          ],
+          "V_matrix_N_K": [
+            128,
+            16384
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            128
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 16383,
+        "final_KV_tokens": 16384,
+        "initial_valid_resident_bytes": 33552384,
+        "capacity": {
+          "valid_resident_bytes": 33554432,
+          "allocated_tile_bytes": 33554432,
+          "resident_tiles": 2048,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "ministral3_8b_2512/attention_decode/131072",
+      "model_id": "ministral3_8b_2512",
+      "row": "attention_decode",
+      "L": 131072,
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 1024,
+              "RI": 4,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 1024,
+              "RI": 4096,
+              "tile_evaluations": 32768
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                131072,
+                128
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "resident_tiles": 8192,
+              "valid_resident_bytes": 134217728,
+              "allocated_tile_bytes": 134217728
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 4194304,
+              "Q_R": 1024,
+              "RI": 4096,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 1024,
+              "RI": 4096,
+              "tile_evaluations": 32768
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                131072
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "resident_tiles": 8192,
+              "valid_resident_bytes": 134217728,
+              "allocated_tile_bytes": 134217728
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 4198400,
+          "Q_R": 2048,
+          "RI": 2050,
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 8388608,
+          "Q_R": 2048,
+          "RI": 4096,
+          "tile_evaluations": 65536
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 4,
+        "prefix_sum_i": 131072,
+        "prefix_sum_ceil_output": 1024,
+        "prefix_sum_ceil_input": 1024,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            131072,
+            128
+          ],
+          "V_matrix_N_K": [
+            128,
+            131072
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            128
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 131071,
+        "final_KV_tokens": 131072,
+        "initial_valid_resident_bytes": 268433408,
+        "capacity": {
+          "valid_resident_bytes": 268435456,
+          "allocated_tile_bytes": 268435456,
+          "resident_tiles": 16384,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/one_token",
+      "model_id": "qwen36_35b_a3b",
+      "row": "qkv_projection",
+      "L": null,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "Q": {
+            "operator": {
+              "Q_S": 2048,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 65536,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 512
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 512,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                4096,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 512,
+              "valid_resident_bytes": 8388608,
+              "allocated_tile_bytes": 8388608
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          },
+          "G": {
+            "operator": {
+              "Q_S": 2048,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 65536,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 512
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 512,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                4096,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 32,
+                "tail_valid_elements": 0,
+                "blocks": 32
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 512,
+              "valid_resident_bytes": 8388608,
+              "allocated_tile_bytes": 8388608
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          },
+          "K": {
+            "operator": {
+              "Q_S": 2048,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 8192,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 64
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          },
+          "V": {
+            "operator": {
+              "Q_S": 2048,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 8192,
+              "Q_R": 0,
+              "RI": "infinity",
+              "tile_evaluations": 64
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 0
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 1,
+              "full_weight_loads": 0
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 2048,
+          "Q_R": 0,
+          "RI": "infinity",
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 6144,
+        "ports": {
+          "Q_S": 147456,
+          "Q_R": 0,
+          "RI": "infinity",
+          "tile_evaluations": 1152
+        },
+        "capacity": {
+          "valid_resident_bytes": 18874368,
+          "allocated_tile_bytes": 18874368,
+          "resident_tiles": 1152,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/ffn_or_moe/8",
+      "model_id": "qwen36_35b_a3b",
+      "row": "ffn_or_moe",
+      "B": 8,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "gate": {
+            "operator": {
+              "Q_S": 16384,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 65536,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 16
+              },
+              "tile_evaluations": 512
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 8,
+              "full_weight_loads": 1
+            }
+          },
+          "up": {
+            "operator": {
+              "Q_S": 16384,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 65536,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 16
+              },
+              "tile_evaluations": 512
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 8,
+              "full_weight_loads": 1
+            }
+          },
+          "down": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 256
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 65536,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 16
+              },
+              "tile_evaluations": 512
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                2048,
+                512
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "input_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 8,
+              "full_weight_loads": 1
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 20480,
+          "Q_R": 3145728,
+          "RI": {
+            "numerator": 5,
+            "denominator": 768
+          },
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 16384,
+        "ports": {
+          "Q_S": 196608,
+          "Q_R": 3145728,
+          "RI": {
+            "numerator": 1,
+            "denominator": 16
+          },
+          "tile_evaluations": 1536
+        },
+        "capacity": {
+          "valid_resident_bytes": 3145728,
+          "allocated_tile_bytes": 3145728,
+          "resident_tiles": 192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/ffn_or_moe/64",
+      "model_id": "qwen36_35b_a3b",
+      "row": "ffn_or_moe",
+      "B": 64,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "gate": {
+            "operator": {
+              "Q_S": 131072,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 8
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "tile_evaluations": 4096
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 64,
+              "full_weight_loads": 1
+            }
+          },
+          "up": {
+            "operator": {
+              "Q_S": 131072,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 8
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "tile_evaluations": 4096
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 64,
+              "full_weight_loads": 1
+            }
+          },
+          "down": {
+            "operator": {
+              "Q_S": 32768,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 32
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "tile_evaluations": 4096
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                2048,
+                512
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "input_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 64,
+              "full_weight_loads": 1
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 163840,
+          "Q_R": 3145728,
+          "RI": {
+            "numerator": 5,
+            "denominator": 96
+          },
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 131072,
+        "ports": {
+          "Q_S": 1572864,
+          "Q_R": 3145728,
+          "RI": {
+            "numerator": 1,
+            "denominator": 2
+          },
+          "tile_evaluations": 12288
+        },
+        "capacity": {
+          "valid_resident_bytes": 3145728,
+          "allocated_tile_bytes": 3145728,
+          "resident_tiles": 192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/ffn_or_moe/512",
+      "model_id": "qwen36_35b_a3b",
+      "row": "ffn_or_moe",
+      "B": 512,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "gate": {
+            "operator": {
+              "Q_S": 1048576,
+              "Q_R": 1048576,
+              "RI": 1,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 1048576,
+              "RI": 4,
+              "tile_evaluations": 32768
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 512,
+              "full_weight_loads": 1
+            }
+          },
+          "up": {
+            "operator": {
+              "Q_S": 1048576,
+              "Q_R": 1048576,
+              "RI": 1,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 1048576,
+              "RI": 4,
+              "tile_evaluations": 32768
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                512,
+                2048
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "input_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 512,
+              "full_weight_loads": 1
+            }
+          },
+          "down": {
+            "operator": {
+              "Q_S": 262144,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1,
+                "denominator": 4
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 1048576,
+              "RI": 4,
+              "tile_evaluations": 32768
+            },
+            "tile_layout": {
+              "output_block_sizes": [
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128,
+                128
+              ],
+              "input_block_sizes": [
+                128,
+                128,
+                128,
+                128
+              ],
+              "resident_tiles": 64,
+              "load_events": 64
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                2048,
+                512
+              ],
+              "copies": 1,
+              "output_axis": {
+                "full_128_blocks": 16,
+                "tail_valid_elements": 0,
+                "blocks": 16
+              },
+              "input_axis": {
+                "full_128_blocks": 4,
+                "tail_valid_elements": 0,
+                "blocks": 4
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "window": {
+              "input_vectors": 512,
+              "full_weight_loads": 1
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 1310720,
+          "Q_R": 3145728,
+          "RI": {
+            "numerator": 5,
+            "denominator": 12
+          },
+          "tile_evaluations": null
+        },
+        "operator_shared_input_overlap_removed": 1048576,
+        "ports": {
+          "Q_S": 12582912,
+          "Q_R": 3145728,
+          "RI": 4,
+          "tile_evaluations": 98304
+        },
+        "capacity": {
+          "valid_resident_bytes": 3145728,
+          "allocated_tile_bytes": 3145728,
+          "resident_tiles": 192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_prefill/1024",
+      "model_id": "qwen36_35b_a3b",
+      "row": "attention_prefill",
+      "L": 1024,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4194304,
+              "Q_R": 524288,
+              "RI": 8,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 18874368,
+              "Q_R": 524288,
+              "RI": 36,
+              "tile_evaluations": 147456
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                256
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "resident_tiles": 32,
+              "valid_resident_bytes": 524288,
+              "allocated_tile_bytes": 524288
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 4096,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 8396800,
+              "Q_R": 524288,
+              "RI": {
+                "numerator": 1025,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 16793600,
+              "Q_R": 524288,
+              "RI": {
+                "numerator": 1025,
+                "denominator": 32
+              },
+              "tile_evaluations": 147456
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                256,
+                1024
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "input_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "resident_tiles": 32,
+              "valid_resident_bytes": 524288,
+              "allocated_tile_bytes": 524288
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ],
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 4096,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 12591104,
+          "Q_R": 1048576,
+          "RI": {
+            "numerator": 1537,
+            "denominator": 128
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 35667968,
+          "Q_R": 1048576,
+          "RI": {
+            "numerator": 2177,
+            "denominator": 64
+          },
+          "tile_evaluations": 294912
+        },
+        "appended_tokens": 1024,
+        "kv_copies_per_head": 1,
+        "group_size": 8,
+        "prefix_sum_i": 524800,
+        "prefix_sum_ceil_output": 4608,
+        "prefix_sum_ceil_input": 4608,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            1024,
+            256
+          ],
+          "V_matrix_N_K": [
+            256,
+            1024
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            256
+          ],
+          "V": [
+            256,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 1024,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 1048576,
+          "allocated_tile_bytes": 1048576,
+          "resident_tiles": 64,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_prefill/16384",
+      "model_id": "qwen36_35b_a3b",
+      "row": "attention_prefill",
+      "L": 16384,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 67108864,
+              "Q_R": 8388608,
+              "RI": 8,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4328521728,
+              "Q_R": 8388608,
+              "RI": 516,
+              "tile_evaluations": 33816576
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                16384,
+                256
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "input_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "resident_tiles": 512,
+              "valid_resident_bytes": 8388608,
+              "allocated_tile_bytes": 8388608
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 65536,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 2147614720,
+              "Q_R": 8388608,
+              "RI": {
+                "numerator": 16385,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4295229440,
+              "Q_R": 8388608,
+              "RI": {
+                "numerator": 16385,
+                "denominator": 32
+              },
+              "tile_evaluations": 33816576
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                256,
+                16384
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "input_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "resident_tiles": 512,
+              "valid_resident_bytes": 8388608,
+              "allocated_tile_bytes": 8388608
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ],
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 65536,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 2214723584,
+          "Q_R": 16777216,
+          "RI": {
+            "numerator": 16897,
+            "denominator": 128
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 8623751168,
+          "Q_R": 16777216,
+          "RI": {
+            "numerator": 32897,
+            "denominator": 64
+          },
+          "tile_evaluations": 67633152
+        },
+        "appended_tokens": 16384,
+        "kv_copies_per_head": 1,
+        "group_size": 8,
+        "prefix_sum_i": 134225920,
+        "prefix_sum_ceil_output": 1056768,
+        "prefix_sum_ceil_input": 1056768,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            16384,
+            256
+          ],
+          "V_matrix_N_K": [
+            256,
+            16384
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            256
+          ],
+          "V": [
+            256,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 16384,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 16777216,
+          "allocated_tile_bytes": 16777216,
+          "resident_tiles": 1024,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_prefill/131072",
+      "model_id": "qwen36_35b_a3b",
+      "row": "attention_prefill",
+      "L": 131072,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 536870912,
+              "Q_R": 67108864,
+              "RI": 8,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 275146342400,
+              "Q_R": 67108864,
+              "RI": 4100,
+              "tile_evaluations": 2149580800
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                131072,
+                256
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "input_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "resident_tiles": 4096,
+              "valid_resident_bytes": 67108864,
+              "allocated_tile_bytes": 67108864
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 524288,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 137440002048,
+              "Q_R": 67108864,
+              "RI": {
+                "numerator": 131073,
+                "denominator": 64
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 274880004096,
+              "Q_R": 67108864,
+              "RI": {
+                "numerator": 131073,
+                "denominator": 32
+              },
+              "tile_evaluations": 2149580800
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                256,
+                131072
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "input_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "resident_tiles": 4096,
+              "valid_resident_bytes": 67108864,
+              "allocated_tile_bytes": 67108864
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ],
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 524288,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 137976872960,
+          "Q_R": 134217728,
+          "RI": {
+            "numerator": 131585,
+            "denominator": 128
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 550026346496,
+          "Q_R": 134217728,
+          "RI": {
+            "numerator": 262273,
+            "denominator": 64
+          },
+          "tile_evaluations": 4299161600
+        },
+        "appended_tokens": 131072,
+        "kv_copies_per_head": 1,
+        "group_size": 8,
+        "prefix_sum_i": 8590000128,
+        "prefix_sum_ceil_output": 67174400,
+        "prefix_sum_ceil_input": 67174400,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            131072,
+            256
+          ],
+          "V_matrix_N_K": [
+            256,
+            131072
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            256
+          ],
+          "V": [
+            256,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 131072,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 134217728,
+          "allocated_tile_bytes": 134217728,
+          "resident_tiles": 8192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_decode/1024",
+      "model_id": "qwen36_35b_a3b",
+      "row": "attention_decode",
+      "L": 1024,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 512,
+              "RI": 8,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 32768,
+              "Q_R": 512,
+              "RI": 64,
+              "tile_evaluations": 256
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                256
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "resident_tiles": 32,
+              "valid_resident_bytes": 524288,
+              "allocated_tile_bytes": 524288
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 4,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 16384,
+              "Q_R": 512,
+              "RI": 32,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 32768,
+              "Q_R": 512,
+              "RI": 64,
+              "tile_evaluations": 256
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                256,
+                1024
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "input_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "resident_tiles": 32,
+              "valid_resident_bytes": 524288,
+              "allocated_tile_bytes": 524288
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ],
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 4,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 20480,
+          "Q_R": 1024,
+          "RI": 20,
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 65536,
+          "Q_R": 1024,
+          "RI": 64,
+          "tile_evaluations": 512
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 8,
+        "prefix_sum_i": 1024,
+        "prefix_sum_ceil_output": 8,
+        "prefix_sum_ceil_input": 8,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            1024,
+            256
+          ],
+          "V_matrix_N_K": [
+            256,
+            1024
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            256
+          ],
+          "V": [
+            256,
+            1
+          ]
+        },
+        "initial_KV_tokens": 1023,
+        "final_KV_tokens": 1024,
+        "initial_valid_resident_bytes": 1047552,
+        "capacity": {
+          "valid_resident_bytes": 1048576,
+          "allocated_tile_bytes": 1048576,
+          "resident_tiles": 64,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_decode/16384",
+      "model_id": "qwen36_35b_a3b",
+      "row": "attention_decode",
+      "L": 16384,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 512,
+              "RI": 8,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 512,
+              "RI": 1024,
+              "tile_evaluations": 4096
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                16384,
+                256
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "input_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "resident_tiles": 512,
+              "valid_resident_bytes": 8388608,
+              "allocated_tile_bytes": 8388608
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 4,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 262144,
+              "Q_R": 512,
+              "RI": 512,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 524288,
+              "Q_R": 512,
+              "RI": 1024,
+              "tile_evaluations": 4096
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                256,
+                16384
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "input_axis": {
+                "full_128_blocks": 128,
+                "tail_valid_elements": 0,
+                "blocks": 128
+              },
+              "resident_tiles": 512,
+              "valid_resident_bytes": 8388608,
+              "allocated_tile_bytes": 8388608
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ],
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 4,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 266240,
+          "Q_R": 1024,
+          "RI": 260,
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 1048576,
+          "Q_R": 1024,
+          "RI": 1024,
+          "tile_evaluations": 8192
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 8,
+        "prefix_sum_i": 16384,
+        "prefix_sum_ceil_output": 128,
+        "prefix_sum_ceil_input": 128,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            16384,
+            256
+          ],
+          "V_matrix_N_K": [
+            256,
+            16384
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            256
+          ],
+          "V": [
+            256,
+            1
+          ]
+        },
+        "initial_KV_tokens": 16383,
+        "final_KV_tokens": 16384,
+        "initial_valid_resident_bytes": 16776192,
+        "capacity": {
+          "valid_resident_bytes": 16777216,
+          "allocated_tile_bytes": 16777216,
+          "resident_tiles": 1024,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_decode/131072",
+      "model_id": "qwen36_35b_a3b",
+      "row": "attention_decode",
+      "L": 131072,
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 4096,
+              "Q_R": 512,
+              "RI": 8,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 512,
+              "RI": 8192,
+              "tile_evaluations": 32768
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                131072,
+                256
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "input_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "resident_tiles": 4096,
+              "valid_resident_bytes": 67108864,
+              "allocated_tile_bytes": 67108864
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  128
+                ]
+              ],
+              "logical_slice_write_events": 4,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 2097152,
+              "Q_R": 512,
+              "RI": 4096,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 4194304,
+              "Q_R": 512,
+              "RI": 8192,
+              "tile_evaluations": 32768
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                256,
+                131072
+              ],
+              "copies": 2,
+              "output_axis": {
+                "full_128_blocks": 2,
+                "tail_valid_elements": 0,
+                "blocks": 2
+              },
+              "input_axis": {
+                "full_128_blocks": 1024,
+                "tail_valid_elements": 0,
+                "blocks": 1024
+              },
+              "resident_tiles": 4096,
+              "valid_resident_bytes": 67108864,
+              "allocated_tile_bytes": 67108864
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ],
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 4,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 2101248,
+          "Q_R": 1024,
+          "RI": 2052,
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 8388608,
+          "Q_R": 1024,
+          "RI": 8192,
+          "tile_evaluations": 65536
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 8,
+        "prefix_sum_i": 131072,
+        "prefix_sum_ceil_output": 1024,
+        "prefix_sum_ceil_input": 1024,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            131072,
+            256
+          ],
+          "V_matrix_N_K": [
+            256,
+            131072
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            256
+          ],
+          "V": [
+            256,
+            1
+          ]
+        },
+        "initial_KV_tokens": 131071,
+        "final_KV_tokens": 131072,
+        "initial_valid_resident_bytes": 134216704,
+        "capacity": {
+          "valid_resident_bytes": 134217728,
+          "allocated_tile_bytes": 134217728,
+          "resident_tiles": 8192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "mimo_v25_pro/attention_prefill/1024",
+      "model_id": "mimo_v25_pro",
+      "row": "attention_prefill",
+      "L": 1024,
+      "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "selected_layer": 7,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 25165824,
+              "Q_R": 1572864,
+              "RI": 16,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 113246208,
+              "Q_R": 1572864,
+              "RI": 72,
+              "tile_evaluations": 1179648
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                192
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 64,
+                "blocks": 2
+              },
+              "resident_tiles": 128,
+              "valid_resident_bytes": 1572864,
+              "allocated_tile_bytes": 2097152
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  64
+                ]
+              ],
+              "logical_slice_write_events": 16384,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 67174400,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1025,
+                "denominator": 16
+              },
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 67174400,
+              "Q_R": 1048576,
+              "RI": {
+                "numerator": 1025,
+                "denominator": 16
+              },
+              "tile_evaluations": 589824
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                1024
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 8192,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 92340224,
+          "Q_R": 2621440,
+          "RI": {
+            "numerator": 1409,
+            "denominator": 40
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 180420608,
+          "Q_R": 2621440,
+          "RI": {
+            "numerator": 2753,
+            "denominator": 40
+          },
+          "tile_evaluations": 1769472
+        },
+        "appended_tokens": 1024,
+        "kv_copies_per_head": 1,
+        "group_size": 16,
+        "prefix_sum_i": 524800,
+        "prefix_sum_ceil_output": 4608,
+        "prefix_sum_ceil_input": 4608,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            1024,
+            192
+          ],
+          "V_matrix_N_K": [
+            128,
+            1024
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            192
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": 1024,
+        "initial_valid_resident_bytes": 0,
+        "capacity": {
+          "valid_resident_bytes": 2621440,
+          "allocated_tile_bytes": 3145728,
+          "resident_tiles": 192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    },
+    {
+      "case_id": "mimo_v25_pro/attention_decode/1024",
+      "model_id": "mimo_v25_pro",
+      "row": "attention_decode",
+      "L": 1024,
+      "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "selected_layer": 7,
+      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "result": {
+        "parts": {
+          "QK": {
+            "operator": {
+              "Q_S": 24576,
+              "Q_R": 1536,
+              "RI": 16,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 196608,
+              "Q_R": 1536,
+              "RI": 128,
+              "tile_evaluations": 2048
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                1024,
+                192
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "input_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 64,
+                "blocks": 2
+              },
+              "resident_tiles": 128,
+              "valid_resident_bytes": 1572864,
+              "allocated_tile_bytes": 2097152
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  1,
+                  128
+                ],
+                [
+                  1,
+                  64
+                ]
+              ],
+              "logical_slice_write_events": 16,
+              "events_are_not_device_write_transactions": true
+            }
+          },
+          "AV": {
+            "operator": {
+              "Q_S": 131072,
+              "Q_R": 1024,
+              "RI": 128,
+              "tile_evaluations": null
+            },
+            "ports": {
+              "Q_S": 131072,
+              "Q_R": 1024,
+              "RI": 128,
+              "tile_evaluations": 1024
+            },
+            "layout": {
+              "matrix_N_K_per_copy": [
+                128,
+                1024
+              ],
+              "copies": 8,
+              "output_axis": {
+                "full_128_blocks": 1,
+                "tail_valid_elements": 0,
+                "blocks": 1
+              },
+              "input_axis": {
+                "full_128_blocks": 8,
+                "tail_valid_elements": 0,
+                "blocks": 8
+              },
+              "resident_tiles": 64,
+              "valid_resident_bytes": 1048576,
+              "allocated_tile_bytes": 1048576
+            },
+            "append": {
+              "valid_slice_N_K_per_head_per_token": [
+                [
+                  128,
+                  1
+                ]
+              ],
+              "logical_slice_write_events": 8,
+              "events_are_not_device_write_transactions": true
+            }
+          }
+        },
+        "operator": {
+          "Q_S": 155648,
+          "Q_R": 2560,
+          "RI": {
+            "numerator": 304,
+            "denominator": 5
+          },
+          "tile_evaluations": null
+        },
+        "ports": {
+          "Q_S": 327680,
+          "Q_R": 2560,
+          "RI": 128,
+          "tile_evaluations": 3072
+        },
+        "appended_tokens": 1,
+        "kv_copies_per_head": 1,
+        "group_size": 16,
+        "prefix_sum_i": 1024,
+        "prefix_sum_ceil_output": 8,
+        "prefix_sum_ceil_input": 8,
+        "active_layout_at_L": {
+          "K_matrix_N_K": [
+            1024,
+            192
+          ],
+          "V_matrix_N_K": [
+            128,
+            1024
+          ]
+        },
+        "append_shape_per_kv_head": {
+          "K": [
+            1,
+            192
+          ],
+          "V": [
+            128,
+            1
+          ]
+        },
+        "initial_KV_tokens": 1023,
+        "final_KV_tokens": 1024,
+        "initial_valid_resident_bytes": 2618880,
+        "capacity": {
+          "valid_resident_bytes": 2621440,
+          "allocated_tile_bytes": 3145728,
+          "resident_tiles": 192,
+          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        }
+      }
+    }
+  ],
+  "minimal_mapping_contrast": {
+    "case": "qwen36_35b_a3b/attention_decode/1024",
+    "choice": "persist one KV copy per query head instead of one per KV head",
+    "main_reference_replaced": false,
+    "copy_multiplier": 8,
+    "reference": {
+      "ports": {
+        "Q_S": 65536,
+        "Q_R": 1024,
+        "RI": 64,
+        "tile_evaluations": 512
+      },
+      "operator": {
+        "Q_S": 20480,
+        "Q_R": 1024,
+        "RI": 20,
+        "tile_evaluations": null
+      }
+    },
+    "replicated": {
+      "ports": {
+        "Q_S": 65536,
+        "Q_R": 8192,
+        "RI": 8,
+        "tile_evaluations": 512
+      },
+      "operator": {
+        "Q_S": 20480,
+        "Q_R": 8192,
+        "RI": {
+          "numerator": 5,
+          "denominator": 2
+        },
+        "tile_evaluations": null
+      }
+    },
+    "reference_capacity_bytes": 1048576,
+    "replicated_capacity_bytes": 8388608,
+    "interpretation": "same input receiver demand and evaluation calls, more writes/state; no parallelism or time claim"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "status": "Step 1已通过；Step 2完成，待审阅",
+  "status": "Step 2已通过；Step 3完成，待审阅",
   "as_of": "2026-09-24",
   "checkpoint_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "actual_start_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
@@ -152,7 +152,7 @@
       "configuration",
       "derivation"
     ],
-    "build": "symbolic templates only in Step 2; formal model results and independent table compilation are not started"
+    "build": "Step 3 pilot complete: Ministral and Qwen3.6 each 10 cases; MiMo attention L=1024 only; full six-model table and Step 4 not started"
   },
   "selection_rules": [
     "Keep the six models in fixed order; no substitution or ranking.",
@@ -173,12 +173,13 @@
     {
       "step": 2,
       "title": "共享方法与通用端点",
-      "status": "完成，待审阅"
+      "status": "已通过",
+      "reviewed_revision": "2eb7e7c59242c675594537002cc1316131be9226"
     },
     {
       "step": 3,
       "title": "少量真实模型试算",
-      "status": "未启动"
+      "status": "完成，待审阅"
     },
     {
       "step": 4,
@@ -204,13 +205,14 @@
     "reviewed_step1_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9",
     "actual_start_head": "d60bc32ff83f1ab48cae0ffd106ebd9df46940d0",
     "initial_worktree": "clean",
-    "status": "完成，待审阅",
+    "status": "已通过",
     "reference_id": "WS128-INT8-semantic-banks-v1",
     "conventions": "../shared/data/conventions.json",
     "method_pdf": "../shared/output/counting_method.zh.pdf",
     "table_IIa_data": "../table_IIa/data/results.json",
     "table_IIa_pdf": "../table_IIa/output/table_IIa.pdf",
-    "table_IIb_model_results": "not started"
+    "table_IIb_model_results": "Step 2 historical scope: not started; Step 3 pilot status recorded separately",
+    "reviewed_revision": "2eb7e7c59242c675594537002cc1316131be9226"
   },
   "step2_reference": {
     "streaming_precision": "INT8 logical reference, 1 Byte/element; role widths retained symbolically",
@@ -219,5 +221,34 @@
     "attention_coefficient_precision": "nonnegative subset of signed INT8, 1 Byte/element; re-quantized after softmax",
     "mapping_and_counting_rules": "128x128 independent semantic-matrix tile banks; ports primary, operator-stage shared-input frontier contrast; fixed residency and causal prefix append",
     "native_precision_records": "models.json unchanged; the selected INT8 reference is not an accuracy claim"
+  },
+  "step3": {
+    "status": "完成，待审阅",
+    "actual_start_head": "2eb7e7c59242c675594537002cc1316131be9226",
+    "initial_worktree": "clean",
+    "reference_id": "WS128-INT8-semantic-banks-v1",
+    "full_pilot_models": [
+      "ministral3_8b_2512",
+      "qwen36_35b_a3b"
+    ],
+    "spot_check": {
+      "model": "mimo_v25_pro",
+      "L": 1024,
+      "rows": [
+        "attention_prefill",
+        "attention_decode"
+      ]
+    },
+    "main_case_count": 22,
+    "boundary_check_L": [
+      1,
+      127,
+      128,
+      129
+    ],
+    "step1_step2_changes": "none; raw structure and independent tile/event checks support existing reference",
+    "pilot_root": "../table_IIb/pilot/",
+    "review": "../STEP3_REVIEW.zh.md",
+    "stop": "Step 3 review; do not start Step 4"
   }
 }

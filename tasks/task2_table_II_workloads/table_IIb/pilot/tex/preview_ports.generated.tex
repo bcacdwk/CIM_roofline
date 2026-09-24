@@ -1,0 +1,7 @@
+\begin{tabular}{@{}lll@{}}\toprule
+Workload & Ministral 3 8B (2512) & Qwen3.6-35B-A3B\\\midrule
+QKV Projection & $\infty$ & $\infty$\\[4pt]
+FFN / MoE & $\frac{1}{16},\;\frac{1}{2},\;4$ & $\frac{1}{16},\;\frac{1}{2},\;4$\\[4pt]
+Attention Prefill & $\frac{2177}{128},\;\frac{32897}{128},\;\frac{262273}{128}$ & $\frac{2177}{64},\;\frac{32897}{64},\;\frac{262273}{64}$\\[4pt]
+Attention Decode & $32,\;512,\;4096$ & $64,\;1024,\;8192$\\[4pt]
+\bottomrule\end{tabular}

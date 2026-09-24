@@ -1,13 +1,13 @@
 # Task II：resident–streaming 模型与矩阵工作量
 
-**状态：Step 1已通过；Step 2完成，待审阅。** 本轮日期：2026-09-24。
+**状态：Step 2已通过；Step 3完成，待审阅。** 本轮日期：2026-09-24。
 
 本任务建立模型无关的驻留端点，以及六个固定 LLM 的真实矩阵阶段需求。重点是操作数角色、状态写入与驻留复用。分析只覆盖语言主干矩阵子层，不进行端到端性能、精度、硬件仿真、完整训练建模或器件适配排名。
 
 ## 阅读入口
 
-1. [Step 2 审阅](STEP2_REVIEW.zh.md)：本轮选择、端点结果、符号模板与验证结论。
-2. [中文共享方法 PDF](shared/output/counting_method.zh.pdf) / [TeX](shared/tex/counting_method.zh.tex) / [共享入口](shared/README.md)。
+1. [Step 3 审阅](STEP3_REVIEW.zh.md)、[中文试算 PDF](table_IIb/pilot/output/pilot.zh.pdf) / [TeX](table_IIb/pilot/tex/pilot.zh.tex)、[两模型四行预览](table_IIb/pilot/PREVIEW.md)、[试算与复算入口](table_IIb/pilot/README.md)。
+2. [Step 2 审阅原稿](STEP2_REVIEW.zh.md)、[中文共享方法 PDF](shared/output/counting_method.zh.pdf) / [TeX](shared/tex/counting_method.zh.tex) / [共享入口](shared/README.md)。
 3. [Table II(a) 英文 PDF](table_IIa/output/table_IIa.pdf) / [独立入口](table_IIa/README.md) / [可复用片段](table_IIa/tex/table_fragment.tex) / [精确数据](table_IIa/data/results.json)。
 4. [研究配置](data/study_plan.json) 与 [共享机器约定](shared/data/conventions.json)：固定 B、L、表格设计、精度、双边界、窗口与公式。
 5. [模型结构数据](data/models.json)、[来源清单](data/sources.json) 与 [Step 1 审阅原稿](STEP1_REVIEW.zh.md)：已经审阅的固定模型/原始证据。原件中的历史状态及精度待定字段不重写，本轮状态以本 README/研究配置为准，计数精度以共享约定为准。
@@ -24,7 +24,7 @@
 
 ## 起点与已完成基线
 
-Step 1 已通过，审阅提交为 `e95de9e213d3dd0db9208459b07ce48152f102c9`。本轮实际本地起点 HEAD 为 `d60bc32ff83f1ab48cae0ffd106ebd9df46940d0`，工作区干净，不回退。全部修改局限本任务目录；本轮不暂存、提交、推送或重置 Git。
+Step 1 已通过，审阅提交为 `e95de9e213d3dd0db9208459b07ce48152f102c9`。Step 2 已通过，审阅提交与本轮 Step 3 实际起点 HEAD 均为 `2eb7e7c59242c675594537002cc1316131be9226`，工作区干净，不回退。全部修改局限本任务目录；本轮不暂存、提交、推送或重置 Git。Step 2 的起点 `d60bc32ff83f1ab48cae0ffd106ebd9df46940d0` 及审阅原稿作为历史保留。
 
 Step 1 最初检查点为 `81b7c332c20b9b5be6890256e9cf0d3edab12785`，其原审阅记录和原始资料均保留。
 
@@ -62,19 +62,21 @@ Q_S 是窗口内经过声明 streaming 输入边界并被服务的逻辑操作�
 
 驻留策略、B、L 是本研究选定工况，不是需要从模型报告验证的部署事实。主表优先突出 RI，适用行依既定 B/L 顺序显示三个值；完整 Q_S、Q_R、RI、配置与推导后续保存在底稿/机器数据中。
 
-两个子表独立制备、独立编译。Table II(a) 的精确数值与独立英文表格本轮已完成；Table II(b) 仅在共享方法中建立四类符号模板和少量合成检查，六模型正式结果仍未开始。
+两个子表独立制备、独立编译。Table II(a) 的精确数值与独立英文表格已通过 Step 2 审阅。本轮在 `table_IIb/pilot/` 完成 Ministral 3 8B（2512）与 Qwen3.6-35B-A3B 各 10 个汇总工况，MiMo-V2.5-Pro 仅计算 L=1024 的 Prefill/Decode，共 22 条主数据；独立中文稿中包含两主模型四行英文预览。六模型正式汇总、Step 4 分析仍未开始。
+
+试算支持保持 Step 1 提取和共享方法 `WS128-INT8-semantic-banks-v1`。两主模型 FFN 的局部 RI 同为 B/128，但容量与总局部需求相差 56 倍；同 L Attention 的局部输入和调用恰好相同，Qwen 的 KV 写入为一半，RI 为两倍。MiMo 保留 192=128+64 的输入尾片，区分有效字节与完整调用。全部原始 Byte、精确分数、分项、容量和追加形状见 [试算数据](table_IIb/pilot/data/results.json)，方法适用条件与最小映射对照见 [Step 3 审阅](STEP3_REVIEW.zh.md)。
 
 ## 五阶段与后续目录
 
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | Step 1 | 固定六模型、结构参数及本地资料 | 已通过（e95de9e） |
-| Step 2 | 共享方法与通用驻留端点 | **完成，待审阅** |
-| Step 3 | 少量真实模型试算 | 未启动 |
+| Step 2 | 共享方法与通用驻留端点 | 已通过（2eb7e7c） |
+| Step 3 | 少量真实模型试算 | **完成，待审阅** |
 | Step 4 | 分类并行分析 | 未启动 |
 | Step 5 | 统一复核与英文表格 | 未启动 |
 
-`shared/` 已保存统一计数方法、符号模板和轻量检查；`table_IIa/` 已保存精确数据、片段及独立 TeX/PDF。`table_IIb/` 的正式推导结果与表格留待后续，当前不创建占位模型结果。`literature/00_shared/` 的共同原始资料只存一份，模型卡以相对路径引用。
+`shared/` 已保存统一计数方法、符号模板和轻量检查；`table_IIa/` 已保存精确数据、片段及独立 TeX/PDF。`table_IIb/pilot/` 保存本轮试算材料，其余模型正式结果留待后续。`literature/00_shared/` 的共同原始资料只存一份，模型卡以相对路径引用。
 
 ## 本地可用性与检查
 
@@ -93,4 +95,13 @@ TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/shared/
 
 原始资料仍可运行 `scripts/check_step1.py` 验证。Step 1 的 [原核验记录](data/step1_validation.json) 作为历史保留；本轮未更改其模型/来源原件，也未借本轮状态更新重写已审阅的数据。
 
-**停止点：等待用户审阅；不启动 Step 3 或 Table II(b) 六模型批量计数。**
+Step 3 复算、独立检查与编译：
+
+```sh
+TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/table_IIb/pilot/scripts/build.sh
+/opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/pilot/scripts/render.py
+```
+
+22 个主工况、12 个真实 head 边界点、7 个主长度前缀差量与原始结构审计通过。9 页试算 PDF 已逐页查看，见 [核验记录](table_IIb/pilot/data/pdf_qa.json)。原始资料、Step 1/2 计数文件和 Table II(a) 未改；旧文件中的历史状态不覆盖本 README 与研究配置的当前状态。
+
+**停止点：Step 3 完成待审阅；无明确阻塞，审阅通过后具备进入 Step 4 的条件。本轮不启动 Step 4 或剩余模型计数。**

@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "date": "2026-09-24",
+  "pdf": "output/pilot.zh.pdf",
+  "sha256": "acd6653de802bd2848fa9a04d34a9d6894ea7cd54fb449d6ab8a7ae2a35e1e71",
+  "pages": 9,
+  "renderer": "pypdfium2, 1.5x, all pages viewed as PNGs",
+  "visual_inspection": "all 9 final rendered pages inspected; no clipping, overlap, missing glyphs or unreadable formulas/tables",
+  "page_reviews": [
+    {
+      "page": 1,
+      "pass": true,
+      "note": "两套四行英文 RI 预览、固定 B/L 顺序、精确分数可读",
+      "render_sha256": "f5a7a47f10d112d98776d7f8284188bf59b44e534e45ff43b666681af8364c6b"
+    },
+    {
+      "page": 2,
+      "pass": true,
+      "note": "三模型完整 revision、结构参数与角色交接可读",
+      "render_sha256": "4726ff0f5d0d466d2b54bf42cf8ee7f4defd57ddc23d198fba0b6e77c1ae5404"
+    },
+    {
+      "page": 3,
+      "pass": true,
+      "note": "QKV 分项、gate 与双边界汇总无裁切",
+      "render_sha256": "7d765e162877f8704ffd9b756d6afedb75c6f871d5b8c18c8a887a70071c98cd"
+    },
+    {
+      "page": 4,
+      "pass": true,
+      "note": "FFN 三矩阵分项、B/128 抵消推导可读",
+      "render_sha256": "11cf3da334fd2aec4449b5a9dbcdc185f15b6d91bbbfc5316420c266533bb0cb"
+    },
+    {
+      "page": 5,
+      "pass": true,
+      "note": "Prefill 代入、尾块说明及128K数字可读",
+      "render_sha256": "34abb5c4997a9df6a24b40abe800b4bfd71c6fa4832650761abc05895ec3f468"
+    },
+    {
+      "page": 6,
+      "pass": true,
+      "note": "Decode 追加与窗口关系公式可读",
+      "render_sha256": "5c21e88a5f7e48e2fcca34bc12da4c9cdc6381094b07808d95db34e6a2b8103d"
+    },
+    {
+      "page": 7,
+      "pass": true,
+      "note": "MiMo 192=128+64、分项表、字节和调用均可读",
+      "render_sha256": "613f75b58bfb6fbae31d812d436ccbc0cd07c8aa8c623759793f81887c5db115"
+    },
+    {
+      "page": 8,
+      "pass": true,
+      "note": "独立检查、复制KV对照与适用条件可读",
+      "render_sha256": "b81f4a4756c42ad0b86c7646df30a38cdb1d917a1bbb376629396f9763f8eac8"
+    },
+    {
+      "page": 9,
+      "pass": true,
+      "note": "修复长路径溢出后，证据定位、产物索引及命令可读",
+      "render_sha256": "3da5cfef7581a5ff262c221a7b8b964cb20c183d3e135041535db21fd33ec3c0"
+    }
+  ],
+  "latex_log": {
+    "overfull": 0,
+    "missing_glyphs": 0,
+    "undefined_references": 0,
+    "underfull_hbox_count": 2,
+    "underfull_note": "Two line-spacing notices on pages 1-2; inspected text readable, no overflow."
+  },
+  "source_sha256": {
+    "tex/pilot.zh.tex": "3567e630581d0a2ada6c678ee2828be5cf48a763d6cbf3074610e455c405748c",
+    "tex/preview_operator.generated.tex": "a6d6874673879829a675b5b8ffdd5d9b5a773df02571c388a122a0652f3ae1f1",
+    "tex/preview_ports.generated.tex": "2df130893151be1f89cebb651c684161435af2f9977c990c689edfb3bcfa55c9"
+  }
+}
