@@ -1,0 +1,107 @@
+{
+  "schema_version": "step4-delivery-v1",
+  "status": "ready_for_review",
+  "delivery_revision": 1,
+  "owner": "Agent D / independent crosscheck and unified data",
+  "date": "2026-09-25",
+  "directory": "table_IIb/04_crosscheck",
+  "path_base": "this DELIVERY.json directory",
+  "case_count": 60,
+  "semantic_matrix_part_count": 146,
+  "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+  "reviewed_step3_and_start_HEAD": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+  "upstream_ready_revisions": {
+    "01_qkv_projection": 2,
+    "02_ffn_moe": 2,
+    "03_attention": 1
+  },
+  "artifacts": [
+    {
+      "path": "data/results.json",
+      "role": "results",
+      "sha256": "c31af181f16bba59b12690d00f4ac16cd022941acd036630b405bd20aaea2612",
+      "bytes": 1386236
+    },
+    {
+      "path": "data/results.csv",
+      "role": "csv",
+      "sha256": "9bbeff604007b45bf73dc5af7272c9387e3975613622217671d3000dd5c01a47",
+      "bytes": 202411
+    },
+    {
+      "path": "data/config.json",
+      "role": "supporting",
+      "sha256": "9d737e152e7dd037bc468334c37bd29208118a0087cfc0691ff7763283455da8",
+      "bytes": 18173
+    },
+    {
+      "path": "data/checks.json",
+      "role": "checks",
+      "sha256": "9235dd1f9603f9938c22ae5629e0581985e73add84102f84d2e0d0e8267ea715",
+      "bytes": 13925
+    },
+    {
+      "path": "data/ready_sources.json",
+      "role": "supporting",
+      "sha256": "054f14fcbcd6cdff347f695a8dbc886ee2d5102818874c25e056c2777cbd9307",
+      "bytes": 818
+    },
+    {
+      "path": "PREVIEW.zh.md",
+      "role": "preview",
+      "sha256": "63c4fd9f90dbb18f0ff55ecc171a65a9a9b5c45390e6f099f118b0d2f141779c",
+      "bytes": 2989
+    },
+    {
+      "path": "REVIEW.zh.md",
+      "role": "review",
+      "sha256": "9b292a1c601011f3f8f2f849d02f37cc6b735e92548ae8a6803ac9c899da1a71",
+      "bytes": 9512
+    },
+    {
+      "path": "README.md",
+      "role": "readme",
+      "sha256": "8620af636771aa409aa32bd6afdbf5e0e588152b749f33f6cd385735f8f288e0",
+      "bytes": 3675
+    },
+    {
+      "path": "scripts/crosscheck.py",
+      "role": "supporting",
+      "sha256": "f7843b739bbebe40fa2c24d6c073ce0928cddd7936316d835dbafb6132e07950",
+      "bytes": 29768
+    },
+    {
+      "path": "scripts/verify_delivery.py",
+      "role": "supporting",
+      "sha256": "5f96e5385113f08aecc2904ed22e1adb9a17100bcb0e2d9c399de8049cb05f40",
+      "bytes": 799
+    },
+    {
+      "path": ".gitignore",
+      "role": "supporting",
+      "sha256": "2cae96528790eb0f0b82472c64605fe92c7d9dbc65eb5f5230e920cbf5f2e9fe",
+      "bytes": 24
+    }
+  ],
+  "reproduction_commands_from_repository_root": [
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/04_crosscheck/scripts/crosscheck.py",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/04_crosscheck/scripts/verify_delivery.py"
+  ],
+  "validation": {
+    "independent_result_leaf_checks": 29122,
+    "pilot_overlap_cases": 22,
+    "pilot_existing_semantic_leaf_checks": 3787,
+    "pilot_differences": 0,
+    "csv_data_rows": 412,
+    "csv_columns": 30,
+    "upstream_artifact_hashes_verified": 52,
+    "read_only_regressions_passed": 5,
+    "raw_source_hashes_verified": 50,
+    "step1_local_links_checked": 126,
+    "protected_tracked_files_unchanged": true,
+    "scientific_study_plan_unchanged": true,
+    "upstream_data_changes_required": false,
+    "production_imports_for_oracle": false
+  },
+  "review_note": "READY is internal handoff; awaits main Agent final acceptance and user review. No PDF generated, no upstream data modified, no Step 5 work."
+}

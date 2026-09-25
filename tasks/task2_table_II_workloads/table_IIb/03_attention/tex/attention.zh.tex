@@ -1,0 +1,244 @@
+\documentclass[UTF8,a4paper,11pt]{ctexart}
+\usepackage[margin=22mm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,tabularx,hyperref,xurl,fancyhdr}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,pdftitle={六模型 Attention：驻留与输入需求}}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{Task II · Step 4 · Attention}\fancyhead[R]{2026-09-25}\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}
+\newcommand{\qs}{{Q_{\mathrm S}}}\newcommand{\qr}{{Q_{\mathrm R}}}\newcommand{\ri}{\mathrm{RI}}
+\newcommand{\op}{\mathrm{operator}}\newcommand{\ports}{\mathrm{ports}}
+\newcommand{\para}[1]{\par\textbf{#1}\quad}
+\begin{document}
+\begin{center}{\LARGE 六模型 Attention 的驻留与输入需求}\par\vspace{3mm}
+{\large 逐前缀 Prefill 与单步 Decode：36 个精确工况}\par
+\texttt{WS128-INT8-semantic-banks-v1}\end{center}
+\section{对象、窗口与六模型概览}
+本文采用已审阅 Step 3 版本（\texttt{e472a0d}）的共同方法，取六模型各一个既定完整/global GQA 子层。
+每模型包含 Prefill、Decode 各 $L=1024,16384,131072$，共 36 个工况；$1\mathrm K=1024$。
+这些层型选择不代表全模型。Qwen 的线性 Attention、MiMo 的 SWA、视觉/音频、MTP、embedding、LM head 均不展开。
+
+\begin{center}\small
+\begin{tabular}{@{}lrrrrrl@{}}\toprule
+模型 & 层号 & $H_q$ & $H_{kv}$ & $d_{QK}$ & $d_V$ & $g=H_q/H_{kv}$\\\midrule
+Qwen3.5-2B & 3 & 8 & 2 & 256 & 256 & 4\\
+Ministral 3 8B (2512) & 0 & 32 & 8 & 128 & 128 & 4\\
+Qwen3.6-35B-A3B & 3 & 16 & 2 & 256 & 256 & 8\\
+Tencent Hy3 (295B) & 1 & 64 & 8 & 128 & 128 & 8\\
+Ling-1T & 4 & 64 & 8 & 128 & 128 & 8\\
+MiMo-V2.5-Pro & 7 & 128 & 8 & 192 & 128 & 16\\\bottomrule
+\end{tabular}\end{center}
+层号从 0 起。$H_q,H_{kv},d_{QK},d_V$ 独立保留，不用 hidden size 反推头宽。
+Qwen 原生 output gate 是 Attention 输出后的门控，不增加 query head 或 KV 状态。
+MiMo global 层没有 sink token，Value 在写入缓存前乘 $0.612$；这些处理保留于数字交接。
+
+\para{研究窗口} Prefill 从本段空状态开始，依次写入 token $i$ 的 K/V，再对可见前缀 $1{:}i$ 完成所有 query heads 的 QK 和 AV，直到 $L$。
+Decode 初态已有 $L-1$ 个 token，只追加一个，再以可见长度 $L$ 求值。
+两个窗口最终容量相同，累计写入不同；不能将最终容量直接当作 Decode 的 $\qr$。
+
+\para{精度与边界} 共同参考是 $128\times128$ 的独立语义 tile bank，各角色为 INT8、每元素 1 Byte。
+ports 累计每个 tile 接收的有效输入，作为主口径；operator 累计整矩阵阶段入口，作为对照。
+$\ri=\qs/\qr$ 分别在各自边界求比，不平均分项 RI。
+原生 BF16/FP8 声明保留在来源中；本稿不构成六模型 INT8 精度验证。
+
+\para{上下文条件} 除 Ling 外，固定 checkpoint 的最大位置长度覆盖三档 $L$。
+Ling 原始 config 为 32768，128K 仅在官方 YaRN 条件下纳入：factor=$4$、original\_max\_position\_embeddings=$32768$、type=yarn，并设置运行端 \texttt{--max-model-len 131072}。
+原始 config 不改；不重新裁定 RoPE 实现差异，也不声称已验证长上下文质量。
+
+\clearpage
+\section{两种 resident 方向与精确计数}
+对于每个 KV head，列向量写法为
+\[
+\mathcal K_i\in\mathbb R^{i\times d_{QK}},\qquad
+\mathcal V_i\in\mathbb R^{d_V\times i},\qquad
+s_i=\mathcal K_i q_i,\quad o_i=\mathcal V_i p_i.
+\]
+K 沿序列行增长，V 沿序列列增长。每 KV head 只保留一份状态，由组内 $g$ 个 query heads 共享；每个 query head 的 query 和系数向量仍分别计数。
+\texttt{repeat\_kv} 的求值广播不等于额外持久副本。
+
+\para{一次追加} 每 KV head 写入 K 的 $1\times d_{QK}$ 行和 V 的 $d_V\times1$ 列。
+K 行按输入块切为 $1\times k_b$；V 列按输出块切为 $n_a\times1$。
+固定绝对 token 坐标，旧 token 不移动、不重写，跨 tile 时只写新有效元素。
+\[
+\Delta\qr_K=H_{kv}d_{QK},\qquad \Delta\qr_V=H_{kv}d_V.
+\]
+设 $c(x)=\lceil x/128\rceil$。一个可见前缀 $i$ 的分项为：
+\begin{center}\small
+\begin{tabular}{@{}lrrr@{}}\toprule
+任务 & $\qs^{\op}(i)$ & $\qs^{\ports}(i)$ & tile 调用 $C(i)$\\\midrule
+QK & $H_qd_{QK}$ & $H_qd_{QK}c(i)$ & $H_qc(i)c(d_{QK})$\\[5pt]
+AV & $H_qi$ & $H_qi c(d_V)$ & $H_qc(d_V)c(i)$\\\bottomrule
+\end{tabular}\end{center}
+所有字节宽度在本次代入为 1；符号角色 $b_q,b_p,b_K,b_V$ 对应 query、系数、K、V，通式见共享方法。
+QK 输出 scores 不另加一次输入；softmax 后系数在 AV 入口计入。QK 与 AV 是不同输入身份，operator 汇总无共享输入扣除，数据中显式保存扣除量 0。
+
+令 $L=128m+r$、$0\le r<128$，定义
+\[
+P(L)=\frac{L(L+1)}2,\qquad S(L)=64m(m+1)+(m+1)r.
+\]
+Prefill 的累计需求为
+\begin{align*}
+\qs^{\ports}_{\rm pre}&=H_q[d_{QK}S(L)+c(d_V)P(L)],\\
+\qs^{\op}_{\rm pre}&=H_q[Ld_{QK}+P(L)],\\
+\qr_{\rm pre}&=LH_{kv}(d_{QK}+d_V),\\
+C_{\rm pre}&=H_q[c(d_{QK})+c(d_V)]S(L).
+\end{align*}
+Decode 取上表 $i=L$ 的两项和，写入仅为 $H_{kv}(d_{QK}+d_V)$。
+分项字节、分项 RI 与调用均保存于 JSON，不因汇总而消失。
+这里没有分配 $L\times L$ Attention 矩阵，没有以 $L^2/2$ 近似三角和。
+
+\clearpage
+\section{代表代入：共享组与不等宽头}
+\para{Qwen3.6，$L=1024$} 取 $(H_q,H_{kv},d_{QK},d_V)=(16,2,256,256)$，
+$P(1024)=524800$，$S(1024)=4608$，$c(256)=2$。
+Prefill 的 QK/AV ports 输入分别为
+\[
+16\cdot256\cdot4608=18874368,\quad
+16\cdot2\cdot524800=16793600\ \mathrm{Byte}.
+\]
+两项写入均为 $1024\cdot2\cdot256=524288$ Byte；调用均为 $147456$。
+因此 ports 汇总 $(\qs,\qr,C)=(35667968,1048576,294912)$，$\ri=2177/64$。
+operator 输入则为 $4194304+8396800=12591104$ Byte，$\ri=1537/128$。
+
+Decode 的 QK/AV ports 输入分别为 $32768/32768$ Byte，写入 $512/512$ Byte，调用 $256/256$；
+汇总为 $(65536,1024,512)$，$\ri=64$。
+operator 是 $4096+16384=20480$ Byte，$\ri=20$。
+初态有效 KV 为 $1023\cdot1024=1047552$ Byte，最终为 $1048576$ Byte；新增 $\qr=1024$ Byte。
+
+\para{Ministral 与 Qwen3.6} 同一 $L$ 下两者的 ports 输入和调用逐项相同：
+$H_qd_{QK}=4096$，$H_qc(d_V)=32$，QK/AV 的调用因子均为 32。
+Ministral 每 token KV 写入为 2048 Byte，Qwen3.6 为 1024 Byte，所以后者 ports RI 恰好加倍。
+两模型 operator 输入不同，因为该边界不把 AV 输入按输出块重放。
+
+\para{MiMo 的 $192=128+64$} $L=1024$ Decode 的 QK 输入为
+$128\cdot192\cdot8=196608$ Byte，AV 为 $128\cdot1024=131072$ Byte。
+QK 的 2048 次调用中，1024 次接收 128 Byte，1024 次接收 64 Byte；AV 另有 1024 次 128 Byte 调用。
+完整汇总为 $(327680,2560,3072)$，ports RI=$128$，operator RI=$304/5$。
+
+对应 Prefill：QK ports 为 $113246208$ Byte，AV 为 $67174400$ Byte；写入分别 $1572864/1048576$ Byte，调用分别 $1179648/589824$。
+汇总 $(180420608,2621440,1769472)$，ports RI=$2753/40$；operator 输入 $92340224$ Byte，RI=$1409/40$。
+
+\para{尾片的含义} K 每次追加分为 $1\times128$ 与 $1\times64$，V 为 $128\times1$。
+有效 payload 只计实际 192 维，完整 tile 与调用仍按两个输入块计；不把半宽尾片换成半次调用，不推断服务时间减半。
+
+\clearpage
+\section{36 工况的 ports 主结果}
+\begin{center}\small\setlength{\tabcolsep}{12pt}\input{ports.generated.tex}\end{center}
+上表只呈现 RI。对应精确 Byte、调用、QK/AV 分项和布局均在 \path{data/results.json} 与 \path{data/results.csv}。
+Qwen3.5/Ministral 相同 RI 并不意味着相同总需求；相同 $L$ 时后者 ports 输入、写入、容量与调用均是前者两倍。
+Qwen3.6/Hy3/Ling 的 ports RI 也相同，但 Hy3/Ling 的 ports 输入、写入、容量、调用是 Qwen3.6 两倍。
+Hy3 与 Ling 的四个 Attention 头参数完全相同，所以在此单层参考内两边界结果相同。
+
+\clearpage
+\section{operator 对照：相同主比值下的入口差异}
+\begin{center}\small\setlength{\tabcolsep}{12pt}\input{operator.generated.tex}\end{center}
+operator 保留各阶段真实入口。Qwen 的 $d_V=256$ 使 AV 的同一系数在 ports 被两个输出块接收，operator 只记一次；Ministral、Hy3、Ling 和 MiMo 的 $d_V=128$ 无此倍数。
+因此 ports 相同 RI 的模型组在 operator 下仍可能不同，不能用 operator 的 $\qs$ 除以其它边界选择下的分母或平均分项 RI。
+
+\clearpage
+\section{容量、追加与窗口关系}
+\para{最终有效容量与完整 tile 槽位} 设 $R_1=H_{kv}(d_{QK}+d_V)$ Byte。
+Prefill 初始有效容量为 0，Decode 为 $(L-1)R_1$；两者最终有效容量均为 $LR_1$。
+最终 resident tile 数为
+\[
+H_{kv}[c(L)c(d_{QK})+c(d_V)c(L)],
+\]
+完整分配容量为该数乘 16384 Byte。JSON 同时保存初始/最终有效容量、初始/最终活跃 tile 的完整槽位，以及按有效形状的 tile 直方图。
+初始槽位字段描述当时活跃 tile 覆盖，不额外假定运行端何时物理预分配全部最终槽位。
+
+\begin{center}\small
+\begin{tabular}{@{}lrrrr@{}}\toprule
+模型 & $R_1$ (Byte) & 1K 有效 MiB & 1K 分配 MiB & 1K tile 数\\\midrule
+Qwen3.5-2B & 1024 & 1 & 1 & 64\\
+Ministral 3 8B & 2048 & 2 & 2 & 128\\
+Qwen3.6-35B-A3B & 1024 & 1 & 1 & 64\\
+Tencent Hy3 & 2048 & 2 & 2 & 128\\
+Ling-1T & 2048 & 2 & 2 & 128\\
+MiMo-V2.5-Pro & 2560 & 2.5 & 3 & 192\\\bottomrule
+\end{tabular}\end{center}
+$1\mathrm{MiB}=1048576$ Byte。16K 和 128K 的最终有效容量、完整分配容量和 tile 数分别是 1K 的 16 倍和 128 倍。
+MiMo 128K 的有效容量为 320 MiB、完整槽位 384 MiB；差值来自每个 K 输入方向的 64 维尾片，不是额外有效 KV。
+
+\para{有效尾块不只出现在 MiMo} 三档最终 $L$ 都整除 128，但 Prefill 中间前缀经过所有序列尾宽 1--127；Decode 初态的 $L-1$ 亦有 127 token 尾块。
+分项 \texttt{valid\_N\_K\_call\_histogram} 保存实际求值的有效形状，\texttt{layout} 保存最终驻留形状，\texttt{append} 保存新片写入形状与次数，三者分别记录。
+切片次数是逻辑写入事件数，不是介质写事务数。
+
+\para{窗口衔接} 对每项及汇总，两个边界分别满足
+\[
+\qs_{\rm pre}(L)-\qs_{\rm pre}(L-1)=\qs_{\rm dec}(L),\qquad
+\qr_{\rm pre}(L)-\qr_{\rm pre}(L-1)=\qr_{\rm dec}(L),
+\]
+调用数也满足同样差量；RI 本身不做差量相减。
+在前五个等宽模型、$L$ 整除 128 时，ports 有
+\[
+\frac{\qs_{\rm pre}}{\qs_{\rm dec}}=\frac{2L+129}{4},\quad
+\frac{\qr_{\rm pre}}{\qr_{\rm dec}}=L,\quad
+\frac{\ri_{\rm pre}}{\ri_{\rm dec}}=\frac{2L+129}{4L}.
+\]
+MiMo 的相应输入比是 $(5L+386)/10$，RI 比为 $(5L+386)/(10L)$，体现不等宽 QK/V 的影响。
+
+\clearpage
+\section{独立复算、回归与使用限制}
+\para{主计算} \path{scripts/generate.py} 从固定 \path{data/models.json} 提取六模型原生参数，调用共享闭式 API；36 条结果重新生成，未复制 pilot 数据。
+角色精度、tile 形状、模型序与三档 $L$ 在入口断言。
+整数不先转浮点；非整数分数保存为 numerator/denominator 对。
+
+\para{独立预期值} \path{scripts/check.py} 不导入主生成脚本或共享计数函数。
+它重新读取六份原始 config 和 checkpoint metadata，并核对固定实现中的头宽、共享组、cache update、global/SWA 分支及 Value 缩放定位。
+数值预期按绝对序列 tile 反向累加：一个 tile 从首次出现到填满，依次贡献每个部分宽度；填满后在其余前缀继续使用。
+再与真实 QK 输入块、AV 输出块笛卡尔组合，汇总有效输入宽度与调用。
+追加单独遍历新 token 和维度切片，容量由真实 tile 有效面积相加；均不调用生产闭式。
+
+\begin{center}\small
+\begin{tabular}{@{}lrp{91mm}@{}}\toprule
+检查 & 数量 & 范围\\\midrule
+完整主工况 & 36 & 两边界汇总/分项、精确 RI、调用、初末容量、追加切片、有效调用形状\\
+显式边界身份枚举 & 24 & 六模型各 $L=1,127,128,129$；按 query/KV head、tile 和输入/写入元素身份验证独立 oracle\\
+主长度前缀差量 & 18 & 六模型三档 $L$；逐分项与汇总检查 Prefill 差量等于 Decode\\
+pilot 重叠回归 & 14 & Ministral/Qwen3.6 各六条及 MiMo 1K 两条；旧结果已有全部语义字段逐项一致\\
+原始结构审计 & 6 & 原始 config、revision、实现锚点和来源 SHA-256\\\bottomrule
+\end{tabular}\end{center}
+128K 检查只保存紧凑宽度/形状直方图与 resident tile 网格，不产生 $L\times L$ 数据或按调用展开的大事件列表。
+逐项预期和审计证据保存在 \path{data/checks.json}，来源文件哈希在 \path{data/config.json}。
+
+\para{使用边界} 本研究假定足够逻辑 resident 服务单元，独立语义 bank 和当前逐前缀组织。
+它建立矩阵阶段逻辑需求，不含容量驱逐造成的重载，不把复制或数字交接零成本化。
+页/块擦写、编码、verify、refresh、数字累加、softmax、RoPE 和实际调度需要另外的实现模型。
+本文不据总 RI 推断单 macro 时间、token/s、端到端性能或器件排名。
+
+\para{复现} 从仓库根设置 \texttt{TASK2\_PYTHON=/opt/anaconda3/bin/python} 后运行
+\path{table_IIb/03_attention/scripts/build.sh}（前缀为任务目录）。该命令复核现存数据再编译本稿；生成/检查加 \texttt{--emit} 才刷新数据。
+\path{scripts/render.py} 只渲染，逐页视觉确认另记于 \path{data/pdf_qa.json}。
+
+\clearpage
+\section{固定来源与证据定位}
+以下路径均相对 \path{tasks/task2_table_II_workloads/}；完整 URL、版本与原件 SHA-256 在既有 \path{data/sources.json}，本次实际使用的文件哈希另在 \path{03_attention/data/config.json}（位于 \path{table_IIb/} 下）。
+
+\small
+\para{Qwen3.5-2B} 官方 \texttt{Qwen/Qwen3.5-2B}，revision\par
+\texttt{15852e8c16360a2fea060d615a32b45270f8a8fc}。\par
+\path{literature/01_qwen35_2b/raw/config.json}：text\_config 的 heads、head\_dim、layer\_types；
+\path{literature/00_shared/raw/transformers/modeling_qwen3_5.py}：749--821 行，Q/G 切分、K/V cache 更新和输出 gate。
+
+\para{Ministral 3 8B Base 2512} 官方 \texttt{mistralai/Ministral-3-8B-Base-2512}，revision\par
+\texttt{d4883f9b36aa2e5d775730d3fdba3d30de51a8ef}。\par
+\path{literature/02_ministral3_8b/raw/config.json} 的 text\_config 与同目录 \path{params.json} 交叉核对；后者 v\_head\_dim=null，以固定 \path{modeling_ministral3.py} 的 V 投影构造确认回落至 128。
+
+\para{Qwen3.6-35B-A3B} 官方 \texttt{Qwen/Qwen3.6-35B-A3B}，revision\par
+\texttt{995ad96eacd98c81ed38be0c5b274b04031597b0}。\par
+\path{literature/03_qwen36_35b_a3b/raw/config.json}：text\_config；
+共享 \path{modeling_qwen3_5_moe.py} 第 751 行起的 Attention。使用确切 checkpoint，不以 Qwen3.5 权重替代。
+
+\para{Tencent Hy3} 官方 \texttt{tencent/Hy3}，revision\par
+\texttt{a960ebc3da325ba167f069f76c41eb62c9280d22}。\par
+\path{literature/04_hy3_295b/raw/config.json}：num\_attention\_heads、num\_key\_value\_heads、head\_dim；共享 \path{modeling_hy_v3.py} 第 210--280 行。
+
+\para{Ling-1T} 官方 \texttt{inclusionAI/Ling-1T}，revision\par
+\texttt{268f2aa76aa8cf5b36ca33805481cea91133327e}。\par
+\path{literature/05_ling_1t/raw/config.json}；同目录 \path{modeling_bailing_moe_v2.py} 第 441--546 行的融合 QKV、cache update 和 repeat\_kv；\path{README.md} 第 238--250 行的官方 YaRN 扩展条件。RoPE 局部实现疑义不改变完整 128 维缓存计数。
+
+\para{MiMo-V2.5-Pro} 官方 \texttt{XiaomiMiMo/MiMo-V2.5-Pro}，revision\par
+\texttt{21d1ecfecd7bd70f31be25ca49d7edd21f003659}。\par
+\path{literature/06_mimo_v25_pro/raw/config.json}：hybrid\_layer\_pattern、head\_dim、v\_head\_dim；同目录 \path{modeling_mimo_v2.py} 第 215--309 行，global 分支、Value 缩放与缓存更新。
+
+\para{共同计量} \path{shared/data/conventions.json}、\path{shared/tex/counting_method.zh.tex} 与 \path{shared/scripts/counting.py}。
+Transformer 上游实现固定 commit 与许可证沿用原始来源包。六份 \path{STRUCTURE.zh.md} 是已审阅提取卡，原件未改。
+\end{document}

@@ -1,0 +1,80 @@
+{
+  "schema_version": "step4-pdf-qa-v1",
+  "status": "PASS",
+  "pdf": "output/attention.zh.pdf",
+  "pdf_sha256": "263da8ee35fb10cd6420fec5030f3c4d0e5ee758e08b2f8d630e566f2ec553cb",
+  "tex": "tex/attention.zh.tex",
+  "tex_sha256": "85c4b1298e5453dfdef5593410cb0fad35efd40322e484f23b2b9fe0efb15392",
+  "page_count": 8,
+  "render_command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/03_attention/scripts/render.py",
+  "renderer": "pypdfium2; scale=1.5",
+  "visual_review": "All eight pages inspected; final pages 4/5 re-inspected after column-spacing adjustment. No clipping, overlap, missing glyphs, broken tables or unintended blank pages.",
+  "latex_log": "build/attention.zh.log",
+  "latex_overfull_underfull_warning_count": 0,
+  "pages": [
+    {
+      "page": 1,
+      "image": "tmp/pdfs/page-01.png",
+      "image_sha256": "b14ffa2137ca3a621646be50184547200af04ca5f17ce8228f23b2fe3d134cdb",
+      "text_sha256": "13603c11bf80d5aaa657dec022df4f10443d8393dd4abdd2b288522508967751",
+      "pass_check": true
+    },
+    {
+      "page": 2,
+      "image": "tmp/pdfs/page-02.png",
+      "image_sha256": "18592aa2e7590c1968ab5236de5bb30429bf4271df2b61c28380c9b2475e0c67",
+      "text_sha256": "b588a9280e0c9a0a7d6cc65d1fc5abc59d8cc0cdbd336064b42a563d4180c800",
+      "pass_check": true
+    },
+    {
+      "page": 3,
+      "image": "tmp/pdfs/page-03.png",
+      "image_sha256": "0c071a21c67646d503d91abc40c25bca058187cef05677993478831c2f3929ee",
+      "text_sha256": "5bb916dda851f490daa5b6c8d4fc238482b33e7be7e59cbd3204711f33bc5c7e",
+      "pass_check": true
+    },
+    {
+      "page": 4,
+      "image": "tmp/pdfs/page-04.png",
+      "image_sha256": "cb4cc2852e59dd383074fda9a6090f7c3d6876fbabd92e4bb9b35d73009884e3",
+      "text_sha256": "2e1c01278b0635ea12c37987d98fbb46d3ce6290d7644c276c38c98aa08ce32a",
+      "pass_check": true
+    },
+    {
+      "page": 5,
+      "image": "tmp/pdfs/page-05.png",
+      "image_sha256": "08324ee3c9c480935facb5649e935bc626158b1903aeeaeb679a7c476a8adaff",
+      "text_sha256": "0b44913fcffc9d48ff07b1e322b8c37bff0aac056d912f876015910d826036db",
+      "pass_check": true
+    },
+    {
+      "page": 6,
+      "image": "tmp/pdfs/page-06.png",
+      "image_sha256": "4ffa99a0eb85d3216f23363c8bea3d3652d9106872385bb0f48ed1082dd61e8e",
+      "text_sha256": "d5a6a283a5b6e4e48745483b962ed92ace170c22e195a5c9febde1f41e1161c9",
+      "pass_check": true
+    },
+    {
+      "page": 7,
+      "image": "tmp/pdfs/page-07.png",
+      "image_sha256": "504d5d5e8195f4ae88b3cf240f46ed35c8e42bc83abe0b53ecdc87a7147dc866",
+      "text_sha256": "e001f0369895c5bb8ab26d6d2436e7d966bcb01c97fbd5547e14021a0f24bcdc",
+      "pass_check": true
+    },
+    {
+      "page": 8,
+      "image": "tmp/pdfs/page-08.png",
+      "image_sha256": "d9d486deaccd5ae112a0871a1863e86cef070df669964cc269518da95212bcb2",
+      "text_sha256": "5c0d4d0daaaf55ac9d597e43f3c0e1d9bbeb02eb0316e459c1bc9e972da92f64",
+      "pass_check": true
+    }
+  ],
+  "numerical_validation": {
+    "main_cases": 36,
+    "explicit_boundary_cases": 24,
+    "main_length_prefix_deltas": 18,
+    "pilot_regressions": 14,
+    "raw_model_audits": 6,
+    "all_pass": true
+  }
+}

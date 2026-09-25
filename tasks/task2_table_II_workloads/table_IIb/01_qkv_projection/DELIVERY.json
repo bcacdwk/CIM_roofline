@@ -1,0 +1,140 @@
+{
+  "schema_version": "step4-delivery-v1",
+  "status": "ready_for_review",
+  "delivery_revision": 2,
+  "agent": "A / QKV",
+  "date": "2026-09-25",
+  "directory": "table_IIb/01_qkv_projection",
+  "path_base": "this DELIVERY.json directory",
+  "case_count": 6,
+  "semantic_matrix_count": 20,
+  "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+  "reviewed_step3_and_start_HEAD": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+  "artifacts": [
+    {
+      "path": "data/results.json",
+      "role": "results",
+      "sha256": "c342f0781f396df3d18d6bfcc94bdef95c3846f9985a8ca0e038297f0ef69a27",
+      "bytes": 56553
+    },
+    {
+      "path": "data/results.csv",
+      "role": "supporting",
+      "sha256": "8e3c3b370e683a7138a0869983e1ef01b9ccf112bcd359069c6fe3ad3520f6f0",
+      "bytes": 4705
+    },
+    {
+      "path": "data/config.json",
+      "role": "supporting",
+      "sha256": "6e3cb5d36735ba603ff361dfa8ef35341766a617af9b31f87c650c2ea06b3b96",
+      "bytes": 52204
+    },
+    {
+      "path": "data/checks.json",
+      "role": "checks",
+      "sha256": "9345f0aa080b58ab92b085b647514a80885abbb5c1e6a22b9bd655589c13b681",
+      "bytes": 84510
+    },
+    {
+      "path": "data/pdf_qa.json",
+      "role": "supporting",
+      "sha256": "eddf337e17aab60fdd238dff34a8086840210f8636f140e1b9403145ffb1a351",
+      "bytes": 2124
+    },
+    {
+      "path": "output/pdf/qkv.zh.pdf",
+      "role": "pdf",
+      "sha256": "f911be8f723088c94549247e34657425ad480ecf4d81351d02e7cffa21a4893d",
+      "bytes": 227402
+    },
+    {
+      "path": "tex/qkv.zh.tex",
+      "role": "tex",
+      "sha256": "4b22899814f6cb5d7990c72a1099054d01c14f2dde85243723da0239af3ac6d1",
+      "bytes": 10111
+    },
+    {
+      "path": "tex/shapes.generated.tex",
+      "role": "supporting",
+      "sha256": "40ffbe89cb263e11719d621c7f2ee247feb5c16529ecf179a80784cb0dff4484",
+      "bytes": 572
+    },
+    {
+      "path": "tex/totals.generated.tex",
+      "role": "supporting",
+      "sha256": "d7907b0dfe2c60252904770ce687538c45787f1442da9dbfa28efef0eb35cfe3",
+      "bytes": 435
+    },
+    {
+      "path": "tex/parts.generated.tex",
+      "role": "supporting",
+      "sha256": "59e3518f774f4d8fe8b9d6e7fe70fb91ac064923f939a9504d9b1d41f904452c",
+      "bytes": 860
+    },
+    {
+      "path": "README.md",
+      "role": "readme",
+      "sha256": "6a933f2f6e59337db9d2e7b8af9dee05bfb540f4b0844c11a8438e35fb3b530f",
+      "bytes": 3536
+    },
+    {
+      "path": "OVERVIEW.zh.md",
+      "role": "supporting",
+      "sha256": "2e80e62fdfb61e971797a59dc85e66a6a610390c3a4c837724f383092ddca12e",
+      "bytes": 1286
+    },
+    {
+      "path": "scripts/generate.py",
+      "role": "supporting",
+      "sha256": "e25f5d6dc46cb6f42c7e4fedbf4f487ca4d52bc8bfb9e4b3db5a81ff563b69a5",
+      "bytes": 9478
+    },
+    {
+      "path": "scripts/check.py",
+      "role": "supporting",
+      "sha256": "b9c163247303a80f907d1855ed36716b7053c2933aa8c36c91db031f10320610",
+      "bytes": 14326
+    },
+    {
+      "path": "scripts/build.sh",
+      "role": "supporting",
+      "sha256": "c1fb68460bc3880085cbbdcffb97296611e248f10eeba48a5bf4c5a478ae8569",
+      "bytes": 587
+    },
+    {
+      "path": "scripts/render.py",
+      "role": "supporting",
+      "sha256": "3863a5845028f3f964a5b5422715b96be54c6259cf6846a9fabe296e01469e6f",
+      "bytes": 686
+    },
+    {
+      "path": "scripts/verify_delivery.py",
+      "role": "supporting",
+      "sha256": "1f1785ae96fa6ebd4f4dd1b60a0bb36a7c1c21382a126604aeb77102a14fe050",
+      "bytes": 718
+    },
+    {
+      "path": ".gitignore",
+      "role": "supporting",
+      "sha256": "2b11c1ef69f3f89d924a0e0addc24233f949b738bc06c8d24956ad4a82e9e906",
+      "bytes": 33
+    }
+  ],
+  "reproduction_commands_from_repository_root": [
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/01_qkv_projection/scripts/generate.py",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/01_qkv_projection/scripts/check.py",
+    "TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/table_IIb/01_qkv_projection/scripts/build.sh",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/01_qkv_projection/scripts/render.py",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/01_qkv_projection/scripts/verify_delivery.py"
+  ],
+  "validation": {
+    "independent_result_leaf_checks": 1746,
+    "pilot_overlap_cases": 2,
+    "pilot_complete_case_leaf_checks": 488,
+    "source_hash_checks": 29,
+    "pdf_pages_visually_inspected": 4,
+    "shared_method_corrections_required": false
+  },
+  "review_note": "READY is internal handoff only; awaits main Agent and independent Agent D review. All writes restricted to this directory.",
+  "revision_note": "主Agent审阅修订：第2页新增Qwen3.6一token完整数字代入链；容量符号M改为C_R。仍为4页；科学数据及计算源码与revision1相同。"
+}

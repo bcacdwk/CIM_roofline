@@ -1,0 +1,200 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=20mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,tabularx,enumitem,setspace,xcolor,hyperref,fancyhdr,xurl}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={Task II Step 4：六模型 FFN 与单路由专家}}
+\setstretch{1.08}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{15pt}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.16}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Task II：FFN / MoE}
+\fancyhead[R]{\small Step 4，18 个工况}
+\fancyfoot[C]{\thepage}
+\newcommand{\qs}{Q_{\mathrm S}}
+\newcommand{\qr}{Q_{\mathrm R}}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\loc}{\mathrm{ports}}
+\newcommand{\cn}[1]{\left\lceil #1/128\right\rceil}
+\newcommand{\para}[1]{\par\smallskip\noindent\textbf{#1}\quad}
+\title{\bfseries 六模型 FFN 与单路由专家\\[5pt]\large 一次装载、实际向量复用与双边界需求}
+\author{}\date{2026 年 9 月 25 日}
+\begin{document}
+\maketitle\vspace{-1.5em}
+\noindent\textbf{结论：六模型的 ports RI 均为 $B/128$；相同 RI 不意味着相同容量或总需求。}
+在 $B=(8,64,512)$ 下，三档值均为 $(1/16,1/2,4)$。
+六个固定模型、每模型三个窗口共 18 个工况；54 个矩阵分项已由原始配置和独立 tile 求和复算，6 个 pilot 重叠工况逐字段一致。
+
+\section{实际分析对象与六模型概览}
+每个窗口只装载一个 Dense FFN 或一个路由专家的 gate、up、down 三矩阵各一次。
+$B$ 是这同一份权重驻留期间\textbf{实际服务的向量总数}，不是批次数，也不自动等于全局 batch size。
+所选层号从 0 起，不乘 top-k、路由专家总数、共享专家数或层数。
+
+\begin{center}\small
+\input{overview.generated.tex}
+\end{center}
+\noindent\small Ministral 完整版本为 Ministral 3 8B Base 2512；Hy3 为 Tencent Hy3 (295B)。
+容量单位 $1\,\mathrm{MiB}=2^{20}$ Byte。表中 tiles 是三语义 bank 的总驻留 tile 数。\normalsize
+
+\para{为什么选这些宽度}
+Qwen3.5 与 Ministral 取 Dense 宽度；其余取\texttt{moe\_intermediate\_size}。
+Hy3 第 1 层使用 $F=1536$，不是第 0 层 Dense 的 13312；Ling 第 4 层使用 2048，
+不是前四层 Dense 的 18432；MiMo 第 7 层使用 2048，不是第 0 层的 16384。
+Qwen3.6 单专家宽 512；其共享专家是另一个对象。原生路由器与 SwiGLU gate 也不是同一矩阵。
+
+\begin{center}\small
+\input{shapes.generated.tex}
+\end{center}
+
+\para{固定计量参考}
+沿用 \texttt{WS128-INT8-semantic-banks-v1}：$128\times128$ tile，所有操作数角色每元素 1 Byte，
+gate、up、down 各自独立分块并同期驻留。原生 BF16 或 FP8 mixed 声明仍保留在配置来源中；
+这里的 INT8 是逻辑参考，不是六模型精度验证。所有六组 $D,F$ 均整除 128，当前 FFN 没有尾块，
+有效容量恰等于完整 tile 槽位容量。
+
+\clearpage
+\section{从三矩阵到两种输入边界}
+记 $W_g,W_u\in\mathbb Z^{F\times D}$，$W_d\in\mathbb Z^{D\times F}$，
+\begin{equation}
+z=\operatorname{SiLU}(W_gx)\odot(W_ux),\qquad y=W_dz.
+\end{equation}
+gate/up 收到同一输入 $x$；数字域的 SiLU、逐元素乘积和重定标产生 down 的新输入 $z$。
+当前矩阵的输出不再另加一次 streaming payload；$z$ 在 down 真正接收时计数。
+tile 部分和的数字累加也不重新作为矩阵输入计入。
+
+\para{分项及汇总}
+ports 在各 tile 接收端累计，operator 在整矩阵阶段入口计数。
+下表 operator 分项均为独立入口值，三项直接相加会重复计 gate/up 的 $BD$。
+\begin{center}\small
+\begin{tabular}{@{}lrrrr@{}}\toprule
+分项 & $\qs^\op$ (Byte) & $\qs^\loc$ (Byte) & $\qr$ (Byte) & 调用数\\\midrule
+gate & $BD$ & $B\cn{F}D$ & $DF$ & $B\cn{F}\cn{D}$\\
+up & $BD$ & $B\cn{F}D$ & $DF$ & $B\cn{F}\cn{D}$\\
+down & $BF$ & $B\cn{D}F$ & $DF$ & $B\cn{D}\cn{F}$\\\bottomrule
+\end{tabular}
+\end{center}
+因此两个边界分别得到
+\begin{align}
+\qs^\op &= (BD+BD+BF)-BD=B(D+F),\\
+\qs^\loc &=B\left(2\cn{F}D+\cn{D}F\right),\qquad \qr=3DF,\\
+C &=3B\cn{D}\cn{F}.
+\end{align}
+每个 RI 都从对应边界的累计字节求商。operator 分项 RI 为 gate/up 的 $B/F$ 和 down 的 $B/D$；
+汇总 RI 为 $B(D+F)/(3DF)$，不能直接平均这些分项 RI。
+
+\para{相同比例的抵消条件}
+本轮 $D,F$ 都整除 128，且所有 streaming / resident 角色等宽、每矩阵仅装载一次，故
+\begin{equation}
+Q_{\mathrm S,g}^\loc=Q_{\mathrm S,u}^\loc=Q_{\mathrm S,d}^\loc=\frac{BDF}{128},\qquad
+\RI^\loc=\frac{3BDF/128}{3DF}=\frac{B}{128}.
+\end{equation}
+这依赖当前 bank 映射、边界和驻留窗口。若行维不整除 128、角色精度不等、发生额外重载或改用其它输入边界，
+应回到未约简式；相同 RI 不是必须人为打破的结果。
+
+\para{完整字节量的紧凑表达}
+下表列出常量系数，可对每一行分别代入 $B=8,64,512$，得到全部 18 工况。
+前三数值列单位均为 Byte，$C$ 为实际逻辑 tile 求值调用数。
+\begin{center}\small
+\input{demand.generated.tex}
+\end{center}
+$\qr$ 与容量当前数值相同，因为窗口从装载开始，只有一次完整写入；二者仍分字段保存。
+槽位容量不代表介质编码后容量；调用数也不是单个 macro 的时钟周期或执行时间。
+
+\clearpage
+\section{尺寸、专家粒度与驻留复用分别改变什么}
+\para{完整代入：Qwen3.6 单专家，$B=8$}
+第 3 层取 $D=2048,F=512$；gate/up 为 $512\times2048$，各分为 $4\times16=64$ tiles，
+down 为 $2048\times512$，分为 $16\times4=64$ tiles。
+gate/up 每项 ports 输入为 $8\times4\times2048=65536$ Byte，
+down 为 $8\times16\times512=65536$ Byte；各项写入 $512\times2048=1048576$ Byte，
+各调用 $8\times64=512$ 次。汇总调用 1536 次，并得
+\begin{equation}
+\RI^\loc=\frac{3\times65536}{3\times1048576}
+=\frac{196608}{3145728}=\frac1{16}.
+\end{equation}
+operator 的独立 gate/up 入口各为 $8\times2048=16384$ Byte，down 为 $8\times512=4096$ Byte。
+扣除同源重叠 16384 Byte 后，$\qs^\op=16384+16384+4096-16384=20480$ Byte，
+即 $8(2048+512)$；同一次写入量下，$\RI^\op=20480/3145728=5/768$。
+
+\para{operator 保留尺寸差异}
+operator 没有向输出 tile 分发的乘数，故 RI 依赖 $D,F$。
+以下保持固定模型顺序，所有分数由精确字节相除得到。
+\begin{center}
+\input{operator_ri.generated.tex}
+\end{center}
+
+\para{专家粒度改变总量}
+Ministral Dense 的三矩阵为 168 MiB，Qwen3.6 单路由专家为 3 MiB，前者是后者的 56 倍。
+固定 $B$ 后，ports 输入、写入、驻留 tiles 和调用数也都相差 56 倍。
+例如 $B=64$：两者 ports 输入为 84/1.5 MiB，写入为 168/3 MiB，调用为 688128/12288 次；
+RI 均为 $1/2$。这一对比只比较所选 FFN / 单专家，不能据模型总参数标签推断全模型需求。
+
+\para{交换 $D,F$，汇总相同而分项不同}
+Qwen3.5 的 $(D,F)=(2048,6144)$ 与 MiMo 的 $(6144,2048)$ 互换。
+本轮对齐条件下，两者 ports 分项与汇总、$\qr$、容量、tiles 和调用都相同。
+operator 汇总也相同，因为 $D+F$ 和 $DF$ 都不变；但独立入口与重叠扣除不同。
+以下固定 $B=64$，单位为 KiB，$1\,\mathrm{KiB}=1024$ Byte。
+\begin{center}\small
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+模型 & gate & up & down & 扣除同源重叠 & 汇总 $\qs^\op$\\\midrule
+Qwen3.5-2B & 128 & 128 & 384 & 128 & 512\\
+MiMo-V2.5-Pro & 384 & 384 & 128 & 384 & 512\\\bottomrule
+\end{tabular}
+\end{center}
+每模型 ports 输入均为 18 MiB，写入与容量均为 36 MiB，调用均为 147456 次。
+因此只看汇总无法识别 gate/up 的入口差别；机器数据保留全部分项和显式重叠量。
+MoE 标签本身也不保证所选单专家需求与 Dense 不同。
+
+\para{$B$ 改变服务次数，不改变一次装载量}
+从 $B=8$ 到 64 再到 512，两个边界的 $\qs$、RI 以及调用数每次均增至 8 倍。
+$\qr$、容量与驻留 tiles 不变。三档 ports RI 跨过 1 仅表示窗口内累计输入与一次写入的字节关系，
+不能据此宣称某种介质更快。若实际专家路由无法在驻留期间服务这么多向量，应改变 $B$ 或驻留策略；
+本稿没有把路由均衡、命中率或 top-k 作为隐藏假设。
+
+\clearpage
+\section{来源、独立回查与复现}
+\para{固定版本的原始证据}
+六模型使用已通过 Step 1 的本地配置、实现和结构卡。下列链接指向固定 checkpoint revision；
+完整路径、URL、文件 SHA-256 与原生精度记录见 \path{data/config.json}。
+\begin{itemize}\small
+\item Qwen3.5-2B：\href{https://huggingface.co/Qwen/Qwen3.5-2B/tree/15852e8c16360a2fea060d615a32b45270f8a8fc}{\texttt{15852e8c16360a2fea060d615a32b45270f8a8fc}}。
+\item Ministral 3 8B Base 2512：\href{https://huggingface.co/mistralai/Ministral-3-8B-Base-2512/tree/d4883f9b36aa2e5d775730d3fdba3d30de51a8ef}{\texttt{d4883f9b36aa2e5d775730d3fdba3d30de51a8ef}}。
+\item Qwen3.6-35B-A3B：\href{https://huggingface.co/Qwen/Qwen3.6-35B-A3B/tree/995ad96eacd98c81ed38be0c5b274b04031597b0}{\texttt{995ad96eacd98c81ed38be0c5b274b04031597b0}}。
+\item Tencent Hy3：\href{https://huggingface.co/tencent/Hy3/tree/a960ebc3da325ba167f069f76c41eb62c9280d22}{\texttt{a960ebc3da325ba167f069f76c41eb62c9280d22}}。
+\item Ling-1T：\href{https://huggingface.co/inclusionAI/Ling-1T/tree/268f2aa76aa8cf5b36ca33805481cea91133327e}{\texttt{268f2aa76aa8cf5b36ca33805481cea91133327e}}。
+\item MiMo-V2.5-Pro：\href{https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro/tree/21d1ecfecd7bd70f31be25ca49d7edd21f003659}{\texttt{21d1ecfecd7bd70f31be25ca49d7edd21f003659}}。
+\end{itemize}\normalsize
+\para{矩阵来源的具体定位}
+前四模型共享 Transformers 实现固定于 \texttt{2c4914f}，位于
+\path{literature/00_shared/raw/transformers/}。
+Qwen3.5 的 \texttt{Qwen3\_5MLP}（824 行起）和 Ministral 的 \texttt{Ministral3MLP}（176 行起）
+明确给出三个线性层。Qwen3.6 的 \texttt{Qwen3\_5MoeExperts}（845 行起）以及
+Hy3 的 \texttt{HYV3Experts}（311 行起）先堆叠各专家，再打包 gate/up；逻辑切分仍是两个 $F\times D$ 矩阵。
+Hy3 官方转换代码 207--234 行也可对应这一打包。
+Ling 的 \texttt{BailingMoeV2MLP}（271 行起）及专家列表（367 行起）、
+MiMo 的 \texttt{MiMoV2MLP}（115 行起）与专家列表（182 行起）保留独立三矩阵。
+后两实现分别位于各自 \path{literature/05_ling_1t/raw/} 和 \path{literature/06_mimo_v25_pro/raw/}。
+源码只做静态核对，没有执行模型或下载权重。
+
+\para{两条计算路径}
+主入口 \path{scripts/generate.py} 从任务根 \path{data/models.json} 的已审阅参数调用共享 FFN API。
+独立入口 \path{scripts/check.py} 重新读取六份原始 config，核对层型、revision、专家宽度与实现字面锚点；
+逐个真实 row/column tile 累加有效写入面积，并对每个向量、每个接收 tile 累加输入片长与调用。
+operator 通过 $(x\text{ 或 }z,\,\text{向量编号})$ 身份字典去重，不调用共享生产公式或主生成器。
+18 个工况全部通过；pilot 中 Ministral 和 Qwen3.6 的 6 个工况重新算后比较完整记录，一致。
+三个 $B$ 下的 Qwen3.5/MiMo 转置对照也单独通过。
+
+\para{交付与命令}
+本目录为 \path{table_IIb/02_ffn_moe/}。精确结果见 \path{data/results.json} / \path{data/results.csv}，
+六模型概览见 \path{OVERVIEW.zh.md}，复核见 \path{data/checks.json}，页面 QA 见 \path{data/pdf_qa.json}。
+在本目录执行：
+\begin{quote}\small
+\texttt{TASK2\_PYTHON=/opt/anaconda3/bin/python sh scripts/build.sh}\\
+\texttt{/opt/anaconda3/bin/python scripts/render.py}
+\end{quote}
+\noindent 本轮保持 Step 1/2 和 pilot 原件，不开展硬件性能推算或 Step 5 英文总表。
+共享计数说明见任务根的 \path{shared/tex/counting_method.zh.tex} 第 5 节；
+本稿的生成与独立检查结果支持继续使用同一参考版本。
+\end{document}

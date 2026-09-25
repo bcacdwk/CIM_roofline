@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "status": "Step 2已通过；Step 3完成，待审阅",
-  "as_of": "2026-09-24",
+  "status": "Step 3已通过；Step 4完成，待用户审阅",
+  "as_of": "2026-09-25",
   "checkpoint_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "actual_start_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "scope": "resident–streaming CIM Roofline; language-backbone matrix sublayers only",
@@ -152,7 +152,7 @@
       "configuration",
       "derivation"
     ],
-    "build": "Step 3 pilot complete: Ministral and Qwen3.6 each 10 cases; MiMo attention L=1024 only; full six-model table and Step 4 not started"
+    "build": "Step 4 research deliverables complete: 60 unique cases / 146 matrix parts, dual boundaries, 22 pilot overlaps verified; final English layout and paper integration deferred to Step 5"
   },
   "selection_rules": [
     "Keep the six models in fixed order; no substitution or ranking.",
@@ -179,12 +179,13 @@
     {
       "step": 3,
       "title": "少量真实模型试算",
-      "status": "完成，待审阅"
+      "status": "已通过",
+      "reviewed_revision": "e472a0d864b8fb9afb14b0c306217a0e5653e122"
     },
     {
       "step": 4,
       "title": "分类并行分析",
-      "status": "未启动"
+      "status": "完成，待用户审阅"
     },
     {
       "step": 5,
@@ -223,7 +224,7 @@
     "native_precision_records": "models.json unchanged; the selected INT8 reference is not an accuracy claim"
   },
   "step3": {
-    "status": "完成，待审阅",
+    "status": "已通过",
     "actual_start_head": "2eb7e7c59242c675594537002cc1316131be9226",
     "initial_worktree": "clean",
     "reference_id": "WS128-INT8-semantic-banks-v1",
@@ -249,6 +250,47 @@
     "step1_step2_changes": "none; raw structure and independent tile/event checks support existing reference",
     "pilot_root": "../table_IIb/pilot/",
     "review": "../STEP3_REVIEW.zh.md",
-    "stop": "Step 3 review; do not start Step 4"
+    "stop": "Historical Step 3 stop; passed review, current work is recorded in step4",
+    "reviewed_revision": "e472a0d864b8fb9afb14b0c306217a0e5653e122"
+  },
+  "step4": {
+    "status": "完成，待用户审阅",
+    "actual_start_head": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+    "initial_worktree": "clean",
+    "reference_id": "WS128-INT8-semantic-banks-v1",
+    "coordination": "../STEP4_COORDINATION.zh.md",
+    "planned_case_counts": {
+      "qkv_projection": 6,
+      "ffn_or_moe": 18,
+      "attention_prefill": 18,
+      "attention_decode": 18
+    },
+    "total_unique_cases": 60,
+    "pilot_overlap": 22,
+    "step5": "not started",
+    "internal_review": "passed; not user approval",
+    "total_matrix_parts": 146,
+    "independent_cases_verified": 60,
+    "pilot_overlaps_verified": 22,
+    "pilot_existing_semantic_differences": 0,
+    "delivery_revisions": {
+      "01_qkv_projection": 2,
+      "02_ffn_moe": 2,
+      "03_attention": 1,
+      "04_crosscheck": 1
+    },
+    "category_pdf_pages": [
+      4,
+      4,
+      8
+    ],
+    "unified_data": "../table_IIb/04_crosscheck/data/results.json",
+    "unified_csv": "../table_IIb/04_crosscheck/data/results.csv",
+    "research_preview": "../table_IIb/04_crosscheck/PREVIEW.zh.md",
+    "independent_review": "../table_IIb/04_crosscheck/REVIEW.zh.md",
+    "review": "../STEP4_REVIEW.zh.md",
+    "baseline_changes": "none; shared/model/pilot/IIa/Task I/main paper unchanged",
+    "blocking_issues": [],
+    "stop": "Step 4 complete, await user review; Step 5 not started"
   }
 }

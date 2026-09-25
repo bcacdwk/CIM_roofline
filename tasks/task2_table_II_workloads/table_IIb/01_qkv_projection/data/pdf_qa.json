@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "pdf": "output/pdf/qkv.zh.pdf",
+  "pdf_sha256": "f911be8f723088c94549247e34657425ad480ecf4d81351d02e7cffa21a4893d",
+  "page_count": 4,
+  "render_tool": "pypdfium2, scale=1.5",
+  "visual_inspection": "All four final page PNGs opened and inspected individually in tool image output.",
+  "compile": "XeLaTeX via latexmk; no overfull boxes or missing characters. Underfull paragraph warnings visually inspected and acceptable.",
+  "pages": [
+    {
+      "page": 1,
+      "render_path": "tmp/pdfs/page-01.png",
+      "render_sha256": "dbf471424bc0ed00a5b7f4532fc2cb0baeb4f023200c5ef62011762a66e09323",
+      "pass": true,
+      "inspection": "封面、六模型真实维度表、Qwen/Hy3/融合结构说明清晰；页边、数学符号及页码完整。"
+    },
+    {
+      "page": 2,
+      "render_path": "tmp/pdfs/page-02.png",
+      "render_sha256": "93af36b41cca2b0fcfba4dc4c2defcbc2ec379dfc05a06c5d211be90ad1fd1df",
+      "pass": true,
+      "inspection": "分项和汇总公式使用C_R容量符号；Qwen3.6原生宽度、tile块数、双边界输入去重、零写入、1152调用及18MiB容量代入链清晰；汇总表和页脚完整。"
+    },
+    {
+      "page": 3,
+      "render_path": "tmp/pdfs/page-03.png",
+      "render_sha256": "ecc99acdd51a1144c55c2acaf46f1ec74466e3bccba6cea6107ef4d81cab3ea3",
+      "pass": true,
+      "inspection": "20 个语义矩阵分项表完整；Qwen gate 增量、MiMo 无投影尾块和融合区间段落清晰。"
+    },
+    {
+      "page": 4,
+      "render_path": "tmp/pdfs/page-04.png",
+      "render_sha256": "3c98889d5b87a1955109b5a70ace081a58d9a01910a7c3507d11b0cad0c303e7",
+      "pass": true,
+      "inspection": "六模型完整 revision 与实现定位可读；独立检查方法与复现说明无重叠或截断。"
+    }
+  ],
+  "numerical_qa": "6 cases, 20 semantic matrices, 29 source hashes, 2 full pilot case regressions passed.",
+  "defects_found": [],
+  "delivery_revision": 2,
+  "revision_note": "第2页新增Qwen3.6完整数字代入链；容量符号由M改为C_R；仍为4页。科学数据及计算源码哈希与版本1一致。"
+}

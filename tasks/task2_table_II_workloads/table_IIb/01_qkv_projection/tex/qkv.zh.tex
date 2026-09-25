@@ -1,0 +1,167 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=20mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,tabularx}
+\usepackage{setspace,xcolor,hyperref,fancyhdr,enumitem}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={Task II Step 4 六模型 QKV 投影需求}}
+\setstretch{1.10}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{15pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\setlist{nosep,leftmargin=2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Task II · QKV Projection}
+\fancyhead[R]{\small Step 4 · 六模型研究稿}
+\fancyfoot[C]{\thepage}
+\newcommand{\qs}{Q_{\mathrm S}}
+\newcommand{\qr}{Q_{\mathrm R}}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\para}[1]{\par\smallskip\noindent\textbf{#1}\quad}
+\title{\bfseries 六模型 QKV 投影需求\\[4pt]\large 一个 token、静态权重与原生语义矩阵}
+\author{}\date{2026 年 9 月 25 日}
+\begin{document}
+\maketitle\vspace{-1.6em}
+\noindent\textbf{研究结论。}六个选定层的窗口内权重写入均为零，双边界 $\RI=\infty$；
+但 ports 输入从 80 KiB 增至 1272 KiB，预驻留容量从 10 MiB 增至 159 MiB。
+相同静态端点并不表示相同投影规模。本文保留 Qwen 原生输出门控、Hy3 的实际 Q 宽度和融合 QKV 的语义切分。
+
+\section{对象、来源与真实矩形}
+本稿延续已通过的 Step 1/2/3，以 Step 3 提交 \texttt{e472a0d} 为起点。
+每个模型只分析已选完整/全局 GQA 子层的一次 token 投影；层号从 0 起，不乘主干层数。
+共有 6 个工况、20 个语义矩阵。隐藏向量 $x\in\mathbb{Z}^{D}$ 相同地输入各投影。
+矩阵按 $W\in\mathbb{Z}^{N\times D}$ 排列，$N$ 为输出行，$D$ 为输入列。
+
+\begin{center}\scriptsize
+\input{shapes.generated.tex}
+\end{center}
+\noindent 表中每一输出宽度 $N_j$ 对应完整矩形 $W_j=N_j\times D$；无 $G$ 时省略该矩阵。
+Ministral 固定为官方 Base 2512；Qwen3.6 使用其确切 checkpoint，官方复用的 \texttt{qwen3\_5\_moe} 实现名不改变模型身份。
+
+\para{门控与维度}
+两款 Qwen 的原生 \texttt{q\_proj} 按 head 交错输出 Q 和等宽 Attention output gate $G$。
+Qwen3.5 为 $4096\times2048$，Qwen3.6 为 $8192\times2048$，分别拆成 Q/G 两个语义 bank。
+$G$ 经 sigmoid 后门控 Attention 输出，不是额外 query head、KV 状态或 MoE router。
+Hy3 显式 $d_{QK}=128$，故 Q 为 $64\times128=8192$，不能由 $D/H_q=64$ 代替头维。
+
+\para{融合与原生精度}
+Ling 的融合矩阵为 $10240\times8192$，MiMo 为 $27136\times6144$。
+固定源码的切分分别给出 Q/K/V 宽度 $(8192,1024,1024)$ 与 $(24576,1536,1024)$。
+前五款保存的原生浮点配置为 BF16；MiMo 为 FP8 E4M3 混合产物。
+本文使用各数值角色每元素 1 Byte 的 INT8 逻辑参考，不声称已验证六模型 INT8 精度。
+
+\para{范围}
+不计 Attention 输出投影 $W_O$，不把后续 KV 建立/追加加入静态权重 $\qr$。
+数字部分和、norm、RoPE、sigmoid、逐元素门控和 Value 缩放属于算子交接，不重复作为本次投影输入。
+
+\clearpage
+\section{同一个 token 的两种边界}
+固定共享版本为 \texttt{WS128-INT8-semantic-banks-v1}。
+Q、可选 G、K、V 各有独立的 $128\times128$ tile 网格，不跨语义矩阵合并尾块。
+融合权重可无复制地切片或重排；源码的融合不合并 CIM 接收端。
+权重在窗口前预驻留，每个 tile 求值一次；假设驻留空间足够，不引入容量不足重载。
+
+\para{分项}
+记 $c(n)=\lceil n/128\rceil$，输入、权重宽度分别为 $b_x,b_W$。
+对任一实际矩阵 $j$，有
+\begin{align}
+Q_{\mathrm S,j}^{\rm op}&=Db_x,& Q_{\mathrm S,j}^{\rm ports}&=c(N_j)Db_x,\\
+Q_{\mathrm R,j}^{\rm op}&=Q_{\mathrm R,j}^{\rm ports}=0,& C_j&=c(N_j)c(D),\\
+C_{R,j}&=N_jDb_W,& C_{R,j}^{\rm alloc}&=128^2b_Wc(N_j)c(D).
+\end{align}
+本稿 $b_x=b_W=1$。$C_{R,j}$ 是有效驻留容量，$C_{R,j}^{\rm alloc}$ 是完整逻辑 tile 槽位容量，均区别于累计写入。
+每个 tile 接收其输入方向的有效列片，输出方向不同的 tile 分别计费。
+
+\para{汇总与输入身份}
+若实际矩阵数为 $m$，operator 分项都引用同一个 $x$，所以
+\begin{align}
+\qs^{\rm op}&=\sum_jQ_{\mathrm S,j}^{\rm op}-(m-1)Db_x=Db_x,\\
+\qs^{\rm ports}&=Db_x\sum_jc(N_j),\qquad
+C=c(D)\sum_jc(N_j),\\
+\qr&=0,\qquad \RI^{\rm op}=\RI^{\rm ports}=\infty.
+\end{align}
+ports 接收直接相加；operator 按同源身份去重，扣除量在机器数据中单列。调用数由 ports 记录。
+
+\para{完整代入：Qwen3.6 的一个 token}
+$D=2048$，Q/G/K/V 输出为 $(4096,4096,512,512)$，输出块数为 $(32,32,4,4)$，输入块数为 $2048/128=16$，因此
+\begin{align*}
+\qs^{\rm ports}&=2048(32+32+4+4)=147456\ \mathrm{Byte},\\
+\qs^{\rm op}&=4\times2048-6144=2048\ \mathrm{Byte},\quad \qr=0,\quad \RI=\infty,\\
+C&=16(32+32+4+4)=1152,\\
+C_R=C_R^{\rm alloc}&=2048(4096+4096+512+512)=18874368\ \mathrm{Byte}=18\ \mathrm{MiB}.
+\end{align*}
+同一个 $x$ 的四个独立入口扣除三份重叠共 6144 Byte；$\qr=0$ 来自权重预驻留。
+
+\begin{center}\small
+\input{totals.generated.tex}
+\end{center}
+\noindent 本表所有 $\qr=0$、$\RI=\infty$；调用数等于 resident tile 数。
+所有语义矩形两轴均整除 128，有效容量等于分配容量；MiB 为 $2^{20}$ Byte。
+
+\para{比例不能替代规模}
+MiMo 相对 Qwen3.5 的 ports 输入、tile 数和容量均为 $159/10$ 倍，但静态 RI 相同。
+Ling 与 Hy3 的输出宽度一致，Ling 输入 $D$ 加倍，因此其局部输入、调用和容量均加倍。
+这些是需求差异，不是并行时间、token/s 或硬件适合度预测。
+
+\clearpage
+\section{20 个语义矩阵与易错边界}
+\begin{center}\small
+\input{parts.generated.tex}
+\end{center}
+\noindent 每个分项均有 $\qr=0$、$\RI=\infty$，operator 单独入口为本模型的 $D$ Byte。
+本表省去这三列的重复值；完整双边界分项、布局和窗口仍逐项保存在 JSON/CSV。
+
+\para{Qwen output gate 的实际增量}
+Qwen3.5 的 G 增加 32768 Byte 接收、256 次调用和 4 MiB 权重；Qwen3.6 的 G 增加 65536 Byte、512 次和 8 MiB。
+漏掉 G 后静态 RI 仍为 $\infty$，所以只检查 RI 无法发现此错误。
+Qwen 原生行号为 Q：$2hd+j$，G：$2hd+d+j$，$0\le j<d$；独立检查证明两集合互斥并完整覆盖原生投影。
+
+\para{MiMo 的 192 不意味着本行存在半宽尾块}
+QKV 的输入轴是 $D=6144$，Q/K 输出轴分别为 $128\times192=24576$ 和 $8\times192=1536$，V 输出为 1024。
+这四个长度均为 128 的倍数。Q/K bank 在同一语义矩阵内允许跨 head 分块，不另加每头对齐约束。
+后续 Attention 的 $d_{QK}=192$ 输入尾片属于另一矩阵形状，不能搬到此行重复填充。
+
+\para{融合语义分块}
+Ling 的 Q/K/V 行区间依次为 $[0,8192)$、$[8192,9216)$、$[9216,10240)$；
+MiMo 为 $[0,24576)$、$[24576,26112)$、$[26112,27136)$。
+独立检查确认每组切片无重叠且恰好覆盖原生融合矩阵；没有复制驻留权重。
+
+\clearpage
+\section{固定证据、独立复核与复现}
+所有原始路径相对 \path{tasks/task2_table_II_workloads/}。
+六模型原始 config 位于各自 \path{literature/01_.../raw/} 至 \path{literature/06_.../raw/}，
+结构卡、原件 SHA-256、固定 URL 与完整 revision 收录于 \path{data/config.json}（本计算目录），
+配置字段与实现原文锚点逐条见 \path{data/checks.json}。
+
+\begin{center}\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}\toprule
+模型 & 固定 checkpoint revision 与 QKV 实现定位\\\midrule
+Qwen3.5-2B & \path{15852e8c16360a2fea060d615a32b45270f8a8fc}\\
+ & 共享 \path{modeling_qwen3_5.py}:749--821；\texttt{text\_config} 层型、头数与 head\_dim。\\
+Ministral 3 8B & \path{d4883f9b36aa2e5d775730d3fdba3d30de51a8ef}\\
+ & 共享 \path{modeling_ministral3.py}:111--172；HF text\_config 与原生 params.json 互证。\\
+Qwen3.6-35B-A3B & \path{995ad96eacd98c81ed38be0c5b274b04031597b0}\\
+ & 共享 \path{modeling_qwen3_5_moe.py}:751--825；Q/G 按头切分和 sigmoid 使用。\\
+Tencent Hy3 & \path{a960ebc3da325ba167f069f76c41eb62c9280d22}\\
+ & 共享 \path{modeling_hy_v3.py}:210--281；显式 head\_dim 覆盖 $D/H_q$ 回退。\\
+Ling-1T & \path{268f2aa76aa8cf5b36ca33805481cea91133327e}\\
+ & 模型原件 \path{modeling_bailing_moe_v2.py}:441--502；融合线性层和按 head 数切分。\\
+MiMo-V2.5-Pro & \path{21d1ecfecd7bd70f31be25ca49d7edd21f003659}\\
+ & 模型原件 \path{modeling_mimo_v2.py}:215--286,352--405；全局层、独立 V 维和融合切片。\\\bottomrule
+\end{tabularx}
+\end{center}
+\noindent 共享 Transformers 快照来源为固定 commit \texttt{2c4914f}；完整版本与源文件 hash 由原始来源清单保留。
+Ministral 的原生 \texttt{v\_head\_dim=null} 未启用特殊 V 维，固定实现明确 V 使用 head\_dim=128。
+
+\para{真正独立的预期值}
+主流程使用共享 \path{counting.py}；\path{scripts/check.py} 不导入生产计数函数。
+它从原始 config 重提维度，并检查固定实现锚点，逐个真实 tile 枚举输入列区间及有效矩形面积。
+operator 使用 $(\text{token identity},\text{element index})$ 集合求并集；容量来自 tile 面积累计。
+六工况的所有结果叶字段、20 个语义矩阵的双边界、布局、窗口与调用完全一致。
+Ministral 与 Qwen3.6 两个重叠工况重新生成后，与 pilot 完整 case 逐字段回归通过，未复制结果。
+
+\para{复现与交付}
+本目录 \path{scripts/generate.py} 默认只检查生成物，\path{scripts/check.py} 默认只复核；显式 \texttt{--emit} 才刷新数据。
+\path{scripts/build.sh} 先运行两者再用 XeLaTeX 编译；\path{scripts/render.py} 渲染每页供目视检查。
+最终 PDF 的逐页 QA 记录位于 \path{data/pdf_qa.json}；\path{DELIVERY.json} 记录可审阅版本和 SHA-256。
+本稿不修改共享计量、原始证据或 pilot，不启动 Step 5，也不从总 RI 推断器件排名或完成时间。
+\end{document}

@@ -1,0 +1,29 @@
+\begin{tabular}{@{}llrrr@{}}\toprule
+模型 & 分项 & $Q_S^{\rm ports}$ (Byte) & 调用 / tile & 容量 (MiB)\\\midrule
+Qwen3.5-2B & Q & 32,768 & 256 & 4\\
+ & G & 32,768 & 256 & 4\\
+ & K & 8,192 & 64 & 1\\
+ & V & 8,192 & 64 & 1\\
+\addlinespace[3pt]
+Ministral 3 8B & Q & 131,072 & 1,024 & 16\\
+ & K & 32,768 & 256 & 4\\
+ & V & 32,768 & 256 & 4\\
+\addlinespace[3pt]
+Qwen3.6-35B-A3B & Q & 65,536 & 512 & 8\\
+ & G & 65,536 & 512 & 8\\
+ & K & 8,192 & 64 & 1\\
+ & V & 8,192 & 64 & 1\\
+\addlinespace[3pt]
+Hy3 (295B) & Q & 262,144 & 2,048 & 32\\
+ & K & 32,768 & 256 & 4\\
+ & V & 32,768 & 256 & 4\\
+\addlinespace[3pt]
+Ling-1T & Q & 524,288 & 4,096 & 64\\
+ & K & 65,536 & 512 & 8\\
+ & V & 65,536 & 512 & 8\\
+\addlinespace[3pt]
+MiMo-V2.5-Pro & Q & 1,179,648 & 9,216 & 144\\
+ & K & 73,728 & 576 & 9\\
+ & V & 49,152 & 384 & 6\\
+\addlinespace[3pt]
+\bottomrule\end{tabular}

@@ -1,0 +1,466 @@
+{
+  "schema_version": "step4-crosscheck-inputs-v1",
+  "reference_id": "WS128-INT8-semantic-banks-v1",
+  "tile_N_K": [
+    128,
+    128
+  ],
+  "precision_role_bytes": {
+    "b_x": 1,
+    "b_z": 1,
+    "b_q": 1,
+    "b_p": 1,
+    "b_W": 1,
+    "b_gate": 1,
+    "b_up": 1,
+    "b_down": 1,
+    "b_K": 1,
+    "b_V": 1
+  },
+  "scientific_study_plan": {
+    "parameters": {
+      "B": [
+        8,
+        64,
+        512
+      ],
+      "B_definition": "同一份FFN／单路由专家权重一次驻留期间实际服务的输入向量总数；不是批次数，不自动等于全局batch size",
+      "L_tokens": [
+        1024,
+        16384,
+        131072
+      ],
+      "L_labels": [
+        "1K",
+        "16K",
+        "128K"
+      ],
+      "K_in_L_labels": 1024,
+      "scan": "B only for FFN/MoE; L only for Attention rows; no B×L Cartesian product"
+    },
+    "model_order": [
+      "qwen35_2b",
+      "ministral3_8b_2512",
+      "qwen36_35b_a3b",
+      "hy3_295b",
+      "ling_1t",
+      "mimo_v25_pro"
+    ],
+    "display_names": [
+      "Qwen3.5-2B",
+      "Ministral 3 8B (2512)",
+      "Qwen3.6-35B-A3B",
+      "Tencent Hy3 (295B)",
+      "Ling-1T",
+      "MiMo-V2.5-Pro"
+    ],
+    "rows": [
+      {
+        "id": "qkv_projection",
+        "label": "QKV Projection",
+        "window": "one input token",
+        "resident_policy": "native QKV projection weights pre-resident",
+        "sweep": null
+      },
+      {
+        "id": "ffn_or_moe",
+        "label": "FFN / MoE",
+        "unit": "one dense FFN or one routed expert FFN",
+        "window": "one loading followed by B input-vector uses, then replacement",
+        "sweep": "B"
+      },
+      {
+        "id": "attention_prefill",
+        "label": "Attention Prefill",
+        "initial_KV_tokens": 0,
+        "final_KV_tokens": "L",
+        "window": "establish segment KV and complete corresponding causal Attention matrix tasks",
+        "sweep": "L"
+      },
+      {
+        "id": "attention_decode",
+        "label": "Attention Decode",
+        "initial_KV_tokens": "L-1",
+        "append_tokens": 1,
+        "visible_KV_tokens": "L",
+        "sweep": "L"
+      }
+    ],
+    "selection_rules": [
+      "Keep the six models in fixed order; no substitution or ranking.",
+      "Language backbone only; exclude vision/audio encoders.",
+      "For hybrid architectures select native full GQA, not linear Attention, Mamba or MLA.",
+      "Use full/global GQA where global and sliding-window attention coexist.",
+      "Preserve native heads and actual QK/V dimensions; do not force GQA-8.",
+      "Record actual layer topology; selected sublayer is not the entire model.",
+      "Residency, B and L are study scenarios, not claimed execution facts from model reports."
+    ],
+    "definitions": {
+      "Q_S": "窗口内经过声明 streaming 输入边界并被服务的逻辑操作数字节累计量",
+      "Q_R": "窗口内建立、更新或重载可计算 resident 状态的逻辑写入字节累计量",
+      "RI": "Q_S/Q_R",
+      "Q_R_zero": "RI=Infinity (symbolic endpoint, not a JSON nonfinite number)",
+      "shape_N_K": "N output dimension, K input dimension",
+      "one_use": "one input-vector evaluation"
+    },
+    "reference": {
+      "streaming_precision": "INT8 logical reference, 1 Byte/element; role widths retained symbolically",
+      "resident_weight_precision": "INT8 logical reference, 1 Byte/element",
+      "KV_precision": "INT8 logical reference, 1 Byte/element for K and V separately",
+      "attention_coefficient_precision": "nonnegative subset of signed INT8, 1 Byte/element; re-quantized after softmax",
+      "mapping_and_counting_rules": "128x128 independent semantic-matrix tile banks; ports primary, operator-stage shared-input frontier contrast; fixed residency and causal prefix append",
+      "native_precision_records": "models.json unchanged; the selected INT8 reference is not an accuracy claim"
+    },
+    "fixed_task_I": {
+      "status": "completed and reviewed; immutable input",
+      "common_periphery_nm": 28,
+      "logical_matrix_shape": [
+        128,
+        128
+      ],
+      "input_dtype": "INT8",
+      "weight_dtype": "INT8",
+      "input_bytes_per_vector": 128,
+      "resident_matrix_bytes": 16384,
+      "resident_matrix_size_label": "16 KiB",
+      "review_path": "../task1_table_I_NVM/analysis/TEN_CASE_REVIEW.zh.md",
+      "not_automatically_compatible_with_model_native_precision": true
+    }
+  },
+  "model_order": [
+    "qwen35_2b",
+    "ministral3_8b_2512",
+    "qwen36_35b_a3b",
+    "hy3_295b",
+    "ling_1t",
+    "mimo_v25_pro"
+  ],
+  "raw_inputs": {
+    "qwen35_2b": {
+      "D": 2048,
+      "F": 6144,
+      "Hq": 8,
+      "Hkv": 2,
+      "dqk": 256,
+      "dv": 256,
+      "gate": true,
+      "selected_layer": 3,
+      "config": "literature/01_qwen35_2b/raw/config.json",
+      "config_sha256": "ed1c1723241f23f7f4e23430759cbd7dcfb4103cbdfe052bfe7626b57c2615b4",
+      "implementation": "literature/00_shared/raw/transformers/modeling_qwen3_5.py",
+      "implementation_sha256": "f567c3e4b7db57b5d04be57a8fe9788e7c19aaa01aad877ee0daf94b2dab1925"
+    },
+    "ministral3_8b_2512": {
+      "D": 4096,
+      "F": 14336,
+      "Hq": 32,
+      "Hkv": 8,
+      "dqk": 128,
+      "dv": 128,
+      "gate": false,
+      "selected_layer": 0,
+      "config": "literature/02_ministral3_8b/raw/config.json",
+      "config_sha256": "5aae04beb9f2a9949eb1df870cf47ba292012a066bdcdcb115a9ac43425f8086",
+      "implementation": "literature/00_shared/raw/transformers/modeling_ministral3.py",
+      "implementation_sha256": "3859fbe0f5b89cc14951ee9548896f20fc92addfc18fc7685dd395bf054c80c8"
+    },
+    "qwen36_35b_a3b": {
+      "D": 2048,
+      "F": 512,
+      "Hq": 16,
+      "Hkv": 2,
+      "dqk": 256,
+      "dv": 256,
+      "gate": true,
+      "selected_layer": 3,
+      "config": "literature/03_qwen36_35b_a3b/raw/config.json",
+      "config_sha256": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+      "implementation": "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py",
+      "implementation_sha256": "85e8683f1b7b043804357f2a6abdc63511d4a25eb34c454220bdaf5e58749f64"
+    },
+    "hy3_295b": {
+      "D": 4096,
+      "F": 1536,
+      "Hq": 64,
+      "Hkv": 8,
+      "dqk": 128,
+      "dv": 128,
+      "gate": false,
+      "selected_layer": 1,
+      "config": "literature/04_hy3_295b/raw/config.json",
+      "config_sha256": "0c9daab42bff9cce1b6f058b10d7b730f76d583e583e28ad56e92b36373246f0",
+      "implementation": "literature/00_shared/raw/transformers/modeling_hy_v3.py",
+      "implementation_sha256": "0211818995eab443d8bd459d867a44b9d2e1c85264004638165958fd6885d363"
+    },
+    "ling_1t": {
+      "D": 8192,
+      "F": 2048,
+      "Hq": 64,
+      "Hkv": 8,
+      "dqk": 128,
+      "dv": 128,
+      "gate": false,
+      "selected_layer": 4,
+      "config": "literature/05_ling_1t/raw/config.json",
+      "config_sha256": "c3ee3fe1e54876e6f0a245554504519162fbcd9c3ef92a7bfd6d5ad3b5953721",
+      "implementation": "literature/05_ling_1t/raw/modeling_bailing_moe_v2.py",
+      "implementation_sha256": "2f73b14e5f9f56c5e78df01813bddce43e856ffe4fdcfcd77ec0a3a2111cd1dd"
+    },
+    "mimo_v25_pro": {
+      "D": 6144,
+      "F": 2048,
+      "Hq": 128,
+      "Hkv": 8,
+      "dqk": 192,
+      "dv": 128,
+      "gate": false,
+      "selected_layer": 7,
+      "config": "literature/06_mimo_v25_pro/raw/config.json",
+      "config_sha256": "7e11c6cd358a841d5ac016fc80c030cad14d418ee125e9bde1eb6d0757b635d6",
+      "implementation": "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py",
+      "implementation_sha256": "4d33f4bd84a23c0ada163113dea3f28ecaa130370a9c3ef317d965cb031d1d5a"
+    }
+  },
+  "fixed_source_hashes": {
+    "data/models.json": "d74867a53de5adbc1ec6d7d2cd10903d3553e8993cdd3057e8c6fc8cf460e1a2",
+    "data/sources.json": "377a1a648efc0c73a3370e048db23c6ea9c39862ed9d36c644f2a2d281c3b0d8",
+    "shared/data/conventions.json": "4aac441f18149b85d4208042abec1999592ff88ee75a5b3e85e937361f45accc",
+    "shared/scripts/counting.py": "2bf0af027e7be80ec0f4a08e76aec1bbea78ee937849be128c979a97d05dcd06",
+    "shared/tex/counting_method.zh.tex": "3f9a390bb03d0f2f1b2cd2654e5b84e2a013969b1ce0303cc67557838d7725a9",
+    "table_IIb/pilot/data/results.json": "4eb093c1e0eb6a3e1cbbd049a3f495a7ec4679b1af6cfa96cf38d0fe1c081bec"
+  },
+  "deliveries": [
+    {
+      "directory": "table_IIb/01_qkv_projection",
+      "delivery_revision": 2,
+      "delivery_sha256": "6377df5399a9a6333fa9a7374c93047504437936cac7d1b596046aba82eb1297",
+      "results_sha256": "c342f0781f396df3d18d6bfcc94bdef95c3846f9985a8ca0e038297f0ef69a27",
+      "verified_artifacts": [
+        {
+          "path": "table_IIb/01_qkv_projection/data/results.json",
+          "sha256": "c342f0781f396df3d18d6bfcc94bdef95c3846f9985a8ca0e038297f0ef69a27"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/data/results.csv",
+          "sha256": "8e3c3b370e683a7138a0869983e1ef01b9ccf112bcd359069c6fe3ad3520f6f0"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/data/config.json",
+          "sha256": "6e3cb5d36735ba603ff361dfa8ef35341766a617af9b31f87c650c2ea06b3b96"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/data/checks.json",
+          "sha256": "9345f0aa080b58ab92b085b647514a80885abbb5c1e6a22b9bd655589c13b681"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/data/pdf_qa.json",
+          "sha256": "eddf337e17aab60fdd238dff34a8086840210f8636f140e1b9403145ffb1a351"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/output/pdf/qkv.zh.pdf",
+          "sha256": "f911be8f723088c94549247e34657425ad480ecf4d81351d02e7cffa21a4893d"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/tex/qkv.zh.tex",
+          "sha256": "4b22899814f6cb5d7990c72a1099054d01c14f2dde85243723da0239af3ac6d1"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/tex/shapes.generated.tex",
+          "sha256": "40ffbe89cb263e11719d621c7f2ee247feb5c16529ecf179a80784cb0dff4484"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/tex/totals.generated.tex",
+          "sha256": "d7907b0dfe2c60252904770ce687538c45787f1442da9dbfa28efef0eb35cfe3"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/tex/parts.generated.tex",
+          "sha256": "59e3518f774f4d8fe8b9d6e7fe70fb91ac064923f939a9504d9b1d41f904452c"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/README.md",
+          "sha256": "6a933f2f6e59337db9d2e7b8af9dee05bfb540f4b0844c11a8438e35fb3b530f"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/OVERVIEW.zh.md",
+          "sha256": "2e80e62fdfb61e971797a59dc85e66a6a610390c3a4c837724f383092ddca12e"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/scripts/generate.py",
+          "sha256": "e25f5d6dc46cb6f42c7e4fedbf4f487ca4d52bc8bfb9e4b3db5a81ff563b69a5"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/scripts/check.py",
+          "sha256": "b9c163247303a80f907d1855ed36716b7053c2933aa8c36c91db031f10320610"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/scripts/build.sh",
+          "sha256": "c1fb68460bc3880085cbbdcffb97296611e248f10eeba48a5bf4c5a478ae8569"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/scripts/render.py",
+          "sha256": "3863a5845028f3f964a5b5422715b96be54c6259cf6846a9fabe296e01469e6f"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/scripts/verify_delivery.py",
+          "sha256": "1f1785ae96fa6ebd4f4dd1b60a0bb36a7c1c21382a126604aeb77102a14fe050"
+        },
+        {
+          "path": "table_IIb/01_qkv_projection/.gitignore",
+          "sha256": "2b11c1ef69f3f89d924a0e0addc24233f949b738bc06c8d24956ad4a82e9e906"
+        }
+      ]
+    },
+    {
+      "directory": "table_IIb/02_ffn_moe",
+      "delivery_revision": 2,
+      "delivery_sha256": "de42185a100e94d874030d7df9728cfb0a3787f0f59e9b57c02a9b05b03b7aaf",
+      "results_sha256": "5fc920987cd169108e39c72b5c844d0217b504dedffb8f9fbfce8f0ce40a4e8b",
+      "verified_artifacts": [
+        {
+          "path": "table_IIb/02_ffn_moe/data/results.json",
+          "sha256": "5fc920987cd169108e39c72b5c844d0217b504dedffb8f9fbfce8f0ce40a4e8b"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/data/results.csv",
+          "sha256": "1382ddc7873b5472762c296b1ce3622029c1f4c199e6f7cc4001ce1b1077f591"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/output/ffn_moe.zh.pdf",
+          "sha256": "7a7a439b3c05684e1f7fe9cfc7c2fe3bbb28a8d1aeff67a279d74d92799d21ac"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/tex/ffn_moe.zh.tex",
+          "sha256": "5a652f8c35105066ab298f57958f591b82713c7c731d94e41004d9191767db8d"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/README.md",
+          "sha256": "2efcb4183f14316acc0b90206791838fb2811473fe4ba7e9b628f5e15ab4fe19"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/data/checks.json",
+          "sha256": "82729e37e0e7c7d04fd2512a93d5d8d328d1820c2b7b5e25e4c237d1dd6849d6"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/data/config.json",
+          "sha256": "12500c5ee3426c56f49bd6cbdd4c1243e473dd746b48660fd239a49a2f2ed47e"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/OVERVIEW.zh.md",
+          "sha256": "59d4c53d18e8792efd085282340435fec7db3cfc0b27c1f32432221c2f7abf6c"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/data/pdf_qa.json",
+          "sha256": "193af2f6030661f70bc7e7a47008964e3867acebff082222ff132afc32303cff"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/scripts/generate.py",
+          "sha256": "cdfbfa6d45184eb04943aa8dd36ee7e1ebd56c924e20196497c80ee0016dd0a0"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/scripts/check.py",
+          "sha256": "feacef32beff7de5b395b68d1f0c02966d4eb0faac5acf1282ab07f92b5a246e"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/scripts/build.sh",
+          "sha256": "b93d78ed83f9e55494bc35233f7b9e9d630a17598736a384931559d909dcd97c"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/scripts/render.py",
+          "sha256": "dd33a40efb50728cdd3ef38e18471afb381df0ae7268e2a7a86efaa42005579c"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/.gitignore",
+          "sha256": "fdeeb649fd037173555f9b29648087976468c9b011e4249285074e2800363541"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/tex/demand.generated.tex",
+          "sha256": "c3b4daad349fb8551c22f4199d4112886e1e67e4f644c3ee8864fc04d72df31c"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/tex/operator_ri.generated.tex",
+          "sha256": "fb36367eeee83b2d6b06a7033618fb9c5f16a138c0df5231ebf713993706bb8d"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/tex/overview.generated.tex",
+          "sha256": "c902cbe4eeef055aedc8f9da2f89c78355cf7a9213934e0f36b96daf3e6ea8f1"
+        },
+        {
+          "path": "table_IIb/02_ffn_moe/tex/shapes.generated.tex",
+          "sha256": "70fd978062da696389bb86074a92c78ce54fb5b13ea4c8fbc695077b77bc79fd"
+        }
+      ]
+    },
+    {
+      "directory": "table_IIb/03_attention",
+      "delivery_revision": 1,
+      "delivery_sha256": "e0e1012922866def44382db5340c409bce49d90a85ab6f7642d96174d65e2cfa",
+      "results_sha256": "7f552ac50508897407e7856c96221a3a73e2ac28ff5629b512a9f35736875107",
+      "verified_artifacts": [
+        {
+          "path": "table_IIb/03_attention/data/results.json",
+          "sha256": "7f552ac50508897407e7856c96221a3a73e2ac28ff5629b512a9f35736875107"
+        },
+        {
+          "path": "table_IIb/03_attention/data/results.csv",
+          "sha256": "4f2a004da8183c601434b889436744d8b896ce02661e41dfeaf3b05b9b08a5da"
+        },
+        {
+          "path": "table_IIb/03_attention/data/config.json",
+          "sha256": "f90402ff2e36cf955ed07f8beaa74b9146669db9f3b9e443bcf68c434cf7d519"
+        },
+        {
+          "path": "table_IIb/03_attention/data/checks.json",
+          "sha256": "1cc430d873328072e061291f2ec7585115d7ff8192b3c9278dbaa650ffaf3b61"
+        },
+        {
+          "path": "table_IIb/03_attention/data/pdf_qa.json",
+          "sha256": "63210c4728484a0f55c6cb0eb75e12b6ea26d338737169e30aae4d219b049517"
+        },
+        {
+          "path": "table_IIb/03_attention/output/attention.zh.pdf",
+          "sha256": "263da8ee35fb10cd6420fec5030f3c4d0e5ee758e08b2f8d630e566f2ec553cb"
+        },
+        {
+          "path": "table_IIb/03_attention/tex/attention.zh.tex",
+          "sha256": "85c4b1298e5453dfdef5593410cb0fad35efd40322e484f23b2b9fe0efb15392"
+        },
+        {
+          "path": "table_IIb/03_attention/tex/ports.generated.tex",
+          "sha256": "fd6779bf6a33dab942eb19b15d2a287347c03b59d2c7f1822042edc1c9a7850d"
+        },
+        {
+          "path": "table_IIb/03_attention/tex/operator.generated.tex",
+          "sha256": "6cd7d26890c4e9b0d01b5f0079f66445720e5f00e7d3dced16112ef888b4d377"
+        },
+        {
+          "path": "table_IIb/03_attention/README.md",
+          "sha256": "af3dbca2ee529664db2f9e1fd5755ca7d4d24a55734205c7dd151c855a8b30c2"
+        },
+        {
+          "path": "table_IIb/03_attention/OVERVIEW.zh.md",
+          "sha256": "0496cbb9590943a3bca07fe1f39f9519d51fe0cb5441161c1b23085994326e2d"
+        },
+        {
+          "path": "table_IIb/03_attention/scripts/generate.py",
+          "sha256": "043dc77d983de1df4856b445dd1761d9eaba8172188fc9a1bdbdd68a4b6e86ce"
+        },
+        {
+          "path": "table_IIb/03_attention/scripts/check.py",
+          "sha256": "e7e6908f491023ed7c7c9fa6873f0aa170c66130b93e541abc3487c7c4a7c1c9"
+        },
+        {
+          "path": "table_IIb/03_attention/scripts/build.sh",
+          "sha256": "d94287c003d56ff974e0ba0f5c7c14b518e9cf77839c21df33bdcf917664241b"
+        },
+        {
+          "path": "table_IIb/03_attention/scripts/render.py",
+          "sha256": "c8fa74bd9d0c5a6de7ec44d0def390116029832e7b3aff3623b1aba68ba8f5d9"
+        },
+        {
+          "path": "table_IIb/03_attention/.gitignore",
+          "sha256": "1281b3d9998c12845b79ea5064c1c800a2ee51ffc6d4468dc0dfd043616c66a0"
+        }
+      ]
+    }
+  ]
+}
