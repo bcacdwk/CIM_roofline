@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "reference_id": "operator-workloads",
+  "foundation": "table_IIa: RI=U/N, one full load and U served vectors",
+  "boundary": "operator_stage",
+  "element_bytes": 1,
+  "model_order": [
+    "qwen35_2b",
+    "ministral3_8b_2512",
+    "qwen36_35b_a3b",
+    "hy3_295b",
+    "ling_1t",
+    "mimo_v25_pro"
+  ],
+  "selected_layers": [
+    3,
+    0,
+    3,
+    1,
+    4,
+    7
+  ],
+  "sweeps": {
+    "qkv_projection": {
+      "U": [
+        1,
+        1024,
+        131072,
+        1048576,
+        "infinity"
+      ]
+    },
+    "ffn_or_moe": {
+      "U": [
+        1,
+        16,
+        128,
+        1024,
+        16384
+      ]
+    },
+    "attention_prefill": {
+      "L": [
+        1024,
+        8192,
+        65536
+      ]
+    },
+    "attention_decode": {
+      "L": [
+        1024,
+        8192,
+        65536
+      ]
+    }
+  },
+  "expected_counts": {
+    "qkv_projection": {
+      "finite": 24,
+      "limit": 6
+    },
+    "ffn_or_moe": {
+      "finite": 30,
+      "limit": 0
+    },
+    "attention_prefill": {
+      "finite": 18,
+      "limit": 0
+    },
+    "attention_decode": {
+      "finite": 18,
+      "limit": 0
+    }
+  },
+  "results_root_keys": [
+    "schema_version",
+    "reference_id",
+    "boundary",
+    "model_order",
+    "workload_ids",
+    "cases"
+  ],
+  "case_keys": [
+    "case_id",
+    "model_id",
+    "model_revision",
+    "selected_layer",
+    "workload",
+    "kind",
+    "U",
+    "L",
+    "parameters",
+    "window",
+    "result",
+    "components"
+  ],
+  "case_id": "model_id/workload/exact_sweep_integer; infinity suffix for symbolic QKV limit",
+  "demand_keys": [
+    "Q_S",
+    "Q_R",
+    "RI",
+    "resident_bytes_initial",
+    "resident_bytes_final"
+  ],
+  "result_additional_keys": [
+    "shared_input_bytes_removed"
+  ],
+  "component_keys": [
+    "id",
+    "shape_N_K",
+    "state_copies",
+    "input_role",
+    "Q_S",
+    "Q_R",
+    "RI",
+    "resident_bytes_initial",
+    "resident_bytes_final"
+  ],
+  "components_type": "ordered list: Q,[G],K,V; gate,up,down; QK,AV",
+  "unused_sweep": "U or L not used by this workload is null",
+  "exact_values": "integers or {numerator,denominator}; infinity is string; no binary float counts",
+  "limit_rule": "QKV U=infinity: Q_S/RI/shared overlap grow without bound, Q_R and resident state remain finite; kind=limit; do not subtract infinities",
+  "csv_columns": [
+    "case_id",
+    "model_id",
+    "model_revision",
+    "selected_layer",
+    "workload",
+    "kind",
+    "U",
+    "L",
+    "component",
+    "N",
+    "K",
+    "state_copies",
+    "Q_S_Byte",
+    "Q_R_Byte",
+    "RI_exact",
+    "resident_initial_Byte",
+    "resident_final_Byte",
+    "shared_input_removed_Byte"
+  ],
+  "csv_aggregate": "component=total; N,K,state_copies blank; components leave shared_input_removed_Byte blank",
+  "config_root_keys": [
+    "schema_version",
+    "reference_id",
+    "boundary",
+    "element_bytes",
+    "model_order",
+    "sweeps",
+    "window_rules",
+    "models",
+    "sources"
+  ],
+  "sources_format": "list of {path,sha256,locator}; paths relative task root, archived paths may use ../archived/task2_table_IIb_previous/...",
+  "pdf_qa_format": {
+    "status": "PASS",
+    "pdf": "output/report.zh.pdf",
+    "sha256": "actual PDF hash",
+    "page_count": "integer",
+    "page_reviews": [
+      {
+        "page": "integer",
+        "png": "tmp/pdfs/page-01.png",
+        "sha256": "actual PNG hash",
+        "notes": "Chinese inspection note"
+      }
+    ]
+  },
+  "delivery_format": {
+    "schema_version": 1,
+    "status": "ready_for_review",
+    "owner": "agent name",
+    "revision": 1,
+    "case_counts": {
+      "finite": "integer",
+      "limit": "integer"
+    },
+    "files": [
+      {
+        "path": "relative to own directory",
+        "sha256": "file hash"
+      }
+    ],
+    "recompute_commands": [
+      "commands from repository root"
+    ]
+  },
+  "forbidden_result_fields": [
+    "ports",
+    "tile_layout",
+    "tile_evaluations",
+    "allocated_tile_bytes"
+  ],
+  "legacy_root": "tasks/archived/task2_table_IIb_previous",
+  "legacy_regression": "FFN compares against archived operator scaled by U/old_B; Attention legacy cases independently rechecked, 12 current 1K cases overlap; QKV U=1 changed-window comparison",
+  "container_types": {
+    "config.models": "list in model_order; each model uses the exact config_model_keys below",
+    "config.sources": "list of {path:string,sha256:string,locator:string}",
+    "config.sweeps": "object keyed by workload id; value is {U:[...]} or {L:[...]}",
+    "config.window_rules": "object keyed by workload id; each value uses window_keys below",
+    "case.parameters": "object of named native scalar dimensions; values retain exact types",
+    "case.window": "object using the exact window_keys below",
+    "results.cases": "list in model order, then workload order, then sweep order",
+    "case.components": "list in the exact semantic order given above",
+    "checks": "object with the exact checks_root_keys below"
+  },
+  "config_model_keys": [
+    "model_id",
+    "display_name",
+    "model_revision",
+    "selected_layer",
+    "parameters",
+    "context_notes",
+    "source_paths"
+  ],
+  "window_keys": [
+    "initial_state",
+    "resident_write_rule",
+    "streaming_input_rule"
+  ],
+  "window_field_types": "all three window fields are concise strings; numeric U/L and demand fields carry actual values",
+  "checks_root_keys": [
+    "schema_version",
+    "reference_id",
+    "status",
+    "case_counts",
+    "independent_checks",
+    "legacy_comparison",
+    "source_checks",
+    "notes"
+  ],
+  "reuse_definition": "U: reuse count, cumulative input vectors served after one complete weight load, including the first use; may span batches/requests",
+  "display": {
+    "K": 1024,
+    "M": 1048576,
+    "RI": "RI >= 1: one decimal place; 0 < RI < 1: three significant digits, fixed decimal notation; ROUND_HALF_UP"
+  }
+}

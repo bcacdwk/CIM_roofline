@@ -1,106 +1,82 @@
 {
-  "schema_version": "step4-delivery-v1",
+  "schema_version": 1,
   "status": "ready_for_review",
-  "delivery_revision": 2,
-  "owner": "Agent B (FFN/MoE)",
-  "date": "2026-09-25",
-  "case_count": 18,
-  "matrix_part_count": 54,
-  "pilot_overlap_count": 6,
-  "start_head": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
-  "shared_reference_id": "WS128-INT8-semantic-banks-v1",
-  "path_base": "tasks/task2_table_II_workloads/",
-  "artifacts": {
-    "results": {
-      "path": "table_IIb/02_ffn_moe/data/results.json",
-      "sha256": "5fc920987cd169108e39c72b5c844d0217b504dedffb8f9fbfce8f0ce40a4e8b"
+  "owner": "main Agent",
+  "revision": 3,
+  "case_counts": {
+    "finite": 30,
+    "limit": 0
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "fc65175690d141b3e0c82bfa287bbbeee8f191065d57dbb08347c2eaf8c15171"
     },
-    "csv": {
-      "path": "table_IIb/02_ffn_moe/data/results.csv",
-      "sha256": "1382ddc7873b5472762c296b1ce3622029c1f4c199e6f7cc4001ce1b1077f591"
+    {
+      "path": "PREVIEW.zh.md",
+      "sha256": "3743fe482f2bdb8870b0a6e35c762d38e363816201b1db65ef7348b452781dd3"
     },
-    "pdf": {
-      "path": "table_IIb/02_ffn_moe/output/ffn_moe.zh.pdf",
-      "sha256": "7a7a439b3c05684e1f7fe9cfc7c2fe3bbb28a8d1aeff67a279d74d92799d21ac"
+    {
+      "path": ".gitignore",
+      "sha256": "1281b3d9998c12845b79ea5064c1c800a2ee51ffc6d4468dc0dfd043616c66a0"
     },
-    "tex": {
-      "path": "table_IIb/02_ffn_moe/tex/ffn_moe.zh.tex",
-      "sha256": "5a652f8c35105066ab298f57958f591b82713c7c731d94e41004d9191767db8d"
+    {
+      "path": "data/config.json",
+      "sha256": "16e5f61bb6f3bcbce31a23fac0a17cfd61875bf50ecaa338c6bf340060876791"
     },
-    "readme": {
-      "path": "table_IIb/02_ffn_moe/README.md",
-      "sha256": "2efcb4183f14316acc0b90206791838fb2811473fe4ba7e9b628f5e15ab4fe19"
+    {
+      "path": "data/results.json",
+      "sha256": "c5c1105fe77464b41a2a1de0abaae715b932f5c8ee3a962bb32275c05bef93e0"
     },
-    "checks": {
-      "path": "table_IIb/02_ffn_moe/data/checks.json",
-      "sha256": "82729e37e0e7c7d04fd2512a93d5d8d328d1820c2b7b5e25e4c237d1dd6849d6"
+    {
+      "path": "data/results.csv",
+      "sha256": "92fa9822245a3d14bb95a4b7fefb9f266356fd5cee7e0c84a16fc09bb8b95aa1"
     },
-    "config": {
-      "path": "table_IIb/02_ffn_moe/data/config.json",
-      "sha256": "12500c5ee3426c56f49bd6cbdd4c1243e473dd746b48660fd239a49a2f2ed47e"
+    {
+      "path": "data/checks.json",
+      "sha256": "5bf59d8457dc6e0b0c87ffd075b9bf062f06645fea585080b668cbc1bc11991c"
     },
-    "overview": {
-      "path": "table_IIb/02_ffn_moe/OVERVIEW.zh.md",
-      "sha256": "59d4c53d18e8792efd085282340435fec7db3cfc0b27c1f32432221c2f7abf6c"
+    {
+      "path": "data/pdf_qa.json",
+      "sha256": "86ba3734482618c08d93190f816c14e27ad1613b0a4cee4020d4351f02580658"
     },
-    "pdf_qa": {
-      "path": "table_IIb/02_ffn_moe/data/pdf_qa.json",
-      "sha256": "193af2f6030661f70bc7e7a47008964e3867acebff082222ff132afc32303cff"
+    {
+      "path": "tex/report.zh.tex",
+      "sha256": "965fb8b865d3e38606d6c9ed3a39ea0466499d38ed69531d5682f8bf4bfc90d5"
     },
-    "generator": {
-      "path": "table_IIb/02_ffn_moe/scripts/generate.py",
-      "sha256": "cdfbfa6d45184eb04943aa8dd36ee7e1ebd56c924e20196497c80ee0016dd0a0"
+    {
+      "path": "tex/models.generated.tex",
+      "sha256": "5d1661f66ef5e89e7435bc95b19fe16e796c9aed04c8da39284b036ffd9633ca"
     },
-    "independent_checker": {
-      "path": "table_IIb/02_ffn_moe/scripts/check.py",
-      "sha256": "feacef32beff7de5b395b68d1f0c02966d4eb0faac5acf1282ab07f92b5a246e"
+    {
+      "path": "tex/results.generated.tex",
+      "sha256": "57b867ff6c59e0283fbb1e4708cd2dc3485e9d1e1a7a0a79f6bebec333e3dc3d"
     },
-    "build_script": {
-      "path": "table_IIb/02_ffn_moe/scripts/build.sh",
-      "sha256": "b93d78ed83f9e55494bc35233f7b9e9d630a17598736a384931559d909dcd97c"
+    {
+      "path": "output/report.zh.pdf",
+      "sha256": "e4f24232e7fb1fc2ac1e4fa0a087dea515d72d4ffe3c0122139cc1757c81b011"
     },
-    "renderer": {
-      "path": "table_IIb/02_ffn_moe/scripts/render.py",
-      "sha256": "dd33a40efb50728cdd3ef38e18471afb381df0ae7268e2a7a86efaa42005579c"
+    {
+      "path": "scripts/generate.py",
+      "sha256": "e6000970fcfe921d5244fad4ce84b6a841c6b006f609b846189df453bc3d86e3"
     },
-    "local_ignore": {
-      "path": "table_IIb/02_ffn_moe/.gitignore",
-      "sha256": "fdeeb649fd037173555f9b29648087976468c9b011e4249285074e2800363541"
+    {
+      "path": "scripts/check.py",
+      "sha256": "d2d0fc6c96dd8bb867bcc705551005d4d8db5671904fe43fd19b6baf48806ade"
     },
-    "demand.generated": {
-      "path": "table_IIb/02_ffn_moe/tex/demand.generated.tex",
-      "sha256": "c3b4daad349fb8551c22f4199d4112886e1e67e4f644c3ee8864fc04d72df31c"
+    {
+      "path": "scripts/build.sh",
+      "sha256": "491b2615c5e4e952a0c4def0d110e86a52aa36155ff7f392210e87b2aadd3036"
     },
-    "operator_ri.generated": {
-      "path": "table_IIb/02_ffn_moe/tex/operator_ri.generated.tex",
-      "sha256": "fb36367eeee83b2d6b06a7033618fb9c5f16a138c0df5231ebf713993706bb8d"
-    },
-    "overview.generated": {
-      "path": "table_IIb/02_ffn_moe/tex/overview.generated.tex",
-      "sha256": "c902cbe4eeef055aedc8f9da2f89c78355cf7a9213934e0f36b96daf3e6ea8f1"
-    },
-    "shapes.generated": {
-      "path": "table_IIb/02_ffn_moe/tex/shapes.generated.tex",
-      "sha256": "70fd978062da696389bb86074a92c78ce54fb5b13ea4c8fbc695077b77bc79fd"
+    {
+      "path": "scripts/render.py",
+      "sha256": "1822ea7c96f2604b5a739eecfbf194f6b3fd63b3b2d283994896a8c38354da2a"
     }
-  },
-  "reproduce_cwd": "tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/",
-  "recompute_commands": [
-    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python scripts/generate.py",
-    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python scripts/check.py"
   ],
-  "pdf_build_command": "TASK2_PYTHON=/opt/anaconda3/bin/python sh scripts/build.sh",
-  "render_command": "/opt/anaconda3/bin/python scripts/render.py",
-  "validation": {
-    "independent_raw_config_tile_cases": "18 PASS",
-    "pilot_full_record_regressions": "6 PASS",
-    "transpose_pair_checks": "3 PASS",
-    "pdf_pages_viewed": 4,
-    "latex_overfull": 0,
-    "missing_glyphs": 0,
-    "step1_step2_changes_required": false,
-    "representative_complete_substitution": "Qwen3.6 single routed expert, B=8: 512x2048/2048x512 -> each 64 tiles -> each ports Q_S=65536, Q_R=1048576, calls=512 -> ports RI=1/16; operator Q_S=20480 after overlap 16384, RI=5/768"
-  },
-  "scope": "six selected Dense FFNs or single routed experts; B=8,64,512; no top-k, all/shared experts or layer multipliers; no hardware performance and no Step 5",
-  "revision_note": "第3页补充Qwen3.6单专家B=8完整数字代入；18工况数据、独立检查与来源文件全部保持revision1哈希。4页PDF已重新编译、渲染并逐页查看，零版面警告。"
+  "recompute_commands": [
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/generate.py",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/check.py",
+    "TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/build.sh",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/render.py"
+  ]
 }

@@ -1,0 +1,462 @@
+{
+  "status": "PASS",
+  "reference_id": "OPERATOR-RESIDENCY-v2",
+  "finite_checks": [
+    {
+      "case_id": "N128/K128/U1",
+      "independent_result": {
+        "Q_S": 128,
+        "Q_R": 16384,
+        "RI": {
+          "numerator": 1,
+          "denominator": 128
+        },
+        "resident_capacity_bytes": 16384
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N128/K128/U128",
+      "independent_result": {
+        "Q_S": 16384,
+        "Q_R": 16384,
+        "RI": 1,
+        "resident_capacity_bytes": 16384
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N128/K128/U1024",
+      "independent_result": {
+        "Q_S": 131072,
+        "Q_R": 16384,
+        "RI": 8,
+        "resident_capacity_bytes": 16384
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N128/K128/U16384",
+      "independent_result": {
+        "Q_S": 2097152,
+        "Q_R": 16384,
+        "RI": 128,
+        "resident_capacity_bytes": 16384
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N128/K128/U131072",
+      "independent_result": {
+        "Q_S": 16777216,
+        "Q_R": 16384,
+        "RI": 1024,
+        "resident_capacity_bytes": 16384
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N128/K128/U1048576",
+      "independent_result": {
+        "Q_S": 134217728,
+        "Q_R": 16384,
+        "RI": 8192,
+        "resident_capacity_bytes": 16384
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/U1",
+      "independent_result": {
+        "Q_S": 1024,
+        "Q_R": 1048576,
+        "RI": {
+          "numerator": 1,
+          "denominator": 1024
+        },
+        "resident_capacity_bytes": 1048576
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/U128",
+      "independent_result": {
+        "Q_S": 131072,
+        "Q_R": 1048576,
+        "RI": {
+          "numerator": 1,
+          "denominator": 8
+        },
+        "resident_capacity_bytes": 1048576
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/U1024",
+      "independent_result": {
+        "Q_S": 1048576,
+        "Q_R": 1048576,
+        "RI": 1,
+        "resident_capacity_bytes": 1048576
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/U16384",
+      "independent_result": {
+        "Q_S": 16777216,
+        "Q_R": 1048576,
+        "RI": 16,
+        "resident_capacity_bytes": 1048576
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/U131072",
+      "independent_result": {
+        "Q_S": 134217728,
+        "Q_R": 1048576,
+        "RI": 128,
+        "resident_capacity_bytes": 1048576
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/U1048576",
+      "independent_result": {
+        "Q_S": 1073741824,
+        "Q_R": 1048576,
+        "RI": 1024,
+        "resident_capacity_bytes": 1048576
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/U1",
+      "independent_result": {
+        "Q_S": 4096,
+        "Q_R": 16777216,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4096
+        },
+        "resident_capacity_bytes": 16777216
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/U128",
+      "independent_result": {
+        "Q_S": 524288,
+        "Q_R": 16777216,
+        "RI": {
+          "numerator": 1,
+          "denominator": 32
+        },
+        "resident_capacity_bytes": 16777216
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/U1024",
+      "independent_result": {
+        "Q_S": 4194304,
+        "Q_R": 16777216,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4
+        },
+        "resident_capacity_bytes": 16777216
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/U16384",
+      "independent_result": {
+        "Q_S": 67108864,
+        "Q_R": 16777216,
+        "RI": 4,
+        "resident_capacity_bytes": 16777216
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/U131072",
+      "independent_result": {
+        "Q_S": 536870912,
+        "Q_R": 16777216,
+        "RI": 32,
+        "resident_capacity_bytes": 16777216
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/U1048576",
+      "independent_result": {
+        "Q_S": 4294967296,
+        "Q_R": 16777216,
+        "RI": 256,
+        "resident_capacity_bytes": 16777216
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/U1",
+      "independent_result": {
+        "Q_S": 4096,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 1024
+        },
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/U128",
+      "independent_result": {
+        "Q_S": 524288,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 8
+        },
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/U1024",
+      "independent_result": {
+        "Q_S": 4194304,
+        "Q_R": 4194304,
+        "RI": 1,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/U16384",
+      "independent_result": {
+        "Q_S": 67108864,
+        "Q_R": 4194304,
+        "RI": 16,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/U131072",
+      "independent_result": {
+        "Q_S": 536870912,
+        "Q_R": 4194304,
+        "RI": 128,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/U1048576",
+      "independent_result": {
+        "Q_S": 4294967296,
+        "Q_R": 4194304,
+        "RI": 1024,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/U1",
+      "independent_result": {
+        "Q_S": 1024,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4096
+        },
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/U128",
+      "independent_result": {
+        "Q_S": 131072,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 32
+        },
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/U1024",
+      "independent_result": {
+        "Q_S": 1048576,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4
+        },
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/U16384",
+      "independent_result": {
+        "Q_S": 16777216,
+        "Q_R": 4194304,
+        "RI": 4,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/U131072",
+      "independent_result": {
+        "Q_S": 134217728,
+        "Q_R": 4194304,
+        "RI": 32,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/U1048576",
+      "independent_result": {
+        "Q_S": 1073741824,
+        "Q_R": 4194304,
+        "RI": 256,
+        "resident_capacity_bytes": 4194304
+      },
+      "pass_check": true
+    }
+  ],
+  "limit_checks": [
+    {
+      "case_id": "N128/K128/Uinfinity",
+      "argument": "positive input bytes per vector, fixed positive one-load writes; numerator unbounded",
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K1024/Uinfinity",
+      "argument": "positive input bytes per vector, fixed positive one-load writes; numerator unbounded",
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K4096/Uinfinity",
+      "argument": "positive input bytes per vector, fixed positive one-load writes; numerator unbounded",
+      "pass_check": true
+    },
+    {
+      "case_id": "N1024/K4096/Uinfinity",
+      "argument": "positive input bytes per vector, fixed positive one-load writes; numerator unbounded",
+      "pass_check": true
+    },
+    {
+      "case_id": "N4096/K1024/Uinfinity",
+      "argument": "positive input bytes per vector, fixed positive one-load writes; numerator unbounded",
+      "pass_check": true
+    }
+  ],
+  "explicit_event_cases": [
+    {
+      "U": 4,
+      "N": 3,
+      "K": 5,
+      "b_x": 1,
+      "b_w": 1,
+      "result": {
+        "Q_S": 20,
+        "Q_R": 15,
+        "RI": {
+          "numerator": 4,
+          "denominator": 3
+        },
+        "resident_capacity_bytes": 15
+      }
+    },
+    {
+      "U": 5,
+      "N": 7,
+      "K": 3,
+      "b_x": 2,
+      "b_w": {
+        "numerator": 1,
+        "denominator": 2
+      },
+      "result": {
+        "Q_S": 30,
+        "Q_R": {
+          "numerator": 21,
+          "denominator": 2
+        },
+        "RI": {
+          "numerator": 20,
+          "denominator": 7
+        },
+        "resident_capacity_bytes": {
+          "numerator": 21,
+          "denominator": 2
+        }
+      }
+    },
+    {
+      "U": 1,
+      "N": 129,
+      "K": 7,
+      "b_x": 1,
+      "b_w": 1,
+      "result": {
+        "Q_S": 7,
+        "Q_R": 903,
+        "RI": {
+          "numerator": 1,
+          "denominator": 129
+        },
+        "resident_capacity_bytes": 903
+      }
+    },
+    {
+      "U": 3,
+      "N": 1,
+      "K": 1,
+      "b_x": 1,
+      "b_w": 1,
+      "result": {
+        "Q_S": 3,
+        "Q_R": 1,
+        "RI": 3,
+        "resident_capacity_bytes": 1
+      }
+    },
+    {
+      "U": 2,
+      "N": 7,
+      "K": 129,
+      "b_x": 1,
+      "b_w": 1,
+      "result": {
+        "Q_S": 258,
+        "Q_R": 903,
+        "RI": {
+          "numerator": 2,
+          "denominator": 7
+        },
+        "resident_capacity_bytes": 903
+      }
+    }
+  ],
+  "scaling_checks": [
+    "U scales input and RI",
+    "K scales both demands, not RI",
+    "doubling N halves RI"
+  ],
+  "historical_snapshots_verified": 7,
+  "hardware_partition_parameters_used": false,
+  "method": "Independent input/weight row counts; explicit identities for small, non-aligned and unequal-byte-width cases; infinity verified as a symbolic linear-growth limit, not a zero-write finite window."
+}

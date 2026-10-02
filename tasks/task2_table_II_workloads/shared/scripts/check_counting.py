@@ -181,11 +181,13 @@ def main(emit=False):
             assert doubled['ports']['Q_R']==prefix['ports']['Q_R']
             assert doubled['ports']['Q_S']==2*prefix['ports']['Q_S']
     checks.append({'kind':'prefill_decode_telescoping_and_GQA','verified':'both boundaries, subtask-compatible totals; L=1,7,8,129; resident writes invariant under doubled query heads','pass':True})
-    # Independent block sums for all formal II(a) cells; no large element enumeration.
+    # Preserve the reviewed v1 II(a) synthetic regression, not the current
+    # operator-only table. No large element enumeration.
     plan=json.loads((ROOT/'data/study_plan.json').read_text())
-    for n,k in plan['table_IIa']['columns_N_K']:
+    historical_IIa=plan.get('historical_table_IIa_step2',plan['table_IIa'])
+    for n,k in historical_IIa['columns_N_K']:
         for loads in [0,1]:same(c.matvec(n,k,1,loads),block_matrix(n,k,1,loads,1,1,128,128))
-    checks.append({'kind':'IIa_all_cells','shapes':plan['table_IIa']['columns_N_K'],'rows':2,'boundaries':2,'methods':['closed','independent tile sums'],'pass':True})
+    checks.append({'kind':'IIa_all_cells','shapes':historical_IIa['columns_N_K'],'rows':2,'boundaries':2,'methods':['closed','independent tile sums'],'pass':True})
     result={'status':'PASS','check_records':len(checks),'no_model_numeric_results':True,'checks':checks}
     dest=ROOT/'shared/data/synthetic_checks.json'
     if emit:dest.write_text(json.dumps(c.encode(result),ensure_ascii=False,indent=2)+'\n')

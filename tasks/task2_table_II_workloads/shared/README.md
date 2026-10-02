@@ -1,6 +1,8 @@
 # 共享计数方法
 
-**Step 2完成，待审阅。** 主参考为 `WS128-INT8-semantic-banks-v1`。
+**本目录保留 Step 2 的 v1 映射方法，供既有 Table II(b) 结果回查。** 参考为 `WS128-INT8-semantic-banks-v1`。
+
+2026-09-29：Table II(a) 已由用户授权独立重写为算子级 `OPERATOR-RESIDENCY-v2`，见 [当前 II(a)](../table_IIa/README.md)。本目录中文方法第3节及 `IIa_values.generated.tex` 是旧版历史内容，不再定义当前 II(a)；其 TeX/PDF 保持原样。
 
 - [中文方法 PDF](output/counting_method.zh.pdf) / [TeX](tex/counting_method.zh.tex)：按“前提—公式—例子—结论”逐节审阅。
 - [机器约定](data/conventions.json)：双边界、精度、驻留窗口、语义矩阵分块、GQA 与 append 方向、全部符号模板。
@@ -16,13 +18,13 @@
 
 Attention 采用逐 token 的因果前缀：先 append，再求值全部 query heads。K resident 为 `i × d_QK`，V resident 为 `d_V × i`；追加分别是行与列。GQA 每个 KV head 仅存一份状态。精确求和包含 `L(L+1)/2` 和 `sum ceil(i/T)`；并检验与逐步 Decode 的累计/差分一致。
 
-从仓库根检查并独立编译两个 PDF：
+下列历史组合构建会编译 v1 共享方法与当前 II(a)，两者参考范围已分开；只重建当前 II(a) 请使用其本地 build.sh：
 
 ```sh
 TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/shared/scripts/build.sh
 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/shared/scripts/render_pdfs.py
 ```
 
-默认检查不写数值数据。明确改动公式或共同参考后，需要先分别运行 `check_counting.py --emit`、`generate_IIa.py --emit` 刷新派生文件，再构建并重新查看 PDF。`build/`、`tmp/` 局部忽略；最终 PDF、TeX、JSON 和脚本保留。
+默认检查不写数值数据。`check_counting.py` 保留28项v1合成回归，旧II(a)形状从研究配置的历史设计读取。`generate_IIa.py` 仅转发当前II(a)生成器，不再更新旧共享稿数值片段；当前II(a)数值、独立检查及PDF均由其本地脚本维护。`build/`、`tmp/` 局部忽略；最终 PDF、TeX、JSON 和脚本保留。
 
-**Table II(b) 只有符号模板及合成检查，六模型正式数值未开始。**
+Table II(b) 六模型实例化已在 Step 4 完成；本目录旧稿中的“未开始/待审阅”保留当时语境。此次II(a)重写不改II(b)数据或v1计数公式。

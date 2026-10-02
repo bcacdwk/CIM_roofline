@@ -1,630 +1,968 @@
 {
-  "schema_version": "1.0",
-  "reference_id": "WS128-INT8-semantic-banks-v1",
-  "status": "Step 2完成，待审阅",
-  "primary_boundary": "ports",
-  "contrast_boundary": "operator",
+  "schema_version": "2.0",
+  "reference_id": "OPERATOR-RESIDENCY-v2",
+  "boundary": "operator",
   "Q_units": "Byte",
+  "RI_encoding": "integer or exact numerator/denominator; infinity is a symbolic limit",
+  "formulas": {
+    "Q_S_finite": "U*K*b_x",
+    "Q_R": "N*K*b_w",
+    "RI_general": "U*b_x/(N*b_w)",
+    "RI_equal_bytes": "U/N",
+    "resident_capacity_bytes": "N*K*b_w"
+  },
   "element_bytes": {
     "input": 1,
     "weight": 1
   },
-  "tile_shape_N_K": [
-    128,
-    128
+  "matrix_cases_N_K": [
+    [
+      128,
+      128
+    ],
+    [
+      1024,
+      1024
+    ],
+    [
+      4096,
+      4096
+    ],
+    [
+      1024,
+      4096
+    ],
+    [
+      4096,
+      1024
+    ]
   ],
-  "RI_encoding": "exact rational {numerator,denominator}; string infinity for static positive-work branch",
-  "table_primary_dynamic_RI_exact_decimal": "0.0078125",
-  "rows": [
+  "U_values": [
+    1,
+    128,
+    1024,
+    16384,
+    131072,
+    1048576,
+    "infinity"
+  ],
+  "table_cell_count": 35,
+  "finite_cases": 30,
+  "limit_cells": 5,
+  "limit_interpretation": "U->infinity is the asymptotic one-load reuse limit: Q_S and RI diverge while Q_R remains N*K*b_w. It is not a finite batch or a record with zero in-window writes.",
+  "cases": [
     {
-      "id": "weight_static",
-      "label": "Weight-static",
-      "window_input_vectors": 1,
-      "window_complete_weight_loads": 0,
-      "cells": [
-        {
-          "N": 128,
-          "K": 128,
-          "operator": {
-            "Q_S": 128,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 128,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": 1
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128
-            ],
-            "input_block_sizes": [
-              128
-            ],
-            "resident_tiles": 1,
-            "load_events": 0
-          }
+      "case_id": "N128/K128/U1",
+      "kind": "finite",
+      "U": 1,
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1,
+        128
+      ],
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": [
+        1,
+        128
+      ],
+      "result": {
+        "Q_S": 128,
+        "Q_R": 16384,
+        "RI": {
+          "numerator": 1,
+          "denominator": 128
         },
-        {
-          "N": 1024,
-          "K": 1024,
-          "operator": {
-            "Q_S": 1024,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 8192,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": 64
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 64,
-            "load_events": 0
-          }
-        },
-        {
-          "N": 4096,
-          "K": 4096,
-          "operator": {
-            "Q_S": 4096,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 131072,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": 1024
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 1024,
-            "load_events": 0
-          }
-        },
-        {
-          "N": 1024,
-          "K": 4096,
-          "operator": {
-            "Q_S": 4096,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 32768,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": 256
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 256,
-            "load_events": 0
-          }
-        },
-        {
-          "N": 4096,
-          "K": 1024,
-          "operator": {
-            "Q_S": 1024,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 32768,
-            "Q_R": 0,
-            "RI": "infinity",
-            "tile_evaluations": 256
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 256,
-            "load_events": 0
-          }
-        }
-      ]
+        "resident_capacity_bytes": 16384
+      }
     },
     {
-      "id": "per_use_reloaded",
-      "label": "Per-use reloaded",
-      "window_input_vectors": 1,
-      "window_complete_weight_loads": 1,
-      "cells": [
-        {
-          "N": 128,
-          "K": 128,
-          "operator": {
-            "Q_S": 128,
-            "Q_R": 16384,
-            "RI": {
-              "numerator": 1,
-              "denominator": 128
-            },
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 128,
-            "Q_R": 16384,
-            "RI": {
-              "numerator": 1,
-              "denominator": 128
-            },
-            "tile_evaluations": 1
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128
-            ],
-            "input_block_sizes": [
-              128
-            ],
-            "resident_tiles": 1,
-            "load_events": 1
-          }
+      "case_id": "N128/K128/U128",
+      "kind": "finite",
+      "U": 128,
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        128,
+        128
+      ],
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": [
+        128,
+        128
+      ],
+      "result": {
+        "Q_S": 16384,
+        "Q_R": 16384,
+        "RI": 1,
+        "resident_capacity_bytes": 16384
+      }
+    },
+    {
+      "case_id": "N128/K128/U1024",
+      "kind": "finite",
+      "U": 1024,
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1024,
+        128
+      ],
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": [
+        1024,
+        128
+      ],
+      "result": {
+        "Q_S": 131072,
+        "Q_R": 16384,
+        "RI": 8,
+        "resident_capacity_bytes": 16384
+      }
+    },
+    {
+      "case_id": "N128/K128/U16384",
+      "kind": "finite",
+      "U": 16384,
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        16384,
+        128
+      ],
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": [
+        16384,
+        128
+      ],
+      "result": {
+        "Q_S": 2097152,
+        "Q_R": 16384,
+        "RI": 128,
+        "resident_capacity_bytes": 16384
+      }
+    },
+    {
+      "case_id": "N128/K128/U131072",
+      "kind": "finite",
+      "U": 131072,
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        131072,
+        128
+      ],
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": [
+        131072,
+        128
+      ],
+      "result": {
+        "Q_S": 16777216,
+        "Q_R": 16384,
+        "RI": 1024,
+        "resident_capacity_bytes": 16384
+      }
+    },
+    {
+      "case_id": "N128/K128/U1048576",
+      "kind": "finite",
+      "U": 1048576,
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1048576,
+        128
+      ],
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": [
+        1048576,
+        128
+      ],
+      "result": {
+        "Q_S": 134217728,
+        "Q_R": 16384,
+        "RI": 8192,
+        "resident_capacity_bytes": 16384
+      }
+    },
+    {
+      "case_id": "N128/K128/Uinfinity",
+      "kind": "limit",
+      "U": "infinity",
+      "N": 128,
+      "K": 128,
+      "complete_weight_loads": 1,
+      "input_shape": null,
+      "weight_shape": [
+        128,
+        128
+      ],
+      "output_shape": null,
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 16384,
+        "RI": "infinity",
+        "resident_capacity_bytes": 16384
+      }
+    },
+    {
+      "case_id": "N1024/K1024/U1",
+      "kind": "finite",
+      "U": 1,
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1,
+        1024
+      ],
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": [
+        1,
+        1024
+      ],
+      "result": {
+        "Q_S": 1024,
+        "Q_R": 1048576,
+        "RI": {
+          "numerator": 1,
+          "denominator": 1024
         },
-        {
-          "N": 1024,
-          "K": 1024,
-          "operator": {
-            "Q_S": 1024,
-            "Q_R": 1048576,
-            "RI": {
-              "numerator": 1,
-              "denominator": 1024
-            },
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 8192,
-            "Q_R": 1048576,
-            "RI": {
-              "numerator": 1,
-              "denominator": 128
-            },
-            "tile_evaluations": 64
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 64,
-            "load_events": 64
-          }
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N1024/K1024/U128",
+      "kind": "finite",
+      "U": 128,
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        128,
+        1024
+      ],
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": [
+        128,
+        1024
+      ],
+      "result": {
+        "Q_S": 131072,
+        "Q_R": 1048576,
+        "RI": {
+          "numerator": 1,
+          "denominator": 8
         },
-        {
-          "N": 4096,
-          "K": 4096,
-          "operator": {
-            "Q_S": 4096,
-            "Q_R": 16777216,
-            "RI": {
-              "numerator": 1,
-              "denominator": 4096
-            },
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 131072,
-            "Q_R": 16777216,
-            "RI": {
-              "numerator": 1,
-              "denominator": 128
-            },
-            "tile_evaluations": 1024
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 1024,
-            "load_events": 1024
-          }
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N1024/K1024/U1024",
+      "kind": "finite",
+      "U": 1024,
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1024,
+        1024
+      ],
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": [
+        1024,
+        1024
+      ],
+      "result": {
+        "Q_S": 1048576,
+        "Q_R": 1048576,
+        "RI": 1,
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N1024/K1024/U16384",
+      "kind": "finite",
+      "U": 16384,
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        16384,
+        1024
+      ],
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": [
+        16384,
+        1024
+      ],
+      "result": {
+        "Q_S": 16777216,
+        "Q_R": 1048576,
+        "RI": 16,
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N1024/K1024/U131072",
+      "kind": "finite",
+      "U": 131072,
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        131072,
+        1024
+      ],
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": [
+        131072,
+        1024
+      ],
+      "result": {
+        "Q_S": 134217728,
+        "Q_R": 1048576,
+        "RI": 128,
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N1024/K1024/U1048576",
+      "kind": "finite",
+      "U": 1048576,
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1048576,
+        1024
+      ],
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": [
+        1048576,
+        1024
+      ],
+      "result": {
+        "Q_S": 1073741824,
+        "Q_R": 1048576,
+        "RI": 1024,
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N1024/K1024/Uinfinity",
+      "kind": "limit",
+      "U": "infinity",
+      "N": 1024,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": null,
+      "weight_shape": [
+        1024,
+        1024
+      ],
+      "output_shape": null,
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 1048576,
+        "RI": "infinity",
+        "resident_capacity_bytes": 1048576
+      }
+    },
+    {
+      "case_id": "N4096/K4096/U1",
+      "kind": "finite",
+      "U": 1,
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1,
+        4096
+      ],
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": [
+        1,
+        4096
+      ],
+      "result": {
+        "Q_S": 4096,
+        "Q_R": 16777216,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4096
         },
-        {
-          "N": 1024,
-          "K": 4096,
-          "operator": {
-            "Q_S": 4096,
-            "Q_R": 4194304,
-            "RI": {
-              "numerator": 1,
-              "denominator": 1024
-            },
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 32768,
-            "Q_R": 4194304,
-            "RI": {
-              "numerator": 1,
-              "denominator": 128
-            },
-            "tile_evaluations": 256
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 256,
-            "load_events": 256
-          }
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N4096/K4096/U128",
+      "kind": "finite",
+      "U": 128,
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        128,
+        4096
+      ],
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": [
+        128,
+        4096
+      ],
+      "result": {
+        "Q_S": 524288,
+        "Q_R": 16777216,
+        "RI": {
+          "numerator": 1,
+          "denominator": 32
         },
-        {
-          "N": 4096,
-          "K": 1024,
-          "operator": {
-            "Q_S": 1024,
-            "Q_R": 4194304,
-            "RI": {
-              "numerator": 1,
-              "denominator": 4096
-            },
-            "tile_evaluations": null
-          },
-          "ports": {
-            "Q_S": 32768,
-            "Q_R": 4194304,
-            "RI": {
-              "numerator": 1,
-              "denominator": 128
-            },
-            "tile_evaluations": 256
-          },
-          "tile_layout": {
-            "output_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "input_block_sizes": [
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128,
-              128
-            ],
-            "resident_tiles": 256,
-            "load_events": 256
-          }
-        }
-      ]
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N4096/K4096/U1024",
+      "kind": "finite",
+      "U": 1024,
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1024,
+        4096
+      ],
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": [
+        1024,
+        4096
+      ],
+      "result": {
+        "Q_S": 4194304,
+        "Q_R": 16777216,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4
+        },
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N4096/K4096/U16384",
+      "kind": "finite",
+      "U": 16384,
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        16384,
+        4096
+      ],
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": [
+        16384,
+        4096
+      ],
+      "result": {
+        "Q_S": 67108864,
+        "Q_R": 16777216,
+        "RI": 4,
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N4096/K4096/U131072",
+      "kind": "finite",
+      "U": 131072,
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        131072,
+        4096
+      ],
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": [
+        131072,
+        4096
+      ],
+      "result": {
+        "Q_S": 536870912,
+        "Q_R": 16777216,
+        "RI": 32,
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N4096/K4096/U1048576",
+      "kind": "finite",
+      "U": 1048576,
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1048576,
+        4096
+      ],
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": [
+        1048576,
+        4096
+      ],
+      "result": {
+        "Q_S": 4294967296,
+        "Q_R": 16777216,
+        "RI": 256,
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N4096/K4096/Uinfinity",
+      "kind": "limit",
+      "U": "infinity",
+      "N": 4096,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": null,
+      "weight_shape": [
+        4096,
+        4096
+      ],
+      "output_shape": null,
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 16777216,
+        "RI": "infinity",
+        "resident_capacity_bytes": 16777216
+      }
+    },
+    {
+      "case_id": "N1024/K4096/U1",
+      "kind": "finite",
+      "U": 1,
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1,
+        4096
+      ],
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": [
+        1,
+        1024
+      ],
+      "result": {
+        "Q_S": 4096,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 1024
+        },
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N1024/K4096/U128",
+      "kind": "finite",
+      "U": 128,
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        128,
+        4096
+      ],
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": [
+        128,
+        1024
+      ],
+      "result": {
+        "Q_S": 524288,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 8
+        },
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N1024/K4096/U1024",
+      "kind": "finite",
+      "U": 1024,
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1024,
+        4096
+      ],
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": [
+        1024,
+        1024
+      ],
+      "result": {
+        "Q_S": 4194304,
+        "Q_R": 4194304,
+        "RI": 1,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N1024/K4096/U16384",
+      "kind": "finite",
+      "U": 16384,
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        16384,
+        4096
+      ],
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": [
+        16384,
+        1024
+      ],
+      "result": {
+        "Q_S": 67108864,
+        "Q_R": 4194304,
+        "RI": 16,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N1024/K4096/U131072",
+      "kind": "finite",
+      "U": 131072,
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        131072,
+        4096
+      ],
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": [
+        131072,
+        1024
+      ],
+      "result": {
+        "Q_S": 536870912,
+        "Q_R": 4194304,
+        "RI": 128,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N1024/K4096/U1048576",
+      "kind": "finite",
+      "U": 1048576,
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1048576,
+        4096
+      ],
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": [
+        1048576,
+        1024
+      ],
+      "result": {
+        "Q_S": 4294967296,
+        "Q_R": 4194304,
+        "RI": 1024,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N1024/K4096/Uinfinity",
+      "kind": "limit",
+      "U": "infinity",
+      "N": 1024,
+      "K": 4096,
+      "complete_weight_loads": 1,
+      "input_shape": null,
+      "weight_shape": [
+        1024,
+        4096
+      ],
+      "output_shape": null,
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 4194304,
+        "RI": "infinity",
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/U1",
+      "kind": "finite",
+      "U": 1,
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1,
+        1024
+      ],
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": [
+        1,
+        4096
+      ],
+      "result": {
+        "Q_S": 1024,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4096
+        },
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/U128",
+      "kind": "finite",
+      "U": 128,
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        128,
+        1024
+      ],
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": [
+        128,
+        4096
+      ],
+      "result": {
+        "Q_S": 131072,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 32
+        },
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/U1024",
+      "kind": "finite",
+      "U": 1024,
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1024,
+        1024
+      ],
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": [
+        1024,
+        4096
+      ],
+      "result": {
+        "Q_S": 1048576,
+        "Q_R": 4194304,
+        "RI": {
+          "numerator": 1,
+          "denominator": 4
+        },
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/U16384",
+      "kind": "finite",
+      "U": 16384,
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        16384,
+        1024
+      ],
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": [
+        16384,
+        4096
+      ],
+      "result": {
+        "Q_S": 16777216,
+        "Q_R": 4194304,
+        "RI": 4,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/U131072",
+      "kind": "finite",
+      "U": 131072,
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        131072,
+        1024
+      ],
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": [
+        131072,
+        4096
+      ],
+      "result": {
+        "Q_S": 134217728,
+        "Q_R": 4194304,
+        "RI": 32,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/U1048576",
+      "kind": "finite",
+      "U": 1048576,
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": [
+        1048576,
+        1024
+      ],
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": [
+        1048576,
+        4096
+      ],
+      "result": {
+        "Q_S": 1073741824,
+        "Q_R": 4194304,
+        "RI": 256,
+        "resident_capacity_bytes": 4194304
+      }
+    },
+    {
+      "case_id": "N4096/K1024/Uinfinity",
+      "kind": "limit",
+      "U": "infinity",
+      "N": 4096,
+      "K": 1024,
+      "complete_weight_loads": 1,
+      "input_shape": null,
+      "weight_shape": [
+        4096,
+        1024
+      ],
+      "output_shape": null,
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 4194304,
+        "RI": "infinity",
+        "resident_capacity_bytes": 4194304
+      }
     }
   ]
 }

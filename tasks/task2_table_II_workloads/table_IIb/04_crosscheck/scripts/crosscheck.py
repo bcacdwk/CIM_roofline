@@ -1,484 +1,238 @@
 #!/usr/bin/env python3
-"""Independent Step 4 audit; stdlib only, never imports production generators.
+"""Main-agent acceptance: fixed schema, independent demands, migration, merger.
 
-Default: read-only recomputation and artifact comparison. --emit writes only D's
-directory. --numeric-only checks the notified data hashes while revised document
-manifests are pending; it cannot produce a final handoff.
+No producer imports. Default is read-only; --emit writes only this fourth folder.
+READY manifests must already exist and match before any merged output is emitted.
 """
 import argparse
-from collections import Counter
-import copy
+from fractions import Fraction as F
 import csv
-from fractions import Fraction
 import hashlib
 import io
 import json
-import os
 from pathlib import Path
-import subprocess
+import re
 import sys
-
-sys.dont_write_bytecode = True
-HERE = Path(__file__).resolve().parents[1]
-TASK = HERE.parents[1]
-REPO = TASK.parents[1]
-HEAD = 'e472a0d864b8fb9afb14b0c306217a0e5653e122'
-REF = 'WS128-INT8-semantic-banks-v1'
-NAMES = ['01_qkv_projection', '02_ffn_moe', '03_attention']
-NOTIFIED_RESULTS = [
-    'c342f0781f396df3d18d6bfcc94bdef95c3846f9985a8ca0e038297f0ef69a27',
-    '5fc920987cd169108e39c72b5c844d0217b504dedffb8f9fbfce8f0ce40a4e8b',
-    '7f552ac50508897407e7856c96221a3a73e2ac28ff5629b512a9f35736875107',
-]
-CAP_MEANING = 'final state capacity; distinct from cumulative Q_R and from physical encoded capacity'
+sys.dont_write_bytecode=True
+HERE=Path(__file__).resolve().parents[1]
+TASK=HERE.parents[1]
+TABLE=HERE.parent
+sys.path.insert(0,str(TASK / "scripts"))
+from format_results import ri_decimal, count_label
+ARCHIVE=TASK.parent/'archived/task2_table_IIb_previous'
+FOLDERS=['01_qkv_projection','02_ffn_moe','03_attention']
+WORKLOADS=['qkv_projection','ffn_or_moe','attention_prefill','attention_decode']
 
 
-def read(path):
-    return json.loads(path.read_text())
+def read(path):return json.loads(path.read_text())
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def decode(x):
+    if isinstance(x,dict):
+        if set(x)=={'numerator','denominator'}:return F(x['numerator'],x['denominator'])
+        return {k:decode(v) for k,v in x.items()}
+    if isinstance(x,list):return [decode(v) for v in x]
+    return x
 
 
-def dump(value):
-    return json.dumps(value, ensure_ascii=False, indent=2) + '\n'
+def encode(x):
+    if isinstance(x,F):return x.numerator if x.denominator==1 else dict(numerator=x.numerator,denominator=x.denominator)
+    if isinstance(x,dict):return {k:encode(v) for k,v in x.items()}
+    if isinstance(x,(list,tuple)):return [encode(v) for v in x]
+    return x
 
 
-def exact(qs, qr, calls=None):
-    ratio = Fraction(qs, qr) if qr else 'infinity'
-    if isinstance(ratio, Fraction):
-        ratio = ratio.numerator if ratio.denominator == 1 else dict(numerator=ratio.numerator, denominator=ratio.denominator)
-    return dict(Q_S=qs, Q_R=qr, RI=ratio, tile_evaluations=calls)
+def demand(s,r,initial,final):
+    return dict(Q_S=s,Q_R=r,RI='infinity' if s=='infinity' else F(s,r),resident_bytes_initial=initial,resident_bytes_final=final)
 
 
-def blocks(extent):
-    return [(start, min(128, extent-start)) for start in range(0, extent, 128)]
-
-
-def axis(extent):
-    parts = blocks(extent)
-    return dict(full_128_blocks=sum(n == 128 for _, n in parts),
-                tail_valid_elements=next((n for _, n in parts if n < 128), 0), blocks=len(parts))
-
-
-def layout(n, k, copies=1, histogram=False):
-    tiles = [(a, b) for _, a in blocks(n) for _, b in blocks(k)]
-    out = dict(matrix_N_K_per_copy=[n, k], copies=copies,
-               output_axis=axis(n), input_axis=axis(k), resident_tiles=len(tiles)*copies,
-               valid_resident_bytes=sum(a*b for a, b in tiles)*copies,
-               allocated_tile_bytes=len(tiles)*copies*128*128)
-    if histogram:
-        count = Counter(tiles)
-        out['valid_tile_shape_histogram'] = [dict(valid_N_K=list(shape), tiles=count[shape]*copies) for shape in sorted(count)]
-    return out
-
-
-def capacity(parts, field='layout', meaning=True):
-    out = {key: sum(p[field][key] for p in parts.values()) for key in
-           ('valid_resident_bytes', 'allocated_tile_bytes', 'resident_tiles')}
-    if meaning:
-        out['meaning'] = CAP_MEANING
-    return out
-
-
-def matrix(n, k, uses, loads):
-    # Each receiving (output block, input block) contributes its actual k width;
-    # each write contributes its actual n*k rectangle, never padded bytes.
-    tiles = [(a, b) for _, a in blocks(n) for _, b in blocks(k)]
-    qs = sum(b for a, b in tiles)*uses
-    qr = sum(a*b for a, b in tiles)*loads
-    return dict(operator=exact(sum(b for _, b in blocks(k))*uses, qr),
-                ports=exact(qs, qr, len(tiles)*uses),
-                tile_layout=dict(output_block_sizes=[a for _, a in blocks(n)],
-                                 input_block_sizes=[b for _, b in blocks(k)],
-                                 resident_tiles=len(tiles), load_events=len(tiles)*loads),
-                layout=layout(n, k), window=dict(input_vectors=uses, full_weight_loads=loads))
-
-
-def matrix_stage(raw, row, B=None):
-    d = raw['D']
-    if row == 'qkv_projection':
-        shapes = {'Q': (raw['Hq']*raw['dqk'], d)}
-        if raw['gate']:
-            shapes['G'] = (raw['Hq']*raw['dv'], d)
-        shapes.update(K=(raw['Hkv']*raw['dqk'], d), V=(raw['Hkv']*raw['dv'], d))
-        uses, loads = 1, 0
-        sources = {name: ('x', d) for name in shapes}
+def oracle(m,case):
+    """Rows/valid causal prefixes from native dimensions; no partitioning."""
+    row,U,L=case['workload'],case['U'],case['L'];D=m['D'];parts={}
+    if row in ['qkv_projection','ffn_or_moe']:
+        if row=='qkv_projection':
+            specs=[('Q',m['H_q']*m['d_QK'],D,'x')]
+            if m['D_g']:specs.append(('G',m['D_g'],D,'x'))
+            specs += [('K',m['H_kv']*m['d_QK'],D,'x'),('V',m['H_kv']*m['d_V'],D,'x')]
+        else:specs=[('gate',m['F'],D,'x'),('up',m['F'],D,'x'),('down',D,m['F'],'z')]
+        sources={}
+        for name,n,k,source in specs:
+            weights=sum(len(range(k)) for _ in range(n))
+            s='infinity' if U=='infinity' else sum(len(range(k)) for _ in range(U))
+            parts[name]=dict(shape_N_K=[n,k],state_copies=1,**demand(s,weights,0,weights))
+            assert source not in sources or sources[source]==k
+            sources[source]=k
+        total_input='infinity' if U=='infinity' else sum(sum(sources.values()) for _ in range(U))
+        overlap='infinity' if U=='infinity' else sum(p['Q_S'] for p in parts.values())-total_input
     else:
-        f = raw['F']
-        shapes = {'gate': (f, d), 'up': (f, d), 'down': (d, f)}
-        uses, loads = B, 1
-        sources = dict(gate=('x', d), up=('x', d), down=('z', f))
-    parts = {name: matrix(n, k, uses, loads) for name, (n, k) in shapes.items()}
-    op = sum(width for identity, width in set(sources.values()))*uses
-    removed = sum(p['operator']['Q_S'] for p in parts.values())-op
-    qr = sum(p['ports']['Q_R'] for p in parts.values())
-    return dict(parts=parts, operator=exact(op, qr), operator_shared_input_overlap_removed=removed,
-                ports=exact(sum(p['ports']['Q_S'] for p in parts.values()), qr,
-                            sum(p['ports']['tile_evaluations'] for p in parts.values())), capacity=capacity(parts))
+        q,h,dq,dv=m['H_q'],m['H_kv'],m['d_QK'],m['d_V']
+        initial=0 if row=='attention_prefill' else L-1
+        prefixes=range(1,L+1) if row=='attention_prefill' else [L]
+        s_qk=s_av=0
+        for i in prefixes:s_qk+=q*dq;s_av+=q*i
+        r_k=sum(h*dq for _ in range(initial,L));r_v=sum(h*dv for _ in range(initial,L))
+        parts['QK']=dict(shape_N_K=[L,dq],state_copies=h,**demand(s_qk,r_k,initial*h*dq,L*h*dq))
+        parts['AV']=dict(shape_N_K=[dv,L],state_copies=h,**demand(s_av,r_v,initial*h*dv,L*h*dv))
+        total_input=s_qk+s_av;overlap=0
+    total=demand(total_input,sum(p['Q_R'] for p in parts.values()),
+        sum(p['resident_bytes_initial'] for p in parts.values()),sum(p['resident_bytes_final'] for p in parts.values()))
+    total['shared_input_bytes_removed']=overlap
+    return total,parts
 
 
-def call_shapes(raw, L, mode):
-    """Invert prefix order: each sequence tile grows once, then persists."""
-    qk, av = Counter(), Counter()
-    for start, final_width in blocks(L):
-        if mode == 'decode':
-            life = [(final_width, 1)]
-        else:
-            life = [(size, 1) for size in range(1, final_width+1)]
-            # After this tile is full it is visited by every later query.
-            if final_width == 128:
-                life.append((128, L-start-128))
-        for size, occurrences in life:
-            for _, width in blocks(raw['dqk']):
-                qk[(size, width)] += occurrences*raw['Hq']
-            for _, height in blocks(raw['dv']):
-                av[(height, size)] += occurrences*raw['Hq']
-    return qk, av
+def to_csv(cases,columns):
+    buf=io.StringIO();writer=csv.DictWriter(buf,columns,lineterminator='\n');writer.writeheader()
+    for c in cases:
+        for name,item in [('total',c['result'])]+[(p['id'],p) for p in c['components']]:
+            row={k:c[k] for k in columns[:8]};row['component']=name
+            row.update(Q_S_Byte=item['Q_S'],Q_R_Byte=item['Q_R'],RI_exact=str(item['RI']),
+                resident_initial_Byte=item['resident_bytes_initial'],resident_final_Byte=item['resident_bytes_final'])
+            if name=='total':row['shared_input_removed_Byte']=item['shared_input_bytes_removed']
+            else:row.update(N=item['shape_N_K'][0],K=item['shape_N_K'][1],state_copies=item['state_copies'])
+            writer.writerow(row)
+    return buf.getvalue()
 
 
-def attention_stage(raw, L, mode):
-    hq, hkv, dqk, dv = (raw[k] for k in ('Hq', 'Hkv', 'dqk', 'dv'))
-    appended = L if mode == 'prefill' else 1
-    initial = L-appended
-    # Each score/AV-input element j participates in L-j+1 future prefixes.
-    element_visits = sum(L-j+1 for j in range(1, L+1)) if mode == 'prefill' else L
-    tile_visits = sum(L-start for start, _ in blocks(L)) if mode == 'prefill' else len(blocks(L))
-    histograms = call_shapes(raw, L, mode)
-    parts = {}
-    for name, dims, initial_dims, slices, hist, op in (
-        ('QK', (L, dqk), (initial, dqk), [[1, k] for _, k in blocks(dqk)], histograms[0], hq*appended*dqk),
-        ('AV', (dv, L), (dv, initial), [[n, 1] for _, n in blocks(dv)], histograms[1], hq*element_visits)):
-        per_token = hkv*sum(n*k for n, k in slices)
-        writes = appended*per_token
-        width_calls = Counter()
-        for (n, k), calls in hist.items():
-            width_calls[str(k)] += calls
-        parts[name] = dict(operator=exact(op, writes),
-                           ports=exact(sum(k*calls for (n, k), calls in hist.items()), writes, sum(hist.values())),
-                           layout=layout(*dims, hkv, histogram=True),
-                           initial_layout=layout(*initial_dims, hkv, histogram=True),
-                           append=dict(valid_slice_N_K_per_head_per_token=slices,
-                                       logical_slice_write_events=appended*hkv*len(slices),
-                                       events_are_not_device_write_transactions=True,
-                                       per_token_logical_slice_write_events=hkv*len(slices),
-                                       valid_write_bytes_per_token=per_token),
-                           valid_N_K_call_histogram=[dict(valid_N_K=list(shape), calls=hist[shape]) for shape in sorted(hist)],
-                           valid_input_width_to_calls=dict(width_calls))
-    result = dict(parts=parts)
-    for boundary in ('operator', 'ports'):
-        result[boundary] = exact(sum(p[boundary]['Q_S'] for p in parts.values()),
-                                 sum(p[boundary]['Q_R'] for p in parts.values()),
-                                 sum(p[boundary]['tile_evaluations'] for p in parts.values()) if boundary == 'ports' else None)
-    result.update(appended_tokens=appended, kv_copies_per_head=1, group_size=hq//hkv,
-                  prefix_sum_i=element_visits, prefix_sum_ceil_output=tile_visits, prefix_sum_ceil_input=tile_visits,
-                  active_layout_at_L=dict(K_matrix_N_K=[L, dqk], V_matrix_N_K=[dv, L]),
-                  append_shape_per_kv_head=dict(K=[1, dqk], V=[dv, 1]),
-                  initial_KV_tokens=initial, final_KV_tokens=L,
-                  initial_valid_resident_bytes=initial*hkv*(dqk+dv), operator_shared_input_overlap_removed=0,
-                  capacity=capacity(parts), initial_capacity=capacity(parts, 'initial_layout', False))
-    return result
-
-
-def same(expected, actual, path='', allow_extra=False):
-    """Compare every leaf, with exact integers and rationals; count checked leaves."""
-    if isinstance(expected, dict):
-        assert isinstance(actual, dict), path
-        assert set(expected) <= set(actual), (path, 'missing', set(expected)-set(actual))
-        if not allow_extra:
-            assert set(expected) == set(actual), (path, 'unchecked fields', set(actual)-set(expected))
-        return sum(same(value, actual[key], path+'/'+key, allow_extra) for key, value in expected.items())
-    if isinstance(expected, list):
-        assert isinstance(actual, list) and len(expected) == len(actual), (path, 'list length')
-        return sum(same(value, actual[i], path+'/'+str(i), allow_extra) for i, value in enumerate(expected))
-    assert type(expected) is type(actual) and expected == actual, (path, expected, actual)
-    return 1
-
-
-def scientific_plan(plan):
-    return dict(parameters=plan['parameters'], model_order=plan['table_IIb']['columns_model_ids'],
-                display_names=plan['table_IIb']['columns_display_names'], rows=plan['table_IIb']['rows'],
-                selection_rules=plan['selection_rules'], definitions=plan['definitions'],
-                reference=plan['step2_reference'], fixed_task_I=plan['fixed_task_I'])
-
-
-def raw_models(models):
-    raws = {}
-    for m in models:
-        source = TASK/m['local_material']['raw_config']
-        config = read(source)
-        c = config.get('text_config', config)
-        impl = (TASK/m['local_material']['implementation']).read_text()
-        d, hq, hkv, dqk = [c[k] for k in ('hidden_size', 'num_attention_heads', 'num_key_value_heads', 'head_dim')]
-        dv = c.get('v_head_dim') or dqk
-        if 'layer_types' in c:
-            selected = c['layer_types'].index('full_attention')
-        elif 'hybrid_layer_pattern' in c:
-            selected = next(i for i, kind in enumerate(c['hybrid_layer_pattern']) if kind == 0 and c['moe_layer_freq'][i])
-        else:
-            selected = c.get('first_k_dense_replace', 0)
-        f = c.get('moe_intermediate_size', c.get('intermediate_size'))
-        raw = dict(D=d, F=f, Hq=hq, Hkv=hkv, dqk=dqk, dv=dv, gate=bool(c.get('attn_output_gate', False)),
-                   selected_layer=selected, config=m['local_material']['raw_config'], config_sha256=sha(source),
-                   implementation=m['local_material']['implementation'], implementation_sha256=sha(TASK/m['local_material']['implementation']))
-        assert hq % hkv == 0
-        assert m['backbone']['hidden_size'] == d and m['backbone']['selected_layer_index_zero_based'] == selected
-        assert m['ffn']['hidden_size'] == d and m['ffn']['intermediate_size'] == f
-        for key, value in dict(query_heads=hq, kv_heads=hkv, qk_head_dim=dqk, v_head_dim=dv, queries_per_kv_head=hq//hkv, output_gate=raw['gate']).items():
-            assert m['attention'][key] == value, (m['id'], key)
-        assert m['ffn']['matrices'] == dict(gate=[f,d], up=[f,d], down=[d,f])
-        assert m['ffn']['selected_layer_index_zero_based'] == selected
-        shapes = m['attention']['weight_shapes_N_K']
-        assert shapes['q_logical'] == [hq*dqk,d] and shapes['k'] == [hkv*dqk,d] and shapes['v'] == [hkv*dv,d]
-        if raw['gate']:
-            assert 'self.head_dim * 2' in impl and 'query_states, gate = torch.chunk' in impl
-            assert shapes['q_output_gate_logical'] == [hq*dv, d]
-            assert shapes['q_and_gate_packed'] == [hq*(dqk+dv), d]
-        if m['id'] == 'hy3_295b':
-            assert hq*dqk == 8192 and 'config.num_attention_heads * self.head_dim' in impl
-        if m['id'] == 'ling_1t':
-            assert c['max_position_embeddings'] == 32768 and c['rope_scaling'] is None
-            card = (TASK/m['local_material']['raw_model_card']).read_text()
-            for marker in ('"factor": 4.0', '"original_max_position_embeddings": 32768', '"type": "yarn"', '--max-model-len'):
-                assert marker in card
-            assert 'qkv.split(' in impl and '(self.num_heads + 2 * self.num_key_value_heads) * self.head_dim' in impl
-            ext = m['context']['extension_for_128K']
-            assert ext['rope_scaling'] == dict(factor=4.0, original_max_position_embeddings=32768, type='yarn')
-            assert '131072' in ext['runtime_condition']
-        if m['id'] == 'mimo_v25_pro':
-            assert (dqk, dv, selected) == (192,128,7)
-            assert 'self.v_size = self.num_key_value_heads * self.v_head_dim' in impl
-            handoff = impl[impl.index('def _forward_attention'):impl.index('def forward', impl.index('def _forward_attention'))]
-            assert handoff.index('value_states = value_states * self.v_scale') < handoff.index('past_key_values.update') < handoff.index('attn_output, attn_weights = attention_interface(')
-            assert c['attention_value_scale'] == 0.612 and c['add_full_attention_sink_bias'] is False
-        raws[m['id']] = raw
-    return raws
-
-
-def verify_deliveries(numeric_only):
-    records, lock = [], []
-    approved = read(HERE/'data/ready_sources.json') if not numeric_only else None
-    for j, name in enumerate(NAMES):
-        directory = TASK/'table_IIb'/name
-        rp = directory/'data/results.json'
-        assert sha(rp) == NOTIFIED_RESULTS[j], (name, 'results changed: requires new READY and re-audit')
-        if numeric_only:
-            entry = dict(directory=str(directory.relative_to(TASK)), results_sha256=sha(rp), delivery_revision='pending_final_READY')
-        else:
-            manifest_path = directory/'DELIVERY.json'
-            manifest = read(manifest_path)
-            expected = approved['sources'][j]
-            assert expected['directory'] == str(directory.relative_to(TASK))
-            assert sha(manifest_path) == expected['delivery_sha256'], (name, 'DELIVERY changed without refreshed READY lock')
-            assert manifest['status'] == 'ready_for_review'
-            assert manifest['delivery_revision'] == expected['delivery_revision']
-            assert manifest['case_count'] == [6,18,36][j] and manifest['shared_reference_id'] == REF
-            entries = manifest.get('artifacts', manifest.get('files'))
-            if isinstance(entries, dict):
-                entries = list(entries.values())
-            base = TASK if manifest['path_base'] == 'tasks/task2_table_II_workloads/' else directory
-            verified = []
-            for artifact in entries:
-                path = base/artifact['path']
-                assert path.resolve().is_relative_to(directory.resolve()), path
-                assert sha(path) == artifact['sha256'], (name, artifact['path'], 'hash mismatch')
-                if 'bytes' in artifact:
-                    assert path.stat().st_size == artifact['bytes']
-                verified.append(dict(path=str(path.relative_to(TASK)), sha256=sha(path)))
-            entry = dict(directory=str(directory.relative_to(TASK)), delivery_revision=manifest['delivery_revision'],
-                         delivery_sha256=sha(manifest_path), results_sha256=sha(rp), verified_artifacts=verified)
-        lock.append(entry)
-        source = read(rp)
-        assert source['schema_version'] == ['1.0','1.0','step4-delivery-v1'][j]
-        assert len(source['cases']) == [6,18,36][j]
-        for index, original in enumerate(source['cases']):
-            case = copy.deepcopy(original)
-            case['trace'] = {k: entry[k] for k in entry if k != 'verified_artifacts'}
-            case['trace'].update(results_path=str(rp.relative_to(TASK)), case_id=case['case_id'],
-                                 json_pointer='/cases/'+str(index), array_index=index)
-            records.append(case)
-    return records, lock
-
-
-def protected_files(plan):
-    actual = subprocess.check_output(['git','rev-parse','HEAD'], cwd=REPO, text=True).strip()
-    assert actual == HEAD, ('HEAD changed', actual)
-    changed = subprocess.check_output(['git','diff',HEAD,'--name-only'], cwd=REPO, text=True).splitlines()
-    allowed = ['tasks/task2_table_II_workloads/README.md', 'tasks/task2_table_II_workloads/data/study_plan.json']
-    assert set(changed) <= set(allowed), ('protected tracked content changed', changed)
-    old = json.loads(subprocess.check_output(['git','show',HEAD+':tasks/task2_table_II_workloads/data/study_plan.json'], cwd=REPO, text=True))
-    same(scientific_plan(old), scientific_plan(plan), 'study_plan/scientific_inputs')
-    staged = subprocess.check_output(['git','diff','--cached','--name-only'], cwd=REPO, text=True).splitlines()
-    assert not staged, ('unexpected staged paths', staged)
-    return dict(reference_HEAD=HEAD, changed_tracked_files=changed, allowed_changes=allowed,
-                scientific_study_plan_unchanged=True, protected_tracked_files_unchanged=True, staged_paths=staged)
-
-
-def regressions():
-    scripts = ['scripts/check_step1.py','shared/scripts/check_counting.py','shared/scripts/generate_IIa.py',
-               'table_IIb/pilot/scripts/generate.py','table_IIb/pilot/scripts/check.py']
-    out = []
-    for script in scripts:
-        env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')
-        proc = subprocess.run([sys.executable, str(TASK/script)], cwd=TASK, text=True, capture_output=True, env=env)
-        assert proc.returncode == 0, (script, proc.stdout, proc.stderr)
-        out.append(dict(script=script, sha256=sha(TASK/script), returncode=proc.returncode,
-                        stdout=proc.stdout.strip(), stderr=proc.stderr.strip(), mode='default read-only'))
-    return out
-
-
-def ratio_text(value):
-    if isinstance(value, dict):
-        return str(value['numerator'])+'/'+str(value['denominator'])
-    return '∞' if value == 'infinity' else str(value)
-
-
-def preview(records, models, rows, plan):
-    lines = ['# Table II(b) · 六模型研究预览', '',
-             'Step 4 内部复核稿；主边界为 ports，对照为 operator。各格为精确 RI=Q_S/Q_R；不是性能、吞吐或硬件适合度。', '',
-             '`WS128-INT8-semantic-banks-v1`；128×128；各角色 1 Byte；独立语义 bank；每 KV head 一份 K/V；逐因果前缀。', '',
-             'FFN 三值依 B=8、64、512；Attention 三值依 L=1024、16384、131072（1K、16K、128K）。B 只指所选 Dense FFN／单路由专家一份驻留权重服务的实际向量数。', '']
-    for boundary in ('ports','operator'):
-        lines += ['## '+boundary, '', '| 行 | '+' | '.join(m['display_name'] for m in models)+' |', '|---|'+'---|'*6]
-        for row in rows:
-            cells = []
-            for m in models:
-                matches = [c for c in records if c['model_id']==m['id'] and c['row']==row['id']]
-                cells.append(', '.join(ratio_text(c['result'][boundary]['RI']) for c in matches))
-            lines.append('| '+row['label']+' | '+' | '.join(cells)+' |')
+def preview(cases,models,rules):
+    labels={'qkv_projection':'QKV 投影','ffn_or_moe':'FFN／单路由专家',
+            'attention_prefill':'Attention Prefill','attention_decode':'Attention Decode'}
+    formulas={'qkv_projection':'RI=U/N_proj，N_proj 为 Q、可选 G、K、V 的总输出宽度。',
+              'ffn_or_moe':'RI=U(D+F)/(3DF)，gate/up 同阶段共享输入，down 新输入另计。',
+              'attention_prefill':'RI=g[d_QK+(L+1)/2]/(d_QK+d_V)，窗口从空KV建立到L。',
+              'attention_decode':'RI=g(d_QK+L)/(d_QK+d_V)，已有L−1，追加一个后求值。'}
+    lines=['# Table II(b)：统一算子级结果预览','',
+        '原生模型与所选层固定，各矩阵数值角色1 Byte；表内 RI 按统一规则显示小数，1K=1024、1M=1024²。完整原始Byte、分项和初末有效状态见data/results.json。','']
+    lookup={c['case_id']:c for c in cases}
+    for workload in WORKLOADS:
+        sweep,values=next(iter(rules['sweeps'][workload].items()))
+        lines += ['## '+labels[workload],'',formulas[workload],'',
+            '| 模型 | '+' | '.join(('U→∞' if v=='infinity' else f'{sweep}={count_label(v)}') for v in values)+' |',
+            '|---|'+'---:|'*len(values)]
+        for m in models:
+            ratios=[lookup[m['model_id']+'/'+workload+'/'+str(v)]['result']['RI'] for v in values]
+            lines.append('| '+m['display_name']+' | '+' | '.join(ri_decimal(x) for x in ratios)+' |')
         lines.append('')
-    lines += ['## 阅读条件', '',
-              '- QKV 是一个 token、权重预驻留，Q_R=0；两款 Qwen 的 output gate 单独保留，∞ 不说明需求量相同。Hy3 的原生 Q 输出为 8192，不能用 hidden size 4096 替代。',
-              '- FFN 只取一层 Dense FFN 或一个路由专家，三矩阵各装载一次；不乘 top-k、总专家、共享专家或层数。所有所选 D/F 整除128，故 ports RI 均为 B/128；operator 和容量仍不同。',
-              '- Ling-1T 的固定 config 上限为32768，128K 条件是官方 vLLM YaRN 配方：factor=4、original_max_position_embeddings=32768、type=yarn，并设置 --max-model-len 131072。本地原始 config 未改。',
-              '- MiMo 取第7层 global GQA，d_QK=192、d_V=128；QK 每头输入切片为128+64 Byte，两次调用都保留。最终有效 KV 容量与 tile 分配容量分开报告。',
-              '- 原生 BF16/FP8 只作来源记录；INT8 是本文逻辑参考，不是六模型精度验证。模型子层和研究窗口不代表整个模型实际调度。', '',
-              '完整字节、调用、分项、容量、append、来源哈希与 JSON 位置见 [results.json](data/results.json)；平面精确记录见 [results.csv](data/results.csv)。', '']
+    lines += ['QKV无穷列是一次装载的复用极限，写入量仍为有限权重大小。Ling-1T的64K沿用固定官方扩展条件。','',
+        '本预览不替代三份中文正文；原始来源、统一计数边界与复算方法见本目录README和主审阅记录。','']
     return '\n'.join(lines)
 
 
-def csv_text(records):
-    columns = ['case_id','model_id','model_revision','selected_layer','row','B','L','component','boundary',
-               'Q_S','Q_R','RI','tile_evaluations','matrix_N_K_per_copy','copies','valid_resident_bytes',
-               'allocated_tile_bytes','resident_tiles','operator_shared_input_overlap_removed',
-               'initial_KV_tokens','final_KV_tokens','initial_valid_resident_bytes','appended_tokens',
-               'append','directory','results_path','results_sha256','delivery_revision','delivery_sha256','json_pointer']
-    stream = io.StringIO(newline='')
-    writer = csv.DictWriter(stream, columns, lineterminator='\n')
-    writer.writeheader()
-    for case in records:
-        for component, item in [('total',case['result']), *case['result']['parts'].items()]:
-            for boundary in ('ports','operator'):
-                row = {key:case.get(key,'') for key in columns[:7]}
-                row.update(component=component, boundary=boundary)
-                row.update(item[boundary]); row['RI'] = ratio_text(row['RI'])
-                cap = item.get('capacity',item.get('layout',{}))
-                row.update({key:cap[key] for key in ('matrix_N_K_per_copy','copies','valid_resident_bytes','allocated_tile_bytes','resident_tiles') if key in cap})
-                row.update({key:item[key] for key in ('operator_shared_input_overlap_removed','initial_KV_tokens','final_KV_tokens','initial_valid_resident_bytes','appended_tokens','append') if key in item})
-                row.update({key:case['trace'][key] for key in ('directory','results_path','results_sha256','delivery_revision','delivery_sha256','json_pointer')})
-                row['json_pointer'] += '/result'+('' if component=='total' else '/parts/'+component)+'/'+boundary
-                for key,value in list(row.items()):
-                    if isinstance(value,(dict,list)):
-                        row[key] = json.dumps(value,separators=(',',':'),ensure_ascii=False)
-                writer.writerow(row)
-    return stream.getvalue()
-
-
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--emit', action='store_true')
-    parser.add_argument('--numeric-only', action='store_true')
-    args = parser.parse_args()
-    assert not (args.emit and args.numeric_only), 'Numeric-only mode cannot publish artifacts'
-    plan = read(TASK/'data/study_plan.json')
-    models = read(TASK/'data/models.json')['models']
-    conventions = read(TASK/'shared/data/conventions.json')
-    assert conventions['reference_id'] == REF
-    assert conventions['mapping']['tile_N'] == conventions['mapping']['tile_K'] == 128
-    assert set(conventions['precision']['role_bytes'].values()) == {1}
-    assert conventions['boundaries']['ports']['primary'] is True
-    assert plan['step2']['reference_id'] == REF
-    assert [m['id'] for m in models] == plan['table_IIb']['columns_model_ids']
-    assert plan['parameters']['B'] == [8,64,512] and plan['parameters']['L_tokens'] == [1024,16384,131072]
-    rows = plan['table_IIb']['rows']
-    assert [r['id'] for r in rows] == ['qkv_projection','ffn_or_moe','attention_prefill','attention_decode']
-    raws = raw_models(models)
-    records, lock = verify_deliveries(args.numeric_only)
-    expected_ids = [m['id']+'/'+r['id']+'/'+str(value)
-                    for m in models for r in rows
-                    for value in (['one_token'] if r['sweep'] is None else plan['parameters']['B' if r['sweep']=='B' else 'L_tokens'])]
-    by_id = {c['case_id']:c for c in records}
-    assert len(by_id) == len(records) == 60 and set(by_id) == set(expected_ids)
-    # Upstream ordering is model-major, then each owned row and B/L sequence.
-    for name in NAMES:
-        actual = [c['case_id'] for c in records if c['trace']['directory'].endswith(name)]
-        assert actual == [key for key in expected_ids if key in actual], (name,'model/row/sweep order')
-    records = [by_id[key] for key in expected_ids]
-    checked = []
-    for case in records:
-        m = next(m for m in models if m['id'] == case['model_id'])
-        raw = raws[m['id']]
-        assert case['model_revision'] == m['identity']['revision']
-        assert case['selected_layer'] == raw['selected_layer'] and case['shared_reference_id'] == REF
-        if case['row'] == 'qkv_projection':
-            assert case.get('L') is None and 'B' not in case and case['case_id'].endswith('/one_token')
-        else:
-            parameter = 'B' if case['row'] == 'ffn_or_moe' else 'L'
-            assert type(case[parameter]) is int and str(case[parameter]) == case['case_id'].rsplit('/',1)[1]
-        if case['row'].startswith('attention_'):
-            expected = attention_stage(raw, case['L'], case['row'].split('_')[1])
-            same(dict(query_heads=raw['Hq'],kv_heads=raw['Hkv'],qk_head_dim=raw['dqk'],v_head_dim=raw['dv'],queries_per_kv_head=raw['Hq']//raw['Hkv']),case['configuration'],case['case_id']+'/configuration')
-            index = plan['parameters']['L_tokens'].index(case['L'])
-            assert case['context_support'] == m['context']['support'][index]
-            assert case['context_extension_condition'] == (m['context']['extension_for_128K'] if case['L']==131072 else None)
-        else:
-            expected = matrix_stage(raw,case['row'],case.get('B'))
-        leaves = same(expected,case['result'],case['case_id']+'/result')
-        checked.append(dict(case_id=case['case_id'], result_leaf_checks=leaves, status='PASS'))
-    pilot = read(TASK/'table_IIb/pilot/data/results.json')
-    overlaps = []
-    for previous in pilot['cases']:
-        now = by_id[previous['case_id']]
-        count = same(previous,now,previous['case_id']+'/pilot',allow_extra=True)
-        overlaps.append(dict(case_id=previous['case_id'],existing_semantic_leaves_compared=count,differences=[],status='PASS'))
-    assert len(overlaps) == 22
-    guard = protected_files(plan)
-    if args.numeric_only:
-        print(dump(dict(status='PASS numeric preparation only; final READY locks pending',cases=60,parts=sum(len(c['result']['parts']) for c in records),
-                        oracle_result_leaf_checks=sum(c['result_leaf_checks'] for c in checked),pilot_cases=22,
-                        pilot_existing_leaf_checks=sum(c['existing_semantic_leaves_compared'] for c in overlaps))))
-        return
-    regression = regressions()
-    protected_files(plan)
-    config = dict(schema_version='step4-crosscheck-inputs-v1', reference_id=REF, tile_N_K=[128,128],
-                  precision_role_bytes=conventions['precision']['role_bytes'], scientific_study_plan=scientific_plan(plan),
-                  model_order=[m['id'] for m in models], raw_inputs=raws,
-                  fixed_source_hashes={p:sha(TASK/p) for p in ('data/models.json','data/sources.json','shared/data/conventions.json','shared/scripts/counting.py','shared/tex/counting_method.zh.tex','table_IIb/pilot/data/results.json')},
-                  deliveries=lock)
-    checks = dict(schema_version='step4-crosscheck-checks-v1',status='PASS',case_count=60,
-                  part_count=sum(len(c['result']['parts']) for c in records),case_checks=checked,
-                  oracle_result_leaf_checks=sum(c['result_leaf_checks'] for c in checked),
-                  pilot_overlap_count=22,pilot_existing_leaf_checks=sum(c['existing_semantic_leaves_compared'] for c in overlaps),
-                  pilot_overlap_checks=overlaps,regressions=regression,protected_files=guard,
-                  production_code_imported_for_oracle=False, upstream_data_changes_required=False,
-                  method='Raw configuration and pinned implementation checks; explicit matrix tile rectangles; operator source identities; inverse sequence-tile lifetime/call-shape histograms and element participation; exact rational comparisons.')
-    results = dict(schema_version='step4-unified-v1',reference_id=REF,case_count=60,
-                   model_order=plan['table_IIb']['columns_model_ids'],row_order=[r['id'] for r in rows],
-                   B=plan['parameters']['B'],L=plan['parameters']['L_tokens'],precision_role_bytes=conventions['precision']['role_bytes'],
-                   tile_N_K=[128,128],primary_boundary='ports',contrast_boundary='operator',cases=records)
-    csv_data = csv_text(records)
-    assert len(list(csv.DictReader(io.StringIO(csv_data)))) == 412
-    products = {'data/config.json':dump(config),'data/checks.json':dump(checks),'data/results.json':dump(results),
-                'data/results.csv':csv_data,'PREVIEW.zh.md':preview(records,models,rows,plan)}
-    for relative,content in products.items():
-        dest = HERE/relative
-        if args.emit:
-            dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(content)
-        else:
-            assert dest.read_text()==content, ('stale D artifact',relative)
-    print('PASS: 60 cases / 146 parts; '+str(checks['oracle_result_leaf_checks'])+' independent result leaves; 22 pilot overlaps / '+str(checks['pilot_existing_leaf_checks'])+' existing leaves; 5 read-only regressions; final delivery hashes and protected scientific inputs verified.')
+    p=argparse.ArgumentParser();p.add_argument('--emit',action='store_true');args=p.parse_args()
+    rules=read(HERE/'data/conventions.json');models=read(HERE/'data/model_inputs.json')['models'];by_model={m['model_id']:m for m in models}
+    for path,digest in read(HERE/'data/protected_inputs.json')['files'].items():assert sha(TASK/path)==digest,path
+    all_cases=[];deliveries=[];trace={};legacy=[];independent=[]
+    for index,name in enumerate(FOLDERS):
+        folder=TABLE/name;manifest=read(folder/'DELIVERY.json')
+        assert manifest['schema_version']==1 and manifest['status']=='ready_for_review'
+        for entry in manifest['files']:
+            target=folder/entry['path'];assert target.resolve().is_relative_to(folder.resolve())
+            assert sha(target)==entry['sha256'],str(target)
+        data=decode(read(folder/'data/results.json'));cfg=read(folder/'data/config.json');checks=read(folder/'data/checks.json')
+        assert set(data)==set(rules['results_root_keys']),name
+        assert set(cfg)==set(rules['config_root_keys']),name
+        assert set(checks)==set(rules['checks_root_keys']) and checks['status']=='PASS',name
+        assert data['schema_version']==cfg['schema_version']==1
+        assert data['reference_id']==cfg['reference_id']==rules['reference_id']
+        assert data['boundary']==cfg['boundary']==rules['boundary']
+        assert data['model_order']==cfg['model_order']==rules['model_order']
+        assert type(cfg['models']) is list and type(cfg['sources']) is list
+        for m in cfg['models']:assert set(m)==set(rules['config_model_keys'])
+        for s in cfg['sources']:
+            assert set(s)=={'path','sha256','locator'} and sha(TASK/s['path'])==s['sha256']
+        expected_workloads=[WORKLOADS[index]] if index<2 else WORKLOADS[2:]
+        assert data['workload_ids']==expected_workloads
+        expected_ids=[mid+'/'+w+'/'+str(v) for mid in rules['model_order'] for w in expected_workloads for v in next(iter(rules['sweeps'][w].values()))]
+        assert [c['case_id'] for c in data['cases']]==expected_ids
+        old=decode(read(ARCHIVE/name/'data/results.json'));old_by={c['case_id']:c for c in old['cases']}
+        for c in data['cases']:
+            assert set(c)==set(rules['case_keys']),c['case_id']
+            m=by_model[c['model_id']]
+            assert c['model_revision']==m['model_revision'] and c['selected_layer']==m['selected_layer']
+            assert set(c['window'])==set(rules['window_keys']) and all(isinstance(x,str) for x in c['window'].values())
+            assert (c['kind']=='limit')==(c['U']=='infinity')
+            if c['workload'].startswith('attention_'):assert c['U'] is None and c['L'] in [1024,8192,65536]
+            else:assert c['L'] is None
+            expected,parts=oracle(m,c)
+            for item in [c['result'],*c['components']]:
+                for key in rules['demand_keys']:
+                    value=item[key]
+                    assert type(value) in (int,F) or (value=='infinity' and key in ['Q_S','RI']), (c['case_id'],key,'non-exact type')
+            assert c['result']==expected,(c['case_id'],'total',c['result'],expected)
+            assert [x['id'] for x in c['components']]==list(parts)
+            for part in c['components']:
+                assert set(part)==set(rules['component_keys'])
+                assert isinstance(part['input_role'],str)
+                for k,v in parts[part['id']].items():assert part[k]==v,(c['case_id'],part['id'],k)
+            independent.append(dict(case_id=c['case_id'],status='PASS'))
+            if c['workload']=='ffn_or_moe':
+                old_case=old_by[c['model_id']+'/ffn_or_moe/8'];old_result=old_case['result'];scale=F(c['U'],8)
+                for k in ['Q_S','Q_R','RI']:
+                    assert c['result'][k]==old_result['operator'][k]*(1 if k=='Q_R' else scale)
+                assert c['result']['resident_bytes_final']==old_result['capacity']['valid_resident_bytes']
+                for part in c['components']:
+                    for k in ['Q_S','Q_R','RI']:
+                        assert part[k]==old_result['parts'][part['id']]['operator'][k]*(1 if k=='Q_R' else scale)
+                legacy.append(dict(case_id=c['case_id'],prior_case_id=old_case['case_id'],kind='changed_reuse_sweep',scale=scale,status='PASS'))
+            elif c['workload'].startswith('attention_') and c['case_id'] in old_by:
+                old_result=old_by[c['case_id']]['result']
+                for k in ['Q_S','Q_R','RI']:assert c['result'][k]==old_result['operator'][k]
+                assert c['result']['resident_bytes_initial']==old_result['initial_capacity']['valid_resident_bytes']
+                assert c['result']['resident_bytes_final']==old_result['capacity']['valid_resident_bytes']
+                for part in c['components']:
+                    for k in ['Q_S','Q_R','RI']:assert part[k]==old_result['parts'][part['id']]['operator'][k]
+                legacy.append(dict(case_id=c['case_id'],kind='unchanged_1K_operator_window',status='PASS'))
+            elif c['workload']=='qkv_projection' and c['U']==1:
+                old_result=old_by[c['model_id']+'/qkv_projection/one_token']['result']
+                assert c['result']['Q_S']==old_result['operator']['Q_S']
+                assert c['result']['Q_R']==old_result['capacity']['valid_resident_bytes']
+                legacy.append(dict(case_id=c['case_id'],kind='user_changed_from_pre_resident_to_one_load',old_Q_R=0,new_Q_R=c['result']['Q_R'],status='PASS'))
+            trace[c['case_id']]=dict(results_path=str((folder/'data/results.json').relative_to(TASK)),results_sha256=sha(folder/'data/results.json'),delivery_revision=manifest['revision'])
+        generated_tex='\n'.join((folder/'tex'/f).read_text() for f in ['report.zh.tex','models.generated.tex','results.generated.tex'])
+        uncommented=re.sub(r'(?m)%.*$','',generated_tex)
+        assert not re.search(r'\b(tile|tiles|macro|macros|ports)\b|\\lceil|allocated_tile|分块',uncommented,re.I),name
+        sections=re.findall(r'\\section\{([^}]+)\}',generated_tex)
+        assert sections==['对象与公式','模型信息','代入结果','结果说明'],(name,sections)
+        assert '../../04_crosscheck/template/preamble.tex' in generated_tex
+        model_table=(folder/'tex/models.generated.tex').read_text()
+        result_table=(folder/'tex/results.generated.tex').read_text()
+        assert '\\ModelTableSetup' in model_table and '\\ResultTableSetup' in result_table,name
+        assert 'p{0.32\\linewidth}' in model_table and 'p{0.32\\linewidth}' in result_table,name
+        assert '\\RIFraction{' not in result_table and '\\frac{' not in result_table and '\\dfrac{' not in result_table,name
+        assert re.search(r'\d+\.\d+', result_table), name
+        preview_sections=re.findall(r'(?m)^## (.+)$',(folder/'PREVIEW.zh.md').read_text())
+        assert preview_sections==['对象与公式','模型信息','代入结果','结果说明'],(name,preview_sections)
+        qa=read(folder/'data/pdf_qa.json');assert qa['status']=='PASS' and qa['pdf']=='output/report.zh.pdf' and qa['page_count']<=3
+        assert sha(folder/qa['pdf'])==qa['sha256']
+        assert len(qa['page_reviews'])==qa['page_count']
+        for page in qa['page_reviews']:
+            image=folder/page['png']
+            if image.is_file():assert sha(image)==page['sha256']
+        actual_csv=(folder/'data/results.csv').read_text()
+        assert list(csv.DictReader(io.StringIO(actual_csv)).fieldnames)==rules['csv_columns']
+        assert list(csv.DictReader(io.StringIO(actual_csv)))==list(csv.DictReader(io.StringIO(to_csv(data['cases'],rules['csv_columns'])))),name
+        deliveries.append(dict(directory=name,revision=manifest['revision'],sha256=sha(folder/'DELIVERY.json'),pdf_sha256=qa['sha256'],pages=qa['page_count']))
+        all_cases.extend(data['cases'])
+    ordered=[mid+'/'+w+'/'+str(v) for mid in rules['model_order'] for w in WORKLOADS for v in next(iter(rules['sweeps'][w].values()))]
+    lookup={c['case_id']:c for c in all_cases};assert len(lookup)==len(all_cases)==96
+    all_cases=[lookup[k] for k in ordered]
+    assert sum(c['kind']=='finite' for c in all_cases)==90 and sum(c['kind']=='limit' for c in all_cases)==6
+    assert len(legacy)==48
+    out=dict(schema_version=1,reference_id=rules['reference_id'],boundary=rules['boundary'],model_order=rules['model_order'],workload_ids=WORKLOADS,cases=all_cases)
+    report=dict(status='PASS',finite_cases=90,limit_cells=6,component_records=sum(len(c['components']) for c in all_cases),independent_checks=independent,legacy_comparison=legacy,deliveries=deliveries,protected_inputs='PASS')
+    products={'data/results.json':out,'data/checks.json':report,'data/source_manifest.json':trace}
+    for rel,obj in products.items():
+        text=json.dumps(encode(obj),ensure_ascii=False,indent=2)+'\n';target=HERE/rel
+        if args.emit:target.write_text(text)
+        else:assert target.read_text()==text,'stale merged file: '+rel
+    text=to_csv(all_cases,rules['csv_columns']);target=HERE/'data/results.csv'
+    if args.emit:target.write_text(text)
+    else:assert target.read_text()==text,'stale merged CSV'
+    text=preview(all_cases,models,rules);target=HERE/'PREVIEW.zh.md'
+    if args.emit:target.write_text(text)
+    else:assert target.read_text()==text,'stale merged preview'
+    print('PASS: 90 finite cases + 6 limits; 262 components; exact counts and decimal tables; 30 scaled FFN comparisons + 12 Attention overlaps + 6 QKV window comparisons')
 
 
-if __name__ == '__main__':
-    main()
+if __name__=='__main__':main()

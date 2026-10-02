@@ -1,28 +1,49 @@
-# Step 4：六模型 FFN / 单路由专家
+# FFN／MoE：矩阵阶段入口的输入复用与 RI
 
-覆盖固定模型顺序的 6×3=18 工况，每工况包含 gate/up/down 共 54 分项。六个所选层号为 3、0、3、1、4、7（零起点）。每窗口完整装载三矩阵各一次，服务 B=8,64,512 个实际向量。
+2026-10-02 主 Agent 修订，待用户审阅。正文为 [PDF](output/report.zh.pdf) 与 [TeX](tex/report.zh.tex)；[中文预览](PREVIEW.zh.md) 展示相同公式、参数和结果。六模型各取 U=1、16、128、1K、16K，共 30 个有限工况、90 个矩阵分项。
 
-- [中文独立研究稿](output/ffn_moe.zh.pdf) / [TeX](tex/ffn_moe.zh.tex)：结构、推导、结果解释、来源和复算。
-- [六模型概览](OVERVIEW.zh.md)，[精确 JSON](data/results.json) / [CSV](data/results.csv)。
-- [配置与来源哈希](data/config.json)，[独立复算及 pilot 回归](data/checks.json)，[页面 QA](data/pdf_qa.json)。
+## 对象与计数
 
-固定参考为 `WS128-INT8-semantic-banks-v1`：128×128、各角色 INT8/1 Byte、ports 主边界、operator 对照、独立语义矩阵 bank。MoE 只取一个路由专家，不乘 top-k、全部专家、共享专家或层数；router、非矩阵处理不计入三矩阵 payload。B 是该份权重在一次驻留中实际服务的向量总数。
+前两模型取一个 Dense FFN，后四模型取一个路由专家。`W_gate,W_up:[F,D]`、`W_down:[D,F]` 各完整装载一次，所有被计数角色为 1 Byte/element。U 为复用次数（reuse count），表示这份三矩阵权重一次装载后累计服务的向量数，包含首次使用、可跨 batch/请求；对 MoE，它是所选专家实际接收的向量数，不直接用全模型 batch 替代。
 
-全部 D/F 整除 128，因此 ports RI 都为 B/128，即 1/16、1/2、4。容量为 36、168、3、18、48、36 MiB；同 RI 仍保留总量差异。operator 汇总为 B(D+F)/(3DF)，gate/up 的共享 x 显式扣除 BD，down 的新输入 BF 保留。当前阶段输出不重复加入 Q_S。Qwen3.5 与 MiMo 的 D/F 交换使两边界汇总相同，但 operator 分项与共享扣除量不同。
+将累计输入按行记为 `X:[U,D]`，同阶段 gate/up 共享 `X`，其 `UD` 输入只计一次。`Z=SiLU(XW_gateᵀ)⊙(XW_upᵀ)` 成为 down 的新输入，另计 `UF`；输出为 `Y=ZW_downᵀ`。因此 **Q_S=U(D+F)，Q_R=3DF，RI=U(D+F)/(3DF)**。分项输入独立记录为 `UD,UD,UF`，总输入扣除 `UD`。当前矩阵输出不直接计入 Q_S；它作为下一矩阵阶段的输入时再计。
 
-JSON 保留精确整数及 `{numerator, denominator}` 分数。`result.parts` 中的 operator 是各矩阵独立入口；聚合扣除字段是 `operator_shared_input_overlap_removed`。ports 的 `tile_evaluations` 是真实逻辑调用数；operator 的 null 不表示没有计算。`capacity` 保存有效容量、完整逻辑 tile 槽位容量及驻留 tiles，和累计写入 Q_R 分开。当前一次全写入且无尾块，所以两容量恰等于 Q_R。
+窗口初始权重为空，有效容量为 0；一次装载后保留三矩阵，有效容量为 `3DF` Byte。本窗口内累计写入恰好等于末态有效容量，两字段仍独立记录。范围不含路由矩阵、共享专家、其他路由专家、其余层和非矩阵运算；不乘 top-k 或上述对象数量。原生存储类型仅作来源备注，不改变 1 Byte/element 的统一计数。
 
-主计算调用共享 API；独立检查不导入生产公式，重新从原始配置获取 D/F，按真实 tile 切片累加写入面积，逐向量累加接收片长/调用，并按输入阶段与向量身份去重。6 个 pilot 重叠工况重新计算后逐字段比较完整记录，未复制结果作为正式数据。源码仅静态读取，没有执行模型或下载权重。
+## 固定来源
 
-从本目录执行（数值检查只需 Python 标准库）：
+共同入口为 [CONTRACT](../04_crosscheck/CONTRACT.zh.md)、[schema](../04_crosscheck/data/conventions.json)、[模型输入](../04_crosscheck/data/model_inputs.json) 及当前 [II(a)](../../table_IIa/README.md)。模型、revision、层号均保持既定材料；本文以原生配置和实现重核 FFN 维度，没有执行模型或下载权重。
+
+| 模型 | 层（零起点） | D | F | 本地结构卡 |
+|---|---:|---:|---:|---|
+| Qwen3.5-2B | 3 | 2048 | 6144 | [结构卡](../../literature/01_qwen35_2b/STRUCTURE.zh.md) |
+| Ministral 3 8B (2512) | 0 | 4096 | 14336 | [结构卡](../../literature/02_ministral3_8b/STRUCTURE.zh.md) |
+| Qwen3.6-35B-A3B | 3 | 2048 | 512 | [结构卡](../../literature/03_qwen36_35b_a3b/STRUCTURE.zh.md) |
+| Tencent Hy3 (295B) | 1 | 4096 | 1536 | [结构卡](../../literature/04_hy3_295b/STRUCTURE.zh.md) |
+| Ling-1T | 4 | 8192 | 2048 | [结构卡](../../literature/05_ling_1t/STRUCTURE.zh.md) |
+| MiMo-V2.5-Pro | 7 | 6144 | 2048 | [结构卡](../../literature/06_mimo_v25_pro/STRUCTURE.zh.md) |
+
+[config.json](data/config.json) 保存完整 revision、来源定位和 SHA-256；源注册表为 [sources.json](../../data/sources.json)。Qwen3.6 和 Hy3 实现将 gate/up 打包，逻辑上仍取两个 F×D 矩阵。Qwen3.5 与 MiMo 的 D/F 互换，所以汇总相同，分项输入及共享扣除不同。
+
+## 精确数据与独立检查
+
+[results.json](data/results.json) 和 [results.csv](data/results.csv) 保存每个工况及 gate/up/down 的原始 Byte、RI、有效容量与共享扣除量。计数均为整数或约分后的 `{numerator,denominator}`，未先转浮点。CSV 为 30 个总量行加 90 个分项行。
+
+[generate.py](scripts/generate.py) 从共同原生参数生成主计数与表格；[check.py](scripts/check.py) 不导入它，也不导入旧 shared 生产 API。独立检查重新读取原始 config 的 D/F、核对层型与实现中的三矩阵构造，再按实际矩阵行宽累计写入。输入以 `(源阶段, 元素下标)` 标识，gate/up 的 x 身份重叠，down 的 z 独立，随后逐向量累计。
+
+[checks.json](data/checks.json) 记录独立复算、共同 schema 检查、来源 SHA-256 和归档回归。归档只读路径为 `tasks/archived/task2_table_IIb_previous/02_ffn_moe/data/results.json`；未运行任何旧脚本。新扫描不与旧 B=8/64/512 重合；用新 U/旧 B 缩放旧 operator 的输入、RI 和共享扣除作迁移核对，写入量和有效容量不变。初始容量按当前明确的空权重窗口独立核验。
+
+## 复算、编译与渲染
+
+从仓库根运行；生成与检查默认只读比较，显式 `--emit` 才刷新相应数据：
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python scripts/generate.py
-PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python scripts/check.py
-TASK2_PYTHON=/opt/anaconda3/bin/python sh scripts/build.sh
-/opt/anaconda3/bin/python scripts/render.py
+PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/generate.py
+PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/check.py
+TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/build.sh
+PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/02_ffn_moe/scripts/render.py
 ```
 
-默认验证已生成文件，不覆盖数据；更新时先分别运行 `generate.py --emit`、`check.py --emit`，随后编译、渲染并逐页检查。build/tmp 仅在本目录忽略；共享和其它计算目录只读。来源哈希只锁定原件与共享固定文件；study_plan 的状态更新不触发伪过期。
+如源材料经授权更新，先分别运行 `generate.py --emit` 和 `check.py --emit`，再编译、渲染与逐页查看。正文引用 [共同 preamble](../04_crosscheck/template/preamble.tex)，顺序为对象与公式、模型信息、代入结果、结果说明。`render.py` 只生成本目录 `tmp/pdfs/` 的图片和提取文本；人工逐页查看后才记录 [pdf_qa.json](data/pdf_qa.json)。交付清单 [DELIVERY.json](DELIVERY.json) 记录实际文件哈希；`ready_for_review` 不等同于用户批准。
 
-交付版本与最终 SHA-256 见 [DELIVERY.json](DELIVERY.json)。本轮为 Step 4 FFN 分类产物，没有进行硬件性能推算或 Step 5 英文总表。
+数量后缀 1K=1024。结果显示 RI≥1 保留一位小数、RI<1 保留三位有效数字，原始分数保留。专家实际替换策略会改变 U，但本表不由模型大小断言实际替换频率。

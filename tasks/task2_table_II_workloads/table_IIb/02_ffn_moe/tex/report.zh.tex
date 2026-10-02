@@ -1,0 +1,69 @@
+\input{../../04_crosscheck/template/preamble.tex}
+\renewcommand{\WorkloadName}{FFN／MoE}
+\title{\bfseries\WorkloadName 的输入复用与 RI}
+\begin{document}
+\maketitle
+
+\section{对象与公式}
+每个窗口取一个 Dense FFN 或一个路由专家，完整装载其 gate、up、down
+三矩阵一次，随后累计服务 $U$ 个向量。$U$ 为复用次数（reuse count），包含首次使用；可跨多个 batch 或请求累计。
+沿用 Table II(a) 的等宽口径，所有计数角色均为每元素 1 Byte。
+
+设模型隐藏维为 $D$，FFN／单专家中间宽度为 $F$。三矩阵及累计输入的关系为
+\[
+ \begin{gathered}
+ W_g,W_u\in\mathbb{R}^{F\times D},\qquad W_d\in\mathbb{R}^{D\times F},\qquad
+ X\in\mathbb{R}^{U\times D},\\
+ Z=\operatorname{SiLU}(XW_g^{\mathsf T})\odot(XW_u^{\mathsf T}),\qquad
+ Y=ZW_d^{\mathsf T}.
+ \end{gathered}
+\]
+在矩阵阶段入口计数：gate/up 共用同一源输入 $X$，只计 $UD$ Byte；
+$Z$ 是 down 的新输入，另计 $UF$ Byte。
+因此，三个分项各自的输入为 $UD,UD,UF$，汇总时扣除一次 $UD$ 的共享重叠。
+\[
+ \boxed{\qs=U(D+F),\qquad \qr=3DF,\qquad
+ \RI=\frac{U(D+F)}{3DF}.}
+\]
+$\qs$ 与 $\qr$ 的单位均为 Byte，RI 为二者之比。
+初始有效权重容量为 0，末态保留三矩阵，容量为 $3DF$ Byte。
+当前输出不直接加进 $\qs$；若它成为下一矩阵阶段的输入，则在该阶段计数。
+这里的 gate 是 SwiGLU 分支，路由矩阵不在此对象内；
+单专家结果不乘 top-k、专家总数、共享专家数或层数。
+
+\section{模型信息}
+下表保留固定 checkpoint 的原生 $D,F$，层号从 0 起。
+前两项取一个 Dense FFN，后四项取所选 MoE 层中的一个路由专家。
+\begin{center}\small\input{models.generated.tex}\end{center}
+
+\newpage
+\section{代入结果}
+六模型各扫描 $U\in\{1,16,128,1\mathrm{K},16\mathrm{K}\}$，得到 30 个有限工况。
+表内为小数 RI；三矩阵的一次写入量在同一模型的各列中保持不变。
+\begin{center}\small\input{results.generated.tex}\end{center}
+\DisplayNote
+
+例如，Qwen3.5-2B 在 $U=1\mathrm{K}$ 时，输入量为 $8\,388\,608$ Byte，
+一次写入量为 $37\,748\,736$ Byte，故
+\[
+ \RI=\frac{1024(2048+6144)}{3\times2048\times6144}\approx0.222.
+\]
+
+\section{结果说明}
+固定 $D,F$ 后，$\qr$ 与末态有效权重容量固定，$\qs$ 和 RI 随 $U$ 线性增长。
+这与 QKV 都是一次装载后的复用关系。专家的选择与替换策略可能使其实际 $U$ 较小；
+替换更频繁时，同一装载服务的向量数更少。本表扫描 $U$，不从模型尺寸推断实际替换频率。
+
+固定 $U$ 时，$\RI=(U/3)(1/D+1/F)$。
+本表中 Qwen3.6 的单专家宽度 $F=512$，对应最高 RI；
+Ministral 的 $D,F$ 组合对应最低 RI。
+比较依据是所选三矩阵的维度，模型名中的总参数标签不进入公式。
+
+Qwen3.5 与 MiMo 的 $D,F$ 互换，$D+F$ 与 $DF$ 均相同，
+所以各档 $U$ 下的 $\qs$、$\qr$、RI 和末态有效容量相同。
+它们的 gate/up 与 down 分项输入、以及共享扣除量不同；
+汇总相同符合当前计数边界。
+
+\par\smallskip\noindent\small
+固定模型来源、精确字节及复算记录见本目录 README 与 data/；数学入口为 Table II(a)。
+\end{document}

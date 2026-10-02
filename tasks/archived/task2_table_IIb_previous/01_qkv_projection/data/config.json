@@ -1,0 +1,1148 @@
+{
+  "schema_version": "1.0",
+  "task": "Task II Step 4 QKV Projection",
+  "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+  "reviewed_step3_and_start_HEAD": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+  "model_order": [
+    "qwen35_2b",
+    "ministral3_8b_2512",
+    "qwen36_35b_a3b",
+    "hy3_295b",
+    "ling_1t",
+    "mimo_v25_pro"
+  ],
+  "tile_N_K": [
+    128,
+    128
+  ],
+  "precision_role_bytes": {
+    "b_x": 1,
+    "b_z": 1,
+    "b_q": 1,
+    "b_p": 1,
+    "b_W": 1,
+    "b_gate": 1,
+    "b_up": 1,
+    "b_down": 1,
+    "b_K": 1,
+    "b_V": 1
+  },
+  "primary_boundary": "ports",
+  "contrast_boundary": "operator",
+  "window": "one input token; weights pre-resident; no weight writes inside window",
+  "scope": "one selected full/global GQA projection per model; includes native output gate; excludes W_O and KV writes",
+  "models": {
+    "qwen35_2b": {
+      "display_name": "Qwen3.5-2B",
+      "identity": {
+        "official_repository": "Qwen/Qwen3.5-2B",
+        "repository_url": "https://huggingface.co/Qwen/Qwen3.5-2B",
+        "checkpoint": "Qwen3.5-2B",
+        "revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+        "revision_date": "2026-03-02T11:26:29.000Z",
+        "repository_created_at": "2026-02-28T23:56:16.000Z",
+        "public_release_date": "2026-03-02",
+        "release_date_source_id": "qwen:project",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "post-trained",
+        "choice_reason": "exact requested model, official BF16 config",
+        "evidence": [
+          "01_qwen35_2b:metadata",
+          "01_qwen35_2b:README.md"
+        ]
+      },
+      "selected_layer": 3,
+      "layer_type": "full causal GQA + dense FFN",
+      "D": 2048,
+      "Hq": 8,
+      "Hkv": 2,
+      "dqk": 256,
+      "dv": 256,
+      "output_gate": true,
+      "native_projection_layout": "q_plus_output_gate_packed; k/v separate",
+      "semantic_shapes_N_K": {
+        "Q": [
+          2048,
+          2048
+        ],
+        "G": [
+          2048,
+          2048
+        ],
+        "K": [
+          512,
+          2048
+        ],
+        "V": [
+          512,
+          2048
+        ]
+      },
+      "native_weight_shapes_N_K": {
+        "q_logical": [
+          2048,
+          2048
+        ],
+        "k": [
+          512,
+          2048
+        ],
+        "v": [
+          512,
+          2048
+        ],
+        "output": [
+          2048,
+          2048
+        ],
+        "q_output_gate_logical": [
+          2048,
+          2048
+        ],
+        "q_and_gate_packed": [
+          4096,
+          2048
+        ]
+      },
+      "native_precision": {
+        "checkpoint_declared_dtype": "bfloat16",
+        "checkpoint_quantization": null,
+        "notes": "BF16 language config; mamba_ssm_dtype=float32 is an excluded linear-state setting",
+        "inference_activation_payload_dtype": null,
+        "inference_kv_payload_dtype": null,
+        "cim_reference_dtype": null,
+        "pending_step2": "Choose separate weight/streaming/KV/attention-coefficient payload precisions and compatible CIM mapping; no BF16-to-Task-I-INT8 throughput substitution.",
+        "evidence": [
+          {
+            "source_id": "01_qwen35_2b:config.json",
+            "locator": "text_config.dtype"
+          }
+        ]
+      },
+      "attention_evidence": [
+        {
+          "source_id": "01_qwen35_2b:config.json",
+          "locator": "text_config.num_attention_heads"
+        },
+        {
+          "source_id": "01_qwen35_2b:config.json",
+          "locator": "text_config.num_key_value_heads"
+        },
+        {
+          "source_id": "01_qwen35_2b:config.json",
+          "locator": "text_config.head_dim"
+        },
+        {
+          "source_id": "transformers:modeling_qwen3_5.py",
+          "locator": "Qwen3_5Attention __init__/forward; repeat_kv / eager_attention_forward"
+        },
+        {
+          "source_id": "01_qwen35_2b:config.json",
+          "locator": "text_config.attn_output_gate"
+        }
+      ],
+      "local_material": {
+        "structure_card": "literature/01_qwen35_2b/STRUCTURE.zh.md",
+        "raw_config": "literature/01_qwen35_2b/raw/config.json",
+        "raw_model_card": "literature/01_qwen35_2b/raw/README.md",
+        "implementation": "literature/00_shared/raw/transformers/modeling_qwen3_5.py",
+        "implementation_source_id": "transformers:modeling_qwen3_5.py",
+        "configuration_implementation_source_id": "transformers:configuration_qwen3_5.py",
+        "core_report": null,
+        "report_status": "No separate report identified for this exact checkpoint; official model card + pinned config + implementation are the primary sources."
+      }
+    },
+    "ministral3_8b_2512": {
+      "display_name": "Ministral 3 8B (2512)",
+      "identity": {
+        "official_repository": "mistralai/Ministral-3-8B-Base-2512",
+        "repository_url": "https://huggingface.co/mistralai/Ministral-3-8B-Base-2512",
+        "checkpoint": "Ministral-3-8B-Base-2512",
+        "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+        "revision_date": "2026-01-15T11:17:01.000Z",
+        "repository_created_at": "2025-10-31T08:40:56.000Z",
+        "public_release_date": "2025-12-02",
+        "release_date_source_id": "02_ministral3_8b:release",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "Base 2512 (pretrained)",
+        "choice_reason": "official 2025-12 2512 Base, complete params.json and HF text_config, BF16 declaration simplifies provenance",
+        "evidence": [
+          "02_ministral3_8b:metadata",
+          "02_ministral3_8b:README.md"
+        ]
+      },
+      "selected_layer": 0,
+      "layer_type": "full causal GQA + dense FFN",
+      "D": 4096,
+      "Hq": 32,
+      "Hkv": 8,
+      "dqk": 128,
+      "dv": 128,
+      "output_gate": false,
+      "native_projection_layout": "separate_q_k_v",
+      "semantic_shapes_N_K": {
+        "Q": [
+          4096,
+          4096
+        ],
+        "K": [
+          1024,
+          4096
+        ],
+        "V": [
+          1024,
+          4096
+        ]
+      },
+      "native_weight_shapes_N_K": {
+        "q_logical": [
+          4096,
+          4096
+        ],
+        "k": [
+          1024,
+          4096
+        ],
+        "v": [
+          1024,
+          4096
+        ],
+        "output": [
+          4096,
+          4096
+        ]
+      },
+      "native_precision": {
+        "checkpoint_declared_dtype": "bfloat16",
+        "checkpoint_quantization": null,
+        "notes": "chosen Base is BF16; Instruct FP8 is a different artifact",
+        "inference_activation_payload_dtype": null,
+        "inference_kv_payload_dtype": null,
+        "cim_reference_dtype": null,
+        "pending_step2": "Choose separate weight/streaming/KV/attention-coefficient payload precisions and compatible CIM mapping; no BF16-to-Task-I-INT8 throughput substitution.",
+        "evidence": [
+          {
+            "source_id": "02_ministral3_8b:config.json",
+            "locator": "dtype"
+          },
+          {
+            "source_id": "02_ministral3_8b:README.md",
+            "locator": "Ministral 3 Family / Base BF16"
+          }
+        ]
+      },
+      "attention_evidence": [
+        {
+          "source_id": "02_ministral3_8b:config.json",
+          "locator": "text_config.num_attention_heads"
+        },
+        {
+          "source_id": "02_ministral3_8b:config.json",
+          "locator": "text_config.num_key_value_heads"
+        },
+        {
+          "source_id": "02_ministral3_8b:config.json",
+          "locator": "text_config.head_dim"
+        },
+        {
+          "source_id": "transformers:modeling_ministral3.py",
+          "locator": "Ministral3Attention __init__/forward; repeat_kv / eager_attention_forward"
+        }
+      ],
+      "local_material": {
+        "structure_card": "literature/02_ministral3_8b/STRUCTURE.zh.md",
+        "raw_config": "literature/02_ministral3_8b/raw/config.json",
+        "raw_model_card": "literature/02_ministral3_8b/raw/README.md",
+        "implementation": "literature/00_shared/raw/transformers/modeling_ministral3.py",
+        "implementation_source_id": "transformers:modeling_ministral3.py",
+        "configuration_implementation_source_id": "transformers:configuration_ministral3.py",
+        "core_report": {
+          "source_id": "2601.08584v1:pdf",
+          "path": "literature/02_ministral3_8b/raw/2601.08584v1.pdf"
+        },
+        "report_status": "local PDF complete; checked relevant structure/context sections"
+      }
+    },
+    "qwen36_35b_a3b": {
+      "display_name": "Qwen3.6-35B-A3B",
+      "identity": {
+        "official_repository": "Qwen/Qwen3.6-35B-A3B",
+        "repository_url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B",
+        "checkpoint": "Qwen3.6-35B-A3B",
+        "revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+        "revision_date": "2026-04-24T02:53:42.000Z",
+        "repository_created_at": "2026-04-15T05:59:19.000Z",
+        "public_release_date": "2026-04-16",
+        "release_date_source_id": "qwen:project",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "post-trained",
+        "choice_reason": "exact requested model; officially reuses qwen3_5_moe implementation, not substituted Qwen3.5 weights",
+        "evidence": [
+          "03_qwen36_35b_a3b:metadata",
+          "03_qwen36_35b_a3b:README.md"
+        ]
+      },
+      "selected_layer": 3,
+      "layer_type": "full causal GQA + MoE",
+      "D": 2048,
+      "Hq": 16,
+      "Hkv": 2,
+      "dqk": 256,
+      "dv": 256,
+      "output_gate": true,
+      "native_projection_layout": "q_plus_output_gate_packed; k/v separate",
+      "semantic_shapes_N_K": {
+        "Q": [
+          4096,
+          2048
+        ],
+        "G": [
+          4096,
+          2048
+        ],
+        "K": [
+          512,
+          2048
+        ],
+        "V": [
+          512,
+          2048
+        ]
+      },
+      "native_weight_shapes_N_K": {
+        "q_logical": [
+          4096,
+          2048
+        ],
+        "k": [
+          512,
+          2048
+        ],
+        "v": [
+          512,
+          2048
+        ],
+        "output": [
+          2048,
+          4096
+        ],
+        "q_output_gate_logical": [
+          4096,
+          2048
+        ],
+        "q_and_gate_packed": [
+          8192,
+          2048
+        ]
+      },
+      "native_precision": {
+        "checkpoint_declared_dtype": "bfloat16",
+        "checkpoint_quantization": null,
+        "notes": "BF16 language config; excluded linear recurrent state declares float32",
+        "inference_activation_payload_dtype": null,
+        "inference_kv_payload_dtype": null,
+        "cim_reference_dtype": null,
+        "pending_step2": "Choose separate weight/streaming/KV/attention-coefficient payload precisions and compatible CIM mapping; no BF16-to-Task-I-INT8 throughput substitution.",
+        "evidence": [
+          {
+            "source_id": "03_qwen36_35b_a3b:config.json",
+            "locator": "text_config.dtype"
+          }
+        ]
+      },
+      "attention_evidence": [
+        {
+          "source_id": "03_qwen36_35b_a3b:config.json",
+          "locator": "text_config.num_attention_heads"
+        },
+        {
+          "source_id": "03_qwen36_35b_a3b:config.json",
+          "locator": "text_config.num_key_value_heads"
+        },
+        {
+          "source_id": "03_qwen36_35b_a3b:config.json",
+          "locator": "text_config.head_dim"
+        },
+        {
+          "source_id": "transformers:modeling_qwen3_5_moe.py",
+          "locator": "Qwen3_5MoeAttention __init__/forward; repeat_kv / eager_attention_forward"
+        },
+        {
+          "source_id": "03_qwen36_35b_a3b:config.json",
+          "locator": "text_config.attn_output_gate"
+        }
+      ],
+      "local_material": {
+        "structure_card": "literature/03_qwen36_35b_a3b/STRUCTURE.zh.md",
+        "raw_config": "literature/03_qwen36_35b_a3b/raw/config.json",
+        "raw_model_card": "literature/03_qwen36_35b_a3b/raw/README.md",
+        "implementation": "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py",
+        "implementation_source_id": "transformers:modeling_qwen3_5_moe.py",
+        "configuration_implementation_source_id": "transformers:configuration_qwen3_5_moe.py",
+        "core_report": null,
+        "report_status": "No separate report identified for this exact checkpoint; official model card + pinned config + implementation are the primary sources."
+      }
+    },
+    "hy3_295b": {
+      "display_name": "Tencent Hy3 (295B)",
+      "identity": {
+        "official_repository": "tencent/Hy3",
+        "repository_url": "https://huggingface.co/tencent/Hy3",
+        "checkpoint": "Hy3",
+        "revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+        "revision_date": "2026-07-20T07:01:39.000Z",
+        "repository_created_at": "2026-07-02T13:23:54.000Z",
+        "public_release_date": "2026-07-06",
+        "release_date_source_id": "04_hy3_295b:release",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "official Instruct; not preview or FP8 variant",
+        "choice_reason": "released 295B official version with complete config, chosen over preview",
+        "evidence": [
+          "04_hy3_295b:metadata",
+          "04_hy3_295b:README.md"
+        ]
+      },
+      "selected_layer": 1,
+      "layer_type": "full causal GQA + MoE",
+      "D": 4096,
+      "Hq": 64,
+      "Hkv": 8,
+      "dqk": 128,
+      "dv": 128,
+      "output_gate": false,
+      "native_projection_layout": "separate_q_k_v",
+      "semantic_shapes_N_K": {
+        "Q": [
+          8192,
+          4096
+        ],
+        "K": [
+          1024,
+          4096
+        ],
+        "V": [
+          1024,
+          4096
+        ]
+      },
+      "native_weight_shapes_N_K": {
+        "q_logical": [
+          8192,
+          4096
+        ],
+        "k": [
+          1024,
+          4096
+        ],
+        "v": [
+          1024,
+          4096
+        ],
+        "output": [
+          4096,
+          8192
+        ]
+      },
+      "native_precision": {
+        "checkpoint_declared_dtype": "bfloat16",
+        "checkpoint_quantization": null,
+        "notes": "BF16 card/config; lm_head fp32 flag does not set KV dtype",
+        "inference_activation_payload_dtype": null,
+        "inference_kv_payload_dtype": null,
+        "cim_reference_dtype": null,
+        "pending_step2": "Choose separate weight/streaming/KV/attention-coefficient payload precisions and compatible CIM mapping; no BF16-to-Task-I-INT8 throughput substitution.",
+        "evidence": [
+          {
+            "source_id": "04_hy3_295b:config.json",
+            "locator": "dtype"
+          }
+        ]
+      },
+      "attention_evidence": [
+        {
+          "source_id": "04_hy3_295b:config.json",
+          "locator": "num_attention_heads"
+        },
+        {
+          "source_id": "04_hy3_295b:config.json",
+          "locator": "num_key_value_heads"
+        },
+        {
+          "source_id": "04_hy3_295b:config.json",
+          "locator": "head_dim"
+        },
+        {
+          "source_id": "transformers:modeling_hy_v3.py",
+          "locator": "HYV3Attention __init__/forward; repeat_kv / eager_attention_forward"
+        }
+      ],
+      "local_material": {
+        "structure_card": "literature/04_hy3_295b/STRUCTURE.zh.md",
+        "raw_config": "literature/04_hy3_295b/raw/config.json",
+        "raw_model_card": "literature/04_hy3_295b/raw/README.md",
+        "implementation": "literature/00_shared/raw/transformers/modeling_hy_v3.py",
+        "implementation_source_id": "transformers:modeling_hy_v3.py",
+        "configuration_implementation_source_id": "transformers:configuration_hy_v3.py",
+        "core_report": null,
+        "report_status": "No separate report identified for this exact checkpoint; official model card + pinned config + implementation are the primary sources."
+      }
+    },
+    "ling_1t": {
+      "display_name": "Ling-1T",
+      "identity": {
+        "official_repository": "inclusionAI/Ling-1T",
+        "repository_url": "https://huggingface.co/inclusionAI/Ling-1T",
+        "checkpoint": "Ling-1T",
+        "revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+        "revision_date": "2026-04-13T11:45:13.000Z",
+        "repository_created_at": "2025-10-02T13:41:55.000Z",
+        "public_release_date": null,
+        "release_date_source_id": null,
+        "release_date_note": "repository_created_at is not the public release date; exact public day not independently pinned for Ling-1T",
+        "variant": "non-thinking Instruct (Ling 2.0; not Ring or Ling 2.5)",
+        "choice_reason": "exact requested 1T checkpoint with report and remote implementation",
+        "evidence": [
+          "05_ling_1t:metadata",
+          "05_ling_1t:README.md"
+        ]
+      },
+      "selected_layer": 4,
+      "layer_type": "full causal GQA + MoE",
+      "D": 8192,
+      "Hq": 64,
+      "Hkv": 8,
+      "dqk": 128,
+      "dv": 128,
+      "output_gate": false,
+      "native_projection_layout": "fused_qkv",
+      "semantic_shapes_N_K": {
+        "Q": [
+          8192,
+          8192
+        ],
+        "K": [
+          1024,
+          8192
+        ],
+        "V": [
+          1024,
+          8192
+        ]
+      },
+      "native_weight_shapes_N_K": {
+        "q_logical": [
+          8192,
+          8192
+        ],
+        "k": [
+          1024,
+          8192
+        ],
+        "v": [
+          1024,
+          8192
+        ],
+        "output": [
+          8192,
+          8192
+        ],
+        "qkv_packed": [
+          10240,
+          8192
+        ]
+      },
+      "native_precision": {
+        "checkpoint_declared_dtype": "bfloat16",
+        "checkpoint_quantization": null,
+        "notes": "BF16 checkpoint declaration, router_dtype=fp32; report describes FP8 training, not an all-FP8 checkpoint",
+        "inference_activation_payload_dtype": null,
+        "inference_kv_payload_dtype": null,
+        "cim_reference_dtype": null,
+        "pending_step2": "Choose separate weight/streaming/KV/attention-coefficient payload precisions and compatible CIM mapping; no BF16-to-Task-I-INT8 throughput substitution.",
+        "evidence": [
+          {
+            "source_id": "05_ling_1t:config.json",
+            "locator": "torch_dtype"
+          }
+        ]
+      },
+      "attention_evidence": [
+        {
+          "source_id": "05_ling_1t:config.json",
+          "locator": "num_attention_heads"
+        },
+        {
+          "source_id": "05_ling_1t:config.json",
+          "locator": "num_key_value_heads"
+        },
+        {
+          "source_id": "05_ling_1t:config.json",
+          "locator": "head_dim"
+        },
+        {
+          "source_id": "05_ling_1t:modeling_bailing_moe_v2.py",
+          "locator": "BailingMoeV2Attention __init__/forward; repeat_kv / eager_attention_forward"
+        }
+      ],
+      "local_material": {
+        "structure_card": "literature/05_ling_1t/STRUCTURE.zh.md",
+        "raw_config": "literature/05_ling_1t/raw/config.json",
+        "raw_model_card": "literature/05_ling_1t/raw/README.md",
+        "implementation": "literature/05_ling_1t/raw/modeling_bailing_moe_v2.py",
+        "implementation_source_id": "05_ling_1t:modeling_bailing_moe_v2.py",
+        "configuration_implementation_source_id": "05_ling_1t:configuration_bailing_moe_v2.py",
+        "core_report": {
+          "source_id": "2510.22115v2:pdf",
+          "path": "literature/05_ling_1t/raw/2510.22115v2.pdf"
+        },
+        "report_status": "local PDF complete; checked relevant structure/context sections"
+      }
+    },
+    "mimo_v25_pro": {
+      "display_name": "MiMo-V2.5-Pro",
+      "identity": {
+        "official_repository": "XiaomiMiMo/MiMo-V2.5-Pro",
+        "repository_url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro",
+        "checkpoint": "MiMo-V2.5-Pro",
+        "revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+        "revision_date": "2026-07-09T04:20:08.000Z",
+        "repository_created_at": "2026-04-27T12:52:53.000Z",
+        "public_release_date": "2026-04-27",
+        "release_date_source_id": "06_mimo_v25_pro:release",
+        "release_date_note": "official release/news source, distinct from repository creation and revision dates",
+        "variant": "post-trained Pro; not Base, V2.5 non-Pro, or V2-Pro",
+        "choice_reason": "exact requested Pro checkpoint with native FP8-mixed metadata and fused-QKV remote code",
+        "evidence": [
+          "06_mimo_v25_pro:metadata",
+          "06_mimo_v25_pro:README.md"
+        ]
+      },
+      "selected_layer": 7,
+      "layer_type": "full causal GQA + MoE",
+      "D": 6144,
+      "Hq": 128,
+      "Hkv": 8,
+      "dqk": 192,
+      "dv": 128,
+      "output_gate": false,
+      "native_projection_layout": "fused_qkv",
+      "semantic_shapes_N_K": {
+        "Q": [
+          24576,
+          6144
+        ],
+        "K": [
+          1536,
+          6144
+        ],
+        "V": [
+          1024,
+          6144
+        ]
+      },
+      "native_weight_shapes_N_K": {
+        "q_logical": [
+          24576,
+          6144
+        ],
+        "k": [
+          1536,
+          6144
+        ],
+        "v": [
+          1024,
+          6144
+        ],
+        "output": [
+          6144,
+          16384
+        ],
+        "qkv_packed": [
+          27136,
+          6144
+        ]
+      },
+      "native_precision": {
+        "checkpoint_declared_dtype": "bfloat16",
+        "checkpoint_quantization": {
+          "activation_scheme": "dynamic",
+          "fmt": "e4m3",
+          "quant_method": "fp8",
+          "weight_block_size": [
+            128,
+            128
+          ],
+          "ignored_layers": [
+            "model.layers.0.self_attn.o_proj",
+            "model.layers.1.self_attn.o_proj",
+            "model.layers.2.self_attn.o_proj",
+            "model.layers.3.self_attn.o_proj",
+            "model.layers.4.self_attn.o_proj",
+            "model.layers.5.self_attn.o_proj",
+            "model.layers.6.self_attn.o_proj",
+            "model.layers.7.self_attn.o_proj",
+            "model.layers.8.self_attn.o_proj",
+            "model.layers.9.self_attn.o_proj",
+            "model.layers.10.self_attn.o_proj",
+            "model.layers.11.self_attn.o_proj",
+            "model.layers.12.self_attn.o_proj",
+            "model.layers.13.self_attn.o_proj",
+            "model.layers.14.self_attn.o_proj",
+            "model.layers.15.self_attn.o_proj",
+            "model.layers.16.self_attn.o_proj",
+            "model.layers.17.self_attn.o_proj",
+            "model.layers.18.self_attn.o_proj",
+            "model.layers.19.self_attn.o_proj",
+            "model.layers.20.self_attn.o_proj",
+            "model.layers.21.self_attn.o_proj",
+            "model.layers.22.self_attn.o_proj",
+            "model.layers.23.self_attn.o_proj",
+            "model.layers.24.self_attn.o_proj",
+            "model.layers.25.self_attn.o_proj",
+            "model.layers.26.self_attn.o_proj",
+            "model.layers.27.self_attn.o_proj",
+            "model.layers.28.self_attn.o_proj",
+            "model.layers.29.self_attn.o_proj",
+            "model.layers.30.self_attn.o_proj",
+            "model.layers.31.self_attn.o_proj",
+            "model.layers.32.self_attn.o_proj",
+            "model.layers.33.self_attn.o_proj",
+            "model.layers.34.self_attn.o_proj",
+            "model.layers.35.self_attn.o_proj",
+            "model.layers.36.self_attn.o_proj",
+            "model.layers.37.self_attn.o_proj",
+            "model.layers.38.self_attn.o_proj",
+            "model.layers.39.self_attn.o_proj",
+            "model.layers.40.self_attn.o_proj",
+            "model.layers.41.self_attn.o_proj",
+            "model.layers.42.self_attn.o_proj",
+            "model.layers.43.self_attn.o_proj",
+            "model.layers.44.self_attn.o_proj",
+            "model.layers.45.self_attn.o_proj",
+            "model.layers.46.self_attn.o_proj",
+            "model.layers.47.self_attn.o_proj",
+            "model.layers.48.self_attn.o_proj",
+            "model.layers.49.self_attn.o_proj",
+            "model.layers.50.self_attn.o_proj",
+            "model.layers.51.self_attn.o_proj",
+            "model.layers.52.self_attn.o_proj",
+            "model.layers.53.self_attn.o_proj",
+            "model.layers.54.self_attn.o_proj",
+            "model.layers.55.self_attn.o_proj",
+            "model.layers.56.self_attn.o_proj",
+            "model.layers.57.self_attn.o_proj",
+            "model.layers.58.self_attn.o_proj",
+            "model.layers.59.self_attn.o_proj",
+            "model.layers.60.self_attn.o_proj",
+            "model.layers.61.self_attn.o_proj",
+            "model.layers.62.self_attn.o_proj",
+            "model.layers.63.self_attn.o_proj",
+            "model.layers.64.self_attn.o_proj",
+            "model.layers.65.self_attn.o_proj",
+            "model.layers.66.self_attn.o_proj",
+            "model.layers.67.self_attn.o_proj",
+            "model.layers.68.self_attn.o_proj",
+            "model.layers.69.self_attn.o_proj",
+            "model.decoder.self_attn.o_proj"
+          ]
+        },
+        "notes": "FP8 E4M3 blockwise weights with dynamic activation quantization; torch_dtype=BF16 is fallback; ignored_layers excludes o_proj from FP8",
+        "inference_activation_payload_dtype": null,
+        "inference_kv_payload_dtype": null,
+        "cim_reference_dtype": null,
+        "pending_step2": "Choose separate weight/streaming/KV/attention-coefficient payload precisions and compatible CIM mapping; no BF16-to-Task-I-INT8 throughput substitution.",
+        "evidence": [
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "torch_dtype"
+          },
+          {
+            "source_id": "06_mimo_v25_pro:config.json",
+            "locator": "quantization_config"
+          }
+        ]
+      },
+      "attention_evidence": [
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "num_attention_heads"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "num_key_value_heads"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "head_dim"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "v_head_dim"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:modeling_mimo_v2.py",
+          "locator": "MiMoV2Attention __init__/forward; repeat_kv / eager_attention_forward"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "attention_projection_layout"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "attention_value_scale"
+        },
+        {
+          "source_id": "06_mimo_v25_pro:config.json",
+          "locator": "add_full_attention_sink_bias"
+        }
+      ],
+      "local_material": {
+        "structure_card": "literature/06_mimo_v25_pro/STRUCTURE.zh.md",
+        "raw_config": "literature/06_mimo_v25_pro/raw/config.json",
+        "raw_model_card": "literature/06_mimo_v25_pro/raw/README.md",
+        "implementation": "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py",
+        "implementation_source_id": "06_mimo_v25_pro:modeling_mimo_v2.py",
+        "configuration_implementation_source_id": "06_mimo_v25_pro:configuration_mimo_v2.py",
+        "core_report": null,
+        "report_status": "No separate report identified for this exact checkpoint; official model card + pinned config + implementation are the primary sources."
+      }
+    }
+  },
+  "source_files_sha256": {
+    "data/models.json": "d74867a53de5adbc1ec6d7d2cd10903d3553e8993cdd3057e8c6fc8cf460e1a2",
+    "literature/00_shared/raw/transformers/modeling_hy_v3.py": "0211818995eab443d8bd459d867a44b9d2e1c85264004638165958fd6885d363",
+    "literature/00_shared/raw/transformers/modeling_ministral3.py": "3859fbe0f5b89cc14951ee9548896f20fc92addfc18fc7685dd395bf054c80c8",
+    "literature/00_shared/raw/transformers/modeling_qwen3_5.py": "f567c3e4b7db57b5d04be57a8fe9788e7c19aaa01aad877ee0daf94b2dab1925",
+    "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py": "85e8683f1b7b043804357f2a6abdc63511d4a25eb34c454220bdaf5e58749f64",
+    "literature/01_qwen35_2b/STRUCTURE.zh.md": "1bd0156b1b2ea57fdb75a9eafed62cfb621507bee5a2befa905c589d2ff8e945",
+    "literature/01_qwen35_2b/raw/config.json": "ed1c1723241f23f7f4e23430759cbd7dcfb4103cbdfe052bfe7626b57c2615b4",
+    "literature/01_qwen35_2b/raw/hf_metadata.json": "d75ecfc0da02abd90bca28f9862a143d8c89f0be89cb0591d566d58ec20e7336",
+    "literature/02_ministral3_8b/STRUCTURE.zh.md": "c08afba848714891484133b1561d1fb2df41233083623162dfb095c2ab49c37c",
+    "literature/02_ministral3_8b/raw/config.json": "5aae04beb9f2a9949eb1df870cf47ba292012a066bdcdcb115a9ac43425f8086",
+    "literature/02_ministral3_8b/raw/hf_metadata.json": "ce58c3709020fbbfb98521d720046c044f1ee1d5b04d582cd7a9824a605dfad1",
+    "literature/02_ministral3_8b/raw/params.json": "f1436e0548c9d66a1bd3db0e3b7c82734bd8c1b64788fa4a6c366a5e12901931",
+    "literature/03_qwen36_35b_a3b/STRUCTURE.zh.md": "89ed033cf897e676fee5b1957452efde7e39580a7acf2d8ec57a1a6f0aa5717b",
+    "literature/03_qwen36_35b_a3b/raw/config.json": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+    "literature/03_qwen36_35b_a3b/raw/hf_metadata.json": "247a14f03bf889b5e6f173e4fb7b89960d5ebfa0b505ba2554dcfffc507eec62",
+    "literature/04_hy3_295b/STRUCTURE.zh.md": "a4d3c407403a23ea1daa6c98d4dcd0bca94cdc2bca8e55f1e313ee9a3a3cdb7c",
+    "literature/04_hy3_295b/raw/config.json": "0c9daab42bff9cce1b6f058b10d7b730f76d583e583e28ad56e92b36373246f0",
+    "literature/04_hy3_295b/raw/hf_metadata.json": "105dd83da8d815c01eeecde6639046637eb05da273479fc7a2781f9b922888eb",
+    "literature/05_ling_1t/STRUCTURE.zh.md": "7502a77bd1db8576bbc84d44198ce7b951809ecdc17cf7461efc9dc4e75c1240",
+    "literature/05_ling_1t/raw/config.json": "c3ee3fe1e54876e6f0a245554504519162fbcd9c3ef92a7bfd6d5ad3b5953721",
+    "literature/05_ling_1t/raw/hf_metadata.json": "edfd0460719a2b07a1fc10a9f28898532f315be63ea159be48b1892fc4a4e805",
+    "literature/05_ling_1t/raw/modeling_bailing_moe_v2.py": "2f73b14e5f9f56c5e78df01813bddce43e856ffe4fdcfcd77ec0a3a2111cd1dd",
+    "literature/06_mimo_v25_pro/STRUCTURE.zh.md": "a2a57d78aff31bf2af3e0b19e1c38236166043152f2736514911c3e74b635ddf",
+    "literature/06_mimo_v25_pro/raw/config.json": "7e11c6cd358a841d5ac016fc80c030cad14d418ee125e9bde1eb6d0757b635d6",
+    "literature/06_mimo_v25_pro/raw/hf_metadata.json": "c1a90c3fedcc835db9e319dff58d181e94fcfbe46ab07a349060ac06351c5e4d",
+    "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py": "4d33f4bd84a23c0ada163113dea3f28ecaa130370a9c3ef317d965cb031d1d5a",
+    "shared/data/conventions.json": "4aac441f18149b85d4208042abec1999592ff88ee75a5b3e85e937361f45accc",
+    "shared/scripts/counting.py": "2bf0af027e7be80ec0f4a08e76aec1bbea78ee937849be128c979a97d05dcd06",
+    "shared/tex/counting_method.zh.tex": "3f9a390bb03d0f2f1b2cd2654e5b84e2a013969b1ce0303cc67557838d7725a9"
+  },
+  "source_registry_entries": {
+    "literature/00_shared/raw/transformers/modeling_hy_v3.py": {
+      "id": "transformers:modeling_hy_v3.py",
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/2c4914fb939fe9de0d8e7a798af4684d552f18b4/src/transformers/models/hy_v3/modeling_hy_v3.py",
+      "local_path": "literature/00_shared/raw/transformers/modeling_hy_v3.py",
+      "acquired_at": "2026-09-23T06:06:59.605992+00:00",
+      "bytes": 26306,
+      "sha256": "0211818995eab443d8bd459d867a44b9d2e1c85264004638165958fd6885d363",
+      "kind": "implementation",
+      "revision": "2c4914fb939fe9de0d8e7a798af4684d552f18b4",
+      "revision_date": "2026-09-22T15:27:31Z",
+      "publication_date": null,
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/00_shared/raw/transformers/modeling_ministral3.py": {
+      "id": "transformers:modeling_ministral3.py",
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/2c4914fb939fe9de0d8e7a798af4684d552f18b4/src/transformers/models/ministral3/modeling_ministral3.py",
+      "local_path": "literature/00_shared/raw/transformers/modeling_ministral3.py",
+      "acquired_at": "2026-09-23T06:06:59.634271+00:00",
+      "bytes": 21598,
+      "sha256": "3859fbe0f5b89cc14951ee9548896f20fc92addfc18fc7685dd395bf054c80c8",
+      "kind": "implementation",
+      "revision": "2c4914fb939fe9de0d8e7a798af4684d552f18b4",
+      "revision_date": "2026-09-22T15:27:31Z",
+      "publication_date": null,
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/00_shared/raw/transformers/modeling_qwen3_5.py": {
+      "id": "transformers:modeling_qwen3_5.py",
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/2c4914fb939fe9de0d8e7a798af4684d552f18b4/src/transformers/models/qwen3_5/modeling_qwen3_5.py",
+      "local_path": "literature/00_shared/raw/transformers/modeling_qwen3_5.py",
+      "acquired_at": "2026-09-23T06:06:59.710850+00:00",
+      "bytes": 95266,
+      "sha256": "f567c3e4b7db57b5d04be57a8fe9788e7c19aaa01aad877ee0daf94b2dab1925",
+      "kind": "implementation",
+      "revision": "2c4914fb939fe9de0d8e7a798af4684d552f18b4",
+      "revision_date": "2026-09-22T15:27:31Z",
+      "publication_date": null,
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py": {
+      "id": "transformers:modeling_qwen3_5_moe.py",
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/2c4914fb939fe9de0d8e7a798af4684d552f18b4/src/transformers/models/qwen3_5_moe/modeling_qwen3_5_moe.py",
+      "local_path": "literature/00_shared/raw/transformers/modeling_qwen3_5_moe.py",
+      "acquired_at": "2026-09-23T06:06:59.673121+00:00",
+      "bytes": 104124,
+      "sha256": "85e8683f1b7b043804357f2a6abdc63511d4a25eb34c454220bdaf5e58749f64",
+      "kind": "implementation",
+      "revision": "2c4914fb939fe9de0d8e7a798af4684d552f18b4",
+      "revision_date": "2026-09-22T15:27:31Z",
+      "publication_date": null,
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/01_qwen35_2b/raw/config.json": {
+      "id": "01_qwen35_2b:config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/config.json",
+      "local_path": "literature/01_qwen35_2b/raw/config.json",
+      "acquired_at": "2026-09-23T06:05:48.437485+00:00",
+      "bytes": 2908,
+      "sha256": "ed1c1723241f23f7f4e23430759cbd7dcfb4103cbdfe052bfe7626b57c2615b4",
+      "kind": "configuration",
+      "revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "publication_date": null,
+      "revision_date": "2026-03-02T11:26:29.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/01_qwen35_2b/raw/hf_metadata.json": {
+      "id": "01_qwen35_2b:metadata",
+      "url": "https://huggingface.co/api/models/Qwen/Qwen3.5-2B",
+      "local_path": "literature/01_qwen35_2b/raw/hf_metadata.json",
+      "acquired_at": "2026-09-23T06:05:43.668631+00:00",
+      "bytes": 20751,
+      "sha256": "d75ecfc0da02abd90bca28f9862a143d8c89f0be89cb0591d566d58ec20e7336",
+      "kind": "repository_metadata",
+      "revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "publication_date": null,
+      "revision_date": "2026-03-02T11:26:29.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/02_ministral3_8b/raw/config.json": {
+      "id": "02_ministral3_8b:config.json",
+      "url": "https://huggingface.co/mistralai/Ministral-3-8B-Base-2512/resolve/d4883f9b36aa2e5d775730d3fdba3d30de51a8ef/config.json",
+      "local_path": "literature/02_ministral3_8b/raw/config.json",
+      "acquired_at": "2026-09-23T06:05:47.296434+00:00",
+      "bytes": 1547,
+      "sha256": "5aae04beb9f2a9949eb1df870cf47ba292012a066bdcdcb115a9ac43425f8086",
+      "kind": "configuration",
+      "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "publication_date": null,
+      "revision_date": "2026-01-15T11:17:01.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/02_ministral3_8b/raw/hf_metadata.json": {
+      "id": "02_ministral3_8b:metadata",
+      "url": "https://huggingface.co/api/models/mistralai/Ministral-3-8B-Base-2512",
+      "local_path": "literature/02_ministral3_8b/raw/hf_metadata.json",
+      "acquired_at": "2026-09-23T06:05:43.794795+00:00",
+      "bytes": 1916,
+      "sha256": "ce58c3709020fbbfb98521d720046c044f1ee1d5b04d582cd7a9824a605dfad1",
+      "kind": "repository_metadata",
+      "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "publication_date": null,
+      "revision_date": "2026-01-15T11:17:01.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/02_ministral3_8b/raw/params.json": {
+      "id": "02_ministral3_8b:params.json",
+      "url": "https://huggingface.co/mistralai/Ministral-3-8B-Base-2512/resolve/d4883f9b36aa2e5d775730d3fdba3d30de51a8ef/params.json",
+      "local_path": "literature/02_ministral3_8b/raw/params.json",
+      "acquired_at": "2026-09-23T06:05:48.888059+00:00",
+      "bytes": 1098,
+      "sha256": "f1436e0548c9d66a1bd3db0e3b7c82734bd8c1b64788fa4a6c366a5e12901931",
+      "kind": "configuration",
+      "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "publication_date": null,
+      "revision_date": "2026-01-15T11:17:01.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/03_qwen36_35b_a3b/raw/config.json": {
+      "id": "03_qwen36_35b_a3b:config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B/resolve/995ad96eacd98c81ed38be0c5b274b04031597b0/config.json",
+      "local_path": "literature/03_qwen36_35b_a3b/raw/config.json",
+      "acquired_at": "2026-09-23T06:05:48.615981+00:00",
+      "bytes": 3686,
+      "sha256": "93a4693fa9d8392fbfccd4b3c9873f4bfdcb14fdede978b123d07d19675efe99",
+      "kind": "configuration",
+      "revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "publication_date": null,
+      "revision_date": "2026-04-24T02:53:42.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/03_qwen36_35b_a3b/raw/hf_metadata.json": {
+      "id": "03_qwen36_35b_a3b:metadata",
+      "url": "https://huggingface.co/api/models/Qwen/Qwen3.6-35B-A3B",
+      "local_path": "literature/03_qwen36_35b_a3b/raw/hf_metadata.json",
+      "acquired_at": "2026-09-23T06:05:43.843727+00:00",
+      "bytes": 21546,
+      "sha256": "247a14f03bf889b5e6f173e4fb7b89960d5ebfa0b505ba2554dcfffc507eec62",
+      "kind": "repository_metadata",
+      "revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "publication_date": null,
+      "revision_date": "2026-04-24T02:53:42.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/04_hy3_295b/raw/config.json": {
+      "id": "04_hy3_295b:config.json",
+      "url": "https://huggingface.co/tencent/Hy3/resolve/a960ebc3da325ba167f069f76c41eb62c9280d22/config.json",
+      "local_path": "literature/04_hy3_295b/raw/config.json",
+      "acquired_at": "2026-09-23T06:05:48.437704+00:00",
+      "bytes": 1218,
+      "sha256": "0c9daab42bff9cce1b6f058b10d7b730f76d583e583e28ad56e92b36373246f0",
+      "kind": "configuration",
+      "revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+      "publication_date": null,
+      "revision_date": "2026-07-20T07:01:39.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/04_hy3_295b/raw/hf_metadata.json": {
+      "id": "04_hy3_295b:metadata",
+      "url": "https://huggingface.co/api/models/tencent/Hy3",
+      "local_path": "literature/04_hy3_295b/raw/hf_metadata.json",
+      "acquired_at": "2026-09-23T06:05:43.668705+00:00",
+      "bytes": 19740,
+      "sha256": "105dd83da8d815c01eeecde6639046637eb05da273479fc7a2781f9b922888eb",
+      "kind": "repository_metadata",
+      "revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+      "publication_date": null,
+      "revision_date": "2026-07-20T07:01:39.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/05_ling_1t/raw/config.json": {
+      "id": "05_ling_1t:config.json",
+      "url": "https://huggingface.co/inclusionAI/Ling-1T/resolve/268f2aa76aa8cf5b36ca33805481cea91133327e/config.json",
+      "local_path": "literature/05_ling_1t/raw/config.json",
+      "acquired_at": "2026-09-23T06:05:47.345608+00:00",
+      "bytes": 1528,
+      "sha256": "c3ee3fe1e54876e6f0a245554504519162fbcd9c3ef92a7bfd6d5ad3b5953721",
+      "kind": "configuration",
+      "revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "publication_date": null,
+      "revision_date": "2026-04-13T11:45:13.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/05_ling_1t/raw/hf_metadata.json": {
+      "id": "05_ling_1t:metadata",
+      "url": "https://huggingface.co/api/models/inclusionAI/Ling-1T",
+      "local_path": "literature/05_ling_1t/raw/hf_metadata.json",
+      "acquired_at": "2026-09-23T06:05:43.825977+00:00",
+      "bytes": 14232,
+      "sha256": "edfd0460719a2b07a1fc10a9f28898532f315be63ea159be48b1892fc4a4e805",
+      "kind": "repository_metadata",
+      "revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "publication_date": null,
+      "revision_date": "2026-04-13T11:45:13.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/05_ling_1t/raw/modeling_bailing_moe_v2.py": {
+      "id": "05_ling_1t:modeling_bailing_moe_v2.py",
+      "url": "https://huggingface.co/inclusionAI/Ling-1T/resolve/268f2aa76aa8cf5b36ca33805481cea91133327e/modeling_bailing_moe_v2.py",
+      "local_path": "literature/05_ling_1t/raw/modeling_bailing_moe_v2.py",
+      "acquired_at": "2026-09-23T06:05:50.831630+00:00",
+      "bytes": 69970,
+      "sha256": "2f73b14e5f9f56c5e78df01813bddce43e856ffe4fdcfcd77ec0a3a2111cd1dd",
+      "kind": "implementation",
+      "revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "publication_date": null,
+      "revision_date": "2026-04-13T11:45:13.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/06_mimo_v25_pro/raw/config.json": {
+      "id": "06_mimo_v25_pro:config.json",
+      "url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro/resolve/21d1ecfecd7bd70f31be25ca49d7edd21f003659/config.json",
+      "local_path": "literature/06_mimo_v25_pro/raw/config.json",
+      "acquired_at": "2026-09-23T06:05:47.315483+00:00",
+      "bytes": 5350,
+      "sha256": "7e11c6cd358a841d5ac016fc80c030cad14d418ee125e9bde1eb6d0757b635d6",
+      "kind": "configuration",
+      "revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "publication_date": null,
+      "revision_date": "2026-07-09T04:20:08.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/06_mimo_v25_pro/raw/hf_metadata.json": {
+      "id": "06_mimo_v25_pro:metadata",
+      "url": "https://huggingface.co/api/models/XiaomiMiMo/MiMo-V2.5-Pro",
+      "local_path": "literature/06_mimo_v25_pro/raw/hf_metadata.json",
+      "acquired_at": "2026-09-23T06:05:43.811446+00:00",
+      "bytes": 13297,
+      "sha256": "c1a90c3fedcc835db9e319dff58d181e94fcfbe46ab07a349060ac06351c5e4d",
+      "kind": "repository_metadata",
+      "revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "publication_date": null,
+      "revision_date": "2026-07-09T04:20:08.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    },
+    "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py": {
+      "id": "06_mimo_v25_pro:modeling_mimo_v2.py",
+      "url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro/resolve/21d1ecfecd7bd70f31be25ca49d7edd21f003659/modeling_mimo_v2.py",
+      "local_path": "literature/06_mimo_v25_pro/raw/modeling_mimo_v2.py",
+      "acquired_at": "2026-09-23T06:05:50.772133+00:00",
+      "bytes": 31473,
+      "sha256": "4d33f4bd84a23c0ada163113dea3f28ecaa130370a9c3ef317d965cb031d1d5a",
+      "kind": "implementation",
+      "revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "publication_date": null,
+      "revision_date": "2026-07-09T04:20:08.000Z",
+      "publication_date_note": "原始文件未单独标明发表日；revision_date 是所取仓库快照的修改日期，不是模型首发日。",
+      "license_note": "See the model-card license declaration, accompanying LICENSE and/or source-file header; implementation licensing is separate from model weights.",
+      "verification": "Local UTF-8 content parsed/read; no model or third-party implementation executed.",
+      "local_only_fulltext": false
+    }
+  }
+}

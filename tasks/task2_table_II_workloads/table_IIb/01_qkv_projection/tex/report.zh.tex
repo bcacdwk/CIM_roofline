@@ -1,0 +1,71 @@
+\input{../../04_crosscheck/template/preamble.tex}
+\renewcommand{\WorkloadName}{QKV 投影}
+\title{\bfseries\WorkloadName 的输入复用与 RI}
+\begin{document}
+\maketitle
+
+\section{对象与公式}
+取每个模型的一层完整／全局 GQA。将 Q、可选的输出门控 G、K、V
+投影权重完整装载一次，累计服务 $U$ 个输入向量。沿用 II(a) 的复用次数（reuse count）：包含首次使用，可跨多个 batch 或请求累计。
+输入与权重均按每元素 1 Byte 计数。各投影使用同一个 $X\in\mathbb R^{U\times D}$，
+权重形状为 $W_j\in\mathbb R^{N_j\times D}$，输出为 $XW_j^{\mathsf T}$。
+本对象到这组投影结束，不包含后续 O 投影。
+
+原生 query 与 KV 头数分别为 $H_q,H_{kv}$，每头 QK 与 V 维度为 $d_{QK},d_V$；
+额外门控宽度为 $D_g$，未启用时取 0。于是
+\[
+\begin{aligned}
+N_Q&=H_qd_{QK}, & N_G&=D_g,\\
+N_K&=H_{kv}d_{QK}, & N_V&=H_{kv}d_V,\\[-2pt]
+N_{\rm proj}&=N_Q+N_G+N_K+N_V.&&
+\end{aligned}
+\]
+同一矩阵阶段的共享输入只计一次；各权重写入相加。沿用 Table II(a) 的一次装载口径，得到
+\[
+\boxed{\displaystyle
+\qs=UD,\qquad \qr=DN_{\rm proj},\qquad
+\RI=\frac{\qs}{\qr}=\frac{U}{N_{\rm proj}}.}
+\]
+若共有 $m$ 个投影分项，逐项独立记录时各有 $\qs^{(j)}=UD$、$\qr^{(j)}=DN_j$；
+汇总输入需扣除 $(m-1)UD$ 的同源重叠。投影输出不直接加入本阶段的 $\qs$。
+
+\section{模型信息}
+下表列出固定层的原生投影宽度；层号从 0 起，所有矩阵的输入维度均为 $D$。
+$N_G=0$ 表示没有额外 G 投影。
+\begin{center}\small\input{models.generated.tex}\end{center}
+两款 Qwen 的原生 \texttt{q\_proj} 同时产生 Q 与 G，表中分别保留其逻辑宽度。
+MiMo 的 $d_{QK}=192$、$d_V=128$，故 K 与 V 的宽度不同；其余五款的 QK 与 V 每头维度相同。
+固定版本与原始实现的定位保存在机器配置中。
+
+\newpage
+\section{代入结果}
+表内为小数 $\RI$；前四列为 $U\in\{1,1\mathrm{K},128\mathrm{K},1\mathrm{M}\}$，末列为无界复用极限。
+\begin{center}\small\input{results.generated.tex}\end{center}
+\DisplayNote
+例如 Qwen3.5-2B 在 $U=1\mathrm{K}$ 时，
+\[
+\begin{aligned}
+N_{\rm proj}&=2048+2048+512+512=5120,\\
+\qs&=1024\times2048=2\,097\,152\ \mathrm{Byte},\\
+\qr&=2048\times5120=10\,485\,760\ \mathrm{Byte},\\
+\RI&=\frac{2\,097\,152}{10\,485\,760}=0.200.
+\end{aligned}
+\]
+
+\section{结果说明}
+固定模型时，$U$ 每增加一倍，$\qs$ 与 $\RI$ 都增加一倍，而一次权重写入量 $\qr$ 不变。
+$U=1$ 是这份装载只服务一个向量的端点；$U\to\infty$ 时，输入量与 RI 无界增长，
+但 $\qr$ 始终为有限的 $DN_{\rm proj}$，有效权重容量也保持该值。
+
+跨模型比较由所选投影的总输出宽度 $N_{\rm proj}$ 决定。
+Hy3 与 Ling 的 $N_{\rm proj}$ 都为 10240，因而各档 RI 相同；
+Ling 的 $D$ 是 Hy3 的两倍，绝对输入与权重字节也都翻倍，比例恰好抵消。
+模型的总参数标签不能替代这组投影尺寸。
+
+额外 G 投影增加权重写入量，却继续共享同一份输入，因此必须计入 $N_{\rm proj}$。
+MiMo 的原生 Q/K/V 总宽度为 27136，是本组六款中最大的，故相同 $U$ 下 RI 最小；
+这一差别来自实际头数及头维，而非模型名称或输入维度 $D$ 本身。
+
+\par\smallskip\noindent\small
+固定模型来源、精确字节及复算记录见本目录 README 与 data/；数学入口为 Table II(a)。
+\end{document}

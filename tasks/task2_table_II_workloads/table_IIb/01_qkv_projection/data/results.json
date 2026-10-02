@@ -1,2305 +1,2729 @@
 {
-  "schema_version": "1.0",
+  "schema_version": 1,
+  "reference_id": "operator-workloads",
+  "boundary": "operator_stage",
+  "model_order": [
+    "qwen35_2b",
+    "ministral3_8b_2512",
+    "qwen36_35b_a3b",
+    "hy3_295b",
+    "ling_1t",
+    "mimo_v25_pro"
+  ],
+  "workload_ids": [
+    "qkv_projection"
+  ],
   "cases": [
     {
-      "case_id": "qwen35_2b/qkv_projection/one_token",
+      "case_id": "qwen35_2b/qkv_projection/1",
       "model_id": "qwen35_2b",
-      "row": "qkv_projection",
-      "L": null,
       "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
       "selected_layer": 3,
-      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1,
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 8,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 2048,
+        "N_Q": 2048,
+        "N_G": 2048,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 5120
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
       "result": {
-        "parts": {
-          "Q": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 32768,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 256
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 256,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                2048,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 256,
-              "valid_resident_bytes": 4194304,
-              "allocated_tile_bytes": 4194304
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "G": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 32768,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 256
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 256,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                2048,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 256,
-              "valid_resident_bytes": 4194304,
-              "allocated_tile_bytes": 4194304
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "K": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 64
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 64,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                512,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 4,
-                "tail_valid_elements": 0,
-                "blocks": 4
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 64,
-              "valid_resident_bytes": 1048576,
-              "allocated_tile_bytes": 1048576
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "V": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 64
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 64,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                512,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 4,
-                "tail_valid_elements": 0,
-                "blocks": 4
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 64,
-              "valid_resident_bytes": 1048576,
-              "allocated_tile_bytes": 1048576
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          }
+        "Q_S": 2048,
+        "Q_R": 10485760,
+        "RI": {
+          "numerator": 1,
+          "denominator": 5120
         },
-        "operator": {
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 10485760,
+        "shared_input_bytes_removed": 6144
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
           "Q_S": 2048,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": null
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 2048
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
         },
-        "operator_shared_input_overlap_removed": 6144,
-        "ports": {
-          "Q_S": 81920,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": 640
+        {
+          "id": "G",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2048,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 2048
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
         },
-        "capacity": {
-          "valid_resident_bytes": 10485760,
-          "allocated_tile_bytes": 10485760,
-          "resident_tiles": 640,
-          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2048,
+          "Q_R": 1048576,
+          "RI": {
+            "numerator": 1,
+            "denominator": 512
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2048,
+          "Q_R": 1048576,
+          "RI": {
+            "numerator": 1,
+            "denominator": 512
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
         }
-      }
+      ]
     },
     {
-      "case_id": "ministral3_8b_2512/qkv_projection/one_token",
-      "model_id": "ministral3_8b_2512",
-      "row": "qkv_projection",
+      "case_id": "qwen35_2b/qkv_projection/1024",
+      "model_id": "qwen35_2b",
+      "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1024,
       "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 8,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 2048,
+        "N_Q": 2048,
+        "N_G": 2048,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 5120
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 2097152,
+        "Q_R": 10485760,
+        "RI": {
+          "numerator": 1,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 10485760,
+        "shared_input_bytes_removed": 6291456
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 2
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 2
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 1048576,
+          "RI": 2,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 1048576,
+          "RI": 2,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "qwen35_2b/qkv_projection/131072",
+      "model_id": "qwen35_2b",
+      "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 131072,
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 8,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 2048,
+        "N_Q": 2048,
+        "N_G": 2048,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 5120
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 268435456,
+        "Q_R": 10485760,
+        "RI": {
+          "numerator": 128,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 10485760,
+        "shared_input_bytes_removed": 805306368
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 4194304,
+          "RI": 64,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 4194304,
+          "RI": 64,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 1048576,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 1048576,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "qwen35_2b/qkv_projection/1048576",
+      "model_id": "qwen35_2b",
+      "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1048576,
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 8,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 2048,
+        "N_Q": 2048,
+        "N_G": 2048,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 5120
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 2147483648,
+        "Q_R": 10485760,
+        "RI": {
+          "numerator": 1024,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 10485760,
+        "shared_input_bytes_removed": 6442450944
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 4194304,
+          "RI": 512,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 4194304,
+          "RI": 512,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 1048576,
+          "RI": 2048,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 1048576,
+          "RI": 2048,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "qwen35_2b/qkv_projection/infinity",
+      "model_id": "qwen35_2b",
+      "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "limit",
+      "U": "infinity",
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 8,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 2048,
+        "N_Q": 2048,
+        "N_G": 2048,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 5120
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 10485760,
+        "RI": "infinity",
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 10485760,
+        "shared_input_bytes_removed": "infinity"
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 4194304,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            2048,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 4194304,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 1048576,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 1048576,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "ministral3_8b_2512/qkv_projection/1",
+      "model_id": "ministral3_8b_2512",
       "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
       "selected_layer": 0,
-      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1,
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 32,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 4096,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 6144
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
       "result": {
-        "parts": {
-          "Q": {
-            "operator": {
-              "Q_S": 4096,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 131072,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 1024
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 1024,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                4096,
-                4096
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "input_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "resident_tiles": 1024,
-              "valid_resident_bytes": 16777216,
-              "allocated_tile_bytes": 16777216
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "K": {
-            "operator": {
-              "Q_S": 4096,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 32768,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 256
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 256,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                4096
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "resident_tiles": 256,
-              "valid_resident_bytes": 4194304,
-              "allocated_tile_bytes": 4194304
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "V": {
-            "operator": {
-              "Q_S": 4096,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 32768,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 256
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 256,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                4096
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "resident_tiles": 256,
-              "valid_resident_bytes": 4194304,
-              "allocated_tile_bytes": 4194304
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          }
+        "Q_S": 4096,
+        "Q_R": 25165824,
+        "RI": {
+          "numerator": 1,
+          "denominator": 6144
         },
-        "operator": {
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 25165824,
+        "shared_input_bytes_removed": 8192
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
           "Q_S": 4096,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": null
+          "Q_R": 16777216,
+          "RI": {
+            "numerator": 1,
+            "denominator": 4096
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 16777216
         },
-        "operator_shared_input_overlap_removed": 8192,
-        "ports": {
-          "Q_S": 196608,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": 1536
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4096,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
         },
-        "capacity": {
-          "valid_resident_bytes": 25165824,
-          "allocated_tile_bytes": 25165824,
-          "resident_tiles": 1536,
-          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4096,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
         }
-      }
+      ]
     },
     {
-      "case_id": "qwen36_35b_a3b/qkv_projection/one_token",
-      "model_id": "qwen36_35b_a3b",
-      "row": "qkv_projection",
+      "case_id": "ministral3_8b_2512/qkv_projection/1024",
+      "model_id": "ministral3_8b_2512",
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1024,
       "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 32,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 4096,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 6144
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 4194304,
+        "Q_R": 25165824,
+        "RI": {
+          "numerator": 1,
+          "denominator": 6
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 25165824,
+        "shared_input_bytes_removed": 8388608
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4194304,
+          "Q_R": 16777216,
+          "RI": {
+            "numerator": 1,
+            "denominator": 4
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 16777216
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4194304,
+          "Q_R": 4194304,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4194304,
+          "Q_R": 4194304,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "ministral3_8b_2512/qkv_projection/131072",
+      "model_id": "ministral3_8b_2512",
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 131072,
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 32,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 4096,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 6144
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 536870912,
+        "Q_R": 25165824,
+        "RI": {
+          "numerator": 64,
+          "denominator": 3
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 25165824,
+        "shared_input_bytes_removed": 1073741824
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 536870912,
+          "Q_R": 16777216,
+          "RI": 32,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 16777216
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 536870912,
+          "Q_R": 4194304,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 536870912,
+          "Q_R": 4194304,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "ministral3_8b_2512/qkv_projection/1048576",
+      "model_id": "ministral3_8b_2512",
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1048576,
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 32,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 4096,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 6144
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 4294967296,
+        "Q_R": 25165824,
+        "RI": {
+          "numerator": 512,
+          "denominator": 3
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 25165824,
+        "shared_input_bytes_removed": 8589934592
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4294967296,
+          "Q_R": 16777216,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 16777216
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4294967296,
+          "Q_R": 4194304,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4294967296,
+          "Q_R": 4194304,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "ministral3_8b_2512/qkv_projection/infinity",
+      "model_id": "ministral3_8b_2512",
+      "model_revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+      "selected_layer": 0,
+      "workload": "qkv_projection",
+      "kind": "limit",
+      "U": "infinity",
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 32,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 4096,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 6144
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 25165824,
+        "RI": "infinity",
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 25165824,
+        "shared_input_bytes_removed": "infinity"
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 16777216,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 16777216
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 4194304,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 4194304,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/1",
+      "model_id": "qwen36_35b_a3b",
       "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
       "selected_layer": 3,
-      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1,
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 16,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 4096,
+        "N_Q": 4096,
+        "N_G": 4096,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 9216
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
       "result": {
-        "parts": {
-          "Q": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 65536,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 512
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 512,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                4096,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 512,
-              "valid_resident_bytes": 8388608,
-              "allocated_tile_bytes": 8388608
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "G": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 65536,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 512
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 512,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                4096,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 512,
-              "valid_resident_bytes": 8388608,
-              "allocated_tile_bytes": 8388608
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "K": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 64
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 64,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                512,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 4,
-                "tail_valid_elements": 0,
-                "blocks": 4
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 64,
-              "valid_resident_bytes": 1048576,
-              "allocated_tile_bytes": 1048576
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "V": {
-            "operator": {
-              "Q_S": 2048,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 64
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 64,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                512,
-                2048
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 4,
-                "tail_valid_elements": 0,
-                "blocks": 4
-              },
-              "input_axis": {
-                "full_128_blocks": 16,
-                "tail_valid_elements": 0,
-                "blocks": 16
-              },
-              "resident_tiles": 64,
-              "valid_resident_bytes": 1048576,
-              "allocated_tile_bytes": 1048576
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          }
+        "Q_S": 2048,
+        "Q_R": 18874368,
+        "RI": {
+          "numerator": 1,
+          "denominator": 9216
         },
-        "operator": {
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 18874368,
+        "shared_input_bytes_removed": 6144
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
           "Q_S": 2048,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": null
+          "Q_R": 8388608,
+          "RI": {
+            "numerator": 1,
+            "denominator": 4096
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
         },
-        "operator_shared_input_overlap_removed": 6144,
-        "ports": {
-          "Q_S": 147456,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": 1152
+        {
+          "id": "G",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2048,
+          "Q_R": 8388608,
+          "RI": {
+            "numerator": 1,
+            "denominator": 4096
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
         },
-        "capacity": {
-          "valid_resident_bytes": 18874368,
-          "allocated_tile_bytes": 18874368,
-          "resident_tiles": 1152,
-          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2048,
+          "Q_R": 1048576,
+          "RI": {
+            "numerator": 1,
+            "denominator": 512
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2048,
+          "Q_R": 1048576,
+          "RI": {
+            "numerator": 1,
+            "denominator": 512
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
         }
-      }
+      ]
     },
     {
-      "case_id": "hy3_295b/qkv_projection/one_token",
-      "model_id": "hy3_295b",
-      "row": "qkv_projection",
+      "case_id": "qwen36_35b_a3b/qkv_projection/1024",
+      "model_id": "qwen36_35b_a3b",
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1024,
       "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 16,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 4096,
+        "N_Q": 4096,
+        "N_G": 4096,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 9216
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 2097152,
+        "Q_R": 18874368,
+        "RI": {
+          "numerator": 1,
+          "denominator": 9
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 18874368,
+        "shared_input_bytes_removed": 6291456
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 8388608,
+          "RI": {
+            "numerator": 1,
+            "denominator": 4
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 8388608,
+          "RI": {
+            "numerator": 1,
+            "denominator": 4
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 1048576,
+          "RI": 2,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2097152,
+          "Q_R": 1048576,
+          "RI": 2,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/131072",
+      "model_id": "qwen36_35b_a3b",
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 131072,
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 16,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 4096,
+        "N_Q": 4096,
+        "N_G": 4096,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 9216
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 268435456,
+        "Q_R": 18874368,
+        "RI": {
+          "numerator": 128,
+          "denominator": 9
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 18874368,
+        "shared_input_bytes_removed": 805306368
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 8388608,
+          "RI": 32,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 8388608,
+          "RI": 32,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 1048576,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 268435456,
+          "Q_R": 1048576,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/1048576",
+      "model_id": "qwen36_35b_a3b",
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1048576,
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 16,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 4096,
+        "N_Q": 4096,
+        "N_G": 4096,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 9216
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 2147483648,
+        "Q_R": 18874368,
+        "RI": {
+          "numerator": 1024,
+          "denominator": 9
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 18874368,
+        "shared_input_bytes_removed": 6442450944
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 8388608,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 8388608,
+          "RI": 256,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 1048576,
+          "RI": 2048,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 2147483648,
+          "Q_R": 1048576,
+          "RI": 2048,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/infinity",
+      "model_id": "qwen36_35b_a3b",
+      "model_revision": "995ad96eacd98c81ed38be0c5b274b04031597b0",
+      "selected_layer": 3,
+      "workload": "qkv_projection",
+      "kind": "limit",
+      "U": "infinity",
+      "L": null,
+      "parameters": {
+        "D": 2048,
+        "H_q": 16,
+        "H_kv": 2,
+        "d_QK": 256,
+        "d_V": 256,
+        "D_g": 4096,
+        "N_Q": 4096,
+        "N_G": 4096,
+        "N_K": 512,
+        "N_V": 512,
+        "N_proj": 9216
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 18874368,
+        "RI": "infinity",
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 18874368,
+        "shared_input_bytes_removed": "infinity"
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 8388608,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "G",
+          "shape_N_K": [
+            4096,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 8388608,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 1048576,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            512,
+            2048
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 1048576,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 1048576
+        }
+      ]
+    },
+    {
+      "case_id": "hy3_295b/qkv_projection/1",
+      "model_id": "hy3_295b",
       "model_revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
       "selected_layer": 1,
-      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1,
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
       "result": {
-        "parts": {
-          "Q": {
-            "operator": {
-              "Q_S": 4096,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 262144,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 2048
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 2048,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                8192,
-                4096
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 64,
-                "tail_valid_elements": 0,
-                "blocks": 64
-              },
-              "input_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "resident_tiles": 2048,
-              "valid_resident_bytes": 33554432,
-              "allocated_tile_bytes": 33554432
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "K": {
-            "operator": {
-              "Q_S": 4096,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 32768,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 256
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 256,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                4096
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "resident_tiles": 256,
-              "valid_resident_bytes": 4194304,
-              "allocated_tile_bytes": 4194304
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "V": {
-            "operator": {
-              "Q_S": 4096,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 32768,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 256
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 256,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                4096
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 32,
-                "tail_valid_elements": 0,
-                "blocks": 32
-              },
-              "resident_tiles": 256,
-              "valid_resident_bytes": 4194304,
-              "allocated_tile_bytes": 4194304
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          }
+        "Q_S": 4096,
+        "Q_R": 41943040,
+        "RI": {
+          "numerator": 1,
+          "denominator": 10240
         },
-        "operator": {
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 41943040,
+        "shared_input_bytes_removed": 8192
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
           "Q_S": 4096,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": null
+          "Q_R": 33554432,
+          "RI": {
+            "numerator": 1,
+            "denominator": 8192
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 33554432
         },
-        "operator_shared_input_overlap_removed": 8192,
-        "ports": {
-          "Q_S": 327680,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": 2560
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4096,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
         },
-        "capacity": {
-          "valid_resident_bytes": 41943040,
-          "allocated_tile_bytes": 41943040,
-          "resident_tiles": 2560,
-          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4096,
+          "Q_R": 4194304,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
         }
-      }
+      ]
     },
     {
-      "case_id": "ling_1t/qkv_projection/one_token",
-      "model_id": "ling_1t",
-      "row": "qkv_projection",
+      "case_id": "hy3_295b/qkv_projection/1024",
+      "model_id": "hy3_295b",
+      "model_revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+      "selected_layer": 1,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1024,
       "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 4194304,
+        "Q_R": 41943040,
+        "RI": {
+          "numerator": 1,
+          "denominator": 10
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 41943040,
+        "shared_input_bytes_removed": 8388608
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4194304,
+          "Q_R": 33554432,
+          "RI": {
+            "numerator": 1,
+            "denominator": 8
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 33554432
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4194304,
+          "Q_R": 4194304,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4194304,
+          "Q_R": 4194304,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "hy3_295b/qkv_projection/131072",
+      "model_id": "hy3_295b",
+      "model_revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+      "selected_layer": 1,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 131072,
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 536870912,
+        "Q_R": 41943040,
+        "RI": {
+          "numerator": 64,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 41943040,
+        "shared_input_bytes_removed": 1073741824
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 536870912,
+          "Q_R": 33554432,
+          "RI": 16,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 33554432
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 536870912,
+          "Q_R": 4194304,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 536870912,
+          "Q_R": 4194304,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "hy3_295b/qkv_projection/1048576",
+      "model_id": "hy3_295b",
+      "model_revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+      "selected_layer": 1,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1048576,
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 4294967296,
+        "Q_R": 41943040,
+        "RI": {
+          "numerator": 512,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 41943040,
+        "shared_input_bytes_removed": 8589934592
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4294967296,
+          "Q_R": 33554432,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 33554432
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4294967296,
+          "Q_R": 4194304,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 4294967296,
+          "Q_R": 4194304,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "hy3_295b/qkv_projection/infinity",
+      "model_id": "hy3_295b",
+      "model_revision": "a960ebc3da325ba167f069f76c41eb62c9280d22",
+      "selected_layer": 1,
+      "workload": "qkv_projection",
+      "kind": "limit",
+      "U": "infinity",
+      "L": null,
+      "parameters": {
+        "D": 4096,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 41943040,
+        "RI": "infinity",
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 41943040,
+        "shared_input_bytes_removed": "infinity"
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 33554432,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 33554432
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 4194304,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            4096
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 4194304,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 4194304
+        }
+      ]
+    },
+    {
+      "case_id": "ling_1t/qkv_projection/1",
+      "model_id": "ling_1t",
       "model_revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
       "selected_layer": 4,
-      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1,
+      "L": null,
+      "parameters": {
+        "D": 8192,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
       "result": {
-        "parts": {
-          "Q": {
-            "operator": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 524288,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 4096
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 4096,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                8192,
-                8192
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 64,
-                "tail_valid_elements": 0,
-                "blocks": 64
-              },
-              "input_axis": {
-                "full_128_blocks": 64,
-                "tail_valid_elements": 0,
-                "blocks": 64
-              },
-              "resident_tiles": 4096,
-              "valid_resident_bytes": 67108864,
-              "allocated_tile_bytes": 67108864
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "K": {
-            "operator": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 65536,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 512
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 512,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                8192
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 64,
-                "tail_valid_elements": 0,
-                "blocks": 64
-              },
-              "resident_tiles": 512,
-              "valid_resident_bytes": 8388608,
-              "allocated_tile_bytes": 8388608
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "V": {
-            "operator": {
-              "Q_S": 8192,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 65536,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 512
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 512,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                8192
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 64,
-                "tail_valid_elements": 0,
-                "blocks": 64
-              },
-              "resident_tiles": 512,
-              "valid_resident_bytes": 8388608,
-              "allocated_tile_bytes": 8388608
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          }
+        "Q_S": 8192,
+        "Q_R": 83886080,
+        "RI": {
+          "numerator": 1,
+          "denominator": 10240
         },
-        "operator": {
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 83886080,
+        "shared_input_bytes_removed": 16384
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
           "Q_S": 8192,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": null
+          "Q_R": 67108864,
+          "RI": {
+            "numerator": 1,
+            "denominator": 8192
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 67108864
         },
-        "operator_shared_input_overlap_removed": 16384,
-        "ports": {
-          "Q_S": 655360,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": 5120
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8192,
+          "Q_R": 8388608,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
         },
-        "capacity": {
-          "valid_resident_bytes": 83886080,
-          "allocated_tile_bytes": 83886080,
-          "resident_tiles": 5120,
-          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8192,
+          "Q_R": 8388608,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
         }
-      }
+      ]
     },
     {
-      "case_id": "mimo_v25_pro/qkv_projection/one_token",
-      "model_id": "mimo_v25_pro",
-      "row": "qkv_projection",
+      "case_id": "ling_1t/qkv_projection/1024",
+      "model_id": "ling_1t",
+      "model_revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "selected_layer": 4,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1024,
       "L": null,
+      "parameters": {
+        "D": 8192,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 8388608,
+        "Q_R": 83886080,
+        "RI": {
+          "numerator": 1,
+          "denominator": 10
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 83886080,
+        "shared_input_bytes_removed": 16777216
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8388608,
+          "Q_R": 67108864,
+          "RI": {
+            "numerator": 1,
+            "denominator": 8
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 67108864
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8388608,
+          "Q_R": 8388608,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8388608,
+          "Q_R": 8388608,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        }
+      ]
+    },
+    {
+      "case_id": "ling_1t/qkv_projection/131072",
+      "model_id": "ling_1t",
+      "model_revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "selected_layer": 4,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 131072,
+      "L": null,
+      "parameters": {
+        "D": 8192,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 1073741824,
+        "Q_R": 83886080,
+        "RI": {
+          "numerator": 64,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 83886080,
+        "shared_input_bytes_removed": 2147483648
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 1073741824,
+          "Q_R": 67108864,
+          "RI": 16,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 67108864
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 1073741824,
+          "Q_R": 8388608,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 1073741824,
+          "Q_R": 8388608,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        }
+      ]
+    },
+    {
+      "case_id": "ling_1t/qkv_projection/1048576",
+      "model_id": "ling_1t",
+      "model_revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "selected_layer": 4,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1048576,
+      "L": null,
+      "parameters": {
+        "D": 8192,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 8589934592,
+        "Q_R": 83886080,
+        "RI": {
+          "numerator": 512,
+          "denominator": 5
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 83886080,
+        "shared_input_bytes_removed": 17179869184
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8589934592,
+          "Q_R": 67108864,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 67108864
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8589934592,
+          "Q_R": 8388608,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 8589934592,
+          "Q_R": 8388608,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        }
+      ]
+    },
+    {
+      "case_id": "ling_1t/qkv_projection/infinity",
+      "model_id": "ling_1t",
+      "model_revision": "268f2aa76aa8cf5b36ca33805481cea91133327e",
+      "selected_layer": 4,
+      "workload": "qkv_projection",
+      "kind": "limit",
+      "U": "infinity",
+      "L": null,
+      "parameters": {
+        "D": 8192,
+        "H_q": 64,
+        "H_kv": 8,
+        "d_QK": 128,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 8192,
+        "N_G": 0,
+        "N_K": 1024,
+        "N_V": 1024,
+        "N_proj": 10240
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 83886080,
+        "RI": "infinity",
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 83886080,
+        "shared_input_bytes_removed": "infinity"
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            8192,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 67108864,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 67108864
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 8388608,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            8192
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 8388608,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 8388608
+        }
+      ]
+    },
+    {
+      "case_id": "mimo_v25_pro/qkv_projection/1",
+      "model_id": "mimo_v25_pro",
       "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
       "selected_layer": 7,
-      "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1,
+      "L": null,
+      "parameters": {
+        "D": 6144,
+        "H_q": 128,
+        "H_kv": 8,
+        "d_QK": 192,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 24576,
+        "N_G": 0,
+        "N_K": 1536,
+        "N_V": 1024,
+        "N_proj": 27136
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
       "result": {
-        "parts": {
-          "Q": {
-            "operator": {
-              "Q_S": 6144,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 1179648,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 9216
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 9216,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                24576,
-                6144
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 192,
-                "tail_valid_elements": 0,
-                "blocks": 192
-              },
-              "input_axis": {
-                "full_128_blocks": 48,
-                "tail_valid_elements": 0,
-                "blocks": 48
-              },
-              "resident_tiles": 9216,
-              "valid_resident_bytes": 150994944,
-              "allocated_tile_bytes": 150994944
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "K": {
-            "operator": {
-              "Q_S": 6144,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 73728,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 576
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 576,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1536,
-                6144
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 12,
-                "tail_valid_elements": 0,
-                "blocks": 12
-              },
-              "input_axis": {
-                "full_128_blocks": 48,
-                "tail_valid_elements": 0,
-                "blocks": 48
-              },
-              "resident_tiles": 576,
-              "valid_resident_bytes": 9437184,
-              "allocated_tile_bytes": 9437184
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          },
-          "V": {
-            "operator": {
-              "Q_S": 6144,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": null
-            },
-            "ports": {
-              "Q_S": 49152,
-              "Q_R": 0,
-              "RI": "infinity",
-              "tile_evaluations": 384
-            },
-            "tile_layout": {
-              "output_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "input_block_sizes": [
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128,
-                128
-              ],
-              "resident_tiles": 384,
-              "load_events": 0
-            },
-            "layout": {
-              "matrix_N_K_per_copy": [
-                1024,
-                6144
-              ],
-              "copies": 1,
-              "output_axis": {
-                "full_128_blocks": 8,
-                "tail_valid_elements": 0,
-                "blocks": 8
-              },
-              "input_axis": {
-                "full_128_blocks": 48,
-                "tail_valid_elements": 0,
-                "blocks": 48
-              },
-              "resident_tiles": 384,
-              "valid_resident_bytes": 6291456,
-              "allocated_tile_bytes": 6291456
-            },
-            "window": {
-              "input_vectors": 1,
-              "full_weight_loads": 0
-            }
-          }
+        "Q_S": 6144,
+        "Q_R": 166723584,
+        "RI": {
+          "numerator": 1,
+          "denominator": 27136
         },
-        "operator": {
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 166723584,
+        "shared_input_bytes_removed": 12288
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            24576,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
           "Q_S": 6144,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": null
+          "Q_R": 150994944,
+          "RI": {
+            "numerator": 1,
+            "denominator": 24576
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 150994944
         },
-        "operator_shared_input_overlap_removed": 12288,
-        "ports": {
-          "Q_S": 1302528,
-          "Q_R": 0,
-          "RI": "infinity",
-          "tile_evaluations": 10176
+        {
+          "id": "K",
+          "shape_N_K": [
+            1536,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6144,
+          "Q_R": 9437184,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1536
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 9437184
         },
-        "capacity": {
-          "valid_resident_bytes": 166723584,
-          "allocated_tile_bytes": 166723584,
-          "resident_tiles": 10176,
-          "meaning": "final state capacity; distinct from cumulative Q_R and from physical encoded capacity"
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6144,
+          "Q_R": 6291456,
+          "RI": {
+            "numerator": 1,
+            "denominator": 1024
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 6291456
         }
-      }
+      ]
+    },
+    {
+      "case_id": "mimo_v25_pro/qkv_projection/1024",
+      "model_id": "mimo_v25_pro",
+      "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "selected_layer": 7,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1024,
+      "L": null,
+      "parameters": {
+        "D": 6144,
+        "H_q": 128,
+        "H_kv": 8,
+        "d_QK": 192,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 24576,
+        "N_G": 0,
+        "N_K": 1536,
+        "N_V": 1024,
+        "N_proj": 27136
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 6291456,
+        "Q_R": 166723584,
+        "RI": {
+          "numerator": 2,
+          "denominator": 53
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 166723584,
+        "shared_input_bytes_removed": 12582912
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            24576,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6291456,
+          "Q_R": 150994944,
+          "RI": {
+            "numerator": 1,
+            "denominator": 24
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 150994944
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1536,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6291456,
+          "Q_R": 9437184,
+          "RI": {
+            "numerator": 2,
+            "denominator": 3
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 9437184
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6291456,
+          "Q_R": 6291456,
+          "RI": 1,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 6291456
+        }
+      ]
+    },
+    {
+      "case_id": "mimo_v25_pro/qkv_projection/131072",
+      "model_id": "mimo_v25_pro",
+      "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "selected_layer": 7,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 131072,
+      "L": null,
+      "parameters": {
+        "D": 6144,
+        "H_q": 128,
+        "H_kv": 8,
+        "d_QK": 192,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 24576,
+        "N_G": 0,
+        "N_K": 1536,
+        "N_V": 1024,
+        "N_proj": 27136
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 805306368,
+        "Q_R": 166723584,
+        "RI": {
+          "numerator": 256,
+          "denominator": 53
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 166723584,
+        "shared_input_bytes_removed": 1610612736
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            24576,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 805306368,
+          "Q_R": 150994944,
+          "RI": {
+            "numerator": 16,
+            "denominator": 3
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 150994944
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1536,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 805306368,
+          "Q_R": 9437184,
+          "RI": {
+            "numerator": 256,
+            "denominator": 3
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 9437184
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 805306368,
+          "Q_R": 6291456,
+          "RI": 128,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 6291456
+        }
+      ]
+    },
+    {
+      "case_id": "mimo_v25_pro/qkv_projection/1048576",
+      "model_id": "mimo_v25_pro",
+      "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "selected_layer": 7,
+      "workload": "qkv_projection",
+      "kind": "finite",
+      "U": 1048576,
+      "L": null,
+      "parameters": {
+        "D": 6144,
+        "H_q": 128,
+        "H_kv": 8,
+        "d_QK": 192,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 24576,
+        "N_G": 0,
+        "N_K": 1536,
+        "N_V": 1024,
+        "N_proj": 27136
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": 6442450944,
+        "Q_R": 166723584,
+        "RI": {
+          "numerator": 2048,
+          "denominator": 53
+        },
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 166723584,
+        "shared_input_bytes_removed": 12884901888
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            24576,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6442450944,
+          "Q_R": 150994944,
+          "RI": {
+            "numerator": 128,
+            "denominator": 3
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 150994944
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1536,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6442450944,
+          "Q_R": 9437184,
+          "RI": {
+            "numerator": 2048,
+            "denominator": 3
+          },
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 9437184
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": 6442450944,
+          "Q_R": 6291456,
+          "RI": 1024,
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 6291456
+        }
+      ]
+    },
+    {
+      "case_id": "mimo_v25_pro/qkv_projection/infinity",
+      "model_id": "mimo_v25_pro",
+      "model_revision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+      "selected_layer": 7,
+      "workload": "qkv_projection",
+      "kind": "limit",
+      "U": "infinity",
+      "L": null,
+      "parameters": {
+        "D": 6144,
+        "H_q": 128,
+        "H_kv": 8,
+        "d_QK": 192,
+        "d_V": 128,
+        "D_g": 0,
+        "N_Q": 24576,
+        "N_G": 0,
+        "N_K": 1536,
+        "N_V": 1024,
+        "N_proj": 27136
+      },
+      "window": {
+        "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+        "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+        "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+      },
+      "result": {
+        "Q_S": "infinity",
+        "Q_R": 166723584,
+        "RI": "infinity",
+        "resident_bytes_initial": 0,
+        "resident_bytes_final": 166723584,
+        "shared_input_bytes_removed": "infinity"
+      },
+      "components": [
+        {
+          "id": "Q",
+          "shape_N_K": [
+            24576,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 150994944,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 150994944
+        },
+        {
+          "id": "K",
+          "shape_N_K": [
+            1536,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 9437184,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 9437184
+        },
+        {
+          "id": "V",
+          "shape_N_K": [
+            1024,
+            6144
+          ],
+          "state_copies": 1,
+          "input_role": "shared_projection_input_X",
+          "Q_S": "infinity",
+          "Q_R": 6291456,
+          "RI": "infinity",
+          "resident_bytes_initial": 0,
+          "resident_bytes_final": 6291456
+        }
+      ]
     }
   ]
 }

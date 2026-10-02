@@ -1,223 +1,240 @@
 #!/usr/bin/env python3
-"""Independent raw-config + real-tile audit. No production module is imported.
-
-Inputs are read from fixed raw config, not generate.py/config.json dimensions.
-Each tile contributes its input interval and effective resident rectangle.
-Operator inputs are a union of (token identity, element index), so sharing is
-checked without the production subtraction formula. No model code is executed.
-"""
+"""Independent raw-config/identity audit; does not import the generator or old counting code."""
 import argparse
-from collections import Counter
+import csv
 import hashlib
 import json
+from fractions import Fraction
 from pathlib import Path
-import sys
-sys.dont_write_bytecode = True
 
-HERE=Path(__file__).resolve().parents[1]
-ROOT=HERE.parents[1]
-SOURCE_DIRS=['01_qwen35_2b','02_ministral3_8b','03_qwen36_35b_a3b','04_hy3_295b','05_ling_1t','06_mimo_v25_pro']
-IDS=['qwen35_2b','ministral3_8b_2512','qwen36_35b_a3b','hy3_295b','ling_1t','mimo_v25_pro']
-LAYERS=[3,0,3,1,4,7]
-IMPL=['00_shared/raw/transformers/modeling_qwen3_5.py','00_shared/raw/transformers/modeling_ministral3.py',
-      '00_shared/raw/transformers/modeling_qwen3_5_moe.py','00_shared/raw/transformers/modeling_hy_v3.py',
-      '05_ling_1t/raw/modeling_bailing_moe_v2.py','06_mimo_v25_pro/raw/modeling_mimo_v2.py']
+HERE = Path(__file__).resolve().parents[1]
+TASK = HERE.parents[1]
+CROSS = HERE.parent / "04_crosscheck"
+LEGACY = TASK.parent / "archived/task2_table_IIb_previous/01_qkv_projection/data/results.json"
 
 
-def read(path): return json.loads((ROOT/path).read_text())
-def sha(path): return hashlib.sha256((ROOT/path).read_bytes()).hexdigest()
+def load(path):
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def anchors(path, snippets):
-    lines=(ROOT/path).read_text().splitlines(); out=[]
-    for snippet in snippets:
-        loc=[i for i,line in enumerate(lines,1) if snippet in line]
-        assert loc, (path,snippet)
-        out.append({'path':path,'lines':loc,'literal_anchor':snippet})
-    return out
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def raw_inputs():
-    raw={}; audit=[]
-    for mid, folder, impl, layer in zip(IDS,SOURCE_DIRS,IMPL,LAYERS):
-        path=f'literature/{folder}/raw/config.json'; native=read(path); cfg=native.get('text_config',native)
-        D=cfg['hidden_size']; q=cfg['num_attention_heads']; h=cfg['num_key_value_heads']; d=cfg['head_dim']
-        v=cfg.get('v_head_dim',d); gate=mid in ['qwen35_2b','qwen36_35b_a3b']
-        shape={'Q':[q*d,D]}
-        if gate: shape['G']=[q*d,D]
-        shape.update(K=[h*d,D],V=[h*v,D])
-        snippets=[]; packed={}
-        fields=['hidden_size','num_attention_heads','num_key_value_heads','head_dim']
-        if gate:
-            assert cfg['layer_types'][layer]=='full_attention' and cfg['attn_output_gate'] is True
-            fields+=['attn_output_gate','layer_types']
-            snippets=['config.hidden_size, config.num_attention_heads * self.head_dim * 2',
-                      'self.q_proj(hidden_states).view(*input_shape, -1, self.head_dim * 2), 2, dim=-1',
-                      'attn_output = attn_output * torch.sigmoid(gate)']
-            qrows={2*i*d+j for i in range(q) for j in range(d)}
-            grows={2*i*d+d+j for i in range(q) for j in range(d)}
-            assert not qrows & grows and qrows | grows==set(range(2*q*d))
-            packed={'kind':'Q/G interleaved by head', 'packed_N_K':[2*q*d,D],
-                    'Q_rows':len(qrows),'G_rows':len(grows),'disjoint_and_complete':True,
-                    'Q_row_rule':'2*head*d + channel', 'G_row_rule':'2*head*d + d + channel'}
-        elif mid=='ministral3_8b_2512':
-            params=read(f'literature/{folder}/raw/params.json')
-            for key,other in [('hidden_size','dim'),('num_attention_heads','n_heads'),('num_key_value_heads','n_kv_heads'),('head_dim','head_dim')]:
-                assert cfg[key]==params[other]
-            assert params['v_head_dim'] is None and v==d==128
-            assert cfg['sliding_window'] is None
-            fields+=['sliding_window']
-            snippets=['self.q_proj = nn.Linear(config.hidden_size, config.num_attention_heads * self.head_dim, bias=False)',
-                      'self.k_proj = nn.Linear(config.hidden_size, config.num_key_value_heads * self.head_dim, bias=False)',
-                      'self.v_proj = nn.Linear(config.hidden_size, config.num_key_value_heads * self.head_dim, bias=False)']
-        elif mid=='hy3_295b':
-            assert d==128 and q==64 and D==4096 and cfg['first_k_dense_replace']==layer
-            fields+=['first_k_dense_replace']
-            snippets=['self.head_dim = getattr(config, "head_dim", config.hidden_size // config.num_attention_heads)',
-                      'config.hidden_size, config.num_attention_heads * self.head_dim, bias=config.attention_bias',
-                      'config.hidden_size, config.num_key_value_heads * self.head_dim, bias=config.attention_bias']
-        elif mid=='ling_1t':
-            assert cfg['first_k_dense_replace']==layer and not cfg['using_split_qkv_in_self_attention']
-            assert cfg['use_qkv_bias'] is False
-            fields+=['first_k_dense_replace','using_split_qkv_in_self_attention','use_qkv_bias']
-            snippets=['self.head_dim = config.head_dim or self.hidden_size // self.num_heads',
-                      '(self.num_heads + 2 * self.num_key_value_heads) * self.head_dim',
-                      '[self.num_heads, self.num_key_value_heads, self.num_key_value_heads], dim=-2']
-        else:
-            assert cfg['hybrid_layer_pattern'][layer]==0
-            assert cfg['attention_projection_layout']=='fused_qkv'
-            assert (d,v)==(192,128) and cfg['add_full_attention_sink_bias'] is False
-            fields+=['v_head_dim','hybrid_layer_pattern','attention_projection_layout','add_full_attention_sink_bias']
-            snippets=['self.v_head_dim = getattr(config, "v_head_dim", self.head_dim)',
-                      'self.q_size = self.num_attention_heads * self.head_dim',
-                      'self.k_size = self.num_key_value_heads * self.head_dim',
-                      'self.v_size = self.num_key_value_heads * self.v_head_dim',
-                      'self.q_size + self.k_size + self.v_size',
-                      'qkv_states.split([self.q_size, self.k_size, self.v_size], dim=-1)',
-                      'is_swa_layer = config.hybrid_layer_pattern[layer_idx] == 1']
-        if mid in ['ling_1t','mimo_v25_pro']:
-            ranges={}; offset=0; rows=set()
-            for name,(n,k) in shape.items():
-                part=set(range(offset,offset+n)); assert not part & rows
-                rows|=part; ranges[name]=[offset,offset+n]; offset+=n
-            assert rows==set(range(offset))
-            packed={'kind':'fused Q/K/V contiguous semantic slices','packed_N_K':[offset,D],
-                    'half_open_row_ranges':ranges,'disjoint_and_complete':True}
-        impl_path='literature/'+impl
-        metadata_path=f'literature/{folder}/raw/hf_metadata.json'
-        raw[mid]={'D':D,'Hq':q,'Hkv':h,'dqk':d,'dv':v,'output_gate':gate,
-                  'semantic_shapes_N_K':shape,'selected_layer':layer,'revision':read(metadata_path)['sha']}
-        prefix='text_config.' if 'text_config' in native else ''
-        audit.append({'model_id':mid,'raw_dimensions':raw[mid],
-                      'config_path':path,'config_locators':[prefix+f for f in fields],
-                      'config_value_evidence':{prefix+f:cfg[f] for f in fields},
-                      'metadata_path':metadata_path,'metadata_revision_locator':'sha',
-                      'implementation_anchors':anchors(impl_path,snippets),'native_packing_audit':packed,
-                      'finding':'PASS: raw config and static implementation agree with selected-layer dimensions'})
-    return raw,audit
+def ratio(a, b):
+    value = Fraction(a, b)
+    if value.denominator == 1:
+        return value.numerator
+    return {"numerator": value.numerator, "denominator": value.denominator}
 
 
-def matrix(name,n,k):
-    hist=Counter(); inputs=0; valid=0; calls=0
-    out_widths=[]; in_widths=[]
-    for col in range(0,k,128): in_widths.append(len(range(col,min(col+128,k))))
-    for row in range(0,n,128):
-        height=len(range(row,min(row+128,n))); out_widths.append(height)
-        for col in range(0,k,128):
-            width=len(range(col,min(col+128,k)))
-            inputs+=width; valid+=height*width; calls+=1; hist[(height,width)]+=1
-    def axis(ws):
-        tails=[w for w in ws if w!=128]
-        assert len(tails)<=1
-        return {'full_128_blocks':ws.count(128),'tail_valid_elements':tails[0] if tails else 0,'blocks':len(ws)}
-    source_ids={('token_0_x',i) for i in range(k)}
-    return {'ports':{'Q_S':inputs,'Q_R':0,'RI':'infinity','tile_evaluations':calls},
-            'operator':{'Q_S':len(source_ids),'Q_R':0,'RI':'infinity','tile_evaluations':None},
-            'tile_layout':{'output_block_sizes':out_widths,'input_block_sizes':in_widths,'resident_tiles':calls,'load_events':0},
-            'layout':{'matrix_N_K_per_copy':[n,k],'copies':1,'output_axis':axis(out_widths),'input_axis':axis(in_widths),
-                      'resident_tiles':calls,'valid_resident_bytes':valid,'allocated_tile_bytes':sum(16384 for _ in range(calls))},
-            'window':{'input_vectors':1,'full_weight_loads':0}}, source_ids, hist
+def raw_parameters(original):
+    raw = load(TASK / original["local_material"]["raw_config"])
+    raw = raw.get("text_config", raw)
+    layer = original["backbone"]["selected_layer_index_zero_based"]
+    if "layer_types" in raw:
+        assert raw["layer_types"][layer] == "full_attention"
+    if "hybrid_layer_pattern" in raw:
+        assert raw["hybrid_layer_pattern"][layer] == 0
+    d, hq, hkv, dq = (raw[key] for key in ["hidden_size", "num_attention_heads", "num_key_value_heads", "head_dim"])
+    dv = raw.get("v_head_dim") or dq
+    dg = hq * dq if raw.get("attn_output_gate", False) else 0
+    widths = {"Q": hq*dq}
+    if dg:
+        widths["G"] = dg
+    widths.update({"K": hkv*dq, "V": hkv*dv})
+    # Weight identity: each semantic projection j has N_j distinct rows, each containing D distinct entries.
+    # Keep intervals instead of materializing every payload element of large matrices.
+    weight_rows = {(j, row): range(d) for j, n in widths.items() for row in range(n)}
+    component_writes = {j: sum(len(columns) for (name, _), columns in weight_rows.items() if name == j) for j in widths}
+    assert len(weight_rows) == sum(widths.values())
+    parameters = {"D": d, "H_q": hq, "H_kv": hkv, "d_QK": dq, "d_V": dv, "D_g": dg,
+                  "N_Q": widths["Q"], "N_G": dg, "N_K": widths["K"], "N_V": widths["V"],
+                  "N_proj": len(weight_rows)}
+    return parameters, widths, component_writes
 
 
-def oracle(d):
-    parts={}; sources=set(); op_standalone=0; hist={}
-    for name,(n,k) in d['semantic_shapes_N_K'].items():
-        p,ids,calls=matrix(name,n,k); parts[name]=p; sources.update(ids); op_standalone+=len(ids)
-        hist[name]=[{'valid_N_K':list(shape),'calls':count} for shape,count in sorted(calls.items())]
-    out={'parts':parts}
-    out['ports']={'Q_S':sum(p['ports']['Q_S'] for p in parts.values()),'Q_R':0,'RI':'infinity',
-                  'tile_evaluations':sum(p['ports']['tile_evaluations'] for p in parts.values())}
-    out['operator']={'Q_S':len(sources),'Q_R':0,'RI':'infinity','tile_evaluations':None}
-    out['operator_shared_input_overlap_removed']=op_standalone-len(sources)
-    out['capacity']={key:sum(p['layout'][key] for p in parts.values())
-                     for key in ['valid_resident_bytes','allocated_tile_bytes','resident_tiles']}
-    out['capacity']['meaning']='final state capacity; distinct from cumulative Q_R and from physical encoded capacity'
-    return out,hist
+def check_exact_tree(value, forbidden):
+    assert not isinstance(value, float), "binary floating value in exact results"
+    if isinstance(value, dict):
+        assert not set(value).intersection(forbidden)
+        if "numerator" in value:
+            assert set(value) == {"numerator", "denominator"}
+            assert type(value["numerator"]) is int and type(value["denominator"]) is int
+            f = Fraction(value["numerator"], value["denominator"])
+            assert f.numerator == value["numerator"] and f.denominator == value["denominator"] and f.denominator > 1
+        for item in value.values():
+            check_exact_tree(item, forbidden)
+    elif isinstance(value, list):
+        for item in value:
+            check_exact_tree(item, forbidden)
 
 
-def compare_all(got,expected,path=''):
-    """Validate every key and every leaf, also null/string/array/layout fields."""
-    if isinstance(expected,dict):
-        assert isinstance(got,dict) and set(got)==set(expected),(path,'keys')
-        return sum(compare_all(got[k],v,path+'/'+k) for k,v in expected.items())
-    if isinstance(expected,list):
-        assert isinstance(got,list) and len(got)==len(expected),(path,'list length')
-        return sum(compare_all(a,b,f'{path}/{i}') for i,(a,b) in enumerate(zip(got,expected)))
-    assert got==expected and type(got)==type(expected),(path,got,expected)
-    return 1
+def csv_scalar(value):
+    if value is None:
+        return ""
+    if isinstance(value, dict):
+        return f'{value["numerator"]}/{value["denominator"]}'
+    return str(value)
+
+
+def audit():
+    contract = load(CROSS / "data/conventions.json")
+    config = load(HERE / "data/config.json")
+    data = load(HERE / "data/results.json")
+    original_models = {m["id"]: m for m in load(TASK / "data/models.json")["models"]}
+    fixed_models = {m["model_id"]: m for m in load(CROSS / "data/model_inputs.json")["models"]}
+    registry = {s["local_path"]: s for s in load(TASK / "data/sources.json")}
+    assert set(config) == set(contract["config_root_keys"])
+    assert set(data) == set(contract["results_root_keys"])
+    assert config["reference_id"] == data["reference_id"] == contract["reference_id"]
+    assert config["boundary"] == data["boundary"] == "operator_stage"
+    assert config["element_bytes"] == 1
+    assert config["model_order"] == data["model_order"] == contract["model_order"]
+    assert data["workload_ids"] == ["qkv_projection"]
+    assert isinstance(config["models"], list)
+    assert [m["model_id"] for m in config["models"]] == contract["model_order"]
+    assert config["sweeps"] == {"qkv_projection": {"U": [1, 1024, 131072, 1048576, "infinity"]}}
+    assert set(config["window_rules"]) == {"qkv_projection"}
+    assert set(config["window_rules"]["qkv_projection"]) == set(contract["window_keys"])
+    assert all(isinstance(x, str) for x in config["window_rules"]["qkv_projection"].values())
+    check_exact_tree(data, contract["forbidden_result_fields"])
+    expected_ids = [f"{mid}/qkv_projection/{b}" for mid in contract["model_order"] for b in [1, 1024, 131072, 1048576, "infinity"]]
+    assert [c["case_id"] for c in data["cases"]] == expected_ids
+    cases_by_id = {c["case_id"]: c for c in data["cases"]}
+    checks = []
+    for model in config["models"]:
+        assert set(model) == set(contract["config_model_keys"])
+        original = original_models[model["model_id"]]
+        fixed = fixed_models[model["model_id"]]
+        parameters, widths, writes = raw_parameters(original)
+        assert model["parameters"] == parameters
+        assert model["model_revision"] == original["identity"]["revision"] == fixed["model_revision"]
+        assert model["selected_layer"] == original["backbone"]["selected_layer_index_zero_based"] == fixed["selected_layer"]
+        for key in ["D", "H_q", "H_kv", "d_QK", "d_V", "D_g"]:
+            assert parameters[key] == fixed[key]
+        for j, key in [("Q", "q_logical"), ("G", "q_output_gate_logical"), ("K", "k"), ("V", "v")]:
+            if j in widths:
+                assert [widths[j], parameters["D"]] == original["attention"]["weight_shapes_N_K"][key] == fixed["qkv_shapes_N_K"][key]
+        for b in [1, 1024, 131072, 1048576, "infinity"]:
+            case = cases_by_id[f'{model["model_id"]}/qkv_projection/{b}']
+            assert set(case) == set(contract["case_keys"])
+            assert case["parameters"] == parameters
+            assert case["model_revision"] == model["model_revision"] and case["selected_layer"] == model["selected_layer"]
+            assert case["workload"] == "qkv_projection" and case["L"] is None and case["U"] == b
+            assert case["window"] == config["window_rules"]["qkv_projection"]
+            assert case["kind"] == ("limit" if b == "infinity" else "finite")
+            assert [p["id"] for p in case["components"]] == list(widths)
+            total_write = sum(writes.values())
+            if b == "infinity":
+                assert parameters["D"] > 0 and total_write > 0
+                input_bytes = removed = "infinity"
+                intensity = "infinity"
+            else:
+                # Independent branch requests share the same (stage, vector) identity.
+                # Union source identities for one use; repeats have disjoint use indices.
+                # Count those intervals without a million-entry identity dictionary.
+                source_rows = {("X", 0): range(parameters["D"]) for j in widths}
+                per_use = sum(len(columns) for columns in source_rows.values())
+                input_bytes = sum(per_use for _ in range(b))
+                requested = sum(len(range(parameters["D"])) for j in widths) * b
+                removed = requested - input_bytes
+                intensity = ratio(input_bytes, total_write)
+            expect = {"Q_S": input_bytes, "Q_R": total_write, "RI": intensity,
+                      "resident_bytes_initial": 0, "resident_bytes_final": total_write,
+                      "shared_input_bytes_removed": removed}
+            assert case["result"] == expect, case["case_id"]
+            for part in case["components"]:
+                assert set(part) == set(contract["component_keys"])
+                j = part["id"]
+                assert part["shape_N_K"] == [widths[j], parameters["D"]]
+                assert part["state_copies"] == 1 and part["input_role"] == "shared_projection_input_X"
+                assert {k: part[k] for k in contract["demand_keys"]} == {
+                    "Q_S": input_bytes, "Q_R": writes[j],
+                    "RI": "infinity" if b == "infinity" else ratio(input_bytes, writes[j]),
+                    "resident_bytes_initial": 0, "resident_bytes_final": writes[j]}
+            checks.append({"case_id": case["case_id"], "status": "PASS",
+                           "method": "positive input-row slope and fixed nonzero weight-row sum" if b == "infinity" else "raw-config projection weight-row identities and union of shared input-row identities",
+                           "expected_result": expect})
+    # Explicit element identities on a small, non-aligned example establish the interval-counting convention.
+    tiny_widths, tiny_d, tiny_b = {"Q": 5, "G": 5, "K": 2, "V": 3}, 3, 4
+    tiny_inputs = [("X", b, d) for j in tiny_widths for b in range(tiny_b) for d in range(tiny_d)]
+    tiny_writes = {(j, n, d) for j, nmax in tiny_widths.items() for n in range(nmax) for d in range(tiny_d)}
+    assert len(set(tiny_inputs)) == 12 and len(tiny_writes) == 45 and len(tiny_inputs)-len(set(tiny_inputs)) == 36
+    checks.append({"case_id": "identity_enumeration_small", "status": "PASS", "method": "explicit element tuples",
+                   "Q_S": 12, "Q_R": 45, "RI": {"numerator": 4, "denominator": 15}, "shared_input_bytes_removed": 36})
+    # Every CSV entry is checked against an already independently verified result or component.
+    with (HERE / "data/results.csv").open(newline="", encoding="utf-8") as stream:
+        reader = csv.DictReader(stream)
+        assert reader.fieldnames == contract["csv_columns"]
+        rows = list(reader)
+    expected_rows = []
+    for case in data["cases"]:
+        for part in [{"id": "total", **case["result"]}] + case["components"]:
+            row = {k: csv_scalar(case[k]) for k in ["case_id", "model_id", "model_revision", "selected_layer", "workload", "kind", "U", "L"]}
+            row.update({"component": part["id"], "N": csv_scalar(part.get("shape_N_K", ["", ""])[0]),
+                        "K": csv_scalar(part.get("shape_N_K", ["", ""])[1]), "state_copies": csv_scalar(part.get("state_copies", ""))})
+            for column, key in [("Q_S_Byte", "Q_S"), ("Q_R_Byte", "Q_R"), ("RI_exact", "RI"),
+                                ("resident_initial_Byte", "resident_bytes_initial"), ("resident_final_Byte", "resident_bytes_final"),
+                                ("shared_input_removed_Byte", "shared_input_bytes_removed")]:
+                row[column] = csv_scalar(part.get(key, ""))
+            expected_rows.append(row)
+    assert rows == expected_rows and len(rows) == 130
+    checks.append({"case_id": "csv_exact_records", "status": "PASS", "rows": 130})
+    source_checks = []
+    for source in config["sources"]:
+        assert set(source) == {"path", "sha256", "locator"}
+        actual = sha(TASK / source["path"])
+        assert actual == source["sha256"], source["path"]
+        if source["path"] in registry:
+            assert actual == registry[source["path"]]["sha256"]
+        source_checks.append({"path": source["path"], "sha256": actual, "status": "PASS",
+                              "official_registry_match": source["path"] in registry})
+    legacy = []
+    for old in load(LEGACY)["cases"]:
+        new = cases_by_id[f'{old["model_id"]}/qkv_projection/1']
+        old_result = old["result"]
+        assert new["result"]["Q_S"] == old_result["operator"]["Q_S"]
+        assert old_result["operator"]["Q_R"] == 0 and old_result["operator"]["RI"] == "infinity"
+        assert new["result"]["Q_R"] == old_result["capacity"]["valid_resident_bytes"]
+        assert old["model_revision"] == new["model_revision"] and old["selected_layer"] == new["selected_layer"]
+        for component in new["components"]:
+            prior = old_result["parts"][component["id"]]
+            assert component["Q_S"] == prior["operator"]["Q_S"]
+            assert component["Q_R"] == prior["layout"]["valid_resident_bytes"]
+        legacy.append({"model_id": old["model_id"], "status": "PASS", "U1_input_matches_prior_operator": True,
+                       "new_write_equals_native_weight_elements_and_prior_valid_capacity": True,
+                       "prior_Q_R": 0, "prior_RI": "infinity", "new_Q_R": new["result"]["Q_R"],
+                       "new_RI": new["result"]["RI"], "finite_RI_equality_required": False})
+    counts = {"finite": sum(c["kind"] == "finite" for c in data["cases"]),
+              "limit": sum(c["kind"] == "limit" for c in data["cases"])}
+    assert counts == contract["expected_counts"]["qkv_projection"]
+    result = {"schema_version": contract["schema_version"], "reference_id": contract["reference_id"],
+              "status": "PASS", "case_counts": counts, "independent_checks": checks,
+              "legacy_comparison": {"path": str(LEGACY.relative_to(TASK.parent)), "sha256": sha(LEGACY),
+                                    "window_change": "用户确认从预驻留窗口改为一次完整装载；旧零写入和新有限写入不得要求 RI 相等。", "models": legacy},
+              "source_checks": source_checks,
+              "notes": ["主生成器与独立检查均未导入旧计数 API；未执行原始模型实现。",
+                        "实际矩阵按带投影名的权重行身份累计；共享输入按 X 行身份取并集；小例显式枚举元素身份。",
+                        "极限检查仅验证正输入斜率与固定正写入量；不执行无穷减无穷。",
+                        "本轮由主 Agent 修改并复核；最新显示与扫描修订待用户审阅。"]}
+    assert set(result) == set(contract["checks_root_keys"])
+    return result
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--emit',action='store_true');args=p.parse_args()
-    config=json.loads((HERE/'data/config.json').read_text())
-    data=json.loads((HERE/'data/results.json').read_text())
-    raw,audit=raw_inputs(); models={m['id']:m for m in read('data/models.json')['models']}
-    registry={s['local_path']:s for s in read('data/sources.json')}
-    hashes=[]
-    for path,digest in config['source_files_sha256'].items():
-        assert sha(path)==digest,path
-        if path in registry: assert registry[path]['sha256']==digest,path
-        hashes.append({'path':path,'sha256':digest,'registered_original':path in registry,'pass':True})
-    assert [r['model_id'] for r in data['cases']]==IDS
-    assert [r['model_id'] for r in data['cases']]==read('data/study_plan.json')['table_IIb']['columns_model_ids']
-    results=[]
-    for r in data['cases']:
-        mid=r['model_id']; d=raw[mid]; m=models[mid]; a=m['attention']
-        assert r['selected_layer']==d['selected_layer']==m['backbone']['selected_layer_index_zero_based']
-        assert r['model_revision']==d['revision']==m['identity']['revision']
-        assert r['case_id']==mid+'/qkv_projection/one_token' and r['row']=='qkv_projection' and r['L'] is None
-        assert r['shared_reference_id']==config['shared_reference_id']=='WS128-INT8-semantic-banks-v1'
-        assert d['D']==m['backbone']['hidden_size']
-        assert [d['Hq'],d['Hkv'],d['dqk'],d['dv']]==[a['query_heads'],a['kv_heads'],a['qk_head_dim'],a['v_head_dim']]
-        assert d['semantic_shapes_N_K']==config['models'][mid]['semantic_shapes_N_K']
-        packing=next(item['native_packing_audit'] for item in audit if item['model_id']==mid)
-        if packing:
-            packed_key='q_and_gate_packed' if d['output_gate'] else 'qkv_packed'
-            assert packing['packed_N_K']==a['weight_shapes_N_K'][packed_key]
-        for role,key in [('Q','q_logical'),('G','q_output_gate_logical'),('K','k'),('V','v')]:
-            if role in d['semantic_shapes_N_K']: assert d['semantic_shapes_N_K'][role]==a['weight_shapes_N_K'][key]
-        expected,hist=oracle(d); leaves=compare_all(r['result'],expected)
-        results.append({'case_id':r['case_id'],'pass':True,'compared_result_leaf_count':leaves,
-                        'independent_result':expected,'valid_N_K_call_histograms':hist})
-    pilot=read('table_IIb/pilot/data/results.json'); lookup={r['case_id']:r for r in pilot['cases']}
-    regression=[]
-    for r in data['cases']:
-        if r['case_id'] not in lookup: continue
-        leaves=compare_all(r,lookup[r['case_id']])
-        regression.append({'case_id':r['case_id'],'pass':True,'every_leaf_equal':True,
-                           'compared_leaf_count':leaves,'baseline':'table_IIb/pilot/data/results.json'})
-    assert len(regression)==2
-    checks={'status':'PASS','main_case_count':6,'semantic_matrix_count':sum(len(r['result']['parts']) for r in data['cases']),
-            'method':'Raw pinned config and inspected implementation; explicit real tile rectangles; union of input identities for operator; no production counting import.',
-            'source_hash_checks':hashes,'source_audit':audit,'main_checks':results,
-            'pilot_regressions':regression,'pilot_results_sha256':sha('table_IIb/pilot/data/results.json'),
-            'shared_method_corrections_required':False,
-            'scope_guards':['one token','pre-resident weights, zero window writes','Q/G/K/V semantic banks','no W_O or KV writes','no per-head partition inside a projection semantic matrix','no hardware timing']}
-    content=json.dumps(checks,ensure_ascii=False,indent=2)+'\n'
-    dest=HERE/'data/checks.json'
-    if args.emit:dest.write_text(content)
-    else:assert dest.read_text()==content,'stale independent checks'
-    print(f"PASS: 6 raw-config/tile cases, {checks['semantic_matrix_count']} matrices, 2 entire-case pilot regressions, {len(hashes)} source hashes")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--emit", action="store_true")
+    args = parser.parse_args()
+    value = audit()
+    text = json.dumps(value, ensure_ascii=False, indent=2) + "\n"
+    path = HERE / "data/checks.json"
+    if args.emit:
+        path.write_text(text, encoding="utf-8")
+    elif not path.exists() or path.read_text(encoding="utf-8") != text:
+        raise SystemExit("STALE: data/checks.json; use --emit after reviewing the difference")
+    print("PASS: raw-source dimensions, 30 cases, exact CSV, shared-input identities and explicit window migration")
 
 
-if __name__=='__main__':main()
+if __name__ == "__main__":
+    main()

@@ -31,13 +31,18 @@ for s in sources:
         assert data.decode('utf-8').strip(), p
 
 plan = read('data/study_plan.json')
-assert plan['parameters']['B'] == [8, 64, 512]
-assert plan['parameters']['L_tokens'] == [1024, 16384, 131072]
-assert plan['parameters']['K_in_L_labels'] == 1024
-assert plan['table_IIa']['columns_N_K'] == [[128, 128], [1024, 1024], [4096, 4096], [1024, 4096], [4096, 1024]]
-assert [x['id'] for x in plan['table_IIa']['rows']] == ['weight_static', 'per_use_reloaded']
-assert [x['id'] for x in plan['table_IIb']['rows']] == ['qkv_projection', 'ffn_or_moe', 'attention_prefill', 'attention_decode']
-assert [x['sweep'] for x in plan['table_IIb']['rows']] == [None, 'B', 'L', 'L']
+historical_parameters = plan.get('historical_parameters_step1', plan['parameters'])
+assert historical_parameters['B'] == [8, 64, 512]
+assert historical_parameters['L_tokens'] == [1024, 16384, 131072]
+assert historical_parameters['K_in_L_labels'] == 1024
+# Step 1 fixed this historical design. Current II(a) was separately rewritten
+# by user instruction on 2026-09-29; its local checker owns the new contract.
+historical_IIa = plan.get('historical_table_IIa_step2', plan['table_IIa'])
+assert historical_IIa['columns_N_K'] == [[128, 128], [1024, 1024], [4096, 4096], [1024, 4096], [4096, 1024]]
+assert [x['id'] for x in historical_IIa['rows']] == ['weight_static', 'per_use_reloaded']
+historical_IIb = plan.get('historical_table_IIb_step4', plan['table_IIb'])
+assert [x['id'] for x in historical_IIb['rows']] == ['qkv_projection', 'ffn_or_moe', 'attention_prefill', 'attention_decode']
+assert [x['sweep'] for x in historical_IIb['rows']] == [None, 'B', 'L', 'L']
 assert plan['actual_start_head'] == '81b7c332c20b9b5be6890256e9cf0d3edab12785'
 assert plan['fixed_task_I']['resident_matrix_bytes'] == 16384
 
@@ -99,12 +104,12 @@ for i, m in enumerate(models):
         assert counts['active_routed_expert_set'] == 3*H*F*c['num_experts_per_tok']
         assert f['router_matrix'] == [E,H]
     assert m['context']['config_max_position_embeddings'] == c['max_position_embeddings']
-    assert m['context']['L_tokens'] == plan['parameters']['L_tokens']
+    assert m['context']['L_tokens'] == historical_parameters['L_tokens']
     if i == 4:
         assert m['context']['extension_for_128K']['rope_scaling']['factor']*32768 == 131072
         assert c['rope_scaling'] is None, 'do not alter original Ling config'
     else:
-        assert max(plan['parameters']['L_tokens']) <= c['max_position_embeddings']
+        assert max(historical_parameters['L_tokens']) <= c['max_position_embeddings']
     assert all(m['precision'][k] is None for k in ['inference_activation_payload_dtype','inference_kv_payload_dtype','cim_reference_dtype'])
     if i == 1:
         native = json.loads((ROOT / local['raw_config']).with_name('params.json').read_text())

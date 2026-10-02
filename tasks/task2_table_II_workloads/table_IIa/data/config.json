@@ -1,0 +1,61 @@
+{
+  "schema_version": "2.0",
+  "reference_id": "OPERATOR-RESIDENCY-v2",
+  "date": "2026-10-02",
+  "boundary": "operator",
+  "operation": "Y = X W^T; X:[U,K], W:[N,K], Y:[U,N]",
+  "complete_weight_loads": 1,
+  "counted_input": "each X[b,k] once at the operator entrance; no receiver fan-out multiplier",
+  "element_bytes": {
+    "input": 1,
+    "weight": 1
+  },
+  "formulas": {
+    "Q_S_finite": "U*K*b_x",
+    "Q_R": "N*K*b_w",
+    "RI_general": "U*b_x/(N*b_w)",
+    "RI_equal_bytes": "U/N",
+    "resident_capacity_bytes": "N*K*b_w"
+  },
+  "matrix_cases_N_K": [
+    [
+      128,
+      128
+    ],
+    [
+      1024,
+      1024
+    ],
+    [
+      4096,
+      4096
+    ],
+    [
+      1024,
+      4096
+    ],
+    [
+      4096,
+      1024
+    ]
+  ],
+  "limit_interpretation": "U->infinity is the asymptotic one-load reuse limit: Q_S and RI diverge while Q_R remains N*K*b_w. It is not a finite batch or a record with zero in-window writes.",
+  "hardware_parameters": [],
+  "source": "2026-10-02 用户要求统一为复用次数 U，II(a) 七档扫描、中文正文与小数 RI",
+  "legacy_snapshot": "../history/ports_v1/",
+  "U_definition": "actual input vectors served by one complete logical weight load; equals the GEMM row dimension, not necessarily a global batch size",
+  "U_values": [
+    1,
+    128,
+    1024,
+    16384,
+    131072,
+    1048576,
+    "infinity"
+  ],
+  "display": {
+    "K": 1024,
+    "M": 1048576,
+    "RI": "RI >= 1: one decimal place; 0 < RI < 1: three significant digits, fixed decimal notation; ROUND_HALF_UP"
+  }
+}

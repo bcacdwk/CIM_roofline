@@ -1,30 +1,48 @@
-\documentclass[10pt,a4paper]{article}
-\usepackage[margin=19mm]{geometry}
-\usepackage{amsmath,amssymb,booktabs,tabularx,array,xcolor,placeins,hyperref}
-\hypersetup{colorlinks=true,linkcolor=blue!50!black,pdftitle={Table II(a): Resident--streaming demand at two residency endpoints}}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{7pt}
-\setlength{\emergencystretch}{3em}
+\input{../../table_IIb/04_crosscheck/template/preamble.tex}
+\renewcommand{\WorkloadName}{一次装载与复用次数}
+\fancyhead[L]{\small Table II(a)：算子级 RI}
 \renewcommand{\thetable}{II(a)}
-\title{\bfseries Residency Endpoints for Logical Matrix--Vector Tasks}
-\author{}
-\date{24 September 2026}
+\title{\bfseries 一次装载与复用次数的 RI}
 \begin{document}
 \maketitle
-\vspace{-1em}
-\textbf{Reference.} A logical weight matrix $W\in\mathbb{Z}^{N\times K}$ is partitioned over resident $128\times128$ service units. An input slice is counted once at each receiving tile, so one vector evaluation receives
+
+\section{对象与公式}
+设权重矩阵 $W\in\mathbb R^{N\times K}$，其中 $N$ 为输出维度、$K$ 为输入维度。
+权重完整装载一次后，累计服务 $U$ 个输入向量。
+这里统一把 $U$ 称为\textbf{复用次数（reuse count）}，包含首次使用；
+它可跨多个 batch 或请求累计，直到这份权重被替换或重新装载。
+
+将这些向量按行记为 $X\in\mathbb R^{U\times K}$，则
+$Y=XW^{\mathsf T}\in\mathbb R^{U\times N}$。
+这只是累计计数的矩阵写法，不要求 $U$ 个向量同时组成一次 batch。
+输入与权重均按每元素 1 Byte，在算子入口计入每个输入元素一次：
 \[
-Q_S=\left\lceil\frac{N}{128}\right\rceil K\ \mathrm{B}.
+\boxed{\displaystyle
+\qs=UK,\qquad \qr=NK,\qquad
+\RI=\frac{\qs}{\qr}=\frac{U}{N}.}
 \]
-Each valid resident weight element is written once when loading is included:
-$Q_R=NK\ \mathrm{B}$ for per-use reloaded, and $Q_R=0$ for weight-static.
+$\qs$ 是累计 streaming 输入量，$\qr$ 是本窗口的累计权重写入量；
+输出 $Y$ 不另加进 $\qs$。本表不需要任何硬件尺寸参数。
 
+\section{矩阵与代入结果}
+下表使用五种逻辑矩阵形状，扫描一次装载后的复用次数。
+所有结果由 Python 的整数与精确分数计算，小数取整只用于展示。
 \input{table_fragment.tex}
-\FloatBarrier
 
-\textbf{Interpretation.} All five shapes have output dimensions divisible by 128. Their local-receiver ratios therefore coincide at $1/128$ despite different demand volumes and tile counts. The two rectangular tasks also have the same local-receiver $Q_S$ and $Q_R$ in this reference.
+\section{结果说明}
+固定 $N$ 时，RI 随 $U$ 线性增长；$U=1$ 时为 $1/N$。
+$U\to\infty$ 是无界复用极限：$\qs$ 无界增长，而一次写入量 $\qr=NK$ 保持有限。
+这里没有无穷大的实际 batch，也没有把有限窗口的写入量改成零。
 
-The contrast boundary, documented in the Chinese method and machine data, counts the whole-matrix input only once: $Q_S^{\mathrm{op}}=K\ \mathrm{B}$ and $\mathrm{RI}^{\mathrm{op}}=1/N$ for per-use reloaded. It is not mixed into the table cells above.
+相同 $N$ 的矩阵具有相同 RI：改变 $K$ 同时缩放输入量和权重写入量，比例中恰好抵消。
+例如 $U=1\mathrm{K}$ 时，$1\mathrm{K}\times4\mathrm{K}$ 与 $4\mathrm{K}\times1\mathrm{K}$
+两矩阵均写入 4 MiB 权重，输入分别为 4 MiB 与 1 MiB，RI 分别为 $1.0$ 与 $0.250$。
+$1\,\mathrm{MiB}=2^{20}$ Byte。
 
-\textbf{Scope.} One use is one vector evaluation. Per-use reloaded is neither an entire training step nor one load amortized over a multi-vector GEMM. Summed receiver demand is not a runtime prediction obtained by dividing by a single macro's throughput. A future hardware comparison must match the service-unit set, write mode and precision.
+后续 II(b) 沿用此记号与输入边界：同一矩阵阶段的共同源输入只计一次，
+后续矩阵阶段的新输入另计。QKV 与 FFN 用 $U$ 表示权重复用次数；
+Attention 用 $L$ 表示可见序列长度，并按其状态更新窗口累计。
+
+\par\smallskip\noindent\small
+精确字节、原始分数与复算入口见本目录 README 和 data/。
 \end{document}

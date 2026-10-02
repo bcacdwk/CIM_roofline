@@ -1,0 +1,107 @@
+{
+  "schema_version": "step4-delivery-v1",
+  "status": "ready_for_review",
+  "delivery_revision": 1,
+  "owner": "Agent C / Attention",
+  "case_count": 36,
+  "step3_reviewed_HEAD": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+  "shared_reference_id": "WS128-INT8-semantic-banks-v1",
+  "path_base": "table_IIb/03_attention",
+  "paths": {
+    "results": "data/results.json",
+    "pdf": "output/attention.zh.pdf",
+    "tex": "tex/attention.zh.tex",
+    "readme": "README.md",
+    "checks": "data/checks.json",
+    "configuration": "data/config.json",
+    "overview": "OVERVIEW.zh.md",
+    "pdf_qa": "data/pdf_qa.json"
+  },
+  "files": [
+    {
+      "path": "data/results.json",
+      "sha256": "7f552ac50508897407e7856c96221a3a73e2ac28ff5629b512a9f35736875107"
+    },
+    {
+      "path": "data/results.csv",
+      "sha256": "4f2a004da8183c601434b889436744d8b896ce02661e41dfeaf3b05b9b08a5da"
+    },
+    {
+      "path": "data/config.json",
+      "sha256": "f90402ff2e36cf955ed07f8beaa74b9146669db9f3b9e443bcf68c434cf7d519"
+    },
+    {
+      "path": "data/checks.json",
+      "sha256": "1cc430d873328072e061291f2ec7585115d7ff8192b3c9278dbaa650ffaf3b61"
+    },
+    {
+      "path": "data/pdf_qa.json",
+      "sha256": "63210c4728484a0f55c6cb0eb75e12b6ea26d338737169e30aae4d219b049517"
+    },
+    {
+      "path": "output/attention.zh.pdf",
+      "sha256": "263da8ee35fb10cd6420fec5030f3c4d0e5ee758e08b2f8d630e566f2ec553cb"
+    },
+    {
+      "path": "tex/attention.zh.tex",
+      "sha256": "85c4b1298e5453dfdef5593410cb0fad35efd40322e484f23b2b9fe0efb15392"
+    },
+    {
+      "path": "tex/ports.generated.tex",
+      "sha256": "fd6779bf6a33dab942eb19b15d2a287347c03b59d2c7f1822042edc1c9a7850d"
+    },
+    {
+      "path": "tex/operator.generated.tex",
+      "sha256": "6cd7d26890c4e9b0d01b5f0079f66445720e5f00e7d3dced16112ef888b4d377"
+    },
+    {
+      "path": "README.md",
+      "sha256": "af3dbca2ee529664db2f9e1fd5755ca7d4d24a55734205c7dd151c855a8b30c2"
+    },
+    {
+      "path": "OVERVIEW.zh.md",
+      "sha256": "0496cbb9590943a3bca07fe1f39f9519d51fe0cb5441161c1b23085994326e2d"
+    },
+    {
+      "path": "scripts/generate.py",
+      "sha256": "043dc77d983de1df4856b445dd1761d9eaba8172188fc9a1bdbdd68a4b6e86ce"
+    },
+    {
+      "path": "scripts/check.py",
+      "sha256": "e7e6908f491023ed7c7c9fa6873f0aa170c66130b93e541abc3487c7c4a7c1c9"
+    },
+    {
+      "path": "scripts/build.sh",
+      "sha256": "d94287c003d56ff974e0ba0f5c7c14b518e9cf77839c21df33bdcf917664241b"
+    },
+    {
+      "path": "scripts/render.py",
+      "sha256": "c8fa74bd9d0c5a6de7ec44d0def390116029832e7b3aff3623b1aba68ba8f5d9"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "1281b3d9998c12845b79ea5064c1c800a2ee51ffc6d4468dc0dfd043616c66a0"
+    }
+  ],
+  "validation": {
+    "main_cases": 36,
+    "explicit_boundary_cases": 24,
+    "main_length_prefix_deltas": 18,
+    "pilot_regressions": 14,
+    "raw_model_audits": 6,
+    "all_pass": true
+  },
+  "pdf_page_count": 8,
+  "recompute_commands": [
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/03_attention/scripts/generate.py",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/03_attention/scripts/check.py",
+    "TASK2_PYTHON=/opt/anaconda3/bin/python sh tasks/task2_table_II_workloads/table_IIb/03_attention/scripts/build.sh",
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python tasks/task2_table_II_workloads/table_IIb/03_attention/scripts/render.py"
+  ],
+  "notes": [
+    "36 cases regenerated, with full semantic-field regression against 14 overlapping pilot cases",
+    "Ling 128K official extension condition preserved; selected global layers not promoted to whole models",
+    "No shared inputs, raw sources, pilot or Task I files intentionally modified; no Git staging/commit/push/reset/branch changes",
+    "DELIVERY hashes pin this final version; recompilation or any revision requires new DELIVERY and PDF QA"
+  ]
+}

@@ -1,157 +1,217 @@
 #!/usr/bin/env python3
-"""Six static QKV cases. Shared API is the primary calculator, never the oracle."""
+"""Recompute QKV one-load results. Read-only unless --emit is supplied."""
 import argparse
 import csv
 import hashlib
 import io
 import json
+from fractions import Fraction
 from pathlib import Path
-import sys
-sys.dont_write_bytecode = True
 
 HERE = Path(__file__).resolve().parents[1]
-ROOT = HERE.parents[1]
-sys.path.insert(0, str(ROOT / 'shared/scripts'))
-import counting as c
-
-START = 'e472a0d864b8fb9afb14b0c306217a0e5653e122'
-SHORT = ['Qwen3.5-2B', 'Ministral 3 8B', 'Qwen3.6-35B-A3B', 'Hy3 (295B)', 'Ling-1T', 'MiMo-V2.5-Pro']
+TASK = HERE.parents[1]
+import sys
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(TASK / "scripts"))
+from format_results import ri_decimal, count_label
+CROSS = HERE.parent / "04_crosscheck"
 
 
 def read(path):
-    return json.loads((ROOT / path).read_text())
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def sha(path):
-    return hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+def dumps(value):
+    return json.dumps(value, ensure_ascii=False, indent=2) + "\n"
 
 
-def axis(n):
-    full, tail = divmod(n, 128)
-    return dict(full_128_blocks=full, tail_valid_elements=tail, blocks=full + bool(tail))
+def exact(value):
+    value = Fraction(value)
+    return value.numerator if value.denominator == 1 else {
+        "numerator": value.numerator, "denominator": value.denominator}
 
 
-def layout(n, k):
-    nt = c.ceildiv(n, 128) * c.ceildiv(k, 128)
-    return {'matrix_N_K_per_copy': [n, k], 'copies': 1,
-            'output_axis': axis(n), 'input_axis': axis(k),
-            'resident_tiles': nt, 'valid_resident_bytes': n*k,
-            'allocated_tile_bytes': nt*16384}
+def display(value, tex=False):
+    return ri_decimal(value, tex=tex)
 
 
-def make():
-    plan = read('data/study_plan.json')
-    contract = read('shared/data/conventions.json')
-    models = {m['id']: m for m in read('data/models.json')['models']}
-    ids = plan['table_IIb']['columns_model_ids']
-    assert len(ids) == 6
-    assert contract['reference_id'] == 'WS128-INT8-semantic-banks-v1'
-    assert all(v == 1 for v in contract['precision']['role_bytes'].values())
-    assert contract['mapping']['tile_N'] == contract['mapping']['tile_K'] == 128
-    manifest = {'schema_version': '1.0', 'task': 'Task II Step 4 QKV Projection',
-                'shared_reference_id': contract['reference_id'], 'reviewed_step3_and_start_HEAD': START,
-                'model_order': ids, 'tile_N_K': [128, 128], 'precision_role_bytes': contract['precision']['role_bytes'],
-                'primary_boundary': 'ports', 'contrast_boundary': 'operator',
-                'window': 'one input token; weights pre-resident; no weight writes inside window',
-                'scope': 'one selected full/global GQA projection per model; includes native output gate; excludes W_O and KV writes',
-                'models': {}, 'source_files_sha256': {}, 'source_registry_entries': {}}
-    paths = ['data/models.json', 'shared/data/conventions.json', 'shared/scripts/counting.py',
-             'shared/tex/counting_method.zh.tex']
-    registry = {s['local_path']: s for s in read('data/sources.json')}
+def exact_text(value):
+    if isinstance(value, dict):
+        return f'{value["numerator"]}/{value["denominator"]}'
+    return str(value)
+
+
+def configuration(conventions):
+    fixed = read(CROSS / "data/model_inputs.json")["models"]
+    models = {m["id"]: m for m in read(TASK / "data/models.json")["models"]}
+    source_paths = {
+        "scripts/format_results.py": "display-only decimal rounding and K/M labels",
+        "table_IIb/04_crosscheck/CONTRACT.zh.md": "QKV window and shared-stage input rule",
+        "table_IIb/04_crosscheck/data/conventions.json": "schema, sweeps and exact values",
+        "table_IIb/04_crosscheck/data/model_inputs.json": "six fixed model inputs",
+        "table_IIa/data/config.json": "one complete weight load, U served vectors",
+        "data/models.json": "identity, backbone, attention and precision",
+        "data/sources.json": "official source URLs, revisions and hashes",
+    }
+    output_models = []
+    for item in fixed:
+        original = models[item["model_id"]]
+        model = {k: item[k] for k in ["model_id", "display_name", "model_revision", "selected_layer"]}
+        model["parameters"] = {k: item[k] for k in ["D", "H_q", "H_kv", "d_QK", "d_V", "D_g"]}
+        model["parameters"].update({"N_Q": item["H_q"]*item["d_QK"], "N_G": item["D_g"],
+                                    "N_K": item["H_kv"]*item["d_QK"], "N_V": item["H_kv"]*item["d_V"]})
+        model["parameters"]["N_proj"] = sum(model["parameters"][f"N_{j}"] for j in ["Q", "G", "K", "V"])
+        dtype = original["precision"]["checkpoint_declared_dtype"]
+        model["context_notes"] = ["Selected layer is full/global causal GQA; layer index starts at 0.",
+                                  f"Checkpoint declared dtype: {dtype}; counted logical elements use 1 Byte each.",
+                                  "Native projection packing does not add duplicate logical Q/G/K/V weights."]
+        if item["model_id"] == "mimo_v25_pro":
+            model["context_notes"].append("Native checkpoint uses mixed FP8 E4M3; the declared default floating dtype does not describe every weight.")
+        model["source_paths"] = []
+        for key, locator in [("structure_card", "投影与 FFN 矩阵；层号从 0 起"),
+                             ("raw_config", "hidden_size, num_attention_heads, num_key_value_heads, head_dim, v_head_dim/attn_output_gate"),
+                             ("implementation", "Attention constructor and Q/G/K/V projection split")]:
+            path = item["local_material"][key]
+            source_paths[path] = locator
+            model["source_paths"].append(path)
+        output_models.append(model)
+    return {
+        "schema_version": conventions["schema_version"],
+        "reference_id": conventions["reference_id"],
+        "boundary": conventions["boundary"],
+        "element_bytes": 1,
+        "model_order": conventions["model_order"],
+        "sweeps": {"qkv_projection": conventions["sweeps"]["qkv_projection"]},
+        "window_rules": {"qkv_projection": {
+            "initial_state": "所选 Q、可选 G、K、V 权重尚未装载，有效容量为 0 Byte。",
+            "resident_write_rule": "全部所选投影权重完整写入一次，共 D*N_proj Byte；末态保留这些权重；U→∞ 时写入量仍为该有限值。",
+            "streaming_input_rule": "同一阶段的 X[u,d] 由 Q、可选 G、K、V 共享，汇总只计一次，共 U*D Byte；U 是这次装载实际服务的向量总数。"
+        }},
+        "models": output_models,
+        "sources": [{"path": p, "sha256": hashlib.sha256((TASK / p).read_bytes()).hexdigest(),
+                     "locator": loc} for p, loc in source_paths.items()],
+    }
+
+
+def compute(config):
     cases = []
-    for mid in ids:
-        m = models[mid]; a = m['attention']; D = m['backbone']['hidden_size']
-        shapes = {'Q': a['weight_shapes_N_K']['q_logical']}
-        if a['output_gate']:
-            shapes['G'] = a['weight_shapes_N_K']['q_output_gate_logical']
-        shapes.update(K=a['weight_shapes_N_K']['k'], V=a['weight_shapes_N_K']['v'])
-        result = c.qkv(D, a['query_heads'], a['kv_heads'], a['qk_head_dim'], a['v_head_dim'],
-                       gate_width=shapes.get('G', [0])[0])
-        for name, (n, k) in shapes.items():
-            result['parts'][name]['layout'] = layout(n, k)
-            result['parts'][name]['window'] = {'input_vectors': 1, 'full_weight_loads': 0}
-        result['capacity'] = {key: sum(p['layout'][key] for p in result['parts'].values())
-                              for key in ['valid_resident_bytes', 'allocated_tile_bytes', 'resident_tiles']}
-        result['capacity']['meaning'] = 'final state capacity; distinct from cumulative Q_R and from physical encoded capacity'
-        layer = m['backbone']['selected_layer_index_zero_based']
-        cases.append({'case_id': f'{mid}/qkv_projection/one_token', 'model_id': mid,
-                      'row': 'qkv_projection', 'L': None, 'model_revision': m['identity']['revision'],
-                      'selected_layer': layer, 'shared_reference_id': contract['reference_id'], 'result': result})
-        manifest['models'][mid] = {'display_name': m['display_name'], 'identity': m['identity'],
-                                  'selected_layer': layer, 'layer_type': m['backbone']['selected_layer_type'],
-                                  'D': D, 'Hq': a['query_heads'], 'Hkv': a['kv_heads'],
-                                  'dqk': a['qk_head_dim'], 'dv': a['v_head_dim'],
-                                  'output_gate': a['output_gate'], 'native_projection_layout': a['projection_layout'],
-                                  'semantic_shapes_N_K': shapes, 'native_weight_shapes_N_K': a['weight_shapes_N_K'],
-                                  'native_precision': m['precision'], 'attention_evidence': a['evidence'],
-                                  'local_material': m['local_material']}
-        local = m['local_material']
-        paths += [local[key] for key in ['raw_config', 'implementation', 'structure_card']]
-        paths.append(str(Path(local['raw_config']).with_name('hf_metadata.json')))
-    paths.append('literature/02_ministral3_8b/raw/params.json')
-    for path in sorted(set(paths)):
-        manifest['source_files_sha256'][path] = sha(path)
-        if path in registry:
-            manifest['source_registry_entries'][path] = registry[path]
-    return manifest, c.encode({'schema_version': '1.0', 'cases': cases})
+    for model in config["models"]:
+        p = model["parameters"]
+        d = p["D"]
+        widths = [("Q", p["H_q"] * p["d_QK"])]
+        if p["D_g"]:
+            widths.append(("G", p["D_g"]))
+        widths.extend([("K", p["H_kv"] * p["d_QK"]),
+                       ("V", p["H_kv"] * p["d_V"])])
+        n_proj = sum(n for _, n in widths)
+        for b in config["sweeps"]["qkv_projection"]["U"]:
+            limit = b == "infinity"
+            components = [{
+                "id": name, "shape_N_K": [n, d], "state_copies": 1,
+                "input_role": "shared_projection_input_X",
+                "Q_S": "infinity" if limit else b * d,
+                "Q_R": d * n,
+                "RI": "infinity" if limit else exact(Fraction(b, n)),
+                "resident_bytes_initial": 0, "resident_bytes_final": d * n,
+            } for name, n in widths]
+            cases.append({
+                "case_id": f'{model["model_id"]}/qkv_projection/{b}',
+                "model_id": model["model_id"], "model_revision": model["model_revision"],
+                "selected_layer": model["selected_layer"], "workload": "qkv_projection",
+                "kind": "limit" if limit else "finite", "U": b, "L": None,
+                "parameters": dict(p),
+                "window": dict(config["window_rules"]["qkv_projection"]),
+                "result": {
+                    "Q_S": "infinity" if limit else b * d,
+                    "Q_R": d * n_proj,
+                    "RI": "infinity" if limit else exact(Fraction(b, n_proj)),
+                    "resident_bytes_initial": 0, "resident_bytes_final": d * n_proj,
+                    "shared_input_bytes_removed": "infinity" if limit else (len(widths) - 1) * b * d,
+                },
+                "components": components,
+            })
+    return {"schema_version": config["schema_version"], "reference_id": config["reference_id"],
+            "boundary": config["boundary"], "model_order": config["model_order"],
+            "workload_ids": ["qkv_projection"], "cases": cases}
 
 
-def tables(config, data):
-    totals = [r'\begin{tabular}{@{}lrrrr@{}}\toprule',
-              r'模型 & $Q_S^{\rm ports}$ (Byte) & $Q_S^{\rm op}$ (Byte) & 调用 / tile & 容量 (MiB)\\\midrule']
-    parts = [r'\begin{tabular}{@{}llrrr@{}}\toprule',
-             r'模型 & 分项 & $Q_S^{\rm ports}$ (Byte) & 调用 / tile & 容量 (MiB)\\\midrule']
-    shapes = [r'\begin{tabular}{@{}lrrrrl@{}}\toprule',
-              r'模型 / 层 & $D$ & $H_q/H_{kv}$ & $d_{QK}/d_V$ & $G$ 宽 & $N_Q,N_G,N_K,N_V$\\\midrule']
-    md = ['# 六模型 QKV 概览', '', '一个 token，权重预驻留；所有分项和汇总在 ports/operator 两边界均为 Q_R=0、RI=∞。', '',
-          '| 模型 | 层 (0 起) | Q/G/K/V 输出宽度（无 G 用 —） | ports Q_S (Byte) | operator Q_S (Byte) | 调用 / resident tiles | 有效/分配容量 (Byte) |',
-          '|---|---:|---|---:|---:|---:|---:|']
-    for label, record in zip(SHORT, data['cases']):
-        r = record['result']; m = config['models'][record['model_id']]
-        cap = r['capacity']['valid_resident_bytes']
-        assert cap % 1048576 == 0
-        totals.append(f"{label} & {r['ports']['Q_S']:,} & {r['operator']['Q_S']:,} & {r['ports']['tile_evaluations']:,} & {cap//1048576}" + r'\\')
-        widths = [str(m['semantic_shapes_N_K'][j][0]) if j in m['semantic_shapes_N_K'] else '-' for j in ['Q','G','K','V']]
-        shapes.append(f"{label} / {record['selected_layer']} & {m['D']} & {m['Hq']}/{m['Hkv']} & {m['dqk']}/{m['dv']} & {widths[1]} & " + ', '.join(widths) + r'\\')
-        md.append(f"| {m['display_name']} | {record['selected_layer']} | {' / '.join(widths)} | {r['ports']['Q_S']} | {r['operator']['Q_S']} | {r['ports']['tile_evaluations']} | {cap} / {r['capacity']['allocated_tile_bytes']} |")
-        for i, (name,p) in enumerate(r['parts'].items()):
-            parts.append(f"{label if i==0 else ''} & {name} & {p['ports']['Q_S']:,} & {p['ports']['tile_evaluations']:,} & {p['layout']['valid_resident_bytes']//1048576}" + r'\\')
-        parts.append(r'\addlinespace[3pt]')
-    for table in [totals, parts, shapes]: table.append(r'\bottomrule\end{tabular}')
-    md += ['', 'MiMo 的 Q/K 输出宽度为 24576/1536；虽然 head_dim=192，各语义投影 N 与输入 D 均整除 128，QKV 行没有半宽尾片。', '',
-           '每个分项的 operator 输入都是同一 D 维 x 的独立入口；汇总按输入身份去重为 D Byte。', '',
-           '[精确 JSON](data/results.json) · [CSV](data/results.csv) · [中文研究稿](output/pdf/qkv.zh.pdf) · [独立检查](data/checks.json)', '']
-    return {'tex/totals.generated.tex': '\n'.join(totals)+'\n',
-            'tex/parts.generated.tex': '\n'.join(parts)+'\n',
-            'tex/shapes.generated.tex': '\n'.join(shapes)+'\n', 'OVERVIEW.zh.md': '\n'.join(md)}
+def csv_text(results, conventions):
+    stream = io.StringIO(newline="")
+    writer = csv.DictWriter(stream, fieldnames=conventions["csv_columns"], lineterminator="\n")
+    writer.writeheader()
+    for case in results["cases"]:
+        for part in [{"id": "total", **case["result"]}] + case["components"]:
+            row = {k: case[k] for k in ["case_id", "model_id", "model_revision", "selected_layer", "workload", "kind", "U", "L"]}
+            row.update({"component": part["id"], "N": part.get("shape_N_K", ["", ""])[0],
+                        "K": part.get("shape_N_K", ["", ""])[1], "state_copies": part.get("state_copies", ""),
+                        "Q_S_Byte": part["Q_S"], "Q_R_Byte": part["Q_R"],
+                        "RI_exact": "infinity" if part["RI"] == "infinity" else exact_text(part["RI"]),
+                        "resident_initial_Byte": part["resident_bytes_initial"],
+                        "resident_final_Byte": part["resident_bytes_final"],
+                        "shared_input_removed_Byte": part.get("shared_input_bytes_removed", "")})
+            writer.writerow(row)
+    return stream.getvalue()
 
 
-def outputs():
-    config, data = make()
-    files = tables(config, data)
-    files['data/config.json'] = json.dumps(config, ensure_ascii=False, indent=2)+'\n'
-    files['data/results.json'] = json.dumps(data, ensure_ascii=False, indent=2)+'\n'
-    out = io.StringIO(); w = csv.writer(out, lineterminator='\n')
-    w.writerow(['case_id','component','boundary','Q_S_Byte','Q_R_Byte','RI','tile_evaluations','valid_resident_Byte','allocated_tile_Byte','resident_tiles'])
-    for r in data['cases']:
-        for name,p in [('total',r['result']), *r['result']['parts'].items()]:
-            cap = p.get('capacity', p.get('layout'))
-            for b in ['ports','operator']:
-                d=p[b]
-                w.writerow([r['case_id'], name, b, *[d[k] for k in ['Q_S','Q_R','RI','tile_evaluations']],
-                            *[cap[k] for k in ['valid_resident_bytes','allocated_tile_bytes','resident_tiles']]])
-    files['data/results.csv'] = out.getvalue()
-    return files
+def table_models(config):
+    lines = [r"\ModelTableSetup", r"\begin{tabularx}{\linewidth}{@{}p{0.32\linewidth}*{7}{>{\centering\arraybackslash}X}@{}}", r"\toprule",
+             r"模型 & 层号 & $D$ & $N_Q$ & $N_G$ & $N_K$ & $N_V$ & $N_{\rm proj}$ \\", r"\midrule"]
+    for m in config["models"]:
+        p = m["parameters"]
+        q, g, k, v = (p[f"N_{j}"] for j in ["Q", "G", "K", "V"])
+        lines.append(" & ".join(map(str, [m["display_name"], m["selected_layer"], p["D"], q, g, k, v, q+g+k+v])) + r" \\")
+    lines.extend([r"\bottomrule", r"\end{tabularx}"])
+    return "\n".join(lines) + "\n"
+
+
+def table_results(config, results):
+    lines = [r"\ResultTableSetup", r"\begin{tabularx}{\linewidth}{@{}p{0.32\linewidth}*{5}{>{\centering\arraybackslash}X}@{}}", r"\toprule",
+             r"模型 & $U=1$ & $U=1\mathrm{K}$ & $U=128\mathrm{K}$ & $U=1\mathrm{M}$ & $U\to\infty$ \\", r"\midrule"]
+    for m in config["models"]:
+        cases = [c for c in results["cases"] if c["model_id"] == m["model_id"]]
+        lines.append(m["display_name"] + " & " + " & ".join("$" + display(c["result"]["RI"], True) + "$" for c in cases) + r" \\")
+    lines.extend([r"\bottomrule", r"\end{tabularx}"])
+    return "\n".join(lines) + "\n"
+
+
+def preview(config, results):
+    lines = ["# QKV 投影的输入复用与 RI", "", "## 对象与公式", "", "固定一层完整／全局 GQA；Q、可选 G、K、V 权重完整装载一次，累计服务 U 个向量（复用次数 reuse count，包含首次使用，可跨多个 batch/请求）。每元素 1 Byte，同阶段输入共享一次。", "",
+             "Q_S = UD；Q_R = D N_proj；RI = U/N_proj。N_proj = H_q d_QK + D_g + H_kv(d_QK+d_V)。", "",
+             "## 模型信息", "",
+             "| 模型 | 层号（0 起） | D | Q/G/K/V 输出宽度 | N_proj |", "|---|---:|---:|---|---:|"]
+    for m in config["models"]:
+        c = next(c for c in results["cases"] if c["model_id"] == m["model_id"])
+        widths = "/".join(str(c["parameters"].get(f"N_{p}", 0)) for p in ["Q", "G", "K", "V"])
+        lines.append(f'| {m["display_name"]} | {m["selected_layer"]} | {m["parameters"]["D"]} | {widths} | {c["parameters"]["N_proj"]} |')
+    lines += ["", "## 代入结果", "", "1K=1024，1M=1024²。RI≥1 保留一位小数，RI<1 保留三位有效数字；精确值见机器数据。", "", "| 模型 | U=1 | U=1K | U=128K | U=1M | U→∞ |", "|---|---:|---:|---:|---:|---:|"]
+    for m in config["models"]:
+        ri = [display(c["result"]["RI"]) for c in results["cases"] if c["model_id"] == m["model_id"]]
+        lines.append("| " + m["display_name"] + " | " + " | ".join(ri) + " |")
+    lines += ["", "## 结果说明", "", "无穷列为复用极限：Q_S 与 RI 无界增长，Q_R 仍为有限的一次权重写入量。Hy3 与 Ling 的 N_proj 均为 10240，因此各档 RI 相同；D 的差别会改变绝对输入和权重字节。", "", "中文正文及一条完整数字代入见 [PDF](output/report.zh.pdf)。精确字节、分项、窗口和来源见 data/；本预览由 generate.py 生成。", ""]
+    return "\n".join(lines)
 
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('--emit',action='store_true'); args=p.parse_args()
-    files=outputs()
-    for name, content in files.items():
-        path=HERE/name
-        if args.emit: path.write_text(content)
-        else: assert path.read_text()==content, f'stale artifact: {name}'
-    print(f'PASS: six QKV cases, 20 semantic matrices, {len(files)} generated artifacts')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--emit", action="store_true")
+    args = parser.parse_args()
+    conventions = read(CROSS / "data/conventions.json")
+    config = configuration(conventions)
+    results = compute(config)
+    outputs = {"data/config.json": dumps(config), "data/results.json": dumps(results),
+               "data/results.csv": csv_text(results, conventions),
+               "tex/models.generated.tex": table_models(config),
+               "tex/results.generated.tex": table_results(config, results),
+               "PREVIEW.zh.md": preview(config, results)}
+    for name, content in outputs.items():
+        path = HERE / name
+        if args.emit:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content, encoding="utf-8")
+        elif not path.exists() or path.read_text(encoding="utf-8") != content:
+            raise SystemExit(f"STALE: {path}; use --emit to refresh")
+    print("PASS: 24 finite cases + 6 symbolic limits; generated artifacts " + ("written" if args.emit else "match"))
 
 
-if __name__=='__main__': main()
+if __name__ == "__main__":
+    main()

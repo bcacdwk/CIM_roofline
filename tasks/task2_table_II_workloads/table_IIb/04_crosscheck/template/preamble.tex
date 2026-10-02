@@ -1,0 +1,30 @@
+\documentclass[UTF8,11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=20mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,tabularx,enumitem,setspace,xcolor,hyperref,xurl,fancyhdr}
+\setstretch{1.08}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{15pt}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.2}
+\setlist{nosep,leftmargin=2em}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black}
+\providecommand{\WorkloadName}{工作负载}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Table II(b)：算子级 RI}
+\fancyhead[R]{\small\WorkloadName}
+\fancyfoot[C]{\thepage}
+\newcommand{\qs}{Q_{\mathrm S}}
+\newcommand{\qr}{Q_{\mathrm R}}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\para}[1]{\par\smallskip\noindent\textbf{#1}\quad}
+\newcommand{\ModelTableSetup}{\renewcommand{\arraystretch}{1.2}\setlength{\tabcolsep}{4pt}}
+\newcommand{\ResultTableSetup}{\renewcommand{\arraystretch}{1.45}\setlength{\tabcolsep}{4pt}}
+\newcommand{\DisplayNote}{\par\smallskip{\noindent\footnotesize $1\mathrm{K}=1024$，$1\mathrm{M}=1024^2$。RI 至少为 1 时保留一位小数，小于 1 时保留三位有效数字；精确值见机器数据。\par}\smallskip}
+\author{}\date{2026 年 10 月 2 日}
+
+% Compact, identical title block keeps the mathematical introduction on one page.
+\makeatletter
+\renewcommand{\maketitle}{\thispagestyle{plain}\begin{center}
+{\LARGE\bfseries\@title\par}\vspace{8pt}{\normalsize\@date\par}
+\end{center}\vspace{3pt}}
+\makeatother

@@ -1,0 +1,29 @@
+\textbf{预填充（Prefill）的 $\RI$：空 KV 建到 $L$}\par\smallskip
+\ResultTableSetup
+\begin{tabularx}{\linewidth}{@{}p{0.32\linewidth}*{3}{>{\centering\arraybackslash}X}@{}}
+\toprule
+模型 & $L=1\mathrm{K}$ & $L=8\mathrm{K}$ & $L=64\mathrm{K}$\\
+\midrule
+Qwen3.5-2B & $6.0$ & $34.0$ & $258.0$\\
+Ministral 3 8B (2512) & $10.0$ & $66.0$ & $514.0$\\
+Qwen3.6-35B-A3B & $12.0$ & $68.0$ & $516.0$\\
+Tencent Hy3 (295B) & $20.0$ & $132.0$ & $1028.0$\\
+Ling-1T & $20.0$ & $132.0$ & $1028.0$\\
+MiMo-V2.5-Pro & $35.2$ & $214.4$ & $1648.0$\\
+\bottomrule
+\end{tabularx}
+\par\bigskip
+\textbf{单步解码（Decode）的 $\RI$：已有 $L-1$，追加一个}\par\smallskip
+\ResultTableSetup
+\begin{tabularx}{\linewidth}{@{}p{0.32\linewidth}*{3}{>{\centering\arraybackslash}X}@{}}
+\toprule
+模型 & $L=1\mathrm{K}$ & $L=8\mathrm{K}$ & $L=64\mathrm{K}$\\
+\midrule
+Qwen3.5-2B & $10.0$ & $66.0$ & $514.0$\\
+Ministral 3 8B (2512) & $18.0$ & $130.0$ & $1026.0$\\
+Qwen3.6-35B-A3B & $20.0$ & $132.0$ & $1028.0$\\
+Tencent Hy3 (295B) & $36.0$ & $260.0$ & $2052.0$\\
+Ling-1T & $36.0$ & $260.0$ & $2052.0$\\
+MiMo-V2.5-Pro & $60.8$ & $419.2$ & $3286.4$\\
+\bottomrule
+\end{tabularx}

@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "date": "2026-09-25",
+  "pdf": "output/ffn_moe.zh.pdf",
+  "sha256": "7a7a439b3c05684e1f7fe9cfc7c2fe3bbb28a8d1aeff67a279d74d92799d21ac",
+  "pages": 4,
+  "renderer": "pypdfium2, scale=1.5; all final pages viewed as PNGs",
+  "visual_inspection": "All four final rendered pages inspected after adding the complete Qwen3.6 B=8 worked example; no clipping, overlap, missing glyphs or unreadable tables/formulas.",
+  "page_reviews": [
+    {
+      "page": 1,
+      "pass": true,
+      "note": "六模型D/F、层号、对象与容量/shape表清晰，固定口径正文无裁切。",
+      "render_sha256": "399220a190f15458b7cb79ee36e27bdb3231a8887aa98e6429f80e6b89d7e9b7"
+    },
+    {
+      "page": 2,
+      "pass": true,
+      "note": "三矩阵分项、输入共享扣除、B/128抵消及全工况系数表可读。",
+      "render_sha256": "0e35c96d4ae0496c6265b27a8aace7d7c6273eabd87ceaa1c14affdd6a6500d9"
+    },
+    {
+      "page": 3,
+      "pass": true,
+      "note": "新增Qwen3.6 B=8从矩阵、tile、分项字节与调用到双边界RI的完整数字例；精确operator表、粒度与转置对照均清晰，无裁切。",
+      "render_sha256": "42e2dde5cb31ae12a472d88a330313bb46b8e6d72dc1bbcd00bfcf5364777dfd"
+    },
+    {
+      "page": 4,
+      "pass": true,
+      "note": "六个固定revision链接、源码定位、独立复算说明与复现命令无溢出。",
+      "render_sha256": "086906b468030768aa3d04b0be01bf8134632b71c9af6564b5389458af4cb2e7"
+    }
+  ],
+  "latex_log": {
+    "overfull": 0,
+    "underfull": 0,
+    "missing_glyphs": 0,
+    "undefined_references": 0
+  },
+  "source_sha256": {
+    "tex/demand.generated.tex": "c3b4daad349fb8551c22f4199d4112886e1e67e4f644c3ee8864fc04d72df31c",
+    "tex/ffn_moe.zh.tex": "5a652f8c35105066ab298f57958f591b82713c7c731d94e41004d9191767db8d",
+    "tex/operator_ri.generated.tex": "fb36367eeee83b2d6b06a7033618fb9c5f16a138c0df5231ebf713993706bb8d",
+    "tex/overview.generated.tex": "c902cbe4eeef055aedc8f9da2f89c78355cf7a9213934e0f36b96daf3e6ea8f1",
+    "tex/shapes.generated.tex": "70fd978062da696389bb86074a92c78ce54fb5b13ea4c8fbc695077b77bc79fd"
+  }
+}

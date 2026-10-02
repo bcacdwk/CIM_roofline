@@ -1,0 +1,19 @@
+% Copy into your own tex/report.zh.tex. Keep the shared preamble and section order.
+\input{../../04_crosscheck/template/preamble.tex}
+\renewcommand{\WorkloadName}{填写本类名称}
+\title{\bfseries\WorkloadName 的输入复用与 RI}
+\begin{document}
+\maketitle
+\section{对象与公式}
+% 窗口、输入/驻留角色；核心Q_S、Q_R、RI。不得引入硬件分块。
+\section{模型信息}
+\begin{center}\small\input{models.generated.tex}\end{center}
+\section{代入结果}
+\begin{center}\small\input{results.generated.tex}\end{center}
+\DisplayNote
+% 最多一条简短完整数字代入。
+\section{结果说明}
+% 至多三个短段，只解释本表结果。
+\par\smallskip\noindent\small
+固定模型来源、精确字节及复算记录见本目录 README 与 data/；数学入口为 Table II(a)。
+\end{document}

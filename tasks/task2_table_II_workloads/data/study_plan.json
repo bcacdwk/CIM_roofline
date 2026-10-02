@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "status": "Step 3已通过；Step 4完成，待用户审阅",
-  "as_of": "2026-09-25",
+  "status": "II(a)已认可；II(b)中文算子级重写完成，待审阅",
+  "as_of": "2026-09-29",
   "checkpoint_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "actual_start_head": "81b7c332c20b9b5be6890256e9cf0d3edab12785",
   "scope": "resident–streaming CIM Roofline; language-backbone matrix sublayers only",
@@ -29,26 +29,283 @@
     "not_automatically_compatible_with_model_native_precision": true
   },
   "parameters": {
-    "B": [
-      8,
-      64,
-      512
+    "U_ffn": [
+      1,
+      16,
+      128,
+      1024,
+      16384
     ],
-    "B_definition": "同一份FFN／单路由专家权重一次驻留期间实际服务的输入向量总数；不是批次数，不自动等于全局batch size",
+    "U_qkv": [
+      1,
+      1024,
+      131072,
+      1048576,
+      "infinity"
+    ],
+    "U_definition": "U: reuse count, cumulative input vectors served after one complete weight load, including the first use; may span batches/requests",
     "L_tokens": [
       1024,
-      16384,
-      131072
+      8192,
+      65536
     ],
     "L_labels": [
       "1K",
-      "16K",
-      "128K"
+      "8K",
+      "64K"
     ],
     "K_in_L_labels": 1024,
-    "scan": "B only for FFN/MoE; L only for Attention rows; no B×L Cartesian product"
+    "M_in_U_labels": 1048576,
+    "scan": "U for projections/FFN; L for Attention; no U x L Cartesian product"
   },
   "table_IIa": {
+    "purpose": "operator-level RI for one complete weight load and U served vectors, before hardware partitioning",
+    "reference_id": "OPERATOR-RESIDENCY-v2",
+    "primary_boundary": "operator",
+    "operation": "Y = X W^T; X:[U,K], W:[N,K], Y:[U,N]",
+    "complete_weight_loads": 1,
+    "formula": "RI=U/N for equal input and weight bytes",
+    "matrix_cases_N_K": [
+      [
+        128,
+        128
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        4096,
+        4096
+      ],
+      [
+        1024,
+        4096
+      ],
+      [
+        4096,
+        1024
+      ]
+    ],
+    "U_values": [
+      1,
+      128,
+      1024,
+      16384,
+      131072,
+      1048576,
+      "infinity"
+    ],
+    "cell_fields": [
+      "RI"
+    ],
+    "element_bytes": {
+      "input": 1,
+      "weight": 1
+    },
+    "limit_interpretation": "U->infinity is the asymptotic one-load reuse limit: Q_S and RI diverge while Q_R remains N*K*b_w. It is not a finite batch or a record with zero in-window writes.",
+    "build": "Chinese formula + 5x7 decimal RI table; exact Python counts retained",
+    "local_configuration": "../table_IIa/data/config.json",
+    "historical_reference": "historical_table_IIa_step2; table_IIa/history/ports_v1/"
+  },
+  "table_IIb": {
+    "purpose": "operator-stage model workloads; Chinese formula / native model table / substitution results",
+    "columns_model_ids": [
+      "qwen35_2b",
+      "ministral3_8b_2512",
+      "qwen36_35b_a3b",
+      "hy3_295b",
+      "ling_1t",
+      "mimo_v25_pro"
+    ],
+    "columns_display_names": [
+      "Qwen3.5-2B",
+      "Ministral 3 8B (2512)",
+      "Qwen3.6-35B-A3B",
+      "Tencent Hy3 (295B)",
+      "Ling-1T",
+      "MiMo-V2.5-Pro"
+    ],
+    "rows": [
+      {
+        "id": "qkv_projection",
+        "label": "QKV Projection",
+        "window": "one complete weight load then U input vectors",
+        "sweep": "U_qkv"
+      },
+      {
+        "id": "ffn_or_moe",
+        "label": "FFN / MoE",
+        "window": "one complete load of one dense FFN or routed expert then U inputs",
+        "sweep": "U_ffn"
+      },
+      {
+        "id": "attention_prefill",
+        "label": "Attention Prefill",
+        "window": "empty KV to L causal tokens",
+        "sweep": "L"
+      },
+      {
+        "id": "attention_decode",
+        "label": "Attention Decode",
+        "window": "L-1 KV tokens, append one and evaluate visible L",
+        "sweep": "L"
+      }
+    ],
+    "main_table_priority": "decimal RI; U/L follow fixed sweep order",
+    "working_data_fields": [
+      "Q_S",
+      "Q_R",
+      "RI",
+      "configuration",
+      "derivation"
+    ],
+    "build": "2026-10-02 revision complete: 90 finite cases + 6 limits, 262 components; decimal displays and exact machine values; pending user review",
+    "primary_boundary": "operator_stage",
+    "reference_id": "operator-workloads"
+  },
+  "selection_rules": [
+    "Keep the six models in fixed order; no substitution or ranking.",
+    "Language backbone only; exclude vision/audio encoders.",
+    "For hybrid architectures select native full GQA, not linear Attention, Mamba or MLA.",
+    "Use full/global GQA where global and sliding-window attention coexist.",
+    "Preserve native heads and actual QK/V dimensions; do not force GQA-8.",
+    "Record actual layer topology; selected sublayer is not the entire model.",
+    "Residency, U and L are study scenarios, not claimed execution facts from model reports."
+  ],
+  "stages": [
+    {
+      "step": 1,
+      "title": "固定六模型及资料",
+      "status": "已通过",
+      "reviewed_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9"
+    },
+    {
+      "step": 2,
+      "title": "共享方法与通用端点",
+      "status": "已通过",
+      "reviewed_revision": "2eb7e7c59242c675594537002cc1316131be9226"
+    },
+    {
+      "step": 3,
+      "title": "少量真实模型试算",
+      "status": "已通过",
+      "reviewed_revision": "e472a0d864b8fb9afb14b0c306217a0e5653e122"
+    },
+    {
+      "step": 4,
+      "title": "分类并行分析",
+      "status": "完成，待用户审阅"
+    },
+    {
+      "step": 5,
+      "title": "统一复核和英文表格",
+      "status": "未启动"
+    }
+  ],
+  "step1_exclusions": [
+    "scenario Q_S/Q_R/RI computations",
+    "final TeX tables",
+    "full training modeling",
+    "hardware pairing or performance partitioning",
+    "end-to-end performance, accuracy or hardware simulation",
+    "weights download or model execution"
+  ],
+  "start_head_field_scope": "checkpoint_head and actual_start_head above are preserved Step 1 history",
+  "step2": {
+    "reviewed_step1_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9",
+    "actual_start_head": "d60bc32ff83f1ab48cae0ffd106ebd9df46940d0",
+    "initial_worktree": "clean",
+    "status": "已通过",
+    "reference_id": "WS128-INT8-semantic-banks-v1",
+    "conventions": "../shared/data/conventions.json",
+    "method_pdf": "../shared/output/counting_method.zh.pdf",
+    "table_IIa_data": "../table_IIa/history/ports_v1/data/results.json",
+    "table_IIa_pdf": "../table_IIa/history/ports_v1/output/table_IIa.pdf",
+    "table_IIb_model_results": "Step 2 historical scope: not started; Step 3 pilot status recorded separately",
+    "reviewed_revision": "2eb7e7c59242c675594537002cc1316131be9226"
+  },
+  "step2_reference": {
+    "streaming_precision": "INT8 logical reference, 1 Byte/element; role widths retained symbolically",
+    "resident_weight_precision": "INT8 logical reference, 1 Byte/element",
+    "KV_precision": "INT8 logical reference, 1 Byte/element for K and V separately",
+    "attention_coefficient_precision": "nonnegative subset of signed INT8, 1 Byte/element; re-quantized after softmax",
+    "mapping_and_counting_rules": "128x128 independent semantic-matrix tile banks; ports primary, operator-stage shared-input frontier contrast; fixed residency and causal prefix append",
+    "native_precision_records": "models.json unchanged; the selected INT8 reference is not an accuracy claim"
+  },
+  "step3": {
+    "status": "已通过",
+    "actual_start_head": "2eb7e7c59242c675594537002cc1316131be9226",
+    "initial_worktree": "clean",
+    "reference_id": "WS128-INT8-semantic-banks-v1",
+    "full_pilot_models": [
+      "ministral3_8b_2512",
+      "qwen36_35b_a3b"
+    ],
+    "spot_check": {
+      "model": "mimo_v25_pro",
+      "L": 1024,
+      "rows": [
+        "attention_prefill",
+        "attention_decode"
+      ]
+    },
+    "main_case_count": 22,
+    "boundary_check_L": [
+      1,
+      127,
+      128,
+      129
+    ],
+    "step1_step2_changes": "none; raw structure and independent tile/event checks support existing reference",
+    "pilot_root": "../../archived/task2_table_IIb_previous/pilot/",
+    "review": "../../archived/task2_table_IIb_previous/STEP3_REVIEW.zh.md",
+    "stop": "Historical Step 3 stop; passed review, current work is recorded in step4",
+    "reviewed_revision": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+    "record_scope": "historical ports-based work; files moved to tasks/archived/task2_table_IIb_previous/"
+  },
+  "step4": {
+    "status": "完成，待用户审阅",
+    "actual_start_head": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
+    "initial_worktree": "clean",
+    "reference_id": "WS128-INT8-semantic-banks-v1",
+    "coordination": "../../archived/task2_table_IIb_previous/STEP4_COORDINATION.zh.md",
+    "planned_case_counts": {
+      "qkv_projection": 6,
+      "ffn_or_moe": 18,
+      "attention_prefill": 18,
+      "attention_decode": 18
+    },
+    "total_unique_cases": 60,
+    "pilot_overlap": 22,
+    "step5": "not started",
+    "internal_review": "passed; not user approval",
+    "total_matrix_parts": 146,
+    "independent_cases_verified": 60,
+    "pilot_overlaps_verified": 22,
+    "pilot_existing_semantic_differences": 0,
+    "delivery_revisions": {
+      "01_qkv_projection": 2,
+      "02_ffn_moe": 2,
+      "03_attention": 1,
+      "04_crosscheck": 1
+    },
+    "category_pdf_pages": [
+      4,
+      4,
+      8
+    ],
+    "unified_data": "../../archived/task2_table_IIb_previous/04_crosscheck/data/results.json",
+    "unified_csv": "../../archived/task2_table_IIb_previous/04_crosscheck/data/results.csv",
+    "research_preview": "../../archived/task2_table_IIb_previous/04_crosscheck/PREVIEW.zh.md",
+    "independent_review": "../../archived/task2_table_IIb_previous/04_crosscheck/REVIEW.zh.md",
+    "review": "../../archived/task2_table_IIb_previous/STEP4_REVIEW.zh.md",
+    "baseline_changes": "none; shared/model/pilot/IIa/Task I/main paper unchanged",
+    "blocking_issues": [],
+    "stop": "Step 4 complete, await user review; Step 5 not started",
+    "record_scope": "historical ports-based work; files moved to tasks/archived/task2_table_IIb_previous/"
+  },
+  "historical_table_IIa_step2": {
     "purpose": "model-independent residency endpoints",
     "rows": [
       {
@@ -94,7 +351,17 @@
     "build": "completed: independent English TeX/PDF; fragment and JSON generated from script",
     "primary_boundary": "ports"
   },
-  "table_IIb": {
+  "table_IIa_rewrite": {
+    "status": "中文、U扫描与小数显示修订完成，待用户审阅",
+    "date": "2026-10-02",
+    "start_HEAD": "1c0513c2d8c40c711fcfa628e5361022d08587d6",
+    "reason": "user requested complete hardware-unmapped rewrite after discussing U/N and load windows",
+    "reference_id": "OPERATOR-RESIDENCY-v2",
+    "scope": "II(a) and current II(b) notation/display/sweeps",
+    "step5_started": false,
+    "final_design": "RI=U/N; five shapes x U=1,128,1K,16K,128K,1M,infinity"
+  },
+  "historical_table_IIb_step4": {
     "purpose": "native matrix-stage inference scenarios",
     "columns_model_ids": [
       "qwen35_2b",
@@ -154,143 +421,59 @@
     ],
     "build": "Step 4 research deliverables complete: 60 unique cases / 146 matrix parts, dual boundaries, 22 pilot overlaps verified; final English layout and paper integration deferred to Step 5"
   },
-  "selection_rules": [
-    "Keep the six models in fixed order; no substitution or ranking.",
-    "Language backbone only; exclude vision/audio encoders.",
-    "For hybrid architectures select native full GQA, not linear Attention, Mamba or MLA.",
-    "Use full/global GQA where global and sliding-window attention coexist.",
-    "Preserve native heads and actual QK/V dimensions; do not force GQA-8.",
-    "Record actual layer topology; selected sublayer is not the entire model.",
-    "Residency, B and L are study scenarios, not claimed execution facts from model reports."
-  ],
-  "stages": [
-    {
-      "step": 1,
-      "title": "固定六模型及资料",
-      "status": "已通过",
-      "reviewed_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9"
-    },
-    {
-      "step": 2,
-      "title": "共享方法与通用端点",
-      "status": "已通过",
-      "reviewed_revision": "2eb7e7c59242c675594537002cc1316131be9226"
-    },
-    {
-      "step": 3,
-      "title": "少量真实模型试算",
-      "status": "已通过",
-      "reviewed_revision": "e472a0d864b8fb9afb14b0c306217a0e5653e122"
-    },
-    {
-      "step": 4,
-      "title": "分类并行分析",
-      "status": "完成，待用户审阅"
-    },
-    {
-      "step": 5,
-      "title": "统一复核和英文表格",
-      "status": "未启动"
-    }
-  ],
-  "step1_exclusions": [
-    "scenario Q_S/Q_R/RI computations",
-    "final TeX tables",
-    "full training modeling",
-    "hardware pairing or performance partitioning",
-    "end-to-end performance, accuracy or hardware simulation",
-    "weights download or model execution"
-  ],
-  "start_head_field_scope": "checkpoint_head and actual_start_head above are preserved Step 1 history",
-  "step2": {
-    "reviewed_step1_revision": "e95de9e213d3dd0db9208459b07ce48152f102c9",
-    "actual_start_head": "d60bc32ff83f1ab48cae0ffd106ebd9df46940d0",
-    "initial_worktree": "clean",
-    "status": "已通过",
-    "reference_id": "WS128-INT8-semantic-banks-v1",
-    "conventions": "../shared/data/conventions.json",
-    "method_pdf": "../shared/output/counting_method.zh.pdf",
-    "table_IIa_data": "../table_IIa/data/results.json",
-    "table_IIa_pdf": "../table_IIa/output/table_IIa.pdf",
-    "table_IIb_model_results": "Step 2 historical scope: not started; Step 3 pilot status recorded separately",
-    "reviewed_revision": "2eb7e7c59242c675594537002cc1316131be9226"
-  },
-  "step2_reference": {
-    "streaming_precision": "INT8 logical reference, 1 Byte/element; role widths retained symbolically",
-    "resident_weight_precision": "INT8 logical reference, 1 Byte/element",
-    "KV_precision": "INT8 logical reference, 1 Byte/element for K and V separately",
-    "attention_coefficient_precision": "nonnegative subset of signed INT8, 1 Byte/element; re-quantized after softmax",
-    "mapping_and_counting_rules": "128x128 independent semantic-matrix tile banks; ports primary, operator-stage shared-input frontier contrast; fixed residency and causal prefix append",
-    "native_precision_records": "models.json unchanged; the selected INT8 reference is not an accuracy claim"
-  },
-  "step3": {
-    "status": "已通过",
-    "actual_start_head": "2eb7e7c59242c675594537002cc1316131be9226",
-    "initial_worktree": "clean",
-    "reference_id": "WS128-INT8-semantic-banks-v1",
-    "full_pilot_models": [
-      "ministral3_8b_2512",
-      "qwen36_35b_a3b"
+  "operator_rewrite": {
+    "status": "修订完成，待用户审阅",
+    "date": "2026-10-02",
+    "reference_id": "operator-workloads",
+    "archive": "../../archived/task2_table_IIb_previous/",
+    "directories": [
+      "01_qkv_projection",
+      "02_ffn_moe",
+      "03_attention",
+      "04_crosscheck"
     ],
-    "spot_check": {
-      "model": "mimo_v25_pro",
-      "L": 1024,
-      "rows": [
-        "attention_prefill",
-        "attention_decode"
-      ]
-    },
-    "main_case_count": 22,
-    "boundary_check_L": [
-      1,
-      127,
-      128,
-      129
+    "new_agents": [
+      "qkv_rewrite",
+      "ffn_rewrite",
+      "attention_rewrite"
     ],
-    "step1_step2_changes": "none; raw structure and independent tile/event checks support existing reference",
-    "pilot_root": "../table_IIb/pilot/",
-    "review": "../STEP3_REVIEW.zh.md",
-    "stop": "Historical Step 3 stop; passed review, current work is recorded in step4",
-    "reviewed_revision": "e472a0d864b8fb9afb14b0c306217a0e5653e122"
-  },
-  "step4": {
-    "status": "完成，待用户审阅",
-    "actual_start_head": "e472a0d864b8fb9afb14b0c306217a0e5653e122",
-    "initial_worktree": "clean",
-    "reference_id": "WS128-INT8-semantic-banks-v1",
-    "coordination": "../STEP4_COORDINATION.zh.md",
-    "planned_case_counts": {
-      "qkv_projection": 6,
-      "ffn_or_moe": 18,
-      "attention_prefill": 18,
-      "attention_decode": 18
-    },
-    "total_unique_cases": 60,
-    "pilot_overlap": 22,
-    "step5": "not started",
-    "internal_review": "passed; not user approval",
-    "total_matrix_parts": 146,
-    "independent_cases_verified": 60,
-    "pilot_overlaps_verified": 22,
-    "pilot_existing_semantic_differences": 0,
+    "confirmed_QKV_window": "one full load; U=1,1K,128K,1M plus infinity limit",
+    "expected_finite_cases": 90,
+    "expected_limit_cells": 6,
+    "hardware_mapping_included": false,
+    "foundation": "../table_IIa/README.md",
+    "contract": "../table_IIb/04_crosscheck/CONTRACT.zh.md",
+    "internal_review": "passed",
+    "finite_cases_verified": 90,
+    "limit_cells_verified": 6,
+    "component_records": 262,
+    "pdf_pages": [
+      2,
+      2,
+      2
+    ],
     "delivery_revisions": {
-      "01_qkv_projection": 2,
-      "02_ffn_moe": 2,
-      "03_attention": 1,
-      "04_crosscheck": 1
+      "01_qkv_projection": 3,
+      "02_ffn_moe": 3,
+      "03_attention": 4
     },
-    "category_pdf_pages": [
-      4,
-      4,
-      8
+    "review": "../table_IIb/04_crosscheck/REVIEW.zh.md",
+    "unified_results": "../table_IIb/04_crosscheck/data/results.json",
+    "stop": "await user review; no paper integration or hardware analysis",
+    "latest_editor": "main Agent; no new delegation",
+    "table_IIa_pdf_pages": 1
+  },
+  "historical_parameters_step1": {
+    "B": [
+      8,
+      64,
+      512
     ],
-    "unified_data": "../table_IIb/04_crosscheck/data/results.json",
-    "unified_csv": "../table_IIb/04_crosscheck/data/results.csv",
-    "research_preview": "../table_IIb/04_crosscheck/PREVIEW.zh.md",
-    "independent_review": "../table_IIb/04_crosscheck/REVIEW.zh.md",
-    "review": "../STEP4_REVIEW.zh.md",
-    "baseline_changes": "none; shared/model/pilot/IIa/Task I/main paper unchanged",
-    "blocking_issues": [],
-    "stop": "Step 4 complete, await user review; Step 5 not started"
+    "L_tokens": [
+      1024,
+      16384,
+      131072
+    ],
+    "K_in_L_labels": 1024
   }
 }

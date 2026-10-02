@@ -1,0 +1,68 @@
+\input{../../04_crosscheck/template/preamble.tex}
+\renewcommand{\WorkloadName}{注意力}
+\title{\bfseries\WorkloadName 的输入复用与 RI}
+\begin{document}
+\maketitle
+\section{对象与公式}
+取单序列、一个完整因果 GQA 层的 QK 与 AV 两个矩阵阶段。
+$H_q$ 为 query 头数，$H_{\rm kv}$ 为 KV 头数，$g=H_q/H_{\rm kv}$；
+$d_{\rm QK}$ 与 $d_V$ 为原生头维，$L$ 为本次追加后可见长度。
+每个 KV head 保存一份 K/V，由组内 $g$ 个 query heads 共享。
+
+沿用 Table II(a) 的 $\RI=\qs/\qr$ 与每元素 1 Byte 口径。
+在有效前缀 $i$，K 的形状为 $i\times d_{\rm QK}$，V 为 $d_V\times i$；
+每个 query head 在 QK 阶段输入 $d_{\rm QK}$ 个 query 元素，
+在 AV 阶段输入 softmax 后的 $i$ 个系数。历史 K/V 是 resident 操作数，不重复列为 streaming 输入。
+两阶段输入分别计入，输出不另加；
+$\qr$ 只计窗口内新写入的唯一逻辑 K/V。
+
+\para{预填充（Prefill）}从空 KV 建到 $L$，计完 $L$ 个位置的因果有效范围：
+\[
+\begin{gathered}
+\qs=\sum_{i=1}^{L}H_q(d_{\rm QK}+i)=H_q\!\left[Ld_{\rm QK}+\frac{L(L+1)}2\right],
+\qquad \qr=LH_{\rm kv}(d_{\rm QK}+d_V),\\[4pt]
+\boxed{\displaystyle\RI=\frac{g[d_{\rm QK}+(L+1)/2]}{d_{\rm QK}+d_V}.}
+\end{gathered}
+\]
+这是三角求和：第 $i$ 个 query 使用当时可见的 $i$ 个 K/V，AV 输入随前缀增长。
+每个 token 的 K/V 只写一次，故写入是 $L$ 份新状态之和，不是每次重写整个前缀。
+
+\para{单步解码（Decode）}已有 $L-1$ 个 token 的 KV，写入一份新的 K/V 后，对长度 $L$ 的完整前缀求值：
+\[
+\begin{gathered}
+\qs=H_q(d_{\rm QK}+L),\qquad \qr=H_{\rm kv}(d_{\rm QK}+d_V),\\[4pt]
+\boxed{\displaystyle\RI=\frac{g(d_{\rm QK}+L)}{d_{\rm QK}+d_V}.}
+\end{gathered}
+\]
+最终有效 KV 容量均为 $LH_{\rm kv}(d_{\rm QK}+d_V)$ Byte；
+初始容量在 Prefill 为 0，在 Decode 为 $(L-1)H_{\rm kv}(d_{\rm QK}+d_V)$ Byte。
+容量与本窗口的累计写入量分别记录。
+
+\section{模型信息}
+六模型均取固定版本中的完整/global GQA 层，层号从 0 起。
+\begin{center}\small\input{models.generated.tex}\end{center}
+各模型保留原有上下文设置；Ling-1T 的 64K 沿用既定官方扩展配置。\footnote{YaRN：factor=4、original\_max\_position\_embeddings=32768、type=yarn，并设 \texttt{--max-model-len 131072}；原始配置不改。}
+MiMo 的 Value 在写入前乘 0.612，维度不变；所选全局层无 sink。
+
+\newpage
+\section{代入结果}
+两表以模型为行、可见长度 $L\in\{1\mathrm{K},8\mathrm{K},64\mathrm{K}\}$ 为列，单元格为小数 $\RI$。
+\begin{center}\small\input{results.generated.tex}\end{center}
+\DisplayNote
+例如，Qwen3.5-2B 在 Prefill、$L=1\mathrm{K}$ 时，
+$\qs=8[1024\times256+1024\times1025/2]=6\,295\,552$ Byte，
+$\qr=1024\times2\times(256+256)=1\,048\,576$ Byte，
+故 $\RI\approx6.0$。
+
+\section{结果说明}
+固定头维时，RI 随 $g$ 成比例增长。两个 Qwen 模型的头维相同，
+Qwen3.6 的 $g$ 加倍，RI 也加倍。
+
+Prefill 累计全部 $L$ 个位置，Decode 只计算当前位置；后者的写入仅为前者的 $1/L$。
+同一 $L$ 下，$\RI_{\rm Decode}/\RI_{\rm Prefill}=(d_{\rm QK}+L)/[d_{\rm QK}+(L+1)/2]$，
+长前缀时趋近 2。该关系来自当前窗口和因果前缀计数。
+
+Hy3 与 Ling 的头结构相同，RI 相同；MiMo 直接使用原生 $192/128$ 头维。
+\par\smallskip\noindent\small
+固定模型来源、精确字节及复算记录见本目录 README 与 data/；数学入口为 Table II(a)。
+\end{document}
