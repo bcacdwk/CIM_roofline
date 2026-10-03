@@ -16,7 +16,9 @@
 
 前端模式按偏置、负载、通路和建立/验收要求声明；同一参数的不确定性传播到全部相关服务。独立操作模式对照与共享参数敏感性分别保存。编码服务检查区分理想代数、实际分组后的名义量化及ENOB分辨尺度，保留ACIM近似部分和合同；原生吞吐不等同于任意INT8结果的精确可分辨能力。
 
-NAND的[确定性量化诊断](analysis/04_nand_3d/data/quantization_diagnostics.json)暴露偏置重构的弱信号与抵消限制，部分正小结果会翻转符号。其主表数字保留为条件近似求值预算，`numerical_service_qualification`明确记录小信号资格未通过；计算检查通过不等于该精度资格已获确认。
+NAND主参考采用正负幅值分存与输入符号掩码，原偏置编码保留为受限对照并退出普通signed-INT8映射入口。GC-04主参考采用按模式释放的控制策略。原生容量、编码、暂存、轮次与完整装载按当前实现计费，具体选择和主点见[审阅入口](analysis/TEN_CASE_REVIEW.zh.md)。
+
+五个ACIM共用[名义数值检查](analysis/shared_baseline/data/nominal_service_diagnostics.json)。NAND、GC检查已声明的理想器件/前端量化链；SRAM ACIM、RRAM、PCM仅检查标定后部分和及数字重构，不捏造缺失的模拟传递曲线。结构性映射资格、名义诊断层级与实物准确度分开；近零/稀疏项损失及量化舍入前残差仍完整报告。
 
 Table II保持阶段入口的逻辑计数：单矩阵W[N,K]完整装载T_R、向量服务间隔Δ_S给出U*=T_R/Δ_S=(N b_R/b_S)RI*。原生宏向算子扩展必须重新检查输入共享、重放、分时及更新资源。
 
@@ -24,6 +26,7 @@ Table II保持阶段入口的逻辑计数：单矩阵W[N,K]完整装载T_R、向
 
 ```sh
 /opt/anaconda3/bin/python analysis/shared_baseline/scripts/check_shared.py
+/opt/anaconda3/bin/python analysis/shared_baseline/scripts/check_nominal_services.py
 /opt/anaconda3/bin/python analysis/scripts/export_ten_cases.py
 /opt/anaconda3/bin/python analysis/scripts/check_ten_cases.py
 sh analysis/scripts/build_ten_cases.sh

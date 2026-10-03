@@ -1,5 +1,5 @@
 {
-  "schema_version": "nand-3d-native-reference",
+  "schema_version": "nand-3d-split-sign-native-reference",
   "baseline": {
     "json_sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
     "script_sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
@@ -7,14 +7,14 @@
   },
   "scope": {
     "logical_matrix": [
-      480,
+      240,
       4608
     ],
     "matrix_order": "W[N,K]",
-    "logical_precision": "signed INT8 via unsigned offset encoding",
+    "logical_precision": "signed INT8 via separate positive/negative magnitude blocks and input-sign BL masks",
     "service_units": 1,
     "update_domains": 1,
-    "precision": "calibrated approximate ACIM; 8 effective ADC bits do not represent exact integer partial sums"
+    "precision": "calibrated approximate ACIM; deterministic nominal diagnostics do not certify analog accuracy"
   },
   "raw_evidence": [
     {
@@ -22,7 +22,7 @@
       "source": "NAND-04",
       "locator": "PDF pp.2–3, II-A–C, Fig.3",
       "raw": "13824 BL ×32 WL ×3 SSL/block;64 blocks/subarray;144 um BL length;4 blocks per 8-bit output",
-      "adopted": "One complete subarray;30 data WL +2 calibration WL;K4608,N480;3 BL copies and 3 SSL cells per 2-bit digit are encoding, not extra useful weights",
+      "adopted": "One64block subarray;30data+2referenceWL;K4608,N240;two magnitude polarities x4base4 blocks/output;original3BL copies x3SSL cells/digit retained",
       "kind": "reported_model_to_mapping"
     },
     {
@@ -54,7 +54,7 @@
       "source": "NAND-04 / NAND-05",
       "locator": "04 p.3;05 p.2 Fig.13",
       "raw": "7-bit SAR in NAND-04;7–8-bit SA in algorithm study of NAND-05",
-      "adopted": "Common nominal10-bit/~8 effective-bit converter;range0–25uA,quantized approximate normalized sum;29-bit final signed integer container;no exact16-bit partial-sum claim",
+      "adopted": "Nominal10bit/~8ENOB ADC unchanged;0-25uA range;29bit signed output container;approximate integer-count reconstruction",
       "kind": "quantization_contract"
     },
     {
@@ -75,11 +75,11 @@
     },
     {
       "id": "E08",
-      "source": "explicit mapping and shared_baseline",
-      "locator": "signed affine identity;common resource/API policy",
-      "raw": "x=xprime−128,w=wprime−128",
-      "adopted": "y=sum(xprime*wprime)−128sum(xprime)−128sum(wprime)+16384K;480×21bit weight-sum metadata generated during complete load;16-lane input sum and output correction costs explicitly charged;ideal identity checked separately from nominal10bit grouped quantization,which does not qualify weak signed outputs",
-      "kind": "algebra_and_resource_choice"
+      "source": "NAND-04 Fig.3 BL switch matrix and independent block SL;explicit signed mapping",
+      "locator": "PDF pp.2–3;native BL/SSL/WL and digital adder/shifter path",
+      "raw": "Nonnegative BL input and separate block SL/ADC results;no native negative current",
+      "adopted": "Store w+=max(w,0) and w-=max(-w,0) in separate4block groups;apply abs(x) under two input-sign BL masks;digital polarity subtraction and signed accumulation;41,472bit resident row staging and16lane encoding charged",
+      "kind": "supported_native_path_reference_mapping"
     },
     {
       "id": "E09",
@@ -183,7 +183,7 @@
   },
   "mapping": {
     "K": 4608,
-    "N": 480,
+    "N": 240,
     "bitlines_per_page": 13824,
     "wordlines_per_block": 32,
     "ssl_per_block": 3,
@@ -194,12 +194,14 @@
     "input_bits_per_slice": 2,
     "input_copies": 3,
     "weight_cells_per_digit": 3,
-    "outputs_per_wl_group": 16,
+    "outputs_per_wl_group": 8,
     "data_wl_per_block": 30,
     "calibration_wl_per_block": 2,
     "rows_per_group": 1152,
     "program_domains": 1,
-    "first_data_in_command": false
+    "first_data_in_command": false,
+    "weight_polarities": 2,
+    "input_sign_phases": 2
   },
   "design_choices": {
     "sl_setup_budget_ns_by_profile": {
@@ -221,11 +223,7 @@
     "current_headroom_condition": "mean cell current remains close to2nA;calibrate gain/offset and reject clipping;fixed full-scale is a design resource,not a measured chip limit",
     "added_feedback_capacitance_pF": 0,
     "ADC_effective_bits": 8,
-    "digital_ticks_per_reconstruction_round": 3,
-    "input_sum_lanes": 16,
-    "output_correction_ticks_per_group": 2,
-    "metadata_sum_bits": 21,
-    "metadata_popcount_width": 128,
+    "digital_ticks_per_reconstruction_round": 4,
     "calibration": {
       "row_groups": 4,
       "samples_per_group": 3,
@@ -237,27 +235,34 @@
       "boundary_ticks": 2,
       "residual_limit_ADC_codes": 4
     },
-    "read_order": "native WL select;BL/SL current establish at original bias;ADC sample+convert;affine correction+base4 merge+input/row accumulation;final offset correction;no separate charge-integration/reset stage",
-    "metadata_lifecycle": "Invalidate whole matrix before first erase;accumulate offset-weight sums from canonical,nonduplicated bit-plane data using same metadata bank;publish only after all pages,reference/calibration and metadata complete;no concurrent evaluation during replacement;failure leaves matrix invalid",
+    "read_order": "input abs/sign preparation; native WL select; positive then negative input masks through existing BL switch matrix; SL current settle; ADC; affine correction; positive/negative base4 merge; polarity subtraction; signed input-slice accumulation",
     "quantization_diagnostic": {
       "nominal_ADC_bits": 10,
       "ADC_code_step_definition": "full_scale/2**bits;nearest code with half-up ties,clipped to0..2**bits-1",
       "calibration_gain_format": "unsigned Q8.16,24bits,count/code",
       "calibration_offset_format": "signed Q12.12,24bits,count;zero for the ideal nominal device diagnostic",
-      "reconstruction": "quantize each4x4 digit pair per1152-row group;apply finite gain/offset;round count to nearest integer;merge base4 weight digits;accumulate input digits/groups;apply exact digital offset correction",
+      "reconstruction": "For each1152-row group,input sign phase,base4 input digit and positive/negative weight block:quantize2nA unit current;apply Q8.16 gain;round count;merge base4 digits;subtract weight polarities;apply input sign and accumulate.No ADC-before-offset or final large-bias subtraction.",
       "scope": "deterministic ideal device current;finite nominal ADC and declared fixed-point convention;no invented device/noise statistics"
-    }
+    },
+    "input_encoding_lanes": 16,
+    "resident_encoding_lanes": 16,
+    "resident_staging_bits_per_weight": 9,
+    "data_page_encoded_bits_per_beat": 48,
+    "reference_page_encoded_bits_per_beat": 128,
+    "resident_encoding_lifecycle": "Invalidate matrix;stream one output row through16 signed-to-magnitude lanes into4608x9bit staging;format24 physical data pages at48 useful encoded bits/beat through128bit nominal port;release staging after row programs;publish only after all blocks/pages and reference calibration pass;no whole-matrix shadow"
   },
   "resident": {
     "update_mode": "sustained_same_address_full_matrix_rewrite",
-    "transaction_Byte": 2211840,
+    "transaction_Byte": 1105920,
     "physical_write_data_lanes": 128,
     "control_ticks": 2,
     "page_buffer_Byte": 1728,
     "P_includes": "pump/driver setup,all program/verify loops,recovery to ready;external encoded data load counted once",
     "failure_policy": "No completed payload until all blocks/pages verify and full calibration passes;deadline failure returns invalid matrix without hidden retries",
-    "append": "one finite pre-erased generation;reference pages already valid but re-calibration and metadata reconstruction charged",
-    "maintenance": "No mandatory refresh included;endurance/read-disturb/long-window recalibration are separate lifetime/window conditions,not instant tau"
+    "append": "one finite pre-erased generation;reference pages valid;resident row encoding and calibration still charged",
+    "maintenance": "No mandatory refresh included;endurance/read-disturb/long-window recalibration are separate lifetime/window conditions,not instant tau",
+    "data_page_effective_encoded_bits_per_beat": 48,
+    "reference_page_effective_encoded_bits_per_beat": 128
   },
   "shared_exceptions": [
     {
@@ -266,27 +271,27 @@
         "R2",
         "R6"
       ],
-      "change": "One native64-block subarray,base4 physical conversion groups;four1152-item row groups for full-scale headroom",
-      "effect": "K4608,N480,64ADC,480evaluations,30720 scalar conversions per vector;all capacity has demonstrated time-selected calculation path"
+      "change": "One native64-block subarray;two magnitude polarities x four base4 weight blocks per output;two input-sign masks;four1152-item row groups",
+      "effect": "K4608,N240,64ADCs,8outputs,960evaluations,61440scalar conversions per vector;72cells/logicalINT8 weight"
     },
     {
       "rule_ids": [
         "R3",
         "R5"
       ],
-      "change": "Mandatory native page buffer and small gain/offset/weight-sum metadata",
-      "effect": "No full-matrix digital shadow;encoded physical pages and metadata generation costs charged;one update domain"
+      "change": "Native page buffer;4608x9bit resident row staging;gain/offset calibration;input magnitude+sign registers",
+      "effect": "No full-matrix shadow;16lane resident encoder and48useful-bit/beat data formatter explicitly charged;references use128bit/beat;one update domain"
     }
   ],
   "method_notes": [
-    "TableII interface uses full2211840B load time and complete4608B vector interval.",
-    "16KiB average update cost is a ratio only,not a real small request latency.",
-    "8bit effective ADC gives approximate wide partial sums;offset cancellation does not restore precision lost by quantization.",
-    "Two-point calibration and clipping checks do not guarantee offset-cancelled weak results;see numerical_service_qualification and deterministic diagnostics."
+    "TableII interface uses full1105920B load and4608B vector.",
+    "Positive/negative magnitude banks and BL sign masks implement signed products before any large common ADC offset is introduced.",
+    "Nominal count resolution still loses sparse units and leaves non-symmetric cancellation residuals;no exactINT8 or network accuracy claim.",
+    "Legacy offset encoding is a restricted comparison and is not eligible for generic signed-INT8 mapping."
   ],
   "service_modes": {
     "normal_evaluation": {
-      "operation": "1152 logical terms, base4 digits, SL current sum",
+      "operation": "1152 logical terms;two input-sign BL phases;four base4 input digits;separate positive/negative weight magnitude blocks",
       "bias": "VG=1 V,VBL=0.2 V,Vpass=4.5 V",
       "load": "native SL approximately16 pF; fixed0-25uA current frontend",
       "endpoint": "ADC sample after conditional SL settling; approximate partial sum",
@@ -296,7 +301,7 @@
       "operation": "zero/full reference WL;zero/full/half input at each of4 groups",
       "bias": "same as normal_evaluation",
       "load": "same SL,group selection,current frontend and ADC",
-      "endpoint": "two-point gain/offset plus half-input residual<=4 nominal ADC codes;no weak-output guarantee",
+      "endpoint": "two-point gain/offset plus half-input residual<=4 nominal ADC codes;reference full magnitude code remains legal physical calibration pattern",
       "source_qualification": "NAND-05 p.2 II(e),p.4 Fig.12;finite schedule and threshold are declared reference choices"
     },
     "page_program_verify": {
@@ -329,15 +334,23 @@
     }
   },
   "numerical_service_qualification": {
-    "contract": "approximate_partial_sum",
+    "contract": "approximate_signed_INT8_partial_sum",
     "weak_signal_guarantee": false,
-    "quantized_service_status": "weak_signal_and_cancellation_not_qualified",
+    "quantized_service_status": "nominal_split_sign_diagnostics_completed",
+    "reference_service_status": "approximate_signed_reference",
+    "workload_mapping_eligibility": true,
     "diagnostic_path": "data/quantization_diagnostics.json",
     "limitations": [
-      "Nominal10bit deterministic quantization with existing affine offset reconstruction can turn a positive small dot product negative.",
-      "No clipping in nominal deterministic test vectors does not certify small-signal or cancellation accuracy.",
-      "Approximately8ENOB describes a resolution scale,not an8bit quantizer,noise model or application error guarantee.",
-      "Throughput values remain conditional approximate-evaluation budgets;qualifying general signed INT8 weak outputs requires a service choice or additional supported implementation."
-    ]
+      "Nominal10bit deterministic diagnostics remove the large common offset of the legacy encoding;they do not certify physical analog accuracy.",
+      "Sparse unit products and asymmetric cancellation remain limited by12.20703125nominal unit counts perADC LSB.",
+      "Approximately8ENOB is a resolution scale,not an8bit ADC or a noise distribution.",
+      "No universal workload accuracy threshold is assumed."
+    ],
+    "eligibility_scope": "approximate_signed_INT8_requires_application_error_contract"
+  },
+  "legacy_offset_qualification": {
+    "reference_service_status": "restricted_encoding_example",
+    "workload_mapping_eligibility": false,
+    "reason": "ADC-before-offset and high radix weighting produce large zero/small-signal residuals;kept only as a reproducible encoding comparison."
   }
 }

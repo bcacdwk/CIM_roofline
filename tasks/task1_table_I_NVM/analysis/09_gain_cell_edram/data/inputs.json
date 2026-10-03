@@ -69,27 +69,27 @@
       "program_complete_ns": 65,
       "program_coarse_ns": 5,
       "program_fine_ns": 60,
-      "dedicated_read_ns": 100
+      "refresh_dedicated_read_ns": 100
     },
     {
       "id": "reference",
       "program_complete_ns": 65,
       "program_coarse_ns": 5,
       "program_fine_ns": 60,
-      "dedicated_read_ns": 150
+      "refresh_dedicated_read_ns": 150
     },
     {
       "id": "long",
       "program_complete_ns": 75,
       "program_coarse_ns": 5,
       "program_fine_ns": 70,
-      "dedicated_read_ns": 200
+      "refresh_dedicated_read_ns": 200
     }
   ],
   "frontend_selection": {
     "kind": "reference_choice",
     "anchor": "GC-04 PDF pp6-7 Fig10: measured 180 ns whole compute includes precharge, DTC/MAC and 5b SAR. This anchors only the overall scale; it does not identify individual stages in the adapted frontend.",
-    "conditions": "Retain native 64-cell bitline load, 700 nA endpoint, 200 fF effective integration capacitance per branch and +/-224 mV differential range. MAC 1 ns and single-pair refresh 64 ns are engineering integration choices. The main fixed controller allocates a common 64 ns integration window plus 36/86/136 ns aggregate precharge/select/settle/sample/recovery allowance, then shared TI and TA. MAC does not require 64 ns integration: its remaining 63 ns is controller reservation. The early_release comparison removes that reservation only if the same common allowance covers the actual mode and sampling can start immediately after the configured pulse. Neither phase allowance nor early release is independently measured. Writing isolates added integration/SAR capacitance and retains approximately original 50 fF program load.",
+    "conditions": "Retain native 64-cell bitline load, 700 nA endpoint, 200 fF effective integration capacitance per branch and +/-224 mV differential range. Main early_release uses 1 ns MAC and 64 ns single-pair refresh integration. Existing CCTRL/PRE/SAMP and tunable RWL separate precharge, integration and sampled SAR; binary-input rounds have no outstanding longer RWL pulse. The entire 36/86/136 ns common precharge/select/reconnect-settle/isolate-sample/recovery allowance remains, with shared TI/TA/TD separately charged. No additional ADC, hold bank, driver or shadow is needed to advance the existing sampling boundary; no 63 ns mandatory device settling was identified. Phase allowances are engineering references, not measured stage times. Writing isolates added integration/SAR capacitance and retains approximately original 50 fF program load.",
     "phase_evidence": {
       "source_pages": [
         6,
@@ -105,14 +105,36 @@
       "confirmed": "Distinct precharge, variable-RWL MAC and sampled SAR phases; single-row retention reads tune RWL pulse to ADC range. The source reports no separated adapted 1/64 ns phase budget.",
       "common_physical_conditions": "Same selected 64-cell local bitline, effective integration load, endpoint current, full-scale range and ADC; different number of active rows and RWL width. Equal worst-case integrated charge does not prove equal settling/noise.",
       "assumed_common_stages": "Aggregate precharge, selection, load reconnect/settle, sample and recovery; no unsupported numerical subdivision of the 36/86/136 ns allowance.",
-      "qualification": "Early release needs mode-specific timing closure with the same load and settling endpoint. This is an operation/control comparison, not a faster measured GC device."
+      "qualification": "Mode-specific scheduling uses existing CCTRL, PRE/SAMP switching, tunable pulse generation and independent SAR start. The 1 ns pulse is followed by all allocated settling/isolation/sample operations; early release does not mean zero post-pulse settling. Fixed 64 ns control reservation is a conservative comparison. The 180 ns source full cycle is only a scale anchor, not a measured decomposition or measured speedup.",
+      "control_dependency": "GC-04 PDF p.6 III.B and p.7 Fig.10 expose independent PRE/SAMP and variable RWL control. p.10 retention read tunes RWL for a single active row. With one-bit inputs all active RWLs finish at 1 ns in the reference MAC, so no 64 ns refresh pulse or unfinished input phase shares that evaluation. Common residual, TI, TA and two digital reconstruction ticks remain mandatory.",
+      "clock_qualification": "TD budgets digital reconstruction/control; analog pulse and phase edges use the already tunable delay/phase control. No evidence requires every analog phase to occupy an integer TD count. Short/reference/long retain full 36/86/136 ns common overhead with no fabricated internal ns split; timing closure remains a reference-design condition."
     }
   },
   "precision": {
     "logical": "K64N64INT8 byINT8;64x22-bit output containers",
     "compute": "calibrated approximate ACIM; binary stored weights are sign-decoded during maintenance",
-    "sum": "64 endpoint signs -> -64..64, 129 levels; recover binary sum (differential normalized sum + input popcount)/2; digital two ticks must cover this correction and plane/input reconstruction",
-    "not_claimed": "No DCIM exactness or universal error threshold; no all-cell retention certification"
+    "sum": "64 endpoint signs give d=-64..64; p=input popcount, ideal binary q=(d+p)/2. Reference ADC uses signed 10-bit codes c=-512..511 at 448/1024 mV per code. First reconstruction tick implements qhat=(c+8*p+8)>>4 (nearest integer, half toward +infinity); second tick retains signed plane/input accumulation. Continuous affine q=(c+8*p)/16 and clipping remain separate diagnostics.",
+    "not_claimed": "No DCIM exactness or universal error threshold; no all-cell retention certification",
+    "nominal_quantizer": {
+      "nominal_bits": 10,
+      "signed_code_min": -512,
+      "signed_code_max": 511,
+      "lsb_mV": 0.4375,
+      "zero_code": 0,
+      "rounding": "nearest_integer_half_toward_positive_infinity",
+      "saturation": "clip before reconstruction; +224mV maps to511 rather than512",
+      "kind": "declared_reference_converter_not_source_measured_transfer"
+    },
+    "integer_decoder": {
+      "formula": "(signed_adc_code + (input_popcount << 3) + 8) >> 4",
+      "intermediate_min_signed_bits": 12,
+      "existing_reconstruction_datapath_bits": 22,
+      "scheduling": "existing first TD offset/correction stage; second TD weighted accumulation; sixteen output lanes each process eight parallel planes",
+      "resource_reason": "7-bit input popcount and affine offset correction already required by pseudodifferential reconstruction; fixed shifts are wiring and constant8 is folded into correction addition, with sign extension within existing22-bit datapath. No parity LUT, fractional accumulator or additional pass. This is a declared reference digital implementation, not gate-level timing validation.",
+      "nominal_partial_sum_unsigned_bits": 7,
+      "decoded_partial_sum_signed_bits": 8,
+      "range_policy": "Nominal physical partial sums0..64 need7unsigned bits; arbitrary10bitcode/popcount combinations yield-32..64 and stay signed in existing22bit lane. No hidden clipping of negative decoded values."
+    }
   },
   "structural_comparison": {
     "id": "wide32",
@@ -122,7 +144,7 @@
     "pair_drivers": 256,
     "logical_weights_completed": 32,
     "encoded_load_bits": 512,
-    "note": "Double true differential ADC and write-pair drivers, retain 16 digital output lanes, same physical state and capacity; frontend budget conditioned to remain 175 ns at equal 64-cell local load"
+    "note": "Double actual differential ADCs, pair write drivers and sign decoders; retain16 digital output lanes and same physical state/capacity. Main early_release has112ns MAC and175ns refresh frontend at equal64-cell local load; width32 pays two reconstruction rounds (four TD) per analog group."
   },
   "exceptions": [
     {
@@ -553,16 +575,17 @@
       "capacity128_long",
       "capacity128_read216_infeasible"
     ],
-    "meaning": "Three compatible sustainable service windows ofsame64x64nativeconfiguration;larger128x128capacity,longrefresh-critical andinfeasible pressure separately",
+    "meaning": "Three sustainable main early_release service windows at fixed native64x64 organization. Fixed64ns sampling reservation is a conservative control comparison; capacity/resource/critical/infeasible points remain separate.",
     "infeasibility": "Do not clip alpha. At alpha <= 0 export null effective intervals, throughput and ridge; preserve raw occupation and signed availability.",
     "dominant_comparison": "same native64row and64column tile;128x128capacity comparison andwide32resources separated",
-    "targeted_stress": "Keep long periphery, 75 ns program and 400 us period; increase dedicated_read_ns from 200 to 216 to cross the exact 215.33658536585366 ns feasibility boundary.",
+    "targeted_stress": "Keep long periphery,75ns program,400us period and main early_release; increase refresh dedicated frontend (common overhead+64ns) from200 to216ns, applying the same common-overhead change to MAC. Feasibility is1025*refresh_dedicated_read_ns+179217<400000; fixed-slot comparison has a different guard.",
     "operation_mode_comparisons": [
-      "early_release_short",
-      "early_release_reference",
-      "early_release_long"
+      "fixed_slot_short",
+      "fixed_slot_reference",
+      "fixed_slot_long"
     ],
-    "parameter_sensitivities": "Common overhead, TI, TA and TD propagate to every bound service. Mode-specific pulses affect their own integration; fixed-slot reservation must cover each pulse. Refresh and scheduling propagate into both effective capacities."
+    "parameter_sensitivities": "Common overhead, TI, TA and TD propagate to every bound service. Mode-specific pulses affect their own integration; fixed-slot reservation must cover each pulse. Refresh and scheduling propagate into both effective capacities.",
+    "main_release_policy": "early_release"
   },
   "logical_configuration": {
     "K": 64,
@@ -617,9 +640,9 @@
   },
   "service_modes": {
     "fixed_slot": {
-      "classification": "main_fixed_organization_control_mode",
+      "classification": "conservative_control_mode_comparison",
       "release_rule": "Both modes sample/convert after the same reserved integration window; the MAC pulse stops after 1 ns and holds its analog result during the remaining reservation. The 63 ns is a control allocation, not required integration.",
-      "condition": "Hold droop, leakage and common-mode settling must remain within the stated approximate-ACIM service during the reserved window.",
+      "condition": "Same resources, load, integration pulses, common overhead, write and refresh period as main. AdditionalMAC hold/reservation to64ns sampling boundary must satisfy leakage/common-mode conditions; this is optional conservative scheduling, not a mandatory device delay.",
       "service_bindings": {
         "normal_evaluation": {
           "input_ns": "input_step",
@@ -644,9 +667,9 @@
       }
     },
     "early_release": {
-      "classification": "conditional_operation_mode_comparison",
-      "release_rule": "Sample/convert after each mode pulse: 1 ns MAC, 64 ns single-pair refresh. No full-matrix shadow or extra ADC/driver is introduced.",
-      "condition": "Control supports mode-specific release and aggregate common stages retain their allocated 36/86/136 ns at the same bias, load, range and settling endpoint. The original 180 ns cycle alone does not establish this.",
+      "classification": "main_fixed_organization_control_mode",
+      "release_rule": "Advance existing SAMP/SAR phase after the mode integration and allocated isolation/settling operations:1ns MAC or64ns refresh. All common overhead remains; no new ADC/hold/driver/full-matrix shadow.",
+      "condition": "Existing CCTRL/PRE/SAMP and variable RWL support reference mode-specific phase sequencing. Short/reference/long preserve36/86/136ns total mandatory common stages, sharedTI/TA and digital timing. These engineering budgets require implementation timing closure; they are not a measured decomposition of180ns.",
       "service_bindings": {
         "normal_evaluation": {
           "input_ns": "input_step",
@@ -670,5 +693,25 @@
         }
       }
     }
+  },
+  "nominal_diagnostic_model": {
+    "logical_K": 64,
+    "rows_per_group": 64,
+    "output_container_bits": 22,
+    "adc_nominal_bits": 10,
+    "adc_ENOB_scale_only": 8,
+    "physical_transfer_instantiated": true,
+    "level": "declared_ideal_current_integration_ADC_and_finite_reconstruction",
+    "endpoint_current_nA": 700,
+    "mac_pulse_ns": 1,
+    "integration_capacitance_fF": 200,
+    "adc_range_mV": [
+      -224,
+      224
+    ],
+    "single_pair_refresh_ns": 64,
+    "partial_sum_rounding": "nearest_integer_half_up_before_bit_weighting",
+    "source": "GC-04 pp.6–7 Fig.8/10 endpoint/variable-RWL architecture;1/64ns/200fF/10bit are reference choices",
+    "claim_boundary": "Ideal current integration, fixed signed ADC code convention and finite integer reconstruction. No fitted measured analog transfer, drift/noise distribution or repeated-refresh accuracy claim."
   }
 }

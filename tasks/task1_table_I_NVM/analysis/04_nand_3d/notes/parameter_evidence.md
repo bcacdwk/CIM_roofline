@@ -1,6 +1,6 @@
 # 参数证据与采用条件
 
-PDF页序从1计。关键页图已回查：NAND-04 pp.2–3、NAND-05 pp.1–4、NAND-06 pp.25、31、58。原始证据、参考选择和条件资格分开；不新增原文没有的精调倍数。
+PDF页序从1计；NAND-04 pp.2–3页图已核查BL switch matrix、三SSL复制及独立block SL/ADC。原始PDF保持不变。
 
 ## E01 — NAND-04
 
@@ -8,7 +8,7 @@ PDF页序从1计。关键页图已回查：NAND-04 pp.2–3、NAND-05 pp.1–4�
 
 原值：13824 BL ×32 WL ×3 SSL/block;64 blocks/subarray;144 um BL length;4 blocks per 8-bit output
 
-采用：One complete subarray;30 data WL +2 calibration WL;K4608,N480;3 BL copies and 3 SSL cells per 2-bit digit are encoding, not extra useful weights
+采用：One64block subarray;30data+2referenceWL;K4608,N240;two magnitude polarities x4base4 blocks/output;original3BL copies x3SSL cells/digit retained
 
 身份：`reported_model_to_mapping`。
 
@@ -48,7 +48,7 @@ PDF页序从1计。关键页图已回查：NAND-04 pp.2–3、NAND-05 pp.1–4�
 
 原值：7-bit SAR in NAND-04;7–8-bit SA in algorithm study of NAND-05
 
-采用：Common nominal10-bit/~8 effective-bit converter;range0–25uA,quantized approximate normalized sum;29-bit final signed integer container;no exact16-bit partial-sum claim
+采用：Nominal10bit/~8ENOB ADC unchanged;0-25uA range;29bit signed output container;approximate integer-count reconstruction
 
 身份：`quantization_contract`。
 
@@ -72,15 +72,15 @@ PDF页序从1计。关键页图已回查：NAND-04 pp.2–3、NAND-05 pp.1–4�
 
 身份：`reported_mechanism_to_finite_schedule`。
 
-## E08 — explicit mapping and shared_baseline
+## E08 — NAND-04 Fig.3 BL switch matrix and independent block SL;explicit signed mapping
 
-定位：signed affine identity;common resource/API policy
+定位：PDF pp.2–3;native BL/SSL/WL and digital adder/shifter path
 
-原值：x=xprime−128,w=wprime−128
+原值：Nonnegative BL input and separate block SL/ADC results;no native negative current
 
-采用：y=sum(xprime*wprime)−128sum(xprime)−128sum(wprime)+16384K;480×21bit weight-sum metadata generated during complete load;16-lane input sum and output correction costs explicitly charged;ideal identity checked separately from nominal10bit grouped quantization,which does not qualify weak signed outputs
+采用：Store w+=max(w,0) and w-=max(-w,0) in separate4block groups;apply abs(x) under two input-sign BL masks;digital polarity subtraction and signed accumulation;41,472bit resident row staging and16lane encoding charged
 
-身份：`algebra_and_resource_choice`。
+身份：`supported_native_path_reference_mapping`。
 
 ## E09 — NAND-02
 
@@ -92,10 +92,10 @@ PDF页序从1计。关键页图已回查：NAND-04 pp.2–3、NAND-05 pp.1–4�
 
 身份：`operation_coverage`。
 
-## 数值资格和前端桥接
+## 参考实现及证据边界
 
-NAND-04的二态write-verify、NAND-05的饱和ON平台、SL参考校准是三个不同条件。NAND-06状态成功仅认证其自身SLC操作，不能跨实现证明ON电流终点；没有同栈完整P/E配对实测。
+双幅值存储与输入符号掩码是依照原生BL和独立block通路构造的参考映射，不是原论文已经测量的signed INT8宏。编码、保持、格式器、校准与两次符号求值的成本见当前正文及结果。
 
-12 ns是50%稀疏输入模型，530–750 ns是max-bit映射SL建立模型；当前固定1152项组、原偏置、16 pF原生负载及25 µA量程按条件桥接，不机械按I/C变周期。
+12 ns BL原模型限定50%稀疏，SL530–750 ns为原max-bit映射模型；本例保原偏置和16 pF负载并声明条件桥接，没有I/C机械缩放。二态write-verify、ON平台和SL校准分别有据；SLC完整P/E仍为跨实现时间锚点，无额外模拟精调循环的证据。
 
-名义10-bit诊断按真实分组和有限重构顺序揭示弱输出变号及抵消残差。约8 ENOB仅提供分辨尺度。源文4I4W/VGG准确率不能转移为当前signed INT8保证；详见`review.md`及`data/quantization_diagnostics.json`。
+名义量化改善去除公共偏置；稀疏单位和一般抵消仍受计数分辨率限制。诊断不移植原4I4W/VGG准确率，也不认证器件噪声或实际模拟通路。

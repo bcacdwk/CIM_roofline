@@ -4,18 +4,18 @@
   "cases": [
     {
       "case_id": "01_sram_acim",
-      "inputs_sha256": "b2288879b649aa801c4e4d464cd5e64b169aa1c8f4084a7ce3d46bd374edd160",
-      "results_sha256": "555ebfff97747afab7ca70191507ccd922f4f860415976838aba099e9e3af347",
+      "inputs_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+      "results_sha256": "524ccf6d623695371f69a0af5c6cbf7310dfcaba6e83753476a2aa3ebf339ff1",
       "declared_input_provenance_checks": [
         {
           "field": "baseline_files.README.md",
           "path": "analysis/shared_baseline/README.md",
-          "sha256": "2c30f1bce6299f80f6b62dba253f39bf54ef8e8c203a2fccd62ea96e9a7c1d9f"
+          "sha256": "bb082a972d2512dce05d97fada297eed559ac2250e279f15edfd593cf390a933"
         },
         {
           "field": "baseline_files.tex/01_cmos_periphery.tex",
           "path": "analysis/shared_baseline/tex/01_cmos_periphery.tex",
-          "sha256": "d8d2b206191bc4166822c7b3c8428da4c9ad8ef38e3bb31dd40e2b3175cb4551"
+          "sha256": "50fc6fe8d3be6efac05f6a294b927e9e96a9ba6f75418c72718b023b9b36507a"
         },
         {
           "field": "baseline_files.tex/02_estimation_method.tex",
@@ -206,18 +206,18 @@
     },
     {
       "case_id": "02_sram_dcim",
-      "inputs_sha256": "0f019ddf2273f069b16f8611380c394872fb42a8a68c029b63dada912cd0cdfd",
-      "results_sha256": "6347a158ebc8b2c1475fc55170534ddabaaf2ef9f8d321921c44a833f64fcae1",
+      "inputs_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+      "results_sha256": "c89531e9651fd8067c3d78bfe9dc117f1057efb6cb6a497ae836fc35cbfba0b4",
       "declared_input_provenance_checks": [
         {
           "field": "baseline_files.README.md",
           "path": "analysis/shared_baseline/README.md",
-          "sha256": "2c30f1bce6299f80f6b62dba253f39bf54ef8e8c203a2fccd62ea96e9a7c1d9f"
+          "sha256": "bb082a972d2512dce05d97fada297eed559ac2250e279f15edfd593cf390a933"
         },
         {
           "field": "baseline_files.tex/01_cmos_periphery.tex",
           "path": "analysis/shared_baseline/tex/01_cmos_periphery.tex",
-          "sha256": "d8d2b206191bc4166822c7b3c8428da4c9ad8ef38e3bb31dd40e2b3175cb4551"
+          "sha256": "50fc6fe8d3be6efac05f6a294b927e9e96a9ba6f75418c72718b023b9b36507a"
         },
         {
           "field": "baseline_files.tex/02_estimation_method.tex",
@@ -572,8 +572,8 @@
     },
     {
       "case_id": "04_nand_3d",
-      "inputs_sha256": "13d0c2c218aebdf6ed7a188ff5fa45979529aac3b97f740ee31ef1658ac02e27",
-      "results_sha256": "724ddb2ee42db6aea5e2eac82c8e35644017f9e0847720a0e124a9385187e50d",
+      "inputs_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+      "results_sha256": "55a61c039af221171712598496e7bb6d03423086d08a67a4be402bf003f5c174",
       "declared_input_provenance_checks": [
         {
           "field": "baseline.json_sha256",
@@ -593,31 +593,31 @@
       ],
       "native_configuration": {
         "n_in": 4608,
-        "n_out": 480,
+        "n_out": 240,
         "K": 4608,
-        "N": 480,
+        "N": 240,
         "b_S": 1,
         "b_R": 1,
         "B_S_Byte": 4608,
-        "resident_capacity_Byte": 2211840,
-        "output_count": 480,
+        "resident_capacity_Byte": 1105920,
+        "output_count": 240,
         "output_container_bits": 29,
         "input_register_bits": 36864,
-        "output_register_bits": 13920,
-        "mode": "SLC SGVC current-sum ACIM, base4 offset encoding, approximate INT8",
+        "output_register_bits": 6960,
+        "mode": "SLC SGVC split-sign magnitude current-sum ACIM,base4 approximate signed INT8",
         "logical_matrix_order": "W[N,K]",
-        "logical_capacity_Byte": 2211840,
+        "logical_capacity_Byte": 1105920,
         "physical_capacity_bit": 84934656,
         "physical_capacity_Byte": 10616832.0,
         "physical_data_cells": 79626240,
         "reference_cells": 5308416,
-        "logical_weight_bits": 17694720,
-        "physical_cells_per_INT8_weight": 36,
-        "encoding_ratio_data_bits_to_logical_bits": 4.5,
+        "logical_weight_bits": 8847360,
+        "physical_cells_per_INT8_weight": 72,
+        "encoding_ratio_data_bits_to_logical_bits": 9,
         "storage_utilization_including_required_encoding": 0.9375,
-        "independent_logical_fraction_of_physical_bit_capacity": 0.20833333333333334,
+        "independent_logical_fraction_of_physical_bit_capacity": 0.10416666666666667,
         "input_copies": 3,
-        "weight_SSL_code": "LSB once,MSB twice",
+        "weight_SSL_code": "LSB once,MSB twice;positive/negative magnitudes use distinct blocks",
         "bitlines_per_page": 13824,
         "physical_page_Byte": 1728,
         "blocks": 64,
@@ -627,8 +627,10 @@
         "reference_WL": 2,
         "row_group_size": 1152,
         "row_groups": 4,
-        "parallel_output_lanes": 16,
+        "parallel_output_lanes": 8,
         "physical_weight_digit_groups": 4,
+        "weight_polarities": 2,
+        "input_sign_phases": 2,
         "resources": {
           "ADC_count": 64,
           "ADC_nominal_bits": 10,
@@ -636,83 +638,100 @@
           "current_frontends": 64,
           "current_full_scale_uA_per_frontend": 25,
           "dense_nominal_current_uA_per_frontend": 20.736,
-          "dense_total_current_mA": 1.327104,
+          "dense_total_current_mA_upper_bound": 1.327104,
           "native_SL_capacitance_pF_per_block": 16,
           "added_feedback_capacitance_pF": 0,
           "digital_output_channels": 16,
+          "signed_subtract_channels": 8,
           "affine_multipliers": 64,
           "input_register_bits": 36864,
-          "intermediate_accumulator_bits": 14400,
-          "intermediate_container_bits": 30,
-          "signed_correction_channel_bits": 480,
-          "final_output_register_bits": 13920,
-          "weight_sum_metadata_bits": 10080,
-          "input_sum_register_bits": 21,
+          "input_sign_register_bits": 4608,
+          "input_encoding_lanes": 16,
+          "BL_sign_mask_gates": 13824,
+          "input_sign_phase_control_bits": 1,
+          "base4_merge_trees": 16,
+          "affine_count_stage_register_bits": 896,
+          "magnitude_sum_stage_register_bits": 320,
+          "polarity_difference_stage_register_bits": 168,
+          "signed_accumulate_channels": 8,
+          "intermediate_accumulator_bits": 6960,
+          "intermediate_container_bits": 29,
+          "final_output_register_bits": 6960,
+          "resident_row_staging_bits": 41472,
+          "resident_staging_read_width_bits": 144,
+          "resident_encoding_lanes": 16,
+          "resident_formatter_entries_per_tick": 16,
           "calibration_gain_offset_register_bits": 12288,
           "calibration_arithmetic_lanes": 16,
           "write_data_port_bits": 128,
+          "data_page_effective_encoded_bits_per_tick": 48,
+          "reference_page_effective_encoded_bits_per_tick": 128,
           "page_buffer_bits": 13824,
-          "actual_write_domain": "one native page program domain with native page-buffer inhibit/verify",
+          "actual_write_domain": "one native page program domain with PB inhibit/verify",
           "physical_page_program_targets": 13824,
           "external_update_domains": 1
         },
         "update_mode": "sustained whole-matrix replace;64block erases+6144page programs",
-        "resident_publish": "atomic whole matrix after page verify,calibration and metadata pass",
-        "metadata_lifecycle": "Invalidate whole matrix before first erase;accumulate offset-weight sums from canonical,nonduplicated bit-plane data using same metadata bank;publish only after all pages,reference/calibration and metadata complete;no concurrent evaluation during replacement;failure leaves matrix invalid",
-        "precision_contract": "calibrated approximate sums;offset correction does not recover ADC quantization"
+        "resident_publish": "atomic whole matrix after all page verify and reference calibration",
+        "resident_encoding_lifecycle": "Invalidate matrix;stream one output row through16 signed-to-magnitude lanes into4608x9bit staging;format24 physical data pages at48 useful encoded bits/beat through128bit nominal port;release staging after row programs;publish only after all blocks/pages and reference calibration pass;no whole-matrix shadow",
+        "precision_contract": "approximate signed sums;nominal count resolution remains finite"
       },
-      "independent_stage_formula": "DS=output_WL*tWL+rounds*(tBL+tSL+TA+3TD)+(ceil(K/16)+2ceil(N/16)+2)TD; TR=physical_pages*(P+(page_bits/128+2)TD)+blocks*E+N*8*ceil(K/128)TD+C",
+      "independent_stage_formula": "DS=output_WL*tWL+2*input_digits*row_groups*output_WL*(tBL+tSL+TA+4TD)+(ceil(K/16)+2)TD; TR=data_pages*(P+(page_bits/48+2)TD)+reference_pages*(P+(page_bits/128+2)TD)+blocks*E+N*ceil(K/16)TD+C",
       "main_scenarios": [
         {
           "profile": "short",
           "raw_stream_stages_ns": {
             "WL_setup": 9090,
-            "BL_formation": 5760,
-            "SL_establishment": 254400,
-            "ADC": 4800,
-            "affine_merge_accumulate": 2880,
-            "input_offset_sum": 576,
-            "final_signed_correction": 120,
+            "BL_formation": 11520,
+            "SL_establishment": 508800,
+            "ADC": 9600,
+            "affine_merge_accumulate": 7680,
+            "input_sign_magnitude_encoding": 576,
             "boundaries": 4
           },
           "raw_full_load_stages_ns": {
             "page_program": 1843200000,
             "block_erase": 64000000.0,
-            "encoded_page_load_control": 1351680,
-            "canonical_weight_sum_metadata": 276480,
+            "data_page_load_control": 3340800,
+            "reference_page_load_control": 84480,
+            "resident_sign_magnitude_encoding": 138240,
             "finite_calibration": 8130
           },
-          "raw_delta_S_ns": 277630,
-          "raw_T_R_ns": 1908836290.0,
+          "raw_delta_S_ns": 547270,
+          "raw_T_R_ns": 1910771650.0,
           "counts_and_resources": {
             "row_groups": 4,
-            "analog_rounds": 480,
+            "analog_rounds": 960,
             "physical_pages": 6144,
             "blocks": 64,
             "physical_cells": 84934656,
             "data_cells": 79626240,
             "reference_cells": 5308416,
-            "logical_fraction_of_physical_bits": 0.20833333333333334,
+            "logical_fraction_of_physical_bits": 0.10416666666666667,
             "dense_current_uA": 20.736,
             "calibration_rounds": 12,
             "calibration_ticks": 450,
-            "metadata_generation_ticks": 138240,
-            "intermediate_signed_bits_required": 30
+            "resident_encoding_ticks": 69120,
+            "intermediate_signed_bits_required": 28,
+            "input_sign_phases": 2,
+            "weight_polarities": 2,
+            "input_preparation_ticks": 288,
+            "data_page_effective_bits_per_tick": 48
           },
           "independent_mapping": {
             "K": 4608,
-            "N": 480,
+            "N": 240,
             "b_S": 1,
             "b_R": 1,
             "B_S_Byte": 4608,
-            "full_resident_payload_Byte": 2211840,
-            "delta_S_ns": 277630.0,
-            "T_R_ns": 1908836290.0,
-            "rho_Byte_per_s": 16597629.939127615,
-            "tau_Byte_per_s": 1158737.4001570349,
-            "RI_star": 14.323892485802446,
-            "U_star": 6875.468393185174,
-            "average_update_ns_per_16KiB": 14139528.074074075
+            "full_resident_payload_Byte": 1105920,
+            "delta_S_ns": 547270.0,
+            "T_R_ns": 1910771650.0,
+            "rho_Byte_per_s": 8419975.514828147,
+            "tau_Byte_per_s": 578781.8758981483,
+            "RI_star": 14.547752556629574,
+            "U_star": 3491.4606135910976,
+            "average_update_ns_per_16KiB": 28307728.14814815
           },
           "pass_check": true
         },
@@ -720,52 +739,56 @@
           "profile": "reference",
           "raw_stream_stages_ns": {
             "WL_setup": 9090,
-            "BL_formation": 5760,
-            "SL_establishment": 307200,
-            "ADC": 9600,
-            "affine_merge_accumulate": 7200,
-            "input_offset_sum": 1440,
-            "final_signed_correction": 300,
+            "BL_formation": 11520,
+            "SL_establishment": 614400,
+            "ADC": 19200,
+            "affine_merge_accumulate": 19200,
+            "input_sign_magnitude_encoding": 1440,
             "boundaries": 10
           },
           "raw_full_load_stages_ns": {
             "page_program": 1843200000,
             "block_erase": 64000000.0,
-            "encoded_page_load_control": 3379200,
-            "canonical_weight_sum_metadata": 691200,
+            "data_page_load_control": 8352000,
+            "reference_page_load_control": 211200,
+            "resident_sign_magnitude_encoding": 345600,
             "finite_calibration": 10920
           },
-          "raw_delta_S_ns": 340600,
-          "raw_T_R_ns": 1911281320.0,
+          "raw_delta_S_ns": 674860,
+          "raw_T_R_ns": 1916119720.0,
           "counts_and_resources": {
             "row_groups": 4,
-            "analog_rounds": 480,
+            "analog_rounds": 960,
             "physical_pages": 6144,
             "blocks": 64,
             "physical_cells": 84934656,
             "data_cells": 79626240,
             "reference_cells": 5308416,
-            "logical_fraction_of_physical_bits": 0.20833333333333334,
+            "logical_fraction_of_physical_bits": 0.10416666666666667,
             "dense_current_uA": 20.736,
             "calibration_rounds": 12,
             "calibration_ticks": 450,
-            "metadata_generation_ticks": 138240,
-            "intermediate_signed_bits_required": 30
+            "resident_encoding_ticks": 69120,
+            "intermediate_signed_bits_required": 28,
+            "input_sign_phases": 2,
+            "weight_polarities": 2,
+            "input_preparation_ticks": 288,
+            "data_page_effective_bits_per_tick": 48
           },
           "independent_mapping": {
             "K": 4608,
-            "N": 480,
+            "N": 240,
             "b_S": 1,
             "b_R": 1,
             "B_S_Byte": 4608,
-            "full_resident_payload_Byte": 2211840,
-            "delta_S_ns": 340600.0,
-            "T_R_ns": 1911281320.0,
-            "rho_Byte_per_s": 13529066.353493834,
-            "tau_Byte_per_s": 1157255.0711686965,
-            "RI_star": 11.69065203562341,
-            "U_star": 5611.512977099236,
-            "average_update_ns_per_16KiB": 14157639.407407407
+            "full_resident_payload_Byte": 1105920,
+            "delta_S_ns": 674860.0,
+            "T_R_ns": 1916119720.0,
+            "rho_Byte_per_s": 6828082.861630561,
+            "tau_Byte_per_s": 577166.4413536749,
+            "RI_star": 11.830353209060645,
+            "U_star": 2839.2847701745545,
+            "average_update_ns_per_16KiB": 28386958.814814813
           },
           "pass_check": true
         },
@@ -773,52 +796,56 @@
           "profile": "long",
           "raw_stream_stages_ns": {
             "WL_setup": 9090,
-            "BL_formation": 5760,
-            "SL_establishment": 360000,
-            "ADC": 24000,
-            "affine_merge_accumulate": 14400,
-            "input_offset_sum": 2880,
-            "final_signed_correction": 600,
+            "BL_formation": 11520,
+            "SL_establishment": 720000,
+            "ADC": 48000,
+            "affine_merge_accumulate": 38400,
+            "input_sign_magnitude_encoding": 2880,
             "boundaries": 20
           },
           "raw_full_load_stages_ns": {
             "page_program": 3686400000,
             "block_erase": 224000000.0,
-            "encoded_page_load_control": 6758400,
-            "canonical_weight_sum_metadata": 1382400,
+            "data_page_load_control": 16704000,
+            "reference_page_load_control": 422400,
+            "resident_sign_magnitude_encoding": 691200,
             "finite_calibration": 14850
           },
-          "raw_delta_S_ns": 416750,
-          "raw_T_R_ns": 3918555650.0,
+          "raw_delta_S_ns": 829910,
+          "raw_T_R_ns": 3928232450.0,
           "counts_and_resources": {
             "row_groups": 4,
-            "analog_rounds": 480,
+            "analog_rounds": 960,
             "physical_pages": 6144,
             "blocks": 64,
             "physical_cells": 84934656,
             "data_cells": 79626240,
             "reference_cells": 5308416,
-            "logical_fraction_of_physical_bits": 0.20833333333333334,
+            "logical_fraction_of_physical_bits": 0.10416666666666667,
             "dense_current_uA": 20.736,
             "calibration_rounds": 12,
             "calibration_ticks": 450,
-            "metadata_generation_ticks": 138240,
-            "intermediate_signed_bits_required": 30
+            "resident_encoding_ticks": 69120,
+            "intermediate_signed_bits_required": 28,
+            "input_sign_phases": 2,
+            "weight_polarities": 2,
+            "input_preparation_ticks": 288,
+            "data_page_effective_bits_per_tick": 48
           },
           "independent_mapping": {
             "K": 4608,
-            "N": 480,
+            "N": 240,
             "b_S": 1,
             "b_R": 1,
             "B_S_Byte": 4608,
-            "full_resident_payload_Byte": 2211840,
-            "delta_S_ns": 416750.0,
-            "T_R_ns": 3918555650.0,
-            "rho_Byte_per_s": 11056988.602279544,
-            "tau_Byte_per_s": 564452.8743645634,
-            "RI_star": 19.58886047790442,
-            "U_star": 9402.653029394121,
-            "average_update_ns_per_16KiB": 29026338.14814815
+            "full_resident_payload_Byte": 1105920,
+            "delta_S_ns": 829910.0,
+            "T_R_ns": 3928232450.0,
+            "rho_Byte_per_s": 5552409.297393694,
+            "tau_Byte_per_s": 281531.20113856805,
+            "RI_star": 19.722180969422386,
+            "U_star": 4733.323432661373,
+            "average_update_ns_per_16KiB": 58196036.2962963
           },
           "pass_check": true
         }
@@ -860,8 +887,8 @@
     },
     {
       "case_id": "05_rram",
-      "inputs_sha256": "b6c3a374d214fb476a43cfb833cabfb629fa82e0721b58bbd9218d634affd845",
-      "results_sha256": "5e2a59bb0771d5fa9ffee2c84ccaaaf503958f14368edeedac2fdc9b3729688e",
+      "inputs_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+      "results_sha256": "e882a21b7c9d37c3c8d47438d7f0f2071da663284ac4af61e7cd1f7559f1a5fd",
       "declared_input_provenance_checks": [
         {
           "field": "baseline.json_sha256",
@@ -1342,8 +1369,8 @@
     },
     {
       "case_id": "07_pcm",
-      "inputs_sha256": "9e5ec07e30c4bde2d6ef1aa971897da7bc0c4c3df170a5a86986d6be24ee53f2",
-      "results_sha256": "aba81a6e791e3fdd90f0dd0875fbb9cd8c76c75ea09aa52a058518c890bcd548",
+      "inputs_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+      "results_sha256": "7a4b6d2defc2137f44db5d34089e2f0abc013b081c2dbf92a5b7c5e80bbe4ed1",
       "declared_input_provenance_checks": [],
       "native_configuration": {
         "n_in": 256,
@@ -1767,8 +1794,8 @@
     },
     {
       "case_id": "09_gain_cell_edram",
-      "inputs_sha256": "eac6d9a73b0cc3362612fbe4e7a8a63ee08db611b3fb5b985cafc327c0cafcba",
-      "results_sha256": "49750ae1190a5dfa5d2db0b539c533f39afaa6d00c848833149fa8d8cd3c6e1a",
+      "inputs_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+      "results_sha256": "0babd5c35d3033d2fc58d18150983bd8ebf2fb3226f2ca62b9240f3681f903ea",
       "declared_input_provenance_checks": [
         {
           "field": "baseline_hashes.data/shared_parameters.json",
@@ -1816,12 +1843,12 @@
         },
         "native_rationale": "GC-04measured64x64pair local load;8bit planes encodeone64x64INT8matrix without unnecessary2x2 spatial expansion"
       },
-      "independent_stage_formula": "DSraw=8ceil(K/64)ceil(N/16)*(TI+read+TA+2TD)+2TD; TRraw=(KN/16)*(3TD+two_step_write); Frefresh=(KN/16)*(TI+read+TA+TD+3TD+two_step_write); alpha=(period-Frefresh-max(read_group,write_group))/period; DSeff=DSraw/alpha; TReff=TRraw/alpha",
+      "independent_stage_formula": "FM=TI+common+MAC_pulse+TA; FF=TI+common+refresh_pulse+TA; DSraw=8ceil(K/64)ceil(N/16)*(FM+2TD)+2TD; TRraw=(KN/16)*(3TD+complete_write); H=(KN/16)*(FF+TD+3TD+complete_write); alpha=1-(H+max(FM+2TD,3TD+complete_write))/period",
       "main_scenarios": [
         {
           "profile": "short",
           "raw_stream_stages_ns": {
-            "input_front_ADC": 3584,
+            "input_front_ADC": 1568,
             "digital_reconstruction": 128,
             "boundaries": 4
           },
@@ -1829,15 +1856,15 @@
             "encoded_load_control": 1536,
             "complete_two_step_program": 16640
           },
-          "raw_delta_S_ns": 3716,
+          "raw_delta_S_ns": 1700,
           "raw_T_R_ns": 18176,
           "counts_and_resources": {
             "analog_rounds": 32,
             "full_load_transactions": 256,
             "refresh_groups": 256,
             "refresh_busy_ns": 47360,
-            "refresh_guard_ns": 116,
-            "availability": 0.88131,
+            "refresh_guard_ns": 71,
+            "availability": 0.8814225,
             "refresh_period_ns": 400000,
             "refresh_payload_Byte": 0,
             "physical_cells": 65536,
@@ -1850,20 +1877,20 @@
             "b_R": 1,
             "B_S_Byte": 64,
             "full_resident_payload_Byte": 4096,
-            "delta_S_ns": 4216.45051117087,
-            "T_R_ns": 20623.84405033416,
-            "rho_Byte_per_s": 15178643.70290635,
-            "tau_Byte_per_s": 198605070.42253524,
-            "RI_star": 0.07642626480086114,
-            "U_star": 4.891280947255113,
-            "average_update_ns_per_16KiB": 82495.37620133664
+            "delta_S_ns": 1928.7004813242231,
+            "T_R_ns": 20621.211734440636,
+            "rho_Byte_per_s": 33182964.705882348,
+            "tau_Byte_per_s": 198630422.5352113,
+            "RI_star": 0.16705882352941176,
+            "U_star": 10.691764705882353,
+            "average_update_ns_per_16KiB": 82484.84693776254
           },
           "pass_check": true
         },
         {
           "profile": "reference",
           "raw_stream_stages_ns": {
-            "input_front_ADC": 5600,
+            "input_front_ADC": 3584,
             "digital_reconstruction": 320,
             "boundaries": 10
           },
@@ -1871,15 +1898,15 @@
             "encoded_load_control": 3840,
             "complete_two_step_program": 16640
           },
-          "raw_delta_S_ns": 5930,
+          "raw_delta_S_ns": 3914,
           "raw_T_R_ns": 20480,
           "counts_and_resources": {
             "analog_rounds": 32,
             "full_load_transactions": 256,
             "refresh_groups": 256,
             "refresh_busy_ns": 66560,
-            "refresh_guard_ns": 185,
-            "availability": 0.8331375,
+            "refresh_guard_ns": 122,
+            "availability": 0.833295,
             "refresh_period_ns": 400000,
             "refresh_payload_Byte": 0,
             "physical_cells": 65536,
@@ -1892,20 +1919,20 @@
             "b_R": 1,
             "B_S_Byte": 64,
             "full_resident_payload_Byte": 4096,
-            "delta_S_ns": 7117.672653073472,
-            "T_R_ns": 24581.77671752862,
-            "rho_Byte_per_s": 8991703.204047216,
-            "tau_Byte_per_s": 166627500.0,
-            "RI_star": 0.05396290050590219,
-            "U_star": 3.45362563237774,
-            "average_update_ns_per_16KiB": 98327.10687011448
+            "delta_S_ns": 4697.016062738886,
+            "T_R_ns": 24577.130548005207,
+            "rho_Byte_per_s": 13625671.946857436,
+            "tau_Byte_per_s": 166659000.0,
+            "RI_star": 0.08175779253960143,
+            "U_star": 5.232498722534491,
+            "average_update_ns_per_16KiB": 98308.52219202083
           },
           "pass_check": true
         },
         {
           "profile": "long",
           "raw_stream_stages_ns": {
-            "input_front_ADC": 8320,
+            "input_front_ADC": 6304,
             "digital_reconstruction": 640,
             "boundaries": 20
           },
@@ -1913,15 +1940,15 @@
             "encoded_load_control": 7680,
             "complete_two_step_program": 19200
           },
-          "raw_delta_S_ns": 8980,
+          "raw_delta_S_ns": 6964,
           "raw_T_R_ns": 26880,
           "counts_and_resources": {
             "analog_rounds": 32,
             "full_load_transactions": 256,
             "refresh_groups": 256,
             "refresh_busy_ns": 96000,
-            "refresh_guard_ns": 280,
-            "availability": 0.7593,
+            "refresh_guard_ns": 217,
+            "availability": 0.7594575,
             "refresh_period_ns": 400000,
             "refresh_payload_Byte": 0,
             "physical_cells": 65536,
@@ -1934,13 +1961,13 @@
             "b_R": 1,
             "B_S_Byte": 64,
             "full_resident_payload_Byte": 4096,
-            "delta_S_ns": 11826.682470696695,
-            "T_R_ns": 35401.0272619518,
-            "rho_Byte_per_s": 5411492.204899778,
-            "tau_Byte_per_s": 115702857.14285715,
-            "RI_star": 0.0467706013363029,
-            "U_star": 2.9933184855233854,
-            "average_update_ns_per_16KiB": 141604.1090478072
+            "delta_S_ns": 9169.703373789844,
+            "T_R_ns": 35393.68562427786,
+            "rho_Byte_per_s": 6979506.031016658,
+            "tau_Byte_per_s": 115726857.14285715,
+            "RI_star": 0.06031016657093624,
+            "U_star": 3.8598506605399194,
+            "average_update_ns_per_16KiB": 141574.74249711144
           },
           "pass_check": true
         }
@@ -2166,18 +2193,22 @@
     "PCM_row_striped_update_coverage_weights": 32768,
     "PCM_isolated_columns_and_common_return_ratings_declared": true,
     "NAND_exhaustive_signed_scalar_pairs": 65536,
-    "NAND_offset_intermediate_width_valid": true,
+    "NAND_split_sign_intermediate_width_valid": true,
+    "NAND_factorized_data_page_coverage": 5760,
+    "NAND_reference_page_coverage": 384,
+    "NAND_full_data_cell_coverage": 79626240,
+    "NAND_sign_masks_and_formatter_resources_accounted": true,
     "GC_main_scenarios_sustainable_with_fixed_refresh_and_no_shadow": true,
     "GC_infeasible_cases_have_null_effective_throughput": 1
   },
   "unified_export_checks": {
     "main_scenarios_matched_to_independent_arithmetic": 30,
-    "all_ledger_rows_JSON_CSV_identical": 74,
+    "all_ledger_rows_JSON_CSV_identical": 80,
     "fixed_main_resources": true,
     "full_matrix_payload_time_boundary": true,
     "source_hashes_current": true,
-    "unified_json_sha256": "362f89b7c04da63a56f0c817c8fd6824053a3615f41436258b57625f408e5628",
-    "unified_csv_sha256": "ca7e4fa510dc052b095e5b9dfd44272caa28c0f5a801fc4cc745e72c212d63f7"
+    "unified_json_sha256": "fb283a62f327534c323b1abbfb0c72dcb5e04904d3809f470ca162ad4b35af2a",
+    "unified_csv_sha256": "7bc9aafae9ded4cd0fe307d21ac3be161e6146e5c357071def5bbc624162b325"
   },
   "actual_parameter_dependency_checks": {
     "expected_method": "Independent input-derived stage counts; production functions are observation-only, with in-memory parameters restored after each probe.",
@@ -2343,12 +2374,12 @@
         "expected_raw_full_load_change_ns": 0.0,
         "expected_availability": 1,
         "observed_mapping": {
-          "delta_S_ns": 340600,
-          "T_R_ns": 1911281320.0,
-          "rho_Byte_per_s": 13529066.353493832,
-          "tau_Byte_per_s": 1157255.0711686963,
-          "RI_star": 11.690652035623408,
-          "U_star": 5611.512977099236
+          "delta_S_ns": 674860,
+          "T_R_ns": 1916119720.0,
+          "rho_Byte_per_s": 6828082.861630561,
+          "tau_Byte_per_s": 577166.4413536749,
+          "RI_star": 11.830353209060647,
+          "U_star": 2839.2847701745545
         },
         "all_affected_services_recomputed": true
       },
@@ -2356,16 +2387,16 @@
         "case_id": "04_nand_3d",
         "parameter": "adc_batch",
         "perturbation_ns": 1,
-        "expected_raw_vector_change_ns": 480,
+        "expected_raw_vector_change_ns": 960,
         "expected_raw_full_load_change_ns": 12.0,
         "expected_availability": 1,
         "observed_mapping": {
-          "delta_S_ns": 341080,
-          "T_R_ns": 1911281332.0,
-          "rho_Byte_per_s": 13510026.97314413,
-          "tau_Byte_per_s": 1157255.0639028582,
-          "RI_star": 11.674199918885112,
-          "U_star": 5603.615961064853
+          "delta_S_ns": 675820,
+          "T_R_ns": 1916119732.0,
+          "rho_Byte_per_s": 6818383.593264478,
+          "tau_Byte_per_s": 577166.4377390796,
+          "RI_star": 11.813548306748347,
+          "U_star": 2835.2515936196028
         },
         "all_affected_services_recomputed": true
       },
@@ -2373,16 +2404,16 @@
         "case_id": "04_nand_3d",
         "parameter": "digital_tick",
         "perturbation_ns": 1,
-        "expected_raw_vector_change_ns": 1790,
-        "expected_raw_full_load_change_ns": 814530.0,
+        "expected_raw_vector_change_ns": 4130,
+        "expected_raw_full_load_change_ns": 1782210.0,
         "expected_availability": 1,
         "observed_mapping": {
-          "delta_S_ns": 342390,
-          "T_R_ns": 1912095850.0,
-          "rho_Byte_per_s": 13458336.98414089,
-          "tau_Byte_per_s": 1156762.0943270181,
-          "RI_star": 11.6344899700147,
-          "U_star": 5584.555185607056
+          "delta_S_ns": 678990,
+          "T_R_ns": 1917901930.0,
+          "rho_Byte_per_s": 6786550.611938319,
+          "tau_Byte_per_s": 576630.1095489278,
+          "RI_star": 11.769330979346774,
+          "U_star": 2824.639435043226
         },
         "all_affected_services_recomputed": true
       },
@@ -2596,14 +2627,14 @@
         "perturbation_ns": 1,
         "expected_raw_vector_change_ns": 32,
         "expected_raw_full_load_change_ns": 0,
-        "expected_availability": 0.832495,
+        "expected_availability": 0.8326525,
         "observed_mapping": {
-          "delta_S_ns": 7161.604574201647,
-          "T_R_ns": 24600.748352842962,
-          "rho_Byte_per_s": 8936544.783629652,
-          "tau_Byte_per_s": 166499000.0,
-          "RI_star": 0.053673264005367316,
-          "U_star": 3.4350888963435087
+          "delta_S_ns": 4739.071821678311,
+          "T_R_ns": 24596.095009622863,
+          "rho_Byte_per_s": 13504754.18144957,
+          "tau_Byte_per_s": 166530500.0,
+          "RI_star": 0.08109477952356817,
+          "U_star": 5.190065889508363
         },
         "all_affected_services_recomputed": true
       },
@@ -2613,14 +2644,14 @@
         "perturbation_ns": 1,
         "expected_raw_vector_change_ns": 32,
         "expected_raw_full_load_change_ns": 0,
-        "expected_availability": 0.832495,
+        "expected_availability": 0.8326525,
         "observed_mapping": {
-          "delta_S_ns": 7161.604574201647,
-          "T_R_ns": 24600.748352842962,
-          "rho_Byte_per_s": 8936544.783629652,
-          "tau_Byte_per_s": 166499000.0,
-          "RI_star": 0.053673264005367316,
-          "U_star": 3.4350888963435087
+          "delta_S_ns": 4739.071821678311,
+          "T_R_ns": 24596.095009622863,
+          "rho_Byte_per_s": 13504754.18144957,
+          "tau_Byte_per_s": 166530500.0,
+          "RI_star": 0.08109477952356817,
+          "U_star": 5.190065889508363
         },
         "all_affected_services_recomputed": true
       },
@@ -2630,14 +2661,14 @@
         "perturbation_ns": 1,
         "expected_raw_vector_change_ns": 66,
         "expected_raw_full_load_change_ns": 768,
-        "expected_availability": 0.8305725,
+        "expected_availability": 0.83073,
         "observed_mapping": {
-          "delta_S_ns": 7219.11693440368,
-          "T_R_ns": 25582.354339928184,
-          "rho_Byte_per_s": 8865350.23348899,
-          "tau_Byte_per_s": 160110361.4457831,
-          "RI_star": 0.055370246831220805,
-          "U_star": 3.543695797198132
+          "delta_S_ns": 4790.966980848169,
+          "T_R_ns": 25577.504122879876,
+          "rho_Byte_per_s": 13358472.361809045,
+          "tau_Byte_per_s": 160140722.89156625,
+          "RI_star": 0.08341708542713569,
+          "U_star": 5.338693467336683
         },
         "all_affected_services_recomputed": true
       },
@@ -2699,7 +2730,7 @@
         "mode": "main",
         "parameter": "sl_setup_ns",
         "value_ns": 641,
-        "independent_raw_delta_S_ns": 480,
+        "independent_raw_delta_S_ns": 960,
         "independent_raw_delta_T_R_ns": 12,
         "independent_refresh_busy_change_ns": 0,
         "independent_guard_change_ns": 0,
@@ -2710,7 +2741,7 @@
         "mode": "main",
         "parameter": "bl_setup_ns",
         "value_ns": 13,
-        "independent_raw_delta_S_ns": 480,
+        "independent_raw_delta_S_ns": 960,
         "independent_raw_delta_T_R_ns": 12,
         "independent_refresh_busy_change_ns": 0,
         "independent_guard_change_ns": 0,
@@ -2732,7 +2763,7 @@
         "mode": "main",
         "parameter": "adc_batch_ns",
         "value_ns": 21,
-        "independent_raw_delta_S_ns": 480,
+        "independent_raw_delta_S_ns": 960,
         "independent_raw_delta_T_R_ns": 12,
         "independent_refresh_busy_change_ns": 0,
         "independent_guard_change_ns": 0,
@@ -2743,8 +2774,8 @@
         "mode": "main",
         "parameter": "digital_tick_ns",
         "value_ns": 6,
-        "independent_raw_delta_S_ns": 1790,
-        "independent_raw_delta_T_R_ns": 814530,
+        "independent_raw_delta_S_ns": 4130,
+        "independent_raw_delta_T_R_ns": 1782210,
         "independent_refresh_busy_change_ns": 0,
         "independent_guard_change_ns": 0,
         "all_affected_services_recomputed": true
@@ -2996,153 +3027,854 @@
   "mode_comparison_checks": {
     "PCM_long_observation": "conditional separate acceptance protocol; source PWM/CCO architecture not transplanted",
     "PCM_shared_front_uncertainty": "propagates to evaluation and every terminal read; not a measured performance correction",
-    "GC_early_release_independent_stages": [
+    "GC_all_modes_and_organizations_independent_stages": [
       {
+        "kind": "main",
         "profile": "short",
+        "K": 64,
+        "N": 64,
+        "width": 16,
         "raw_delta_S_ns": 1700,
         "raw_T_R_ns": 18176,
         "refresh_busy_ns": 47360,
         "guard_ns": 71,
-        "availability": 0.8814225
+        "availability": 0.8814225,
+        "main_table_eligible": true
       },
       {
+        "kind": "main",
         "profile": "reference",
+        "K": 64,
+        "N": 64,
+        "width": 16,
         "raw_delta_S_ns": 3914,
         "raw_T_R_ns": 20480,
         "refresh_busy_ns": 66560,
         "guard_ns": 122,
-        "availability": 0.833295
+        "availability": 0.833295,
+        "main_table_eligible": true
       },
       {
+        "kind": "main",
         "profile": "long",
+        "K": 64,
+        "N": 64,
+        "width": 16,
         "raw_delta_S_ns": 6964,
         "raw_T_R_ns": 26880,
         "refresh_busy_ns": 96000,
         "guard_ns": 217,
-        "availability": 0.7594575
+        "availability": 0.7594575,
+        "main_table_eligible": true
+      },
+      {
+        "kind": "conservative_mode",
+        "profile": "short",
+        "K": 64,
+        "N": 64,
+        "width": 16,
+        "raw_delta_S_ns": 3716,
+        "raw_T_R_ns": 18176,
+        "refresh_busy_ns": 47360,
+        "guard_ns": 116,
+        "availability": 0.88131,
+        "main_table_eligible": false
+      },
+      {
+        "kind": "conservative_mode",
+        "profile": "reference",
+        "K": 64,
+        "N": 64,
+        "width": 16,
+        "raw_delta_S_ns": 5930,
+        "raw_T_R_ns": 20480,
+        "refresh_busy_ns": 66560,
+        "guard_ns": 185,
+        "availability": 0.8331375,
+        "main_table_eligible": false
+      },
+      {
+        "kind": "conservative_mode",
+        "profile": "long",
+        "K": 64,
+        "N": 64,
+        "width": 16,
+        "raw_delta_S_ns": 8980,
+        "raw_T_R_ns": 26880,
+        "refresh_busy_ns": 96000,
+        "guard_ns": 280,
+        "availability": 0.7593,
+        "main_table_eligible": false
+      },
+      {
+        "kind": "structure_comparison",
+        "profile": "reference",
+        "K": 64,
+        "N": 64,
+        "width": 32,
+        "raw_delta_S_ns": 2122,
+        "raw_T_R_ns": 11520,
+        "refresh_busy_ns": 34560,
+        "guard_ns": 132,
+        "availability": 0.91327,
+        "main_table_eligible": false
+      },
+      {
+        "kind": "capacity_comparison",
+        "profile": "reference",
+        "K": 128,
+        "N": 128,
+        "width": 16,
+        "raw_delta_S_ns": 15626,
+        "raw_T_R_ns": 81920,
+        "refresh_busy_ns": 266240,
+        "guard_ns": 122,
+        "availability": 0.33409500000000003,
+        "main_table_eligible": false
+      },
+      {
+        "kind": "refresh_pressure",
+        "profile": "long",
+        "K": 128,
+        "N": 128,
+        "width": 16,
+        "raw_delta_S_ns": 27796,
+        "raw_T_R_ns": 107520,
+        "refresh_busy_ns": 384000,
+        "guard_ns": 217,
+        "availability": 0.039457500000000034,
+        "main_table_eligible": false
+      },
+      {
+        "kind": "infeasible_stress",
+        "profile": "long",
+        "K": 128,
+        "N": 128,
+        "width": 16,
+        "raw_delta_S_ns": 29844,
+        "raw_T_R_ns": 107520,
+        "refresh_busy_ns": 400384,
+        "guard_ns": 233,
+        "availability": -0.0015425000000000022,
+        "main_table_eligible": false
       }
     ],
-    "GC_fixed_slot": "intentional sampling reservation, including post-pulse analog hold; original 180 ns is only a whole-cycle anchor"
+    "GC_reference_selection": "Mode-specific sampling after pulse and retained common stages uses original PRE/SAMP/CCTRL architecture; 180 ns is only a whole-cycle anchor. Fixed-slot hold remains a conservative comparison."
   },
   "numerical_service_checks": {
     "04_nand_3d": {
-      "method": "Independent integer/Fraction reconstruction of all ten deterministic vectors, four physical row groups and sixteen digit partials per group.",
-      "nominal_bits": 10,
-      "gain_Q8_16_integer": 800327,
-      "full_reference_code": 849,
-      "half_reference_residual_codes": 0.5,
-      "vector_checks": [
+      "method": "Independent rational physical partials, finite calibration, grouped digit/sign reconstruction; selected and legacy paths both reproduced.",
+      "local_vector_checks": [
         {
           "id": "zero",
-          "exact_signed_dot": 0,
-          "quantized_signed_dot": -65536,
-          "signed_error": -65536,
+          "truth": 0,
+          "selected_reconstructed": 0,
+          "legacy_reconstructed": -65536,
+          "signed_error": 0,
           "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "unit_positive",
-          "exact_signed_dot": 4608,
-          "quantized_signed_dot": -58896,
-          "signed_error": -63504,
-          "sign_reversal": true,
+          "truth": 4608,
+          "selected_reconstructed": 4592,
+          "legacy_reconstructed": -58896,
+          "signed_error": -16,
+          "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "unit_negative",
-          "exact_signed_dot": -4608,
-          "quantized_signed_dot": 59904,
-          "signed_error": 64512,
-          "sign_reversal": true,
+          "truth": -4608,
+          "selected_reconstructed": -4592,
+          "legacy_reconstructed": 59904,
+          "signed_error": 16,
+          "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "alternating_cancel",
-          "exact_signed_dot": 0,
-          "quantized_signed_dot": 1008,
-          "signed_error": 1008,
+          "truth": 0,
+          "selected_reconstructed": 0,
+          "legacy_reconstructed": 1008,
+          "signed_error": 0,
           "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "large_cancel",
-          "exact_signed_dot": 0,
-          "quantized_signed_dot": 171360,
-          "signed_error": 171360,
+          "truth": 0,
+          "selected_reconstructed": 0,
+          "legacy_reconstructed": 171360,
+          "signed_error": 0,
           "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "large_positive",
-          "exact_signed_dot": 74322432,
-          "quantized_signed_dot": 74322432,
-          "signed_error": 0,
+          "truth": 74322432,
+          "selected_reconstructed": 74256896,
+          "legacy_reconstructed": 74322432,
+          "signed_error": -65536,
           "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "large_negative",
-          "exact_signed_dot": -74907648,
-          "quantized_signed_dot": -74907648,
-          "signed_error": 0,
+          "truth": -74907648,
+          "selected_reconstructed": -74973184,
+          "legacy_reconstructed": -74907648,
+          "signed_error": -65536,
           "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "small_ramp",
-          "exact_signed_dot": 2,
-          "quantized_signed_dot": -14868,
-          "signed_error": -14870,
-          "sign_reversal": true,
+          "truth": 2,
+          "selected_reconstructed": 24,
+          "legacy_reconstructed": -14868,
+          "signed_error": 22,
+          "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "wide_ramp",
-          "exact_signed_dot": -2923776,
-          "quantized_signed_dot": -2900456,
-          "signed_error": 23320,
+          "truth": -2923776,
+          "selected_reconstructed": -2897056,
+          "legacy_reconstructed": -2900456,
+          "signed_error": 26720,
           "sign_reversal": false,
           "clipped_partials": 0
         },
         {
           "id": "isolated_unit",
-          "exact_signed_dot": 1,
-          "quantized_signed_dot": -65792,
-          "signed_error": -65793,
-          "sign_reversal": true,
+          "truth": 1,
+          "selected_reconstructed": 0,
+          "legacy_reconstructed": -65792,
+          "signed_error": -1,
+          "sign_reversal": false,
           "clipped_partials": 0
         }
       ],
-      "ENOB_is_resolution_scale_only": true,
-      "pressure_clipping_detected": true,
       "diagnostic_reproduction_passed": true,
-      "weak_signal_numerical_service_qualified": false,
-      "diagnostic_sha256": "ec0c0f50759f00f0cea249e353cf20171ac7df9de266c2e0f395ad0c32668b0c"
+      "selected_reference_nominal_diagnostics_completed": true,
+      "arbitrary_weak_signal_accuracy_guaranteed": false,
+      "diagnostic_sha256": "3bdf1f980703612fdd2af7e712c71a4ed4597ba67752c7ae33e6108822c27c8f"
     }
   },
+  "five_ACIM_nominal_service_checks": {
+    "method": "Reviewer-owned deterministic vectors and integer/Fraction transfer/reconstruction. No common or case generator is used for expected numerical answers.",
+    "cases": [
+      {
+        "case_id": "01_sram_acim",
+        "physical_transfer_instantiated": false,
+        "vectors": [
+          {
+            "id": "zero",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_input",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_weight",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_positive",
+            "truth": 128,
+            "reconstructed": 128,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_negative",
+            "truth": -128,
+            "reconstructed": -128,
+            "signed_error": 0
+          },
+          {
+            "id": "alternating_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "near_cancel_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "small_ramp",
+            "truth": 2,
+            "reconstructed": 2,
+            "signed_error": 0
+          },
+          {
+            "id": "large_positive",
+            "truth": 2064512,
+            "reconstructed": 2064512,
+            "signed_error": 0
+          },
+          {
+            "id": "large_negative",
+            "truth": -2080768,
+            "reconstructed": -2080768,
+            "signed_error": 0
+          },
+          {
+            "id": "large_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "wide_ramp",
+            "truth": -73024,
+            "reconstructed": -73024,
+            "signed_error": 0
+          },
+          {
+            "id": "isolated_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_small",
+            "truth": 2,
+            "reconstructed": 2,
+            "signed_error": 0
+          }
+        ],
+        "maximum_absolute_residual": 0,
+        "collapsed_nonzero_vectors": [],
+        "positive_endpoint_code_saturation_events": null,
+        "raw_ADC_error_unresolved": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "physical_transfer_instantiated": true,
+        "vectors": [
+          {
+            "id": "zero",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_input",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_weight",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_positive",
+            "truth": 4608,
+            "reconstructed": 4592,
+            "signed_error": -16
+          },
+          {
+            "id": "unit_negative",
+            "truth": -4608,
+            "reconstructed": -4592,
+            "signed_error": 16
+          },
+          {
+            "id": "alternating_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "near_cancel_unit",
+            "truth": 1,
+            "reconstructed": 0,
+            "signed_error": -1
+          },
+          {
+            "id": "small_ramp",
+            "truth": 2,
+            "reconstructed": 24,
+            "signed_error": 22
+          },
+          {
+            "id": "large_positive",
+            "truth": 74322432,
+            "reconstructed": 74256896,
+            "signed_error": -65536
+          },
+          {
+            "id": "large_negative",
+            "truth": -74907648,
+            "reconstructed": -74973184,
+            "signed_error": -65536
+          },
+          {
+            "id": "large_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "wide_ramp",
+            "truth": -2923776,
+            "reconstructed": -2897056,
+            "signed_error": 26720
+          },
+          {
+            "id": "isolated_unit",
+            "truth": 1,
+            "reconstructed": 0,
+            "signed_error": -1
+          },
+          {
+            "id": "group_boundary_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_small",
+            "truth": 2,
+            "reconstructed": 0,
+            "signed_error": -2
+          }
+        ],
+        "maximum_absolute_residual": 65536,
+        "collapsed_nonzero_vectors": [
+          "near_cancel_unit",
+          "isolated_unit",
+          "group_boundary_small"
+        ],
+        "positive_endpoint_code_saturation_events": null,
+        "raw_ADC_error_unresolved": false
+      },
+      {
+        "case_id": "05_rram",
+        "physical_transfer_instantiated": false,
+        "vectors": [
+          {
+            "id": "zero",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_input",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_weight",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_positive",
+            "truth": 128,
+            "reconstructed": 128,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_negative",
+            "truth": -128,
+            "reconstructed": -128,
+            "signed_error": 0
+          },
+          {
+            "id": "alternating_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "near_cancel_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "small_ramp",
+            "truth": 2,
+            "reconstructed": 2,
+            "signed_error": 0
+          },
+          {
+            "id": "large_positive",
+            "truth": 2064512,
+            "reconstructed": 2064512,
+            "signed_error": 0
+          },
+          {
+            "id": "large_negative",
+            "truth": -2080768,
+            "reconstructed": -2080768,
+            "signed_error": 0
+          },
+          {
+            "id": "large_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "wide_ramp",
+            "truth": -73024,
+            "reconstructed": -73024,
+            "signed_error": 0
+          },
+          {
+            "id": "isolated_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_small",
+            "truth": 2,
+            "reconstructed": 2,
+            "signed_error": 0
+          }
+        ],
+        "maximum_absolute_residual": 0,
+        "collapsed_nonzero_vectors": [],
+        "positive_endpoint_code_saturation_events": null,
+        "raw_ADC_error_unresolved": true
+      },
+      {
+        "case_id": "07_pcm",
+        "physical_transfer_instantiated": false,
+        "vectors": [
+          {
+            "id": "zero",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_input",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_weight",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_positive",
+            "truth": 256,
+            "reconstructed": 256,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_negative",
+            "truth": -256,
+            "reconstructed": -256,
+            "signed_error": 0
+          },
+          {
+            "id": "alternating_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "near_cancel_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "small_ramp",
+            "truth": -1,
+            "reconstructed": -1,
+            "signed_error": 0
+          },
+          {
+            "id": "large_positive",
+            "truth": 4129024,
+            "reconstructed": 4129024,
+            "signed_error": 0
+          },
+          {
+            "id": "large_negative",
+            "truth": -4161536,
+            "reconstructed": -4161536,
+            "signed_error": 0
+          },
+          {
+            "id": "large_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "wide_ramp",
+            "truth": -162432,
+            "reconstructed": -162432,
+            "signed_error": 0
+          },
+          {
+            "id": "isolated_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_small",
+            "truth": 2,
+            "reconstructed": 2,
+            "signed_error": 0
+          }
+        ],
+        "maximum_absolute_residual": 0,
+        "collapsed_nonzero_vectors": [],
+        "positive_endpoint_code_saturation_events": null,
+        "raw_ADC_error_unresolved": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "physical_transfer_instantiated": true,
+        "vectors": [
+          {
+            "id": "zero",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_input",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "zero_weight",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_positive",
+            "truth": 64,
+            "reconstructed": 64,
+            "signed_error": 0
+          },
+          {
+            "id": "unit_negative",
+            "truth": -64,
+            "reconstructed": -64,
+            "signed_error": 0
+          },
+          {
+            "id": "alternating_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "near_cancel_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "small_ramp",
+            "truth": -6,
+            "reconstructed": -6,
+            "signed_error": 0
+          },
+          {
+            "id": "large_positive",
+            "truth": 1032256,
+            "reconstructed": 1032256,
+            "signed_error": 0
+          },
+          {
+            "id": "large_negative",
+            "truth": -1040384,
+            "reconstructed": -1040384,
+            "signed_error": 0
+          },
+          {
+            "id": "large_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "wide_ramp",
+            "truth": -64928,
+            "reconstructed": -64928,
+            "signed_error": 0
+          },
+          {
+            "id": "isolated_unit",
+            "truth": 1,
+            "reconstructed": 1,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_cancel",
+            "truth": 0,
+            "reconstructed": 0,
+            "signed_error": 0
+          },
+          {
+            "id": "group_boundary_small",
+            "truth": 2,
+            "reconstructed": 2,
+            "signed_error": 0
+          }
+        ],
+        "maximum_absolute_residual": 0,
+        "collapsed_nonzero_vectors": [],
+        "positive_endpoint_code_saturation_events": 73,
+        "raw_ADC_error_unresolved": false
+      }
+    ],
+    "common_diagnostic_sha256": "8b77f159e945b4fc7d65439258e5983f570679470ff65065066cb09f1f43962d",
+    "execution_consistent": true,
+    "uniform_physical_accuracy_certification": false
+  },
+  "NAND_legacy_restricted_service_checks": [
+    {
+      "profile": "short",
+      "kind": "sustained",
+      "K": 4608,
+      "N": 480,
+      "delta_S_ns": 277630,
+      "T_R_ns": 1908836290.0,
+      "automatic_general_signed_workload_mapping": false
+    },
+    {
+      "profile": "short",
+      "kind": "finite_append",
+      "K": 4608,
+      "N": 480,
+      "delta_S_ns": 277630,
+      "T_R_ns": 1729551810,
+      "automatic_general_signed_workload_mapping": false
+    },
+    {
+      "profile": "reference",
+      "kind": "sustained",
+      "K": 4608,
+      "N": 480,
+      "delta_S_ns": 340600,
+      "T_R_ns": 1911281320.0,
+      "automatic_general_signed_workload_mapping": false
+    },
+    {
+      "profile": "reference",
+      "kind": "finite_append",
+      "K": 4608,
+      "N": 480,
+      "delta_S_ns": 340600,
+      "T_R_ns": 1731870120,
+      "automatic_general_signed_workload_mapping": false
+    },
+    {
+      "profile": "long",
+      "kind": "sustained",
+      "K": 4608,
+      "N": 480,
+      "delta_S_ns": 416750,
+      "T_R_ns": 3918555650.0,
+      "automatic_general_signed_workload_mapping": false
+    },
+    {
+      "profile": "long",
+      "kind": "finite_append",
+      "K": 4608,
+      "N": 480,
+      "delta_S_ns": 416750,
+      "T_R_ns": 3463733250,
+      "automatic_general_signed_workload_mapping": false
+    }
+  ],
   "numerical_service_qualifications": {
     "04_nand_3d": {
-      "contract": "approximate_partial_sum",
+      "contract": "approximate_signed_INT8_partial_sum",
       "weak_signal_guarantee": false,
-      "quantized_service_status": "weak_signal_and_cancellation_not_qualified",
+      "quantized_service_status": "nominal_split_sign_diagnostics_completed",
+      "reference_service_status": "approximate_signed_reference",
+      "workload_mapping_eligibility": true,
       "diagnostic_path": "data/quantization_diagnostics.json",
       "limitations": [
-        "Nominal10bit deterministic quantization with existing affine offset reconstruction can turn a positive small dot product negative.",
-        "No clipping in nominal deterministic test vectors does not certify small-signal or cancellation accuracy.",
-        "Approximately8ENOB describes a resolution scale,not an8bit quantizer,noise model or application error guarantee.",
-        "Throughput values remain conditional approximate-evaluation budgets;qualifying general signed INT8 weak outputs requires a service choice or additional supported implementation."
-      ]
+        "Nominal10bit deterministic diagnostics remove the large common offset of the legacy encoding;they do not certify physical analog accuracy.",
+        "Sparse unit products and asymmetric cancellation remain limited by12.20703125nominal unit counts perADC LSB.",
+        "Approximately8ENOB is a resolution scale,not an8bit ADC or a noise distribution.",
+        "No universal workload accuracy threshold is assumed."
+      ],
+      "eligibility_scope": "approximate_signed_INT8_requires_application_error_contract"
     }
   },
-  "remaining_qualification": "NAND weak signed outputs and cancellation are not qualified. PCM shared weakest-code settling, GC control/hold conditions and RRAM cross-stack endpoint completion remain explicitly conditional engineering assumptions.",
+  "remaining_qualification": "NAND split-sign reference is structurally eligible for approximate signed INT8; sparse units and asymmetric cancellation remain resolution-limited. SRAM/RRAM/PCM diagnostics exercise ideal calibrated partials, not missing raw ADC transfers. No physical analog or universal workload accuracy is certified. PCM weakest-code settling, GC mode-specific timing/repeated refresh and RRAM cross-stack endpoint completion remain conditional engineering assumptions.",
   "all_passed_scope": "Execution, independent arithmetic, parameter propagation, deterministic diagnostic reproduction and export consistency only; not numerical-service adequacy, circuit qualification or user acceptance.",
   "shared_hashes": {
     "data/shared_parameters.json": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
     "scripts/check_shared.py": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
   },
   "unique_case_prefixed_labels": 24,
+  "current_review_primary_page_inspections": [
+    {
+      "source_id": "GC-04",
+      "PDF_pages_visually_inspected": [
+        6,
+        7,
+        10
+      ],
+      "finding": "Fig10 PRE/SAMP/CCTRL and variable RWL provide phase separation; bit-serial main control can advance sampling after its completed pulse plus retained common operations. No measured 1/64 ns or common-overhead decomposition is inferred."
+    },
+    {
+      "source_id": "NAND-04",
+      "PDF_pages_visually_inspected": [
+        2,
+        3
+      ],
+      "finding": "BL switch matrix, triple input copies/SSL weight digits and independent block SL/ADCs support separate magnitude-bank reads and sign masks. Additional polarity storage, sign phases, formatter and digital stages are explicitly counted."
+    }
+  ],
   "external_review_judgments": [
-    "NAND: selected 25uA current frontend at original bias/native16pFSL, row grouping and settling budgets; SGVC SLC full-program/erase bridge; offset-encoding quantization error.",
+    "NAND: selected split-sign 25uA current frontend at original bias/native16pFSL, row grouping and settling budgets; complete encoded/reference pages and cross-implementation SLC full P/E bridge. Legacy offset examples remain separately restricted.",
     "RRAM/PCM: cross-implementation program waveform and binary acceptance-window completion; finite attempt scenarios are not measured yield distributions.",
     "FeRAM/FeFET/MRAM: explicitly provisioned driver, isolation, sense/mux/hold paths and supply load must meet engineering timing; FeRAM simultaneous PL restoration supply remains a sizing condition.",
     "GC-04: endpoint sign retention and adapted integration frontend, isolation to original write load, and repeated no-shadow refresh need physical qualification."

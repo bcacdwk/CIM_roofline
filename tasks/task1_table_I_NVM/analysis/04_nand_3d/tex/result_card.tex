@@ -2,19 +2,20 @@
 \subsection*{统一结果卡}
 \begingroup\small
 \noindent\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule
-原生逻辑配置 & W[N,K]=480×4608；INT8输入与权重；有效 resident=2211840 Byte。\\
-更新组织 & 整矩阵持续替换；64 次 block 擦除、6144 次 page 编程；包含参考状态、校准和元数据。\\
+原生逻辑配置 & W[N,K]=240×4608；INT8输入与权重；有效 resident=1105920 Byte。\\
+更新组织 & 整矩阵持续替换；64 次 block 擦除、6144 次 page 编程；包含正负幅值编码、单输出暂存、参考状态与校准。\\
 主要资源 & ADC=64；数字输出通道=16；更新域=1；页缓冲/bit=13824\\
-数值服务资格 & 条件近似求值预算；偏置量化可导致小信号或抵消结果符号翻转，未保证其准确度，见正文诊断。\\
+数值检查层级 & 已声明理想模拟链、名义ADC与有限重构。结构映射资格不构成应用准确度认证。\\
+编码与保持 & 正负幅值分块，每次8输出；单输出暂存41472bit；数据页48bit/拍，参考页128bit/拍。\\
 \bottomrule\end{tabularx}
 \vspace{3mm}
 \begin{center}\begin{tabular}{@{}lrrr@{}}\toprule
 固定组织成对情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
-乐观 & $17$ & $1.2$ & $14$\\
-典型 & $14$ & $1.2$ & $12$\\
-悲观 & $11$ & $0.56$ & $20$\\
+乐观 & $8.4$ & $0.58$ & $15$\\
+典型 & $6.8$ & $0.58$ & $12$\\
+悲观 & $5.6$ & $0.28$ & $20$\\
 \bottomrule\end{tabular}\end{center}
-\noindent 典型完整求值：$B_S=4608$ Byte，$\Delta_S=3.4\times10^{5}$ ns。完整 resident 装载：$B_R=2211840$ Byte，$T_R=1.9\times10^{9}$ ns；$U^*=5.6\times10^{3}$ 个向量。
+\noindent 典型完整求值：$B_S=4608$ Byte，$\Delta_S=6.7\times10^{5}$ ns。完整 resident 装载：$B_R=1105920$ Byte，$T_R=1.9\times10^{9}$ ns；$U^*=2.8\times10^{3}$ 个向量。
 \par\smallskip\noindent 接口：$U^*=T_R/\Delta_S=N\,\mathrm{RI}^*$（两侧均为 1 Byte）。局部更新事务与完整装载关系见正文；该平衡关系不保证两路峰值能同时实现。
 \par\smallskip\noindent 原始能力与长期有效能力在所声明服务窗口内相同；必要局部恢复、终验或擦除已纳入完整服务。
 \par\smallskip\noindent 三点对应所选原生参考配置的有限工程条件，不代表等面积或等计算量排名。资源扩展、预擦除有限窗口和维护压力另列。1 MB=10\textasciicircum{}6 Byte；16 KiB辅助换算仅为平均成本。

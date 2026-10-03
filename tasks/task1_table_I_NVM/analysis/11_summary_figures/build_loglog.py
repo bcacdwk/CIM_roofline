@@ -8,7 +8,7 @@ import sys
 sys.dont_write_bytecode = True
 import numpy as np
 from matplotlib.ticker import LogFormatterMathtext, LogLocator, NullLocator
-from build_figures import COLORS, DATA, LABELS, MUTED, OUT, fmt, normalize_svg, plt
+from build_figures import COLORS, DATA, LABELS, MUTED, OUT, fmt, normalize_svg, ordinary_reference_eligible, plt
 
 INCHES_PER_DECADE = 2.6
 MARKER_AREA, EXTREME_MARKER_AREA = 320, 56
@@ -35,6 +35,7 @@ def render_final(groups, source_report, *, circle_specs=None, output_stem=STEM,
     xlimits=xlimits or auto_x;ylimits=ylimits or auto_y
     rows=[g["reference"] for g in groups]
     assert len(rows)==10 and all(r["recommended"] for r in rows)
+    assert all(ordinary_reference_eligible(r) for g in groups for r in g.values()), 'Restricted encoding cannot use ordinary point/circle styling'
     sx,sy=[math.log10(b/a) for a,b in (xlimits,ylimits)]
     width,height=sx*INCHES_PER_DECADE,sy*INCHES_PER_DECADE
     left,bottom,right,top=1.05,1.40,.4,.9
@@ -163,7 +164,8 @@ def render_final(groups, source_report, *, circle_specs=None, output_stem=STEM,
         fig.savefig(OUT/f"{output_stem}.{ext}",dpi=220,bbox_inches="tight",pad_inches=.14)
         if ext == "svg": normalize_svg(OUT/f"{output_stem}.{ext}")
     exported=[{"profile":p,**g[p]} for g in groups for p in ("short","reference","long")] if circle_specs else [{"profile":"reference",**r} for r in rows]
-    fields=["profile","case_id","technology","K","N","rho","tau","RI_star","U_star","source_result","source_mapping"]
+    fields=["profile","case_id","technology","K","N","rho","tau","RI_star","U_star","reference_service_status",
+            "workload_mapping_eligibility","nominal_diagnostic_level","source_result","source_mapping"]
     with (DATA/f"{output_stem}_points.csv").open("w",encoding="utf-8-sig",newline="") as f:
         w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");w.writeheader();w.writerows({k:r[k] for k in fields} for r in exported)
     report={"all_passed":True,"point_count":len(dots),"reference_point_count":10,
@@ -178,6 +180,9 @@ def render_final(groups, source_report, *, circle_specs=None, output_stem=STEM,
         "marker_area_points_squared":MARKER_AREA,"source_checks_passed":source_report["all_passed"],
         "source_sha256":source_report["sha256"]["data/ten_case_results.json"],
         "native_configuration_note":"Selected different native sizes and resources; not equal-area or equal-work ranking"}
+    report['ordinary_service_identity_checked'] = True
+    report['excluded_restricted_records'] = source_report['excluded_restricted_records']
+    report['numerical_diagnostic_note'] = source_report['numerical_diagnostic_note']
     if circle_specs:
         report.update({"extreme_point_count":20,"extreme_marker_area_points_squared":EXTREME_MARKER_AREA,
             "connector_count":len(connectors),"connector_origin":"typical point, not geometric center",

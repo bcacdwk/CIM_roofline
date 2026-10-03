@@ -9,6 +9,10 @@
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.22}
 \setlist{nosep,leftmargin=2em}
+\AddToHook{cmd/subsection/before}{%
+  \ifnum\value{section}=1\relax
+    \ifnum\value{subsection}=3\relax\Needspace{6\baselineskip}\fi
+  \fi}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small Table I 共享估算基线}
@@ -28,7 +32,6 @@
 \noindent 本文建立局部 CIM 服务单元的原生参考配置的共同资源政策与计算方法，涵盖 28 nm CMOS 外围条件、完整 streaming 与 resident 服务，以及两路吞吐和 ridge 的估算。
 \input{01_cmos_periphery}
 \input{02_estimation_method}
-\clearpage
 \bibliographystyle{unsrt}
 \bibliography{references}
 \end{document}

@@ -61,12 +61,30 @@ def profile_of(row):
     return profile
 
 
+def ordinary_reference_eligible(row):
+    """A finite update window must not upgrade a restricted encoding identity."""
+    return (row['workload_mapping_eligibility'] is True
+            and not row['reference_service_status'].startswith('restricted')
+            and row['scenario_type'] in {'recommended_reference', 'paired_conditional'})
+
+
+def diagnostic_note(groups):
+    analog, partial = [], []
+    for index, group in enumerate(groups):
+        q = group['reference']['numerical_service_qualification']
+        if q.get('nominal_diagnostic_level'):
+            (analog if q['quantization_induced_bias_assessed'] else partial).append(PLAIN_LABELS[index])
+    return ('Nominal ADC paths: '+', '.join(analog)+'. '+', '.join(partial)
+            +' checks stop at calibrated partial sums; no workload accuracy certification.')
+
+
 def load_and_validate():
     document = json.loads(SOURCE.read_text(encoding="utf-8"))
     adapter = import_file("reviewed_export_adapter", ANALYSIS / "scripts/export_ten_cases.py")
     assert portable(adapter.normalized()) == portable(document), "Stale unified data"
     rows = [r for r in document["results"]
             if r["scenario_type"] in {"recommended_reference", "paired_conditional"}]
+    assert all(ordinary_reference_eligible(r) for r in rows), 'Restricted primary service cannot enter ordinary table points/circles; choose an eligible reference or a separately identified presentation.'
     groups = []
     for case in document["cases"]:
         selected = [r for r in rows if r["case_id"] == case["case_id"]]
@@ -96,6 +114,7 @@ def load_and_validate():
     independent = import_file("reviewed_independent_check", ANALYSIS / "scripts/check_ten_cases.py")
     independent.run()  # Reconstruct stages from case inputs; does not write or import calculators.
     paths = [SOURCE, ANALYSIS / "scripts/export_ten_cases.py", ANALYSIS / "scripts/check_ten_cases.py",
+             ANALYSIS / 'shared_baseline/data/nominal_service_diagnostics.json',
              ANALYSIS / "shared_baseline/data/shared_parameters.json"]
     for case in document["cases"]:
         for suffix in ("inputs", "results"):
@@ -104,9 +123,13 @@ def load_and_validate():
         "checks": ["Unified export equals current native adapter",
                    "Thirty points match native mapping interfaces at full precision",
                    "Native payload, complete service, RI_star and U_star identities hold",
+                   "Ordinary points require structural workload-mapping eligibility and a nonrestricted service identity; legacy encoding and all append windows are excluded",
                    "Independent input-derived stage and geometry checker passes for ten cases and thirty scenarios",
                    "Only fixed-resource sustainable paired scenarios selected"],
         "sha256": {p.relative_to(ANALYSIS).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
+        "excluded_restricted_records": [dict(case_id=r['case_id'], scenario_id=r['scenario_id'], scenario_type=r['scenario_type'],
+                                            source_result=r['source_result']) for r in document['results'] if not r['workload_mapping_eligibility']],
+        "numerical_diagnostic_note": diagnostic_note(groups),
         "display": {"rate_unit": "MB/s = 10^6 Byte/s", "significant_digits": 2,
                     "scatter_uses_unrounded_values": True, "axis_scales": "equal log10 scales",
                     "native_configurations_not_equal_area_or_equal_work": True}}
@@ -178,7 +201,7 @@ def make_table(groups):
         ("Fast / typical / slow are paired, sustainable conditions in one configuration; resource expansions and refresh stress points are excluded.",9.7,MUTED),
         ("K × N counts input and output elements. Group labels describe local update shape; reported τ includes all groups and required full-load overhead.",9.7,MUTED),
         ("Gain-cell rates include refresh. NOR / NAND include erase. Native configurations differ in resources and size; this is not an equal-area or equal-work ranking.",9.5,MUTED),
-        ("NAND rates are conditional: offset-coded quantization can reverse weak or canceling outputs; small-signal accuracy is not guaranteed.",9.5,MUTED)]
+        (diagnostic_note(groups),9.0,MUTED)]
     for y,(s,fs,c) in zip((.150,.118,.086,.054,.022),notes): fig.text(.035,y,s,fontsize=fs,color=c)
     save_figure(fig,"table_I_three_scenarios")
     return fig
@@ -191,6 +214,10 @@ def export_data(document, groups):
             r=g[p]; m=r["maintenance"]
             flat.append({"case_id":r["case_id"],"technology":PLAIN_LABELS[i],"profile":p,
                 "scenario_type":r["scenario_type"],"K":r["K"],"N":r["N"],"configuration":config_label(r),
+                "reference_service_status":r['reference_service_status'],
+                "workload_mapping_eligibility":r['workload_mapping_eligibility'],
+                "nominal_diagnostic_level":r['nominal_diagnostic_level'],
+                "quantization_induced_bias_assessed":r['numerical_service_qualification'].get('quantization_induced_bias_assessed'),
                 "rho_MB_per_s":r["rho"],"tau_MB_per_s":r["tau"],"RI_star":r["RI_star"],"U_star":r["U_star"],
                 "B_S_Byte":r["B_S"],"B_R_Byte":r["B_R"],"delta_S_ns":r["delta_S_ns"],"T_R_ns":r["T_R_ns"],
                 "availability":m.get("availability",1) if isinstance(m,dict) else 1,
@@ -210,7 +237,8 @@ def export_data(document, groups):
     md += ["","三种情景是相同组织和资源下的可持续成对条件，不是独立读写极值、统计区间或资源扩展对照。",
            "τ 使用完整矩阵有效逻辑容量与完整装载服务时间；局部更新分组不改变分子边界。NOR/NAND 包含持续擦写，Gain-cell 包含周期刷新。",
            "不同原生配置的能力不表示等面积或相同计算量的性能排名。完整资源和更新形状在统一机器数据中保留。",
-           "NAND为条件近似求值预算：偏置编码量化可使弱信号或抵消输出符号翻转，未保证小信号准确度；确定性诊断见案例正文与数据。",
+           "普通表点要求机器字段声明结构性映射资格且身份不为受限编码；该资格不等于应用精度认证。旧NAND偏置编码及其预擦除append均在统一数据中保留为受限对照，不进入本表和普通圆。",
+           diagnostic_note(groups),
            "","## 逐例模式和来源",""]
     for i,c in enumerate(document["cases"]):
         cid=c["case_id"]
@@ -232,7 +260,7 @@ def export_data(document, groups):
         r"$K$ and $N$ count input and output elements. Local group shapes are shown; $\tau$ uses the entire logical matrix and all required loading overhead. "
         r"Fast/typical/slow retain one resource configuration. NOR/NAND include erase; gain-cell rates include refresh. "
         r"Resource-expansion and maintenance-stress contrasts are excluded. Native resources and sizes differ, so the table is not an equal-area or equal-work ranking. "
-        r"NAND rates are conditional: offset-coded quantization can reverse weak or canceling outputs; small-signal accuracy is not guaranteed. "
+        + diagnostic_note(groups)+" " +
         r"For the matched INT8 matrix, $U^{*}=N\mathrm{RI}^{*}$; this relation requires matching full-load and full-vector boundaries.",
         r"\end{minipage}",r"\end{table*}"]
     (OUT/"table_I_three_scenarios.tex").write_text("\n".join(tex)+"\n",encoding="utf-8")

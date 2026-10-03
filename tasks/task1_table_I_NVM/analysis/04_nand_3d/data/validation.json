@@ -1,28 +1,31 @@
 {
-  "method": "independent arithmetic,mode perturbations and deterministic quantized reconstruction;no circuit simulation",
+  "method": "independent arithmetic,physical encoder enumeration,mode derivatives,and deterministic nominal quantization;no circuit simulation",
   "checks": [
-    "native capacities and encoding",
-    "all65536 ideal signed INT8 encoder pairs",
-    "all data/reference pages and complete erase",
-    "headroom and group selection",
-    "independent typical time sum",
-    "TableII U* and finite-burst separation",
-    "shared mode propagation by independent coefficients",
-    "nominal10bit quantization and finite calibration with explicit adverse outcomes",
-    "source hashes and generated synchronization"
+    "native capacity and signed magnitude mapping",
+    "65536 scalar pairs with physical3x3 codes",
+    "complete positive/negative/reference page load",
+    "constant two input-sign phases including empty masks",
+    "independent typical time and actual48bit formatter",
+    "service parameter derivatives",
+    "nominal and restricted legacy diagnostics",
+    "complete-load U* interface",
+    "source hashes and generated files"
   ],
   "expected_check_groups": 9,
   "numerical_service_qualification": {
-    "contract": "approximate_partial_sum",
+    "contract": "approximate_signed_INT8_partial_sum",
     "weak_signal_guarantee": false,
-    "quantized_service_status": "weak_signal_and_cancellation_not_qualified",
+    "quantized_service_status": "nominal_split_sign_diagnostics_completed",
+    "reference_service_status": "approximate_signed_reference",
+    "workload_mapping_eligibility": true,
     "diagnostic_path": "data/quantization_diagnostics.json",
     "limitations": [
-      "Nominal10bit deterministic quantization with existing affine offset reconstruction can turn a positive small dot product negative.",
-      "No clipping in nominal deterministic test vectors does not certify small-signal or cancellation accuracy.",
-      "Approximately8ENOB describes a resolution scale,not an8bit quantizer,noise model or application error guarantee.",
-      "Throughput values remain conditional approximate-evaluation budgets;qualifying general signed INT8 weak outputs requires a service choice or additional supported implementation."
-    ]
+      "Nominal10bit deterministic diagnostics remove the large common offset of the legacy encoding;they do not certify physical analog accuracy.",
+      "Sparse unit products and asymmetric cancellation remain limited by12.20703125nominal unit counts perADC LSB.",
+      "Approximately8ENOB is a resolution scale,not an8bit ADC or a noise distribution.",
+      "No universal workload accuracy threshold is assumed."
+    ],
+    "eligibility_scope": "approximate_signed_INT8_requires_application_error_contract"
   },
-  "meaning_of_test_success": "Arithmetic and documented diagnostics execute consistently;weak-signal numerical service is not thereby qualified."
+  "meaning_of_test_success": "Service arithmetic and nominal reconstruction are reproducible;application and physical analog accuracy are not certified."
 }

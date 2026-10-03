@@ -1,7 +1,8 @@
 \begin{table}[htbp]\centering\small
 \begin{tabular}{@{}lrrr@{}}\toprule
-更新方式 & $T_R$(s) & $\tau$(MB/s) & $\RI^*$\\\midrule
-持续完整替换 & 1.9113 & 1.16 & 11.7\\
-预擦除有限一代 & 1.7319 & 1.28 & 10.6\\
+实现/更新 & $N$ & $\rho$(MB/s) & $\tau$(MB/s)\\\midrule
+双幅值持续替换 & 240 & 6.83 & 0.577\\
+双幅值预擦除一代 & 240 & 6.83 & 0.637\\
+偏置码受限示例 & 480 & 13.5 & 1.16\\
 \bottomrule\end{tabular}
-\caption{预擦除对照仅覆盖一个有限窗口，参考页预先存在；仍支付 metadata 和重新校准，不用于主表持续能力。}\end{table}
+\caption{预擦除只适用于有限一代；偏置码为受限编码比较，不进入通用signed INT8映射。}\end{table}

@@ -33,3 +33,5 @@ sh tasks/task1_table_I_NVM/analysis/01_sram_acim/scripts/build.sh
 主要外部审阅条件：9T1C从原HCA/4b Flash改为独立列SAR，需要真实隔离、局部缓冲与校准；原4b误差不能证明8有效位整体精度。128写驱动从48bit 8T/eFlash锚点移植至9T1C内6T是有限工程预算，需后续电路验证；现有交付不冒称实测配对。`notes/method_review.zh.md`逐项说明桥接、排除项、手算及源码检查覆盖。
 
 原生K128/N128、完整T_R=5120ns和Δ_S=3210ns通过公共mapping接口保存，典型U*=1.59502=128·RI*。输入寄存1024bit、输出128×23bit，动态范围仍为129级；三情景保持ADC、驱动与重构数量固定。
+
+名义数值检查复用[五例共同诊断](../shared_baseline/data/nominal_service_diagnostics.json)。本例检查层级为标定后理想部分和与有限数字重构；没有实例化替代ADC的完整模拟传递，不能把零代数残差视为物理量化或应用准确度通过。

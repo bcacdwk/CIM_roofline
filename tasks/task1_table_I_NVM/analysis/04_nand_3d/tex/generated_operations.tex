@@ -1,10 +1,10 @@
 \begin{table}[htbp]\centering\small
 \begin{tabular}{@{}lrl@{}}\toprule
 完整操作 & 次数 & 有效逻辑payload\\\midrule
-数据页program & 5760 & 2,211,840 Byte（全矩阵）\\
+数据页program & 5760 & 1,105,920 Byte（全矩阵）\\
 参考页program & 384 & 0\\
 块erase & 64 & 0\\
-输入向量求值 & 480轮 & 4608 Byte\\
-校准参考读 & 12轮 & 0\\
+求值/ADC轮次 & 960 & 4608 Byte\\
+校准参考读 & 12 & 0\\
 \bottomrule\end{tabular}
-\caption{编码复制和参考页占用物理资源，逻辑字节仅在完整状态就绪后提交。}\end{table}
+\caption{正负幅值bank、输入符号相位和参考页均完整服务，包括空输入掩码。}\end{table}

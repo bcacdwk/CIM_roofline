@@ -5,17 +5,19 @@
 原生逻辑配置 & W[N,K]=64×64；INT8输入与权重；有效 resident=4096 Byte。\\
 更新组织 & 每个对齐局部组 16 Byte；256 个完整事务覆盖矩阵。\\
 主要资源 & ADC=128；数字输出通道=16；写驱动=128\\
+数值检查层级 & 已声明理想模拟链、名义ADC与有限重构。结构映射资格不构成应用准确度认证。\\
+典型控制策略 & 按模式释放：MAC脉冲后进入采样/转换；单pair刷新保持64ns积分，共同建立、恢复与维护完整计入。\\
 \bottomrule\end{tabularx}
 \vspace{3mm}
 \begin{center}\begin{tabular}{@{}lrrr@{}}\toprule
 固定组织成对情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
-乐观 & $15$ & $2\times10^{2}$ & $0.076$\\
-典型 & $9$ & $1.7\times10^{2}$ & $0.054$\\
-悲观 & $5.4$ & $1.2\times10^{2}$ & $0.047$\\
+乐观 & $33$ & $2\times10^{2}$ & $0.17$\\
+典型 & $14$ & $1.7\times10^{2}$ & $0.082$\\
+悲观 & $7$ & $1.2\times10^{2}$ & $0.06$\\
 \bottomrule\end{tabular}\end{center}
-\noindent 典型完整求值：$B_S=64$ Byte，$\Delta_S=7.1\times10^{3}$ ns。完整 resident 装载：$B_R=4096$ Byte，$T_R=2.5\times10^{4}$ ns；$U^*=3.5$ 个向量。
+\noindent 典型完整求值：$B_S=64$ Byte，$\Delta_S=4.7\times10^{3}$ ns。完整 resident 装载：$B_R=4096$ Byte，$T_R=2.5\times10^{4}$ ns；$U^*=5.2$ 个向量。
 \par\smallskip\noindent 接口：$U^*=T_R/\Delta_S=N\,\mathrm{RI}^*$（两侧均为 1 Byte）。局部更新事务与完整装载关系见正文；该平衡关系不保证两路峰值能同时实现。
-\par\smallskip\noindent 维护前$\rho$/$\tau$=11/2e+02 MB/s；刷新周期=4e+02 $\mu$s，可用比例=0.83。表内为长期有效能力，维护不增加逻辑 payload。
+\par\smallskip\noindent 维护前$\rho$/$\tau$=16/2e+02 MB/s；刷新周期=4e+02 $\mu$s，可用比例=0.83。表内为长期有效能力，维护不增加逻辑 payload。
 \par\smallskip\noindent 三点对应所选原生参考配置的有限工程条件，不代表等面积或等计算量排名。资源扩展、预擦除有限窗口和维护压力另列。1 MB=10\textasciicircum{}6 Byte；16 KiB辅助换算仅为平均成本。
 \endgroup
 \clearpage

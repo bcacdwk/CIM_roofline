@@ -21,7 +21,11 @@
 
 每例三点均为同一原生组织与资源下的可持续成对工程情景；典型不是统计中位数。资源扩展、维护临界点、不可行调度和预擦除有限 burst 均不进入普通三情景。Gain-cell 的慢点也是可持续主情景。3D FeFET 的主身份为 2026 vertical AND FeFET，图中使用技术简称；Gain-cell 保持 GC-04 的 65 nm 3T1C current-programmed dynamic-cascode 路径。完整模式、编码、保持、外围与更新资源由[统一数据](../data/ten_case_results.json)及[各例章节入口](../TEN_CASE_REVIEW.zh.md)保存。
 
-可持续性表示声明时序与维护占用可排程，不替代数值精度资格。NAND偏置编码的名义10bit量化诊断可使弱信号或抵消输出发生符号错误；其点仅为条件近似求值预算，未保证小信号准确度。该限制同时写入正式表脚注、统一结果卡及[机器诊断](../04_nand_3d/data/quantization_diagnostics.json)。PCM共享前端768 ns敏感性与独立长观察、GC提前释放模式均另列，不进入本表或普通圆。
+普通点与圆要求统一数据的 `workload_mapping_eligibility=true` 且 `reference_service_status` 非受限编码；该资格只表示所声明服务的结构性 signed-INT8 映射，不表示普遍应用准确度通过。生成器拒绝将受限主点用普通点/圆呈现。旧 NAND 偏置编码及其预擦除 append 共六条记录保留独立旧组织和 false 资格，全部排除。
+
+NAND 主参考为正负幅值分块和输入符号掩码，K4608、N240；完整暂存、格式化、参考页和校准计入服务。GC-04 主参考采用按模式释放，固定64 ns窗口为保守控制对照；两者保持同资源和完整刷新。PCM共享前端768 ns敏感性与独立长观察均另列，不进入本表或普通圆。
+
+[五例共同名义诊断](../shared_baseline/data/nominal_service_diagnostics.json)区分检查深度：NAND 和 GC 使用所声明的理想电流、名义ADC及有限数字重构；SRAM ACIM、RRAM、PCM 仅检查标定后理想部分和及重构，未实例化物理ADC传递。表格诊断说明及绘图数据从机器资格字段生成；名义检查不认证实物非理想性或 workload 精度。
 
 表图的 RI* = ρ/τ 是硬件配置的服务比值。对匹配的 INT8 矩阵，U* = N·RI* = T_R/Δ_S；扩大到算子时必须重新确认完整矩阵装载、输入共享、重放与资源分时，见[公共方法](../shared_baseline/README.md)。图中所有比值标签和参考线均标为 RI*，不代表某一 workload 的 RI。
 
@@ -48,6 +52,6 @@ r = ||a−c|| = ||b−c||
 
 该入口生成正式三情景表、两幅图与三页合并 PDF。[build_loglog.py](build_loglog.py)调用同一完整入口；[build_loglog_circles.py](build_loglog_circles.py)可单独生成圆图及其点数据、验证记录。三个脚本均只写本目录。
 
-构建检查统一导出与原生结果一致，按 `source_mapping` 指针核对全部 30 组数值，并验证原生 payload、完整服务时间、RI* 和 U*。随后执行[独立检查器](../scripts/check_ten_cases.py)的输入驱动阶段与几何检查，不以旧吞吐数值或固定 128×128 分子作为预期答案。
+构建检查统一导出与原生结果一致，按 `source_mapping` 指针核对全部 30 组数值，并验证原生 payload、完整服务时间、RI*、U* 和机器服务身份。随后执行[独立检查器](../scripts/check_ten_cases.py)的输入驱动阶段、选通、维护及五例名义重构检查，不以旧吞吐数值或主生成函数作为唯一预期答案。绘图数据同时保存身份、映射资格和诊断层级；六条受限编码记录的排除清单写入验证数据。
 
 [通用验证](data/validation.json)记录输入、原生结果、共享参数和中央数据的 SHA-256。[典型图检查](data/rho_tau_loglog_validation.json)与[圆图检查](data/rho_tau_loglog_circles_validation.json)验证原始坐标、等对数比例、45° 参考线、完整边框、点与标签入框、技术标签与参考线标签无碰撞，以及全部圆完整可见。[PDF QA](data/pdf_qa.json)绑定正式 PDF 的真实哈希、页数、字体嵌入、文本边界及逐页渲染审查。

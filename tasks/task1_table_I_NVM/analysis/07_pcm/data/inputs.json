@@ -295,5 +295,36 @@
       "qualification": "Pulse and route timing remain cross-implementation reference choices, not a measured full-bank update.",
       "source": "PCM-01 PDF p7; PCM-06 PDF p4 Fig6"
     }
+  },
+  "nominal_diagnostic_model": {
+    "level": "ideal_calibrated_partial_sum_and_digital_reconstruction",
+    "logical_K": 256,
+    "rows_per_group": 8,
+    "output_container_bits": 24,
+    "adc_nominal_bits": 10,
+    "adc_ENOB_scale_only": 8,
+    "physical_transfer_instantiated": false,
+    "quantization_induced_bias_assessed": false,
+    "encoding": "signed INT8 two-complement; eight binary weight planes and eight input bits; top-bit coefficient -128",
+    "partial_sum_domain": [
+      0,
+      8
+    ],
+    "raw_ADC_transfer": null,
+    "analog_full_scale": null,
+    "calibration_code_table": null,
+    "source": "PCM-03 voltage-sum8-row groups and declared9-class column-dependent decoder",
+    "claim_boundary": "Only already-calibrated ideal integer partial sums, grouping, finite signed reconstruction and nominal ADC code-count sufficiency are exercised. Missing physical voltage/current-to-code transfer and calibration thresholds are not invented; no analog ADC quantization or device accuracy claim."
+  },
+  "numerical_service_qualification": {
+    "reference_service_status": "approximate_signed_reference",
+    "workload_mapping_eligibility": {
+      "signed_INT8_structural_mapping": true,
+      "universal_workload_accuracy_certified": false
+    },
+    "nominal_diagnostic_level": "ideal_calibrated_partial_sum_and_digital_reconstruction",
+    "quantization_induced_bias_assessed": false,
+    "diagnostic_path": "../shared_baseline/data/nominal_service_diagnostics.json",
+    "summary": "Signed approximate mapping is structurally supported. The common nominal check reaches calibrated partial-sum algebra only; physical ADC quantization remains uninstantiated."
   }
 }

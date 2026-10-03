@@ -39,11 +39,11 @@
     },
     "08_feram_hfo2": {
       "offset_points": [
-        0,
-        -18
+        44,
+        30.799999999999997
       ],
-      "horizontal_alignment": "center",
-      "vertical_alignment": "top"
+      "horizontal_alignment": "left",
+      "vertical_alignment": "bottom"
     },
     "09_gain_cell_edram": {
       "offset_points": [
@@ -52,22 +52,6 @@
       ],
       "horizontal_alignment": "left",
       "vertical_alignment": "center"
-    },
-    "04_nand_3d": {
-      "offset_points": [
-        28,
-        19.599999999999998
-      ],
-      "horizontal_alignment": "left",
-      "vertical_alignment": "bottom"
-    },
-    "05_rram": {
-      "offset_points": [
-        0,
-        20
-      ],
-      "horizontal_alignment": "center",
-      "vertical_alignment": "bottom"
     },
     "06_mram": {
       "offset_points": [
@@ -101,6 +85,22 @@
       "horizontal_alignment": "center",
       "vertical_alignment": "top"
     },
+    "04_nand_3d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "05_rram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
     "07_pcm": {
       "offset_points": [
         0,
@@ -116,8 +116,48 @@
   "all_four_spines_visible": true,
   "marker_area_points_squared": 320,
   "source_checks_passed": true,
-  "source_sha256": "362f89b7c04da63a56f0c817c8fd6824053a3615f41436258b57625f408e5628",
+  "source_sha256": "fb283a62f327534c323b1abbfb0c72dcb5e04904d3809f470ca162ad4b35af2a",
   "native_configuration_note": "Selected different native sizes and resources; not equal-area or equal-work ranking",
+  "ordinary_service_identity_checked": true,
+  "excluded_restricted_records": [
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "short",
+      "scenario_type": "restricted_encoding",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/0"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "short_append",
+      "scenario_type": "finite_pre_erased_window",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/0/append"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "reference",
+      "scenario_type": "restricted_encoding",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/1"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "reference_append",
+      "scenario_type": "finite_pre_erased_window",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/1/append"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "long",
+      "scenario_type": "restricted_encoding",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/2"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "long_append",
+      "scenario_type": "finite_pre_erased_window",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/2/append"
+    }
+  ],
+  "numerical_diagnostic_note": "Nominal ADC paths: 3D NAND, Gain-cell eDRAM. SRAM ACIM, RRAM, PCM checks stop at calibrated partial sums; no workload accuracy certification.",
   "extreme_point_count": 20,
   "extreme_marker_area_points_squared": 56,
   "connector_count": 20,
@@ -216,23 +256,23 @@
     {
       "case_id": "04_nand_3d",
       "center_log10": [
-        -0.05431406166838887,
-        1.064770341131474
+        -0.3548600114978732,
+        0.7671866006624771
       ],
-      "radius_decades": 0.1952056046858552,
-      "reference_center_distance_decades": 0.1352233928277785,
-      "reference_offset_over_radius": 0.6927229012988321,
+      "radius_decades": 0.19692675470476817,
+      "reference_center_distance_decades": 0.13415454605250962,
+      "reference_offset_over_radius": 0.6812408311589433,
       "short_log10": [
-        0.06398502476030037,
-        1.2200460773265018
+        -0.2374850769321683,
+        0.9253108285791642
       ],
       "long_log10": [
-        -0.2483723110601167,
-        1.0436368619151126
+        -0.5504734667756733,
+        0.7444814727651929
       ],
       "reference_log10": [
-        0.06342909256632472,
-        1.1312678267885734
+        -0.23869892837309378,
+        0.8342987828191691
       ],
       "extreme_points_on_circumference": true,
       "reference_inside": true,
@@ -366,23 +406,23 @@
     {
       "case_id": "09_gain_cell_edram",
       "center_log10": [
-        2.2143119383895287,
-        0.9396497974545607
+        2.2322772454937874,
+        1.164512286535326
       ],
-      "radius_decades": 0.25566482193954754,
-      "reference_center_distance_decades": 0.016021639517253303,
-      "reference_offset_over_radius": 0.06266657804428664,
+      "radius_decades": 0.36242036983188325,
+      "reference_center_distance_decades": 0.03191325599900378,
+      "reference_offset_over_radius": 0.08805591146493076,
       "short_log10": [
-        2.2979903319157486,
-        1.1812329666411818
+        2.2980457664519363,
+        1.5209151851207001
       ],
       "long_log10": [
-        2.0633440834639036,
-        0.7333170371944995
+        2.063434158911952,
+        0.843824686864559
       ],
       "reference_log10": [
-        2.2217466784192736,
-        0.9538419633749169
+        2.2218287716106913,
+        1.1343579286086147
       ],
       "extreme_points_on_circumference": true,
       "reference_inside": true,

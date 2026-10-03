@@ -48,7 +48,21 @@ def walk(value, path=()):
         if 'mapping_interface' in value or all(k in value for k in CORE):
             yield path, value
             if 'append' in value:
-                yield path + ('append',), dict(value['append'], profile=value['profile'])
+                # Erase preparation changes the update window, never the stored
+                # encoding, installed resources or numerical-service identity.
+                inherited = {k: copy.deepcopy(value[k]) for k in (
+                    'native_configuration', 'legacy_configuration', 'scenario_class',
+                    'numerical_service_qualification', 'reference_service_status',
+                    'workload_mapping_eligibility', 'eligibility_scope') if k in value}
+                append = copy.deepcopy(value['append'])
+                for key in inherited.keys() & append.keys():
+                    assert inherited[key] == append[key], ('append changes encoding/service identity', key)
+                append.update(inherited, profile=value['profile'])
+                for key in ('native_configuration', 'legacy_configuration'):
+                    if key in inherited:
+                        append['_inherited_native_configuration_path'] = path + (key,)
+                        break
+                yield path + ('append',), append
             return
         for k, v in value.items():
             yield from walk(v, path + (str(k),))
@@ -87,6 +101,7 @@ def classify(path, row, main_key):
             'operation_mode_comparison', 'parameter_uncertainty',
             'resource_comparison', 'maintenance_pressure',
             'finite_retry_sensitivity', 'reference_control',
+            'restricted_encoding',
         }, ('unknown explicit scenario class', declared)
         return declared
     kind = row.get('kind', '') + row.get('scenario_type', '')
@@ -126,7 +141,7 @@ def full_mapping(row, native, main=False):
 
 def scenario_native(case_id, base, row, mapping, path):
     """Retain native data and apply only explicitly exposed comparison changes."""
-    cfg = copy.deepcopy(row.get('native_configuration', base))
+    cfg = copy.deepcopy(row.get('native_configuration', row.get('legacy_configuration', base)))
     old_k, old_n = cfg['K'], cfg['N']
     cfg.update({k: mapping[k] for k in ('K', 'N', 'b_S', 'b_R')})
     cfg['effective_logical_capacity_Byte'] = mapping['full_resident_payload_Byte']
@@ -180,6 +195,7 @@ def scenario_native(case_id, base, row, mapping, path):
         res['input_register_bits'] = cfg['K'] * 8
         res['output_register_bits'] = cfg['N'] * cfg['output_bits']
         cfg['update_mode'] = f"{row['B_R_Byte']:g} aligned INT8 Bytes per transaction; {row['full_matrix_update']['transactions']} transactions complete matrix"
+        cfg['compute_release_policy'] = row['release_policy']
         if (old_k, old_n) != (cfg['K'], cfg['N']):
             cfg['native_rationale'] = 'capacity comparison with additional physical tiles; source dimensions and cell count retained'
     if case_id == '10_fenor_3d':
@@ -227,8 +243,44 @@ def validate_mapping(m):
     assert all(math.isclose(x, y, rel_tol=1e-11) for x, y in zip(expected, observed)), (expected, observed)
 
 
+def service_qualification(case, data, inputs, row, typ, diagnostic):
+    """Structural mapping eligibility is distinct from an accuracy guarantee."""
+    q = copy.deepcopy(data.get('numerical_service_qualification', inputs.get('numerical_service_qualification', {})))
+    q.update(copy.deepcopy(row.get('numerical_service_qualification', {})))
+    restricted = typ == 'restricted_encoding' or row.get('scenario_class') == 'restricted_encoding'
+    if restricted:
+        q = copy.deepcopy(data.get('legacy_offset_comparison', {}).get('qualification', {}))
+    for key in ('reference_service_status', 'workload_mapping_eligibility', 'eligibility_scope'):
+        if key in row:
+            q[key] = row[key]
+    eligible = q.get('workload_mapping_eligibility', True)
+    if isinstance(eligible, dict):
+        eligible = eligible['signed_INT8_structural_mapping']
+    assert isinstance(eligible, bool)
+    if restricted:
+        assert eligible is False, 'restricted encoding cannot enter general signed-workload mapping'
+    q['reference_service_status'] = q.get('reference_service_status', 'approximate_signed_reference' if diagnostic else 'declared_reference')
+    q['workload_mapping_eligibility'] = eligible
+    q['eligibility_scope'] = q.get('eligibility_scope',
+        'structural_signed_INT8_approximate_mapping_requires_application_error_contract' if diagnostic else 'declared_logical_service_and_precision_contract')
+    q['universal_workload_accuracy_certified'] = False
+    if q.get('diagnostic_path'):
+        q['diagnostic_path'] = str(Path(case, q['diagnostic_path']))
+    if diagnostic:
+        q.update(nominal_diagnostic_level=diagnostic['model']['level'],
+                 quantization_induced_bias_assessed=diagnostic['quantization_induced_bias_assessed'],
+                 physical_ADC_chain_status=diagnostic['physical_ADC_chain_status'],
+                 common_diagnostic_path='shared_baseline/data/nominal_service_diagnostics.json',
+                 common_diagnostic_section='restricted_offset_encoding_comparison' if restricted else 'cases',
+                 nominal_diagnostic_vectors=diagnostic['diagnostic_vectors'])
+    return q
+
+
 def normalized():
     allrows, cases = [], []
+    diagnostics = json.loads((A/'shared_baseline/data/nominal_service_diagnostics.json').read_text())
+    assert all(sha(A/path) == expected for path, expected in diagnostics['source_sha256'].items()), 'stale common nominal diagnostics'
+    diagnostic_by_case = {d['case_id']: d for d in diagnostics['cases']}
     for c, (technology, main_key) in META.items():
         directory = A/c
         source_bytes = {name: (directory/f'data/{name}.json').read_bytes() for name in ('inputs', 'results')}
@@ -236,9 +288,6 @@ def normalized():
         native = data['native_configuration']
         inputs = source_bytes['inputs'].decode('utf-8')
         input_data = json.loads(inputs)
-        qualification = copy.deepcopy(data.get('numerical_service_qualification', input_data.get('numerical_service_qualification', {})))
-        if qualification.get('diagnostic_path'):
-            qualification['diagnostic_path'] = c + '/' + qualification['diagnostic_path']
         source_ids = sorted(set(re.findall(r'(?:SACIM|SDCIM|CMOS|NOR|NAND|RRAM|MRAM|PCM|FERAM|GC|FENOR)-\d{2}', inputs)))
         source_hashes = {f'{c}/data/{name}.json': hashlib.sha256(content).hexdigest() for name, content in source_bytes.items()}
         rows = []
@@ -246,6 +295,7 @@ def normalized():
             if path[0] != main_key and not any(t in path[0] for t in ('sensitiv', 'compar', 'contrast', 'pressure', 'stress')):
                 continue
             typ = classify(path, row, main_key)
+            qualification = service_qualification(c, data, input_data, row, typ, diagnostic_by_case.get(c))
             m = full_mapping(row, native, typ in MAIN_TYPES)
             cfg = scenario_native(c, native, row, m, path)
             maint = row.get('maintenance_service', {})
@@ -274,7 +324,8 @@ def normalized():
                 sid = f"{row['profile']}_append"
                 mode = str(mode) + '; finite pre-erased append window'
             skip = set(CORE) | {'mapping_interface', 'raw_mapping_interface', 'effective_mapping_interface',
-                               'maintenance_service', 'nominal', 'refresh', 'rewrite', 'append', 'native_configuration'}
+                               'maintenance_service', 'nominal', 'refresh', 'rewrite', 'append', 'native_configuration',
+                               '_inherited_native_configuration_path'}
             parameters = {k: v for k, v in row.items() if k not in skip}
             parameters['profile'] = profile(row, path)
             result = dict(case_id=c, technology=technology, mode=mode, scenario_id=sid, scenario_profile=profile(row, path),
@@ -294,9 +345,15 @@ def normalized():
                 feasibility='conditional_feasible' if m['rho_Byte_per_s'] is not None else 'infeasible_under_declared_schedule',
                 main_assumptions=dominant(row), key_resources=cfg['resources'], source_ids=source_ids,
                 numerical_service_qualification=qualification,
+                reference_service_status=qualification['reference_service_status'],
+                workload_mapping_eligibility=qualification['workload_mapping_eligibility'],
+                mapping_eligibility_scope=qualification['eligibility_scope'],
+                nominal_diagnostic_level=qualification.get('nominal_diagnostic_level'),
                 shared_baseline_id='shared_baseline', source_result=f'{c}/data/results.json'+pointer(path),
                 source_mapping=f'{c}/data/results.json'+pointer(path+('mapping_interface',)) if 'mapping_interface' in row else None,
-                source_native_configuration=f'{c}/data/results.json#/native_configuration',
+                source_native_configuration=f'{c}/data/results.json'+pointer(row['_inherited_native_configuration_path']) if '_inherited_native_configuration_path' in row else
+                    f'{c}/data/results.json'+pointer(path+('native_configuration',)) if 'native_configuration' in row else
+                    f'{c}/data/results.json'+pointer(path+('legacy_configuration',)) if 'legacy_configuration' in row else f'{c}/data/results.json#/native_configuration',
                 source_hashes=source_hashes, scenario_parameters=parameters)
             rows.append(result)
         primary = [r for r in rows if r['scenario_type'] in MAIN_TYPES]
@@ -309,13 +366,18 @@ def normalized():
             maintenance=ref['maintenance'], source_ids=source_ids, source_hashes=source_hashes,
             service_modes=input_data.get('service_modes', {}),
             numerical_service_qualification=ref['numerical_service_qualification'],
+            reference_service_status=ref['reference_service_status'],
+            workload_mapping_eligibility=ref['workload_mapping_eligibility'],
+            nominal_diagnostic_level=ref['nominal_diagnostic_level'],
             evidence_entries=sorted(str(p.relative_to(A)) for p in (directory/'notes').glob('*.md')),
             shared_baseline_id='shared_baseline', reference_scenario_id=ref['scenario_id'],
             conditional_paired_range={k: [min(r[k] for r in primary), max(r[k] for r in primary)] for k in ('rho', 'tau', 'RI_star')},
             range_semantics='three paired sustainable conditions in the same native organization; finite scenarios, not probability or confidence bounds'))
         allrows.extend(rows)
-    return dict(schema_version='ten-case-native-2', units=dict(payload='Byte', time='ns', rho_tau='decimal MB/s (10^6 Byte/s)', RI_star='dimensionless'),
+    return dict(schema_version='ten-case-native-3', units=dict(payload='Byte', time='ns', rho_tau='decimal MB/s (10^6 Byte/s)', RI_star='dimensionless'),
                 service_boundary='one complete logical vector and one full native resident matrix; local transactions are separate',
+                mapping_eligibility_meaning='Structural support for the declared logical encoding/service only. Approximate ACIM still requires an application error contract; no universal workload accuracy certification.',
+                nominal_diagnostic_sha256=sha(A/'shared_baseline/data/nominal_service_diagnostics.json'),
                 shared_baseline_id='shared_baseline', shared_parameter_sha256=sha(A/'shared_baseline/data/shared_parameters.json'),
                 shared_api_sha256=sha(A/'shared_baseline/scripts/check_shared.py'), cases=cases, results=allrows)
 
@@ -354,7 +416,7 @@ def card_update(ref):
         return f"整矩阵持续重写；{counts['sector_erases']} 次 sector 擦除和 {counts['page_programs']} 次完整 page 编程。"
     if c == '04_nand_3d':
         pages = cfg['blocks'] * cfg['wordlines_per_block'] * cfg['SSL_per_block']
-        return f"整矩阵持续替换；{cfg['blocks']} 次 block 擦除、{pages} 次 page 编程；包含参考状态、校准和元数据。"
+        return f"整矩阵持续替换；{cfg['blocks']} 次 block 擦除、{pages} 次 page 编程；包含正负幅值编码、单输出暂存、参考状态与校准。"
     payload = local['B_R_Byte']
     groups = ref['B_R'] / payload
     assert groups == int(groups)
@@ -378,8 +440,17 @@ def card(case, rows):
     shape = f"W[N,K]={ref['N']:g}×{ref['K']:g}；INT8输入与权重；有效 resident={integer_or_decimal(ref['B_R'])} Byte。"
     resource_text = compact_resources(ref['key_resources'])
     rows_text = [('原生逻辑配置', shape), ('更新组织', card_update(ref)), ('主要资源', resource_text)]
-    if ref['numerical_service_qualification'].get('weak_signal_guarantee') is False:
-        rows_text.append(('数值服务资格', '条件近似求值预算；偏置量化可导致小信号或抵消结果符号翻转，未保证其准确度，见正文诊断。'))
+    q = ref['numerical_service_qualification']
+    if not ref['workload_mapping_eligibility']:
+        rows_text.append(('数值服务身份', '受限编码示例；不进入通用 signed-INT8 workload 映射。'))
+    elif ref['nominal_diagnostic_level']:
+        level = ('已声明理想模拟链、名义ADC与有限重构' if q['quantization_induced_bias_assessed'] else '标定后理想部分和与数字重构；物理ADC量化未实例化')
+        rows_text.append(('数值检查层级', level+'。结构映射资格不构成应用准确度认证。'))
+    if ref['case_id'] == '04_nand_3d':
+        r = ref['key_resources']
+        rows_text.append(('编码与保持', f"正负幅值分块，每次{n['parallel_output_lanes']}输出；单输出暂存{r['resident_row_staging_bits']}bit；数据页{r['data_page_effective_encoded_bits_per_tick']}bit/拍，参考页{r['reference_page_effective_encoded_bits_per_tick']}bit/拍。"))
+    if ref['case_id'] == '09_gain_cell_edram':
+        rows_text.append(('典型控制策略', '按模式释放：MAC脉冲后进入采样/转换；单pair刷新保持64ns积分，共同建立、恢复与维护完整计入。'))
     lines = [r'% Generated by analysis/scripts/export_ten_cases.py', r'\subsection*{统一结果卡}',
              r'\begingroup\small', r'\noindent\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule']
     lines += [tex(k) + ' & ' + tex(v) + r'\\' for k, v in rows_text]

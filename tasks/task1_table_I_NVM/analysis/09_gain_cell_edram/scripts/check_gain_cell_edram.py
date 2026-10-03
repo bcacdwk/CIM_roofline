@@ -12,7 +12,8 @@ S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
 L=S.logical_configuration(**X['logical_configuration'])
 
 def calc(profile,width=16,dedicated_read_ns=None,period_ns=None,logical=None,
-         release_policy='fixed_slot',parameter_overrides=None):
+         release_policy=None,parameter_overrides=None):
+    release_policy=X['scenario_policy']['main_release_policy'] if release_policy is None else release_policy
     logical=L if logical is None else logical
     p=next(p for p in X['profiles'] if p['id']==profile)
     v=dict(S.C['propagation']['profile_values'][profile])
@@ -21,6 +22,8 @@ def calc(profile,width=16,dedicated_read_ns=None,period_ns=None,logical=None,
         'common_overhead_ns':X['service_parameters']['profile_common_overhead_ns'][profile],
         'program_complete_ns':p['program_complete_ns']}
     if dedicated_read_ns is not None:
+        # Legacy public argument means the refresh dedicated frontend
+        # (common residual + 64 ns), not the shorter MAC dedicated frontend.
         parameters['common_overhead_ns']=dedicated_read_ns-parameters['read_slot_reservation_ns']
     services=S.resolve_service_parameters(parameters,
         X['service_modes'][release_policy]['service_bindings'],parameter_overrides)
@@ -57,7 +60,7 @@ def calc(profile,width=16,dedicated_read_ns=None,period_ns=None,logical=None,
     raw_interface=S.mapping_metrics(logical,ds,load['T_R_ns'])
     effective_interface=S.apply_maintenance(raw_interface,period,rf_total,guard)['effective']
     return dict(id=profile if width==16 else 'wide32',baseline_id=X['baseline_id'],mode=X['mode'],
-       scenario_type=('operation_mode_comparison' if release_policy!='fixed_slot' else
+       scenario_type=('operation_mode_comparison' if release_policy!=X['scenario_policy']['main_release_policy'] else
           'resource_comparison' if width!=16 else
           'infeasible_stress' if not feasible else
           'refresh_critical_stress' if logical['n_in']==128 and profile=='long' else
@@ -68,7 +71,9 @@ def calc(profile,width=16,dedicated_read_ns=None,period_ns=None,logical=None,
        output_width=width,adc_count=width*8,pair_write_drivers=width*8,
        K=logical['n_in'],N=logical['n_out'],physical_cells=int(logical['resident_capacity_Byte']*16),counts=n,write_batches=batches,
        data_beats=beats,encoded_load_bits=encoded,frontend_complete_ns=frontend,
-       dedicated_read_ns=residual,frontend_coverage=['input_step','common_frontend_overhead','mode_integration_reservation','adc_batch'],
+       dedicated_read_ns=residual,
+       refresh_dedicated_read_ns=refresh['common_overhead_ns']+refresh['integration_reservation_ns'],
+       frontend_coverage=['input_step','common_frontend_overhead','mode_integration_reservation','adc_batch'],
        write_front_ns=front,program_complete_ns=program,
        nominal=nominal,refresh=dict(period_ns=period,groups=groups,scalar_pair_reads=groups*width*8,
           cells_rewritten=groups*width*16,group_read_ns=rf_read,group_decode_ns=rf_decode,
@@ -96,31 +101,31 @@ def results():
     failed=calc('long',dedicated_read_ns=216,logical=big);failed['id']='capacity128_read216_infeasible'
     modes=[]
     for p,main in zip(X['profiles'],rows):
-        z=calc(p['id'],release_policy='early_release');z['id']='early_release_'+p['id']
+        z=calc(p['id'],release_policy='fixed_slot');z['id']='fixed_slot_'+p['id']
         z['scenario_class']='operation_mode_comparison'
-        z['ratios_to_same_profile_fixed_slot']={k:z[k]/main[k] for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
+        z['ratios_to_same_profile_early_release']={k:z[k]/main[k] for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
         modes.append(z)
     return dict(baseline_id=X['baseline_id'],kind=X['kind'],units=X['units'],baseline_hashes=X['baseline_hashes'],
         native_configuration=X['native_configuration'],scenarios=rows,structure_comparison=wide,
         capacity_comparison=capacity,refresh_pressure=pressure,infeasible_stress=failed,
-        mode_comparisons=modes,
+        main_release_policy=X['scenario_policy']['main_release_policy'],mode_comparisons=modes,
         recommended_reference_id='reference',ordinary_scenario_ids=['short','reference','long'],
         pressure_scenario_ids=['capacity128_long','capacity128_read216_infeasible'],
         range_meaning='Three sustainable paired windows in64x64nativeconfiguration;capacity andresource changes separate',
         paired_ranges={k:[min(r[k] for r in rows),max(r[k] for r in rows)]
              for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']},
         refresh_threshold=dict(configuration='capacity128',profile='long',fixed_period_ns=400000,
-            equation='1025 * dedicated_read_ns +179280 <400000',
-            dedicated_read_strict_upper_bound_ns=(400000-179280)/1025,
-            note='appliesonly128x128capacity stress;notordinary64x64longscenario'))
+            equation='1025 * refresh_dedicated_read_ns +179217 <400000',
+            dedicated_read_strict_upper_bound_ns=(400000-179217)/1025,
+            note='main early_release; refresh dedicated frontend=common residual+64 ns; the same residual also affects MAC. Applies only128x128capacity stress,not ordinary64x64long.'))
 
 def tex_tables(r):
     t=[r'% Generated by scripts/check_gain_cell_edram.py --emit.',r'\begin{table}[htbp]\centering\small',
        r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',
-       r'情景 & $C_A$ (ns) & $P$ (ns) & $C_S$ (ns) & $C_R$ (ns) & $T_{\rm ref}$ ($\mu$s) & 可用率\\\midrule']
+       r'情景 & $C_{A,M}$ (ns) & $P$ (ns) & $C_S$ (ns) & $C_R$ (ns) & $T_{\rm ref}$ ($\mu$s) & 可用率\\\midrule']
     for z,label in zip(r['scenarios'],['短','参考','长']):
         t.append(f"{label} & {z['frontend_complete_ns']:g} & {z['program_complete_ns']:g} & {z['nominal']['delta_S_ns']:g} & {z['nominal']['delta_R_ns']:g} & {z['refresh']['total_ns']/1000:.3f} & {100*z['refresh']['availability']:.3f}\\%\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{无维护时的占用 $C_S,C_R$ 与每 0.4 ms 全矩阵刷新时间；可用率再扣批边界余量 116/185/280 ns。}\end{table}',
+    t += [r'\bottomrule\end{tabular}',r'\caption{按模式结束积分的主调度：无维护占用 $C_S,C_R$ 与每 0.4 ms 全矩阵刷新时间；可用率再扣批边界余量 71/122/217 ns。}\end{table}',
       r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
       r'情景 & $\Delta_S$ ($\mu$s) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
     for z,label in zip(r['scenarios'],['短','参考','长']):
@@ -138,12 +143,13 @@ def tex_tables(r):
 
 def dependency_diagnostics():
     """Finite parameter probes; independent expected deltas are checked below."""
-    probes=[('fixed_slot','common_overhead_ns',96),('fixed_slot','input_step',6),
-        ('fixed_slot','adc_batch',21),('fixed_slot','digital_tick',6),
+    probes=[('early_release','common_overhead_ns',96),('early_release','input_step',6),
+        ('early_release','adc_batch',21),('early_release','digital_tick',6),
         ('fixed_slot','read_slot_reservation_ns',65),
         ('fixed_slot','mac_integration_ns',2),
         ('early_release','mac_integration_ns',2),
-        ('early_release','refresh_integration_ns',65)]
+        ('early_release','refresh_integration_ns',65),
+        ('early_release','program_complete_ns',66)]
     records=[]
     for mode,param,value in probes:
         base=calc('reference',release_policy=mode)
@@ -172,7 +178,7 @@ def check():
         assert hashlib.sha256((CORPUS/s['pdf']['path']).read_bytes()).hexdigest()==s['pdf']['sha256'],sid
     for p in X['profiles']:
         assert p['program_coarse_ns']+p['program_fine_ns']==p['program_complete_ns']
-        assert p['dedicated_read_ns']>=X['refresh']['single_pair_pulse_ns']
+        assert p['refresh_dedicated_read_ns']==X['service_parameters']['profile_common_overhead_ns'][p['id']]+X['refresh']['single_pair_pulse_ns']
     assert L['resident_capacity_Byte']*16==X['mapping']['physical_cells']==65536
     assert X['mapping']['physical_tiles']*64*64*2==65536
     for weight in range(-128,128):
@@ -205,9 +211,9 @@ def check():
         assert z['refresh']['workload_payload_Byte']==0
         agg=z['full_matrix_update'];assert math.isclose(agg['logical_Byte']/(agg['average_service_with_reserved_refresh_ns']*1e-9),z['tau_Byte_per_s'])
     ref=r['scenarios'][1]
-    assert ref['nominal']['delta_S_ns']==32*175+66*5 and ref['nominal']['delta_R_ns']==80
+    assert ref['nominal']['delta_S_ns']==32*(5+86+1+20)+66*5 and ref['nominal']['delta_R_ns']==80
     assert ref['refresh']['total_ns']==256*(175+5+80)
-    assert math.isclose(ref['mapping_interface']['U_star'],256*80/(32*175+66*5))
+    assert math.isclose(ref['mapping_interface']['U_star'],256*80/(32*112+66*5))
     assert all(z['refresh']['availability']>.75 for z in r['scenarios'])
     for z in r['scenarios']:
         assert math.isclose(z['mapping_interface']['U_star'],64*z['ridge'])
@@ -220,7 +226,7 @@ def check():
     assert r['paired_ranges']['rho_Byte_per_s'][0]==r['scenarios'][2]['rho_Byte_per_s']
     # An independently specified phase ledger checks both modes, including the
     # short-mode guard where the complete write (71 ns) dominates the 53 ns MAC group.
-    for z,expected in zip(r['mode_comparisons'],[
+    for z,expected in zip(r['scenarios'],[
             (1700,47360,71,.8814225),(3914,66560,122,.833295),(6964,96000,217,.7594575)]):
         ds,h,g,alpha=expected
         assert z['nominal']['delta_S_ns']==ds
@@ -229,15 +235,36 @@ def check():
         assert math.isclose(z['rho_Byte_per_s'],64e9*alpha/ds)
         assert math.isclose(z['tau_Byte_per_s'],16e9*alpha/z['nominal']['delta_R_ns'])
         assert math.isclose(z['mapping_interface']['U_star'],64*z['ridge'])
+        assert z['release_policy']=='early_release'
+    for z,expected in zip(r['mode_comparisons'],[
+            (3716,47360,116),(5930,66560,185),(8980,96000,280)]):
+        ds,h,g=expected
+        assert z['nominal']['delta_S_ns']==ds
+        assert z['refresh']['total_ns']==h and z['refresh']['scheduling_guard_ns']==g
+        assert z['release_policy']=='fixed_slot' and z['scenario_type']=='operation_mode_comparison'
+    # Wider resources and larger capacity consume the same main mode; their
+    # guard is independently recomputed from the true nonpreemptive group.
+    wide=r['structure_comparison'];big=r['capacity_comparison'];pressure=r['refresh_pressure']
+    assert wide['nominal']['delta_S_ns']==16*112+66*5
+    assert wide['refresh']['total_ns']==128*(175+5+90)
+    assert wide['refresh']['scheduling_guard_ns']==max(112+4*5,90)
+    assert big['nominal']['delta_S_ns']==128*112+258*5
+    assert big['refresh']['total_ns']==1024*(175+5+80)
+    assert big['refresh']['scheduling_guard_ns']==122
+    assert pressure['refresh']['total_ns']==1024*(260+10+105)
+    assert pressure['refresh']['scheduling_guard_ns']==max(197+2*10,105)
+    assert pressure['scenario_type']=='refresh_critical_stress'
+    assert stress['refresh']['total_ns']+stress['refresh']['scheduling_guard_ns']==1025*216+179217
+    assert stress['scenario_type']=='infeasible_stress'
     # Expected deltas do not call calc/acim_service: count physical groups and
     # each stage once. Fixed-slot pulse changes leave timing invariant within the slot.
     expected_deltas=[(320,0,2560,10),(32,0,256,1),(32,0,256,1),
-        (66,3,1024,2),(32,0,256,1),(0,0,0,0),(32,0,0,1),(0,0,256,0)]
+        (66,3,1024,2),(32,0,256,1),(0,0,0,0),(32,0,0,1),(0,0,256,0),(0,1,256,0)]
     for z,expected in zip(dependency_diagnostics()['records'],expected_deltas):
         assert tuple(z[k] for k in ('delta_raw_vector_ns','delta_raw_write_transaction_ns',
             'delta_refresh_ns','delta_guard_ns'))==expected,z
     try:
-        calc('reference',parameter_overrides={'refresh_integration_ns':65})
+        calc('reference',release_policy='fixed_slot',parameter_overrides={'refresh_integration_ns':65})
     except AssertionError as err:
         assert 'pulse exceeds' in str(err)
     else:

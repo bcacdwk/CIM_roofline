@@ -3,8 +3,8 @@
   "title": "SRAM ACIM：二进制电荷域展开与普通SRAM更新",
   "baseline_id": "shared_baseline",
   "baseline_files": {
-    "README.md": "2c30f1bce6299f80f6b62dba253f39bf54ef8e8c203a2fccd62ea96e9a7c1d9f",
-    "tex/01_cmos_periphery.tex": "d8d2b206191bc4166822c7b3c8428da4c9ad8ef38e3bb31dd40e2b3175cb4551",
+    "README.md": "bb082a972d2512dce05d97fada297eed559ac2250e279f15edfd593cf390a933",
+    "tex/01_cmos_periphery.tex": "50fc6fe8d3be6efac05f6a294b927e9e96a9ba6f75418c72718b023b9b36507a",
     "tex/02_estimation_method.tex": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441",
     "data/shared_parameters.json": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
     "scripts/check_shared.py": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
@@ -336,5 +336,36 @@
       "encoded_interface_bits": 128
     },
     "configuration_kind": "128-row native charge-coupled mechanism, engineering binary-plane/SAR adaptation"
+  },
+  "nominal_diagnostic_model": {
+    "level": "ideal_calibrated_partial_sum_and_digital_reconstruction",
+    "logical_K": 128,
+    "rows_per_group": 128,
+    "output_container_bits": 23,
+    "adc_nominal_bits": 10,
+    "adc_ENOB_scale_only": 8,
+    "physical_transfer_instantiated": false,
+    "quantization_induced_bias_assessed": false,
+    "encoding": "signed INT8 two-complement; eight binary weight planes and eight input bits; top-bit coefficient -128",
+    "partial_sum_domain": [
+      0,
+      128
+    ],
+    "raw_ADC_transfer": null,
+    "analog_full_scale": null,
+    "calibration_code_table": null,
+    "source": "SACIM-03 binary charge-coupled cell; independent bit planes and signed digital reconstruction",
+    "claim_boundary": "Only already-calibrated ideal integer partial sums, grouping, finite signed reconstruction and nominal ADC code-count sufficiency are exercised. Missing physical voltage/current-to-code transfer and calibration thresholds are not invented; no analog ADC quantization or device accuracy claim."
+  },
+  "numerical_service_qualification": {
+    "reference_service_status": "approximate_signed_reference",
+    "workload_mapping_eligibility": {
+      "signed_INT8_structural_mapping": true,
+      "universal_workload_accuracy_certified": false
+    },
+    "nominal_diagnostic_level": "ideal_calibrated_partial_sum_and_digital_reconstruction",
+    "quantization_induced_bias_assessed": false,
+    "diagnostic_path": "../shared_baseline/data/nominal_service_diagnostics.json",
+    "summary": "Signed approximate mapping is structurally supported. The common nominal check reaches calibrated partial-sum algebra only; physical ADC quantization remains uninstantiated."
   }
 }

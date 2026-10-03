@@ -1,12 +1,12 @@
 \begingroup\small
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{12mm}>{\raggedright\arraybackslash}p{29mm}>{\raggedright\arraybackslash}p{45mm}>{\raggedright\arraybackslash}p{62mm}@{}}\toprule ID & 原始证据 & 原值与定位 & 采用与边界\\\midrule\endhead
-E01 & NAND-04 & pp.2--3；13824 BL、32 WL、3 SSL；64块/subarray & 四个两位权重块并行，30数据WL和2参考WL；K=4608，N=480。\\
-E02 & NAND-04/05 & 04 p.2二态write-verify；05 pp.2--3 Fig.6的SLC分布与饱和平台 & 保留1 V选中栅压、0.2 V BL、4.5 V pass；二态阈值控制不等于逐cell模拟电流精调。\\
-E03 & NAND-04 & p.3 Table 1；BL12 ns限定50\%稀疏；SL530--750 ns为max-bit模型 & 原生SL约16 pF和偏置保持；活动BL/映射改变；530/640/750 ns是条件桥接，不按I/C缩放。\\
-E04 & NAND-05 & pp.1--2；多bit读出约1微秒设计量级；应用最大电流25微安 & 固定前端量程25微安；1152项分组最大20.736微安；建立及零码响应需满足前端条件。\\
-E05 & NAND-04/05 & 04 p.3；05 p.2；7位SAR及7--8位SA量化讨论 & 约8有效位为近似部分和；30位有符号中间通道、29位最终容器；不声称精确14位计数。\\
-E06 & NAND-06 & pp.5、25、31、43、58；SLC页program300/600微秒，块erase1/3.5毫秒 & 同厂异实现完整操作锚点；短/典型共用典型P/E，长端取源最大预算身份；不按页尺寸缩放。\\
-E07 & NAND-05 & p.2与Fig.12；一或两个已知码WL、除法器与推理校正 & 四行组各三次读、256对系数、16条校准通道；参考页及校准完整计时。\\
-E08 & 映射与公共方法 & 偏置码代数恒等式及分组10bit量化分别检查 & 480个21位metadata与30位校正保留；量化后小信号可变号，有限校准不构成精度保证。\\
-E09 & NAND-02 & pp.1--3，Figs.15.1.2/5；verify与泵控制 & 完整program包含验证及恢复；不重复加verify，不取burst泵切换折扣。\\
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{13mm}>{\raggedright\arraybackslash}p{32mm}>{\raggedright\arraybackslash}p{100mm}@{}}\toprule ID & 原始定位 & 采用条件\\\midrule\endhead
+E01 & NAND-04 pp.2--3 & 64块、13824 BL、32 WL、3 SSL；每极性四块，每输出八块，30数据与2参考WL。\\
+E02 & NAND-04 p.2；05 Fig.6 & 二态write-verify与2 nA饱和ON平台；1 V选中栅、0.2 V BL、4.5 V pass。\\
+E03 & NAND-04 p.3 Table 1 & 303 ns WL；12 ns BL限定50\%稀疏；530--750 ns SL为原映射模型，16 pF原生负载保持。\\
+E04 & NAND-05 pp.1--2 & 约1微秒多bit感测与25微安应用电流锚点；本前端0--25微安，分组最大20.736微安。\\
+E05 & NAND-04/05 & 原7位/7--8位ADC讨论桥接名义10位、约8 ENOB参考；29位输出容器不增加模拟精度。\\
+E06 & NAND-06 pp.25,31,58 & 完整program300/600微秒、erase1/3.5毫秒；跨实现时序，不按页尺寸缩放。\\
+E07 & NAND-05 p.2 Fig.12 & 两参考WL、有限增益/偏移校准；256对系数、12读轮次、450数字拍。\\
+E08 & NAND-04 Figs.1--3 & BL switch matrix承载符号掩码，独立block SL/ADC保留正负幅值；数字加减，新增保持和格式器完整计费。\\
+E09 & NAND-02 Figs.15.1.2/5 & program/verify及泵转移包含在完整预算内，不重复加费或采用无条件burst折扣。\\
 \bottomrule\end{longtable}\endgroup

@@ -90,10 +90,15 @@ API 返回 `{service: {local_slot: value}}`，拒绝未知参数、未知绑定�
 
 活动行、编码、偏置或量程变化时，按真实分组和数字重构顺序检查确定性零值、小值、正负抵消及大幅值。理想代数恒等式与名义码宽量化后的重构分开保存，并保留动态范围、饱和、抵消和弱信号诊断。ADC 名义码宽、ENOB 和最终输出容器位宽分别声明；约 8 ENOB 可用 `full_scale/2**ENOB` 表示分辨能力量级，不能将其当成实际 8-bit 量化器或无来源的噪声分布。DCIM 精确整数、ACIM 近似部分和合同保持不变；该最小检查不设统一网络准确率门槛，也不证明器件变异或电路建立已经验证。
 
+五个 ACIM 共用 [名义服务检查](scripts/check_nominal_services.py) 和 [完整诊断数据](data/nominal_service_diagnostics.json)：15 类确定性向量覆盖零输入/权重、小值、抵消、较大幅值、孤立单位及原生分组边界。每类保存真值、重构值、绝对残差；非零真值另报相对残差，零值单列。NAND 按电流、10-bit 量化、有限增益校准和实际符号/分组重构，同时保留原偏置编码的受限对照；GC 按理想积分电流、差分量程、10-bit 码和明确整数部分和舍入，保留舍入前残差与正端码饱和。
+
+SRAM ACIM、RRAM、PCM 缺少新前端的完整传递和标定码表，共同检查止于已标定理想部分和与数字重构，并检查名义码数量是否足够容纳等级；其 `quantization_induced_bias_assessed=false`，物理 ADC 量化残差为空。不能把这三例的零代数残差称为模拟链通过。结构性 signed-INT8 映射资格与应用精度要求分别保存；受限编码点不得自动进入通用 signed workload 适配。名义诊断无误、时序公式复算一致以及器件或网络准确性验证是不同结论。
+
 ## 复算与构建
 
 ```sh
 /opt/anaconda3/bin/python scripts/check_shared.py --emit
+/opt/anaconda3/bin/python scripts/check_nominal_services.py --emit
 BASELINE_PYTHON=/opt/anaconda3/bin/python sh scripts/build.sh
 /opt/anaconda3/bin/python scripts/render_pdf.py
 ```

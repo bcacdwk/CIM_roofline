@@ -31,3 +31,5 @@ sh scripts/build.sh
 正式PDF由统一构建入口重编译并逐页渲染；`tmp/pdfs/rendered/contact.png`按当前PDF的实际页数生成。最终视觉与日志记录见统一审阅入口。
 
 结果卡`tex/result_card.tex`由`../scripts/export_ten_cases.py --emit`唯一生成，中央脚本默认只读逐字校验；本例检查保留全部模型、数据和正文生成项。统一卡生成后由统一构建重编译并复核PDF。
+
+名义数值检查复用[五例共同诊断](../shared_baseline/data/nominal_service_diagnostics.json)。本例检查层级为标定后理想部分和与有限数字重构；没有实例化替代ADC的完整模拟传递，不能把零代数残差视为物理量化或应用准确度通过。

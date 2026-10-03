@@ -39,29 +39,13 @@
     },
     "08_feram_hfo2": {
       "offset_points": [
-        0,
-        -18
+        20,
+        0
       ],
-      "horizontal_alignment": "center",
-      "vertical_alignment": "top"
+      "horizontal_alignment": "left",
+      "vertical_alignment": "center"
     },
     "09_gain_cell_edram": {
-      "offset_points": [
-        0,
-        -18
-      ],
-      "horizontal_alignment": "center",
-      "vertical_alignment": "top"
-    },
-    "04_nand_3d": {
-      "offset_points": [
-        0,
-        -18
-      ],
-      "horizontal_alignment": "center",
-      "vertical_alignment": "top"
-    },
-    "05_rram": {
       "offset_points": [
         0,
         -18
@@ -101,6 +85,22 @@
       "horizontal_alignment": "center",
       "vertical_alignment": "top"
     },
+    "04_nand_3d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "05_rram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
     "07_pcm": {
       "offset_points": [
         0,
@@ -116,6 +116,46 @@
   "all_four_spines_visible": true,
   "marker_area_points_squared": 320,
   "source_checks_passed": true,
-  "source_sha256": "362f89b7c04da63a56f0c817c8fd6824053a3615f41436258b57625f408e5628",
-  "native_configuration_note": "Selected different native sizes and resources; not equal-area or equal-work ranking"
+  "source_sha256": "fb283a62f327534c323b1abbfb0c72dcb5e04904d3809f470ca162ad4b35af2a",
+  "native_configuration_note": "Selected different native sizes and resources; not equal-area or equal-work ranking",
+  "ordinary_service_identity_checked": true,
+  "excluded_restricted_records": [
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "short",
+      "scenario_type": "restricted_encoding",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/0"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "short_append",
+      "scenario_type": "finite_pre_erased_window",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/0/append"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "reference",
+      "scenario_type": "restricted_encoding",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/1"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "reference_append",
+      "scenario_type": "finite_pre_erased_window",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/1/append"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "long",
+      "scenario_type": "restricted_encoding",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/2"
+    },
+    {
+      "case_id": "04_nand_3d",
+      "scenario_id": "long_append",
+      "scenario_type": "finite_pre_erased_window",
+      "source_result": "04_nand_3d/data/results.json#/legacy_offset_comparison/scenarios/2/append"
+    }
+  ],
+  "numerical_diagnostic_note": "Nominal ADC paths: 3D NAND, Gain-cell eDRAM. SRAM ACIM, RRAM, PCM checks stop at calibrated partial sums; no workload accuracy certification."
 }
