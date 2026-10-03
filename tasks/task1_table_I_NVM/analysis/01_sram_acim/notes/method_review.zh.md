@@ -45,3 +45,7 @@ short/reference/long Δ_S=1540/3210/7700ns，Δ_R=2.2/5/10ns。两路预算配�
 SACIM-02的65nm PICO-RAM与SACIM-04的22nm C2C是候选替代组织，本例不将其多阶段电容复用/半周期SAR混入R0预算。它们不构成本例额外独立速度验证。SACIM-01数字实测200MHz与20MSps ADC分列，目标500MHz未作为实测采用。CMOS-02 1MHz SNDR正文55.13dB与Fig.10 56.91dB有差异，本例只采用100MSps及Nyquist ENOB8.27bit。
 
 最终交付生成5页PDF；全部页渲染后检查。`tmp/`、`build/`及缓存由本地.gitignore排除。`check_sram_acim.py`默认只读，7项检查包括baseline/source哈希、精度展开、阶段/时间、单位和聚合；--emit才刷新派生数据和TeX。`data/inputs.json`为本例人工证据及预算入口，修改后再显式刷新派生结果。
+
+## 原生配置与两表接口
+
+K128/N128和128行电荷域动态范围保留，8平面并行仅编码一份权重。128ADC、16重构通道、128写驱动在三情景固定。输入1024bit，输出128×23bit，部分和129级。原生T_R=1024×5=5120ns，U*=5120/3210=1.5950155763=128RI*；机器接口由公共显式logical API生成。

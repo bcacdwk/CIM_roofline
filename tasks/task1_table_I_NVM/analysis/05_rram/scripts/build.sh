@@ -5,5 +5,5 @@ RRAM_PYTHON=${RRAM_PYTHON:-/opt/anaconda3/bin/python}
 "$RRAM_PYTHON" "$HERE/scripts/check_rram.py"
 mkdir -p "$HERE/build" "$HERE/output/pdf"
 cd "$HERE/tex"
-latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir="$HERE/build" rram.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir="$HERE/build" rram.tex > "$HERE/build/build-console.log" 2>&1
 cp "$HERE/build/rram.pdf" "$HERE/output/pdf/rram.pdf"

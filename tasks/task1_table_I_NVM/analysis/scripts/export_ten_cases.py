@@ -1,161 +1,425 @@
 #!/usr/bin/env python3
-"""Lightweight, read-only-by-default adapter of the ten native calculators.
+"""Adapt native calculator results; no device timing model is implemented here.
 
---emit writes normalized JSON/CSV, compact result cards and one summary table.
-Times are ns, exported rates are decimal MB/s; source results remain Byte/s.
-No model formula or shared parameter is changed here.
+The primary boundary is one complete vector and a complete resident matrix.
+Local update transactions are retained separately.  --emit synchronizes existing
+JSON/CSV, result cards, and the marked summary in TEN_CASE_REVIEW.zh.md.
 """
-import argparse,csv,hashlib,io,json,math,re
+import argparse
+import copy
+import csv
+import hashlib
+import io
+import json
+import math
+import re
 from pathlib import Path
-A=Path(__file__).resolve().parents[1]
-META={
-'01_sram_acim': dict(technology='SRAM ACIM',mode='二进制9T1C电荷域；128行求和；8位平面并行',update_pattern='同一输入行的16个输出权重，对齐16 Byte；1024事务覆盖整矩阵',resources='128 SAR、16条两拍重构通道、128对真实写驱动；沿用R0求值组织，前端合并预算',main_assumptions='参考20 ns合并前端与20 ns SAR各占读服务39.9%；普通写5 ns完整周期与DCIM同源，不再加控制拍',dominant_contrast='固定外围扫前端10/20/50 ns；64写驱动对照单列',maintenance='无周期维护；普通SRAM需持续供电',main_key='scenarios'),
-'02_sram_dcim': dict(technology='SRAM DCIM',mode='二进制6T；D6CIM型16项归约、16活动输出通道',update_pattern='对齐128 bit普通写口，完成16 Byte；1024事务覆盖整矩阵',resources='8个容量分片、总128条/活动16条HCA-BFA；R0的32项改16项；完整MAC槽覆盖静态读/保持',main_assumptions='512个完整MAC槽、64次行组选择；参考5 ns计算槽与5 ns普通写槽独立，静态连接不另付重读',dominant_contrast='32项同钟资源对照；额外握手仅适用于边界改变',maintenance='无周期维护；普通SRAM需持续供电',main_key='scenarios'),
-'03_nor_2d': dict(technology='2D NOR Flash',mode='binary本地感测＋精确数字归约；非实测模拟CIM宏',update_pattern='整矩阵16384 Byte任意重写：4次sector擦除、64次256 Byte页编程；非任意小字写吞吐',resources='32读分片、每片128 SA，共4096 SA；每sector容纳8读片；读并行与擦除域分开',main_assumptions='参考120 ns为商品随机读周期桥接的本地读槽；写侧87.5%为擦除；完整P/E终点保留',dominant_contrast='32独占sector对照；固定其余条件读槽±20%',maintenance='无另列周期维护；擦除已含resident服务',main_key='scenarios'),
-'04_nand_3d': dict(technology='3D NAND',mode='SGVC SLC c=1；SL电流积分ACIM；持续同地址重写',update_pattern='16384 Byte整矩阵：1024数据页＋256参考页＋128块擦；每数据页仅16 Byte位片段，8页凑128个INT8权重',resources='128路积分前端/SAR、每路新增16 pF、16重构通道＋128校正乘法器；单更新域，保留原生页/块',main_assumptions='固定0.4 V、2 nA得25 μs积分，约95%读占用；参考P=2.5 ms、E=30 ms为完整操作移植预算',dominant_contrast='已有c=108资源/信号对照；预擦除append仅有限窗口',maintenance='参考页重建及三读校准含resident，不增加payload',main_key='main_scenarios'),
-'05_rram': dict(technology='RRAM',mode='HRS/LRS二状态32项ACIM；16-lane两相写验',update_pattern='16 Byte为同输出WL、两个列组各8个完整INT8权重；8批×16cell；互补组选通共1024事务覆盖矩阵',resources='128 SAR、16重构通道、16耐压限流写驱动、32窗口比较器；实际写并行度独立于128bit接口',main_assumptions='1 μs脉冲、前后各1 μs HV预留；参考RESET/SET为2/1次，HV余量占写服务约66%',dominant_contrast='固定参考外围单独扫1/1、2/1、4/2尝试；W1资源及前端对照',maintenance='无另列周期维护；完整RESET/SET、窗口读验与恢复已计入',main_key='scenarios'),
-'06_mram': dict(technology='MRAM',mode='互补2T2MTJ二状态数字路径；两相写＋双支路终验',update_pattern='8 Byte对齐组＝64互补bit对；2048事务覆盖矩阵；先两MTJ置P，再择一AP并验两支路',resources='4096活动读对；128方向写支路、64单端绝对P/AP验收lane、128bit状态锁存',main_assumptions='一次完整尝试为主点；参考两写槽占60/95 ns；重写对照保留失败尝试时间，非裸脉冲',dominant_contrast='同外围一次额外整组重写，ΔR=180 ns',maintenance='无周期维护；终验/返回包括在事务内',main_key='scenarios'),
-'07_pcm': dict(technology='PCM',mode='SLC二状态8行电压式ACIM；32-IDAC对角写入',update_pattern='32 Byte为对角选通，非任意连续32 Byte；d=0…127、s=0…3，512事务无重复覆盖矩阵',resources='128 SAR、16重构通道、32实际IDAC与行/对角选通；8位平面、每向量1024轮',main_assumptions='参考SET/RESET占写时间73%；8行组织增加读轮次使ρ及ridge较低，不能推出普适动态工作负载优势',dominant_contrast='主二态终验与768 ns弱信号前端分开；SET总250/300 ns解释对照',maintenance='无另列周期维护；完整波形、驱动预留与终验在resident内',main_key='paired_scenarios'),
-'08_feram_hfo2': dict(technology='HfO₂ FeRAM',mode='HZO 1T1C二状态数字路径；已有读码跨8输入位复用',update_pattern='128bit完整局部行＝16 Byte；1024行事务覆盖矩阵；每次真实破坏读均整行恢复',resources='32片×128 SA/恢复驱动；已有4096bit读码寄存器，新增权重锁存为0；128目标写驱动',main_assumptions='32次真实读恢复＋256数字轮；每极性14/50/100 ns为保守工程预算，14 ns原值是write latency',dominant_contrast='旧256次重读仅为调度对照；不将主动弃码归为介质必需恢复',maintenance='真实破坏读恢复已含raw streaming；无另列周期刷新',main_key='paired'),
-'09_gain_cell_edram': dict(technology='Gain-cell eDRAM',mode='3T1C伪差分±700 nA二端点ACIM；固定400 μs刷新',update_pattern='16 Byte对齐组＝128差分pair；1024事务覆盖矩阵；长期整矩阵更新沿用同一刷新预留',resources='128 SAR、16重构通道、128 pair写驱动；64行组、8位平面；双支路200 fF积分负载',main_assumptions='参考刷新266.24 μs/400 μs，禁发185 ns，α=0.3339375；保留65 ns完整两步写和保持统计条件',dominant_contrast='长预算α≈3.93%仅压力点；α≤0不可行；32输出/双倍资源单列',maintenance='raw为无周期维护占用，effective为扣除固定刷新及禁发后的长期平均；同α抵消ridge不抵消能力损失',main_key='scenarios'),
-'10_fenor_3d': dict(technology='3D vertical AND FeFET（2026）',mode='2026 vertical AND二状态数字路径；16-cell写条带',update_pattern='16 Byte完整权重，8个16-cell条带分两极性写验；1024事务覆盖矩阵',resources='32横向读通路/4096感测节点；四层仅分装容量；16cell写驱动，128cell对照需8倍资源',main_assumptions='±2 V/20 ns脉冲；100 ns写后观察预算已含最后返回，终态读验另计；观察占参考写时间46.2%',dominant_contrast='固定外围观察预算100/150 ns；128cell驱动资源对照；不由RAWD<100 ns推出零等待',maintenance='无周期维护；写后观察为工程预留，不是已证实必需等待',main_key='main_scenarios'),
+
+A = Path(__file__).resolve().parents[1]
+META = {
+    '01_sram_acim': ('SRAM ACIM', 'scenarios'),
+    '02_sram_dcim': ('SRAM DCIM', 'scenarios'),
+    '03_nor_2d': ('2D NOR Flash', 'scenarios'),
+    '04_nand_3d': ('3D NAND', 'main_scenarios'),
+    '05_rram': ('RRAM', 'scenarios'),
+    '06_mram': ('MRAM', 'scenarios'),
+    '07_pcm': ('PCM', 'paired_scenarios'),
+    '08_feram_hfo2': ('HfO₂ FeRAM', 'paired'),
+    '09_gain_cell_edram': ('Gain-cell eDRAM', 'scenarios'),
+    '10_fenor_3d': ('3D vertical AND FeFET (2026)', 'main_scenarios'),
 }
-SUMMARY_LABELS={'01_sram_acim':'SRAM ACIM：二进制电荷域','02_sram_dcim':'SRAM DCIM：16项归约','03_nor_2d':'2D NOR：binary本地感测＋数字归约','04_nand_3d':'3D NAND：c=1积分／持续重写','05_rram':'RRAM：32项ACIM／16-lane写验','06_mram':'MRAM：互补MTJ数字路径','07_pcm':'PCM：8行电压ACIM／对角更新','08_feram_hfo2':'HZO FeRAM：1T1C数字／读码复用','09_gain_cell_edram':'Gain-cell：二端点ACIM／含刷新','10_fenor_3d':'2026 vertical AND FeFET：数字路径'}
-CORE=('B_S_Byte','B_R_Byte','delta_S_ns','delta_R_ns','rho_Byte_per_s','tau_Byte_per_s','ridge')
-def walk(x,path=()):
- if isinstance(x,dict):
-  if all(k in x for k in CORE):
-   yield path,x
-   return
-  for k,v in x.items():yield from walk(v,path+(str(k),))
- elif isinstance(x,list):
-  for i,v in enumerate(x):yield from walk(v,path+(str(i),))
-def profile(row,path):
- return row.get('profile',row.get('common_profile',row.get('id',path[-1])))
-def classify(c,p,r,main_key):
- if p[0]==main_key:
-  if c=='04_nand_3d' and p[-1]=='append':return 'finite_pre_erased_window'
-  if c=='09_gain_cell_edram' and profile(r,p)=='long':return 'pressure_near_refresh_saturation'
-  return 'recommended_reference' if profile(r,p)=='reference' or 'reference' in r.get('id','') else 'paired_conditional'
- if 'pressure' in p[0] or 'stress' in p[0] or 'feasibility' in p[0]:return 'pressure_infeasible' if r['rho_Byte_per_s'] is None else 'pressure_near_refresh_saturation'
- if c=='08_feram_hfo2' and p[0]=='sensitivity':return 'schedule_comparison'
- if c=='06_mram':return 'finite_retry_sensitivity'
- if 'attempt' in p[0] or 'guard' in p[0] or 'sensitivity' in p[0] or 'sensitivities' in p[0]:
-  if 'resource' not in r.get('kind','') and 'same_clock' not in r.get('id',''):return 'independent_sensitivity'
- return 'resource_or_organization_comparison'
-def tex(s):
- for a,b in [('&',r'\&'),('%',r'\%'),('_',r'\_'),('#',r'\#')]:s=s.replace(a,b)
- return s.replace('μ',r'$\mu$').replace('α',r'$\alpha$').replace('ρ',r'$\rho$').replace('τ',r'$\tau$').replace('Δ',r'$\Delta$').replace('≤',r'$\leq$').replace('±',r'$\pm$').replace('HfO₂',r'HfO$_2$').replace('…','--').replace('≈',r'$\approx$').replace('10^6',r'$10^6$')
-def f(v):return '不可行' if v is None else f'{v:.4g}'
+CORE = ('B_S_Byte', 'B_R_Byte', 'delta_S_ns', 'delta_R_ns',
+        'rho_Byte_per_s', 'tau_Byte_per_s', 'ridge')
+PROFILES = ('short', 'reference', 'long')
+MAIN_TYPES = ('recommended_reference', 'paired_conditional')
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def pointer(path):
+    return '#/' + '/'.join(str(p).replace('~', '~0').replace('/', '~1') for p in path)
+
+
+def walk(value, path=()):
+    """Stop at the scenario, avoiding mapping/raw/effective/rewrite aliases."""
+    if isinstance(value, dict):
+        if 'mapping_interface' in value or all(k in value for k in CORE):
+            yield path, value
+            if 'append' in value:
+                yield path + ('append',), dict(value['append'], profile=value['profile'])
+            return
+        for k, v in value.items():
+            yield from walk(v, path + (str(k),))
+    elif isinstance(value, list):
+        for i, v in enumerate(value):
+            yield from walk(v, path + (str(i),))
+
+
+def profile(row, path):
+    for key in ('profile', 'common_profile', 'attempt_profile'):
+        if row.get(key) in PROFILES:
+            return row[key]
+    for p in PROFILES:
+        if p in row.get('id', '').split('_'):
+            return p
+    return None
+
+
+def classify(path, row, main_key):
+    if path[-1] == 'append':
+        return 'finite_pre_erased_window'
+    if path[0] == main_key:
+        return 'recommended_reference' if profile(row, path) == 'reference' else 'paired_conditional'
+    if 'infeasible' in row.get('feasibility', '') or 'infeasible' in path[0]:
+        return 'pressure_infeasible'
+    if 'pressure' in path[0] or 'stress' in path[0]:
+        return 'pressure_near_refresh_saturation'
+    kind = row.get('kind', '') + row.get('scenario_type', '')
+    if 'retry' in kind:
+        return 'finite_retry_sensitivity'
+    if 'schedule' in kind or row.get('schedule') == 'input_bit_then_groups':
+        return 'schedule_comparison'
+    if any(t in path[0] + kind for t in ('resource', 'organization', 'structur', 'capacity', 'compar', 'contrast')):
+        return 'resource_or_organization_comparison'
+    return 'independent_sensitivity'
+
+
+def full_mapping(row, native, main=False):
+    if 'mapping_interface' in row:
+        return copy.deepcopy(row['mapping_interface'])
+    if all(k in row for k in ('K', 'N', 'T_R_ns', 'U_star')):
+        keys = CORE + ('K', 'N', 'b_S', 'b_R', 'full_resident_payload_Byte',
+                       'RI_star', 'T_R_ns', 'U_star', 'average_update_ns_per_16KiB')
+        return {k: row[k] for k in keys}
+    assert not main, 'A primary scenario must expose the shared full-matrix mapping_interface'
+    # Legacy *contrasts* with explicitly serial local transactions can be
+    # aggregated without changing rates.  Main points never use this fallback.
+    k, n, bs, br = (native[x] for x in ('K', 'N', 'b_S', 'b_R'))
+    payload = k * n * br
+    scale = payload / row['B_R_Byte']
+    assert scale == int(scale), 'tail groups require a calculator-supplied full mapping'
+    tr = None if row['delta_R_ns'] is None else row['delta_R_ns'] * scale
+    ds = row['delta_S_ns']
+    u = None if tr is None or ds is None else tr / ds
+    return dict(B_S_Byte=k*bs, B_R_Byte=payload, delta_S_ns=ds, delta_R_ns=tr,
+                rho_Byte_per_s=row['rho_Byte_per_s'], tau_Byte_per_s=row['tau_Byte_per_s'],
+                ridge=row['ridge'], K=k, N=n, b_S=bs, b_R=br,
+                full_resident_payload_Byte=payload, RI_star=row['ridge'], T_R_ns=tr,
+                U_star=u, average_update_ns_per_16KiB=None if tr is None else tr*16384/payload,
+                adapter_aggregation='serial identical local transactions; source payload exactly divides matrix')
+
+
+def scenario_native(case_id, base, row, mapping, path):
+    """Retain native data and apply only explicitly exposed comparison changes."""
+    cfg = copy.deepcopy(row.get('native_configuration', base))
+    old_k, old_n = cfg['K'], cfg['N']
+    cfg.update({k: mapping[k] for k in ('K', 'N', 'b_S', 'b_R')})
+    cfg['effective_logical_capacity_Byte'] = mapping['full_resident_payload_Byte']
+    for k in ('effective_capacity_Byte', 'resident_capacity_Byte', 'logical_capacity_Byte'):
+        if k in cfg:
+            cfg[k] = mapping['full_resident_payload_Byte']
+    res = cfg['resources']
+    if case_id == '01_sram_acim' and 'parallel_write_cells' in row:
+        res['write_drivers'] = row['parallel_write_cells']
+        cfg['update_mode'] = f"aligned 16 Byte update; {row['parallel_write_cells']} active binary write drivers; {row['write_batches']} complete write cycles per local transaction"
+    if case_id == '02_sram_dcim' and (old_k, old_n) != (cfg['K'], cfg['N']):
+        tiles = cfg['N'] // base['N']
+        cfg['physical_capacity']['binary_cells'] *= tiles
+        cfg['physical_capacity']['tiles'] = tiles
+        res['installed_HCA_BFA'] = row['installed_output_lanes']
+        res['active_HCA_BFA'] = row['active_output_lanes']
+        res['output_register_bits'] = cfg['N'] * cfg['output_bits']
+        cfg['configuration_kind'] = row['premise']
+        cfg['update_mode'] = f"aligned 16 Byte ordinary writes; {mapping['B_R_Byte']/16:g} transactions cover all installed tiles"
+    if case_id == '03_nor_2d':
+        local = row['mapping']
+        cfg['physical_capacity_Byte'] = local['allocated_physical_Byte']
+        cfg['physical_storage_bits'] = local['allocated_physical_Byte'] * 8
+        cfg['physical_binary_storage_sites'] = cfg['physical_storage_bits']
+        cfg['physical_organization'] = f"{local['read_slices']} read slices; {local['read_slices_per_sector']} slices per sector; {local['sector_erases']} allocated sectors"
+        cfg['update_shape'] = f"whole-matrix sustained overwrite: {local['sector_erases']} sector erases and {local['page_programs']} full page programs"
+    if path[-1] == 'append':
+        cfg['update_mode'] = row['precondition']
+        cfg['update_classification'] = row['classification']
+    if case_id == '05_rram':
+        wr = row['write_details']
+        res['write_driver_count'] = wr['parallel_cells']
+        res['binary_window_comparators'] = wr['binary_comparators']
+        res['total_program_current_rating_mA'] = wr['peak_array_current_budget_mA']
+    if case_id == '07_pcm':
+        for source, target in [('writeheads', 'IDAC_count'), ('active_rows', 'active_input_rows')]:
+            if source in row:
+                res[target] = row[source]
+        if 'verify_mode' in row:
+            res['verify_mode'] = row['verify_mode']
+    if case_id == '08_feram_hfo2':
+        cfg['read_schedule'] = row['schedule']
+    if case_id == '09_gain_cell_edram':
+        res.update(differential_ADC=row['adc_count'], write_pair_drivers=row['pair_write_drivers'],
+                   write_branches=2*row['pair_write_drivers'], refresh_sign_decoders=row['refresh']['sign_decode_lanes'],
+                   refresh_code_hold_bits=row['pair_write_drivers'], ADC_per_weight_plane=row['adc_count']//8,
+                   analog_integration_total_pF=2*row['adc_count']*res['analog_integration_fF_per_branch']/1000)
+        cells = row['physical_cells']
+        cfg['physical_capacity'].update(gain_cells=cells, pseudodifferential_pairs=cells//2, tiles=cells//(64*64*2))
+        cfg['output_bits'] = 16 + math.ceil(math.log2(cfg['K']))
+        res['input_register_bits'] = cfg['K'] * 8
+        res['output_register_bits'] = cfg['N'] * cfg['output_bits']
+        cfg['update_mode'] = f"{row['B_R_Byte']:g} aligned INT8 Bytes per transaction; {row['full_matrix_update']['transactions']} transactions complete matrix"
+        if (old_k, old_n) != (cfg['K'], cfg['N']):
+            cfg['native_rationale'] = 'capacity comparison with additional physical tiles; source dimensions and cell count retained'
+    if case_id == '10_fenor_3d':
+        count = row['resident_counts']
+        res.update(parallel_write_cells=count['cells_per_batch'], parallel_write_strips=count['strips_per_batch'],
+                   driven_bias_nodes=count['driven_nodes'], installed_supply_current_mA=count['installed_supply_current_mA'])
+    return cfg
+
+
+def dominant(row):
+    names = ('streaming_dominant', 'resident_dominant', 'dominant_read_stage', 'dominant_write_stage',
+             'dominant_streaming', 'dominant_resident', 'stream_dominant', 'dominant_read', 'dominant_write', 'dominant')
+    return '; '.join(str(row[k]) for k in names if k in row)
+
+
+def compact_resources(res):
+    groups = [
+        ('ADC', ('adc', 'adc_count', 'ADC_count', 'differential_ADC')),
+        ('感测节点', ('binary_sense_nodes', 'sense_amplifiers', 'active_differential_digitizers')),
+        ('读码保持/bit', ('operand_hold_bits', 'weight_tile_register_bits')),
+        ('数字输出通道', ('digital_lanes', 'digital_output_lanes', 'digital_output_channels')),
+        ('写驱动', ('write_drivers', 'write_driver_count', 'write_driver_lanes', 'external_target_BL_drivers', 'parallel_write_cells', 'write_pair_drivers', 'IDAC_count', 'IDACs', 'writeheads')),
+        ('更新域', ('write_domains', 'external_update_domains')),
+        ('页缓冲/bit', ('page_buffer_bits',)),
+    ]
+    parts = []
+    for label, names in groups:
+        val = next((res[k] for k in names if k in res), None)
+        if val is not None:
+            parts.append(f'{label}={val}')
+    return '；'.join(parts)
+
+
+def validate_mapping(m):
+    assert m['B_S_Byte'] == m['K'] * m['b_S']
+    assert m['B_R_Byte'] == m['K'] * m['N'] * m['b_R'] == m['full_resident_payload_Byte']
+    if m['rho_Byte_per_s'] is None:
+        assert all(m[k] is None for k in ('tau_Byte_per_s', 'ridge', 'delta_S_ns', 'T_R_ns', 'U_star'))
+        return
+    assert m['delta_R_ns'] == m['T_R_ns']
+    expected = (m['B_S_Byte']/m['delta_S_ns']*1e9, m['B_R_Byte']/m['T_R_ns']*1e9,
+                m['rho_Byte_per_s']/m['tau_Byte_per_s'], m['T_R_ns']/m['delta_S_ns'],
+                m['N']*m['b_R']/m['b_S']*m['RI_star'])
+    observed = (m['rho_Byte_per_s'], m['tau_Byte_per_s'], m['ridge'], m['U_star'], m['U_star'])
+    assert all(math.isclose(x, y, rel_tol=1e-11) for x, y in zip(expected, observed)), (expected, observed)
+
+
 def normalized():
- allrows=[];cases=[]
- for c,m in META.items():
-  d=A/c;data=json.loads((d/'data/results.json').read_text());inp=(d/'data/inputs.json').read_text()
-  sources=sorted(set(re.findall(r'(?:SACIM|SDCIM|CMOS|NOR|NAND|RRAM|MRAM|PCM|FERAM|GC|FENOR)-\d{2}',inp)))
-  notes=sorted(str(p.relative_to(A)) for p in (d/'notes').glob('*') if p.suffix in ['.md'])
-  primary=data[m['main_key']]
-  case={k:v for k,v in m.items() if k!='main_key'};case.update(case_id=c,source_ids=sources,evidence_entries=notes,shared_baseline_id='shared_baseline')
-  cases.append(case)
-  for path,row in walk(data):
-   if path[0] not in [m['main_key']] and not any(s in path[0] for s in ['sensitiv','compar','contrast','pressure','stress']):continue
-   # NAND profile is on parent, not the metrics dictionary.
-   r=dict(row)
-   if c=='04_nand_3d':
-    parent=primary[int(path[1])] if path[0]==m['main_key'] else data['organization_comparison']
-    r['profile']=parent['profile'];r['id']=parent['id']+'_'+path[-1]
-   typ=classify(c,path,r,m['main_key']);raw=r.get('nominal',r)
-   feasible=r['rho_Byte_per_s'] is not None and r['tau_Byte_per_s'] is not None
-   refresh=r.get('refresh')
-   out=dict(case_id=c,technology=m['technology'],mode=m['mode'],scenario_id=r.get('id','/'.join(path)),scenario_type=typ,
-    recommended=typ=='recommended_reference',rate_unit='MB/s',payload_unit='Byte',B_S=r['B_S_Byte'],B_R=r['B_R_Byte'],update_pattern=m['update_pattern'],
-    raw_service_time=dict(streaming_ns=raw['delta_S_ns'],resident_ns=raw['delta_R_ns']),
-    effective_service_interval=(dict(streaming_ns=r['delta_S_ns'],resident_ns=r['delta_R_ns']) if refresh else None),
-    rho=(None if r['rho_Byte_per_s'] is None else r['rho_Byte_per_s']/1e6),tau=(None if r['tau_Byte_per_s'] is None else r['tau_Byte_per_s']/1e6),RI_star=r['ridge'],
-    rho_raw=(None if raw['rho_Byte_per_s'] is None else raw['rho_Byte_per_s']/1e6),tau_raw=(None if raw['tau_Byte_per_s'] is None else raw['tau_Byte_per_s']/1e6),
-    maintenance=refresh or dict(periodic=False,included_in_raw=m['maintenance']),feasibility='conditional_feasible' if feasible else 'infeasible_under_declared_schedule',
-    main_assumptions=m['main_assumptions'],key_resources=m['resources'],source_ids=sources,shared_baseline_id='shared_baseline',
-    source_result=f'{c}/data/results.json#/'+'/'.join(path),scenario_parameters={k:v for k,v in r.items() if k not in CORE and k not in ['nominal','refresh']})
-   if c=='04_nand_3d' and path[-1]=='append':out['update_pattern']='已预擦除数据页、已建立参考页的整矩阵有限append窗口；写后重算校准'
-   # Contrasts must identify their own resources and update shape, not inherit a false main-mode identity.
-   if c=='01_sram_acim' and r.get('parallel_write_cells')==64:
-    out['key_resources']=m['resources'].replace('128对真实写驱动','64对活动写驱动（两个完整写槽）')
-   if c=='02_sram_dcim' and 'same_clock' in r.get('id',''):
-    out['mode']='二进制SRAM数字路径；32项归约、16输出的同钟资源对照'
-    out['key_resources']='归约及读带宽相对16项主点扩展至32项，同完整MAC时钟为条件；256轮'
-   if c=='03_nor_2d' and path[0]=='organization_contrast':
-    out['update_pattern']=m['update_pattern'].replace('4次sector擦除','32次sector擦除')
-    out['key_resources']='32读片各独占4 KiB sector，4096 SA不变，分配128 KiB仅16 KiB有用；单更新域'
-   if c=='04_nand_3d' and path[0]=='organization_comparison':
-    out['mode']=m['mode'].replace('c=1；','c=108；')
-    out['key_resources']=m['resources']+'；每路27.648 μA/1.728 V/μs驱动条件，积分231.481 ns'
-   if c=='05_rram' and r.get('write_details',{}).get('parallel_cells')==1:
-    out['update_pattern']=m['update_pattern'].replace('8批×16cell','128批×1cell')
-    out['key_resources']='仅启用1个写lane；'+('复用SAR终验' if r['write_details']['verify_mode']=='sar' else 'binary窗口终验')+'；16-lane其余不活动'
-   if c=='07_pcm' and r.get('verify_mode')=='weak_signal_analog_front':
-    out['mode']=m['mode']+'；768 ns弱信号终验对照'
-   if c=='08_feram_hfo2' and typ=='schedule_comparison':
-    out['mode']='HZO 1T1C二状态数字路径；同硬件逐输入位重读；256次读/恢复'
-   if c=='09_gain_cell_edram' and r.get('output_width')==32:
-    out['update_pattern']='32 Byte对齐组，512事务覆盖矩阵；按此更宽资源重算刷新及长期占用'
-    out['key_resources']='256 SAR、256 pair写驱动、32活动输出；数字重构仍16通道，原始求值64轮'
-   if c=='10_fenor_3d' and path[0]=='structural_contrast':
-    out['mode']=m['mode'].replace('16-cell写条带','128-cell并行写资源对照')
-    out['update_pattern']='16 Byte完整权重，8个位平面条带同时两相写，128节点并行读回、16路8拍比较；1024事务覆盖矩阵'
-    out['key_resources']='128个BL/SL列对及8组WL写驱动（约8倍写资源）；读资源不变'
-   if c=='04_nand_3d' and path[-1]=='append':out['mode']=out['mode'].replace('持续同地址重写','预擦除有限append窗口')
-   allrows.append(out)
-  ref=[x for x in allrows if x['case_id']==c and x['recommended']];assert len(ref)==1,(c,len(ref))
-  main=[x for x in allrows if x['case_id']==c and x['scenario_type'] in ['recommended_reference','paired_conditional']]
-  case['reference_scenario_id']=ref[0]['scenario_id']
-  case['conditional_paired_range']={k:[min(x[k] for x in main),max(x[k] for x in main)] for k in ['rho','tau','RI_star']}
-  case['range_semantics']='short/reference only; long is refresh stress' if c=='09_gain_cell_edram' else 'extrema of three paired engineering scenarios, not physical uncertainty envelope'
-  for x in [x for x in allrows if x['case_id']==c]:
-   if x['feasibility']=='conditional_feasible':
-    s=x['effective_service_interval'] or x['raw_service_time']
-    assert math.isclose(x['rho'],x['B_S']/s['streaming_ns']*1000,rel_tol=1e-11)
-    assert math.isclose(x['tau'],x['B_R']/s['resident_ns']*1000,rel_tol=1e-11)
-    assert math.isclose(x['RI_star'],x['rho']/x['tau'],rel_tol=1e-11)
- return dict(schema_version='ten-case-review-1',units=dict(payload='Byte',time='ns',rho_tau='decimal MB/s (10^6 Byte/s)',RI_star='dimensionless'),shared_baseline_id='shared_baseline',shared_parameter_sha256=hashlib.sha256((A/'shared_baseline/data/shared_parameters.json').read_bytes()).hexdigest(),cases=cases,results=allrows)
-def card(case,rows):
- ref=next(r for r in rows if r['recommended']);main=[r for r in rows if r['scenario_type'] in ['recommended_reference','paired_conditional']]
- raw=ref['raw_service_time'];eff=ref['effective_service_interval'];rng=case['conditional_paired_range']
- pairs=[('技术/模式',case['technology']+'；'+case['mode']),('逻辑粒度/聚合',f"B_S={ref['B_S']:g} Byte；B_R={ref['B_R']:g} Byte。"+case['update_pattern']),('资源/相对R0',case['resources']),('服务口径',case['maintenance']),('主导因素/选择',case['main_assumptions']),('关键对照',case['dominant_contrast'])]
- t=[r'% Generated by analysis/scripts/export_ten_cases.py',r'\subsection*{统一结果卡}',r'\begingroup\small',r'\noindent\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule']
- t += [tex(k)+' & '+tex(v)+r'\\' for k,v in pairs]
- t += [r'\bottomrule\end{tabularx}',r'\vspace{3mm}',r'\begin{center}\begin{tabular}{@{}lrrr@{}}\toprule',r'成对条件情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule']
- for i,r in enumerate(main):
-  label='参考（推荐）' if r['recommended'] else ('短预算' if i==0 else '长预算')
-  t.append(label+' & '+' & '.join(f(r[k]) for k in ['rho','tau','RI_star'])+r'\\')
- t += [r'\bottomrule\end{tabular}\end{center}',r'\noindent '+tex(f"参考原始占用：streaming {f(raw['streaming_ns'])} ns；resident {f(raw['resident_ns'])} ns。")]
- if eff:t.append(tex(f"维护后长期平均间隔：{f(eff['streaming_ns'])}/{f(eff['resident_ns'])} ns；原始ρ/τ={f(ref['rho_raw'])}/{f(ref['tau_raw'])} MB/s。"))
- t.append(r'\par\noindent '+tex('范围为有限成对条件情景极值，不是物理不确定性包络。'+('长预算与不可行压力情景在正文另列。' if case['case_id']=='09_gain_cell_edram' else '')+'1 MB=10^6 Byte；整矩阵16384 Byte=16 KiB。源定位见本例证据笔记；公共基线shared_baseline。'))
- t += [r'\endgroup',r'\clearpage']
- return '\n'.join(t)+'\n'
-def outputs(d):
- out={'data/ten_case_results.json':json.dumps(d,ensure_ascii=False,indent=2,allow_nan=False)+'\n'}
- cols=['case_id','technology','mode','scenario_id','scenario_type','recommended','rate_unit','payload_unit','B_S','B_R','update_pattern','raw_service_time','effective_service_interval','rho','tau','RI_star','rho_raw','tau_raw','maintenance','feasibility','main_assumptions','key_resources','source_ids','shared_baseline_id','source_result','scenario_parameters']
- b=io.StringIO();w=csv.DictWriter(b,fieldnames=cols,lineterminator="\n");w.writeheader()
- for r in d['results']:w.writerow({k:json.dumps(r[k],ensure_ascii=False,separators=(',',':')) if isinstance(r[k],(dict,list)) else r[k] for k in cols})
- out['data/ten_case_results.csv']=b.getvalue()
- summary=['<!-- Generated by scripts/export_ten_cases.py; decimal MB/s. -->','| 案例（PDF，主模式见下文） | 参考ρ | 参考τ | 参考RI* |','|---|---:|---:|---:|'];ranges=['','| 案例 | 条件ρ范围 | 条件τ范围 | 成对RI*范围 |','|---|---:|---:|---:|']
- for c in d['cases']:
-  rows=[r for r in d['results'] if r['case_id']==c['case_id']];r=next(r for r in rows if r['recommended']);ran=c['conditional_paired_range']
-  pdf=c['case_id']+'/output/'+('pdf/rram' if c['case_id']=='05_rram' else c['case_id'][3:])+'.pdf'
-  summary.append('| ['+SUMMARY_LABELS[c['case_id']]+']('+pdf+') | '+' | '.join(f(r[k]) for k in ['rho','tau','RI_star'])+' |')
-  ranges.append('| '+c['technology']+' | '+' | '.join('–'.join(f(v) for v in ran[k]) for k in ['rho','tau','RI_star'])+' |')
-  out[c['case_id']+'/tex/result_card.tex']=card(c,rows)
- summary_text='\n'.join(summary+ranges)+'\n'
- review=A/'TEN_CASE_REVIEW.zh.md'
- if review.exists():
-  before,rest=review.read_text().split('<!-- BEGIN TEN CASE SUMMARY -->',1);_,after=rest.split('<!-- END TEN CASE SUMMARY -->',1)
-  out['TEN_CASE_REVIEW.zh.md']=before+'<!-- BEGIN TEN CASE SUMMARY -->\n'+summary_text+'<!-- END TEN CASE SUMMARY -->'+after
- return out
-if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--emit',action='store_true');args=p.parse_args();d=normalized()
- for name,s in outputs(d).items():
-  path=A/name
-  if args.emit:
-   path.parent.mkdir(parents=True,exist_ok=True)
-   if not path.exists() or path.read_text()!=s:path.write_text(s)
-  else:assert path.read_text()==s,f'stale {name}'
- print(f"PASS: {len(d['cases'])} cases, {len(d['results'])} normalized scenarios; MB/s and service-time consistency; synchronized cards/exports.")
+    allrows, cases = [], []
+    for c, (technology, main_key) in META.items():
+        directory = A/c
+        source_bytes = {name: (directory/f'data/{name}.json').read_bytes() for name in ('inputs', 'results')}
+        data = json.loads(source_bytes['results'])
+        native = data['native_configuration']
+        inputs = source_bytes['inputs'].decode('utf-8')
+        source_ids = sorted(set(re.findall(r'(?:SACIM|SDCIM|CMOS|NOR|NAND|RRAM|MRAM|PCM|FERAM|GC|FENOR)-\d{2}', inputs)))
+        source_hashes = {f'{c}/data/{name}.json': hashlib.sha256(content).hexdigest() for name, content in source_bytes.items()}
+        rows = []
+        for path, row in walk(data):
+            if path[0] != main_key and not any(t in path[0] for t in ('sensitiv', 'compar', 'contrast', 'pressure', 'stress')):
+                continue
+            typ = classify(path, row, main_key)
+            m = full_mapping(row, native, typ in MAIN_TYPES)
+            cfg = scenario_native(c, native, row, m, path)
+            maint = row.get('maintenance_service', {})
+            raw = row.get('raw_mapping_interface', maint.get('raw', m))
+            effective = row.get('effective_mapping_interface', maint.get('effective', m))
+            for interface in (m, raw, effective):
+                validate_mapping(interface)
+            assert all(m[k] == effective[k] for k in CORE), 'main mapping and effective boundary disagree'
+            periodic = row.get('refresh')
+            maintenance = periodic or row.get('maintenance') or dict(periodic=False, availability=1,
+                included_in_raw='required local recovery/restore/verify is included in source service stages')
+            update = cfg.get('update_shape', cfg.get('update_mode', row.get('transaction_pattern', '')))
+            mode = row.get('mode', cfg.get('mode', data.get('mode', cfg.get('configuration_kind', technology))))
+            local = {k: row[k] for k in CORE if k in row} if all(k in row for k in CORE) else None
+            if 'block_service' in row:
+                local = dict(row['block_service'], relationship='native block batch; whole-matrix final overhead is retained separately in full_load')
+            full_load = copy.deepcopy(row.get('full_load', row.get('write_details', {}).get('full_load', row.get('full_matrix_update', {}))))
+            full_load.update(logical_payload_Byte=m['B_R_Byte'], T_R_ns=m['T_R_ns'])
+            if c == '05_rram':
+                local = dict(B_R_Byte=row['write_details']['local_transaction_Byte'],
+                             delta_R_ns=row['write_details']['local_transaction_ns'],
+                             isolated_request_ns=row['write_details']['isolated_16B_request_ns'],
+                             relationship='matrix T_R includes epoch rail setup/exit; local batch rate is not the main tau')
+            sid = row.get('id', '/'.join(path))
+            if path[-1] == 'append':
+                sid = f"{row['profile']}_append"
+                mode = str(mode) + '; finite pre-erased append window'
+            skip = set(CORE) | {'mapping_interface', 'raw_mapping_interface', 'effective_mapping_interface',
+                               'maintenance_service', 'nominal', 'refresh', 'rewrite', 'append', 'native_configuration'}
+            parameters = {k: v for k, v in row.items() if k not in skip}
+            parameters['profile'] = profile(row, path)
+            result = dict(case_id=c, technology=technology, mode=mode, scenario_id=sid, scenario_profile=profile(row, path),
+                scenario_type=typ, recommended=typ == 'recommended_reference', rate_unit='MB/s', payload_unit='Byte',
+                K=m['K'], N=m['N'], b_S=m['b_S'], b_R=m['b_R'], B_S=m['B_S_Byte'], B_R=m['B_R_Byte'],
+                effective_logical_capacity_Byte=m['full_resident_payload_Byte'], native_configuration=cfg,
+                update_pattern=update, transaction_service=local,
+                full_load=full_load,
+                raw_service_time=dict(streaming_ns=raw['delta_S_ns'], resident_ns=raw['T_R_ns']),
+                effective_service_interval=dict(streaming_ns=effective['delta_S_ns'], resident_ns=effective['T_R_ns']),
+                mapping_interface=m, raw_mapping_interface=raw, effective_mapping_interface=effective,
+                rho=None if m['rho_Byte_per_s'] is None else m['rho_Byte_per_s']/1e6,
+                tau=None if m['tau_Byte_per_s'] is None else m['tau_Byte_per_s']/1e6,
+                RI_star=m['RI_star'], U_star=m['U_star'], T_R_ns=m['T_R_ns'], delta_S_ns=m['delta_S_ns'],
+                rho_raw=raw['rho_Byte_per_s']/1e6, tau_raw=raw['tau_Byte_per_s']/1e6,
+                maintenance=maintenance, raw_equals_effective=raw == effective,
+                feasibility='conditional_feasible' if m['rho_Byte_per_s'] is not None else 'infeasible_under_declared_schedule',
+                main_assumptions=dominant(row), key_resources=cfg['resources'], source_ids=source_ids,
+                shared_baseline_id='shared_baseline', source_result=f'{c}/data/results.json'+pointer(path),
+                source_mapping=f'{c}/data/results.json'+pointer(path+('mapping_interface',)) if 'mapping_interface' in row else None,
+                source_native_configuration=f'{c}/data/results.json#/native_configuration',
+                source_hashes=source_hashes, scenario_parameters=parameters)
+            rows.append(result)
+        primary = [r for r in rows if r['scenario_type'] in MAIN_TYPES]
+        assert len(primary) == 3 and {r['scenario_profile'] for r in primary} == set(PROFILES), c
+        assert all(r['feasibility'] == 'conditional_feasible' for r in primary), c
+        assert all((r['K'], r['N'], r['key_resources']) == (primary[0]['K'], primary[0]['N'], primary[0]['key_resources']) for r in primary), 'paired scenarios change resources: '+c
+        ref = next(r for r in primary if r['recommended'])
+        cases.append(dict(case_id=c, technology=technology, mode=ref['mode'], native_configuration=ref['native_configuration'],
+            update_pattern=ref['update_pattern'], resources=ref['key_resources'], main_assumptions=ref['main_assumptions'],
+            maintenance=ref['maintenance'], source_ids=source_ids, source_hashes=source_hashes,
+            evidence_entries=sorted(str(p.relative_to(A)) for p in (directory/'notes').glob('*.md')),
+            shared_baseline_id='shared_baseline', reference_scenario_id=ref['scenario_id'],
+            conditional_paired_range={k: [min(r[k] for r in primary), max(r[k] for r in primary)] for k in ('rho', 'tau', 'RI_star')},
+            range_semantics='three paired sustainable conditions in the same native organization; finite scenarios, not probability or confidence bounds'))
+        allrows.extend(rows)
+    return dict(schema_version='ten-case-native-2', units=dict(payload='Byte', time='ns', rho_tau='decimal MB/s (10^6 Byte/s)', RI_star='dimensionless'),
+                service_boundary='one complete logical vector and one full native resident matrix; local transactions are separate',
+                shared_baseline_id='shared_baseline', shared_parameter_sha256=sha(A/'shared_baseline/data/shared_parameters.json'),
+                shared_api_sha256=sha(A/'shared_baseline/scripts/check_shared.py'), cases=cases, results=allrows)
+
+
+def tex(s):
+    replacements = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '_': r'\_', '#': r'\#',
+                    '$': r'\$', '{': r'\{', '}': r'\}', '^': r'\textasciicircum{}', '~': r'\textasciitilde{}'}
+    text = ''.join(replacements.get(ch, ch) for ch in str(s))
+    for symbol, math in [('μ', r'\mu'), ('Δ', r'\Delta'), ('ρ', r'\rho'), ('τ', r'\tau')]:
+        text = text.replace(symbol, '$'+math+'$')
+    return text.replace('HfO₂', r'HfO$_2$')
+
+
+def f(value):
+    return '不可行' if value is None else f'{value:.2g}'
+
+
+def integer_or_decimal(value):
+    return str(int(value)) if value == int(value) else str(value)
+
+
+def math_number(value):
+    value = f(value)
+    if 'e' in value:
+        mantissa, exponent = value.split('e')
+        return mantissa + r'\times10^{' + str(int(exponent)) + '}'
+    return value
+
+
+def card_update(ref):
+    """Render source-native transaction shapes as a compact Chinese sentence."""
+    c, cfg, params = ref['case_id'], ref['native_configuration'], ref['scenario_parameters']
+    local = ref['transaction_service'] or {}
+    if c == '03_nor_2d':
+        counts = params['operation_counts']
+        return f"整矩阵持续重写；{counts['sector_erases']} 次 sector 擦除和 {counts['page_programs']} 次完整 page 编程。"
+    if c == '04_nand_3d':
+        pages = cfg['blocks'] * cfg['wordlines_per_block'] * cfg['SSL_per_block']
+        return f"整矩阵持续替换；{cfg['blocks']} 次 block 擦除、{pages} 次 page 编程；包含参考状态、校准和元数据。"
+    payload = local['B_R_Byte']
+    groups = ref['B_R'] / payload
+    assert groups == int(groups)
+    shape = '对齐局部组'
+    if c == '07_pcm':
+        shape = '同一选中行内的列条带'
+    elif c == '08_feram_hfo2':
+        shape = '完整局部物理行'
+    elif c == '06_mram':
+        shape = '互补 bit 对的对齐输出组'
+    text = f"每个{shape} {payload:g} Byte；{groups:g} 个完整事务覆盖矩阵。"
+    if c == '05_rram':
+        text += ' 两相 RESET/SET 写验；整矩阵服务另含电压轨建立与退出。'
+    return text
+
+
+def card(case, rows):
+    ref = next(r for r in rows if r['recommended'])
+    primary = sorted((r for r in rows if r['scenario_type'] in MAIN_TYPES), key=lambda r: PROFILES.index(r['scenario_profile']))
+    n = ref['native_configuration']
+    shape = f"W[N,K]={ref['N']:g}×{ref['K']:g}；INT8输入与权重；有效 resident={integer_or_decimal(ref['B_R'])} Byte。"
+    resource_text = compact_resources(ref['key_resources'])
+    rows_text = [('原生逻辑配置', shape), ('更新组织', card_update(ref)), ('主要资源', resource_text)]
+    lines = [r'% Generated by analysis/scripts/export_ten_cases.py', r'\subsection*{统一结果卡}',
+             r'\begingroup\small', r'\noindent\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule']
+    lines += [tex(k) + ' & ' + tex(v) + r'\\' for k, v in rows_text]
+    lines += [r'\bottomrule\end{tabularx}', r'\vspace{3mm}',
+              r'\begin{center}\begin{tabular}{@{}lrrr@{}}\toprule',
+              r'固定组织成对情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule']
+    for r in primary:
+        label = {'short': '乐观', 'reference': '典型', 'long': '悲观'}[r['scenario_profile']]
+        lines.append(label + ' & ' + ' & '.join('$'+math_number(r[k])+'$' for k in ('rho', 'tau', 'RI_star')) + r'\\')
+    lines += [r'\bottomrule\end{tabular}\end{center}',
+              r'\noindent 典型完整求值：$B_S=' + f"{ref['B_S']:g}" + r'$ Byte，$\Delta_S=' + math_number(ref['delta_S_ns']) + r'$ ns。完整 resident 装载：$B_R=' + integer_or_decimal(ref['B_R']) + r'$ Byte，$T_R=' + math_number(ref['T_R_ns']) + r'$ ns；$U^*=' + math_number(ref['U_star']) + r'$ 个向量。',
+              r'\par\smallskip\noindent 接口：$U^*=T_R/\Delta_S=N\,\mathrm{RI}^*$（两侧均为 1 Byte）。局部更新事务与完整装载关系见正文；该平衡关系不保证两路峰值能同时实现。']
+    if not ref['raw_equals_effective']:
+        maint = ref['maintenance']
+        lines.append(r'\par\smallskip\noindent ' + tex(f"维护前ρ/τ={f(ref['rho_raw'])}/{f(ref['tau_raw'])} MB/s；刷新周期={f(maint['period_ns']/1000)} μs，可用比例={f(maint['availability'])}。表内为长期有效能力，维护不增加逻辑 payload。"))
+    else:
+        lines.append(r'\par\smallskip\noindent ' + tex('原始能力与长期有效能力在所声明服务窗口内相同；必要局部恢复、终验或擦除已纳入完整服务。'))
+    lines += [r'\par\smallskip\noindent ' + tex('三点对应所选原生参考配置的有限工程条件，不代表等面积或等计算量排名。资源扩展、预擦除有限窗口和维护压力另列。1 MB=10^6 Byte；16 KiB辅助换算仅为平均成本。'),
+              r'\endgroup', r'\clearpage']
+    return '\n'.join(lines) + '\n'
+
+
+def outputs(document):
+    out = {'data/ten_case_results.json': json.dumps(document, ensure_ascii=False, indent=2, allow_nan=False)+'\n'}
+    columns = list(document['results'][0])
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=columns, lineterminator='\n')
+    writer.writeheader()
+    for row in document['results']:
+        writer.writerow({k: json.dumps(row[k], ensure_ascii=False, separators=(',', ':')) if isinstance(row[k], (dict, list)) else row[k] for k in columns})
+    out['data/ten_case_results.csv'] = buffer.getvalue()
+    summary = ['<!-- Generated by scripts/export_ten_cases.py; decimal MB/s. -->',
+               '| 案例（PDF） | 原生逻辑 K×N | 典型ρ | 典型τ | 典型RI* | U* |',
+               '|---|---:|---:|---:|---:|---:|---:|']
+    ranges = ['', '| 案例 | 条件ρ范围 | 条件τ范围 | 成对RI*范围 |', '|---|---:|---:|---:|']
+    for case in document['cases']:
+        c = case['case_id']
+        rows = [r for r in document['results'] if r['case_id'] == c]
+        ref = next(r for r in rows if r['recommended'])
+        pdf = c+'/output/'+('pdf/rram' if c == '05_rram' else c[3:])+'.pdf'
+        summary.append('| ['+case['technology']+']('+pdf+f") | {ref['K']:g}×{ref['N']:g} | "+' | '.join(f(ref[k]) for k in ('rho', 'tau', 'RI_star', 'U_star'))+' |')
+        ranges.append('| '+case['technology']+' | '+' | '.join('–'.join(f(v) for v in case['conditional_paired_range'][k]) for k in ('rho', 'tau', 'RI_star'))+' |')
+        out[c+'/tex/result_card.tex'] = card(case, rows)
+    review = A/'TEN_CASE_REVIEW.zh.md'
+    if review.exists():
+        before, rest = review.read_text().split('<!-- BEGIN TEN CASE SUMMARY -->', 1)
+        _, after = rest.split('<!-- END TEN CASE SUMMARY -->', 1)
+        out['TEN_CASE_REVIEW.zh.md'] = before+'<!-- BEGIN TEN CASE SUMMARY -->\n'+'\n'.join(summary+ranges)+'\n<!-- END TEN CASE SUMMARY -->'+after
+    return out
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--emit', action='store_true')
+    args = parser.parse_args()
+    document = normalized()
+    for name, text in outputs(document).items():
+        path = A/name
+        if args.emit:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            if not path.exists() or path.read_text() != text:
+                path.write_text(text)
+        else:
+            assert path.read_text() == text, f'stale {name}'
+    print(f"PASS: {len(document['cases'])} native cases, {len(document['results'])} scenarios; full-matrix payload/time interfaces and synchronized cards/exports.")

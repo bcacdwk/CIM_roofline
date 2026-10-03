@@ -1,185 +1,141 @@
 #!/usr/bin/env python3
-"""Finite RRAM reference budgets; all time/throughput templates are imported shared APIs."""
-import sys
-sys.dont_write_bytecode = True
-import argparse
-import hashlib
-import importlib.util
-import json
-import math
+"""RRAM native matrix/full-load service; shared APIs, default read-only."""
+# result_card.tex is owned and checked by analysis/scripts/export_ten_cases.py.
+import argparse,hashlib,importlib.util,json,math,sys,unittest
 from pathlib import Path
-
-BASE = Path(__file__).resolve().parents[1]
-CORPUS = BASE.parents[1]
-SHARED = BASE.parent / 'shared_baseline'
-X = json.loads((BASE/'data/inputs.json').read_text())
-PROV = json.loads((BASE/'data/provenance.json').read_text())
-spec=importlib.util.spec_from_file_location('rram_shared_api',SHARED/'scripts/check_shared.py')
-S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
-A=X['adopted_inputs'];C=X['configuration']
-LABEL={'short':'短预算','reference':'参考','long':'长预算'}
+sys.dont_write_bytecode=True
+BASE=Path(__file__).resolve().parents[1];CORPUS=BASE.parents[1];SHARED=BASE.parent/'shared_baseline'
+X=json.loads((BASE/'data/inputs.json').read_text());A=X['adopted_inputs'];C=X['configuration']
+spec=importlib.util.spec_from_file_location('rram_shared',SHARED/'scripts/check_shared.py');S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
+L=S.logical_configuration(C['logical_K'],C['logical_N']);PORT={'physical_write_data_lanes':128,'control_ticks':2}
+LABEL={'short':'乐观','reference':'典型','long':'悲观'}
 def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
-
-def physical_batches():
-    # One selected output WL in each plane; G0 columns 0..15, G1 columns 16..31.
-    # Transaction covers input indices 0..7 and 16..23, two INT8 weights per batch.
-    return [[dict(payload_element=8*g+k,input_column=16*g+k,weight_plane=w,group=g,output_WL=0)
-             for g in range(2) for w in range(8)] for k in range(8)]
-
-def write_service(name,parallel_cells=16,verify_mode='binary',attempt_profile=None):
-    v=S.C['propagation']['profile_values'][name]
-    front,beats=S.front_ns(C['encoded_load_bits'],v['digital_tick'],True)
-    assert 128%parallel_cells==0
-    nb=128//parallel_cells
-    verify_read=(v['input_step']+A['binary_verify_frontend_ns']['value']+A['binary_sense_slot_ns'][name] if verify_mode=='binary'
-                 else v['input_step']+A['front_end_settle_ns']['value']+v['adc_batch'])
-    address_ticks=A['address_and_pulse_control_ticks_per_attempt']['value']
-    done_ticks=A['verify_group_done_commit_ticks_per_attempt']['value']
-    guard_pre=A['high_voltage_setup_ns_per_attempt']['value']
-    guard_post=A['high_voltage_return_recover_ns_per_attempt']['value']
-    stages=[];terms=[]
+def write_service(profile,parallel=128,attempt_profile=None,transition_ns=None):
+    v=S.C['propagation']['profile_values'][profile];td=v['digital_tick'];front,beats=S.front_ns(128,td,True,PORT)
+    g=A['high_voltage_setup_ns_per_attempt']['by_profile'][profile] if transition_ns is None else transition_ns
+    nb=128//parallel;assert parallel in [16,128]
+    verify=v['input_step']+5+A['binary_sense_slot_ns'][profile]
+    phases=[];steps=[]
     for phase in ['RESET','SET']:
-        k=A['group_attempt_scenarios'][attempt_profile or name][phase]
-        count=nb*k
-        step=dict(count=count,
-                  drive_program_ns=guard_pre+A['program_pulse_ns'][phase]+address_ticks*v['digital_tick'],
-                  recover_ns=guard_post,
-                  verify_ns=verify_read+done_ticks*v['digital_tick'])
-        stages.append(step)
-        terms.append(dict(phase=phase,batches=nb,attempts_per_batch=k,attempt_slots=count,
-            allocated_voltage_sequence_V=[round(A['program_voltages']['initial_'+phase+'_V']+j*A['program_voltages']['increment_on_same_polarity_retry_V'],3) for j in range(k)],
-            pulse_total_ns=count*A['program_pulse_ns'][phase],
-            HV_guard_total_ns=count*(guard_pre+guard_post),
-            verify_read_total_ns=count*verify_read,
-            local_control_total_ns=count*(address_ticks+done_ticks)*v['digital_tick'],
-            mask='all 128 cells' if phase=='RESET' else 'only desired LRS bits; disabled lanes draw no program current; budget keeps the phase slot'))
-    dr=S.program_sequence_ns(front,0,stages)
-    details=dict(parallel_cells=parallel_cells,verify_mode=verify_mode,front_ns=front,data_beats=beats,
-                 verify_read_ns_per_attempt=verify_read,
-                 local_read_components_ns=dict(input_select=v['input_step'],frontend=5,sense_sample_latch=v['adc_batch']),
-                 window_decision_in_sense_slot=True,group_done_mask_commit_ns=done_ticks*v['digital_tick'],
-                 phase_details=terms,shared_template_steps=stages,
-                 one_control_domain=True,success_condition='all target cells pass before final slot; retry tail beyond scenario is outside this case, never counted as successful payload')
-    return dr,details
+        n=A['group_attempt_scenarios'][attempt_profile or profile][phase];count=nb*n
+        phases.append(dict(phase=phase,batches=nb,attempts_per_batch=n,attempt_slots=count,
+          pulse_total_ns=count*A['program_pulse_ns'][phase],local_transition_total_ns=count*2*g,
+          verify_read_total_ns=count*verify,control_total_ns=count*2*td))
+        steps.append(dict(count=count,drive_program_ns=g+A['program_pulse_ns'][phase]+td,
+                          verify_ns=verify+td,recover_ns=g))
+    local=S.program_sequence_ns(front,0,steps)
+    rail=A['rail_lifecycle_ns']['setup']+A['rail_lifecycle_ns']['exit']
+    load=S.full_load_service(L,[{'payload_Byte':16,'service_ns':local,'count':512},{'payload_Byte':0,'service_ns':rail}])
+    details=dict(parallel_cells=parallel,local_transaction_Byte=16,local_transaction_ns=local,data_beats=beats,
+      local_front_ns=front,phase_details=phases,local_transition_ns_each=g,verify_read_ns=verify,
+      rail_setup_ns=A['rail_lifecycle_ns']['setup'],rail_exit_ns=A['rail_lifecycle_ns']['exit'],
+      rail_lifecycle='regulatedprogramrail held throughout fullmatrix;local switching on everyattempt',
+      peak_array_current_budget_mA=parallel*.3,binary_comparators=parallel*2,full_load=load,
+      isolated_16B_request_ns=local+rail,success_condition='allactivecells meetbinarywindow withindeclaredattempts;failedfullmatrix is not published')
+    return load['T_R_ns'],details
+
+def native_configuration():
+    return dict(**L,logical_capacity_Byte=8192,physical_capacity_bit=65536,physical_capacity_Byte=8192,
+      physical_data_cells=65536,encoding='8binarybitplanes,no differential duplication;allm=1',
+      mode='WH-2T1R32-item ACIM with native CIMSEL time selection',physical_native_macros=8,
+      physical_macro_shape=[64,128],subarrays_per_macro=4,subarray_shape=[64,32],
+      update_mode='single-domain sustained whole8192B matrix load;512local16B groups',
+      resources={'ADC_count':128,'ADC_per_plane':16,'digital_output_channels':16,'active_input_terms':32,
+       'write_driver_count':128,'binary_window_comparators':256,'program_current_rating_uA_per_lane':300,
+       'total_program_current_rating_mA':38.4,'switched_capacitance_limit_pF_per_lane':1,
+       'program_voltage_rating_V':1.8,'encoded_buffer_bits':128,'mask_done_bits':128,
+       'input_register_bits':1024,'output_register_bits':64*23,'write_interface_bits':128,
+       'external_update_domains':1,'shared_TBL_policy':'retain native4subarrays per macro;CIMSEL time-selects;no freeTBL isolation'},
+      precision_contract='calibrated approximate bit-plane sums;INT8 final23bit container')
 
 def calculate():
     cfg={**S.R['acim'],**C['acim_overrides']};rows=[]
-    for name,v in S.C['propagation']['profile_values'].items():
-        ds,n,hold=S.acim_service(cfg,v,A['front_end_settle_ns']['value'])
-        dr,wd=write_service(name)
-        rows.append(dict(profile=name,periphery_ns=v,counts=n,hold_extra_ns=hold,write_details=wd,
-                         **S.metrics(S.L['B_S_Byte'],16,ds,dr)))
-    v=S.C['propagation']['profile_values']['reference'];ds=S.acim_service(cfg,v,5)[0]
-    comparisons=[]
-    for label,p,mode in [('B32-W16 binary',16,'binary'),('B32-W1 binary',1,'binary'),('B32-W1 SAR',1,'sar')]:
-        dr,wd=write_service('reference',p,mode)
-        row=dict(label=label,write_details=wd,**S.metrics(128,16,ds,dr))
-        row['peak_array_current_budget_mA']=p*C['write_resources']['current_compliance_uA_per_lane']/1000
-        comparisons.append(row)
-    h=[]
-    for ha in [0,5]:
-        d=S.acim_service(cfg,v,5+ha)[0];dr,_=write_service('reference')
-        h.append(dict(h_A_ns=ha,meaning='additional front-end engineering budget; main binary verify is decoupled',**S.metrics(128,16,d,dr)))
+    for p,v in S.C['propagation']['profile_values'].items():
+        ds,counts,hold=S.acim_service(cfg,v,5,L);tr,wd=write_service(p);mi=S.mapping_metrics(L,ds,tr)
+        rows.append(dict(profile=p,periphery_ns=v,counts=counts,hold_extra_ns=hold,write_details=wd,
+          mapping_interface=mi,maintenance={'raw':mi,'effective':dict(mi),'maintenance_payload_Byte':0},**mi))
+    ds=rows[1]['delta_S_ns'];com=[]
+    for parallel in [128,16]:
+        tr,wd=write_service('reference',parallel);com.append(dict(label=f'W{parallel}',write_details=wd,**S.mapping_metrics(L,ds,tr)))
     attempts=[]
-    for k in ['short','reference','long']:
-        dr,wd=write_service('reference',attempt_profile=k)
-        attempts.append(dict(attempt_profile=k,common_profile='reference',scenario_type='independent_sensitivity',attempts=A['group_attempt_scenarios'][k],write_details=wd,**S.metrics(128,16,ds,dr)))
-    ranges={m:[min(r[m] for r in rows),max(r[m] for r in rows)] for m in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
-    return dict(schema_version='rram-reference-results-2.0',status=X['status'],
-        baseline_json_sha256=digest(SHARED/'data/shared_parameters.json'),
-        baseline_script_sha256=digest(SHARED/'scripts/check_shared.py'),input_sha256=digest(BASE/'data/inputs.json'),
-        numerical_media_write_point_available=True,
-        claim='finite engineering service budgets conditional on the selected windows being reached within the stated group-attempt counts; not measured confidence intervals or universal technology bounds',
-        geometry=dict(logical_payload_elements=16,physical_cells=128,program_batches=physical_batches(),
-            columns_in_this_transaction=list(range(8))+list(range(16,24)),
-            complementary_transaction_columns=list(range(8,16))+list(range(24,32))),
-        scenarios=rows,paired_ranges=ranges,
-        comparisons_at_reference=comparisons,frontend_sensitivity=h,attempt_sensitivity=attempts)
+    for p in ['short','reference','long']:
+        tr,wd=write_service('reference',attempt_profile=p);attempts.append(dict(attempt_profile=p,attempts=A['group_attempt_scenarios'][p],write_details=wd,**S.mapping_metrics(L,ds,tr)))
+    transition=[]
+    for g in [50,100,1000]:
+        tr,wd=write_service('reference',transition_ns=g);transition.append(dict(local_transition_ns_each=g,write_details=wd,**S.mapping_metrics(L,ds,tr)))
+    return dict(schema_version='rram-native-reference',native_configuration=native_configuration(),
+      baseline_json_sha256=digest(SHARED/'data/shared_parameters.json'),baseline_script_sha256=digest(SHARED/'scripts/check_shared.py'),
+      input_sha256=digest(BASE/'data/inputs.json'),numerical_media_write_point_available=True,
+      scenarios=rows,paired_ranges={m:[min(r[m] for r in rows),max(r[m] for r in rows)] for m in ['rho_Byte_per_s','tau_Byte_per_s','RI_star']},
+      comparisons_at_reference=com,attempt_sensitivity=attempts,local_transition_sensitivity=transition,
+      dominant_parameters={'read':'32active/CIMSEL groups plus sharedADC/digital slots','write':'full1us RESET/SET waveforms,attemptcounts,128realdrivers andlocalbias switching'},
+      sources={k:s['pdf'] for k,s in X.get('sources',{}).items()} if isinstance(X.get('sources'),dict) else {},
+      external_review=['cross-stack1usprogramwaveforms andbinaryacceptancewindows','dedicated128driver/38.4mA supply and<=1pF local switchload','finite local50/100/250ns transitionbudgets andnormalattemptcompletion'])
 
-def esc(s):
-    for a,b in [('\\',r'\textbackslash{}'),('&',r'\&'),('%',r'\%'),('_',r'\_'),('#',r'\#')]:s=s.replace(a,b)
-    return s.replace('µ',r'$\mu$').replace('×',r'$\times$').replace('Ω',r'$\Omega$').replace('−','-').replace('–','--').replace('≥',r'$\geq$').replace('≤',r'$\leq$')
-
+def tab(headers,rows,caption):
+    return '\n'.join([r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}l'+'r'*(len(headers)-1)+r'@{}}\toprule',' & '.join(headers)+r'\\\midrule']+[' & '.join(t)+r'\\' for t in rows]+[r'\bottomrule\end{tabular}',r'\caption{'+caption+r'}\end{table}',''])
 def generate(r):
-    t=[r'% Generated from inputs JSON via shared API.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',r'情景 & $K_R/K_S$ & $\Delta_S$ (\,$\mu$s) & $\Delta_R$ (\,$\mu$s) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
-    for row in r['scenarios']:
-        k=A['group_attempt_scenarios'][row['profile']]
-        t.append(f"{LABEL[row['profile']]} & {k['RESET']}/{k['SET']} & {row['delta_S_ns']/1000:.3f} & {row['delta_R_ns']/1000:.3f} & {row['rho_Byte_per_s']/1e6:.5f} & {row['tau_Byte_per_s']/1e6:.5f} & {row['ridge']:.3f}\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{同一 B32-W16 参考组织的有限成对服务预算。$B_S=128$ Byte，$B_R=16$ Byte；MB 为十进制。组内所有活动 cell 在所列尝试次数内达窗是情景完成条件，次数不是实测尾部上界。}\label{05_rram:tab:main}\end{table}']
-    br=[r'% Generated detailed occupancy.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'情景 & 脉冲时隙 & HV建立/恢复预留 & binary选通/感测 & 控制/提交 & 合计\\\midrule']
-    for row in r['scenarios']:
-        ps=row['write_details']['phase_details'];vals=[sum(q[k] for q in ps)/1000 for k in ['pulse_total_ns','HV_guard_total_ns','verify_read_total_ns']]
-        ctrl=(row['write_details']['front_ns']+sum(q['local_control_total_ns'] for q in ps))/1000
-        br.append(f"{LABEL[row['profile']]} & {vals[0]:g} & {vals[1]:g} & {vals[2]:g} & {ctrl:.3f} & {row['delta_R_ns']/1000:.3f}\\\\")
-    br += [r'\bottomrule\end{tabular}',r'\caption{完整 resident 占用分解，单位均为 $\mu$s。脉冲列按并行批预留时隙计，1 $\mu$s脉宽借自原文实际波形；HV前后各1 $\mu$s是工程余量，binary列含输入选通、5 ns建立以及10/20/50 ns完整sense时隙；该预算非本地SA实测内在延时。}\label{05_rram:tab:breakdown}\end{table}']
-    co=[r'% Generated one controlled comparison.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',r'参考点组织 & 活动写lane & verify读回 (ns) & $\Delta_R$ (\,$\mu$s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
-    for row in r['comparisons_at_reference']:
-        d=row['write_details']
-        co.append(f"{esc(row['label'])} & {d['parallel_cells']} & {d['verify_read_ns_per_attempt']:g} & {row['delta_R_ns']/1000:.3f} & {row['tau_Byte_per_s']/1e6:.6f} & {row['ridge']:.3f}\\\\")
-    co += [r'\bottomrule\end{tabular}',r'\caption{同一两阶段程序、脉冲、HV预留、成功窗和 $K_R/K_S=2/1$，仅改变活动并行度或校验通路。三行读侧相同，$\Delta_S=10.25\,\mu$s；W1仅启用已配置硬件中的一个lane，SAR复用原CIM转换器。}\label{05_rram:tab:comparison}\end{table}']
-    at=[r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrr@{}}\toprule',r'$K_R/K_S$ & $\Delta_R$ ($\mu$s) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
-    for row in r['attempt_sensitivity']:
-        k=row['attempts']
-        at.append(f"{k['RESET']}/{k['SET']} & {row['delta_R_ns']/1000:.3f} & {row['rho_Byte_per_s']/1e6:.4g} & {row['tau_Byte_per_s']/1e6:.4g} & {row['ridge']:.4g}"+r'\\')
-    at += [r'\bottomrule\end{tabular}',r'\caption{固定参考外围、16路写验与前后各1 $\mu$s HV预留，仅改变已采用的组内尝试次数。读能力不变；次数不与外围速度物理绑定，也不是实测概率分布。}\label{05_rram:tab:attempts}\end{table}']
-    ev=[r'% Generated evidence table.',r'\begingroup\footnotesize',r'\begin{longtable}{@{}>{\raggedright\arraybackslash}p{16mm}>{\raggedright\arraybackslash}p{50mm}>{\raggedright\arraybackslash}p{42mm}>{\raggedright\arraybackslash}p{48mm}@{}}',r'\caption{原始证据与工程选择分列。页码为本地PDF页序。}\label{05_rram:tab:evidence}\\',r'\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endfirsthead',r'\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endhead']
-    md=['# RRAM 参数证据表','','原值、跨实现操作锚点与工程选择分开；从 `data/inputs.json` 生成。','','| ID/来源 | 原值与单位 | 条件与定位 | 采用/换算理由 |','|---|---|---|---|']
-    for e in X['reported_evidence']:
-        sid=e['source_id'] if e['source_id']!='shared_baseline' else '共享基线'
-        locator=e['locator'] if e['id']!='E11' else '输入JSON：采用参数、写资源'
-        ev.append(f"{esc(e['id'])}\\newline {esc(sid)} & {esc(e['original'])}\\newline {esc(e['condition'])} & {esc(locator)} & {esc(e['adoption'])}\\\\")
-        md.append(f"| {e['id']} / {e['source_id']} | {e['original']} | {e['condition']}；{e['locator']} | {e['adoption']} |")
-    ev += [r'\bottomrule\end{longtable}\endgroup']
-    readme=(BASE/'README.md').read_text()
-    begin='<!-- BEGIN GENERATED RESULTS -->';end='<!-- END GENERATED RESULTS -->'
-    before,rest=readme.split(begin,1);_,after=rest.split(end,1)
-    mt=['| 成对情景 | ΔS (µs) | ΔR (µs) | ρ (MB/s) | τ (MB/s) | RI* |','|---|---:|---:|---:|---:|---:|']
-    for row in r['scenarios']:
-        mt.append(f"| {LABEL[row['profile']]} | {row['delta_S_ns']/1000:.3f} | {row['delta_R_ns']/1000:.3f} | {row['rho_Byte_per_s']/1e6:.5f} | {row['tau_Byte_per_s']/1e6:.5f} | {row['ridge']:.3f} |")
-    new_readme=before+begin+'\n'+'\n'.join(mt)+'\n'+end+after
-    return {'README.md':new_readme,'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n','tex/generated_read.tex':'\n'.join(t)+'\n','tex/generated_attempts.tex':'\n'.join(at)+'\n','tex/generated_write_breakdown.tex':'\n'.join(br)+'\n','tex/generated_comparison.tex':'\n'.join(co)+'\n','tex/generated_evidence.tex':'\n'.join(ev)+'\n','notes/parameter_evidence.zh.md':'\n'.join(md)+'\n'}
+    rows=[]
+    for s in r['scenarios']:
+        k=A['group_attempt_scenarios'][s['profile']];rows.append([LABEL[s['profile']],f"{k['RESET']}/{k['SET']}",f"{s['delta_S_ns']/1000:.3f}",f"{s['T_R_ns']/1e6:.4f}",f"{s['rho_Byte_per_s']/1e6:.3g}",f"{s['tau_Byte_per_s']/1e6:.3g}",f"{s['RI_star']:.3g}"])
+    out={'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n','tex/generated_read.tex':tab(['情景',r'$K_R/K_S$',r'$\Delta_S$($\mu$s)',r'$T_R$(ms)',r'$\rho$(MB/s)',r'$\tau$(MB/s)',r'$\RI^*$'],rows,'原生 $K=128,N=64$，完整8192 Byte装载含一次写rail起退；固定128驱动、256比较器。')}
+    br=[]
+    for s in r['scenarios']:
+        wd=s['write_details'];ps=wd['phase_details']
+        vals=[512*sum(q[k] for q in ps)/1000 for k in ['pulse_total_ns','local_transition_total_ns','verify_read_total_ns','control_total_ns']]
+        vals[-1]+=(512*wd['local_front_ns']+wd['rail_setup_ns']+wd['rail_exit_ns'])/1000
+        br.append([LABEL[s['profile']]]+[f'{a:.3g}' for a in vals]+[f"{s['T_R_ns']/1000:.3g}"])
+    out['tex/generated_write_breakdown.tex']=tab(['情景','脉冲','局部切换','新读验','控制/rail',r'总计($\mu$s)'],br,'全矩阵更新占用分解，时间均为微秒。rail仅在整矩阵边界起退，局部切换每次尝试都保留。')
+    out['tex/generated_comparison.tex']=tab(['资源',r'额定电流(mA)',r'$T_R$(ms)',r'$\tau$(MB/s)',r'$\RI^*$'],[[s['label'],f"{s['write_details']['peak_array_current_budget_mA']:g}",f"{s['T_R_ns']/1e6:.4f}",f"{s['tau_Byte_per_s']/1e6:.3g}",f"{s['RI_star']:.3g}"] for s in r['comparisons_at_reference']],'W16缩资源对照将驱动与窗口比较器同比减少；同一脉冲/局部切换及完整rail生命周期，读侧不变。')
+    out['tex/generated_attempts.tex']=tab([r'$K_R/K_S$',r'$T_R$(ms)',r'$\tau$(MB/s)',r'$\RI^*$'],[[f"{s['attempts']['RESET']}/{s['attempts']['SET']}",f"{s['T_R_ns']/1e6:.4f}",f"{s['tau_Byte_per_s']/1e6:.3g}",f"{s['RI_star']:.3g}"] for s in r['attempt_sensitivity']],'固定参考外围与100 ns局部切换，仅改变尝试次数；不解释为概率分布或材料最坏值。')
+    typical=r['scenarios'][1]
+    ev=[r'\begingroup\footnotesize\begin{longtable}{@{}>{\raggedright\arraybackslash}p{22mm}>{\raggedright\arraybackslash}p{59mm}>{\raggedright\arraybackslash}p{70mm}@{}}\toprule 来源 & 原始证据 & 采用与限制\\\midrule\endhead']
+    evidence=[('RRAM-05','p.3 Figs.3--4：64行128列、四个64×32子阵列共享TBL；独立memory BL/SL写路径','每位平面保留完整原宏；四个32项输入组由CIMSEL分时。128驱动为明确新增资源，不能从原DIN接口推出。'),('RRAM-05','pp.4--7：典型LRS10千欧/HRS100千欧；32项m=1求和；PH0为5 ns','LRS8--12千欧、HRS至少70千欧为参考窗；CIM与memory窗口读验分开，5 ns是建立量级锚点。'),('RRAM-01','p.10：1微秒SET/RESET；外部DAC/ADC受限的1--10微秒读回','只借完整脉冲波形；外部读回不等于本地切换，HfOx/TaOx与本TaOx不同栈。'),('RRAM-03/06','03 p.5：二态多数名义条件完成，少量追加；06 pp.1--2：双组mask/done及超时','1/1、2/1、4/2尝试是有限正常完成条件；保留完整RESET，不隐藏在idle。'),('公共方法与选择','128个实际目标、300微安每lane、256比较器、每lane局部切换负载不大于1 pF','最大1.8 V与8千欧量级给225微安；剩余75微安对1.8 pC约24 ns。50/100/250 ns是有限切换预算，不是实测转换延时。')]
+    ev += [' & '.join(q)+r'\\' for q in evidence]+[r'\bottomrule\end{longtable}\endgroup',''];out['tex/generated_evidence.tex']='\n'.join(ev)
+    md=['# RRAM 参数证据','','原始PDF是证据，输入JSON保留原值与采用参数。局部切换和rail生命周期分开。','']
+    for e in X['reported_evidence']:md += [f"## {e['id']} — {e['source_id']}",'',e['locator'],'','原值：'+e['original'],'','条件：'+e['condition'],'','采用：'+e['adoption'],'']
+    out['notes/parameter_evidence.zh.md']='\n'.join(md)
+    return out
 
-def check(r):
-    assert digest(SHARED/'data/shared_parameters.json')==X['baseline']['json_sha256']
-    assert digest(SHARED/'scripts/check_shared.py')==X['baseline']['script_sha256']
-    for s in PROV['corpus_sources']+PROV['read_files']:assert digest(CORPUS/s['path'])==s['sha256'],s['path']
-    batches=physical_batches();flat=[c for row in batches for c in row]
-    assert len(flat)==128 and len({(c['weight_plane'],c['input_column'],c['output_WL']) for c in flat})==128
-    for j in range(16):assert sorted(c['weight_plane'] for c in flat if c['payload_element']==j)==list(range(8))
-    assert all(len(row)==16 and len({(c['group'],c['weight_plane']) for c in row})==16 for row in batches)
-    assert 128*4*2*16==S.L['resident_capacity_Byte']==16384
-    assert C['write_resources']['binary_comparators_total']==2*C['parallel_program_cells']==32
-    assert math.isclose(C['write_resources']['peak_array_current_budget_mA'],16*300/1000)
-    for row in r['scenarios']:
-        n=row['counts'];d=row['write_details']
-        assert (n['evaluations'],n['adc_batches'],n['digital_ticks'])==(256,256,512)
-        assert (row['B_S_Byte'],row['B_R_Byte'],d['data_beats'])==(128,16,1)
-        assert row['tau_Byte_per_s']>0 and math.isfinite(row['ridge'])
-        ps=d['phase_details'];assert [s['phase'] for s in ps]==['RESET','SET']
-        assert all(s['batches']==8 for s in ps)
-        components=d['front_ns']+sum(s[k] for s in ps for k in ['pulse_total_ns','HV_guard_total_ns','verify_read_total_ns','local_control_total_ns'])
-        assert components==row['delta_R_ns']
-        # Independent aggregation through shared direct_service using a full paired batch block.
-        full=(row['delta_R_ns']-d['front_ns'])/8
-        br,dr,nb,_=S.direct_service(dict(logical_weights_completed=16,cells_per_weight=8,parallel_cells=16,encoded_load_bits=128,first_data_in_command=True,complete_physical_update_ns=full),row['periphery_ns']['digital_tick'])
-        assert br==16 and nb==8 and dr==row['delta_R_ns']
-    assert len({q['delta_S_ns'] for q in r['attempt_sensitivity']})==1
-    assert [q['delta_R_ns'] for q in r['attempt_sensitivity']]==[48650,72970,145930]
-    a,b,c=r['comparisons_at_reference']
-    assert math.isclose(b['delta_R_ns']-10,16*(a['delta_R_ns']-10))
-    assert a['delta_R_ns']<c['delta_R_ns']==b['delta_R_ns']
-    assert all(A['binary_sense_slot_ns'][n]==v['adc_batch'] for n,v in S.C['propagation']['profile_values'].items())
-    assert len({x['delta_S_ns'] for x in [a,b,c]})==1
-    assert math.isclose(S.seconds(1,'us'),S.seconds(1000,'ns'))
-    print('PASS: shared/source hashes; 8-plane/two-group geometry; 128cell/16Byte coverage; RESET/SET and retry masks; full-cycle aggregation; finite metrics; controlled comparisons.')
-
-def main():
-    p=argparse.ArgumentParser();p.add_argument('--emit',action='store_true');args=p.parse_args()
-    r=calculate();check(r)
-    for name,txt in generate(r).items():
-        if args.emit:(BASE/name).write_text(txt)
-        else:assert (BASE/name).read_text()==txt,f'stale generated {name}'
-    print('PASS: generated files match inputs/results.')
-    for row in r['scenarios']:print(row['profile'],row['delta_S_ns'],row['delta_R_ns'],row['tau_Byte_per_s'],row['ridge'])
-    for row in r['comparisons_at_reference']:print(row['label'],row['delta_R_ns'],row['tau_Byte_per_s'],row['ridge'])
-if __name__=='__main__':main()
+class Check(unittest.TestCase):
+    def test_native_and_update_selection(self):
+        self.assertEqual(8*64*128,65536);self.assertEqual(8*64*128/8,8192)
+        positions=[]
+        for out in range(64):
+            for group in range(4):
+                for half in range(2):
+                    cols=[group*32+g*16+half*8+k for g in range(2) for k in range(8)]
+                    positions.extend((out,c) for c in cols)
+        self.assertEqual(len(positions),8192);self.assertEqual(len(set(positions)),8192)
+    def test_independent_typical(self):
+        s=calculate()['scenarios'][1]
+        self.assertEqual(s['delta_S_ns'],128*(5+5+20+2*5)+2*5)
+        local=10+3*(1000+100+100+5+5+20+5+5)
+        tr=512*local+2000
+        self.assertEqual(local,3730);self.assertEqual(tr,1911760);self.assertEqual(s['T_R_ns'],tr)
+        self.assertAlmostEqual(s['tau_Byte_per_s'],8192/(1911760e-9))
+        self.assertEqual(s['write_details']['binary_comparators'],256)
+    def test_boundaries_payload_and_interfaces(self):
+        for s in calculate()['scenarios']:
+            self.assertEqual(s['B_R_Byte'],8192);self.assertEqual(s['B_S_Byte'],128)
+            self.assertAlmostEqual(s['U_star'],64*s['RI_star']);self.assertEqual(s['write_details']['data_beats'],1)
+            wd=s['write_details'];terms=wd['local_front_ns']+sum(q[k] for q in wd['phase_details'] for k in ['pulse_total_ns','local_transition_total_ns','verify_read_total_ns','control_total_ns'])
+            self.assertEqual(terms,wd['local_transaction_ns']);self.assertEqual(s['T_R_ns'],512*terms+2000)
+    def test_fixed_resources_and_sensitivity(self):
+        r=calculate();a,b=r['comparisons_at_reference'];self.assertGreater(a['tau_Byte_per_s'],b['tau_Byte_per_s'])
+        self.assertEqual([q['write_details']['parallel_cells'] for q in r['scenarios']],[128]*3)
+        self.assertEqual(len({q['delta_S_ns'] for q in r['attempt_sensitivity']}),1)
+        self.assertLess(r['local_transition_sensitivity'][0]['T_R_ns'],r['local_transition_sensitivity'][-1]['T_R_ns'])
+        self.assertEqual(1.8/8000*1e6,225);self.assertAlmostEqual(1e-12*1.8/(75e-6)*1e9,24)
+    def test_sources(self):
+        p=json.loads((BASE/'data/provenance.json').read_text())
+        for q in p['corpus_sources']:self.assertEqual(digest(CORPUS/q['path']),q['sha256'])
+    def test_generated(self):
+        for p,t in generate(calculate()).items():self.assertEqual((BASE/p).read_text(),t,p)
+if __name__=='__main__':
+    ap=argparse.ArgumentParser();ap.add_argument('--emit',action='store_true');a=ap.parse_args();r=calculate()
+    if a.emit:
+        for p,t in generate(r).items():(BASE/p).write_text(t)
+    ok=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Check)).wasSuccessful()
+    for q in r['scenarios']:print(q['profile'],q['delta_S_ns'],q['T_R_ns'],q['rho_Byte_per_s']/1e6,q['tau_Byte_per_s']/1e6,q['RI_star'])
+    raise SystemExit(0 if ok else 1)

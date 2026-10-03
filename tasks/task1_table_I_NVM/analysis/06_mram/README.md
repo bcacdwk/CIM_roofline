@@ -1,37 +1,25 @@
-# MRAM：互补数字 CIM 与完整两相写验
+# MRAM：原生互补bank、有限权重保持与完整两相写验
 
-当前统一入口：[十例复核](../TEN_CASE_REVIEW.zh.md) · [结果JSON](../data/ten_case_results.json) · [结果CSV](../data/ten_case_results.csv)。PDF首页结果卡与这些导出由统一适配器生成；本例原始未取整结果仍在 `data/results.json`。摘要统一十进制MB/s，情景分类见统一复核。
+原生取MRAM-06的**64 bank×256 row×4 bit**；两个bank合成INT8输出，得到 **K=256、N=32**，有效8192Byte、物理131072MTJ。互补编码不增加逻辑payload，输出32×24bit。
 
+IBMD原latch输出IN∧W，不能跨任意输入位当作W缓存。本参考令IN=1感测W，增加原加法树之前的4096路16:1抽头／选择／隔离、4096-bit单tile寄存及4096个数字AND，再接共同16条32项归约通道。完整向量16读／16捕获、128数字轮；新抽头和选择时序在物理读槽内，捕获另1TD。原256项归约树不作为同时活动的额外吞吐资源。
 
-当前统一结论、推荐模式和情景定义见[十例统一复核](../TEN_CASE_REVIEW.zh.md)。本例保留有依据的主计算，属于条件工程情景估算。
-
-阅读 [独立中文 PDF](output/mram.pdf)，章节源为 [06_mram.tex](tex/06_mram.tex)，独立入口为 [mram.tex](tex/mram.tex)。详细原值、PDF页码与工程桥接见 [证据笔记](notes/evidence.zh.md)。
-
-主路径采用 MRAM-06 的互补2T2MTJ bitcell数字机制，使用共同R0的32项×16输出调度。没有混入MRAM-01的电阻求和/TDC时序；原40nm数字机制与28nm读写宏证据被明确分开。
-
-更新每组8个INT8权重：128 MTJ先同时置P，64目标支路再置AP；64条单端感测通道分左右两批核验全部128个物理状态。物理编码128bit装载一次，有效payload仅8Byte。驱动数量是独立配置，未从接口宽度推断。
-
-| 情景 | ΔS (ns) | ΔR (ns) | ρ (MB/s) | τ (MB/s) | RI* |
+| 固定资源情景 | ΔS (ns) | ΔR (ns) | ρ (MB/s) | τ (MB/s) | RI* |
 |---|---:|---:|---:|---:|---:|
-| 短 | 1284 | 56 | 99.688 | 142.857 | 0.6978 |
-| 参考 | 2570 | 95 | 49.805 | 84.211 | 0.5914 |
-| 长 | 5140 | 130 | 24.903 | 61.538 | 0.4047 |
-| 参考，恰一次整组重写 | 2570 | 180 | 49.805 | 44.444 | 1.1206 |
+| 乐观 | 340 | 60 | 753 | 133 | 5.65 |
+| 典型 | 810 | 105 | 316 | 76.2 | 4.15 |
+| 悲观 | 1620 | 150 | 158 | 53.3 | 2.96 |
 
-主表是一次完整两相写和两支路verify通过的有限预算；对照保留一次失败及重写的全部占用。20/30 ns 完整写槽有 MRAM-03 的量级依据；原错误地板和形式 union bound 留在证据笔记，不参与主数值或重试次数。MB/s 为十进制，三行主情景是条件配对预算；一次重写是固定参考外围的独立占用对照。共同状态容量16384Byte，整矩阵顺序2048组、参考194.56μs，τ不变。
+更新一组八INT8权重，128MTJ先全P、64目标支路再AP；固定128条200µA写驱动和SL25.6mA额定能力。64路独立单端终验分左右两批，每批读、1TD捕获、1TD比较；128-bit目标和128-bit状态寄存分别计入。完整两相写槽以MRAM-03的20/30ns完整access量级支持，原概率地板不移植为新宏成功率。
 
-输入 [data/inputs.json](data/inputs.json)，统一结果与成对操作数 [data/results.json](data/results.json)；共享JSON/API和所有源PDF哈希随输入保存。脚本导入共享API，默认只读：
+典型完整装载1024笔、`T_R=107520ns，U*=132.74074=32RI*`。每16KiB平均更新成本215040ns只是平均换算，不是原生8KiB请求延迟。ρ较大与原生K/N及保持有关，不能称为MTJ材料提速。恰一次整组重写且随后通过的对照为ΔR200ns、τ40MB/s、RI*7.9012，独立于普通悲观点。无周期refresh／restore，维护前后能力相同；寿命另列。
 
-```sh
-/opt/anaconda3/bin/python tasks/task1_table_I_NVM/analysis/06_mram/scripts/check_mram.py
-```
-
-显式刷新数据、构建、渲染全部页面：
+阅读：[正文PDF](output/mram.pdf)、[正文TeX](tex/06_mram.tex)、[证据与原图定位](notes/evidence.zh.md)、[输入](data/inputs.json)、[结果](data/results.json)。顶层`native_configuration`区分有效容量、MTJ和新增资源；每情景`mapping_interface`来自共享API、包含对应完整T_R／U*。
 
 ```sh
-sh tasks/task1_table_I_NVM/analysis/06_mram/scripts/build.sh
+/opt/anaconda3/bin/python scripts/check_mram.py
+/opt/anaconda3/bin/python scripts/check_mram.py --emit
+BASELINE_PYTHON=/opt/anaconda3/bin/python sh scripts/build.sh
 ```
 
-只刷新派生文件用 `check_mram.py --emit`。临时编译/渲染文件在本地.gitignore忽略。检查覆盖数据/API一致、源哈希、容量与选通/驱动、两支路verify、位串行轮数、独立手算和事务聚合。
-
-待主审的主要工程条件为：0.9V新bitcell在4096活动pair下的3/5/10ns读槽、128路第一相电流与SL供流、绝对状态verify误判裕量。无需将这些条件抹成null，也不将其写成硅测保证。寿命与读扰动另列，不加入瞬时τ；未修改其他案例或共享文件。
+默认检查只读，构建入口显式生成结果／表并渲染所有PDF页。检查覆盖原生bank地址、真实4096节点抽头、单tile保持、两相／绝对终验、独立阶段算术、完整矩阵及源哈希。外部审阅重点是选择布线与读槽、AND／归约周期、条件200µA驱动及绝对终验裕量，内部检查不等于用户验收。

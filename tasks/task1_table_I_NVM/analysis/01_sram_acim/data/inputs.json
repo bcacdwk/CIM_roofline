@@ -3,13 +3,13 @@
   "title": "SRAM ACIM：二进制电荷域展开与普通SRAM更新",
   "baseline_id": "shared_baseline",
   "baseline_files": {
-    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
-    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
-    "tex/02_estimation_method.tex": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
-    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+    "README.md": "3e3d0bb2f40ca5352f5d155da2333efb1162adf2f89848202fa5e8e49ee1f07f",
+    "tex/01_cmos_periphery.tex": "bc5647725b6565c998f9351a2098c39b60dc18142f1d7f1c327d410135c24ef1",
+    "tex/02_estimation_method.tex": "beaf6fde5a7683e7f1ad1139e78afbc576c65ac95a9327d7097ccfc019e9b39e",
+    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
+    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
   },
-  "source_manifest_sha256": "b2f6189c6553ad11f4b6c723d00973d9446b8236a5cadab2f072d421757e6ee7",
+  "source_manifest_sha256": "5e2c9d0e38de5b397a8a8e2e05cdfe2fa0e2b21f6ae4bebcd16346a39adc43c6",
   "sources": {
     "CMOS-02": {
       "title": "A 28 nm CMOS 10 bit 100 MS/s Asynchronous SAR ADC with Low-Power Switching Procedure and Timing-Protection Scheme",
@@ -187,7 +187,7 @@
       "kind": "accepted_reference_choice",
       "locator": "data/shared_parameters.json: R0/selection_rules R1–R5",
       "parameter": "共同服务资源",
-      "original_value": "128×128 INT8；输入128Byte；输出128×24bit；8权重平面×16ADC；16数字通道、2拍/轮；128bit写口",
+      "original_value": "128×128 INT8；输入128Byte；输出128×23bit；8权重平面×16ADC；16数字通道、2拍/轮；128bit写口",
       "unit": "elements / Byte / bit / lanes",
       "conditions": "28nm、0.9V/25°C参考而非PVT保证；无等面积约束",
       "adopted": "R0计数不变；前端R4合并；写R4完整同步周期替代front；独立单元/更新域1",
@@ -230,7 +230,8 @@
     "ADC": "one reusable complete sample slot; all SAR decisions inside T_A",
     "memory": "one synchronous complete 128-bit write cycle captures command/address/data, drives BL/WL, flips/recovers cell and ends compute-ready",
     "write_control_substitution": "R4: complete memory cycle replaces the one-beat common front; additional task handshake absent",
-    "compute_memory_exclusion": "same state, no simultaneous compute/write assumed; ordinary per-evaluation charge reset charged to streaming"
+    "compute_memory_exclusion": "same state, no simultaneous compute/write assumed; ordinary per-evaluation charge reset charged to streaming",
+    "scenario_resources": "same128ADCs,16reconstruction lanes,128write drivers and local selection resources in all profiles; timing/load qualification changes, no hidden resource enlargement"
   },
   "scenarios": [
     {
@@ -302,5 +303,38 @@
       "required_resources": "CIM mode isolated during writes; capacitors reset each evaluation",
       "effect": "maintenance payload=0; no endurance-imposed retry factor"
     }
-  ]
+  ],
+  "native_configuration": {
+    "K": 128,
+    "N": 128,
+    "b_S": 1,
+    "b_R": 1,
+    "effective_capacity_Byte": 16384,
+    "physical_capacity": {
+      "binary_cells": 131072,
+      "weight_planes": 8,
+      "rows_per_plane": 128,
+      "columns_per_plane": 128
+    },
+    "necessary_encoding": "eight binary weight planes; one9T1C charge-coupled cell per bit; HCA bypassed",
+    "independent_payload_replicas": 1,
+    "output_bits": 23,
+    "update_mode": "aligned16Byte update,128 true binary write drivers;1024 complete synchronous cycles per matrix",
+    "resources": {
+      "adc": 128,
+      "adc_per_plane": 16,
+      "adc_nominal_bits": 10,
+      "adc_effective_bits_target": 8,
+      "partial_sum_levels": 129,
+      "digital_lanes": 16,
+      "digital_ticks_per_batch": 2,
+      "input_register_bits": 1024,
+      "output_register_bits": 2944,
+      "analog_cross_group_hold_slots": 0,
+      "write_drivers": 128,
+      "write_domains": 1,
+      "encoded_interface_bits": 128
+    },
+    "configuration_kind": "128-row native charge-coupled mechanism, engineering binary-plane/SAR adaptation"
+  }
 }

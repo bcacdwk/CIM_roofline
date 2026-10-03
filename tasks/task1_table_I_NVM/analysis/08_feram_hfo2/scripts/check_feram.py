@@ -18,6 +18,7 @@ spec = importlib.util.spec_from_file_location('shared_api', SHARED / 'scripts/ch
 api = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(api)
 I = json.loads((BASE / 'data/inputs.json').read_text())
+L = api.logical_configuration(I['mapping']['K'],I['mapping']['N'],I['mapping']['b_S'],I['mapping']['b_R'])
 
 
 def sha(path):
@@ -30,6 +31,8 @@ def make_row(name, media, profile, reuse=True, scenario_type='paired_engineering
     assert cfg['rows_per_group'] == mapping['shards']
     assert cfg['output_lanes'] * cfg['weight_bits_per_round'] == mapping['local_row_bits']
     cfg['read_reuse_input_slices'] = reuse
+    cfg['hold_source'] = 'existing_capture' if reuse else 'none'
+    cfg['read_bits_per_batch'] = mapping['read_bits_per_batch']
     # Already present in the original D0 data path: no second copy or extra capture.
     cfg['weight_latch_bits'] = mapping['D0_round_readout_register_bits']
     cfg['latch_extra_ns'] = 0
@@ -39,10 +42,24 @@ def make_row(name, media, profile, reuse=True, scenario_type='paired_engineering
     front, beats = api.front_ns(mapping['local_row_bits'], v['digital_tick'], True)
     dr = api.program_sequence_ns(front, edges, [dict(count=2, drive_program_ns=pulse, verify_ns=0, recover_ns=0)])
     br = mapping['local_row_bits'] / 8
-    ds, counts = api.dcim_service(cfg, v, read)
-    metrics = api.metrics(api.L['B_S_Byte'], br, ds, dr)
-    write_rows = api.L['resident_capacity_Byte'] / br
+    ds, counts = api.dcim_service(cfg, v, read, L)
+    metrics = api.metrics(L['B_S_Byte'], br, ds, dr)
+    write_rows = L['resident_capacity_Byte'] / br
     assert write_rows.is_integer()
+    load=api.full_load_service(L,[dict(payload_Byte=br,service_ns=dr,count=int(write_rows))])
+    interface=api.mapping_metrics(L,ds,load['T_R_ns'])
+    drive=I['drive_resources']; edge=drive['edge_each_ns'][profile]
+    per_BL=drive['BL_capacitance_fF']*drive['memory_voltage_V']/edge
+    charge_per_cell=drive['two_Pr_lower_bound_uC_per_cm2']*drive['FeCAP_area_um2']*10
+    row_charge_pC=charge_per_cell*drive['cells_per_PL']/1000
+    loading=dict(edge_each_ns=edge,per_BL_capacitive_demand_uA=per_BL,
+        fixed_BL_installed_rating_uA=drive['BL_installed_rating_uA'],
+        external_BL_capacitive_demand_mA=per_BL*drive['external_BL_drivers']/1000,
+        restore_BL_capacitive_demand_mA=per_BL*drive['restore_BL_drivers']/1000,
+        PL_switched_charge_lower_bound_pC=row_charge_pC,
+        per_PL_polarization_current_lower_bound_mA=row_charge_pC/pulse,
+        all_restore_PL_polarization_current_lower_bound_mA=row_charge_pC/pulse*drive['parallel_restore_PL'],
+        excludes='dielectric and routing capacitance; lower bound is not a sufficientPL or supply rating')
     stream_components = dict(sense=counts['read_rounds'] * sense,
                              destructive_restore=counts['read_rounds'] * pulse,
                              dedicated_open_close=counts['read_rounds'] * edges,
@@ -64,12 +81,14 @@ def make_row(name, media, profile, reuse=True, scenario_type='paired_engineering
                 logical_update_rows=1, physical_write_phases=2, encoded_data_beats=beats,
                 update_pattern='one aligned 128-bit physical row: 16 adjacent INT8 weights from one logical input row and one aligned output group',
                 matrix_write_rows=int(write_rows), matrix_delta_R_ns=write_rows*dr,
-                matrix_B_R_Byte=api.L['resident_capacity_Byte'],
+                matrix_B_R_Byte=L['resident_capacity_Byte'],
                 stream_components_ns=stream_components, write_components_ns=write_components,
                 stream_dominant=max(stream_components, key=stream_components.get),
                 resident_dominant=max(write_components, key=write_components.get),
                 periodic_maintenance_fraction=0, raw_equals_effective=True,
                 feasibility='conditional engineering design with full destructive restore included',
+                mapping_interface=interface,raw_mapping_interface=dict(interface),
+                effective_mapping_interface=dict(interface),drive_loading=loading,
                 evidence_and_choices=I['budget_rationale'], **metrics)
 
 
@@ -92,7 +111,8 @@ def calculate():
     envelopes = {key:[min(r[key] for r in rows), max(r[key] for r in rows)]
                  for key in ('rho_Byte_per_s','tau_Byte_per_s','ridge')}
     return dict(baseline_id=api.D['baseline_id'], mode=I['mode'], mapping=I['mapping'],
-                units=I['units'], provenance=I['provenance'], paired=rows,
+                units=I['units'], provenance=I['provenance'], native_configuration=I['native_configuration'],
+                fixed_drive_resources=I['drive_resources'],reported_evidence=I['reported_evidence'],paired=rows,
                 sensitivity=compare, polarization_sensitivity=hold_rows,
                 paired_ranges=envelopes, scenario_semantics=I['scenario_semantics'],
                 restore_contribution_reference=dict(fraction=ref['stream_components_ns']['destructive_restore']/ref['delta_S_ns'],
@@ -130,11 +150,11 @@ def check(result):
         assert sha(CORPUS / s['path']) == s['sha256'], s['id']
     # Exhaustive bijection: 131072 logical bits occupy 32 * 32 * 128 sites.
     seen=set()
-    for i in range(api.L['n_in']):
-        for j in range(api.L['n_out']):
+    for i in range(L['n_in']):
+        for j in range(L['n_out']):
             for k in range(8):
                 seen.add((i%32,(i//32)*8+j//16,(j%16)*8+k))
-    assert len(seen)==api.L['resident_capacity_Byte']*8
+    assert len(seen)==L['resident_capacity_Byte']*8
     assert max(x[1] for x in seen)==31 and max(x[2] for x in seen)==127
     # Check both target states and both prior states under the two plate phases.
     for old in (0,1):
@@ -148,16 +168,23 @@ def check(result):
     for r in result['paired'] + result['polarization_sensitivity']:
         assert r['counts']['read_rounds']==32 and r['counts']['compute_rounds']==256
         assert r['read_bits_per_round']==4096
-        assert r['restore_bits_per_vector']==api.L['resident_capacity_Byte']*8
+        assert r['restore_bits_per_vector']==L['resident_capacity_Byte']*8
         assert r['restore_row_services_per_vector']==1024
         assert r['encoded_data_beats']==1 and r['physical_write_phases']==2
         assert math.isclose(sum(r['stream_components_ns'].values()),r['delta_S_ns'])
         assert math.isclose(sum(r['write_components_ns'].values()),r['delta_R_ns'])
         assert math.isclose(r['ridge'],r['B_S_Byte']/r['B_R_Byte']*r['delta_R_ns']/r['delta_S_ns'])
         assert math.isclose(r['tau_Byte_per_s'],r['matrix_B_R_Byte']/api.seconds(r['matrix_delta_R_ns'],'ns'))
+        mi=r['mapping_interface']
+        assert math.isclose(mi['U_star'],mi['N']*mi['RI_star'])
+        assert mi['full_resident_payload_Byte']==L['resident_capacity_Byte']
+        assert mi['T_R_ns']==r['matrix_delta_R_ns']
+        assert r['raw_mapping_interface']==r['effective_mapping_interface']
+        assert r['drive_loading']['per_BL_capacitive_demand_uA']<=I['drive_resources']['BL_installed_rating_uA']
+        assert r['counts']['capture_ticks']==0
     comp=result['sensitivity']
     assert comp['counts']['read_rounds']==256 and comp['counts']['compute_rounds']==256
-    assert comp['restore_bits_per_vector']==api.L['resident_capacity_Byte']*8*8
+    assert comp['restore_bits_per_vector']==L['resident_capacity_Byte']*8*8
     assert comp['tau_ratio_to_reference']==1
     assert I['mapping']['additional_weight_latch_bits']==0
     assert all(r['latch_capture_extra_ns']==0 for r in result['paired'])
@@ -167,6 +194,15 @@ def check(result):
     assert I['stage_coverage']['destructive_restore_counted_in_media_read']
     assert not I['stage_coverage']['extra_restore_after_complete_read']
     assert not I['stage_coverage']['c2feram_timing_imported']
+    # Independent reference arithmetic, not a call into service model for expected values.
+    assert main_ref['delta_S_ns']==32*(20+50+40)+256*5+2*5
+    assert main_ref['delta_R_ns']==2*5+40+2*50
+    assert main_ref['mapping_interface']['T_R_ns']==32*32*150
+    assert math.isclose(main_ref['mapping_interface']['U_star'],153600/4810)
+    assert math.isclose(main_ref['drive_loading']['external_BL_capacitive_demand_mA'],4)
+    assert math.isclose(main_ref['drive_loading']['restore_BL_capacitive_demand_mA'],128)
+    assert main_ref['drive_loading']['PL_switched_charge_lower_bound_pC']==51.2
+    assert I['native_configuration']['output_bits']>=L['output_container_bits']
 
 
 def main():

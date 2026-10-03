@@ -3,11 +3,9 @@
 当前统一入口：[十例复核](../TEN_CASE_REVIEW.zh.md) · [结果JSON](../data/ten_case_results.json) · [结果CSV](../data/ten_case_results.csv)。PDF首页结果卡与这些导出由统一适配器生成；本例原始未取整结果仍在 `data/results.json`。摘要统一十进制MB/s，情景分类见统一复核。
 
 
-主 Agent 已完成全文、关键证据、独立复算和最终 PDF 审阅；结论为有条件的参考设计估算。统一结果与保留事项见[十例统一审阅](../TEN_CASE_REVIEW.zh.md)。
-
 阅读：[中文PDF](output/sram_acim.pdf) · [独立TeX入口](tex/sram_acim.tex) · [章节正文](tex/01_sram_acim.tex) · [证据表](notes/evidence.zh.md) · [方法与手算](notes/method_review.zh.md)。输入在[data/inputs.json](data/inputs.json)，完整计数、阶段、结果和敏感性在[data/results.json](data/results.json)。
 
-128×128 INT8矩阵采用8个binary SRAM权重平面，1bit输入逐位展开。R0每次16输出、8平面并行，共64次求值、64转换批、8192标量转换、128重构拍。保持共同ACIM近似部分和合同，输出24-bit容器；不是精确整数或原四位宏的直接重标。
+128×128 INT8矩阵采用8个binary SRAM权重平面，1bit输入逐位展开。本例每次16输出、8平面并行，共64次求值、64转换批、8192标量转换、128重构拍。保持共同ACIM近似部分和合同，输出23-bit容器；不是精确整数或原四位宏的直接重标。
 
 |情景|Δ_S(ns)|Δ_R(ns)|ρ(MB/s)|τ(MB/s)|RI*|
 |---|---:|---:|---:|---:|---:|
@@ -32,6 +30,6 @@ sh tasks/task1_table_I_NVM/analysis/01_sram_acim/scripts/build.sh
 /opt/anaconda3/bin/python tasks/task1_table_I_NVM/analysis/01_sram_acim/scripts/check_sram_acim.py --emit
 ```
 
-7项检查通过；XeLaTeX/ctex/Fandol构建6页，并逐页视觉检查。默认复算只读；build先检查已生成文件再构建。共享JSON及API、证据PDF哈希已记录并核验。本目录之外无写入修改；build/tmp/cache本地忽略。
+主要外部审阅条件：9T1C从原HCA/4b Flash改为独立列SAR，需要真实隔离、局部缓冲与校准；原4b误差不能证明8有效位整体精度。128写驱动从48bit 8T/eFlash锚点移植至9T1C内6T是有限工程预算，需后续电路验证；现有交付不冒称实测配对。`notes/method_review.zh.md`逐项说明桥接、排除项、手算及源码检查覆盖。
 
-待主审的实质边界：9T1C从原HCA/4b Flash改为独立列SAR，需要真实隔离、局部缓冲与校准；原4b误差不能证明8有效位整体精度。128写驱动从48bit 8T/eFlash锚点移植至9T1C内6T是有限工程预算，需后续电路验证；现有交付不冒称实测配对。`notes/method_review.zh.md`逐项说明桥接、排除项、手算及源码检查覆盖。
+原生K128/N128、完整T_R=5120ns和Δ_S=3210ns通过公共mapping接口保存，典型U*=1.59502=128·RI*。输入寄存1024bit、输出128×23bit，动态范围仍为129级；三情景保持ADC、驱动与重构数量固定。

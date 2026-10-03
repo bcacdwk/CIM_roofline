@@ -2,21 +2,20 @@
 \subsection*{统一结果卡}
 \begingroup\small
 \noindent\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule
-技术/模式 & Gain-cell eDRAM；3T1C伪差分$\pm$700 nA二端点ACIM；固定400 $\mu$s刷新\\
-逻辑粒度/聚合 & B\_S=128 Byte；B\_R=16 Byte。16 Byte对齐组＝128差分pair；1024事务覆盖矩阵；长期整矩阵更新沿用同一刷新预留\\
-资源/相对R0 & 128 SAR、16重构通道、128 pair写驱动；64行组、8位平面；双支路200 fF积分负载\\
-服务口径 & raw为无周期维护占用，effective为扣除固定刷新及禁发后的长期平均；同$\alpha$抵消ridge不抵消能力损失\\
-主导因素/选择 & 参考刷新266.24 $\mu$s/400 $\mu$s，禁发185 ns，$\alpha$=0.3339375；保留65 ns完整两步写和保持统计条件\\
-关键对照 & 长预算$\alpha$$\approx$3.93\%仅压力点；$\alpha$$\leq$0不可行；32输出/双倍资源单列\\
+原生逻辑配置 & W[N,K]=64×64；INT8输入与权重；有效 resident=4096 Byte。\\
+更新组织 & 每个对齐局部组 16 Byte；256 个完整事务覆盖矩阵。\\
+主要资源 & ADC=128；数字输出通道=16；写驱动=128\\
 \bottomrule\end{tabularx}
 \vspace{3mm}
 \begin{center}\begin{tabular}{@{}lrrr@{}}\toprule
-成对条件情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
-短预算 & 4.534 & 118.6 & 0.03824\\
-参考（推荐） & 1.804 & 66.79 & 0.02702\\
+固定组织成对情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
+乐观 & $15$ & $2\times10^{2}$ & $0.076$\\
+典型 & $9$ & $1.7\times10^{2}$ & $0.054$\\
+悲观 & $5.4$ & $1.2\times10^{2}$ & $0.047$\\
 \bottomrule\end{tabular}\end{center}
-\noindent 参考原始占用：streaming 2.369e+04 ns；resident 80 ns。
-维护后长期平均间隔：7.094e+04/239.6 ns；原始$\rho$/$\tau$=5.403/200 MB/s。
-\par\noindent 范围为有限成对条件情景极值，不是物理不确定性包络。长预算与不可行压力情景在正文另列。1 MB=$10^6$ Byte；整矩阵16384 Byte=16 KiB。源定位见本例证据笔记；公共基线shared\_baseline。
+\noindent 典型完整求值：$B_S=64$ Byte，$\Delta_S=7.1\times10^{3}$ ns。完整 resident 装载：$B_R=4096$ Byte，$T_R=2.5\times10^{4}$ ns；$U^*=3.5$ 个向量。
+\par\smallskip\noindent 接口：$U^*=T_R/\Delta_S=N\,\mathrm{RI}^*$（两侧均为 1 Byte）。局部更新事务与完整装载关系见正文；该平衡关系不保证两路峰值能同时实现。
+\par\smallskip\noindent 维护前$\rho$/$\tau$=11/2e+02 MB/s；刷新周期=4e+02 $\mu$s，可用比例=0.83。表内为长期有效能力，维护不增加逻辑 payload。
+\par\smallskip\noindent 三点对应所选原生参考配置的有限工程条件，不代表等面积或等计算量排名。资源扩展、预擦除有限窗口和维护压力另列。1 MB=10\textasciicircum{}6 Byte；16 KiB辅助换算仅为平均成本。
 \endgroup
 \clearpage

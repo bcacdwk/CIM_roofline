@@ -1,85 +1,81 @@
 # Table I 共享估算基线
 
-本设计以共同的 28 nm CMOS 外围条件和明确的局部资源配置，结合介质的阵列响应与完整更新过程，估算 streaming 输入吞吐 ρ、resident 写入吞吐 τ 及 ridge RI*。方法包括 ACIM streaming、DCIM streaming、直接更新 resident、分步编程／擦除摊销 resident 四类模板。
+本方法比较所选原生参考配置的输入服务能力 ρ、resident 更新服务能力 τ 与 RI*。统一逻辑字节、INT8 默认精度和本地服务边界；各案例独立选择有依据的原生 K、N、物理组织和更新模式，不宣称等面积或相同计算量的性能排名。128×128、16 KiB 只用于算例和辅助平均成本展示。
 
-## 阅读入口
+## 阅读与资源政策
 
-1. [中文设计稿 PDF](output/shared_baseline.pdf)。
-2. [第一节：外围参考](tex/01_cmos_periphery.tex)；[第二节：通用方法](tex/02_estimation_method.tex)。总入口为 [shared_baseline.tex](tex/shared_baseline.tex)。
-3. [共享参数 JSON](data/shared_parameters.json)：共同条件、参考配置、选择规则与介质输入要求。
-4. [结构与时间敏感性数据](data/sensitivity_results.json)：合成情景的操作次数、资源条件、未取整结果及相对倍率。
-5. [证据笔记](notes/evidence.zh.md)：文献原值、详细定位、参考选择依据及敏感性手算。
+- [完整中文方法 PDF](output/shared_baseline.pdf)，[外围与资源](tex/01_cmos_periphery.tex)，[计数与两表接口](tex/02_estimation_method.tex)。
+- [共享参数与 R1–R8 规则](data/shared_parameters.json)，[原文证据定位](notes/evidence.zh.md)。
+- [生成算例及结构数据](data/sensitivity_results.json)，[计算与检查 API](scripts/check_shared.py)。
 
-## 设计条件与参考配置
+输入从整向量本地寄存边界捕获，寄存器为 `K*b_S*8` bit；N 个输出各用足够容器，INT8 默认 `16+ceil(log2 K)` bit。捕获、提交各一 TD，完整宏周期已包含者不重复加。上游传输、下游搬运另属系统映射。
 
-共同逻辑任务为 128×128 INT8 矩阵乘 INT8 向量，每向量输入 128 Byte，交付 128×24-bit 结果。streaming 边界从本地宽向量接口接收输入到结果寄存器就绪；resident 边界从本地写事务开始到相应状态可计算。独立服务单元和更新域均为一。
+数字路径共同允许至多 32 项×16 输出×8 bit、4096-bit 单 tile 保持，跨全部输入位复用。SA 数和读 bit/批独立声明；新增保持每实际读取批捕获一 TD，已有 SA 捕获或静态连接不重复收费。单 bank 不能边计算边覆盖；部分和寄存器维持到完整向量结束，不提供全矩阵 shadow。原生 D6 16 项保留原周期。
 
-精度合同采用 ACIM 经校准的近似部分和及重构、DCIM 精确整数结果。两条路径共用输入、权重和输出格式，分别声明计算语义，不设共同最终误差阈值。资源按配置显式声明，不施加等面积约束。
+ACIM 通用资源参考为 8 个二元位平面、每平面 16 ADC、16 重构通道和每轮两拍。原生完整证据可支持其他组织，但必须列出资源、模拟动态范围、精度及恢复。ADC 名义 10 bit、约 8 有效 bit 的公共时隙不自动适用于所有行数；模拟保持有槽数、隔离、负载与保持窗口成本。
 
-默认配置 `R0`：ACIM 八个二进制权重平面并行，每平面 16 ADC，每次 16 输出重新求值，16 条重构通道、两拍/轮；DCIM 输入逐 bit、权重八位并行，每轮 32 项×16 输出。必要阶段顺序执行，输入捕获与结果提交合计两拍。128-bit 写接口用于编码数据装入，实际同时可编程的 cell 数由介质驱动能力确定。
+外部更新单域，128-bit 编码数据接口；至多 128 个二元目标是共同配置资格，真实并行仍由原生选通、驱动、电流、耐压和负载确定。页、块、互补编码、参考页、SET/RESET、program/verify 和内部恢复均按实际资源计。驱动数量、额定电流、ADC 数和保持容量在三情景内固定；服务时间可随相容条件变化，硬件必须承受最快情景所需负载。FeFET 约 7.7 mA 和 FeRAM 约 4 mA 加 PL 是各自典型边沿需求示例，不是统一供给上限。
 
-公共时隙为 `T_I=2–10 (5)`、`T_A=10–50 (20)`、`T_D=2–10 (5)`、`T_W=4–20 (10)` ns，括号为推荐值。ADC 分批数由转换资源决定，阵列求值次数由输出选通或保持组织决定，数字重构次数由输出通道与每轮功能决定。各项时隙经这些次数代入，才得到完整逻辑服务耗时。
+公共 `(TI,TA,TD)` 为短 `(2,10,2)`、参考 `(5,20,5)`、长 `(10,50,10)` ns。真实案例应扫描主导条件，三情景采用同组织、同资源额定能力的相容读写；扩充资源、预擦除 burst、维护临界及不可行单列。维护前与长期有效能力分存，维护不增加 Q_R。
+
+## Table I 到 Table II
+
+对 `W[N,K]`，完整装载一次、求值 U 个向量：
 
 ```text
-R0 ACIM: N_E=64, N_C=64, N_rec=64, N_dig=128; 有用标量转换8192
-Δ_S = N_E(T_I+t_m,A) + N_C T_A + N_dig T_D + T_H + 2T_D
-    = 64(T_I+t_m,A+T_A+2T_D) + 2T_D  （R0 的 T_H=0）
-
-R0 DCIM: N_D=N_rd=256, k_D=1
-Δ_S = N_rd t_m,D + N_D k_D T_D + T_L + 2T_D
-    = 256(t_m,D+T_D) + 2T_D          （R0 的 T_L=0）
-
-ρ ≈ B_S/Δ_S；τ ≈ B_R/Δ_R；RI* ≈ (B_S/B_R)(Δ_R/Δ_S)
+Q_S = U*K*b_S             Q_R = K*N*b_R
+RI = U*b_S/(N*b_R)
+rho = K*b_S/Delta_S       tau = K*N*b_R/T_R
+U* = T_R/Delta_S = (N*b_R/b_S)*RI*
+INT8: U* = N*RI*
 ```
 
-## 结构敏感性
+T_R 是该矩阵、更新模式与硬件配置的完整装载服务；Delta_S 是完整向量服务间隔，有流水时不同于一次端到端 latency。两路时间平衡不保证峰值同时达到。扩展到算子后按输入共享、重放、分时及共享写资源重算；仅两路同比扩展时宏级 U* 沿用。FFN、Attention、多分支分别按阶段映射，不改 Table II 入口计数。
 
-使用合成读时间 ACIM 25 ns、DCIM 10 ns，固定完整直接更新 16 Byte/60 ns，τ=0.2667 GB/s。三个对照分别改变 ADC 数量、模拟结果保持组织和数字输出通道数：
+## 计算 API
 
-| 对照 | Δ_S | ρ 与 ridge 相对各路径 R0 | 必要条件 |
-|---|---:|---:|---|
-| R0（两路径各自基准） | 3850 ns | 1.000 | 默认配置 |
-| ACIM 每平面 ADC 16→32 | 2250 ns | 1.711 | 总 ADC 128→256，求值宽度与批码锁存容量翻倍；数字16通道不变，重构总拍仍128 |
-| ACIM 全输出保持后分批读 | 2210 ns | 1.742 | 128输出并行求值、1024个有效模拟槽及隔离/缓冲，额外5 ns/求值，至少240 ns保持；为带条件的电路预算 |
-| DCIM 输出通道16→32 | 1930 ns | 1.995 | 局部读出与乘法/归约资源同步增加，满足5 ns节拍 |
+所有时间参数单位 ns，吞吐 Byte/s。所有依赖维度的服务调用必须传 `logical`；全局 `L` 只代表共享演示形状。`R` 为资源示例，不替代案例账本。
 
-这些对照保持相同逻辑容量、写接口和直接更新步骤，τ 不变；带共享 ADC verify 的介质需同步检查写服务。保持负载、噪声与漏电必须满足精度目标，表中结果未经电路验证。
+```python
+logical = S.logical_configuration(K=64, N=32, b_S=1, b_R=1)
+ds, counts, hold = S.acim_service(acim_config, profile, read_ns, logical)
+ds, counts = S.dcim_service(dcim_config, profile, read_ns, logical)
+br, dr, batches, beats = S.direct_service(write_config, td, logical, resident=write_port)
+front, beats = S.front_ns(encoded_bits, td, first_data_in_command, resident=write_port)
+load = S.full_load_service(logical, [
+    {"payload_Byte": 16, "service_ns": dr, "count": 128}
+])
+interface = S.mapping_metrics(logical, delta_S_ns=ds, T_R_ns=load["T_R_ns"])
+maintained = S.apply_maintenance(interface, period_ns, busy_ns, guard_ns)
+```
 
-单独将 `T_A=20 ns` 改为16/24 ns，R0 ACIM 的ρ与ridge变化为−6.23%至+7.12%；单独将 `T_D=5 ns` 改为4/6 ns并同步改变写控制，ACIM ridge约±0.04%，DCIM ridge为−3.16%至+3.61%。ACIM ridge较稳来自该示意两路占用接近同比变化；结构造成的1.7–2倍差异更明显。稳定性取决于具体读写配对与资源组织。
+`acim_counts(a,v,logical)` 与 `dcim_counts(d,logical)` 提供计数。`dcim_config` 声明 `read_bits_per_batch`、`read_reuse_input_slices`、`hold_source`、`weight_latch_bits`；`hold_source` 为 `added_latch` / `existing_capture` / `static_connection` / `none`。新增捕获默认每读批 1 TD，可显式设置 `capture_ticks_per_read_batch`；只有已完整覆盖时才能不重复收取。静态连接沿用完整 MAC 周期时传 `read_ns=0`，其 `read_rounds` 表示潜在感测批计数，不是又执行了这些感测。更细能耗分析需另记录实际选通次数。
 
-## 参数入口与介质填写规则
+`full_load_service` 接收实际 payload/time/count 的事务列表并断言 payload 恰覆盖一次矩阵；尾批、零 payload 的设置或校准事务均保留时间。输入 payload 可为字节的分数，但必须对应整数精度 bit。
 
-| JSON 键 | 含义 |
-|---|---|
-| `baseline_id` | 共享设计标识 `shared_baseline` |
-| `common_conditions` | 逻辑配置、边界、工作条件、外围范围及共享情景 |
-| `reference_instance` | R0 的 ACIM、DCIM、resident 结构参数；`derived` 为公式推导计数 |
-| `selection_rules` | 默认配置、原生约束、结构对照、完整周期替代及两路一致性规则 |
-| `media_required_inputs` | 读侧、写侧、映射、专用驱动、维护和例外记录要求 |
-| `examples` | 两个不绑定介质的算例，各含三个成对情景 |
-| `structural_sensitivity` | 示意输入、结构对照及必要资源条件 |
-| `reported_evidence` / `sources` | 原文数值、定位与本地 PDF 哈希 |
+```python
+block = S.native_block_service([
+    {"logical_payload_Byte": 24, "encoded_load_bits": 384,
+     "program_full_ns": 100, "count": 3},
+    {"logical_payload_Byte": 0, "encoded_load_bits": 384,
+     "program_full_ns": 100, "count": 1}  # reference page
+], erase_ns=1000, td=5, resident=write_port)
+```
 
-介质分析默认采用 R0、共同逻辑合同和外围情景。原生行数、选通、平面并行或编码受限时，按有证据的映射增加组数/步骤；对相同约束使用相同规则。更多 ADC、多位输入、保持或更多输出通道作为明确对照，不按介质各自选择最快配置代替默认。
+每页含完整 program，额外 verify 不重复加；参考、校准、复制页 payload 为零但完整计时，调用者证明有效权重能被选通求值。多个块用 `full_load_service` 聚合。`page_service(x,td,resident=None)` 保留均匀有效页的摊销接口。
 
-每项结构例外记录规则 ID、原因及证据定位、R0 值、配置值、必要资源与时间变化、对两路的影响。更新服务采用真实 page/block、有效逻辑字节与完整操作；verify/restore/refresh 与同一配置衔接。原值、工程选择和推导分别标记。
+`mapping_metrics` 返回：`K,N,b_S,b_R,B_S_Byte,full_resident_payload_Byte,T_R_ns,delta_S_ns,rho_Byte_per_s,tau_Byte_per_s,RI_star,U_star,average_update_ns_per_16KiB`。兼容字段 `B_R_Byte`、`delta_R_ns`、`ridge` 分别与完整 payload、T_R、RI_star 相同。每 16 KiB 平均成本只按 `T_R*16384/(K*N*b_R)` 换算，不是一次实际请求延迟。
 
-## 复现与检查
+`apply_maintenance` 返回 `raw/effective/availability/feasible/period_ns/busy_ns/guard_ns/maintenance_payload_Byte`。仅用于两路共享同一串行预留的已声明调度；alpha 大于零是占用可行条件，调用者仍须证明非抢占边界、刷新期限、部分和保持和足够有限窗口。alpha 小于等于零时有效时间、能力、RI*、U*为空，原始能力保留。不隐含流水或 demand-write refresh credits。
 
-数值检查只依赖 Python 3 标准库；PDF 编译需要 XeLaTeX、BibTeX、latexmk 与 ctex/Fandol，页面渲染使用 pypdfium2/Pillow。本机可用 Python 路径为 `/opt/anaconda3/bin/python`。从本目录执行：
+每例结果顶层使用 `native_configuration` 保存 K、N、b_S、b_R、有效容量、物理容量/编码/复制、输出位宽和资源；每情景的 `mapping_interface` 直接保存公共映射结果，保留原有局部事务字段用于复算。
+
+## 复算与构建
 
 ```sh
-/opt/anaconda3/bin/python scripts/check_shared.py
+/opt/anaconda3/bin/python scripts/check_shared.py --emit
 BASELINE_PYTHON=/opt/anaconda3/bin/python sh scripts/build.sh
 /opt/anaconda3/bin/python scripts/render_pdf.py
 ```
 
-修改共享参数后显式刷新派生文件，再构建：
-
-```sh
-/opt/anaconda3/bin/python scripts/check_shared.py --emit
-```
-
-默认检查不改文件；`--emit` 生成外围表、算例表、结构敏感性表、时间扰动段落及 `data/sensitivity_results.json`。计算输入与派生结果分开，表内算术精度用于复算。
-
-检查覆盖通用模板与R0对应、位展开/尾组/输出覆盖、完整权重与编码/写批、verify和擦除摊销、单位及服务粒度因子、成对算例和敏感性独立复算、源PDF哈希、生成数据与正文入口一致性。脚本按顺序调度计算；流水组织依正文的资源和缓冲条件另行估算。构建日志位于 `build/`，渲染页面位于 `tmp/pdfs/rendered/`。
+默认检查只读，`--emit` 更新现有生成 TeX 与 `data/sensitivity_results.json`。检查包含非方阵和尾组、SA 分批和保持生命周期、编码与参考页、完整装载、不同精度、非对称扩展、维护临界及独立算术。构建需 XeLaTeX/latexmk；渲染需 pypdfium2/Pillow。机器精度不代表参数测量精度。

@@ -38,7 +38,72 @@ def metrics(bs, br, ds, dr):
                 rho_Byte_per_s=rho, tau_Byte_per_s=tau, ridge=rho/tau)
 
 
-def acim_counts(a, v=V, logical=L):
+def logical_configuration(K, N, b_S=1, b_R=1):
+    """One logical W[N,K]; binary physical encoding and replicas remain separate."""
+    assert isinstance(K,int) and isinstance(N,int) and min(K,N)>0
+    assert min(b_S,b_R)>0 and float(8*b_S).is_integer() and float(8*b_R).is_integer()
+    bits = int(8*b_S+8*b_R)+math.ceil(math.log2(K))
+    return dict(n_in=K,n_out=N,K=K,N=N,b_S=b_S,b_R=b_R,
+                B_S_Byte=K*b_S,resident_capacity_Byte=K*N*b_R,
+                output_count=N,output_container_bits=bits,
+                input_register_bits=int(K*b_S*8),output_register_bits=N*bits)
+
+
+def mapping_metrics(logical, delta_S_ns, T_R_ns):
+    """Complete-vector interval and complete resident load of the same matrix."""
+    r = metrics(logical['B_S_Byte'],logical['resident_capacity_Byte'],delta_S_ns,T_R_ns)
+    r.update(K=logical['n_in'],N=logical['n_out'],b_S=logical['b_S'],b_R=logical['b_R'],
+             full_resident_payload_Byte=logical['resident_capacity_Byte'],RI_star=r['ridge'],T_R_ns=T_R_ns,
+             U_star=T_R_ns/delta_S_ns,
+             average_update_ns_per_16KiB=T_R_ns*16384/logical['resident_capacity_Byte'])
+    return r
+
+
+def full_load_service(logical, transactions):
+    """Enumerated completed payloads, including tails; zero-payload setup allowed."""
+    assert transactions
+    total = sum(x.get('count',1)*x['payload_Byte'] for x in transactions)
+    assert math.isclose(total,logical['resident_capacity_Byte']), 'load does not cover logical matrix once'
+    assert all(x.get('count',1)>0 and x['payload_Byte']>=0 and x['service_ns']>=0 for x in transactions)
+    return dict(logical_payload_Byte=total,
+                T_R_ns=sum(x.get('count',1)*x['service_ns'] for x in transactions),
+                transactions=sum(x.get('count',1) for x in transactions))
+
+
+def native_block_service(pages, erase_ns, td, resident=None):
+    """One complete sustained block cycle. Reference/replica pages carry no useful bytes."""
+    assert pages and erase_ns>=0
+    payload=0; total=erase_ns; count=0
+    for p in pages:
+        assert p['logical_payload_Byte']>=0 and p['program_full_ns']>0
+        n=p.get('count',1); assert isinstance(n,int) and n>0
+        front=front_ns(p['encoded_load_bits'],td,p.get('first_data_in_command',False),resident)[0]
+        payload+=n*p['logical_payload_Byte']; count+=n
+        total+=n*(front+p['program_full_ns'])
+    assert payload>0
+    return dict(logical_payload_Byte=payload,physical_pages=count,erase_ns=erase_ns,
+                T_R_ns=total,tau_Byte_per_s=payload/seconds(total,'ns'),
+                average_update_ns_per_16KiB=total*16384/payload)
+
+
+def apply_maintenance(raw, period_ns, busy_ns, guard_ns=0):
+    """One explicitly shared serial reservation; no implicit overlap or write credit."""
+    assert period_ns>0 and busy_ns>=0 and guard_ns>=0
+    alpha=1-(busy_ns+guard_ns)/period_ns
+    effective=dict(raw)
+    for k in ['delta_S_ns','delta_R_ns','T_R_ns','average_update_ns_per_16KiB']:
+        if k in effective: effective[k]=raw[k]/alpha if alpha>0 else None
+    for k in ['rho_Byte_per_s','tau_Byte_per_s']:
+        effective[k]=raw[k]*alpha if alpha>0 else None
+    for k in ['ridge','RI_star','U_star']:
+        if k in effective: effective[k]=raw[k] if alpha>0 else None
+    return dict(raw=raw,effective=effective,availability=alpha,feasible=alpha>0,
+                period_ns=period_ns,busy_ns=busy_ns,guard_ns=guard_ns,
+                maintenance_payload_Byte=0)
+
+
+def acim_counts(a, v=V, logical=None):
+    assert logical is not None, "pass the case logical configuration"
     ins = chunks(int(8*logical['b_S']), a['input_bits_per_slice'])
     rows = chunks(logical['n_in'], a['rows_per_group'])
     weights = chunks(a['weight_planes'], a['parallel_weight_planes'])
@@ -64,48 +129,58 @@ def acim_counts(a, v=V, logical=L):
                 max_hold_window_ns=window)
 
 
-def acim_service(a, v, read_ns):
-    n = acim_counts(a, v)
+def acim_service(a, v, read_ns, logical):
+    n = acim_counts(a, v, logical)
     hold = n['evaluations']*a['hold_capture_ns_per_evaluation']
     ds = (n['evaluations']*(v['input_step']+read_ns) + n['adc_batches']*v['adc_batch']
           + n['digital_ticks']*v['digital_tick'] + hold + a['boundary_ticks']*v['digital_tick'])
     return ds, n, hold
 
 
-def dcim_counts(d, logical=L):
+def dcim_counts(d, logical):
     ni = len(chunks(int(logical['b_S']*8), d['input_bits_per_round']))
-    nw = len(chunks(int(logical['b_R']*8), d['weight_bits_per_round']))
-    nr = len(chunks(logical['n_in'], d['rows_per_group']))
-    no = len(chunks(logical['n_out'], d['output_lanes']))
-    nd = ni*nw*nr*no
-    reads = nd
-    if d['read_reuse_input_slices']:
-        reads = nw*nr*no
-        assert d['weight_latch_bits'] >= (min(logical['n_in'], d['rows_per_group'])
-               *min(logical['n_out'], d['output_lanes'])*min(int(logical['b_R']*8), d['weight_bits_per_round']))
-    return dict(input_slices=ni, weight_groups=nw, row_groups=nr, output_groups=no,
-                compute_rounds=nd, read_rounds=reads, digital_ticks=nd*d['digital_ticks_per_round'])
+    weights = chunks(int(logical['b_R']*8), d['weight_bits_per_round'])
+    rows = chunks(logical['n_in'], d['rows_per_group'])
+    outputs = chunks(logical['n_out'], d['output_lanes'])
+    tile_bits = [w*r*o for w in weights for r in rows for o in outputs]
+    reuse = d.get('read_reuse_input_slices', True)
+    source = d.get('hold_source', 'added_latch' if reuse else 'none')
+    assert source in {'none','added_latch','existing_capture','static_connection'}
+    assert reuse == (source != 'none'), 'hold source and reuse disagree'
+    if reuse and source != 'static_connection':
+        assert d['weight_latch_bits'] >= max(tile_bits), 'insufficient digital tile storage'
+    width = d['read_bits_per_batch']
+    assert width > 0
+    repeats = 1 if reuse else ni
+    batches = repeats*sum(math.ceil(bits/width) for bits in tile_bits)
+    capture_ticks = batches*d.get('capture_ticks_per_read_batch', 1) if source == 'added_latch' else 0
+    return dict(input_slices=ni, weight_groups=len(weights), row_groups=len(rows),
+                output_groups=len(outputs), compute_rounds=ni*len(tile_bits),
+                tile_reads=repeats*len(tile_bits), read_rounds=batches,
+                max_tile_bits=max(tile_bits), capture_ticks=capture_ticks,
+                digital_ticks=ni*len(tile_bits)*d['digital_ticks_per_round'])
 
 
-def dcim_service(d, v, read_ns):
-    n = dcim_counts(d)
-    ds = (n['read_rounds']*read_ns+n['digital_ticks']*v['digital_tick']
-          +d['latch_extra_ns']+d['boundary_ticks']*v['digital_tick'])
+def dcim_service(d, v, read_ns, logical):
+    n = dcim_counts(d, logical)
+    ds = (n['read_rounds']*read_ns+(n['digital_ticks']+n['capture_ticks'])*v['digital_tick']
+          +d.get('latch_extra_ns',0)+d['boundary_ticks']*v['digital_tick'])
     return ds, n
 
 
-def front_ns(encoded_bits, td, first_data_in_command):
-    beats = math.ceil(encoded_bits/R['resident']['physical_write_data_lanes'])
-    assert beats >= 1
-    return (R['resident']['control_ticks']+beats-int(first_data_in_command))*td, beats
+def front_ns(encoded_bits, td, first_data_in_command, resident=None):
+    r = R['resident'] if resident is None else resident
+    assert encoded_bits > 0 and td > 0
+    beats = math.ceil(encoded_bits/r['physical_write_data_lanes'])
+    return (r['control_ticks']+beats-int(first_data_in_command))*td, beats
 
 
-def direct_service(x, td):
-    # Aligned independent cell batches; media with native grouping must enumerate actual batches.
-    front, beats = front_ns(x['encoded_load_bits'], td, x['first_data_in_command'])
+def direct_service(x, td, logical, resident=None):
+    # Only independently selectable, aligned cells may use this batch template.
+    front, beats = front_ns(x['encoded_load_bits'], td, x['first_data_in_command'], resident)
     batches = math.ceil(x['logical_weights_completed']*x['cells_per_weight']/x['parallel_cells'])
     dr = front+batches*x['complete_physical_update_ns']
-    return x['logical_weights_completed']*L['b_R'], dr, batches, beats
+    return x['logical_weights_completed']*logical['b_R'], dr, batches, beats
 
 
 def program_sequence_ns(front, pre, steps, erase=0, pages_per_erase=1):
@@ -114,8 +189,8 @@ def program_sequence_ns(front, pre, steps, erase=0, pages_per_erase=1):
                          for s in steps)+erase/pages_per_erase
 
 
-def page_service(x, td):
-    front, beats = front_ns(x['mapped_page_bits'], td, x['first_data_in_command'])
+def page_service(x, td, resident=None):
+    front, beats = front_ns(x['mapped_page_bits'], td, x['first_data_in_command'], resident)
     # Full program already includes verify: represented once as a complete operation block.
     dr = program_sequence_ns(front, 0, [dict(count=1, drive_program_ns=1000*x['page_program_full_us'],
               verify_ns=0, recover_ns=0)], 1000*x['erase_us'], x['pages_per_erase'])
@@ -126,10 +201,10 @@ def recompute(e, s):
     v = C['propagation']['profile_values'][s['profile']]
     x = s['inputs']
     if e['id'].endswith('direct'):
-        ds = acim_service(R['acim'], v, x['media_read_ns'])[0]
-        br, dr, _, _ = direct_service(x, v['digital_tick'])
+        ds = acim_service(R['acim'], v, x['media_read_ns'], L)[0]
+        br, dr, _, _ = direct_service(x, v['digital_tick'], L)
     else:
-        ds = dcim_service(R['dcim'], v, x['media_read_ns'])[0]
+        ds = dcim_service(R['dcim'], v, x['media_read_ns'], L)[0]
         br, dr, _ = page_service(x, v['digital_tick'])
     return metrics(L['n_in']*L['b_S'], br, ds, dr)
 
@@ -141,11 +216,11 @@ def sensitivity_results():
     for s in spec['scenarios']:
         cfg = {**R[s['path']], **s['overrides']}
         if s['path'] == 'acim':
-            ds, counts, hold = acim_service(cfg, V, x['acim_read_ns'])
+            ds, counts, hold = acim_service(cfg, V, x['acim_read_ns'], L)
         else:
-            ds, counts = dcim_service(cfg, V, x['dcim_read_ns'])
+            ds, counts = dcim_service(cfg, V, x['dcim_read_ns'], L)
             hold = 0
-        br, dr, batches, beats = direct_service(x, V['digital_tick'])
+        br, dr, batches, beats = direct_service(x, V['digital_tick'], L)
         row = dict(id=s['id'], path=s['path'], label=s['label'], counts=counts,
                    hold_extra_ns=hold, write_batches=batches, data_beats=beats,
                    required_conditions=s['required_conditions'],
@@ -165,15 +240,18 @@ def sensitivity_results():
             for value in values:
                 v = {**V, key:value}
                 service = acim_service if path == 'acim' else dcim_service
-                ds = service(R[path], v, x[path+'_read_ns'])[0]
-                br, dr, _, _ = direct_service(x, v['digital_tick'])
+                ds = service(R[path], v, x[path+'_read_ns'], L)[0]
+                br, dr, _, _ = direct_service(x, v['digital_tick'], L)
                 row = dict(path=path, changed_parameter=key, changed_value_ns=value,
                            **metrics(L['B_S_Byte'], br, ds, dr))
                 for metric in ['rho_Byte_per_s','tau_Byte_per_s','ridge']:
                     row[metric+'_relative_change'] = row[metric]/by_id[base_id][metric]-1
                 timing.append(row)
     return dict(baseline_id=D['baseline_id'],
-                kind='illustrative_derived_no_medium_binding', structural=rows, small_timing=timing)
+                kind='illustrative_derived_no_medium_binding', structural=rows, small_timing=timing,
+                mapping_examples=[dict(id='native',**mapping_metrics(logical_configuration(64,32),100,3200)),
+                    dict(id='N_double_input_shared_writer_serial',**mapping_metrics(logical_configuration(64,64),100,6400)),
+                    dict(id='both_services_double',**mapping_metrics(logical_configuration(64,64),200,6400))])
 
 
 def outward(value, lower, digits=2):
@@ -262,176 +340,150 @@ def generated_files():
 
 
 class SharedChecks(unittest.TestCase):
-    def test_units_payload_and_precision(self):
-        self.assertEqual(L['B_S_Byte'], L['n_in']*L['b_S'])
-        self.assertEqual(L['resident_capacity_Byte'], L['n_in']*L['n_out']*L['b_R'])
-        self.assertEqual(L['output_count'], L['n_out'])
-        self.assertEqual(L['resident_capacity_Byte']*8, 131072)
-        self.assertGreaterEqual(2**R['acim']['partial_sum_code_bits'], 129)
-        self.assertLess(128*128*128, 2**(L['output_container_bits']-1))
-        self.assertAlmostEqual(seconds(1000,'ns'), seconds(1,'us'))
-        self.assertAlmostEqual(seconds(1000,'us'), seconds(1,'ms'))
-        self.assertAlmostEqual(1/(100e6), seconds(10,'ns'))
-        self.assertAlmostEqual(1e9/(455e6), 2.1978021978)
-        self.assertAlmostEqual(metrics(1,1,1,1)['rho_Byte_per_s']/1e9, 1)
+    def test_units_and_logical_shapes(self):
+        for k,n,bs,br in [(128,128,1,1),(64,64,1,1),(70,35,1,1),(17,9,2,1)]:
+            l=logical_configuration(k,n,bs,br)
+            self.assertEqual(l['B_S_Byte'],k*bs)
+            self.assertEqual(l['resident_capacity_Byte'],k*n*br)
+            self.assertEqual(l['input_register_bits'],8*k*bs)
+            self.assertEqual(l['output_register_bits'],n*(int(8*bs+8*br)+math.ceil(math.log2(k))))
+        self.assertAlmostEqual(seconds(1000,'ns'),seconds(1,'us'))
+        self.assertTrue(math.isclose(metrics(1,1,1,1)['rho_Byte_per_s'],1e9,rel_tol=1e-12))
+        with self.assertRaises(AssertionError): logical_configuration(0,16)
 
-    def test_R0_general_templates_match_expanded_formulas(self):
-        self.assertEqual(acim_counts(R['acim']), R['acim']['derived'])
-        self.assertEqual(dcim_counts(R['dcim']), R['dcim']['derived'])
-        for v in C['propagation']['profile_values'].values():
-            for tm in [0, 3, 25, 40]:
-                self.assertEqual(acim_service(R['acim'],v,tm)[0],
-                    64*(v['input_step']+tm+v['adc_batch']+2*v['digital_tick'])+2*v['digital_tick'])
-                self.assertEqual(dcim_service(R['dcim'],v,tm)[0],256*(tm+v['digital_tick'])+2*v['digital_tick'])
+    def test_explicit_logical_and_resource_inputs(self):
+        with self.assertRaises(TypeError): acim_service(R['acim'],V,1)
+        with self.assertRaises(TypeError): dcim_service(R['dcim'],V,1)
+        with self.assertRaises(TypeError): direct_service(D['structural_sensitivity']['common_inputs'],5)
+        with self.assertRaises(AssertionError): acim_counts(R['acim'])
+        self.assertEqual(acim_counts(R['acim'],V,L),R['acim']['derived'])
+        self.assertEqual(dcim_counts(R['dcim'],L),R['dcim']['derived'])
 
-    def test_acim_logical_coverage_and_tail_batches(self):
-        # Enumerate actual output batches: every required partial sum exactly once.
-        for a in [R['acim'], {**R['acim'], **D['structural_sensitivity']['scenarios'][1]['overrides']},
-                  {**R['acim'], **D['structural_sensitivity']['scenarios'][2]['overrides']},
-                  {**R['acim'], 'rows_per_group':48, 'parallel_weight_planes':3,
-                   'evaluation_output_width':35, 'digital_output_lanes':10,
-                   'hold_sample_slots':105, 'hold_guarantee_ns':1000, 'hold_capture_ns_per_evaluation':5}]:
-            n = acim_counts(a)
-            seen = set()
-            visits = 0
-            for inp in range(n['input_slices']):
-                for row in range(n['row_groups']):
-                    for weight in range(a['weight_planes']):
-                        for start in range(0,L['n_out'],a['evaluation_output_width']):
-                            for batch in range(start,min(start+a['evaluation_output_width'],L['n_out']),a['adc_per_weight_plane']):
-                                for out in range(batch,min(batch+a['adc_per_weight_plane'],start+a['evaluation_output_width'],L['n_out'])):
-                                    visits += 1
-                                    seen.add((inp,row,weight,out))
-            expected = n['input_slices']*n['row_groups']*a['weight_planes']*L['n_out']
-            self.assertEqual(visits,len(seen))
-            self.assertEqual(visits,expected)
-            self.assertEqual(n['useful_scalar_conversions'],expected)
-        # 4 evaluation groups of 35,35,35,23; ADC batches 3+3+3+2 per F.
-        self.assertEqual(n['adc_batches'], n['base_combinations']*11)
+    def test_acim_non_square_tail_coverage(self):
+        l=logical_configuration(70,35)
+        a={**R['acim'],'input_bits_per_slice':3,'rows_per_group':32,
+           'parallel_weight_planes':3,'evaluation_output_width':17,
+           'adc_per_weight_plane':8,'digital_output_lanes':5,
+           'hold_sample_slots':51,'hold_guarantee_ns':200,'hold_capture_ns_per_evaluation':5}
+        ds,n,h=acim_service(a,V,7,l)
+        self.assertEqual((n['input_slices'],n['row_groups'],n['weight_groups']),(3,3,3))
+        self.assertEqual((n['evaluations'],n['adc_batches'],n['reconstruction_rounds']),(81,189,297))
+        self.assertEqual(n['useful_scalar_conversions'],3*3*8*35)
+        self.assertEqual(ds,81*(5+7)+189*20+594*5+81*5+10)
+        # Independent weighted enumeration excludes input, row and plane padding.
+        products=sum(i*r*w*o for i in [3,3,2] for r in [32,32,6]
+                     for w in [3,3,2] for o in [17,17,1])
+        self.assertEqual(products,8*70*8*35)
+        with self.assertRaises(AssertionError): acim_counts({**a,'hold_sample_slots':50},V,l)
+        with self.assertRaises(AssertionError): acim_counts({**a,'hold_guarantee_ns':1},V,l)
 
-    def test_dcim_bit_and_spatial_coverage(self):
-        for u,w,r,d in [(1,8,32,16),(2,8,32,16),(1,1,32,16),(8,8,128,128),(3,3,48,35)]:
-            cfg={**R['dcim'],'input_bits_per_round':u,'weight_bits_per_round':w,'rows_per_group':r,'output_lanes':d}
-            n=dcim_counts(cfg)
-            # Sum actual products, excluding padding in the last group.
-            total=sum(i*j*k*m for i in chunks(8,u) for j in chunks(8,w)
-                      for k in chunks(128,r) for m in chunks(128,d))
-            self.assertEqual(total, 8*8*128*128)
-            self.assertEqual(n['compute_rounds'],len(chunks(8,u))*len(chunks(8,w))*len(chunks(128,r))*len(chunks(128,d)))
-        self.assertEqual(dcim_counts({**R['dcim'],'input_bits_per_round':2})['compute_rounds'],128)
-        self.assertEqual(dcim_counts({**R['dcim'],'weight_bits_per_round':1})['compute_rounds'],2048)
+    def test_dcim_hold_sa_batches_and_static_connection(self):
+        l=logical_configuration(70,35)
+        d={**R['dcim'],'input_bits_per_round':3,'weight_bits_per_round':3,
+           'read_bits_per_batch':1536,'weight_latch_bits':1536}
+        ds,n=dcim_service(d,V,11,l)
+        self.assertEqual((n['compute_rounds'],n['tile_reads'],n['read_rounds']),(81,27,27))
+        self.assertEqual(n['max_tile_bits'],1536)
+        self.assertEqual(ds,27*11+(81+27+2)*5)
+        # At 128-bit sensing, actual per-tile width (including tails) controls reads.
+        d['read_bits_per_batch']=128
+        nd=dcim_counts(d,l)
+        hand=sum(math.ceil(w*r*o/128) for w in [3,3,2] for r in [32,32,6] for o in [16,16,3])
+        self.assertEqual(nd['read_rounds'],hand)
+        self.assertEqual(nd['capture_ticks'],hand)
+        static={**d,'hold_source':'static_connection','weight_latch_bits':0}
+        self.assertEqual(dcim_counts(static,l)['capture_ticks'],0)
+        with self.assertRaises(AssertionError): dcim_counts({**d,'weight_latch_bits':1535},l)
+        nohold={**d,'read_reuse_input_slices':False,'hold_source':'none'}
+        self.assertEqual(dcim_counts(nohold,l)['read_rounds'],3*hand)
 
-    def test_holding_and_latching_require_resources(self):
-        held={**R['acim'], **D['structural_sensitivity']['scenarios'][2]['overrides']}
-        self.assertEqual(acim_counts(held)['max_hold_window_ns'],240)
-        for key,value in [('hold_sample_slots',1023),('hold_guarantee_ns',239),('hold_capture_ns_per_evaluation',0)]:
-            with self.assertRaises(AssertionError): acim_counts({**held,key:value})
-        latch={**R['dcim'],'read_reuse_input_slices':True,'weight_latch_bits':4096,'latch_extra_ns':10}
-        self.assertEqual(dcim_counts(latch)['read_rounds'],32)
-        self.assertEqual(dcim_counts(latch)['compute_rounds'],256)
-        with self.assertRaises(AssertionError): dcim_counts({**latch,'weight_latch_bits':4095})
-
-    def test_complete_updates_and_payload(self):
+    def test_direct_payload_encoding_and_interface(self):
         x=D['structural_sensitivity']['common_inputs']
-        self.assertEqual(direct_service(x,5),(16,60,1,1))
-        self.assertEqual(direct_service({**x,'parallel_cells':64},5),(16,110,2,1))
-        # Complementary encoding: complete all 16 weights, not twice the logical payload.
-        self.assertEqual(direct_service({**x,'cells_per_weight':16,'encoded_load_bits':256},5),(16,115,2,2))
-        self.assertEqual(front_ns(2048,5,False),(90,16))
-        self.assertEqual(front_ns(2048,5,True),(85,16))
-        steps=[dict(count=4,drive_program_ns=20,verify_ns=10,recover_ns=2)]
-        self.assertEqual(program_sequence_ns(10,5,steps),143)
-        self.assertEqual(program_sequence_ns(10,5,[dict(count=1,drive_program_ns=128,verify_ns=0,recover_ns=0)]),143)
-        # Full block service and effective-page amortization give the same tau.
-        self.assertAlmostEqual(256*16/(16*(90+10000)+200000),256/(90+10000+200000/16))
-        xpage=D['examples'][1]['scenarios'][1]['inputs']
-        self.assertEqual(page_service(xpage,5),(256,22590,16))
-        self.assertEqual(page_service({**xpage,'logical_page_Byte':128},5),(128,22590,16))
-        self.assertEqual(page_service({**xpage,'erase_us':0},5),(256,10090,16))
+        self.assertEqual(direct_service(x,5,L),(16,60,1,1))
+        self.assertEqual(direct_service({**x,'parallel_cells':64},5,L),(16,110,2,1))
+        self.assertEqual(direct_service({**x,'cells_per_weight':16,'encoded_load_bits':256},5,L),(16,115,2,2))
+        self.assertEqual(direct_service(x,5,logical_configuration(7,9,1,2))[0],32)
+        self.assertEqual(front_ns(129,5,False,dict(physical_write_data_lanes=64,control_ticks=2)),(25,3))
+        self.assertEqual(program_sequence_ns(10,5,[dict(count=4,drive_program_ns=20,verify_ns=10,recover_ns=2)]),143)
 
-    def test_granularity_ridge_aggregation(self):
-        s=metrics(128,16,3850,60)
-        self.assertAlmostEqual(s['ridge'],8*60/3850)
-        self.assertAlmostEqual(s['ridge']/(60/3850),8)
-        self.assertAlmostEqual(metrics(128,256,3850,22590)['ridge'],.5*22590/3850)
+    def test_full_load_tail_and_native_block(self):
+        l=logical_configuration(7,5)
+        q=full_load_service(l,[dict(payload_Byte=16,service_ns=60,count=2),dict(payload_Byte=3,service_ns=60)])
+        self.assertEqual(q['T_R_ns'],180)
+        with self.assertRaises(AssertionError): full_load_service(l,[dict(payload_Byte=32,service_ns=120)])
+        pages=[dict(logical_payload_Byte=24,encoded_load_bits=384,program_full_ns=100,count=3),
+               dict(logical_payload_Byte=0,encoded_load_bits=384,program_full_ns=100)]
+        z=native_block_service(pages,1000,5)
+        self.assertEqual(z['physical_pages'],4)
+        self.assertEqual(z['logical_payload_Byte'],72)
+        self.assertEqual(z['T_R_ns'],1000+4*(25+100))
+        self.assertAlmostEqual(z['tau_Byte_per_s'],72/1500*1e9)
+        page=page_service(dict(mapped_page_bits=2048,first_data_in_command=False,
+            page_program_full_us=10,erase_us=200,pages_per_erase=16,logical_page_Byte=256),5)
+        self.assertEqual(page,(256,22590,16))
+
+    def test_mapping_interface_and_non_symmetric_expansion(self):
+        l=logical_configuration(64,32)
+        r=mapping_metrics(l,100,3200)
+        self.assertEqual(r['U_star'],32)
+        self.assertAlmostEqual(r['ridge'],1)
+        self.assertAlmostEqual(r['U_star'],l['n_out']*l['b_R']/l['b_S']*r['ridge'])
+        wide=mapping_metrics(logical_configuration(64,64),100,6400)
+        self.assertEqual(wide['U_star'],64) # input-shared compute, shared serial writer
+        serial=mapping_metrics(logical_configuration(64,64),200,6400)
+        self.assertEqual(serial['U_star'],32) # both services scale identically
+        other=mapping_metrics(logical_configuration(13,9,2,1),80,720)
+        self.assertAlmostEqual(other['U_star'],9/2*other['ridge'])
+        self.assertEqual(r['average_update_ns_per_16KiB'],25600)
+
+    def test_maintenance_raw_effective_and_infeasible(self):
+        raw=mapping_metrics(logical_configuration(64,32),100,3200)
+        r=apply_maintenance(raw,1000,200,50)
+        self.assertEqual(r['availability'],.75)
+        self.assertEqual(r['effective']['rho_Byte_per_s'],raw['rho_Byte_per_s']*.75)
+        self.assertEqual(r['effective']['U_star'],raw['U_star'])
+        self.assertEqual(r['maintenance_payload_Byte'],0)
+        for busy in [1000,1100]:
+            z=apply_maintenance(raw,1000,busy)
+            self.assertFalse(z['feasible'])
+            for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge','U_star','delta_S_ns','T_R_ns']:
+                self.assertIsNone(z['effective'][k])
+            self.assertEqual(z['raw'],raw)
+
+    def test_illustrative_scenarios_independent_arithmetic(self):
         for e in D['examples']:
-            for s in e['scenarios']:
-                r,t=s['rho_Byte_per_s'],s['tau_Byte_per_s']
-                self.assertAlmostEqual((7*r)/(7*t),s['ridge'])
-                self.assertAlmostEqual(1024*s['B_R_Byte']/seconds(1024*s['delta_R_ns'],'ns'),t)
-                self.assertLess(s['B_S_Byte']/seconds(2*s['delta_S_ns'],'ns'),r)
-
-    def test_illustrative_pairs(self):
-        self.assertEqual(len(D['examples']),2)
-        for e in D['examples']:
-            self.assertFalse(e['bound_to_medium'])
-            for s in e['scenarios']:
-                for key,value in recompute(e,s).items():
-                    self.assertTrue(math.isclose(s[key],value,rel_tol=1e-12),(e['id'],key))
-                    self.assertLessEqual(outward(value,True),value+1e-10)
-                    self.assertGreaterEqual(outward(value,False)+1e-10,value)
-        self.assertEqual([s['delta_S_ns'] for s in D['examples'][0]['scenarios']],[1668,3850,7700])
-        self.assertEqual([s['delta_S_ns'] for s in D['examples'][1]['scenarios']],[1284,3850,10260])
-
-    def test_sensitivity_independent_arithmetic(self):
-        result=sensitivity_results()
-        ss={s['id']:s for s in result['structural']}
-        # Independently summed stages; unlike the model, these use the selected scenario's fixed counts.
-        expected={'A0':64*30+64*20+128*5+10,
-                  'A1':32*30+32*20+128*5+10,
-                  'A2':8*30+64*20+128*5+8*5+10,
-                  'D0':256*10+256*5+10,'D1':128*10+128*5+10}
+            for z in e['scenarios']:
+                for k,v in recompute(e,z).items(): self.assertAlmostEqual(z[k],v)
+        self.assertEqual([z['delta_S_ns'] for z in D['examples'][0]['scenarios']],[1668,3850,7700])
+        self.assertEqual([z['delta_S_ns'] for z in D['examples'][1]['scenarios']],[676,1770,3860])
+        result=sensitivity_results(); rows={x['id']:x for x in result['structural']}
+        expected={'A0':64*30+64*20+128*5+10,'A1':32*30+32*20+128*5+10,
+                  'A2':8*30+64*20+128*5+8*5+10,'D0':32*10+(256+32+2)*5,
+                  'D1':16*10+(128+16+2)*5}
         for key,ds in expected.items():
-            s=ss[key]
-            self.assertEqual(s['delta_S_ns'],ds)
-            self.assertEqual(s['tau_ratio_to_path_R0'],1)
-            self.assertAlmostEqual(s['rho_ratio_to_path_R0'],3850/ds)
-            self.assertAlmostEqual(s['ridge_ratio_to_path_R0'],3850/ds)
-        self.assertEqual(ss['A1']['counts']['digital_ticks'],128)
-        self.assertEqual(ss['A2']['counts']['useful_scalar_conversions'],8192)
-        self.assertEqual(ss['A2']['hold_extra_ns'],40)
-        self.assertEqual([s['delta_S_ns'] for s in result['small_timing']],[3594,4106,3720,3980,3592,4108])
-        self.assertEqual([s['delta_R_ns'] for s in result['small_timing']],[60,60,58,62,58,62])
+            self.assertEqual(rows[key]['delta_S_ns'],ds)
+            self.assertEqual(rows[key]['tau_ratio_to_path_R0'],1)
+        self.assertEqual(rows['A2']['hold_extra_ns'],40)
 
-    def test_profiles_and_periphery(self):
-        self.assertEqual(D['baseline_id'],'shared_baseline')
-        self.assertEqual([(p['range'],p['reference']) for p in P.values()],
-                         [([2,10],5),([10,50],20),([2,10],5),([4,20],10)])
-        for v in C['propagation']['profile_values'].values():
-            for key,val in v.items():
-                self.assertLessEqual(P[key]['range'][0],val)
-                self.assertLessEqual(val,P[key]['range'][1])
-        self.assertEqual([acim_service(R['acim'],v,0)[0] for v in C['propagation']['profile_values'].values()],[1028,2250,5140])
-        self.assertEqual([dcim_service(R['dcim'],v,0)[0] for v in C['propagation']['profile_values'].values()],[516,1290,2580])
-
-    def test_sources(self):
+    def test_sources_and_policy(self):
         manifest={s['source_id']:s for s in json.loads((CORPUS/'source_manifest.json').read_text())['sources']}
-        bib=(BASE/'tex/references.bib').read_text()
-        evidence=(BASE/'notes/evidence.zh.md').read_text()
+        bib=(BASE/'tex/references.bib').read_text(); evidence=(BASE/'notes/evidence.zh.md').read_text()
         for key,source in D['sources'].items():
             self.assertEqual(source['pdf'],manifest[key]['pdf'])
             self.assertEqual(hashlib.sha256((CORPUS/source['pdf']['path']).read_bytes()).hexdigest(),source['pdf']['sha256'])
-            self.assertTrue(('@article{'+key+',' in bib) or ('@inproceedings{'+key+',' in bib))
-            self.assertIn(key,evidence)
+            self.assertIn('{'+key+',',bib);self.assertIn(key,evidence)
+        self.assertEqual([x['id'] for x in D['selection_rules']],['R'+str(i) for i in range(1,9)])
+        self.assertEqual(D['resource_policy']['digital_tile_storage_bits'],4096)
 
     def test_generated_data_and_manuscript_contract(self):
-        for path,value in generated_files().items():
-            self.assertEqual((BASE/path).read_text(),value,path)
-        one=(BASE/'tex/01_cmos_periphery.tex').read_text()
-        two=(BASE/'tex/02_estimation_method.tex').read_text()
+        for path,value in generated_files().items(): self.assertEqual((BASE/path).read_text(),value,path)
+        one=(BASE/'tex/01_cmos_periphery.tex').read_text();two=(BASE/'tex/02_estimation_method.tex').read_text()
         self.assertEqual((one+two).count(r'\section{'),2)
-        for label in ['A. ACIM','B. DCIM','C. 直接更新','D. 分步编程']:
-            self.assertIn(label,two)
-        for label in ['acount','acim','dcim','direct','program','page']:
+        for label in ['acount','acim','dcim','direct','program','page','mapping']:
             self.assertIn(r'\label{eq:'+label+'}',two)
         for f in ['generated_examples','generated_sensitivity','generated_timing_sensitivity']:
             self.assertIn(r'\input{'+f+'}',two)
         self.assertIn(r'\input{generated_parameters}',one)
-        for text in ['1028、2250、5140','516、1290、2580']:
-            self.assertIn(text,one)
-        for text in ['8192','22590','1024','240','3850']:
-            self.assertIn(text,two)
-        self.assertIn('Table I 共享估算基线',(BASE/'tex/shared_baseline.tex').read_text())
 
 
 if __name__=='__main__':

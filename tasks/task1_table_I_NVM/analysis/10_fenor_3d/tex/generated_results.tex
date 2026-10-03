@@ -2,11 +2,10 @@
 \begin{table}[htbp]\centering\small
 \begin{tabular}{@{}lrrrrr@{}}\toprule
 情景 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule
-短 & 5636 & 1420 & 22.71 & 11.27 & 2.0156\\
-参考 & 11530 & 1730 & 11.1 & 9.249 & 1.2003\\
-长 & 23060 & 2340 & 5.551 & 6.838 & 0.8118\\
-\midrule
-参考，128-cell 写 & 11530 & 260 & 11.1 & 61.54 & 0.1804\\
+乐观 & 1220 & 197 & 105 & 81.2 & 1.29\\
+典型 & 2730 & 265 & 46.9 & 60.4 & 0.777\\
+悲观 & 5460 & 390 & 23.4 & 41 & 0.571\\
+16-cell 资源对照 & 2730 & 1770 & 46.9 & 9.04 & 5.19\\
 \bottomrule\end{tabular}
-\caption{2026 vertical AND FeFET 二状态数字参考结果，MB=$10^6$ Byte。主情景每批16 cell、$g=100$ ns；最后一行增加八倍写驱动资源，另列为结构对照。}
+\caption{所选原生 $128\times128$ INT8 配置；主情景固定128-cell写资源、4096-bit单tile保持与100 ns观察窗口。最后一行独立减少写驱动，MB=$10^6$ Byte。}
 \label{10_fenor_3d:tab:result}\end{table}

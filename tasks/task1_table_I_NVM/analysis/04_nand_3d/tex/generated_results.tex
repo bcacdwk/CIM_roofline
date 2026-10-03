@@ -1,10 +1,8 @@
-% Generated from results.json.
 \begin{table}[htbp]\centering\small
 \begin{tabular}{@{}lrrrrrr@{}}\toprule
-情景 & $\Delta_S$ (ms) & $\rho$ & $\tau_{app}$ & $\RI^*_{app}$ & $\tau_{rw}$ & $\RI^*_{rw}$\\\midrule
-短预算 & 1.6722 & 0.07655 & 0.0123 & 6.221 & 0.004571 & 16.75\\
-参考 & 1.6877 & 0.07584 & 0.006398 & 11.85 & 0.002327 & 32.59\\
-长预算 & 1.7050 & 0.07507 & 0.003199 & 23.47 & 0.001347 & 55.73\\
+情景 & $\Delta_S$($\mu$s) & $T_R$(s) & $\rho$(MB/s) & $\tau$(MB/s) & $\RI^*$ & $U^*$\\\midrule
+乐观 & 277.63 & 1.9088 & 16.6 & 1.16 & 14.3 & 6.88e+03\\
+典型 & 340.60 & 1.9113 & 13.5 & 1.16 & 11.7 & 5.61e+03\\
+悲观 & 416.75 & 3.9186 & 11.1 & 0.564 & 19.6 & 9.4e+03\\
 \bottomrule\end{tabular}
-\caption{有限主情景结果；三个吞吐列单位均为MB/s（$10^6$ Byte/s）。append只针对已有预擦除数据页和已编程参考页的窗口；两种写入均重新校准。}
-\label{04_nand_3d:tab:results}\end{table}
+\caption{原生 $K=4608,N=480$ 的固定配置成对结果。MB 为十进制；装载是完整矩阵持续替换。}\end{table}

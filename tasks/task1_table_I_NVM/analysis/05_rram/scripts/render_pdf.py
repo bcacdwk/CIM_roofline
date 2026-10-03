@@ -17,4 +17,7 @@ for start in range(0,len(thumbs),6):
     items=thumbs[start:start+6];sheet=Image.new('RGB',(3*440,((len(items)+2)//3)*624),'white')
     for j,t in enumerate(items):sheet.paste(t,((j%3)*440,(j//3)*624))
     sheet.save(OUT/f'contact-{start//6+1}.png')
+sheet_all=Image.new('RGB',(3*440,((len(thumbs)+2)//3)*624),'white')
+for j,t in enumerate(thumbs):sheet_all.paste(t,((j%3)*440,(j//3)*624))
+sheet_all.save(OUT/'contact.png')
 print(f'Rendered {len(doc)} pages to {OUT}')

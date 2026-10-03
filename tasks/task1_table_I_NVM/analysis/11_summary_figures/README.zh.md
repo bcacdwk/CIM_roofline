@@ -1,73 +1,51 @@
-# Table I 与最终 ρ–τ 图
+# Table I 与原生配置 ρ–τ 图
 
-本目录的正式交付为三情景汇总表和最终双对数图，下表只列正式文件。十例原始分析与估算数据未改动。
+正式表图从[统一未取整数据](../data/ten_case_results.json)生成，采用十例选定的原生配置、INT8 逻辑 payload 与完整服务边界。表中的 K×N 为输入×输出逻辑元素数；各配置的资源、尺寸和单次工作量不同，图表不表示等面积或相同计算量下的性能排名。
 
-旧文件清理尚未完成：自动审批拒绝了批量删除，也拒绝了限定到单个临时 PNG 的删除，仅返回 `blocked by policy`。因此临时 A/B/C/D、比较图、旧 loglog、loglogcompact、线性散点图及其旧脚本和记录目前仍在；它们不属于下面的正式交付。新的复现入口只生成最终图。
-
-## 交付文件
+## 正式文件
 
 | 内容 | 预览 | 矢量文件 / 数据 |
 |---|---|---|
-| 新增：短／长情景虚线圆 | [PNG](output/rho_tau_loglog_circles.png) | [PDF](output/rho_tau_loglog_circles.pdf) · [SVG](output/rho_tau_loglog_circles.svg) |
-| 最终 ρ–τ 图，10 个典型点 | [PNG](output/rho_tau_loglog.png) | [PDF](output/rho_tau_loglog.pdf) · [SVG](output/rho_tau_loglog.svg) |
-| Table I，短／典型／长三情景 | [PNG](output/table_I_three_scenarios.png) | [PDF](output/table_I_three_scenarios.pdf) · [SVG](output/table_I_three_scenarios.svg) |
+| Table I，乐观／典型／悲观三情景 | [PNG](output/table_I_three_scenarios.png) | [PDF](output/table_I_three_scenarios.pdf) · [SVG](output/table_I_three_scenarios.svg) |
 | 表格可编辑文本 | [Markdown](output/table_I_three_scenarios.md) | [LaTeX](output/table_I_three_scenarios.tex) |
-| 两页合并版：表格＋最终图 | [PDF](output/review_figures.pdf) | — |
-| 最终图的完整精度点与来源 | [CSV](data/rho_tau_loglog_points.csv) | [数值与布局检查](data/rho_tau_loglog_validation.json) |
-| 表格的 30 组完整精度数据 | [CSV](data/table_scenarios.csv) | [JSON](data/table_scenarios.json) |
+| ρ–τ 图，10 个典型点 | [PNG](output/rho_tau_loglog.png) | [PDF](output/rho_tau_loglog.pdf) · [SVG](output/rho_tau_loglog.svg) |
+| ρ–τ 图，30 个成对情景点与圆 | [PNG](output/rho_tau_loglog_circles.png) | [PDF](output/rho_tau_loglog_circles.pdf) · [SVG](output/rho_tau_loglog_circles.svg) |
+| 三页合并版：表格、典型图、圆图 | [PDF](output/review_figures.pdf) | — |
+| 30 组完整精度表格数据 | [CSV](data/table_scenarios.csv) | [JSON](data/table_scenarios.json) |
+| 典型图绘制点与来源 | [CSV](data/rho_tau_loglog_points.csv) | [数值与布局检查](data/rho_tau_loglog_validation.json) |
+| 圆图绘制点与来源 | [CSV](data/rho_tau_loglog_circles_points.csv) | [几何与布局检查](data/rho_tau_loglog_circles_validation.json) |
 
-## 最终图
+## 数据与服务边界
 
-- 横轴：**Resident throughput τ [MB/s]**，范围 0.0011–6000。
-- 纵轴：**Streaming throughput ρ [MB/s]**，范围 0.04–60。
-- 两轴均为双对数，每个数量级的显示长度相同；绘图区宽高约 2.12:1，ρ=τ 参考线严格为 45°。
-- 保留 10 个推荐参考点；点下方依次标技术名和 `RI = 数值`，无文字指示线。图中的 RI 指原分析的 **RI*=ρ/τ**，显示四位有效数字，不是实际工作负载的 Q_S/Q_R。
-- 名称和 RI 共两行。两个 SRAM 点的 τ 相同且位置相近，其标签按上／下点顺序排在点对下方；点坐标未移动。
-- 中间等能力线与标注加粗；RI=10⁻²、10² 两条辅助线及文字增强对比；四边框完整。图下方不放注释小字。
+ρ、τ 使用十进制 MB/s = 10⁶ Byte/s，正文表和图标签一般显示两位有效数字；点坐标及 JSON/CSV 保留计算结果的完整精度。ρ 对应完整输入向量及规定输出的求值服务间隔，τ 对应所选整个 resident 矩阵的有效逻辑容量与完整装载服务时间。表中局部分组大小说明更新组织，不替代完整装载的分子与时间边界。NOR/NAND 包含持续擦除、编程及必要装载成本，Gain-cell 包含周期刷新。
 
-标题为 “Typical streaming and resident throughput”，副标题为 “Ten CIM reference designs · RI = ρ/τ”。这些数值沿用文献支持的参考设计：Gain-cell 计入周期刷新，3D FeFET 指 2026 vertical AND 主模式；NAND 使用持续重写。十类中包含易失性的 SRAM 和 Gain-cell 参照。
+每例三点均为同一原生组织与资源下的可持续成对工程情景；典型不是统计中位数。资源扩展、维护临界点、不可行调度和预擦除有限 burst 均不进入普通三情景。Gain-cell 的慢点也是可持续主情景。3D FeFET 的主身份为 2026 vertical AND FeFET，图中使用技术简称；Gain-cell 保持 GC-04 的 65 nm 3T1C current-programmed dynamic-cascode 路径。完整模式、编码、保持、外围与更新资源由[统一数据](../data/ten_case_results.json)及[各例章节入口](../TEN_CASE_REVIEW.zh.md)保存。
 
-## 汇总表口径
+表图的 RI* = ρ/τ 是硬件配置的服务比值。对匹配的 INT8 矩阵，U* = N·RI* = T_R/Δ_S；扩大到算子时必须重新确认完整矩阵装载、输入共享、重放与资源分时，见[公共方法](../shared_baseline/README.md)。图中所有比值标签和参考线均标为 RI*，不代表某一 workload 的 RI。
 
-表格三大列组为短预算、典型／参考、长预算，每组并列 ρ、τ、RI*；典型列组以浅蓝底和粗体突出。ρ、τ 使用十进制 MB/s=10⁶ Byte/s。典型指原推荐参考点，不是统计中位数。
+## 双对数图与圆的含义
 
-三组数值是成对工程情景，不是独立读写极值组合或统计置信区间。Gain-cell 长情景以 † 单列为刷新压力点，α=3.93%，不并入普通条件范围。NOR/NAND 的 τ 对应完整 16 KiB 重写；其余技术沿用各例声明的局部更新形状。各案例的模式和来源见 [Markdown 表](output/table_I_three_scenarios.md)。
+横轴为 resident 更新能力 τ，纵轴为 streaming 输入能力 ρ。两个 log₁₀ 轴每个数量级显示长度相同，ρ=τ 参考线为 45°。绘制范围由当前点及圆的完整外界自动计算，并预留标签空间。十类颜色、大典型点、小快慢点、配色细连接线、浅色填充和虚线圆采用共同规则；标签可在点的邻近方向排布，点坐标保持原值。
 
-## 复现与核对
-
-从仓库根运行：
-
-```powershell
-python -X utf8 tasks/task1_table_I_NVM/analysis/11_summary_figures/build_figures.py
-```
-
-[build_figures.py](build_figures.py)负责数据核对、汇总表和合并 PDF；[build_loglog.py](build_loglog.py)负责最终图。直接运行后者也会重建这两份最终交付，不再生成旧版图。
-
-脚本读取[统一未取整数据](../data/ten_case_results.json)，用现有适配器核对全部原生结果，并按各例 JSON 指针核对 30 组情景。Windows/POSIX 路径分隔符仅在比较时规范化，原文件不改写；另用既有独立阶段算式复核 10 个典型点。
-
-[通用验证记录](data/validation.json)保留来源文件 SHA-256；[最终图验证](data/rho_tau_loglog_validation.json)检查全部 10 点、RI=ρ/τ、相同对数比例、45° 参考线、四边框、标签完整入框且互不重叠、不遮住点。[PDF 检查](data/pdf_qa.json)核对页数、文字边界及字体嵌入。PNG 已人工查看。
-
-## 新图：短／长情景虚线圆
-
-在现有双对数图上新增与技术配色相同的虚线圆和6.5%透明度填充，保留十个reference点、标签与RI。原图不覆盖，新图文件名为`rho_tau_loglog_circles`。为完整显示圆，横轴上限扩至12000 MB/s、纵轴上限扩至160 MB/s；每个数量级的显示长度仍相同，因此圆在画面上保持正圆。
-
-短、长情景现在以同色小实心圆标出（面积56 pt²，reference为320 pt²），并用0.9 pt同色细实线分别连接到reference点；连接起点是参考数据点，不是几何圆心。[绘图点CSV](data/rho_tau_loglog_circles_points.csv)同步包含30个原始情景点。
-
-构造在`(log10 τ, log10 ρ)`坐标进行。记短、长点为a、b，reference为p，m=(a+b)/2、d=b−a。两个不同端点要求圆心位于它们的中垂线上；取p在该线上的正交投影，可唯一最小化圆心到reference的距离：
+圆在 `(log₁₀ τ, log₁₀ ρ)` 平面构造。记快、慢点为 a、b，典型点为 p，m=(a+b)/2，d=b−a。圆心是 p 在 a、b 中垂线上的投影：
 
 ```text
 c = p − [(p−m)·d / (d·d)] d
 r = ||a−c|| = ||b−c||
 ```
 
-这是两端点在圆周、reference尽量接近圆心的圆，不要求reference也在圆周。现有十例的reference均位于各自圆内；NOR因短点与reference靠得很近，最优圆心仍不能接近reference。这是实际情景几何位置所致，没有移动或改写点坐标。
+这一圆使两个端点位于圆周，并使圆心到典型点的距离最小。十例现行情景的典型点均在各自圆内，半径约为 0.20–0.53 个数量级。几何规则不反向改变任何工程参数。圆仅概括有限成对情景，不是置信区间，也不表示圈内所有读写组合都可实现。
 
-圆用于概括有限的成对工程情景，不表示置信区间或圆内每个读写组合都可实现。Gain-cell圆按本次要求使用短／长两点，其中长点仍是刷新压力情景（α=3.93%），图副标题保留该身份，不将它改为普通范围。
+## 复算与检查
 
-复现新图（只生成本新增图及其数据记录）：
+从仓库根运行：
 
 ```sh
-/opt/anaconda3/bin/python tasks/task1_table_I_NVM/analysis/11_summary_figures/build_loglog_circles.py
+/opt/anaconda3/bin/python tasks/task1_table_I_NVM/analysis/11_summary_figures/build_figures.py
 ```
 
-[几何与布局检查](data/rho_tau_loglog_circles_validation.json)保存未取整圆心、半径、三个原始点及来源，验证20个端点在圆周、十个reference在圆内、圆心最邻近条件、等比例显示与完整入框。PNG及PDF渲染均已目视检查。
+该入口生成正式三情景表、两幅图与三页合并 PDF。[build_loglog.py](build_loglog.py)调用同一完整入口；[build_loglog_circles.py](build_loglog_circles.py)可单独生成圆图及其点数据、验证记录。三个脚本均只写本目录。
+
+构建检查统一导出与原生结果一致，按 `source_mapping` 指针核对全部 30 组数值，并验证原生 payload、完整服务时间、RI* 和 U*。随后执行[独立检查器](../scripts/check_ten_cases.py)的输入驱动阶段与几何检查，不以旧吞吐数值或固定 128×128 分子作为预期答案。
+
+[通用验证](data/validation.json)记录输入、原生结果、共享参数和中央数据的 SHA-256。[典型图检查](data/rho_tau_loglog_validation.json)与[圆图检查](data/rho_tau_loglog_circles_validation.json)验证原始坐标、等对数比例、45° 参考线、完整边框、点与标签入框、技术标签与参考线标签无碰撞，以及全部圆完整可见。[PDF QA](data/pdf_qa.json)绑定正式 PDF 的真实哈希、页数、字体嵌入、文本边界及逐页渲染审查。

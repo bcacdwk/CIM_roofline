@@ -1,43 +1,30 @@
-# Table I · CIM / NVM 文献资料集
+# Table I · 原生 CIM 参考配置
 
-**READY FOR ANALYSIS — 文献准备完成，可直接开展后续参考设计分析。**
+本目录以文献支持的器件/阵列机制及共同28 nm外围参考政策，估算所选原生配置的streaming输入服务能力ρ、resident更新服务能力τ与RI*=ρ/τ。原生逻辑尺寸及有效容量由可计算映射确定，不统一为128×128或16 KiB；结果不是等面积或等计算量的技术排名。
 
-统一目标：在明确的小规模 sub-array/local macro 边界，使用共同的 **28 nm CMOS 外围参考条件**，结合各介质的实际器件/阵列约束，形成可解释、可复算的量级范围。这是文献支持的参考设计，不是已制造芯片的性能排名。
+## 当前入口
 
-## 从这里开始
+1. [共同方法与API](analysis/shared_baseline/README.md)：原生尺寸、保持与输出资源、ADC、真实写驱动、完整周期、维护及Table II接口。
+2. [十例审阅状态与汇总](analysis/TEN_CASE_REVIEW.zh.md)；[共同计量和资源政策](analysis/TEN_CASE_CONVENTIONS.zh.md)。
+3. [统一未取整JSON](analysis/data/ten_case_results.json)与[CSV](analysis/data/ten_case_results.csv)。
+4. [正式三情景表与ρ–τ图](analysis/11_summary_figures/README.zh.md)。
+5. [工作约定](AGENTS.md)、[文献目录](LITERATURE_CATALOG.md)、[证据覆盖](COVERAGE.md)、[来源清单](source_manifest.json)。
 
-1. [分析约定与交接](AGENTS.md)：后续工作的边界、口径和顺序。
-2. [文献目录](LITERATURE_CATALOG.md)：全部有效来源、DOI、PDF 和正文笔记入口。
-3. [证据覆盖](COVERAGE.md)：各组能支持什么、哪些条件需要在建模时声明。
-4. [机器清单](source_manifest.json)：身份、工艺/状态、用途、正文定位、路径与哈希。
+十例正文、输入、计算器、证据和独立PDF保存在`analysis/01_sram_acim/`至`analysis/10_fenor_3d/`。原始论文保存在对应`literature/`；笔记只提供导航，主要参数以原PDF页码、图号、偏置及测量/仿真身份为依据。
 
-## 资料结构
+采用相容、固定组织的乐观/典型/悲观情景；组织和资源扩展、预擦除有限窗口、维护临界或不可行点另列。维护前与长期有效能力分别保存；完整擦除、恢复和终验不因payload换算消失。所有当前结果须结合审阅入口所列执行状态使用。
 
-```text
-task1_table_I_NVM/
-  README.md
-  AGENTS.md
-  LITERATURE_CATALOG.md
-  COVERAGE.md
-  source_manifest.json
-  literature/
-    00_cmos_periphery/
-    01_sram_acim/
-    02_sram_dcim/
-    03_nor_2d/
-    04_nand_3d/
-    05_rram/
-    06_mram/
-    07_pcm/
-    08_feram_hfo2/
-    09_gain_cell_edram/
-    10_fenor_3d/
+Table II保持阶段入口的逻辑计数：单矩阵W[N,K]完整装载T_R、向量服务间隔Δ_S给出U*=T_R/Δ_S=(N b_R/b_S)RI*。原生宏向算子扩展必须重新检查输入共享、重放、分时及更新资源。
+
+## 复算入口
+
+```sh
+/opt/anaconda3/bin/python analysis/shared_baseline/scripts/check_shared.py
+/opt/anaconda3/bin/python analysis/scripts/export_ten_cases.py
+/opt/anaconda3/bin/python analysis/scripts/check_ten_cases.py
+sh analysis/scripts/build_ten_cases.sh
+/opt/anaconda3/bin/python analysis/11_summary_figures/build_figures.py
+/opt/anaconda3/bin/python analysis/11_summary_figures/build_loglog_circles.py
 ```
 
-每个分类目录只有一份 `NOTES.zh.md` 和有效 PDF。**55 份主文 + 4 份 SI，共 59 份 PDF**；44 份核心来源、11 份补充来源。SRAM DCIM 五篇全文均已齐全。共享来源只保存一份，没有历史版本、下载清单、搜索记录、脚本、旧表或临时文件。
-
-**后续 Agent 使用本地资料即可，不再自动检索或下载文献。** 文件齐全不等于所有参数都有无歧义的直接实测值：已把器件/宏/系统层级、仿真与实测、读后恢复、写验及文内标注差异写进笔记。遇到这些限制，应明确参考情景与假设，不补造数字。
-
-固定 source_id 用于跨文档引用，不要求连续。只使用本目录列出的来源和当前分析约定；不从旧表的数字反推目标范围。
-
-本次交付止于资料准备；未计算最终 ρ、τ、RI*，未制作新 Table I，未改主论文或 Table II。
+从本目录运行；生成器默认核对，`--emit`按各脚本说明刷新派生数据。PDF使用既有XeLaTeX和渲染入口。正式结果通过内部检查不代表用户已验收。

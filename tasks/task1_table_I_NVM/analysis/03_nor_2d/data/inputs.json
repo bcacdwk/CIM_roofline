@@ -6,8 +6,8 @@
   "mapping": {
     "kind": "engineering_choice",
     "bit_state": "one independently sensed binary storage bit for each weight bit; no analog current target",
-    "read_slices": "shared R0 dcim.rows_per_group",
-    "sense_amplifiers_per_slice": "R0 output_lanes * INT8 weight bits",
+    "read_slices": 32,
+    "sense_amplifiers_per_slice": 128,
     "resident_partition": "slice s stores input rows s, s+32, s+64, s+96; each row stores all 128 output weights",
     "read_slices_per_sector": 8,
     "page_Byte": 256,
@@ -19,16 +19,46 @@
     "private_sector_contrast_read_slices_per_sector": 1,
     "refresh": "none in modeled active service window",
     "read_restore": "none; nondestructive digital NOR read",
-    "program_parallelism": "one complete native page engine; internal cell parallelism is not inferred from the 128-bit data interface"
+    "program_parallelism": "one complete native page engine; internal cell parallelism is not inferred from the 128-bit data interface",
+    "digital_holding": {
+      "weight_tile_bits": 4096,
+      "banks": 1,
+      "capture_ticks_per_read": 1,
+      "lifetime": "One tile through all eight input bits; release before next tile. Separate 16 partial sums survive row-group replacement. Update pauses streaming; native 256-Byte program buffer is additional required page resource."
+    }
   },
   "scenarios": [
-    {"id": "short", "profile": "short", "read_full_ns": 100, "page_program_ms": 0.4, "sector_erase_ms": 45, "write_evidence_column": "typical", "read_anchor": "NOR-01 PDF p85 Table57 speed100; engineering transfer to 128-SA slice"},
-    {"id": "reference", "profile": "reference", "read_full_ns": 120, "page_program_ms": 0.4, "sector_erase_ms": 45, "write_evidence_column": "typical", "read_anchor": "NOR-01 PDF p85 Table58 speed120; engineering transfer to 128-SA slice"},
-    {"id": "long", "profile": "long", "read_full_ns": 130, "page_program_ms": 3, "sector_erase_ms": 400, "write_evidence_column": "maximum", "read_anchor": "NOR-01 PDF p86 Table59 speed130; engineering transfer to 128-SA slice"}
+    {
+      "id": "short",
+      "profile": "short",
+      "read_full_ns": 100,
+      "page_program_ms": 0.4,
+      "sector_erase_ms": 45,
+      "write_evidence_column": "typical",
+      "read_anchor": "NOR-01 PDF p85 Table57 speed100; engineering transfer to 128-SA slice"
+    },
+    {
+      "id": "reference",
+      "profile": "reference",
+      "read_full_ns": 120,
+      "page_program_ms": 0.4,
+      "sector_erase_ms": 45,
+      "write_evidence_column": "typical",
+      "read_anchor": "NOR-01 PDF p85 Table58 speed120; engineering transfer to 128-SA slice"
+    },
+    {
+      "id": "long",
+      "profile": "long",
+      "read_full_ns": 130,
+      "page_program_ms": 3,
+      "sector_erase_ms": 400,
+      "write_evidence_column": "maximum",
+      "read_anchor": "NOR-01 PDF p86 Table59 speed130; engineering transfer to 128-SA slice"
+    }
   ],
   "stage_coverage": {
     "read_full": "local binary read selection, read-voltage establishment, sensing and ready result; package random-cycle evidence anchors this transferred budget; no additional ADC/T_I or second sense cycle",
-    "read_excluded": "the shared R0 digital reduction and input/output boundary ticks are added separately",
+    "read_excluded": "one TD capture into a new single digital tile bank, integer reduction and input/output boundary ticks; not covered by commodity read-cycle evidence",
     "program_full": "self-timed tPP from command launch to BUSY=0; includes required internal program/verify/recovery, not input data loading",
     "erase_full": "self-timed tSE from command launch to BUSY=0; includes required internal erase sequence; no extra copied HV or retry multiplier",
     "write_front": "shared 128-bit local buffer loading + two control ticks for each page, plus two local command/completion ticks per erase",
@@ -37,13 +67,105 @@
     "read_write_overlap": false
   },
   "reported_evidence": [
-    {"id": "read100", "kind": "datasheet_specification", "source_id": "NOR-01", "pdf_page": 85, "locator": "Table57", "read_cycle_min_ns": 100, "random_access_max_ns": 100, "condition": "512 Mb, speed100, VIO=VCC=2.7--3.6V, -55 to +105 C"},
-    {"id": "read120", "kind": "datasheet_specification", "source_id": "NOR-01", "pdf_page": 85, "locator": "Table58", "read_cycle_min_ns": 120, "random_access_max_ns": 120, "condition": "128/256/512 Mb/1 Gb, speed120, VIO=VCC=2.7--3.6V, -55 to +125 C"},
-    {"id": "read130", "kind": "datasheet_specification", "source_id": "NOR-01", "pdf_page": 86, "locator": "Table59", "read_cycle_min_ns": 130, "random_access_max_ns": 130, "condition": "speed130, VIO=1.65V to VCC, VCC=2.7--3.6V, -55 to +125 C"},
-    {"id": "native_page_sector", "kind": "datasheet_specification", "source_id": "NOR-02", "pdf_pages": [5,14,37,38,39,66], "locator": "Sections1/7.1.1/8.2.13/8.2.14/8.2.15; AC table", "page_Byte": 256, "sector_Byte": 4096, "page_program_typ_ms": 0.4, "page_program_max_ms": 3, "sector_erase_typ_ms": 45, "sector_erase_max_ms": 400, "condition": "W25Q128JV Rev.G binary storage; 2.7--3.6V; typ/max retained as labelled, not a measured distribution or analog tuning time"},
-    {"id": "buffer_crosscheck", "kind": "datasheet_specification_not_used_in_main_budget", "source_id": "NOR-01", "pdf_page": 45, "locator": "Table16 notes29--34", "buffer_Byte": 512, "buffer_typ_us": 420, "buffer_max_us": 1050, "sector_Byte": 131072, "erase_typ_ms": 410, "erase_max_ms": 1100, "condition": "typ25C/3.0V/10000cycles/random pattern; max105C/2.70V/100000cycles/random pattern; erase includes all-word preprogram"},
-    {"id": "analog_vmm", "kind": "measured_prototype", "source_id": "NOR-04", "pdf_pages": [1,2,3,4], "locator": "SectionsII--III; Figures1/2/6/9/14", "process_nm": 180, "cells": 101780, "input_shift_register_bits": 785, "chosen_cell_tuning_target_percent": 5, "classification_delay_upper_us": 1, "condition": "modified ESF1 analog floating-gate differential weights, 784-64-10 network; not INT8 binary weights or a complete host-input service"},
-    {"id": "analog_tuning", "kind": "measured_small_array", "source_id": "NOR-05", "pdf_pages": [1,2], "locator": "abstract and Figures2/3/5/6", "cells": 100, "average_pulses_at_3percent": 10, "average_pulses_at_0p3percent": 35, "program_characterization_pulse_us": 100, "erase_characterization_pulse_ms": 2.5, "condition": "180nm modified ESF1; runtime read/model update/alternating pulses; characterization widths are not complete tuning latency"}
+    {
+      "id": "read100",
+      "kind": "datasheet_specification",
+      "source_id": "NOR-01",
+      "pdf_page": 85,
+      "locator": "Table57",
+      "read_cycle_min_ns": 100,
+      "random_access_max_ns": 100,
+      "condition": "512 Mb, speed100, VIO=VCC=2.7--3.6V, -55 to +105 C"
+    },
+    {
+      "id": "read120",
+      "kind": "datasheet_specification",
+      "source_id": "NOR-01",
+      "pdf_page": 85,
+      "locator": "Table58",
+      "read_cycle_min_ns": 120,
+      "random_access_max_ns": 120,
+      "condition": "128/256/512 Mb/1 Gb, speed120, VIO=VCC=2.7--3.6V, -55 to +125 C"
+    },
+    {
+      "id": "read130",
+      "kind": "datasheet_specification",
+      "source_id": "NOR-01",
+      "pdf_page": 86,
+      "locator": "Table59",
+      "read_cycle_min_ns": 130,
+      "random_access_max_ns": 130,
+      "condition": "speed130, VIO=1.65V to VCC, VCC=2.7--3.6V, -55 to +125 C"
+    },
+    {
+      "id": "native_page_sector",
+      "kind": "datasheet_specification",
+      "source_id": "NOR-02",
+      "pdf_pages": [
+        5,
+        14,
+        37,
+        38,
+        39,
+        66
+      ],
+      "locator": "Sections1/7.1.1/8.2.13/8.2.14/8.2.15; AC table",
+      "page_Byte": 256,
+      "sector_Byte": 4096,
+      "page_program_typ_ms": 0.4,
+      "page_program_max_ms": 3,
+      "sector_erase_typ_ms": 45,
+      "sector_erase_max_ms": 400,
+      "condition": "W25Q128JV Rev.G binary storage; 2.7--3.6V; typ/max retained as labelled, not a measured distribution or analog tuning time"
+    },
+    {
+      "id": "buffer_crosscheck",
+      "kind": "datasheet_specification_not_used_in_main_budget",
+      "source_id": "NOR-01",
+      "pdf_page": 45,
+      "locator": "Table16 notes29--34",
+      "buffer_Byte": 512,
+      "buffer_typ_us": 420,
+      "buffer_max_us": 1050,
+      "sector_Byte": 131072,
+      "erase_typ_ms": 410,
+      "erase_max_ms": 1100,
+      "condition": "typ25C/3.0V/10000cycles/random pattern; max105C/2.70V/100000cycles/random pattern; erase includes all-word preprogram"
+    },
+    {
+      "id": "analog_vmm",
+      "kind": "measured_prototype",
+      "source_id": "NOR-04",
+      "pdf_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "locator": "SectionsII--III; Figures1/2/6/9/14",
+      "process_nm": 180,
+      "cells": 101780,
+      "input_shift_register_bits": 785,
+      "chosen_cell_tuning_target_percent": 5,
+      "classification_delay_upper_us": 1,
+      "condition": "modified ESF1 analog floating-gate differential weights, 784-64-10 network; not INT8 binary weights or a complete host-input service"
+    },
+    {
+      "id": "analog_tuning",
+      "kind": "measured_small_array",
+      "source_id": "NOR-05",
+      "pdf_pages": [
+        1,
+        2
+      ],
+      "locator": "abstract and Figures2/3/5/6",
+      "cells": 100,
+      "average_pulses_at_3percent": 10,
+      "average_pulses_at_0p3percent": 35,
+      "program_characterization_pulse_us": 100,
+      "erase_characterization_pulse_ms": 2.5,
+      "condition": "180nm modified ESF1; runtime read/model update/alternating pulses; characterization widths are not complete tuning latency"
+    }
   ],
   "assumptions": [
     "The 32 local read slices and sector-sharing HV isolation are a custom reference layout, not a claim about W25Q128JV internal architecture.",
@@ -51,7 +173,8 @@
     "Each local 256-Byte page retains the NOR-02 complete binary program service and each 4KB sector retains its complete erase service after partitioning. This transfer requires physical implementation validation.",
     "The source media voltages, high-voltage circuitry and original processes are retained as media constraints; only common digital periphery uses the 28nm reference.",
     "Three paired scenarios combine compatible binary state budgets, not the fastest claims of one measured chip or statistically correlated PVT corners.",
-    "No independent read or write replicas, spare-matrix swapping, read/write overlap, native block erase substitution, or wear-leveling speedup is assumed."
+    "No independent read or write replicas, spare-matrix swapping, read/write overlap, native block erase substitution, or wear-leveling speedup is assumed.",
+    "All main scenarios retain the same installed SA, 4096-bit tile register, digital channels and native page engine; read and complete program/erase service budgets vary without adding resources."
   ],
   "scenario_interpretation": {
     "recommended": "reference",
@@ -59,5 +182,26 @@
     "linked": "Each shared profile TD and its control/boundary terms must move together; media timing choices need not physically co-vary with the shared profile.",
     "rate_display": "decimal MB/s = 1e6 Byte/s",
     "maintenance_scope": "No periodic maintenance in the modeled local service window; raw occupancy equals effective interval for the stated accepted service scenario."
+  },
+  "logical_configuration": {
+    "K": 128,
+    "N": 128,
+    "b_S": 1,
+    "b_R": 1,
+    "selection": "32 independently sensed 512-Byte slices, grouped eight per complete native 4-KiB sector; 64 full 256-Byte pages. No page underfill in the main layout."
+  },
+  "stream_configuration_overrides": {
+    "input_bits_per_round": 1,
+    "weight_bits_per_round": 8,
+    "rows_per_group": 32,
+    "output_lanes": 16,
+    "digital_ticks_per_round": 1,
+    "boundary_ticks": 2,
+    "read_reuse_input_slices": true,
+    "hold_source": "added_latch",
+    "weight_latch_bits": 4096,
+    "read_bits_per_batch": 4096,
+    "capture_ticks_per_read_batch": 1,
+    "latch_extra_ns": 0
   }
 }

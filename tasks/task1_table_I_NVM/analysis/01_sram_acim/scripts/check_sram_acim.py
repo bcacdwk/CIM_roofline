@@ -6,19 +6,22 @@ sys.dont_write_bytecode=True
 B=Path(__file__).resolve().parents[1]; SH=B.parent/'shared_baseline'; C=B.parents[1]
 spec=importlib.util.spec_from_file_location('shared',SH/'scripts/check_shared.py'); S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
 D=json.loads((B/'data/inputs.json').read_text())
+L=S.logical_configuration(D['native_configuration']['K'],D['native_configuration']['N'],D['native_configuration']['b_S'],D['native_configuration']['b_R'])
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def block(t,count=1):return S.program_sequence_ns(0,0,[dict(count=count,drive_program_ns=t,verify_ns=0,recover_ns=0)])
 def calculate(profile,tf,tm,parallel=None):
  v=S.C['propagation']['profile_values'][profile]; a={**S.R['acim'],**D['acim_overrides']}
  residual=tf-v['input_step']; assert residual>=0
- ds,n,hold=S.acim_service(a,v,residual)
+ ds,n,hold=S.acim_service(a,v,residual,L)
  x={**D['update_geometry'],'complete_physical_update_ns':tm}
  if parallel is not None:x['parallel_cells']=parallel
- br,uncollapsed,batches,beats=S.direct_service(x,v['digital_tick'])
+ br,uncollapsed,batches,beats=S.direct_service(x,v['digital_tick'],L)
  front,_=S.front_ns(x['encoded_load_bits'],v['digital_tick'],x['first_data_in_command'])
  dr=block(tm,batches)
  stages=dict(streaming=[dict(stage='reset_input_array_frontend',count=n['evaluations'],each_ns=tf,total_ns=n['evaluations']*tf),dict(stage='complete_SAR_batch',count=n['adc_batches'],each_ns=v['adc_batch'],total_ns=n['adc_batches']*v['adc_batch']),dict(stage='digital_reconstruction',count=n['digital_ticks'],each_ns=v['digital_tick'],total_ns=n['digital_ticks']*v['digital_tick']),dict(stage='input_capture_output_commit',count=a['boundary_ticks'],each_ns=v['digital_tick'],total_ns=a['boundary_ticks']*v['digital_tick'])],resident=[dict(stage='complete_synchronous_ordinary_write',count=batches,each_ns=tm,total_ns=dr)],replaced_shared_front_ns=front,uncollapsed_direct_template_ns=uncollapsed,extra_write_handshake_ns=0)
- return dict(common_profile=profile,mode='binary_charge_domain_approximate_BPBS',mapping_id='8_planes_128x128_R0',counts=n,frontend_complete_ns=tf,engineering_read_residual_ns=residual,common_times_ns=v,complete_memory_cycle_ns=tm,write_batches=batches,write_data_beats=beats,parallel_write_cells=x['parallel_cells'],hold_extra_ns=hold,stage_coverage=stages,streaming_dominant=max(stages['streaming'],key=lambda x:x['total_ns'])['stage'],resident_dominant='ordinary synchronous write',sources=['E01','E02','E04','E06','E07','E09','E10'],**S.metrics(S.L['B_S_Byte'],br,ds,dr))
+ load=S.full_load_service(L,[dict(payload_Byte=br,service_ns=dr,count=int(L['resident_capacity_Byte']/br))])
+ interface=S.mapping_metrics(L,ds,load['T_R_ns'])
+ return dict(mapping_interface=interface,raw_mapping_interface=dict(interface),effective_mapping_interface=dict(interface),raw_equals_effective=True,common_profile=profile,mode='binary_charge_domain_approximate_BPBS',mapping_id='8_planes_128x128_R0',counts=n,frontend_complete_ns=tf,engineering_read_residual_ns=residual,common_times_ns=v,complete_memory_cycle_ns=tm,write_batches=batches,write_data_beats=beats,parallel_write_cells=x['parallel_cells'],hold_extra_ns=hold,stage_coverage=stages,streaming_dominant=max(stages['streaming'],key=lambda x:x['total_ns'])['stage'],resident_dominant='ordinary synchronous write',sources=['E01','E02','E04','E06','E07','E09','E10'],**S.metrics(L['B_S_Byte'],br,ds,dr))
 def compute():
  rows=[dict(id=x['id'],label=x['label'],**calculate(x['common_profile'],x['frontend_complete_ns'],x['complete_memory_cycle_ns'])) for x in D['scenarios']]
  r=rows[1]; sens=[]
@@ -26,7 +29,7 @@ def compute():
   q=calculate('reference',tf,r['complete_memory_cycle_ns']);sens.append(dict(id=f'frontend_{tf}',kind='frontend_at_fixed_reference_periphery',rho_ratio_to_reference=q['rho_Byte_per_s']/r['rho_Byte_per_s'],**q))
  q=calculate('reference',r['frontend_complete_ns'],r['complete_memory_cycle_ns'],D['sensitivities']['write_resource_parallel_cells']);sens.append(dict(id='64_write_drivers',kind='actual_write_resource_comparison',**q))
  ranges={k:[min(x[k] for x in rows),max(x[k] for x in rows)] for k in ['delta_S_ns','delta_R_ns','rho_Byte_per_s','tau_Byte_per_s','ridge']}
- return dict(analysis_id=D['analysis_id'],baseline_id=S.D['baseline_id'],status='conditional_reference_estimate_not_measured_paired_chip',units=dict(payload='Byte',time='ns',throughput='Byte/s',ridge='dimensionless'),baseline_files_actual={f:sha(SH/f) for f in D['baseline_files']},mapping=D['device_state_and_mapping'],scenarios=rows,sensitivities=sens,ranges=ranges,whole_matrix_updates=[dict(profile=r['id'],logical_payload_Byte=S.L['resident_capacity_Byte'],transactions=S.L['resident_capacity_Byte']//r['B_R_Byte'],delta_R_ns=(S.L['resident_capacity_Byte']//r['B_R_Byte'])*r['delta_R_ns'],tau_Byte_per_s=r['tau_Byte_per_s']) for r in rows])
+ return dict(analysis_id=D['analysis_id'],baseline_id=S.D['baseline_id'],status='conditional_reference_estimate_not_measured_paired_chip',units=dict(payload='Byte',time='ns',throughput='Byte/s',ridge='dimensionless'),baseline_files_actual={f:sha(SH/f) for f in D['baseline_files']},mapping=D['device_state_and_mapping'],native_configuration=D['native_configuration'],scenarios=rows,sensitivities=sens,ranges=ranges,whole_matrix_updates=[dict(profile=r['id'],logical_payload_Byte=L['resident_capacity_Byte'],transactions=L['resident_capacity_Byte']//r['B_R_Byte'],delta_R_ns=(L['resident_capacity_Byte']//r['B_R_Byte'])*r['delta_R_ns'],tau_Byte_per_s=r['tau_Byte_per_s']) for r in rows])
 def table(rows,sens=False):
  if not sens:
   head=r'情景 & $T_F$ & $T_A$ & $T_D$ & $\Delta_S$ & $\Delta_R$ & $\rho$ & $\tau$ & $\mathrm{RI}^{*}$';cols='lrrrrrrrr'
@@ -52,12 +55,12 @@ class Checks(unittest.TestCase):
   for sid,x in D['sources'].items():self.assertEqual(sha(C/x['pdf']['path']),x['pdf']['sha256'],sid)
  def test_mapping_capacity_and_write_resources(self):
   m=D['device_state_and_mapping'];w=D['write_resources'];g=D['update_geometry']
-  self.assertEqual(m['weight_planes']*m['physical_rows_per_plane']*m['physical_columns_per_plane'],S.L['resident_capacity_Byte']*8)
+  self.assertEqual(m['weight_planes']*m['physical_rows_per_plane']*m['physical_columns_per_plane'],L['resident_capacity_Byte']*8)
   self.assertEqual(w['write_driver_pairs_per_plane']*w['active_planes'],g['parallel_cells'])
   self.assertEqual(g['logical_weights_completed']*m['cells_per_weight'],g['encoded_load_bits'])
   self.assertEqual(m['independent_service_units'],1);self.assertEqual(m['write_domains'],1)
  def test_exact_logical_coverage(self):
-  n=S.acim_counts(S.R['acim']);seen=set()
+  n=S.acim_counts(S.R['acim'],S.V,L);seen=set()
   for bit in range(8):
    for group in range(8):
     for weight in range(8):
@@ -72,7 +75,7 @@ class Checks(unittest.TestCase):
    for o in range(8):
     w=[rng.randrange(-128,128) for _ in range(128)] if mode=='random' else [-128 if o%2==0 else 127]*128
     exact=sum(a*b for a,b in zip(x,w));recon=sum(c[u]*c[k]*sum(((a&255)>>u&1)*((b&255)>>k&1) for a,b in zip(x,w)) for u in range(8) for k in range(8))
-    self.assertEqual(exact,recon);self.assertLess(abs(exact),2**23)
+    self.assertEqual(exact,recon);self.assertLess(abs(exact),2**(L['output_container_bits']-1))
  def test_stage_coverage_and_hand_arithmetic(self):
   rr=compute()['scenarios'];expected=[1540,3210,7700]
   for r,ds in zip(rr,expected):
@@ -82,6 +85,8 @@ class Checks(unittest.TestCase):
    self.assertEqual(r['delta_R_ns'],r['complete_memory_cycle_ns']);self.assertEqual(r['hold_extra_ns'],0)
    self.assertEqual(r['stage_coverage']['uncollapsed_direct_template_ns']-r['stage_coverage']['replaced_shared_front_ns'],r['delta_R_ns'])
    self.assertAlmostEqual(r['ridge'],8*r['delta_R_ns']/ds)
+   self.assertAlmostEqual(r['mapping_interface']['U_star'],L['n_out']*r['ridge'])
+   self.assertEqual(r['raw_mapping_interface'],r['effective_mapping_interface'])
   r=rr[1];self.assertAlmostEqual(r['rho_Byte_per_s']/1e9,128/3210);self.assertAlmostEqual(r['tau_Byte_per_s']/1e9,3.2)
  def test_sensitivities_and_aggregation(self):
   r=compute();ss=r['sensitivities'];self.assertEqual([x['delta_S_ns'] for x in ss],[2570,3210,5130,3210]);self.assertEqual(ss[-1]['write_batches'],2);self.assertEqual(ss[-1]['delta_R_ns'],10)

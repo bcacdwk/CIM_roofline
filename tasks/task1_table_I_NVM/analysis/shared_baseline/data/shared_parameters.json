@@ -11,7 +11,7 @@
   "common_conditions": {
     "logical_configuration": {
       "kind": "reference_choice",
-      "scope": "common_fixed",
+      "scope": "illustrative_only",
       "n_out": 128,
       "n_in": 128,
       "stream_format": "signed INT8 two-complement",
@@ -19,21 +19,25 @@
       "b_S": 1,
       "b_R": 1,
       "output_count": 128,
-      "output_container_bits": 24,
+      "output_container_bits": 23,
       "B_S_Byte": 128,
       "resident_capacity_Byte": 16384,
-      "precision_contract": "DCIM: exact integer result with sufficient accumulator width; ACIM: calibrated approximate partial sums, reconstructed into 24-bit container; no algorithm-accuracy validation"
+      "precision_contract": "INT8 logical input and resident; DCIM exact integer, ACIM calibrated approximate reconstruction; sufficient K-dependent output container; no common final-error guarantee",
+      "K": 128,
+      "N": 128,
+      "input_register_bits": 1024,
+      "output_register_bits": 2944
     },
     "service_boundary": {
       "kind": "reference_choice",
       "scope": "common_fixed",
-      "description": "一份 128x128 逻辑矩阵的等效局部状态实现，本地输入、驱动、读出、重构、输出寄存器与单个更新域",
-      "stream_start": "128 个 INT8 输入在本地宽向量接口被接收；捕获与提交的拍数属于参考结构",
-      "stream_end": "128 个 24-bit 结果在本地输出寄存器就绪",
+      "description": "所选原生配置的一份逻辑矩阵或明确矩阵集合，本地输入、读出、重构、输出寄存与单个外部更新域",
+      "stream_start": "K*b_S Byte 整向量在本地寄存边界接收；输入寄存K*b_S*8 bit，一拍捕获",
+      "stream_end": "N个结果在本地寄存器就绪；INT8容器16+ceil(log2 K) bit，一拍提交",
       "resident_start": "本地写端口接收更新命令/数据",
       "resident_end": "对应逻辑状态完整映射并可计算",
       "independent_replication": 1,
-      "off_boundary": "上游传输与下游搬运；跨 bank/plane/die 独立复制加速",
+      "off_boundary": "上游传输与下游搬运；独立复制须另列资源/组织对照",
       "array_components_are_bit_slices_not_replicas": true
     },
     "operating_reference": {
@@ -54,7 +58,7 @@
         ],
         "reference": 5,
         "unit": "ns",
-        "granularity": "每次求值的公共复位、128 路二电平输入与本地缓冲",
+        "granularity": "每次求值公共复位、所选活动行的二电平输入与本地缓冲",
         "sources": [
           "SACIM-03",
           "SACIM-05",
@@ -62,7 +66,7 @@
         ],
         "kind": "reference_choice",
         "scope": "common_capability",
-        "use": "更改多位输入或扇出负载时核对驱动与精度；专用建立另计"
+        "use": "128路仅为负载锚点；原生活动行、扇出、负载与动态范围变化须重新核对"
       },
       "adc_batch": {
         "symbol": "T_A",
@@ -148,9 +152,9 @@
           "digital_tick": 10
         }
       },
-      "profile_meaning": "共同工程时隙情景，非三个已测 PVT 角；所有介质沿用同一映射；介质参数独立给范围，只组合物理兼容的模式",
+      "profile_meaning": "同一原生组织内相容读写的短/参考/长工程情景；参数选择须覆盖主导条件；资源扩展和维护临界点另列",
       "pairing": "derive ridge inside each scenario; also report independent endpoint envelope separately if useful",
-      "rounding": "保留未取整计算；示意范围向外取两位有效数字；表内数值显示四位有效数字",
+      "rounding": "机器结果保留未取整值；读者表约两位有效数字",
       "nature": "情景估计范围，不是统计置信区间或所有实现的严格包络",
       "cancellation": "仅相同比例作用于两路的复制/服务聚合因子可抵消"
     }
@@ -158,7 +162,7 @@
   "reference_instance": {
     "id": "R0",
     "kind": "reference_choice",
-    "scope": "recommended_instance",
+    "scope": "illustrative_resource_instance_not_universal_geometry",
     "equal_area_constraint": false,
     "acim": {
       "input_bits_per_slice": 1,
@@ -200,19 +204,25 @@
       "output_lanes": 16,
       "digital_ticks_per_round": 1,
       "boundary_ticks": 2,
-      "read_reuse_input_slices": false,
+      "read_reuse_input_slices": true,
       "latch_extra_ns": 0,
-      "weight_latch_bits": 0,
-      "schedule": "serial; new physical read service before each compute round",
+      "weight_latch_bits": 4096,
+      "schedule": "single tile bank; read then capture once and reuse through all input slices; no overlap with replacement tile",
       "derived": {
         "input_slices": 8,
         "weight_groups": 1,
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 256,
+        "tile_reads": 32,
+        "read_rounds": 32,
+        "max_tile_bits": 4096,
+        "capture_ticks": 32,
         "digital_ticks": 256
-      }
+      },
+      "hold_source": "added_latch",
+      "read_bits_per_batch": 4096,
+      "capture_ticks_per_read_batch": 1
     },
     "resident": {
       "physical_write_data_lanes": 128,
@@ -220,9 +230,9 @@
       "default_first_data_beat_in_command": true,
       "subsequent_data_beat_ns": "digital_tick",
       "control_ns": "2*digital_tick",
-      "parallel_write_note": "128-bit 是编码数据接口宽度，非所有介质的编程并行保证；直接更新示意选 128 binary cell 同批完成 16 INT8 权重",
+      "parallel_write_note": "128bit是编码接口；所有适用方案可申请至多128个二元目标的驱动配置，实际选通/电流/负载决定可持续并行，非统一物理cell数",
       "verify_rule": "verify 读回用所选 sensing/ADC 与比较资源，脉冲序列另计；完整周期已含则只计一次",
-      "native_page_rule": "保留真实 page/block；有效 payload 仅为本逻辑单元被更新的部分；页未用字节不增加 B_R；单局部编程域，记录擦除情景",
+      "native_page_rule": "原生page/block按完整编程/擦除列账；仅可正确选通求值的独立逻辑权重计payload，参考/复制页计资源与时间",
       "page_data_load_rule": "页例采用命令控制 2 拍 + 全部数据拍；若第一拍携带数据或原 program cycle 含数据输入则据实减少，不重复计数",
       "control_ticks": 2
     }
@@ -230,23 +240,35 @@
   "selection_rules": [
     {
       "id": "R1",
-      "rule": "统一边界、128x128 INT8 逻辑任务与128x24-bit输出；精度合同为ACIM近似重构、DCIM精确整数，采用共同外围情景与默认R0。"
+      "rule": "共同逻辑字节、INT8默认精度和本地寄存边界；原生K、N各自声明，128×128仅算例。输入寄存随K，输出寄存随N，容器16+ceil(log2K)。"
     },
     {
       "id": "R2",
-      "rule": "原生行数、选通、平面并行或编码限制有证据时，按同一分组规则填入参数，推导全部实际次数；不得任意填折扣系数。"
+      "rule": "先列原生物理组织、有效逻辑容量、编码/复制、实际并行和共享，再按尾组与真实选通推导服务次数；不使用容量经验倍率。"
     },
     {
       "id": "R3",
-      "rule": "更多 ADC、多位输入、保持或更多输出通道单列结构对照；记录约束证据、基准/变更值、资源和时间随动及对两路影响，不按介质挑最快情景替换默认。"
+      "rule": "数字默认至多32活动项、16输出、4096bit单tile保持；跨输入位复用同等适用，SA读取带宽独立声明。新增捕获每读批1TD，已有静态连接/捕获不重复收费；禁止免费全矩阵shadow。"
     },
     {
       "id": "R4",
-      "rule": "完整宏周期替代已含阶段；须匹配维度、精度与资源，未匹配的周期只作交叉检查或显式例外。"
+      "rule": "完整周期替代已含阶段，必须匹配维度、精度、负载和资源；latency与服务间隔分开，流水须有资源和依赖证明。"
     },
     {
       "id": "R5",
-      "rule": "保留实际 page/block、有效 payload 和单域限制；修改读资源时同步检查 verify 和维护，成对重算 rho/tau/ridge。"
+      "rule": "外部更新单域128bit编码接口；最多128二元目标是同等配置资格，实际并行以选通、驱动、电流/负载证据确定。原生页、PCM IDAC及维护资源单列。"
+    },
+    {
+      "id": "R6",
+      "rule": "ACIM默认8平面×16ADC与16重构通道/两拍；动态范围按活动行重查。保持、ADC扩展和原生完整证据组织须列账，不可改为免费数字权重乘法。"
+    },
+    {
+      "id": "R7",
+      "rule": "三情景固定组织、相容读写、覆盖主导参数；资源扩展、预擦除burst、维护临界及不可行另列。维护不增加Q_R，alpha<=0不输出有效吞吐。"
+    },
+    {
+      "id": "R8",
+      "rule": "用同矩阵完整装载T_R与完整向量间隔Delta_S连接Table II：U*=T_R/Delta_S=(N*b_R/b_S)RI*。输入共享/重放及共享更新按实际映射重算。"
     }
   ],
   "media_required_inputs": {
@@ -296,7 +318,10 @@
     "direct": "eq:direct: complete logical weights with physical batches and encoded input beats",
     "program": "eq:program and eq:page: full steps/verify, applicable erase amortization",
     "provenance": "reported_evidence/sources retain original values; common_conditions/reference_instance are reference choices unless derived; synthetic example/sensitivity inputs are not measured",
-    "derived_data": "examples provide illustrative paired scenarios; data/sensitivity_results.json and generated TeX rebuilt by --emit; default verifies without writes"
+    "derived_data": "examples provide illustrative paired scenarios; data/sensitivity_results.json and generated TeX rebuilt by --emit; default verifies without writes",
+    "mapping": "mapping_metrics(logical,delta_S_ns,T_R_ns) for the same full matrix; no macro threshold transfer without matched expansion",
+    "maintenance": "apply_maintenance only for a proven common serial reservation; otherwise enumerate resource schedule",
+    "native": "logical_configuration(K,N,b_S,b_R); all dimension-dependent service APIs require logical explicitly"
   },
   "examples": [
     {
@@ -373,11 +398,11 @@
           "profile": "short",
           "B_S_Byte": 128,
           "B_R_Byte": 256,
-          "delta_S_ns": 1284,
+          "delta_S_ns": 676,
           "delta_R_ns": 11286.0,
-          "rho_Byte_per_s": 99688473.52024922,
+          "rho_Byte_per_s": 189349112.4260355,
           "tau_Byte_per_s": 22682970.051391102,
-          "ridge": 4.394859813084112,
+          "ridge": 8.347633136094675,
           "inputs": {
             "media_read_ns": 3,
             "page_program_full_us": 5,
@@ -392,11 +417,11 @@
           "profile": "reference",
           "B_S_Byte": 128,
           "B_R_Byte": 256,
-          "delta_S_ns": 3850,
+          "delta_S_ns": 1770,
           "delta_R_ns": 22590.0,
-          "rho_Byte_per_s": 33246753.246753242,
+          "rho_Byte_per_s": 72316384.18079095,
           "tau_Byte_per_s": 11332447.985834438,
-          "ridge": 2.933766233766234,
+          "ridge": 6.381355932203389,
           "inputs": {
             "media_read_ns": 10,
             "page_program_full_us": 10,
@@ -411,11 +436,11 @@
           "profile": "long",
           "B_S_Byte": 128,
           "B_R_Byte": 256,
-          "delta_S_ns": 10260,
+          "delta_S_ns": 3860,
           "delta_R_ns": 45180.0,
-          "rho_Byte_per_s": 12475633.528265107,
+          "rho_Byte_per_s": 33160621.761658028,
           "tau_Byte_per_s": 5666223.992917219,
-          "ridge": 2.2017543859649127,
+          "ridge": 5.852331606217617,
           "inputs": {
             "media_read_ns": 30,
             "page_program_full_us": 20,
@@ -497,9 +522,11 @@
         "label": "输出通道翻倍",
         "baseline_id": "D0",
         "overrides": {
-          "output_lanes": 32
+          "output_lanes": 32,
+          "weight_latch_bits": 8192,
+          "read_bits_per_batch": 8192
         },
-        "required_conditions": "输出通道16→32，读出与局部乘法/归约资源同步增加；假设读侧10 ns和5 ns节拍仍可满足；容量和写接口不变。",
+        "required_conditions": "32输出通道及读出/归约同步增加，单tile保持4096→8192bit、读批4096→8192bit；结构对照，不属于主配置资格。",
         "tau_unchanged": true
       }
     ],
@@ -888,5 +915,25 @@
         "sha256": "010078586a3b93c1ae16547c690eb80b1dbd25b2798132b29f39b2006d1310ba"
       }
     }
+  },
+  "resource_policy": {
+    "input_capture_ticks": 1,
+    "output_commit_ticks": 1,
+    "digital_output_lanes": 16,
+    "digital_max_active_rows": 32,
+    "digital_tile_storage_bits": 4096,
+    "digital_hold_lifetime": "from tile capture through all input slices and partial sums; release before replacement, one bank; accumulators survive tile replacement",
+    "sa_bandwidth_rule": "read_bits_per_batch is declared separately for every case; 4096-bit R0 sensing is an illustrative full-tile bus, never an entitlement",
+    "digital_capture_rule": "added_latch: one TD per SA read/capture batch; existing_capture/static_connection: no duplicated capture charge; no full-matrix shadow",
+    "acim_default": "8 binary planes,16 ADC/plane,16 reconstruction lanes,two ticks; native compatible full-cycle evidence may select another declared organization",
+    "adc_precision_rule": "recheck partial-sum levels, ENOB/dynamic range, sign and reconstruction at actual active rows; no digital weight shadow replacing ACIM",
+    "update_domain": 1,
+    "encoded_interface_bits": 128,
+    "binary_target_eligibility": 128,
+    "write_parallel_rule": "actual independent drivers, selection, native page, load/current and voltage must justify selected width; no material ranking from arbitrary width choices",
+    "write_resource_examples": "FeRAM/FeFET both eligible for128 binary targets; FeFET reference288 bias nodes typical demand about7.7mA; FeRAM128 BL typical demand about4mA plus PL/polarization separately; these are case-specific engineering budgets, not common measured limits",
+    "maintenance_rule": "explicit destructive restore/refresh resource occupation; raw/effective separate; no shadow or refresh credit without schedule proof; alpha<=0 null",
+    "native_scale_rule": "K/N chosen by native useful computation and installed resources; 16KiB normalized update time is an average, not a request latency",
+    "fixed_scenario_resources": "driver/ADC/hold counts and rated current/capability fixed; installed driver rating must cover fastest stated load; typical7.7mA/4mA are demand examples, not supply ceilings"
   }
 }

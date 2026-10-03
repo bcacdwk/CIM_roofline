@@ -1,15 +1,10 @@
 # 本例复核记录
 
-- 当前最终文件：`output/nor_2d.pdf`，6页；目录只保留这一份有效PDF。
-- 最终PDF SHA-256：`b378fcd4036088c06224c5e8841906790a0ad4c837ef08f6a46ee0f9e7a617af`。
-- XeLaTeX/ctex/Fandol构建通过，最终日志无Overfull/Underfull、Missing character或Warning匹配。PDF逐页渲染为1.5×PNG并全部目视检查。
-- 第1页：模式/证据层次；第2页：读片与sector映射；第3页：完整二进制读预算；第4页：完整program/erase；第5页：结果与组织对照；第6页：原文完整题名/定位及复现、寿命说明。第6页是当前完整正文，不是旧版单段溢页。
-- 各页中文/英文/数学字体、表格标题、符号、页码、长文件路径换行均可读，无裁切、重叠或黑块。第5页末行在页边界内；来源页未溢出。
-- `check_nor.py`导入共享API前设置`sys.dont_write_bytecode=True`，不生成共享`__pycache__`。默认复算前后逐文件内容hash相同，确认不改当前交付文件；显式`--emit`才更新派生JSON/TeX。
-- 共享JSON/API哈希与源PDF哈希核对通过；所有统一结果从实际共享计算入口导入。
-- 主映射64page/4sector、R0 256读/计算轮；枚举全部16384Byte物理地址无重叠遗漏。独占sector对照64page/32sector；无新增逻辑payload。
-- 独立手算参考点：ΔS=32010ns；ΔR=205605800ns；RI*=(128/16384)×205605800/32010=50.18104693845674。按256Byte等效页计算τ与完整矩阵一致。
-- 主Agent方向审阅已接受binary数字主线、独立读分片与共用sector区分；需要保留的条件已经写入正文/输入/证据笔记。没有尚待补造的主服务参数。
-- 未执行Git操作，未改原PDF、共享基线正文或其他案例。
+- 正式PDF：`output/nor_2d.pdf`，5页，SHA-256 `5af144cca8af93a9f8a852f4f67241f8277a39ac2833ecd8b3a2e9f9b8c01e24`。
+- XeLaTeX/ctex构建通过，最终日志无Overfull和Missing character；pypdfium2渲染当前5页至`tmp/pdfs/final/page-01.png`至`page-05.png`，contact同次生成。所有页逐页目视检查，公式、表格、中文字体、页脚和来源长标题无裁切／重叠。
+- 原图核对NOR-01 pp85–86、NOR-02 p5/14/37/39/66；关键AC表已渲染目视。主导read、tPP、tSE和BUSY覆盖均与证据一致。
+- 默认check_nor.py通过；显式logical维度、32读／32捕获／256数字轮、单4096-bit tile、64page／4sector、全部16384Byte地址一一覆盖、完整写阶段和U*均检查。组织对照保留32sector擦除和相同有效payload。
+- 典型独立算式：DS=32×120+(32+256+2)×5=5290ns；TR=64×(400000+18×5)+4×(45000000+2×5)=205605800ns；RI*=(128/16384)×TR/DS=303.64750708884685，U*=TR/DS=38866.880907372404。
+- 主范围固定SA、保持、数字通道和native page资源，读100/120/130ns及完整写typ/max相容配对；没有去掉持续erase或将预擦burst当主tau。
 
-剩余主审关注是工程可实现性表述是否充分：本地128-SA扩宽、32片独立读选择、sector内八片共用HV erase及页program抑制；商品完整时序迁移后尚无该宏实测。该限制不能被误读为在库内已有同芯片两路实测。
+外部审阅重点仍为宽读片负载／判决、32片选择隔离、八片共sector高压域、商品完整时序的本地迁移。内部检查不构成用户验收。

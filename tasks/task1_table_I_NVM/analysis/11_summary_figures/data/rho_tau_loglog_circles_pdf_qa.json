@@ -1,13 +1,42 @@
 {
-  "pdf": "output/rho_tau_loglog_circles.pdf",
+  "file": "rho_tau_loglog_circles.pdf",
+  "sha256": "a3a5a796833ba56b203a2fa0c4abccebdda1afe75659f63389d59f4bdc3487ac",
   "pages": 1,
-  "sha256": "94e76ce1febf4d36030ffb481af523784f1a11fad3492efbaf09150e23e8a491",
-  "geometry_record": "data/rho_tau_loglog_circles_validation.json",
-  "point_count": 30,
-  "reference_point_count": 10,
-  "extreme_point_count": 20,
-  "connector_count": 20,
-  "pdf_render_scale": 1.4,
-  "visual_review": "PNG and PDF rendering checked: 20 small solid endpoints, 20 thin reference-to-endpoint links, readable labels, no clipping",
-  "passed": true
+  "text_within_page": true,
+  "all_fonts_embedded": true,
+  "page_checks": [
+    {
+      "page": 1,
+      "characters": 634,
+      "width_pt": 1435.86,
+      "height_pt": 960.51,
+      "text_within_page": true
+    }
+  ],
+  "renders": [
+    {
+      "page": 1,
+      "path": "/var/folders/h4/nk9sp9vn727dw0rbjftvt9bw0000gn/T/table_i_pdf_qa_d6ab38t2/rho_tau_loglog_circles-1.png",
+      "sha256": "f9bff2d6403c043ae342c476f79b06684db0d46d360eef97c80caebcdbbfd419",
+      "width_px": 2011,
+      "height_px": 1345
+    }
+  ],
+  "visual_review": {
+    "status": "passed",
+    "reviewer": "figures agent",
+    "pages_inspected": [
+      1
+    ],
+    "checks": [
+      "table alignment and configuration notes legible",
+      "all technology labels and dots present",
+      "no text clipping or overlap",
+      "circle and plot edges complete",
+      "axis labels separated from footer notes"
+    ],
+    "method": "Each rendered page opened with view_image after final PDF generation; review PDF checked separately page by page"
+  },
+  "source_sha256": "4cad3118d730afb4fab14714a151ce0fdab738f0e48fbb6aaac4399784985caa",
+  "renderer": "pypdfium2; scale=1.4; actual PDF page render"
 }

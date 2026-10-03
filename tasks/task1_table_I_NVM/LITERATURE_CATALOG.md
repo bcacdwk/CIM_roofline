@@ -1,6 +1,6 @@
 # 文献目录
 
-本地资料集已整理就绪：**55 份主文、4 份技术补充，共 59 份 PDF**。下表只列保留来源；全部主文已按估算用途审阅。点击 ID 查看正文要点，点击 PDF 直接阅读。
+本地资料集已整理就绪：**56 份主文、4 份技术补充，共 60 份 PDF**。下表只列保留来源；全部主文已按估算用途审阅。点击 ID 查看正文要点，点击 PDF 直接阅读。
 
 固定 ID 是引用标识，不要求连续；跳号不表示缺件。核心与补充表示支撑作用，均为有效资料；有参考价值不等于其所有数字都可直接用于统一设计。
 
@@ -67,6 +67,7 @@ MLC/TLC、QLC 与 SLC 器件/模式分开。制造商芯片、实际 SLC 器件�
 | [NAND-03](literature/04_nand_3d/NOTES.zh.md#NAND-03) | [A 321-Layer 2Tb 4b/cell 3D-NAND-Flash Memory with a 75MB/s Program Throughput](https://doi.org/10.1109/isscc49661.2025.10904748)<br>2025 · Wanik Cho, Chanhui Jeong et al.<br>2025 IEEE International Solid-State Circuits Conference (ISSCC) | 编程周期、操作粒度与局部并行度、独立量级交叉核查 | 核心 | [PDF](literature/04_nand_3d/NAND-03_2025_SKhynix_321Layer_QLC.pdf) |
 | [NAND-04](literature/04_nand_3d/NOTES.zh.md#NAND-04) | [System-Technology Codesign of 3-D NAND Flash-Based Compute-in-Memory Inference Engine](https://doi.org/10.1109/jxcdc.2021.3093772)<br>2021 · Wonbo Shim, Shimeng Yu<br>IEEE JXCDC 7(1), 61–69 | CIM 求值桥接、字线／位线与重构、局部阵列边界 | 核心 | [PDF](literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf) |
 | [NAND-05](literature/04_nand_3d/NOTES.zh.md#NAND-05) | [Optimal Design Methods to Transform 3D NAND Flash into a High-Density, High-Bandwidth and Low-Power Nonvolatile Computing in Memory (nvCIM) Accelerator for Deep-Learning Neural Networks (DNN)](https://doi.org/10.1109/iedm19573.2019.8993652)<br>2019 · Hang-Ting Lue, Po-Kai Hsu et al.<br>IEDM, 38.1.1–38.1.4 | CIM 求值桥接、局部并行组织、NAND 结构依据 | 核心 | [PDF](literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf) |
+| [NAND-06](literature/04_nand_3d/NOTES.zh.md#NAND-06) | [MX30LF1G18AC: 3V, 1Gb NAND Flash Memory](https://www.macronix.com/Lists/Datasheet/Attachments/8458/MX30LF1G18AC%2C%203V%2C%201Gb%2C%20v1.2.pdf)<br>2016 · Macronix · PM2133 rev1.2 | SLC完整program/erase跨实现预算；不是SGVC同栈测量 | 补充 | [PDF](literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf) |
 
 ## 05 — RRAM
 

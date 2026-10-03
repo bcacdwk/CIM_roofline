@@ -4,7 +4,7 @@
 \caption{共同外围能力范围。每项按自身粒度使用，完整服务的次数由结构推导。}\label{tab:periphery}\\
 \toprule 模块 & 服务粒度 & 范围/推荐 & 依据与用途\\\midrule\endfirsthead
 \toprule 模块 & 服务粒度 & 范围/推荐 & 依据与用途\\\midrule\endhead
-输入形成与公共复位 $T_I$ & 每次求值的公共复位、128 路二电平输入与本地缓冲。 & 2--10 ns\newline 推荐 5 ns & \sid{SACIM-03}, \sid{SACIM-05}, \sid{CMOS-03}。\newline 更改多位输入或扇出负载时核对驱动与精度；专用建立另计。\\
+输入形成与公共复位 $T_I$ & 每次求值公共复位、所选活动行的二电平输入与本地缓冲。 & 2--10 ns\newline 推荐 5 ns & \sid{SACIM-03}, \sid{SACIM-05}, \sid{CMOS-03}。\newline 128路仅为负载锚点；原生活动行、扇出、负载与动态范围变化须重新核对。\\
 采样、转换与局部读出 $T_A$ & 一颗 ADC 一个样本的完整可复用时隙；并行颗数属于结构参数。 & 10--50 ns\newline 推荐 20 ns & \sid{CMOS-02}, \sid{SACIM-03}, \sid{SACIM-05}。\newline 名义 10 bit、有效约 8 bit；含 mux/采样/转换/局部锁存，跨批保持另计。\\
 数字服务节拍 $T_D$ & 一个局部数字阶段；拍数由运算、归约与通道资源推导。 & 2--10 ns\newline 推荐 5 ns & \sid{SDCIM-01}, \sid{SDCIM-03}, \sid{SDCIM-05}。\newline 参考 200 MHz；共同近标称预算，所选负载下需相应资源。\\
 写入准备与完成控制 $T_W$ & 每事务准备和完成两拍；编码数据装入另按接口规则计。 & 4--20 ns\newline 推荐 10 ns & \sid{CMOS-03}, \sid{CMOS-07}, \sid{SDCIM-01}, \sid{SDCIM-05}。\newline 首数据批可与命令同拍；完整更新周期已含接口时替代。\\

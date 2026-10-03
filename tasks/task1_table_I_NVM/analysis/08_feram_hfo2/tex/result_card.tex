@@ -2,21 +2,20 @@
 \subsection*{统一结果卡}
 \begingroup\small
 \noindent\begin{tabularx}{\textwidth}{@{}p{24mm}X@{}}\toprule
-技术/模式 & HfO$_2$ FeRAM；HZO 1T1C二状态数字路径；已有读码跨8输入位复用\\
-逻辑粒度/聚合 & B\_S=128 Byte；B\_R=16 Byte。128bit完整局部行＝16 Byte；1024行事务覆盖矩阵；每次真实破坏读均整行恢复\\
-资源/相对R0 & 32片×128 SA/恢复驱动；已有4096bit读码寄存器，新增权重锁存为0；128目标写驱动\\
-服务口径 & 真实破坏读恢复已含raw streaming；无另列周期刷新\\
-主导因素/选择 & 32次真实读恢复＋256数字轮；每极性14/50/100 ns为保守工程预算，14 ns原值是write latency\\
-关键对照 & 旧256次重读仅为调度对照；不将主动弃码归为介质必需恢复\\
+原生逻辑配置 & W[N,K]=128×128；INT8输入与权重；有效 resident=16384 Byte。\\
+更新组织 & 每个完整局部物理行 16 Byte；1024 个完整事务覆盖矩阵。\\
+主要资源 & ADC=0；感测节点=4096；读码保持/bit=4096；数字输出通道=16；写驱动=128；更新域=1\\
 \bottomrule\end{tabularx}
 \vspace{3mm}
 \begin{center}\begin{tabular}{@{}lrrr@{}}\toprule
-成对条件情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
-短预算 & 68.82 & 307.7 & 0.2237\\
-参考（推荐） & 26.61 & 106.7 & 0.2495\\
-长预算 & 12.88 & 53.33 & 0.2414\\
+固定组织成对情景 & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule
+乐观 & $69$ & $3.1\times10^{2}$ & $0.22$\\
+典型 & $27$ & $1.1\times10^{2}$ & $0.25$\\
+悲观 & $13$ & $53$ & $0.24$\\
 \bottomrule\end{tabular}\end{center}
-\noindent 参考原始占用：streaming 4810 ns；resident 150 ns。
-\par\noindent 范围为有限成对条件情景极值，不是物理不确定性包络。1 MB=$10^6$ Byte；整矩阵16384 Byte=16 KiB。源定位见本例证据笔记；公共基线shared\_baseline。
+\noindent 典型完整求值：$B_S=128$ Byte，$\Delta_S=4.8\times10^{3}$ ns。完整 resident 装载：$B_R=16384$ Byte，$T_R=1.5\times10^{5}$ ns；$U^*=32$ 个向量。
+\par\smallskip\noindent 接口：$U^*=T_R/\Delta_S=N\,\mathrm{RI}^*$（两侧均为 1 Byte）。局部更新事务与完整装载关系见正文；该平衡关系不保证两路峰值能同时实现。
+\par\smallskip\noindent 原始能力与长期有效能力在所声明服务窗口内相同；必要局部恢复、终验或擦除已纳入完整服务。
+\par\smallskip\noindent 三点对应所选原生参考配置的有限工程条件，不代表等面积或等计算量排名。资源扩展、预擦除有限窗口和维护压力另列。1 MB=10\textasciicircum{}6 Byte；16 KiB辅助换算仅为平均成本。
 \endgroup
 \clearpage

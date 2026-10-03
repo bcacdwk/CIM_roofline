@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""Render every deliverable page for visual QA; temporary images remain ignored."""
+"""Render the actual delivered PDF and refresh its exact-page contact sheet."""
 from pathlib import Path
+import hashlib, math
 import pypdfium2 as pdfium
-from PIL import Image, ImageOps, ImageDraw
+from PIL import Image, ImageDraw
 base=Path(__file__).resolve().parents[1]
-out=base/'tmp/pdfs/final';out.mkdir(parents=True,exist_ok=True)
-doc=pdfium.PdfDocument(base/'output/sram_dcim.pdf')
-thumbs=[]
+target=base/'tmp/pdfs/rendered'
+target.mkdir(parents=True,exist_ok=True)
+pdf=base/'output/sram_dcim.pdf'
+doc=pdfium.PdfDocument(pdf)
+cols=min(3,len(doc)); contact=Image.new('RGB',(520*cols,760*math.ceil(len(doc)/cols)),'#e6e6e6')
 for i,page in enumerate(doc):
-    im=page.render(scale=1.5).to_pil().convert('RGB')
-    im.save(out/f'page-{i+1:02}.png')
-    im.thumbnail((395,570))
-    thumb=Image.new('RGB',(415,600),'#e6e8eb');thumb.paste(im,((415-im.width)//2,18))
-    ImageDraw.Draw(thumb).text((15,580),f'Page {i+1}',fill='black')
-    thumbs.append(thumb)
-cols=2;rows=(len(thumbs)+cols-1)//cols
-contact=Image.new('RGB',(cols*415,rows*600),'white')
-for i,im in enumerate(thumbs):contact.paste(im,((i%cols)*415,(i//cols)*600))
-contact.save(out/'contact.png')
-print(f'Rendered {len(doc)} pages: {out}')
+    im=page.render(scale=1.8).to_pil().convert('RGB')
+    im.save(target/f'page-{i+1:02d}.png')
+    (target/f'page-{i+1:02d}.txt').write_text(page.get_textpage().get_text_bounded())
+    im.thumbnail((520,735));contact.paste(im,((i%cols)*520,(i//cols)*760))
+    ImageDraw.Draw(contact).text(((i%cols)*520+8,(i//cols)*760+740),f'Page {i+1}',fill='black')
+contact.save(target/'contact.png')
+print('Pages:',len(doc),'SHA256:',hashlib.sha256(pdf.read_bytes()).hexdigest())
+print('Current contact:',target/'contact.png')

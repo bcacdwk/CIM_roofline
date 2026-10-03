@@ -1,58 +1,65 @@
 {
-  "schema_version": "rram-reference-2.0",
-  "status": "finite_engineering_reference_scenarios",
+  "schema_version": "rram-native-reference",
+  "status": "native fixed-resource paired service estimate",
   "medium": "RRAM",
   "baseline": {
     "id": "shared_baseline",
-    "reference_instance": "R0",
-    "json_sha256": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-    "script_sha256": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3",
+    "reference_instance": "native K128-N64",
+    "json_sha256": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
+    "script_sha256": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3",
     "entrypoints": [
+      "logical_configuration",
       "acim_service",
       "front_ns",
       "program_sequence_ns",
-      "direct_service",
-      "metrics"
+      "full_load_service",
+      "mapping_metrics"
     ]
   },
   "configuration": {
-    "id": "B32-W16",
+    "id": "K128-N64-B32-W128",
     "state_mode": "二状态 HRS/LRS，8个等尺度位平面；补码位权由数字重构处理；非多级模拟权重",
-    "compute_semantics": "ACIM校准近似部分和，24-bit结果容器，无已验证最终误差阈值",
+    "compute_semantics": "INT8 bit-plane approximate ACIM;23bit final result",
     "cells_per_weight": 8,
-    "physical_data_cells": 131072,
+    "physical_data_cells": 65536,
     "native_subarray_input_terms": 32,
     "native_subarray_output_positions": 64,
-    "physical_subarrays": 64,
+    "physical_subarrays": 32,
     "acim_overrides": {
       "rows_per_group": 32
     },
-    "parallel_program_cells": 16,
+    "parallel_program_cells": 128,
     "logical_weights_per_update": 16,
     "encoded_load_bits": 128,
     "first_data_in_command": true,
-    "resident_policy": "16个局部编程通道；先RESET本16Byte更新域，再按目标mask SET；每相位每批以组内最慢活动cell完成次数计；完整binary窗口verify；不隐藏RESET",
+    "resident_policy": "one rail-on/rail-off pair per complete matrix;local bias transitions and binary verification on every attempt;all51216B transactions serial",
     "resident_endpoint": "LRS参考窗口8至12kΩ，HRS至少70kΩ；以专用memory路径的可切参考binary窗口比较器验收；为参考设计选择，非原文实测保证窗",
     "preservation": "不采用RRAM-05的m=1/2/4空间加权与MSB冗余择优，全部平面用m=1等尺度；不会增加互补cell",
     "stream_and_update_exclusion": "同一数据cell和更新域，读写分别服务；memory verify与CIM ADC解耦，但不据此宣称同阵列读写同时可达",
-    "physical_update_mapping": "一个输出位置、同一32输入组内，两个16列组各选8个地址，组成16权重事务；每批每组每权重平面1cell，共8平面×2组=16cell，8批覆盖128cell",
+    "physical_update_mapping": "one32-input subarray,one selected outputWL per plane;8columns in each of2groups,16columnBL/SL pairs ×8planes=128targets;512transactions coverK128×N64",
     "write_resources": {
-      "high_voltage_program_lanes": 16,
+      "high_voltage_program_lanes": 128,
       "groups": 2,
       "weight_plane_IOs": 8,
       "group_address_counters": 2,
       "column_mux_groups_per_plane": 2,
-      "data_and_done_mask_bits": 16,
+      "data_and_done_mask_bits": 128,
       "binary_comparators_per_lane": 2,
-      "binary_comparators_total": 32,
+      "binary_comparators_total": 256,
       "current_compliance_uA_per_lane": 300,
-      "peak_array_current_budget_mA": 4.8,
+      "peak_array_current_budget_mA": 38.4,
       "encoded_buffer_bits": 128,
       "independent_update_domains": 1,
-      "reason": "采用RRAM-06每IO双组驱动/自终止结构，IO数8由本设计八位平面选择；不是声称原40nm宏恰好为本配置",
+      "reason": "128target common eligibility is realized with16independentBL/SL drivers per weight-plane;memory1T1Rcolumn paths permit same-WL same-polarity batches;8fullnative macroTBL paths retained;not a claim the source chip had128programlanes",
       "voltage_rated_program_IO_required_V": 1.8,
-      "voltage_condition": "专用耐压I/O、电平转换和限流实现；不能以RRAM-05的core0.8V/IO1.2V测量供电证明1.8V耐受"
-    }
+      "voltage_condition": "专用耐压I/O、电平转换和限流实现；不能以RRAM-05的core0.8V/IO1.2V测量供电证明1.8V耐受",
+      "lanes_per_group_per_plane": 8,
+      "local_switch_load_limit_pF_per_lane": 1
+    },
+    "logical_K": 128,
+    "logical_N": 64,
+    "physical_native_macros": 8,
+    "native_organization": "Eight complete64×128 m=1 reference macros,one per bit-plane;retain four64×32 subarrays and sharedTBL in each macro;CIMSEL time-selects four32-input groups"
   },
   "adopted_inputs": {
     "front_end_settle_ns": {
@@ -95,14 +102,22 @@
       "condition": "可编程I/O电压域与限流；按实际cell极性施加，必要局部电压标定属于参考设计；不以电压推导切换时间"
     },
     "high_voltage_setup_ns_per_attempt": {
-      "value": 1000,
-      "kind": "explicit_engineering_reserve",
-      "derivation": "每次建立预留一个已采用的1µs波形时隙；非实测HV建立时间"
+      "by_profile": {
+        "short": 50,
+        "reference": 100,
+        "long": 250
+      },
+      "kind": "local_bias_transition_budget",
+      "derivation": "Fixed128drivers300uA each and<=1pF switched load/lane;at1.8V and8kOhm end-state,225uA static load leaves75uA headroom,1.8pC/75uA=24ns;short50ns gives two charge-equivalent windows.100/250ns are finite switch/settle margins;this charge check is a resource qualification,not measured switching timing."
     },
     "high_voltage_return_recover_ns_per_attempt": {
-      "value": 1000,
-      "kind": "explicit_engineering_reserve",
-      "derivation": "每次回读偏置/恢复预留一个1µs波形时隙；与setup分列，不用低压数字拍替代"
+      "by_profile": {
+        "short": 50,
+        "reference": 100,
+        "long": 250
+      },
+      "kind": "local_isolate_return_to_verify_budget",
+      "derivation": "Nonzero local isolation/return/settle budget at every attempt,with rail retained;shared sense then starts fresh.50/100/250ns are paired with same fixeddrivers/load rating."
     },
     "address_and_pulse_control_ticks_per_attempt": {
       "value": 1,
@@ -171,7 +186,14 @@
       "value": 1,
       "kind": "reference_schedule_using_common_tick",
       "meaning": "binary窗口判决及锁存已在T_B，额外T_D仅作组内done归约、失败mask与地址状态提交"
-    }
+    },
+    "rail_lifecycle_ns": {
+      "setup": 1000,
+      "exit": 1000,
+      "kind": "engineering_full_load_boundary_reserve",
+      "condition": "A regulatedprogramrail is held across512transactions;the1us pulse-sized reserve is charged only once at each full-load boundary,not everytarget/attempt"
+    },
+    "resident_full_load_transactions": 512
   },
   "reported_evidence": [
     {
@@ -198,7 +220,7 @@
       "locator": "PDF p.3 Fig.3(a)/(b)及D节",
       "original": "memory模式以AX/AY选择cell，DIN/DOUT数据；CIM通路与memory通路解耦",
       "condition": "IO器件承受写电压，core器件用于CIM；未报告完整write/verify时间或128cell并行",
-      "adoption": "memory电流SA与CIM读出解耦支持专用binary verify；不再把逐cell完整SAR当物理要求；本设计新增明确的16lane资源",
+      "adoption": "memory电流SA与CIM读出解耦支持专用binary verify；采用128个实际列写驱动和256窗口比较器，需独立BL/SL路径、耐压和38.4mA供给，原文并未实测该资源配置",
       "kind": "reported_structure_and_conservative_choice"
     },
     {
@@ -216,7 +238,7 @@
       "locator": "PDF p.1 AF/ARST/ASET；p.2 Figs.3–10",
       "original": "40nm、2Mb；两个G0/G1组，每IO每组选一列；组内全done再推进；timeout报fail；时间轴归一化；99.2% page-write缩短",
       "condition": "HRPW先在idle RESET全页再SET所需cell；FORMING为另一步；无绝对page时长",
-      "adoption": "采用每IO双group、独立mask/done及分组等待机制，8位平面×双group选择16lane；显式RESET再SET并计全部RESET；不从归一化图取绝对时间",
+      "adoption": "借双group、独立mask/done和分组等待机制；每平面每group实际扩为8个列驱动，8平面×2group×8lane=128目标；显式RESET再SET并计全部RESET，不从归一化图取绝对时间",
       "kind": "reported_normalized"
     },
     {
@@ -250,9 +272,9 @@
       "id": "E09",
       "source_id": "shared_baseline",
       "locator": "shared_parameters.json common_conditions / reference_instance / selection_rules；tex/01、02",
-      "original": "128×128 INT8；BS=128 Byte；8权重平面、每平面16ADC、16数字通道、每轮2拍；TI/TA/TD为2/10/2、5/20/5、10/50/10 ns",
-      "condition": "共同28nm、0.9 V/25°C近标称参考，非实测PVT保证；顺序服务",
-      "adoption": "共同逻辑/读ADC/数字预算不变；读r=32；写并行由16个驱动/双组寻址给出，非128bit口",
+      "original": "Shared logical-byte/INT8/native-size policy;128bitencodedport,up to128realprogramtargets;16digitaloutputlanes",
+      "condition": "Nominal28nmCMOS reference;resource qualification and full-cycle accounting",
+      "adoption": "K128N64,8fullnative64x128macros;32activeinputs;8parallelbitplanes×16ADC;actual128writeDRVs and256binary comparators are explicit additions,not inferred from input port",
       "kind": "accepted_common_choice"
     },
     {
@@ -268,60 +290,30 @@
       "id": "E11",
       "source_id": "本文选择",
       "locator": "adopted_inputs与configuration.write_resources",
-      "original": "16lane、32binary比较器；每lane限流300µA、总4.8mA；每次HV建立/回读各1µs；两目标验收窗；binary完整sense时隙10/20/50ns、另计选通和5ns建立",
-      "condition": "8位平面×双组，2计数器和独立mask/done；1.8V/8kΩ=225µA只作额定电流量级检查；1.8V需独立耐压I/O/电平转换，原core0.8V/IO1.2V测量不提供耐压证明",
-      "adoption": "补齐可审查资源及HV恢复预算，明确工程选择；不把欧姆比值声称为RRAM动态编程电流测量",
+      "original": "128drivers,256binarycomparators;300uA/lane,total38.4mA;<=1pF switchedload/lane;railboundary1us+1us",
+      "condition": "Dedicatedvoltage-ratedIO and regulatedsupply;eachlocalbiastransition50/100/250ns beforeprogram/afterprogram",
+      "adoption": "Separatefull-loadrail lifecycle from eachattemptlocal switching;1.8V/8kOhm225uA and1pFload yield24ns charge/headroom check,not measuredprogramcurrent or timing;16driver version is resource comparison",
       "kind": "reference_design_choice_and_derivation"
     }
   ],
   "exceptions": [
     {
-      "rule_id": "R1",
-      "reason_and_source_locator": "保持逻辑容量/格式/边界与ACIM精度合同；RRAM-05的原3-bit/4-bit并非共同INT8结果",
-      "R0_values": "128×128 INT8，128×24-bit output",
-      "changed_values": "不变；物理cell为131072，64个32×64等尺度子阵列组成一份矩阵",
-      "resource_and_timing_consequences": "数字位权合并和行组累加，校准误差需另验证",
-      "effect_on_both_services": "写回同一套binary位平面；不重复计算逻辑payload"
+      "rule_id": "R1/R2",
+      "source": "RRAM-05 p.3 Fig.3 andp.4Fig.7",
+      "native_choice": "K128N64,8complete64x128macros,4nativeCIMSEL subarrays perplane",
+      "effect": "Preserve sharedTBL;32active items;128evaluations/ADC batches and256digitalticks;8192Blogical,65536physicalcells"
     },
     {
-      "rule_id": "R2",
-      "reason_and_source_locator": "RRAM-05 PDF p.4 Fig.7、p.7 Fig.17支持32项线性求和",
-      "R0_values": {
-        "rows_per_group": 128,
-        "weight_planes": 8,
-        "parallel_weight_planes": 8
-      },
-      "changed_values": {
-        "rows_per_group": 32,
-        "weight_planes": 8,
-        "parallel_weight_planes": 8
-      },
-      "resource_and_timing_consequences": "4行组，NE=NC=256，Ndigital=512；ADC总数128不变",
-      "effect_on_both_services": "容量不变，分组选通与verify共享；resident有效Byte不变"
-    },
-    {
-      "rule_id": "R3",
-      "reason_and_source_locator": "RRAM-05空间m=1/2/4加权和MSB冗余不是R0；本文保持数字位切片",
-      "R0_values": "8等尺度binary位平面",
-      "changed_values": "不采用额外ADC、全输出保持、多位输入、MSB冗余择优",
-      "resource_and_timing_consequences": "每32项binary和0至32需6bit码；沿用公共名义10bit/有效约8bit SAR",
-      "effect_on_both_services": "8cell/INT8，不增加互补/冗余写入；不借原文accuracy结论"
-    },
-    {
-      "rule_id": "R4",
-      "reason_and_source_locator": "RRAM-05 p.5 Fig.10和p.7 Fig.18；66/13ns只覆盖原4-bit读链",
-      "R0_values": "TI与媒体前端、公共TA分列",
-      "changed_values": "输入准备TI之后的PH0锚点5ns+hA；量化功能使用公共SAR条件接口",
-      "resource_and_timing_consequences": "原PH1–4不再计；漏电补偿和电流转电压接口必须保留；hA未知，数值表仅评估hA=0",
-      "effect_on_both_services": "主write verify采用解耦memory binary窗口sense；CIM h_A不进入主verify；原逐cell SAR对照同步采用读前端"
+      "rule_id": "R3/R6",
+      "source": "RRAM-05 pp.3–7",
+      "choice": "8equalm=1bitplanes,16ADC/plane,16reconstructionlanes,noanalogresultstorage orfullweightshadow",
+      "effect": "23bit output container;logical payload not multiplied by bitplanes"
     },
     {
       "rule_id": "R5",
-      "reason_and_source_locator": "RRAM-05 p.3解耦memory SA；RRAM-06 p.1及p.2 Fig3双组TM-WT、RESET/SET/mask；RRAM-03 p.5二状态P&V",
-      "R0_values": "128-bit编码接口；物理编程并行度由媒体给出",
-      "changed_values": "p=16、BR=16Byte，8批RESET再8批masked SET；组内最慢cell次数按1/1、2/1、4/2情景",
-      "resource_and_timing_consequences": "16HV/限流lane、32binary比较器、2组地址计数器、16mask/done；300µA每lane，4.8mA阵列预算；1µs脉冲和完整恢复/verify都计入",
-      "effect_on_both_services": "权重仍为同一binary位平面；读资源不变，write用独立memory sense；p1同binary与p1同SAR只作策略对照"
+      "source": "RRAM-05 independentmemoryBL/SL;RRAM-06mask/doneconcept",
+      "choice": "128actualdrivers,256windowcomparators,38.4mArating,1pF/lanequalifyingload;regulatedrail held duringmatrixload",
+      "effect": "51216Btransactions;railsetup/exiteach1us once;per-attempt50/100/250ns localtransitioneach;full1us pulses andnewverify"
     }
   ],
   "method_findings": [
@@ -335,6 +327,7 @@
   ],
   "range_semantics": {
     "main": "short/reference/long paired conditional engineering scenarios; not physical uncertainty bounds",
-    "attempt_sensitivity": "same reference periphery and 16-lane resources, RESET/SET counts 1/1, 2/1, 4/2; these counts are engineering budgets independent of common clock profile"
+    "attempt_sensitivity": "Fixed reference periphery,128driver resources and100ns local transitions;RESET/SET1/1,2/1,4/2 independent of common clock.",
+    "transition_sensitivity": "Fixed reference attempts andresources;eachlocaltransition50/100/1000ns;not a new driver count."
   }
 }

@@ -1,137 +1,104 @@
-\section{\texorpdfstring{局部 CIM 的 $\rho$、$\tau$、$\RI^*$ 通用估算方法}{局部 CIM 的 ρ、τ、RI* 通用估算方法}}
+\section{\texorpdfstring{局部 CIM 的 $\rho$、$\tau$、$\RI^*$ 通用估算方法}{局部 CIM 的两路服务估算}}
 
-\subsection{服务粒度与总关系}
+\subsection{服务粒度与 Table II 连接}
 
-先确定一次完成的逻辑字节，再数实际操作，最后累加完整服务时间。一个 streaming 事务完成 $B_S$ Byte 输入的规定求值与输出；一个 resident 事务完成 $B_R$ Byte 可计算状态。其服务间隔分别为 $\Delta_S$、$\Delta_R$，则
+一次 streaming 服务完成 $B_S$ Byte 输入的规定求值及输出，一次 resident 服务使 $B_R$ Byte 逻辑状态可计算。对应服务间隔为 $\Delta_S,\Delta_R$：
 \begin{equation}
-\boxed{\rho\approx B_S/\Delta_S,\qquad \tau\approx B_R/\Delta_R,\qquad
-\RI^*\approx\frac{B_S}{B_R}\frac{\Delta_R}{\Delta_S}.}
+\rho=B_S/\Delta_S,\qquad\tau=B_R/\Delta_R,\qquad
+\RI^*=\frac{B_S}{B_R}\frac{\Delta_R}{\Delta_S}.
 \label{eq:service}
 \end{equation}
-时间以秒代入得到 Byte/s；以 ns 代入 $B/\Delta$，数值恰为十进制 GB/s。$\RI^*$ 无量纲。$B_S,B_R$ 是单次服务粒度，$Q_S,Q_R$ 是 workload 窗口内累计的逻辑输入与更新量。内部位展开、转换与 verify 增加占用，同一次逻辑 payload 只计一次。
+时间以秒代入得到 Byte/s；以 ns 代入 $B/\Delta$ 得到十进制 GB/s。内部位展开、互补编码、参考页、转换与 verify 只增加资源和时间，不重复增加同一次逻辑 payload。输出不加到 $Q_S$，但输出完成服务计入 $\Delta_S$。
 
-该逻辑任务 $B_S=128$ Byte；完成 16 个 INT8 权重时 $B_R=16$ Byte，ridge 的粒度因子为 8；有效页为 256 Byte 时该因子为 $1/2$。均匀事务聚合时字节和全部服务时间同比增加，$\tau$ 保持不变。Roofline 上界为 $P\leq\min(\rho,\tau\RI)$；静态 $Q_R=0$ 分支为 $P\leq\rho$。两路能力是同一实现分别服务时的估计，共享资源的争用决定能否同时接近上界。
-
-\subsection{A. ACIM streaming：求值、转换与重构分别计数}
-
-\textbf{通用模板。} 对按输入分片、行组和权重平面组顺序覆盖一次 MVM 的映射，令每片处理 $u$ 个输入 bit、每行组 $r$ 个输入项、共 $W$ 个权重平面且每次并行 $w$ 个，则基础组合数为
-\[
-F=\left\lceil\frac{8b_S}{u}\right\rceil
-  \left\lceil\frac{n_{\rm in}}{r}\right\rceil
-  \left\lceil\frac{W}{w}\right\rceil .
-\]
-每个组合把输出划为 $J$ 个\emph{求值组}，组宽 $e_j$，满足 $\sum_j e_j=n_{\rm out}$。每个活动平面有 $a$ 个 ADC，故组 $j$ 需 $\lceil e_j/a\rceil$ 个转换批次；批 $b$ 实际包含 $o_{jb}\leq a$ 个输出。数字重构有 $d$ 条输出通道，每轮处理不超过 $d$ 个输出、用 $k_A$ 拍完成该组位权合并与累加。于是
+Table II 在算子或矩阵阶段入口计数，同阶段共享源输入只计一次。对 $W[N,K]$ 完整装载一次、服务 $U$ 个向量，
 \begin{equation}
 \begin{aligned}
-N_E&=FJ, &N_C&=F\sum_j\left\lceil e_j/a\right\rceil,\\
-N_{\rm rec}&=F\sum_j\sum_b\left\lceil o_{jb}/d\right\rceil,
-&N_{\rm dig}&=k_A N_{\rm rec}.
+Q_S&=UKb_S,& Q_R&=KNb_R,& \RI&=\frac{Ub_S}{Nb_R},\\
+\rho&=\frac{Kb_S}{\Delta_S},&\tau&=\frac{KNb_R}{T_R},&
+U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\RI^*.
 \end{aligned}
+\label{eq:mapping}
+\end{equation}
+INT8 两侧均为 1 Byte 时 $U^*=N\RI^*$。$T_R$ 必须是与该矩阵、更新模式和配置对应的完整装载，不能替换成任意小事务延迟。$\Delta_S$ 是完整向量的服务间隔，有流水时不直接取单次 latency。该平衡关系不保证共享两路同时达到峰值。
+
+宏扩展到算子时，输入共享、重放、分时及共享更新资源可能分别改变 $T_R$、$\Delta_S$；只有二者同倍率扩展，宏级 $U^*$ 才可沿用。FFN、多分支和 Attention 仍按各阶段与实际映射连接。辅助展示每 16 KiB 平均更新成本为 $T_R(16384/(KNb_R))$，它不是一笔真实 16 KiB 请求的延迟。
+
+\subsection{A. ACIM streaming：求值、转换和重构}
+
+输入每片 $u$ bit、行组至多 $r$ 项、$W$ 个物理转换平面每次并行 $w$ 个，基础组合数
+\[
+F=\left\lceil8b_S/u\right\rceil\left\lceil K/r\right\rceil\left\lceil W/w\right\rceil.
+\]
+$W$ 由实际编码确定；多位状态可使其不同于 $8b_R$，必须证明状态可正确求值与重构。每组合输出分成求值组 $e_j$，$\sum_j e_j=N$；每平面 $a$ 个 ADC，各组按实际尾批 $o_{jb}\leq a$ 转换。$d$ 条数字输出通道，每重构轮 $k_A$ 拍，则
+\begin{equation}
+N_E=FJ,\quad N_C=F\sum_j\lceil e_j/a\rceil,\quad
+N_{\rm rec}=F\sum_{j,b}\lceil o_{jb}/d\rceil,\quad N_{\rm dig}=k_A N_{\rm rec}.
 \label{eq:acount}
 \end{equation}
-$N_E$ 是并行阵列求值轮数，$N_C$ 是并行转换批数，$N_{\rm dig}$ 是数字总拍数。尾组按实际宽度计，空 ADC 槽不产生有用结果。每平面每输出产生一个码且无模拟位权合并时，有用标量转换数为“输入分片数 $\times$ 行组数 $\times Wn_{\rm out}$”。多位输入或多级/差分映射先说明码范围、符号处理和重构方式，再由其实际循环推导这些次数。
-
-在各阶段顺序执行、每轮时间相同的情景下，
+有用标量转换数为输入片数乘行组数乘 $WN$，尾部空槽不产生额外 payload。顺序服务为
 \begin{equation}
-\boxed{\Delta_{S,A}=N_E(T_I+t_{m,A})+N_C T_A+N_{\rm dig}T_D+T_H+c_0T_D.}
+\Delta_{S,A}=N_E(T_I+t_{m,A})+N_CT_A+N_{\rm dig}T_D+T_H+c_0T_D.
 \label{eq:acim}
 \end{equation}
-这里 $t_{m,A}$ 是一次并行求值的阵列响应、专用前端及必要恢复，$c_0$ 为边界拍数；不同轮的负载或恢复不同则逐项求和。$T_H$ 为额外保持电路的采集、建立、复位等串行开销总和，ADC 自带单样本采样仍计在 $T_A$。
+$t_{m,A}$ 包含阵列响应、专用前端及必要恢复，$T_H$ 为额外模拟保持采集开销。若每组只求不超过 ADC 数的输出，转换后重建下一组，可令 $T_H=0$。若先求全组再分批读，须有至少 $\min(W,w)\max_j e_j$ 个有效模拟槽、隔离和缓冲；保持窗口覆盖该组全部转换与交错数字服务。等待已计在总时间，不另加一次保持时长。原生行数或输入位宽变化后，检查码范围、ENOB、符号和数字重构。
 
-\textbf{共享如何影响求值。} 每组只求 $e_j\leq a$ 个输出，转换后再建立下一组时，$N_E=N_C$，可以取 $T_H=0$。若一次求出更多输出，保存在独立模拟节点后分批转换，则 $N_E<N_C$：必须有至少 $w\max_j e_j$ 个同时保持的有效样本槽、隔离开关及缓冲，且在最后一批读出前满足误差与保持要求。若转换和数字处理交替顺序执行，保持窗口保守取该组的全部 $\sum_b[T_A+k_A\lceil o_{jb}/d\rceil T_D]$；这段等待已经包含在服务时间中。保持负载增加的求值建立放入 $t_{m,A}$，额外采集等放入 $T_H$。持续驱动阵列维持结果也可分批读出，但须计其占用与稳定条件。选择哪种组织，由实际资源与介质兼容性决定。
+R0 的 $K=N=128,u=1,r=128,W=w=8,e=a=d=16,k_A=c_0=2$，得到 64 求值、64 转换批、128 数字拍和 8192 标量转换。$B_S=128$ Byte 仅属于该算例，不是 API 常数。
 
-\textbf{R0 代入。}$u=1,r=128,W=w=8$，故 $F=8$；八个求值组各宽 16，$a=d=16,k_A=2,c_0=2$，无跨组模拟保持。因此
-\[
-(N_E,N_C,N_{\rm rec},N_{\rm dig})=(64,64,64,128),\quad
-8192=8\times128\times8=64\times128,
-\]
-\[
-\Delta_{S,A}=64(T_I+t_{m,A}+T_A+2T_D)+2T_D.
-\]
-R0 每向量需 64 次求值和 64 批转换，完成的输入 payload 为 $B_S=128$ Byte。增加 ADC 而保持数字通道数时，转换批次可减少，数字重构总拍数却未必同比减少。
+\subsection{B. DCIM streaming：读码保持与实际带宽}
 
-\subsection{B. DCIM streaming：映射决定计算轮数}
-
-\textbf{通用模板。} 每轮处理 $u_D$ 个输入 bit、$v_D$ 个权重 bit、$r_D$ 个输入项和 $d_D$ 个输出，对应的整数乘法/归约资源必须具备这些宽度。顺序遍历各组时，
+每轮输入 $u_D$ bit、权重 $v_D$ bit、$r_D$ 项、$d_D$ 输出，计算轮数为
 \begin{equation}
-N_D=\left\lceil\frac{8b_S}{u_D}\right\rceil
-\left\lceil\frac{8b_R}{v_D}\right\rceil
-\left\lceil\frac{n_{\rm in}}{r_D}\right\rceil
-\left\lceil\frac{n_{\rm out}}{d_D}\right\rceil,\qquad
-\Delta_{S,D}=N_{\rm rd}t_{m,D}+N_D k_DT_D+T_L+c_0T_D.
+\begin{aligned}
+N_D&=\lceil8b_S/u_D\rceil\lceil8b_R/v_D\rceil\lceil K/r_D\rceil\lceil N/d_D\rceil,\\
+\Delta_{S,D}&=N_{\rm rd}t_{m,D}+N_Dk_DT_D+N_{\rm cap}T_D+T_L+c_0T_D.
+\end{aligned}
 \label{eq:dcim}
 \end{equation}
-$k_D$ 是完成每轮计算、符号处理和累加所需的数字拍数；$N_{\rm rd}$ 是实际物理读侧服务次数，$t_{m,D}$ 包括必要恢复。每轮重新读取时 $N_{\rm rd}=N_D$、额外锁存开销 $T_L=0$。若一组权重读入后复用于多轮输入，按真实装入次数计 $N_{\rm rd}$，并声明锁存容量、读出接口与额外装入开销 $T_L$。全字并行、输入位串行和双边位串行均由式中的两个位宽因子表达。
+对权重、行、输出的每个实际 tile，包含 $g_j$ bit，感测宽度为 $s$ bit/批。跨所有输入片保持时 $N_{\rm rd}=\sum_j\lceil g_j/s\rceil$；不保持则再乘输入片数。新增锁存的 $N_{\rm cap}=N_{\rm rd}$，已有静态连接或已覆盖 SA 捕获为零；$T_L$ 仅放入未覆盖的额外开销。保持容量不小于最大 $g_j$，同一 bank 完成本 tile 全部输入位后才能覆盖。破坏性读取及整行恢复按完整物理读批另算，不按只有用权重 bit 减去必需恢复。
 
-\textbf{R0 代入。}$u_D=1,v_D=8,r_D=32,d_D=16,k_D=1,c_0=2$，每轮重新服务读侧，得到
-\[
-N_D=8\times1\times4\times8=256,\qquad
-\Delta_{S,D}=256(t_{m,D}+T_D)+2T_D.
-\]
-一轮归约 32 项并更新 16 个输出；256 轮完成同一份 128 Byte 输入，交付全部 128 个结果。原 \sid{SDCIM-01} 的 64 拍对应 $128\times16$ VMM 及其 16 项局部归约；本文的 32 项分组是另一个参考选择，计数由本映射产生。\cite{SDCIM-01}
+R0 单 tile 为 $32\times16\times8=4096$ bit；256 轮计算、32 tile 读取。示意 $s=4096$ 时，每 tile 一批读取和一次捕获：$\Delta_S=32t_{m,D}+290T_D$。取 $t_{m,D}=10$ ns、$T_D=5$ ns，得到 1770 ns。若 $s=128$，每满 tile 要 32 批读取，不能仍使用 32 次感测。SRAM DCIM 的原生 16 项与静态连接可直接填入，既有保持不增加锁存成本。
 
-\textbf{顺序与流水的使用。} 上述顺序公式的服务间隔等于完整串行时长。若相邻操作能在阵列、ADC 和数字级之间流水，先核对各级独立资源、缓冲容量及依赖，再按最慢级的\emph{每向量占用}估计稳态间隔；同一硬件承担的阶段先合计。只有满足这些条件才采用流水收益，有限窗口另计填充与排空。完整宏周期可替代已含的阶段，匹配其实际分组与拍数后使用。R0 及结构敏感性对照均用顺序调度，便于单独观察结构变化。
+服务模板默认串行。流水必须先证明各级资源、缓冲与依赖，再按每完整向量的资源占用求稳态间隔；同一硬件上的阶段先合计，有限窗口保留填充与排空。完整宏周期可覆盖读码、归约、捕获等，但应清楚标出替代范围。
 
-\subsection{C. 直接更新型 resident：完成多少权重，执行多少批}
+\subsection{C. 直接更新：逻辑完成量、编码和尾批}
 
-\textbf{通用模板。} 一次事务更新 $L$ 个完整逻辑权重，每权重映射为 $c$ 个 cell，一批可同时完成 $p$ 个 cell 的完整目标状态。分组对齐、可独立选通且每 cell 一次完整更新时，物理批数 $n_w=\lceil Lc/p\rceil$；受行/平面限制时改用映射中的实际批列表。令编码装入量为 $D_{\rm enc}$ bit、接口宽 $w_{\rm IO}$，数据批数 $n_b=\lceil D_{\rm enc}/w_{\rm IO}\rceil$。则
+一次更新 $L_w$ 个完整权重，每权重 $c$ cell，一批实际完成 $p$ cell。仅当选通独立且分组对齐时，$n_w=\lceil L_wc/p\rceil$；受原生行/列限制则列实际批表。编码装入 $D_{\rm enc}$ bit，接口 $w_{\rm IO}$ bit，$n_b=\lceil D_{\rm enc}/w_{\rm IO}\rceil$：
 \begin{equation}
-B_R=Lb_R,\quad
-\Delta_R=T_{\rm front}+\sum_{j=1}^{n_w}t_{{\rm update,full},j},\quad
-T_{\rm front}=[2+n_b-\chi]T_D.
+B_R=L_wb_R,\qquad T_{\rm front}=(2+n_b-\chi)T_D,\qquad
+\Delta_R=T_{\rm front}+\sum_{j=1}^{n_w}t_{{\rm update,full},j}.
 \label{eq:direct}
 \end{equation}
-$\chi=1$ 表示首数据批与命令同拍，命令/数据分开时 $\chi=0$；事务有数据且 $n_b\geq1$。单批物理完整更新含驱动、必要脉冲与恢复，到状态可计算为止。多批数据若先装入再执行，须有相应缓冲；边装边写则按实际顺序计数据与控制。完整周期已含的接口或恢复阶段予以替代。
+$\chi=1$ 表示首数据批随命令捕获。$p$ 由真实驱动和负载给出，不等于接口宽度。互补编码增加 cell 和装入量，不能增加 $B_R$。完整周期包含的控制、恢复、验证不重复收费。
 
-\textbf{R0 示意。} 取 $L=16,c=8,p=128,D_{\rm enc}=128$ bit、$w_{\rm IO}=128$ bit、$\chi=1$，故 $B_R=16$ Byte、$n_w=n_b=1$。合成物理更新时间为 50 ns、$T_D=5$ ns 时，$\Delta_R=60$ ns，$\tau=16/60\approx0.267\GBs$。若驱动只支持 64 cell 同时完成，同一事务需两批；输入只装入一次，分子仍为 16 Byte。直接更新按完整步骤识别，SET/RESET 是否对称仅辅助说明状态转换。
+完整矩阵装载应枚举实际事务和尾批：$T_R=\sum_j n_jt_j$、$KNb_R=\sum_jn_jB_{R,j}$。例如 35 Byte 矩阵以 16 Byte 事务更新，尾批仍用一个完整周期，必须按 $16+16+3$ Byte 和三次周期计；不能按 $35/16$ 次周期计算。
 
-\subsection{D. 分步编程或含擦除摊销的 resident}
+\subsection{D. 分步编程、原生页块与维护}
 
-\textbf{通用模板。} 对相同 $B_R$，将预处理、编程、校验与恢复按实际顺序列出：
+分步操作的完整时间为
 \begin{equation}
-\Delta_R=T_{\rm front}+T_{\rm pre}
- +\sum_j(T_{{\rm drive+program},j}+T_{{\rm verify},j}+T_{{\rm recover},j})
- +T_{\rm erase,amort}.
+\Delta_R=T_{\rm front}+T_{\rm pre}+\sum_j(T_{{\rm program},j}+T_{{\rm verify},j}+T_{{\rm recover},j})+T_{\rm erase,amort}.
 \label{eq:program}
 \end{equation}
-每项是实际操作块或并行批次。若一次逻辑更新需要先 RESET 再 SET，按这两步及其并行宽度计；若程序循环 $K$ 次且每次后都校验，循环占用为 $K(t_p+t_v+t_r)$。$K$ 来自终点规则、文献分布或声明的情景。原文完整 program cycle 已含 verify/retry 时，直接使用完整块。verify 的 sensing/ADC、比较宽度与共享条件应匹配同一配置，payload 在成功完成后只计一次。
+RESET/SET、终验、偏置退出和恢复按实际机制保留；完整 program 已含 verify/retry 时只计一次。循环次数取自证据和终点条件，不凭空加入或消去重试。
 
-对单局部编程域，持续循环重写、每次擦除实际支撑 $N_{p/e}$ 个有效页服务时，
+一个完整持续块周期包含所有数据、参考、校准及必要复制页：
 \begin{equation}
-B_R=B_{\rm page,logical},\quad
-\Delta_R=T_{\rm front}+T_{\rm program,full}+T_{
-\rm erase}/N_{p/e},\qquad \tau\approx B_R/\Delta_R.
+T_R=T_{\rm erase}+\sum_p(T_{{\rm front},p}+T_{{\rm program,full},p}),\qquad
+B_R=\sum_pB_{{\rm logical},p},\qquad\tau=B_R/T_R.
 \label{eq:page}
 \end{equation}
-有效页字节只计本逻辑状态真正更新的部分，数据装入与时间则覆盖实际操作的全部物理页、保留内容及编码。$N_{p/e}$ 由该映射实际利用的页服务数决定。已有预擦除空间上的 append 可在声明窗口内取擦除项为零；持续重写保留摊销。跨多个页才完成一组权重时，累计这些页的全部时间和对应逻辑字节。
+参考页和增强信号的重复存储可取零新增逻辑字节，但仍付编程与物理装入成本。只有能在选定 CIM 路径中独立选通并完成求值的权重才算有效容量。均匀且完整利用的块可化成页 program 加 erase/有效页次数；预擦除 burst 必须标明有限窗口。示意 256 Byte 页、2048 bit 装入、10\,$\mu$s 完整 program、200\,$\mu$s erase/16 页，参考服务为 $90+10000+12500=22590$ ns。
 
-\textbf{R0 页示意。} 有效页 256 Byte，恰好映射为 2048 bit；命令与数据分开，$n_b=16,\chi=0$，$T_{\rm front}=18T_D$。取含 verify 的完整 program 为 $10\us$，erase 为 $200\us$，$N_{p/e}=16$，则
-\[
-\Delta_R=18\times5\ns+10\us+200\us/16=22.59\us,
-\qquad \tau\approx0.0113\GBs.
-\]
-这是单域天然页操作的算术示意，没有引入 die/plane 复制并行。
+周期 refresh 与破坏性读恢复是内部维护，$Q_R$ 不因此增加。若维护与两路服务确实共享同一串行资源，每周期 $T_M$ 预留维护 $H$ 和最大不可抢占批 guard $G$，则 $\alpha=1-(H+G)/T_M$，维护后 $\rho=\alpha\rho_0,\tau=\alpha\tau_0$。原始与有效能力分开保存；$\alpha\leq0$ 标记不可行，输出空有效时间和能力，不能裁成微小正数。此模型不自动提供流水、跨端口重叠或新写抵扣刷新；这些策略须以资源和依赖另行证明。正常悲观情景应仍有合理持续服务余量，维护临界点另列。
 
-\subsection{示意算例与范围传播}
+\clearpage
+\subsection{配对算例、资源对照与机器接口}
 
-以下两个算例采用不绑定具体介质的合成物理时间，说明完整服务与范围传播。示意 1 使用 A+C：三个读侧时间为 10/25/40 ns，物理更新为 20/50/100 ns，$B_R=16$ Byte。示意 2 使用 B+D：读侧为 3/10/30 ns，完整 program 为 5/10/20\,$\mu$s，erase 为 100/200/400\,$\mu$s，每次擦除支撑 16 个有效 256-Byte 页。它们分别配短、参考、长外围情景。
-
-参考点两者都得到 $\Delta_S=3850\ns$、$\rho\approx0.03325\GBs$；写服务分别为 60 ns 与 22590 ns，所以 ridge 分别为 $(128/16)(60/3850)\approx0.1247$ 与 $(128/256)(22590/3850)\approx2.934$。读写时间之比必须与服务粒度因子一起使用。
-
+以下合成算例只检验计算关系，不绑定器件。ACIM 采用直接更新；DCIM 采用保持读码与原生页示意。三个情景固定各自组织，分别配公共短、参考、长时隙。
 \input{generated_examples}
 
-实际范围先固定配置和状态模式，组合物理相容的外围与介质输入，再逐情景计算 $(\rho,\tau,\RI^*)$。共同参数修改同时传播到两路。成对 ridge 范围优先；独立区间交叉相除的 $[\rho_{\min}/\tau_{\max},\rho_{\max}/\tau_{\min}]$ 另标为外包络。每个算例的三个情景用于展示成对范围，并非所有参数组合；范围是情景估计，不是统计置信区间。
-
-\subsection{小规模结构敏感性与后续填写规则}
-
-固定同一逻辑任务与近似/精确性合同，以 R0 为各路径基准。采用合成 $t_{m,A}=25$ ns、$t_{m,D}=10$ ns，外围取参考值；两路径均配 C 类的 16-Byte 直接更新、50 ns 物理周期，所以 $\tau=0.2667\GBs$ 保持不变。这与上文页示意是分开的检查情景，未标定任何介质。
-
+固定合成读时间与写组织，分别增加 ADC、模拟保持和数字通道的资源对照如下。A2 保持 1024 个模拟槽，至少 240 ns，另付每求值 5 ns 捕获；D1 将数字通道、感测宽度及保持容量均翻倍。没有等面积假设。
 \input{generated_sensitivity}
-
-A1 仅将每平面 ADC 从 16 增为 32，总数 128 增为 256；求值输出宽度随之从 16 增为 32。一批锁存码容量翻倍，仍由 16 条数字通道分两轮处理，故数字总拍数保持 128。A2 仍用原 ADC 和数字通道，一次求出全部 128 个输出再分八批读出：配置 128 输出并行求值前端、$8\times128=1024$ 个有效模拟保持槽，另加每次求值 5 ns 采集/建立开销，共 $T_H=40$ ns；按当前顺序保守要求保持至少 $8(20+10)=240$ ns。它要求隔离、噪声、漏电及负载后仍满足原读出目标；这里假设资源足够且 $t_{m,A}$ 不变，5 ns 和 240 ns 是示意预算与推导，尚非电路验证。D1 将数字输出通道从 16 增为 32，局部读出与乘法/归约资源同步翻倍，假设该负载仍支持 5 ns 节拍。三个变更均保留权重容量、写接口及更新步骤，因而本示意的 $\tau$ 不变。
-
 \input{generated_timing_sensitivity}
 
-小幅外围扰动的影响由其占总占用的比例决定；上述数字节拍扰动下 A 路 ridge 较稳，是该示意中读写两路变化接近抵消。结构对照则使 $\rho$ 与 ridge 移动约 1.7--2 倍，表明共享、重复求值及串行计算轮数会显著影响结果。较小时间扰动下的稳定性不能推广为对整个外围范围或所有介质都稳定，也不能据这些合成读写时间排序介质。
-
-后续统一逻辑任务、边界、精度合同、外围范围与默认 R0；介质章节按证据填写读响应、合法行/平面分组、编码、实际写并行度、program/verify/erase 及专用维护，再按同一规则推导次数。结构例外保留原参考与变更记录，明确哪些时间需要随资源重算。破坏性读后 restore 进入相关读步骤，周期 refresh 采用服务占用块或对应资源可用率两者之一；内部维护不增加 workload 更新字节。寿命另作可行性约束。共享参数与介质输入要求见 \texttt{data/shared\_parameters.json}。
+计算 API 显式接收各例逻辑尺寸，分别提供操作计数、完整装载覆盖检查、原生页块服务、式~\ref{eq:mapping} 的映射接口和共享串行维护预留。机器结果保存未取整值；展示表约两位有效数字。完整参数、资源规则及调用方式见 JSON 和 README。

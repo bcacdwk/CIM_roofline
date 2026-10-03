@@ -1,32 +1,22 @@
-# RRAM 二状态位切片的局部服务估算
+# RRAM 原生共享读线与二态更新
 
-当前统一入口：[十例复核](../TEN_CASE_REVIEW.zh.md) · [结果JSON](../data/ten_case_results.json) · [结果CSV](../data/ten_case_results.csv)。PDF首页结果卡与这些导出由统一适配器生成；本例原始未取整结果仍在 `data/results.json`。摘要统一十进制MB/s，情景分类见统一复核。
+八个完整64×128等尺度WH-2T1R宏构成`W[64,128]` INT8，8192 Byte有效容量、65536 cell。每宏四个64×32子阵列保留共享TBL，由CIMSEL分时；32项活动、128 ADC、16数字通道。
 
+| 固定资源情景 | ρ (MB/s) | τ (MB/s) | RI* |
+|---|---:|---:|---:|
+| 乐观 | 47.5 | 7.11 | 6.69 |
+| 典型 | 25.0 | 4.29 | 5.82 |
+| 悲观 | 11.7 | 1.68 | 7.00 |
 
-已完成同一共享基线下的有限条件工程估算：二状态 HRS/LRS、八个等尺度权重位平面、32项读分组，16个独立编程/二状态窗口读验通道。完整RESET、masked SET、重试、HV建立/恢复及本地读回全部计入。这是参考设计服务预算，不是同一芯片实测复原或材料保证区间。
+典型ΔS=5.130 µs；完整8192 Byte装载T_R=1.911760 ms，τ=8192/T_R，U*=T_R/ΔS=64·RI*。完整装载包含512个16 Byte事务及写rail建立/退出。
 
-- [中文章节 PDF](output/pdf/rram.pdf)、[章节 TeX](tex/05_rram.tex)、[独立入口](tex/rram.tex)。
-- [参数证据表](notes/parameter_evidence.zh.md)：原值、PDF定位、操作锚点和工程选择分开。
-- [输入及R1–R5记录](data/inputs.json)、[结果/物理映射/对照](data/results.json)、[来源与哈希](data/provenance.json)。
-- [方法审阅](notes/method_review.zh.md)、[计算检查](scripts/check_rram.py)。
+- [中文PDF](output/pdf/rram.pdf) · [正文](tex/05_rram.tex) · [独立入口](tex/rram.tex)
+- [输入及证据](data/inputs.json) · [原生资源/结果/两表接口](data/results.json) · [证据笔记](notes/parameter_evidence.zh.md)
+- [复算](scripts/check_rram.py) · [方法与QA](notes/method_review.zh.md)
 
-<!-- BEGIN GENERATED RESULTS -->
-| 成对情景 | ΔS (µs) | ΔR (µs) | ρ (MB/s) | τ (MB/s) | RI* |
-|---|---:|---:|---:|---:|---:|
-| 短预算 | 5.380 | 48.340 | 23.79182 | 0.33099 | 71.881 |
-| 参考 | 10.250 | 72.970 | 12.48780 | 0.21927 | 56.952 |
-| 长预算 | 21.780 | 148.100 | 5.87695 | 0.10804 | 54.399 |
-<!-- END GENERATED RESULTS -->
+128实际写驱动、256窗口比较器、300 µA/lane及38.4 mA总额定计入资源，16驱动只作缩资源对照。每宏同WL16列独立BL/SL、八宏并行，无共享TBL的免费切分。写rail在整矩阵期间保持，开始/退出各1 µs；每次尝试仍付50/100/250 ns局部选通/退偏与新的二态验证。1 pF/lane负载上限及电流余量检查说明这一工程时隙的条件，不称实测转换时间。
 
-主成对范围：ρ≈5.88–23.79 MB/s、τ≈0.10804–0.33099 MB/s、RI*≈54.4–71.9。GB/MB均为十进制。
-
-16-lane来自八位平面×两个列组；同一输出WL上分两相位写，八批覆盖16个完整INT8权重。需要16个耐压/限流驱动、32个binary比较器、2个组地址计数器及mask/done状态；电源预算0.30 mA/lane、总4.8 mA，最高1.8 V需专用耐压I/O。没有从128-bit数据口推出128-cell并行。
-
-程序采用文献实际1 µs SET/RESET脉宽作为跨stack操作预算，高压建立/回读各预留1 µs；本地binary完整sense采用共同10/20/50 ns能力预算，另计输入选通、5 ns建立和控制。尝试次数RESET/SET为1/1、2/1、4/2；成功条件是每批全部活动cell在对应次数内达到所选LRS 8–12 kΩ、HRS≥70 kΩ窗口。窗口和次数是参考设计选择，未移用NeuRRAM的8.52次、56 µs、成功率或电导终点。其1–10 µs外部受限读回不压入主本地服务。
-
-参考点仅启用一个lane时，保持相同binary预算得到ΔR=1167.370 µs、τ=0.013706 MB/s、RI*=911.118；同lane改用已有SAR，在统一完整sense预算下数值相同。这个对照分离了并行资源收益与感测选择，没有无依据删除校验时间。
-
-从本目录复算：
+完整1 µs SET/RESET借自跨stack实际波形；1/1、2/1、4/2尝试为正常完成情景，不是统计分布。外部测试读回不替代本地切换。典型独立16 Byte请求需5.730 µs；主结果不是任意小请求吞吐。外审重点为跨stack终点窗、实际供给/负载及局部切换条件。
 
 ```sh
 /opt/anaconda3/bin/python scripts/check_rram.py
@@ -34,8 +24,8 @@ sh scripts/build.sh
 /opt/anaconda3/bin/python scripts/render_pdf.py
 ```
 
-更新输入后用 `scripts/check_rram.py --emit` 刷新数字表与结果。脚本通过 `importlib` 调用共享接口，关闭bytecode；`build/`、`tmp/`被本目录忽略。
+`--emit`更新现有机器数据及生成TeX。检查包含原生映射/完整覆盖、独立典型算术、固定资源与主导参数对照、两表接口、原始PDF哈希及生成同步。
 
-共享JSON SHA256：`6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42`；共享脚本：`eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3`；方法TeX：`b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9`。三者未修改。
+正式PDF由统一构建入口重编译并逐页渲染；`tmp/pdfs/rendered/contact.png`按当前PDF的实际页数生成。最终视觉与日志记录见统一审阅入口。
 
-固定参考外围的尝试次数对照已加入：RESET/SET为1/1、2/1、4/2时，τ=0.3289/0.2193/0.1096 MB/s，ρ固定12.49 MB/s，RI*=37.97/56.95/113.90。重试预算与外围快慢不强制联动。
+结果卡`tex/result_card.tex`由`../scripts/export_ten_cases.py --emit`唯一生成，中央脚本默认只读逐字校验；本例检查保留全部模型、数据和正文生成项。统一卡生成后由统一构建重编译并复核PDF。

@@ -16,5 +16,6 @@ for i,page in enumerate(doc):
 sheet=Image.new('RGB',(3*416,((len(thumbs)+2)//3)*590),'white')
 for i,t in enumerate(thumbs):sheet.paste(t,((i%3)*416,(i//3)*590))
 sheet.save(out/'contact-sheet.png')
+sheet.save(out/'contact.png')
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 print(f'Rendered {len(doc)} pages to {out}')

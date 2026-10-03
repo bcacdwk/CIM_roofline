@@ -21,6 +21,7 @@ spec = importlib.util.spec_from_file_location('shared_dcim_reference', SHARED/'s
 S = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(S)
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+L=S.logical_configuration(D['native_configuration']['K'],D['native_configuration']['N'])
 
 
 def block(front, duration, count=1):
@@ -37,10 +38,10 @@ def compute():
         td, tc, tm = v['digital_tick'], x['complete_compute_round_ns'], x['complete_memory_cycle_ns']
         # Complete local MAC slot replaces both media-read and digital stages.
         # Common boundary ticks are composed separately at their unchanged T_D.
-        ds_core, counts = S.dcim_service(cfg, {**v, 'digital_tick':tc}, 0)
+        ds_core, counts = S.dcim_service(cfg, {**v, 'digital_tick':tc}, 0,L)
         ds = block(S.R['dcim']['boundary_ticks']*td, ds_core)
         update = {**D['update_geometry'], 'complete_physical_update_ns':tm}
-        br, uncollapsed_dr, batches, beats = S.direct_service(update, td)
+        br, uncollapsed_dr, batches, beats = S.direct_service(update, td,L)
         legacy_front, _ = S.front_ns(update['encoded_load_bits'], td, update['first_data_in_command'])
         # Full synchronous one-beat memory cycle already covers command/data capture
         # and compute-ready endpoint. No further task-level handshake is assumed.
@@ -53,33 +54,40 @@ def compute():
                    stage_coverage=dict(streaming=[
                        dict(stage='whole_vector_capture',count=1,duration_each_ns=td,coverage='1024-bit local input latch and schedule admission'),
                        dict(stage='complete_MAC_round',count=counts['compute_rounds'],duration_each_ns=tc,coverage='static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation'),
-                       dict(stage='whole_vector_commit',count=1,duration_each_ns=td,coverage='all128 results ready in24-bit registers; sign extension wiring'),
+                       dict(stage='whole_vector_commit',count=1,duration_each_ns=td,coverage='all16 results ready in23-bit registers'),
                        dict(stage='extra_read_or_ADC',count=0,duration_each_ns=0,coverage='read already included; no ADC/DAC')],
                        resident=[dict(stage='complete_synchronous_memory_cycle',count=batches,duration_each_ns=tm,
                                       coverage='command/address/all128 data captured; decode, BL/WL write, flip, recovery; compute-ready at next edge'),
                                  dict(stage='additional_task_handshake',count=0,duration_each_ns=0,coverage='none assumed; shared front replaced by covered macro cycle')],
                        replaced_shared_front_ns=legacy_front, direct_template_without_replacement_ns=uncollapsed_dr),
-                   **S.metrics(S.L['B_S_Byte'],br,ds,dr))
+                   **S.metrics(L['B_S_Byte'],br,ds,dr))
+        load=S.full_load_service(L,[dict(payload_Byte=br,service_ns=dr,count=int(L['resident_capacity_Byte']/br))])
+        row['mapping_interface']=S.mapping_metrics(L,ds,load['T_R_ns'])
+        row['raw_mapping_interface']=dict(row['mapping_interface'])
+        row['effective_mapping_interface']=dict(row['mapping_interface'])
+        row['raw_equals_effective']=True
         rows.append(row)
-        # Resource sensitivity: hypothetical R0 32-term datapath retaining the same clock.
-        r0cfg = {**S.R['dcim'], 'boundary_ticks':0}
-        r0core, r0counts = S.dcim_service(r0cfg,{**v,'digital_tick':tc},0)
-        r0ds = block(S.R['dcim']['boundary_ticks']*td,r0core)
-        comparisons.append(dict(id='R0_same_clock_'+x['id'], kind='conditional_resource_comparison',
-                                premise='32-term/16-output round reaches same full clock; not measured D6 timing',
-                                counts=r0counts, **S.metrics(S.L['B_S_Byte'],br,r0ds,dr)))
+        # Eight native capacity tiles served serially by one active compute/write domain.
+        bigger=S.logical_configuration(128,128)
+        grouped_core,grouped_counts=S.dcim_service(cfg,{**v,'digital_tick':tc},0,bigger)
+        grouped_ds=block(S.R['dcim']['boundary_ticks']*td,grouped_core)
+        comparisons.append(dict(id='eight_tiles_serial_'+x['id'],kind='organization_comparison',
+            premise='eight native16-term tiles installed,one active;no32-term same-clock claim',
+            installed_output_lanes=128,active_output_lanes=16,counts=grouped_counts,
+            mapping_interface=S.mapping_metrics(bigger,grouped_ds,1024*dr),
+            **S.metrics(bigger['B_S_Byte'],br,grouped_ds,dr)))
         comparisons.append(dict(id='extra_handshake_'+x['id'],kind='boundary_sensitivity',
                                 premise='additional external preparation/completion not covered by primitive; one common tick each',
                                 added_handshake_ns=legacy_front,
-                                **S.metrics(S.L['B_S_Byte'],br,ds,uncollapsed_dr)))
+                                **S.metrics(L['B_S_Byte'],br,ds,uncollapsed_dr)))
     def span(key): return [min(r[key] for r in rows), max(r[key] for r in rows)]
     ranges={key:span(key) for key in ['delta_S_ns','delta_R_ns','rho_Byte_per_s','tau_Byte_per_s','ridge']}
     return dict(analysis_id=D['analysis_id'],baseline_id=S.D['baseline_id'],
                 baseline_files_actual={f:sha(SHARED/f) for f in D['baseline_files']},
-                status='conditional_reference_estimate_not_measured_paired_chip',scenarios=rows,
+                status='conditional_reference_estimate_not_measured_paired_chip',native_configuration=D['native_configuration'],scenarios=rows,
                 sensitivities=comparisons,ranges=ranges,
-                whole_matrix_updates=dict(logical_payload_Byte=S.L['resident_capacity_Byte'],
-                                           aligned_transactions=S.L['resident_capacity_Byte']//rows[0]['B_R_Byte']))
+                whole_matrix_updates=dict(logical_payload_Byte=L['resident_capacity_Byte'],
+                                           aligned_transactions=L['resident_capacity_Byte']//rows[0]['B_R_Byte']))
 
 
 def esc(s):
@@ -104,11 +112,11 @@ def table_sensitivity(result):
           r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
           r'参考时隙条件 & $\Delta_S$ (ns) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\mathrm{RI}^{*}$\\\midrule']
     items=[('主情景：16项，完整写周期', result['scenarios'][1]),
-           ('条件对照：32项，同MAC时钟',next(x for x in result['sensitivities'] if x['id']=='R0_same_clock_reference')),
+           ('八个原生tile串行',next(x for x in result['sensitivities'] if x['id']=='eight_tiles_serial_reference')),
            ('另有两拍外部写握手',next(x for x in result['sensitivities'] if x['id']=='extra_handshake_reference'))]
     for label,r in items:
         rows.append(f"{label} & {r['delta_S_ns']:g} & {r['delta_R_ns']:g} & {r['rho_Byte_per_s']/1e6:.4g} & {r['tau_Byte_per_s']/1e6:.4g} & {r['ridge']:.4g}"+r'\\')
-    rows += [r'\bottomrule\end{tabular}',r'\caption{结构及边界条件的独立影响。32项同钟需要相应归约和读带宽；最后一行只适用于确有额外握手的实现。}\label{02_sram_dcim:tab:dcim-sensitivity}\end{table}']
+    rows += [r'\bottomrule\end{tabular}',r'\caption{结构及边界条件的独立影响。八个原生tile保留16项归约与同一写域；最后一行只适用于确有额外握手的实现。}\label{02_sram_dcim:tab:dcim-sensitivity}\end{table}']
     return '\n'.join(rows)+'\n'
 
 
@@ -155,18 +163,18 @@ class Checks(unittest.TestCase):
         for sid,s in D['sources'].items(): self.assertEqual(sha(CORPUS/s['pdf']['path']),s['pdf']['sha256'],sid)
     def test_mapping_and_payload(self):
         m=D['device_state_and_mapping']
-        self.assertEqual(m['capacity_tiles']*math.prod(m['tile_physical_bits']),S.L['resident_capacity_Byte']*8)
-        self.assertEqual(m['capacity_tiles']*m['tile_logical_weights'][1],S.L['n_out'])
-        self.assertEqual(S.L['B_S_Byte'],128)
+        self.assertEqual(m['capacity_tiles']*math.prod(m['tile_physical_bits']),L['resident_capacity_Byte']*8)
+        self.assertEqual(m['capacity_tiles']*m['tile_logical_weights'][1],L['n_out'])
+        self.assertEqual(L['B_S_Byte'],128)
         self.assertLessEqual(128*128*128,2**23-1)
-        self.assertEqual(S.L['resident_capacity_Byte']//16,1024)
+        self.assertEqual(L['resident_capacity_Byte']//16,128)
     def test_round_coverage_against_original(self):
         r=compute()['scenarios'][0]
-        self.assertEqual(r['counts']['compute_rounds'],512)
-        self.assertEqual(r['counts']['compute_rounds']//8,64)
-        self.assertEqual(r['physical_static_row_group_activations'],64)
-        self.assertEqual(r['counts']['compute_rounds']*16*16,8*128*128)
-        self.assertEqual(S.dcim_counts(S.R['dcim'])['compute_rounds'],256)
+        self.assertEqual(r['counts']['compute_rounds'],64)
+        self.assertEqual(r['counts']['compute_rounds']//8,8)
+        self.assertEqual(r['physical_static_row_group_activations'],8)
+        self.assertEqual(r['counts']['compute_rounds']*16*16,8*128*16)
+        self.assertEqual(S.dcim_counts(S.R['dcim'],S.L)['compute_rounds'],256)
     def test_anchor_rounding_and_profiles(self):
         self.assertGreaterEqual(D['scenarios'][0]['complete_compute_round_ns'],1000/233)
         self.assertGreaterEqual(D['scenarios'][0]['complete_memory_cycle_ns'],1000/455)
@@ -185,19 +193,21 @@ class Checks(unittest.TestCase):
             self.assertEqual(r['delta_R_ns'],r['inputs']['complete_memory_cycle_ns'])
     def test_metrics_hand_checks_and_aggregation(self):
         r=compute()['scenarios'][1]
-        self.assertEqual(r['delta_S_ns'],2570)
+        self.assertEqual(r['delta_S_ns'],64*5+2*5)
         self.assertEqual(r['delta_R_ns'],5)
-        self.assertAlmostEqual(r['rho_Byte_per_s']/1e9,128/2570)
+        self.assertAlmostEqual(r['rho_Byte_per_s']/1e9,128/330)
         self.assertAlmostEqual(r['tau_Byte_per_s']/1e9,16/5)
-        self.assertAlmostEqual(r['ridge'],8*5/2570)
-        agg=S.metrics(128,16384,2570,1024*5)
+        self.assertAlmostEqual(r['ridge'],8*5/330)
+        agg=S.metrics(128,2048,330,128*5)
         self.assertAlmostEqual(agg['tau_Byte_per_s'],r['tau_Byte_per_s'])
         self.assertAlmostEqual(agg['ridge'],r['ridge'])
+        self.assertAlmostEqual(r['mapping_interface']['U_star'],640/330)
+        self.assertAlmostEqual(r['mapping_interface']['U_star'],16*r['ridge'])
     def test_comparisons_do_not_replace_main(self):
         r=compute(); c={x['id']:x for x in r['sensitivities']}
-        self.assertEqual(c['R0_same_clock_reference']['delta_S_ns'],1290)
+        self.assertEqual(c['eight_tiles_serial_reference']['delta_S_ns'],2570)
         self.assertEqual(c['extra_handshake_reference']['delta_R_ns'],15)
-        self.assertEqual(c['extra_handshake_reference']['delta_S_ns'],2570)
+        self.assertEqual(c['extra_handshake_reference']['delta_S_ns'],330)
         self.assertEqual(len(r['scenarios']),3)
     def test_generated_files_current(self):
         for f,s in generated().items(): self.assertEqual((BASE/f).read_text(),s,f)

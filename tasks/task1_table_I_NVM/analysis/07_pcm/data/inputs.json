@@ -2,7 +2,7 @@
   "baseline_id": "shared_baseline",
   "case_id": "07_pcm",
   "kind": "literature_supported_reference_design_not_measured_chip",
-  "mode": "binary_SLC_8_bit_planes_voltage_summing_ACIM",
+  "mode": "8-plane binary/SLC voltage-mode approximate ACIM; one native256x1024bank;8activeWL",
   "precision": "Calibrated approximate partial sums; binary endpoint does not make cell currents identical; 24-bit output containers do not imply exact integer arithmetic.",
   "mapping": {
     "rows_per_group": 8,
@@ -11,14 +11,21 @@
     "writeheads": 32,
     "write_planes_parallel": 1,
     "program_source_line_group_width": 4,
-    "transaction_pattern": "d=0..127, s=0..3; c=4*h+s, r=(c+d) mod128, h=0..31; all eight planes",
+    "transaction_pattern": "r=0..255,s=0..3;c=4h+s,h=0..31;onecomputeWL row,all8planes serial;1024transactions",
     "verify_adc_group_width": 8,
-    "verify_rule": "In each plane, 16 ADC lanes a=0..15; pass k=0,1 selects c=8*a+4*k+s and the selected diagonal row; repeat fullF_A/reset/re-read for each pass; no 32-sample hold.",
-    "read_resource": "128x128 binary arrays per plane; read selects eight input rows and 16 output columns, eight planes in parallel; program diagonal gate decode and column switches are mode-isolated from voltage MAC frontend.",
-    "write_resource": "One global domain with 32 current IDACs, each selects one of four columns in one active plane; 8:1 plane routing, current-compliance supply, mode switches, diagonal gate decoder, 256-bit transaction buffer, 32 data/mask latches; 16 ADC per plane reused for verify.",
-    "arbitrary_sparse_update": "The tabulated service is an aligned 32-weight diagonal transaction. Full matrix reload aggregates 512 such transactions. Sparse or contiguous writes with fewer useful selected weights require a smaller BR and cannot inherit full tau.",
-    "mode_access_selection": "Per-cell mode gate mux selects compute input-WL gate or diagonal gate, with two routing networks, level shifting and unselected-plane isolation; not simply co-wiring original gate decoders. Read F and write g include selected mux/parasitic settling; circuit timing remains a reference condition.",
-    "voltage_to_partial_sum": "128 parallel per-ADC 9-level calibrated decoders with column-dependent thresholds/LUT. First TD combines voltage decode and8-plane weighted sum, second TD accumulates input bit. Raw SAR code is not a popcount; intra-class conductance variation remains approximate error."
+    "verify_rule": "One selectedWL r;16ADC lanes perplane,a=0..15;passk0/1 selects c=8a+4k+s;freshfullF_A/reset/read eachpass;noanaloghold",
+    "read_resource": "One native256x1024bank fromPCM03Fig11.3.7;8SLC columns perweight => K256N128;128ADC with8:1columnmux,8activeWL,16digitaloutputchannels;24bit fulloutput",
+    "write_resource": "32IDACs,one selectednativeWL row,4columnslots perIDAC perplane,8plane routing,columnread/writeisolation;256bit targetbuffer,32mask/done;sharedreturn rated22.4mA RESET/4mA SET;128column positions perplane and16ADC",
+    "arbitrary_sparse_update": "Full32768B load is1024aligned32B row-stripedtransactions;r0..255,s0..3.Contiguous/sparse request requires actualstripepayload/coverage;noautomaticfull32B utilization.",
+    "mode_access_selection": "NativecomputeWL selects one row duringwrite/verify;selected32physicalcolumns p=8c+w connectIDAC;othercolumnBL/SL equalpotentialinhibit,otherrowsgateoff;columnmodeisolation and8plane routing,notper-cellgatemux.22.4mA return strap/sink andcurrentcompliance must support selectedrow.",
+    "voltage_to_partial_sum": "128 parallel per-ADC 9-level calibrated decoders with column-dependent thresholds/LUT. First TD combines voltage decode and8-plane weighted sum, second TD accumulates input bit. Raw SAR code is not a popcount; intra-class conductance variation remains approximate error.",
+    "logical_K": 256,
+    "logical_N": 128,
+    "native_bank_rows": 256,
+    "native_bank_columns": 1024,
+    "physical_banks": 1,
+    "native_evidence": "PCM-03 PDFp3Fig11.3.7:256rowsx1024columns/subbank;PDFp2Figs11.3.2/3:8activeWL,32groups for256inputs;Fig11.3.5:8SLC organization contrast",
+    "physical_selection_proof": "Gate enabled iff row=r;program differential iff physicalcolumn p=8(4h+s)+w is among32selected columns;all otherrowgatesoff andsame-row unselectedBL/SL at equalpotential;return mustcarry22.4mA reset."
   },
   "profiles": {
     "short": {
@@ -46,11 +53,11 @@
     "set_attempts": 1,
     "verify_precharge_ns": 256,
     "verify_low_current_read_ns": 512,
-    "verify_adc_timing": "Main binary verify uses the same IM/clamp/column voltage path with single-cell diagonal selection: full F_A already covers q=0 and q=1 endpoint levels at fixed bias/column load, followed by shared TA and16parallel two-class comparisons in one TD. No assumption that8cell signal always larger. Per-mode thresholds calibrate inactive-branch leakage/offset; same access-gate voltage and clamp compliance required. Each pass repeats full F_A; no hold.",
+    "verify_adc_timing": "Main binary verify uses the same IM/clamp/column voltage path with single-row,one-cell-per-selected-column selection: full F_A already covers q=0 and q=1 endpoint levels at fixed bias/column load, followed by shared TA and16parallel two-class comparisons in one TD. No assumption that8cell signal always larger. Per-mode thresholds calibrate inactive-branch leakage/offset; same access-gate voltage and clamp compliance required. Each pass repeats full F_A; no hold.",
     "acceptance": "Two calibrated endpoint classes: HRS below lower threshold, SET above upper threshold, with disjoint band and rail check; source |GRESET|<5 and GSET>50 ADC-count unit-cell distributions motivate separation only. New local thresholds are calibrated in the chosen SAR/voltage frontend, not copied as literal shared-ADC counts. No analog target-tuning or per-weight error guarantee.",
     "normal_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
     "timing_ambiguity": "PCM01 p7 SET 'width of250ns with trailing edge of50ns' does not disambiguate inclusion. Main conservatively uses300ns; total250ns variant recorded as sensitivity.",
-    "driver_bridge": "10/20/50ns each for current-source/switch settle, post-RESET quench/rebias, and post-SET return are explicit engineering budgets around ns-to-hundreds-ns PCM waveforms, not measured recovery or microsecond HV overhead. Main verify repeats the same F_A bias/front settle; optional weak-signal comparison alone repeats256ns precharge.",
+    "driver_bridge": "10/20/50ns each for current-source/switch settle, post-RESET quench/rebias, and post-SET return are explicit engineering budgets around ns-to-hundreds-ns PCM waveforms, not measured recovery or microsecond HV overhead. Main verify repeats the same F_A bias/front settle; optional weak-signal comparison alone repeats256ns precharge. Original32IDAC is retained as native source current-driver organization;700uA RESET needs22.4mA total;SET125uA needs4mA. Eight-plane routing and column-mode isolation andnativeWL are explicitly present.",
     "driver_transition_endpoints": [
       "Mode/IDAC route reaches intendedRESET programming current before pulse",
       "AfterRESET completes: quench at zero current and change toSETbias before pulse",
@@ -74,7 +81,7 @@
         "rows_per_group": 8
       },
       "reason": "PCM03 p1/Fig11.3.2 voltage-summing topology activates8WL; pureSLC retains this representative grouping, not a PCM material limit.",
-      "both_services": "16 row groups multiply read rounds; programming uses separate diagonal selection and explicit batch list."
+      "both_services": "32row groups cover nativeK256;programming uses sameWL row andindependentcolumnbias;full32768B load is1024aligned32B transactions"
     },
     {
       "rule_id": "R4",
@@ -217,5 +224,16 @@
     "linked": "Each shared profile TD and its control/boundary terms must move together; media timing choices need not physically co-vary with the shared profile.",
     "rate_display": "decimal MB/s = 1e6 Byte/s",
     "maintenance_scope": "No periodic maintenance in the modeled local service window; raw occupancy equals effective interval for the stated accepted service scenario."
+  },
+  "native_configuration": {
+    "K": 256,
+    "N": 128,
+    "logical_capacity_Byte": 32768,
+    "physical_capacity_bit": 262144,
+    "physical_cells_per_weight": 8,
+    "native_bank_rows": 256,
+    "native_bank_columns": 1024,
+    "source": "PCM-03 p3 Fig11.3.7",
+    "update_shape": "row-striped32B,1024transactions"
   }
 }

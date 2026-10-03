@@ -1,179 +1,2046 @@
 {
-  "validation_kind": "independent representative arithmetic and cross-case semantics; not silicon/accuracy validation",
+  "validation_kind": "independent input-derived stage arithmetic, native geometry and resource/maintenance semantics; not silicon qualification or user acceptance",
+  "independence": "No case/shared calculation functions imported; no unified result or old expected point used to derive answers.",
   "cases": [
     {
       "case_id": "01_sram_acim",
-      "formula": "64(20+20+2×5)+2×5; complete SRAM write 5 ns",
-      "independent": {
-        "raw_streaming_ns": 3210,
-        "raw_resident_ns": 5,
-        "effective_streaming_ns": 3210.0,
-        "effective_resident_ns": 5.0,
-        "rho_MB_per_s": 39.87538940809969,
-        "tau_MB_per_s": 3200.0,
-        "RI_star": 0.012461059190031152
+      "inputs_sha256": "68ec369a3e44c183e3efc43d66b8011b96c69e5a85f84d652047dadc45476430",
+      "results_sha256": "961be3a32263a37e637c69c12ed3c5174128efee0b7d302b8c41ac0d6c4db9f8",
+      "native_configuration": {
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "effective_capacity_Byte": 16384,
+        "physical_capacity": {
+          "binary_cells": 131072,
+          "weight_planes": 8,
+          "rows_per_plane": 128,
+          "columns_per_plane": 128
+        },
+        "necessary_encoding": "eight binary weight planes; one9T1C charge-coupled cell per bit; HCA bypassed",
+        "independent_payload_replicas": 1,
+        "output_bits": 23,
+        "update_mode": "aligned16Byte update,128 true binary write drivers;1024 complete synchronous cycles per matrix",
+        "resources": {
+          "adc": 128,
+          "adc_per_plane": 16,
+          "adc_nominal_bits": 10,
+          "adc_effective_bits_target": 8,
+          "partial_sum_levels": 129,
+          "digital_lanes": 16,
+          "digital_ticks_per_batch": 2,
+          "input_register_bits": 1024,
+          "output_register_bits": 2944,
+          "analog_cross_group_hold_slots": 0,
+          "write_drivers": 128,
+          "write_domains": 1,
+          "encoded_interface_bits": 128
+        },
+        "configuration_kind": "128-row native charge-coupled mechanism, engineering binary-plane/SAR adaptation"
       },
-      "matrix_transactions": 1024,
-      "matrix_raw_resident_ns": 5120.0,
-      "pass_check": true
+      "independent_stage_formula": "DS=8 ceil(N/16)(F+TA+2TD)+2TD; TR=(KN/16)*complete_write_cycle",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "front": 640,
+            "ADC": 640,
+            "reconstruction": 256,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "complete_synchronous_writes": 2252.8
+          },
+          "raw_delta_S_ns": 1540,
+          "raw_T_R_ns": 2252.8,
+          "counts_and_resources": {
+            "vector_rounds": 64,
+            "full_load_transactions": 1024.0,
+            "physical_cells": 131072
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 1540.0,
+            "T_R_ns": 2252.8,
+            "rho_Byte_per_s": 83116883.11688311,
+            "tau_Byte_per_s": 7272727272.727272,
+            "RI_star": 0.01142857142857143,
+            "U_star": 1.462857142857143,
+            "average_update_ns_per_16KiB": 2252.8
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "front": 1280,
+            "ADC": 1280,
+            "reconstruction": 640,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "complete_synchronous_writes": 5120.0
+          },
+          "raw_delta_S_ns": 3210,
+          "raw_T_R_ns": 5120.0,
+          "counts_and_resources": {
+            "vector_rounds": 64,
+            "full_load_transactions": 1024.0,
+            "physical_cells": 131072
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 3210.0,
+            "T_R_ns": 5120.0,
+            "rho_Byte_per_s": 39875389.40809969,
+            "tau_Byte_per_s": 3200000000.0,
+            "RI_star": 0.012461059190031152,
+            "U_star": 1.5950155763239875,
+            "average_update_ns_per_16KiB": 5120.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "front": 3200,
+            "ADC": 3200,
+            "reconstruction": 1280,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "complete_synchronous_writes": 10240.0
+          },
+          "raw_delta_S_ns": 7700,
+          "raw_T_R_ns": 10240.0,
+          "counts_and_resources": {
+            "vector_rounds": 64,
+            "full_load_transactions": 1024.0,
+            "physical_cells": 131072
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 7700.0,
+            "T_R_ns": 10240.0,
+            "rho_Byte_per_s": 16623376.623376623,
+            "tau_Byte_per_s": 1600000000.0,
+            "RI_star": 0.01038961038961039,
+            "U_star": 1.3298701298701299,
+            "average_update_ns_per_16KiB": 10240.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "SACIM-03",
+          "path": "literature/01_sram_acim/SACIM-03_2023_Hierarchical_Attenuator.pdf",
+          "pdf_pages_inspected": [
+            2,
+            5
+          ],
+          "sha256": "4a0318542c1d90b3722e7f944f66dbc50bc2fd1601e12d47f98df243603c9bc8",
+          "checked_claim": "128 rows, 9T1C/HCA architecture and full 100MHz operation; SAR adaptation remains engineering"
+        },
+        {
+          "source_id": "CMOS-07",
+          "path": "literature/00_cmos_periphery/CMOS-07_2023_LowPower_DualPort_SRAM_AuthorRevision.pdf",
+          "pdf_pages_inspected": [
+            2,
+            9
+          ],
+          "sha256": "c63c21e5c4a6eee45ed35be0703ed1f6380009edc17e41dfc13d22f66a24d6a1",
+          "checked_claim": "complete synchronous SRAM write-cycle anchor, not read access"
+        }
+      ]
     },
     {
       "case_id": "02_sram_dcim",
-      "formula": "512 complete MAC slots×5+2×5; 64 static row-group selections; write 5 ns",
-      "independent": {
-        "raw_streaming_ns": 2570,
-        "raw_resident_ns": 5,
-        "effective_streaming_ns": 2570.0,
-        "effective_resident_ns": 5.0,
-        "rho_MB_per_s": 49.80544747081712,
-        "tau_MB_per_s": 3200.0,
-        "RI_star": 0.01556420233463035
+      "inputs_sha256": "013093ac1bc912ba3f8da25a1dbe73f48e213137c8258cfebb5bf18e8c0b44e1",
+      "results_sha256": "2be07619bfa8aa6fdd9032b34e537030edcbbf6bb3e1d02e3041bed8c28b6399",
+      "native_configuration": {
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "effective_capacity_Byte": 2048,
+        "physical_capacity": {
+          "binary_cells": 16384,
+          "tiles": 1,
+          "tile_rows": 128,
+          "tile_bit_columns": 128
+        },
+        "necessary_encoding": "8binary cells per INT8; two-complement reconstruction; static connection across input bits",
+        "independent_payload_replicas": 1,
+        "output_bits": 23,
+        "update_mode": "one128bit aligned local row;16Byte payload,128 complete cycles cover matrix",
+        "resources": {
+          "digital_lanes": 16,
+          "digital_terms_per_round": 16,
+          "installed_HCA_BFA": 16,
+          "active_HCA_BFA": 16,
+          "adc": 0,
+          "input_register_bits": 1024,
+          "output_register_bits": 368,
+          "added_operand_hold_bits": 0,
+          "weight_hold": "existing static local bitline connection",
+          "write_drivers": 128,
+          "write_domains": 1,
+          "encoded_interface_bits": 128
+        },
+        "configuration_kind": "native D6CIM128x16INT8 tile; no unused output capacity tiles in primary configuration"
       },
-      "matrix_transactions": 1024,
-      "matrix_raw_resident_ns": 5120.0,
-      "pass_check": true
+      "independent_stage_formula": "DS=8 ceil(K/16)ceil(N/16)*complete_MAC_cycle+2TD; TR=(KN/16)*complete_write_cycle",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "complete_MAC_rounds": 275.2,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "complete_synchronous_writes": 281.6
+          },
+          "raw_delta_S_ns": 279.2,
+          "raw_T_R_ns": 281.6,
+          "counts_and_resources": {
+            "complete_MAC_rounds": 64,
+            "row_groups": 8,
+            "full_load_transactions": 128.0,
+            "physical_cells": 16384
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 16,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 2048,
+            "delta_S_ns": 279.2,
+            "T_R_ns": 281.6,
+            "rho_Byte_per_s": 458452722.0630373,
+            "tau_Byte_per_s": 7272727272.727272,
+            "RI_star": 0.06303724928366763,
+            "U_star": 1.0085959885386822,
+            "average_update_ns_per_16KiB": 2252.8
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "complete_MAC_rounds": 320,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "complete_synchronous_writes": 640.0
+          },
+          "raw_delta_S_ns": 330,
+          "raw_T_R_ns": 640.0,
+          "counts_and_resources": {
+            "complete_MAC_rounds": 64,
+            "row_groups": 8,
+            "full_load_transactions": 128.0,
+            "physical_cells": 16384
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 16,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 2048,
+            "delta_S_ns": 330.0,
+            "T_R_ns": 640.0,
+            "rho_Byte_per_s": 387878787.8787879,
+            "tau_Byte_per_s": 3200000000.0,
+            "RI_star": 0.12121212121212122,
+            "U_star": 1.9393939393939394,
+            "average_update_ns_per_16KiB": 5120.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "complete_MAC_rounds": 640,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "complete_synchronous_writes": 1280.0
+          },
+          "raw_delta_S_ns": 660,
+          "raw_T_R_ns": 1280.0,
+          "counts_and_resources": {
+            "complete_MAC_rounds": 64,
+            "row_groups": 8,
+            "full_load_transactions": 128.0,
+            "physical_cells": 16384
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 16,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 2048,
+            "delta_S_ns": 660.0,
+            "T_R_ns": 1280.0,
+            "rho_Byte_per_s": 193939393.93939394,
+            "tau_Byte_per_s": 1600000000.0,
+            "RI_star": 0.12121212121212122,
+            "U_star": 1.9393939393939394,
+            "average_update_ns_per_16KiB": 10240.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "SDCIM-01",
+          "path": "literature/02_sram_dcim/SDCIM-01_2023_D6CIM.pdf",
+          "pdf_pages_inspected": [
+            1
+          ],
+          "sha256": "bbb72fb65095bfeee511c7ef5ca4f12c8a427a6718347695c0a462f1f4358e9e",
+          "checked_claim": "128x128 bit physical macro = K128N16 INT8; 16 HCA/BFA and 64 clocks"
+        }
+      ]
     },
     {
       "case_id": "03_nor_2d",
-      "formula": "256(120+5)+10; 4×45ms+64×0.4ms+(64×18+4×2)×5ns",
-      "independent": {
-        "raw_streaming_ns": 32010,
-        "raw_resident_ns": 205605800.0,
-        "effective_streaming_ns": 32010.0,
-        "effective_resident_ns": 205605800.0,
-        "rho_MB_per_s": 3.998750390502968,
-        "tau_MB_per_s": 0.07968646798874351,
-        "RI_star": 50.18104693845673
+      "inputs_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+      "results_sha256": "d47ef084cf415c718d4becefdcc51b909a1ef95f7a6190b532c403a98a6b6131",
+      "native_configuration": {
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "logical_capacity_Byte": 16384,
+        "effective_logical_capacity_Byte": 16384,
+        "physical_capacity_Byte": 16384,
+        "physical_storage_bits": 131072,
+        "physical_binary_storage_sites": 131072,
+        "encoding": "eight independent binary storage bits per signed INT8 weight; no analog tuning",
+        "signal_enhancement_replication": 1,
+        "independent_service_units": 1,
+        "native_page_Byte": 256,
+        "native_sector_Byte": 4096,
+        "physical_organization": "32 slices x 512 Byte; eight slices per 4 KiB sector; two full pages per slice",
+        "output_container_bits": 23,
+        "input_register_bits": 1024,
+        "output_register_bits": 2944,
+        "update_payload_Byte": 16384,
+        "update_shape": "arbitrary full-matrix sustained overwrite; erase four dedicated sectors, program all sixty-four pages",
+        "resources": {
+          "binary_sense_nodes": 4096,
+          "adc_count": 0,
+          "sense_bits_per_read": 4096,
+          "weight_tile_register_bits": 4096,
+          "weight_tile_register_banks": 1,
+          "capture_ticks_per_read": 1,
+          "digital_output_lanes": 16,
+          "active_input_rows": 32,
+          "partial_sum_register_bits": 368,
+          "page_buffer_bits": 2048,
+          "write_domains": 1,
+          "physical_write_parallelism": "one native page engine; internal cell parallelism not reported",
+          "encoded_interface_bits": 128,
+          "streaming_update_overlap": false
+        },
+        "display_conversion": "T_R_ns * 16384 / logical_capacity_Byte; average cost, not arbitrary request latency"
       },
-      "matrix_transactions": 1,
-      "matrix_raw_resident_ns": 205605800.0,
-      "pass_check": true
+      "independent_stage_formula": "tiles=ceil(K/32)ceil(N/16); DS=tiles*(read+TD+8TD)+2TD; TR=pages*(P+(page_bits/128+2)TD)+sectors*(E+2TD)",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "binary_sense": 3200,
+            "new_tile_capture": 64,
+            "digital_reduction": 512,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "page_program": 25600000.0,
+            "sector_erase": 180000000.0,
+            "page_load_control": 2304,
+            "erase_control": 16
+          },
+          "raw_delta_S_ns": 3780,
+          "raw_T_R_ns": 205602320.0,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "full_pages": 64,
+            "full_sectors": 4,
+            "single_tile_hold_bits": 4096,
+            "physical_cells": 131072
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 3780.0,
+            "T_R_ns": 205602320.0,
+            "rho_Byte_per_s": 33862433.862433866,
+            "tau_Byte_per_s": 79687.81675226233,
+            "RI_star": 424.9386574074074,
+            "U_star": 54392.148148148146,
+            "average_update_ns_per_16KiB": 205602320.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "binary_sense": 3840,
+            "new_tile_capture": 160,
+            "digital_reduction": 1280,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "page_program": 25600000.0,
+            "sector_erase": 180000000.0,
+            "page_load_control": 5760,
+            "erase_control": 40
+          },
+          "raw_delta_S_ns": 5290,
+          "raw_T_R_ns": 205605800.0,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "full_pages": 64,
+            "full_sectors": 4,
+            "single_tile_hold_bits": 4096,
+            "physical_cells": 131072
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 5290.0,
+            "T_R_ns": 205605800.0,
+            "rho_Byte_per_s": 24196597.353497166,
+            "tau_Byte_per_s": 79686.4679887435,
+            "RI_star": 303.6475070888469,
+            "U_star": 38866.880907372404,
+            "average_update_ns_per_16KiB": 205605800.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "binary_sense": 4160,
+            "new_tile_capture": 320,
+            "digital_reduction": 2560,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "page_program": 192000000.0,
+            "sector_erase": 1600000000.0,
+            "page_load_control": 11520,
+            "erase_control": 80
+          },
+          "raw_delta_S_ns": 7060,
+          "raw_T_R_ns": 1792011600.0,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "full_pages": 64,
+            "full_sectors": 4,
+            "single_tile_hold_bits": 4096,
+            "physical_cells": 131072
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 7060.0,
+            "T_R_ns": 1792011600.0,
+            "rho_Byte_per_s": 18130311.614730876,
+            "tau_Byte_per_s": 9142.79795956678,
+            "RI_star": 1983.0156692634562,
+            "U_star": 253826.0056657224,
+            "average_update_ns_per_16KiB": 1792011600.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "NOR-02",
+          "path": "literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
+          "pdf_pages_inspected": [
+            66
+          ],
+          "sha256": "5e2f6a77e0225a5c61b8f4b5b9680b57e0e1fe68cfc011465e30f665fe282057",
+          "checked_claim": "full tPP 0.4/3ms and 4KiB tSE45/400ms"
+        }
+      ]
     },
     {
       "case_id": "04_nand_3d",
-      "formula": "T_int=16pF×0.4V/(128×2nA)=25us; C=80687ns; 1280 complete P+128 E+C",
-      "independent": {
-        "raw_streaming_ns": 1687682,
-        "raw_resident_ns": 7040784687,
-        "effective_streaming_ns": 1687682.0,
-        "effective_resident_ns": 7040784687.0,
-        "rho_MB_per_s": 0.07584367197137849,
-        "tau_MB_per_s": 0.0023270133555214623,
-        "RI_star": 32.59271021862383
+      "inputs_sha256": "b358be22ede7829b4ca607eab4ce49fe36628eb1140a447050c2e8a94d7ddc08",
+      "results_sha256": "379b38d1b160f3b4c1130d262aa7ba6de550f20a9beaa8ee409a71f25a13cf91",
+      "native_configuration": {
+        "n_in": 4608,
+        "n_out": 480,
+        "K": 4608,
+        "N": 480,
+        "b_S": 1,
+        "b_R": 1,
+        "B_S_Byte": 4608,
+        "resident_capacity_Byte": 2211840,
+        "output_count": 480,
+        "output_container_bits": 29,
+        "input_register_bits": 36864,
+        "output_register_bits": 13920,
+        "mode": "SLC SGVC current-sum ACIM, base4 offset encoding, approximate INT8",
+        "logical_matrix_order": "W[N,K]",
+        "logical_capacity_Byte": 2211840,
+        "physical_capacity_bit": 84934656,
+        "physical_capacity_Byte": 10616832.0,
+        "physical_data_cells": 79626240,
+        "reference_cells": 5308416,
+        "logical_weight_bits": 17694720,
+        "physical_cells_per_INT8_weight": 36,
+        "encoding_ratio_data_bits_to_logical_bits": 4.5,
+        "storage_utilization_including_required_encoding": 0.9375,
+        "independent_logical_fraction_of_physical_bit_capacity": 0.20833333333333334,
+        "input_copies": 3,
+        "weight_SSL_code": "LSB once,MSB twice",
+        "bitlines_per_page": 13824,
+        "physical_page_Byte": 1728,
+        "blocks": 64,
+        "wordlines_per_block": 32,
+        "SSL_per_block": 3,
+        "data_WL": 30,
+        "reference_WL": 2,
+        "row_group_size": 1152,
+        "row_groups": 4,
+        "parallel_output_lanes": 16,
+        "physical_weight_digit_groups": 4,
+        "resources": {
+          "ADC_count": 64,
+          "ADC_nominal_bits": 10,
+          "ADC_effective_bits": 8,
+          "current_frontends": 64,
+          "current_full_scale_uA_per_frontend": 25,
+          "dense_nominal_current_uA_per_frontend": 20.736,
+          "dense_total_current_mA": 1.327104,
+          "native_SL_capacitance_pF_per_block": 16,
+          "added_feedback_capacitance_pF": 0,
+          "digital_output_channels": 16,
+          "affine_multipliers": 64,
+          "input_register_bits": 36864,
+          "intermediate_accumulator_bits": 14400,
+          "intermediate_container_bits": 30,
+          "signed_correction_channel_bits": 480,
+          "final_output_register_bits": 13920,
+          "weight_sum_metadata_bits": 10080,
+          "input_sum_register_bits": 21,
+          "calibration_gain_offset_register_bits": 12288,
+          "calibration_arithmetic_lanes": 16,
+          "write_data_port_bits": 128,
+          "page_buffer_bits": 13824,
+          "actual_write_domain": "one native page program domain with native page-buffer inhibit/verify",
+          "physical_page_program_targets": 13824,
+          "external_update_domains": 1
+        },
+        "update_mode": "sustained whole-matrix replace;64block erases+6144page programs",
+        "resident_publish": "atomic whole matrix after page verify,calibration and metadata pass",
+        "metadata_lifecycle": "Invalidate whole matrix before first erase;accumulate offset-weight sums from canonical,nonduplicated bit-plane data using same metadata bank;publish only after all pages,reference/calibration and metadata complete;no concurrent evaluation during replacement;failure leaves matrix invalid",
+        "precision_contract": "calibrated approximate sums;offset correction does not recover ADC quantization"
       },
-      "matrix_transactions": 1,
-      "matrix_raw_resident_ns": 7040784687.0,
-      "pass_check": true
+      "independent_stage_formula": "DS=output_WL*tWL+rounds*(tBL+tSL+TA+3TD)+(ceil(K/16)+2ceil(N/16)+2)TD; TR=physical_pages*(P+(page_bits/128+2)TD)+blocks*E+N*8*ceil(K/128)TD+C",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "WL_setup": 9090,
+            "BL_formation": 5760,
+            "SL_establishment": 254400,
+            "ADC": 4800,
+            "affine_merge_accumulate": 2880,
+            "input_offset_sum": 576,
+            "final_signed_correction": 120,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "page_program": 1843200000,
+            "block_erase": 64000000.0,
+            "encoded_page_load_control": 1351680,
+            "canonical_weight_sum_metadata": 276480,
+            "finite_calibration": 8130
+          },
+          "raw_delta_S_ns": 277630,
+          "raw_T_R_ns": 1908836290.0,
+          "counts_and_resources": {
+            "row_groups": 4,
+            "analog_rounds": 480,
+            "physical_pages": 6144,
+            "blocks": 64,
+            "physical_cells": 84934656,
+            "data_cells": 79626240,
+            "reference_cells": 5308416,
+            "logical_fraction_of_physical_bits": 0.20833333333333334,
+            "dense_current_uA": 20.736,
+            "calibration_rounds": 12,
+            "calibration_ticks": 450,
+            "metadata_generation_ticks": 138240,
+            "intermediate_signed_bits_required": 30
+          },
+          "independent_mapping": {
+            "K": 4608,
+            "N": 480,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 4608,
+            "full_resident_payload_Byte": 2211840,
+            "delta_S_ns": 277630.0,
+            "T_R_ns": 1908836290.0,
+            "rho_Byte_per_s": 16597629.939127615,
+            "tau_Byte_per_s": 1158737.4001570349,
+            "RI_star": 14.323892485802446,
+            "U_star": 6875.468393185174,
+            "average_update_ns_per_16KiB": 14139528.074074075
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "WL_setup": 9090,
+            "BL_formation": 5760,
+            "SL_establishment": 307200,
+            "ADC": 9600,
+            "affine_merge_accumulate": 7200,
+            "input_offset_sum": 1440,
+            "final_signed_correction": 300,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "page_program": 1843200000,
+            "block_erase": 64000000.0,
+            "encoded_page_load_control": 3379200,
+            "canonical_weight_sum_metadata": 691200,
+            "finite_calibration": 10920
+          },
+          "raw_delta_S_ns": 340600,
+          "raw_T_R_ns": 1911281320.0,
+          "counts_and_resources": {
+            "row_groups": 4,
+            "analog_rounds": 480,
+            "physical_pages": 6144,
+            "blocks": 64,
+            "physical_cells": 84934656,
+            "data_cells": 79626240,
+            "reference_cells": 5308416,
+            "logical_fraction_of_physical_bits": 0.20833333333333334,
+            "dense_current_uA": 20.736,
+            "calibration_rounds": 12,
+            "calibration_ticks": 450,
+            "metadata_generation_ticks": 138240,
+            "intermediate_signed_bits_required": 30
+          },
+          "independent_mapping": {
+            "K": 4608,
+            "N": 480,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 4608,
+            "full_resident_payload_Byte": 2211840,
+            "delta_S_ns": 340600.0,
+            "T_R_ns": 1911281320.0,
+            "rho_Byte_per_s": 13529066.353493834,
+            "tau_Byte_per_s": 1157255.0711686965,
+            "RI_star": 11.69065203562341,
+            "U_star": 5611.512977099236,
+            "average_update_ns_per_16KiB": 14157639.407407407
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "WL_setup": 9090,
+            "BL_formation": 5760,
+            "SL_establishment": 360000,
+            "ADC": 24000,
+            "affine_merge_accumulate": 14400,
+            "input_offset_sum": 2880,
+            "final_signed_correction": 600,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "page_program": 3686400000,
+            "block_erase": 224000000.0,
+            "encoded_page_load_control": 6758400,
+            "canonical_weight_sum_metadata": 1382400,
+            "finite_calibration": 14850
+          },
+          "raw_delta_S_ns": 416750,
+          "raw_T_R_ns": 3918555650.0,
+          "counts_and_resources": {
+            "row_groups": 4,
+            "analog_rounds": 480,
+            "physical_pages": 6144,
+            "blocks": 64,
+            "physical_cells": 84934656,
+            "data_cells": 79626240,
+            "reference_cells": 5308416,
+            "logical_fraction_of_physical_bits": 0.20833333333333334,
+            "dense_current_uA": 20.736,
+            "calibration_rounds": 12,
+            "calibration_ticks": 450,
+            "metadata_generation_ticks": 138240,
+            "intermediate_signed_bits_required": 30
+          },
+          "independent_mapping": {
+            "K": 4608,
+            "N": 480,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 4608,
+            "full_resident_payload_Byte": 2211840,
+            "delta_S_ns": 416750.0,
+            "T_R_ns": 3918555650.0,
+            "rho_Byte_per_s": 11056988.602279544,
+            "tau_Byte_per_s": 564452.8743645634,
+            "RI_star": 19.58886047790442,
+            "U_star": 9402.653029394121,
+            "average_update_ns_per_16KiB": 29026338.14814815
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "NAND-04",
+          "path": "literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
+          "pdf_pages_inspected": [
+            3
+          ],
+          "sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5",
+          "checked_claim": "native 13824BL,64blocks,base4 mapping;303nsWL/12nsBL and native16pFSL"
+        },
+        {
+          "source_id": "NAND-05",
+          "path": "literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
+          "pdf_pages_inspected": [
+            2,
+            3,
+            4
+          ],
+          "sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833",
+          "checked_claim": "2nA current and actual bias;25uA application scale is not universal full-scale"
+        },
+        {
+          "source_id": "NAND-06",
+          "path": "literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
+          "pdf_pages_inspected": [
+            58
+          ],
+          "sha256": "8f7cb36dbd90d3592f13cee5b57404e1def5caf64296537b59d40385aff86f24",
+          "checked_claim": "SLC full page program300/600us,blockerase1/3.5ms;cross-implementation bridge"
+        }
+      ]
     },
     {
       "case_id": "05_rram",
-      "formula": "256(5+5+20+10)+10; 10+8(2+1)×3040",
-      "independent": {
-        "raw_streaming_ns": 10250,
-        "raw_resident_ns": 72970,
-        "effective_streaming_ns": 10250.0,
-        "effective_resident_ns": 72970.0,
-        "rho_MB_per_s": 12.487804878048781,
-        "tau_MB_per_s": 0.21926819240783885,
-        "RI_star": 56.95219512195122
+      "inputs_sha256": "c58be47e14f9d1aff6c8ed719955569ee9fc913a8eedb41f72f14e164fa8cd77",
+      "results_sha256": "985f4f020fb3fd350c728518071fafba381cb2b732e0a117bd0641fc0c628fcb",
+      "native_configuration": {
+        "n_in": 128,
+        "n_out": 64,
+        "K": 128,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "B_S_Byte": 128,
+        "resident_capacity_Byte": 8192,
+        "output_count": 64,
+        "output_container_bits": 23,
+        "input_register_bits": 1024,
+        "output_register_bits": 1472,
+        "logical_capacity_Byte": 8192,
+        "physical_capacity_bit": 65536,
+        "physical_capacity_Byte": 8192,
+        "physical_data_cells": 65536,
+        "encoding": "8binarybitplanes,no differential duplication;allm=1",
+        "mode": "WH-2T1R32-item ACIM with native CIMSEL time selection",
+        "physical_native_macros": 8,
+        "physical_macro_shape": [
+          64,
+          128
+        ],
+        "subarrays_per_macro": 4,
+        "subarray_shape": [
+          64,
+          32
+        ],
+        "update_mode": "single-domain sustained whole8192B matrix load;512local16B groups",
+        "resources": {
+          "ADC_count": 128,
+          "ADC_per_plane": 16,
+          "digital_output_channels": 16,
+          "active_input_terms": 32,
+          "write_driver_count": 128,
+          "binary_window_comparators": 256,
+          "program_current_rating_uA_per_lane": 300,
+          "total_program_current_rating_mA": 38.4,
+          "switched_capacitance_limit_pF_per_lane": 1,
+          "program_voltage_rating_V": 1.8,
+          "encoded_buffer_bits": 128,
+          "mask_done_bits": 128,
+          "input_register_bits": 1024,
+          "output_register_bits": 1472,
+          "write_interface_bits": 128,
+          "external_update_domains": 1,
+          "shared_TBL_policy": "retain native4subarrays per macro;CIMSEL time-selects;no freeTBL isolation"
+        },
+        "precision_contract": "calibrated approximate bit-plane sums;INT8 final23bit container"
       },
-      "matrix_transactions": 1024,
-      "matrix_raw_resident_ns": 74721280.0,
-      "pass_check": true
+      "independent_stage_formula": "DS=8ceil(K/32)ceil(N/16)*(TI+front+TA+2TD)+2TD; TR=rail_entry+rail_exit+(KN/16)*[front_control+sum_polarities attempts*(pulse+local_setup+local_return+TI+verify_front+TB+2TD)]",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "input": 256,
+            "media_front": 640,
+            "ADC": 1280,
+            "reconstruction": 512,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "rail_entry_once": 1000,
+            "rail_exit_once": 1000,
+            "encoded_load_control": 2048,
+            "RESET_pulse": 512000,
+            "RESET_local_bias_setup": 25600,
+            "RESET_local_isolate_return": 25600,
+            "RESET_binary_verify": 8704,
+            "RESET_address_and_done": 2048,
+            "SET_pulse": 512000,
+            "SET_local_bias_setup": 25600,
+            "SET_local_isolate_return": 25600,
+            "SET_binary_verify": 8704,
+            "SET_address_and_done": 2048
+          },
+          "raw_delta_S_ns": 2692,
+          "raw_T_R_ns": 1151952,
+          "counts_and_resources": {
+            "analog_rounds": 128,
+            "full_load_transactions": 512,
+            "write_batches_per_transaction": 1,
+            "attempts_per_batch": {
+              "RESET": 1,
+              "SET": 1,
+              "meaning": "两相位均一次到窗"
+            },
+            "rail_entry_exit_times_per_full_load": 1,
+            "physical_cells": 65536,
+            "write_lanes": 128,
+            "static_load_uA_per_lane": 225.0,
+            "minimum_charge_edge_ns": 24.0,
+            "isolated_transaction_requires_extra_rail_lifecycle": true
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 64,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 8192,
+            "delta_S_ns": 2692.0,
+            "T_R_ns": 1151952.0,
+            "rho_Byte_per_s": 47548291.2332838,
+            "tau_Byte_per_s": 7111407.419753601,
+            "RI_star": 6.6861998514115895,
+            "U_star": 427.9167904903417,
+            "average_update_ns_per_16KiB": 2303904.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "input": 640,
+            "media_front": 640,
+            "ADC": 2560,
+            "reconstruction": 1280,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "rail_entry_once": 1000,
+            "rail_exit_once": 1000,
+            "encoded_load_control": 5120,
+            "RESET_pulse": 1024000,
+            "RESET_local_bias_setup": 102400,
+            "RESET_local_isolate_return": 102400,
+            "RESET_binary_verify": 30720,
+            "RESET_address_and_done": 10240,
+            "SET_pulse": 512000,
+            "SET_local_bias_setup": 51200,
+            "SET_local_isolate_return": 51200,
+            "SET_binary_verify": 15360,
+            "SET_address_and_done": 5120
+          },
+          "raw_delta_S_ns": 5130,
+          "raw_T_R_ns": 1911760,
+          "counts_and_resources": {
+            "analog_rounds": 128,
+            "full_load_transactions": 512,
+            "write_batches_per_transaction": 1,
+            "attempts_per_batch": {
+              "RESET": 2,
+              "SET": 1,
+              "meaning": "RESET多一次修正；SET一次到窗"
+            },
+            "rail_entry_exit_times_per_full_load": 1,
+            "physical_cells": 65536,
+            "write_lanes": 128,
+            "static_load_uA_per_lane": 225.0,
+            "minimum_charge_edge_ns": 24.0,
+            "isolated_transaction_requires_extra_rail_lifecycle": true
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 64,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 8192,
+            "delta_S_ns": 5130.0,
+            "T_R_ns": 1911760.0,
+            "rho_Byte_per_s": 24951267.056530215,
+            "tau_Byte_per_s": 4285056.701678035,
+            "RI_star": 5.82285575048733,
+            "U_star": 372.6627680311891,
+            "average_update_ns_per_16KiB": 3823520.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "input": 1280,
+            "media_front": 640,
+            "ADC": 6400,
+            "reconstruction": 2560,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "rail_entry_once": 1000,
+            "rail_exit_once": 1000,
+            "encoded_load_control": 10240,
+            "RESET_pulse": 2048000,
+            "RESET_local_bias_setup": 512000,
+            "RESET_local_isolate_return": 512000,
+            "RESET_binary_verify": 133120,
+            "RESET_address_and_done": 40960,
+            "SET_pulse": 1024000,
+            "SET_local_bias_setup": 256000,
+            "SET_local_isolate_return": 256000,
+            "SET_binary_verify": 66560,
+            "SET_address_and_done": 20480
+          },
+          "raw_delta_S_ns": 10900,
+          "raw_T_R_ns": 4881360,
+          "counts_and_resources": {
+            "analog_rounds": 128,
+            "full_load_transactions": 512,
+            "write_batches_per_transaction": 1,
+            "attempts_per_batch": {
+              "RESET": 4,
+              "SET": 2,
+              "meaning": "RESET至多三次追加、SET一次追加"
+            },
+            "rail_entry_exit_times_per_full_load": 1,
+            "physical_cells": 65536,
+            "write_lanes": 128,
+            "static_load_uA_per_lane": 225.0,
+            "minimum_charge_edge_ns": 24.0,
+            "isolated_transaction_requires_extra_rail_lifecycle": true
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 64,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 8192,
+            "delta_S_ns": 10900.0,
+            "T_R_ns": 4881360.0,
+            "rho_Byte_per_s": 11743119.266055046,
+            "tau_Byte_per_s": 1678220.823704869,
+            "RI_star": 6.997362385321101,
+            "U_star": 447.83119266055047,
+            "average_update_ns_per_16KiB": 9762720.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "RRAM-05",
+          "path": "literature/05_rram/RRAM-05_2023_WeightedHybrid_2T1R.pdf",
+          "pdf_pages_inspected": [
+            3,
+            5,
+            7
+          ],
+          "sha256": "2770738ae1d93c87e37d71e25bd832c7280008523104adcda5d59ee3fe0833d4",
+          "checked_claim": "native four64x32 subarrays with sharedTBL;PH0 frontend5ns"
+        },
+        {
+          "source_id": "RRAM-01",
+          "path": "literature/05_rram/RRAM-01_2022_NeuRRAM.pdf",
+          "pdf_pages_inspected": [
+            10,
+            11
+          ],
+          "sha256": "4e75d89025e0e3bc7c04bf00f50bf0f618935c3e405612fd23c95856bf209a5b",
+          "checked_claim": "1us actual SET/RESET waveform;external readback distinct from local binary verify"
+        }
+      ]
     },
     {
       "case_id": "06_mram",
-      "formula": "256(5+5)+10; 10+2×30+5+2(5+5); two-phase write and two-branch verify",
-      "independent": {
-        "raw_streaming_ns": 2570,
-        "raw_resident_ns": 95,
-        "effective_streaming_ns": 2570.0,
-        "effective_resident_ns": 95.0,
-        "rho_MB_per_s": 49.80544747081712,
-        "tau_MB_per_s": 84.21052631578947,
-        "RI_star": 0.5914396887159533
+      "inputs_sha256": "0bab344443f734eed751fefdaf2ece503d794765274351f21e0cf91587712548",
+      "results_sha256": "cf14abb702ff0855a44277bbecf766ca6ffd5298e13d20fe5aa329adf6908484",
+      "native_configuration": {
+        "K": 256,
+        "N": 32,
+        "b_S": 1,
+        "b_R": 1,
+        "logical_capacity_Byte": 8192,
+        "effective_logical_capacity_Byte": 8192,
+        "physical_MTJs": 131072,
+        "physical_storage_bits": 131072,
+        "physical_capacity_Byte": 16384.0,
+        "encoding": "two complementary MTJs per binary weight bit; eight pairs per signed INT8 weight",
+        "signal_enhancement_replication": 1,
+        "independent_service_units": 1,
+        "physical_organization": "64 native banks x 256 rows x four IBMD columns; two banks per INT8 output",
+        "output_container_bits": 24,
+        "input_register_bits": 2048,
+        "output_register_bits": 768,
+        "update_payload_Byte": 8,
+        "update_shape": "one selected row x eight aligned INT8 outputs; sixteen banks, 64 complementary pairs",
+        "full_load_transactions": 1024,
+        "resources": {
+          "installed_ibmd_bitcells": 65536,
+          "native_ibmd_latch_stages": 65536,
+          "active_differential_digitizers": 4096,
+          "active_physical_MTJs": 8192,
+          "read_tap_lanes": 4096,
+          "tile_selection_mux_inputs_per_lane": 16,
+          "weight_tile_register_bits": 4096,
+          "weight_tile_register_banks": 1,
+          "added_digital_AND_gates": 4096,
+          "digital_output_lanes": 16,
+          "active_input_rows": 32,
+          "partial_sum_register_bits": 384,
+          "capture_ticks_per_read": 1,
+          "adc_count": 0,
+          "write_domains": 1,
+          "write_driver_lanes": 128,
+          "write_driver_current_uA": 200,
+          "write_SL_rating_mA": 25.6,
+          "target_register_bits": 128,
+          "absolute_verify_sense_lanes": 64,
+          "verify_state_latch_bits": 128,
+          "verify_comparators": 64,
+          "streaming_update_overlap": false
+        },
+        "display_conversion": "average_update_ns_per_16KiB = T_R_ns * 16384 / logical_capacity_Byte; not a native request"
       },
-      "matrix_transactions": 2048,
-      "matrix_raw_resident_ns": 194560.0,
-      "pass_check": true
+      "independent_stage_formula": "tiles=ceil(K/32)ceil(N/16); DS=tiles*(read+TD+8TD)+2TD; TR=(KN/8)*[2TD+2write+TD+2(read+TD+TD)]",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "binary_digitization": 48,
+            "new_tile_capture": 32,
+            "digital_reduction": 256,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 4096.0,
+            "two_direction_writes": 40960.0,
+            "direction_change": 2048.0,
+            "both_branch_sense": 6144.0,
+            "verify_capture": 4096.0,
+            "verify_compare": 4096.0
+          },
+          "raw_delta_S_ns": 340,
+          "raw_T_R_ns": 61440.0,
+          "counts_and_resources": {
+            "tile_reads": 16,
+            "digital_rounds": 128,
+            "full_load_transactions": 1024.0,
+            "physical_MTJs": 131072,
+            "new_weight_latch_bits": 4096,
+            "new_AND_gates": 4096
+          },
+          "independent_mapping": {
+            "K": 256,
+            "N": 32,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 256,
+            "full_resident_payload_Byte": 8192,
+            "delta_S_ns": 340.0,
+            "T_R_ns": 61440.0,
+            "rho_Byte_per_s": 752941176.4705882,
+            "tau_Byte_per_s": 133333333.33333333,
+            "RI_star": 5.647058823529412,
+            "U_star": 180.7058823529412,
+            "average_update_ns_per_16KiB": 122880.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "binary_digitization": 80,
+            "new_tile_capture": 80,
+            "digital_reduction": 640,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 10240.0,
+            "two_direction_writes": 61440.0,
+            "direction_change": 5120.0,
+            "both_branch_sense": 10240.0,
+            "verify_capture": 10240.0,
+            "verify_compare": 10240.0
+          },
+          "raw_delta_S_ns": 810,
+          "raw_T_R_ns": 107520.0,
+          "counts_and_resources": {
+            "tile_reads": 16,
+            "digital_rounds": 128,
+            "full_load_transactions": 1024.0,
+            "physical_MTJs": 131072,
+            "new_weight_latch_bits": 4096,
+            "new_AND_gates": 4096
+          },
+          "independent_mapping": {
+            "K": 256,
+            "N": 32,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 256,
+            "full_resident_payload_Byte": 8192,
+            "delta_S_ns": 810.0,
+            "T_R_ns": 107520.0,
+            "rho_Byte_per_s": 316049382.7160494,
+            "tau_Byte_per_s": 76190476.1904762,
+            "RI_star": 4.148148148148148,
+            "U_star": 132.74074074074073,
+            "average_update_ns_per_16KiB": 215040.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "binary_digitization": 160,
+            "new_tile_capture": 160,
+            "digital_reduction": 1280,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 20480.0,
+            "two_direction_writes": 61440.0,
+            "direction_change": 10240.0,
+            "both_branch_sense": 20480.0,
+            "verify_capture": 20480.0,
+            "verify_compare": 20480.0
+          },
+          "raw_delta_S_ns": 1620,
+          "raw_T_R_ns": 153600.0,
+          "counts_and_resources": {
+            "tile_reads": 16,
+            "digital_rounds": 128,
+            "full_load_transactions": 1024.0,
+            "physical_MTJs": 131072,
+            "new_weight_latch_bits": 4096,
+            "new_AND_gates": 4096
+          },
+          "independent_mapping": {
+            "K": 256,
+            "N": 32,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 256,
+            "full_resident_payload_Byte": 8192,
+            "delta_S_ns": 1620.0,
+            "T_R_ns": 153600.0,
+            "rho_Byte_per_s": 158024691.3580247,
+            "tau_Byte_per_s": 53333333.333333336,
+            "RI_star": 2.962962962962963,
+            "U_star": 94.81481481481481,
+            "average_update_ns_per_16KiB": 307200.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "MRAM-06",
+          "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM.pdf",
+          "pdf_pages_inspected": [
+            5,
+            9
+          ],
+          "sha256": "970c5d694e51446846ae4da6160b86a924b33a53f5aa7a72ee8bf58053048eff",
+          "checked_claim": "64banks x256rows x4bit;two-step complementary writes and actual row readback"
+        }
+      ]
     },
     {
       "case_id": "07_pcm",
-      "formula": "1024(20+20+10)+10; 15+8[5+60+125+300+2(20+20+5)]",
-      "independent": {
-        "raw_streaming_ns": 51210,
-        "raw_resident_ns": 4655,
-        "effective_streaming_ns": 51210.0,
-        "effective_resident_ns": 4655.0,
-        "rho_MB_per_s": 2.499511814098809,
-        "tau_MB_per_s": 6.874328678839957,
-        "RI_star": 0.3636008592071861
+      "inputs_sha256": "701543f0ccc53cd443faa1e18a8afe124fb5468fd25090b8afc0990ecd578bf0",
+      "results_sha256": "4522c145102a302a5563081ddf71b1eb9917fcdad4e187952783c8dc3c54ea67",
+      "native_configuration": {
+        "n_in": 256,
+        "n_out": 128,
+        "K": 256,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "B_S_Byte": 256,
+        "resident_capacity_Byte": 32768,
+        "output_count": 128,
+        "output_container_bits": 24,
+        "input_register_bits": 2048,
+        "output_register_bits": 3072,
+        "logical_capacity_Byte": 32768,
+        "physical_capacity_bit": 262144,
+        "physical_capacity_Byte": 32768,
+        "physical_cells_per_weight": 8,
+        "native_bank_rows": 256,
+        "native_bank_columns": 1024,
+        "physical_banks": 1,
+        "mode": "8-plane binary/SLC voltage-mode approximate ACIM; one native256x1024bank;8activeWL",
+        "update_mode": "wholematrix1024aligned32Brow-stripedtransactions",
+        "resources": {
+          "ADC_count": 128,
+          "ADC_per_plane": 16,
+          "digital_output_channels": 16,
+          "active_rows": 8,
+          "IDAC_count": 32,
+          "RESET_current_rating_mA": 22.4,
+          "SET_current_rating_mA": 4,
+          "transaction_buffer_bits": 256,
+          "mask_done_bits": 32,
+          "input_register_bits": 2048,
+          "output_register_bits": 3072,
+          "mode_gate_mux_per_cell": false,
+          "column_mode_isolation_channels": 1024,
+          "compute_WL_lines": 256,
+          "shared_return_RESET_rating_mA": 22.4,
+          "shared_return_SET_rating_mA": 4,
+          "plane_isolation": true,
+          "write_interface_bits": 128,
+          "update_domains": 1
+        }
       },
-      "matrix_transactions": 512,
-      "matrix_raw_resident_ns": 2383360.0,
-      "pass_check": true
+      "independent_stage_formula": "DS=8ceil(K/8)ceil(N/16)*(F+TA+2TD)+2TD; TR=(KN/32)*[3TD+8*(TD+3g+RESET+SET+2(F+TA+TD))]",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "complete_read_front": 20480,
+            "ADC": 20480,
+            "voltage_decode_reconstruction": 8192,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 6144,
+            "write_selection": 16384,
+            "driver_establish_quench_return": 245760,
+            "RESET": 1024000,
+            "SET_including_tail": 2457600,
+            "repeated_complete_verify_front": 163840,
+            "verify_ADC": 163840,
+            "verify_endpoint_compare": 32768
+          },
+          "raw_delta_S_ns": 49156,
+          "raw_T_R_ns": 4110336,
+          "counts_and_resources": {
+            "analog_rounds": 2048,
+            "active_rows": 8,
+            "full_load_transactions": 1024,
+            "serial_weight_planes": 8,
+            "physical_write_batches": 8192,
+            "fresh_verify_reads_per_plane": 2,
+            "physical_cells": 262144,
+            "simultaneous_RESET_current_mA": 22.4,
+            "simultaneous_SET_current_mA": 4.0
+          },
+          "independent_mapping": {
+            "K": 256,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 256,
+            "full_resident_payload_Byte": 32768,
+            "delta_S_ns": 49156.0,
+            "T_R_ns": 4110336.0,
+            "rho_Byte_per_s": 5207909.51257222,
+            "tau_Byte_per_s": 7972097.658196312,
+            "RI_star": 0.6532671494832777,
+            "U_star": 83.61819513385954,
+            "average_update_ns_per_16KiB": 2055168.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "complete_read_front": 40960,
+            "ADC": 40960,
+            "voltage_decode_reconstruction": 20480,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 15360,
+            "write_selection": 40960,
+            "driver_establish_quench_return": 491520,
+            "RESET": 1024000,
+            "SET_including_tail": 2457600,
+            "repeated_complete_verify_front": 327680,
+            "verify_ADC": 327680,
+            "verify_endpoint_compare": 81920
+          },
+          "raw_delta_S_ns": 102410,
+          "raw_T_R_ns": 4766720,
+          "counts_and_resources": {
+            "analog_rounds": 2048,
+            "active_rows": 8,
+            "full_load_transactions": 1024,
+            "serial_weight_planes": 8,
+            "physical_write_batches": 8192,
+            "fresh_verify_reads_per_plane": 2,
+            "physical_cells": 262144,
+            "simultaneous_RESET_current_mA": 22.4,
+            "simultaneous_SET_current_mA": 4.0
+          },
+          "independent_mapping": {
+            "K": 256,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 256,
+            "full_resident_payload_Byte": 32768,
+            "delta_S_ns": 102410.0,
+            "T_R_ns": 4766720.0,
+            "rho_Byte_per_s": 2499755.88321453,
+            "tau_Byte_per_s": 6874328.678839957,
+            "RI_star": 0.36363636363636365,
+            "U_star": 46.54545454545455,
+            "average_update_ns_per_16KiB": 2383360.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "complete_read_front": 102400,
+            "ADC": 102400,
+            "voltage_decode_reconstruction": 40960,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 30720,
+            "write_selection": 81920,
+            "driver_establish_quench_return": 1228800,
+            "RESET": 1024000,
+            "SET_including_tail": 2457600,
+            "repeated_complete_verify_front": 819200,
+            "verify_ADC": 819200,
+            "verify_endpoint_compare": 163840
+          },
+          "raw_delta_S_ns": 245780,
+          "raw_T_R_ns": 6625280,
+          "counts_and_resources": {
+            "analog_rounds": 2048,
+            "active_rows": 8,
+            "full_load_transactions": 1024,
+            "serial_weight_planes": 8,
+            "physical_write_batches": 8192,
+            "fresh_verify_reads_per_plane": 2,
+            "physical_cells": 262144,
+            "simultaneous_RESET_current_mA": 22.4,
+            "simultaneous_SET_current_mA": 4.0
+          },
+          "independent_mapping": {
+            "K": 256,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 256,
+            "full_resident_payload_Byte": 32768,
+            "delta_S_ns": 245780.0,
+            "T_R_ns": 6625280.0,
+            "rho_Byte_per_s": 1041581.9025144438,
+            "tau_Byte_per_s": 4945904.173106646,
+            "RI_star": 0.21059484091463912,
+            "U_star": 26.956139637073807,
+            "average_update_ns_per_16KiB": 3312640.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "PCM-03",
+          "path": "literature/07_pcm/PCM-03_2022_Hybrid_SLC_MLC.pdf",
+          "pdf_pages_inspected": [
+            1,
+            2,
+            3
+          ],
+          "sha256": "91ae3c12a4d505f13863934b2cd244e108f3755e1a3dbabc119d4a9ad611ba60",
+          "checked_claim": "8activeWL,256inputs in32groups,native256x1024cellbank;pureSLC is an organization choice"
+        },
+        {
+          "source_id": "PCM-01",
+          "path": "literature/07_pcm/PCM-01_2023_PCM64_Core.pdf",
+          "pdf_pages_inspected": [
+            7
+          ],
+          "sha256": "81c512921e635d20769b9a0752d958f6820158f8459728e9333cb320d39b1278",
+          "checked_claim": "32IDACs,RESET125ns700uA and SET250ns/50ns tail wording;current resource and waveform bridge"
+        },
+        {
+          "source_id": "PCM-06",
+          "path": "literature/07_pcm/PCM-06_2021_RowWise_ClosedLoopProgramming.pdf",
+          "pdf_pages_inspected": [
+            4
+          ],
+          "sha256": "7b2e5d3b71928bf8be4720fc9edece45d3a4e759b4b8a530bb09dcdbaa67b7c8",
+          "checked_claim": "selected-row programming with independent column conditions;supports row-wise mechanism,not imported512lanes"
+        }
+      ]
     },
     {
       "case_id": "08_feram_hfo2",
-      "formula": "32 physical sense/restore slots×110+256 digital rounds×5+10; 10+40+2×50",
-      "independent": {
-        "raw_streaming_ns": 4810,
-        "raw_resident_ns": 150,
-        "effective_streaming_ns": 4810.0,
-        "effective_resident_ns": 150.0,
-        "rho_MB_per_s": 26.611226611226613,
-        "tau_MB_per_s": 106.66666666666667,
-        "RI_star": 0.2494802494802495
+      "inputs_sha256": "af71a5ccb65cacfa0973c4903ec4e60538a66d6eeae439d85bded2e82eee28f6",
+      "results_sha256": "2e594c40e95a020006c1520117ebcd35ca8ac8a7fe97d30861f1cfec33e63d09",
+      "native_configuration": {
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "effective_capacity_Byte": 16384,
+        "physical_capacity": {
+          "data_FeCAP_cells": 131072,
+          "data_bits": 131072,
+          "local_reference_capacitors": 4096,
+          "encoding": "one binary FeCAP per bit;8 cells per INT8;no duplicate weights",
+          "shards": 32,
+          "rows_per_shard": 32,
+          "row_bits": 128
+        },
+        "necessary_encoding": "binary two-complement weight bit planes distributed across local row",
+        "independent_payload_replicas": 1,
+        "output_bits": 23,
+        "configuration_kind": "engineering local organization retaining measured HZO 1T1C mechanism; not source chip floorplan",
+        "update_mode": "one aligned128bit local row external overwrite;1024 row transactions complete matrix",
+        "resources": {
+          "sense_amplifiers": 4096,
+          "adc": 0,
+          "operand_hold_bits": 4096,
+          "hold_banks": 1,
+          "hold_source": "existing_capture",
+          "digital_lanes": 16,
+          "digital_terms_per_round": 32,
+          "external_target_BL_drivers": 128,
+          "internal_restore_BL_drivers": 4096,
+          "read_restore_PL_domains": 32,
+          "external_update_domains": 1,
+          "encoded_interface_bits": 128
+        }
       },
-      "matrix_transactions": 1024,
-      "matrix_raw_resident_ns": 153600.0,
-      "pass_check": true
+      "independent_stage_formula": "tiles=ceil(K/32)ceil(N/16); DS=tiles*(sense+one_restore+open_close+8TD)+2TD; TR=(KN/16)*(2TD+2polarization+open_close)",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "sense": 256,
+            "destructive_restore": 448,
+            "bias_precharge_return": 640,
+            "digital_reduction": 512,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 4096,
+            "two_target_polarities": 28672,
+            "bias_precharge_return": 20480
+          },
+          "raw_delta_S_ns": 1860,
+          "raw_T_R_ns": 53248,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "restore_bits_per_vector": 131072,
+            "full_load_transactions": 1024,
+            "physical_data_cells": 131072,
+            "reference_capacitors": 4096,
+            "BL_edge_demand_uA": 62.5,
+            "restore_BL_edge_demand_mA": 256.0
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 1860.0,
+            "T_R_ns": 53248.0,
+            "rho_Byte_per_s": 68817204.30107526,
+            "tau_Byte_per_s": 307692307.6923077,
+            "RI_star": 0.22365591397849463,
+            "U_star": 28.627956989247313,
+            "average_update_ns_per_16KiB": 53248.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "sense": 640,
+            "destructive_restore": 1600,
+            "bias_precharge_return": 1280,
+            "digital_reduction": 1280,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 10240,
+            "two_target_polarities": 102400,
+            "bias_precharge_return": 40960
+          },
+          "raw_delta_S_ns": 4810,
+          "raw_T_R_ns": 153600,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "restore_bits_per_vector": 131072,
+            "full_load_transactions": 1024,
+            "physical_data_cells": 131072,
+            "reference_capacitors": 4096,
+            "BL_edge_demand_uA": 31.25,
+            "restore_BL_edge_demand_mA": 128.0
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 4810.0,
+            "T_R_ns": 153600.0,
+            "rho_Byte_per_s": 26611226.611226615,
+            "tau_Byte_per_s": 106666666.66666667,
+            "RI_star": 0.2494802494802495,
+            "U_star": 31.933471933471935,
+            "average_update_ns_per_16KiB": 153600.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "sense": 1600,
+            "destructive_restore": 3200,
+            "bias_precharge_return": 2560,
+            "digital_reduction": 2560,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 20480,
+            "two_target_polarities": 204800,
+            "bias_precharge_return": 81920
+          },
+          "raw_delta_S_ns": 9940,
+          "raw_T_R_ns": 307200,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "restore_bits_per_vector": 131072,
+            "full_load_transactions": 1024,
+            "physical_data_cells": 131072,
+            "reference_capacitors": 4096,
+            "BL_edge_demand_uA": 15.625,
+            "restore_BL_edge_demand_mA": 64.0
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 9940.0,
+            "T_R_ns": 307200.0,
+            "rho_Byte_per_s": 12877263.581488933,
+            "tau_Byte_per_s": 53333333.333333336,
+            "RI_star": 0.2414486921529175,
+            "U_star": 30.90543259557344,
+            "average_update_ns_per_16KiB": 307200.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "FERAM-03",
+          "path": "literature/08_feram_hfo2/FERAM-03_2020_SoC_1T1C_HZO.pdf",
+          "pdf_pages_inspected": [
+            1,
+            2
+          ],
+          "sha256": "3baca7408c4bb97570f0a03e4e8d4c206013a3b3793313c283b36d5efa97afe2",
+          "checked_claim": "14ns write vs8ns sense;destructive read/writeback inFig9;250fF BL Fig12"
+        }
+      ]
     },
     {
       "case_id": "09_gain_cell_edram",
-      "formula": "raw 128×175+258×5; raw 15+65; alpha=(400000-1024×260-185)/400000",
-      "independent": {
-        "raw_streaming_ns": 23690,
-        "raw_resident_ns": 80,
-        "effective_streaming_ns": 70941.41867864496,
-        "effective_resident_ns": 239.5657870110425,
-        "rho_MB_per_s": 1.8043056141832,
-        "tau_MB_per_s": 66.7875,
-        "RI_star": 0.027015618404390037
+      "inputs_sha256": "247670ada6df65885f9bc94a843797a6fbe7c47f79841bebd0e26a60f98d1ac8",
+      "results_sha256": "f7630f53392a75e8a3f2629cd322a76c13f671bc06120f049aa0504702a53f16",
+      "native_configuration": {
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "effective_capacity_Byte": 4096,
+        "physical_capacity": {
+          "gain_cells": 65536,
+          "pseudodifferential_pairs": 32768,
+          "tiles": 8,
+          "tile_pair_rows": 64,
+          "tile_pair_columns": 64
+        },
+        "necessary_encoding": "8binary endpoint planes;eachbit two3T1C cells with(700,0) or(0,700)nA;no logical duplication",
+        "independent_payload_replicas": 1,
+        "output_bits": 22,
+        "update_mode": "16aligned INT8 weights per transaction;256 transactions complete4KiB matrix",
+        "resources": {
+          "differential_ADC": 128,
+          "ADC_per_weight_plane": 16,
+          "analog_integration_fF_per_branch": 200,
+          "analog_integration_total_pF": 51.2,
+          "digital_output_lanes": 16,
+          "digital_ticks_per_reconstruction": 2,
+          "write_pair_drivers": 128,
+          "write_branches": 256,
+          "encoded_interface_bits": 128,
+          "refresh_sign_decoders": 128,
+          "refresh_code_hold_bits": 128,
+          "full_matrix_shadow_bits": 0,
+          "input_register_bits": 512,
+          "output_register_bits": 1408
+        },
+        "native_rationale": "GC-04measured64x64pair local load;8bit planes encodeone64x64INT8matrix without unnecessary2x2 spatial expansion"
       },
-      "matrix_transactions": 1024,
-      "matrix_raw_resident_ns": 81920.0,
-      "pass_check": true
+      "independent_stage_formula": "DSraw=8ceil(K/64)ceil(N/16)*(TI+read+TA+2TD)+2TD; TRraw=(KN/16)*(3TD+two_step_write); Frefresh=(KN/16)*(TI+read+TA+TD+3TD+two_step_write); alpha=(period-Frefresh-max(read_group,write_group))/period; DSeff=DSraw/alpha; TReff=TRraw/alpha",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "input_front_ADC": 3584,
+            "digital_reconstruction": 128,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 1536,
+            "complete_two_step_program": 16640
+          },
+          "raw_delta_S_ns": 3716,
+          "raw_T_R_ns": 18176,
+          "counts_and_resources": {
+            "analog_rounds": 32,
+            "full_load_transactions": 256,
+            "refresh_groups": 256,
+            "refresh_busy_ns": 47360,
+            "refresh_guard_ns": 116,
+            "availability": 0.88131,
+            "refresh_period_ns": 400000,
+            "refresh_payload_Byte": 0,
+            "physical_cells": 65536,
+            "sign_decode_lanes": 128
+          },
+          "independent_mapping": {
+            "K": 64,
+            "N": 64,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 64,
+            "full_resident_payload_Byte": 4096,
+            "delta_S_ns": 4216.45051117087,
+            "T_R_ns": 20623.84405033416,
+            "rho_Byte_per_s": 15178643.70290635,
+            "tau_Byte_per_s": 198605070.42253524,
+            "RI_star": 0.07642626480086114,
+            "U_star": 4.891280947255113,
+            "average_update_ns_per_16KiB": 82495.37620133664
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "input_front_ADC": 5600,
+            "digital_reconstruction": 320,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 3840,
+            "complete_two_step_program": 16640
+          },
+          "raw_delta_S_ns": 5930,
+          "raw_T_R_ns": 20480,
+          "counts_and_resources": {
+            "analog_rounds": 32,
+            "full_load_transactions": 256,
+            "refresh_groups": 256,
+            "refresh_busy_ns": 66560,
+            "refresh_guard_ns": 185,
+            "availability": 0.8331375,
+            "refresh_period_ns": 400000,
+            "refresh_payload_Byte": 0,
+            "physical_cells": 65536,
+            "sign_decode_lanes": 128
+          },
+          "independent_mapping": {
+            "K": 64,
+            "N": 64,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 64,
+            "full_resident_payload_Byte": 4096,
+            "delta_S_ns": 7117.672653073472,
+            "T_R_ns": 24581.77671752862,
+            "rho_Byte_per_s": 8991703.204047216,
+            "tau_Byte_per_s": 166627500.0,
+            "RI_star": 0.05396290050590219,
+            "U_star": 3.45362563237774,
+            "average_update_ns_per_16KiB": 98327.10687011448
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "input_front_ADC": 8320,
+            "digital_reconstruction": 640,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 7680,
+            "complete_two_step_program": 19200
+          },
+          "raw_delta_S_ns": 8980,
+          "raw_T_R_ns": 26880,
+          "counts_and_resources": {
+            "analog_rounds": 32,
+            "full_load_transactions": 256,
+            "refresh_groups": 256,
+            "refresh_busy_ns": 96000,
+            "refresh_guard_ns": 280,
+            "availability": 0.7593,
+            "refresh_period_ns": 400000,
+            "refresh_payload_Byte": 0,
+            "physical_cells": 65536,
+            "sign_decode_lanes": 128
+          },
+          "independent_mapping": {
+            "K": 64,
+            "N": 64,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 64,
+            "full_resident_payload_Byte": 4096,
+            "delta_S_ns": 11826.682470696695,
+            "T_R_ns": 35401.0272619518,
+            "rho_Byte_per_s": 5411492.204899778,
+            "tau_Byte_per_s": 115702857.14285715,
+            "RI_star": 0.0467706013363029,
+            "U_star": 2.9933184855233854,
+            "average_update_ns_per_16KiB": 141604.1090478072
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "GC-04",
+          "path": "literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",
+          "pdf_pages_inspected": [
+            9,
+            10
+          ],
+          "sha256": "d4c926b1f4d3fdae724fffaab9b13e1845424ae23ab6b6cfd297925bfd355194",
+          "checked_claim": "5ns coarse+60ns fine;row-wise retention read;0.4ms99.7% original-LSB criterion"
+        }
+      ]
     },
     {
       "case_id": "10_fenor_3d",
-      "formula": "256(40+5)+10; 10+8(30+40+100+40+5); final return within observation window",
-      "independent": {
-        "raw_streaming_ns": 11530,
-        "raw_resident_ns": 1730,
-        "effective_streaming_ns": 11530.0,
-        "effective_resident_ns": 1730.0,
-        "rho_MB_per_s": 11.101474414570685,
-        "tau_MB_per_s": 9.248554913294798,
-        "RI_star": 1.2003469210754554
+      "inputs_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+      "results_sha256": "d08d8c27bcd310a7bf5c0310780eaecf7e922a1d824cd98bbf825f55cc55a2db",
+      "native_configuration": {
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "logical_capacity_Byte": 16384,
+        "effective_logical_capacity_Byte": 16384,
+        "physical_cells": 131072,
+        "physical_storage_bits": 131072,
+        "physical_capacity_Byte": 16384.0,
+        "encoding": "eight binary FeFET cells per signed INT8 weight; two-complement sign in digital reduction",
+        "signal_enhancement_replication": 1,
+        "weight_planes": 8,
+        "independent_service_units": 1,
+        "physical_organization": "32 lateral row lanes x 64 local strips x (4 layers x 16 BL/SL column pairs)",
+        "output_container_bits": 23,
+        "input_register_bits": 1024,
+        "output_register_bits": 2944,
+        "update_payload_Byte": 16,
+        "update_shape": "one input index x sixteen aligned outputs; all eight binary planes together",
+        "full_load_transactions": 1024,
+        "resources": {
+          "binary_sense_nodes": 4096,
+          "sense_bits_per_read": 4096,
+          "adc_count": 0,
+          "weight_tile_register_bits": 4096,
+          "weight_tile_register_banks": 1,
+          "digital_output_lanes": 16,
+          "active_input_rows": 32,
+          "partial_sum_register_bits": 368,
+          "capture_ticks_per_read": 1,
+          "encoded_update_register_bits": 128,
+          "write_compare_lanes": 16,
+          "write_domains": 1,
+          "parallel_write_cells": 128,
+          "parallel_write_strips": 8,
+          "driven_bias_nodes": 288,
+          "installed_slew_current_uA_per_node": 60,
+          "installed_supply_current_mA": 17.28,
+          "streaming_update_overlap": false
+        },
+        "maintenance": "no periodic refresh or destructive restore; local service only",
+        "display_conversion": "average_update_ns_per_16KiB = T_R_ns * 16384 / logical_capacity_Byte"
       },
-      "matrix_transactions": 1024,
-      "matrix_raw_resident_ns": 1771520.0,
-      "pass_check": true
+      "independent_stage_formula": "tiles=ceil(K/32)ceil(N/16); DS=tiles*(read+TD+8TD)+2TD; TR=(KN/16)*[2TD+3transition+2plateau+observation_including_return+read+TD+8TD]",
+      "main_scenarios": [
+        {
+          "profile": "short",
+          "raw_stream_stages_ns": {
+            "binary_sense": 640,
+            "new_tile_capture": 64,
+            "digital_reduction": 512,
+            "boundaries": 4
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 4096.0,
+            "initial_interphase_transitions": 15360.0,
+            "two_polarization_plateaus": 40960.0,
+            "observation_including_final_return": 102400.0,
+            "terminal_sense": 20480.0,
+            "terminal_capture": 2048.0,
+            "terminal_compare": 16384.0
+          },
+          "raw_delta_S_ns": 1220,
+          "raw_T_R_ns": 201728.0,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "full_load_transactions": 1024.0,
+            "write_batches_per_transaction": 1,
+            "physical_cells": 131072,
+            "bias_node_demand_uA": 53.33333333333333,
+            "fixed_installed_bias_nodes": 288
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 1220.0,
+            "T_R_ns": 201728.0,
+            "rho_Byte_per_s": 104918032.78688525,
+            "tau_Byte_per_s": 81218274.11167511,
+            "RI_star": 1.2918032786885245,
+            "U_star": 165.35081967213114,
+            "average_update_ns_per_16KiB": 201728.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "reference",
+          "raw_stream_stages_ns": {
+            "binary_sense": 1280,
+            "new_tile_capture": 160,
+            "digital_reduction": 1280,
+            "boundaries": 10
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 10240.0,
+            "initial_interphase_transitions": 30720.0,
+            "two_polarization_plateaus": 40960.0,
+            "observation_including_final_return": 102400.0,
+            "terminal_sense": 40960.0,
+            "terminal_capture": 5120.0,
+            "terminal_compare": 40960.0
+          },
+          "raw_delta_S_ns": 2730,
+          "raw_T_R_ns": 271360.0,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "full_load_transactions": 1024.0,
+            "write_batches_per_transaction": 1,
+            "physical_cells": 131072,
+            "bias_node_demand_uA": 26.666666666666664,
+            "fixed_installed_bias_nodes": 288
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 2730.0,
+            "T_R_ns": 271360.0,
+            "rho_Byte_per_s": 46886446.886446886,
+            "tau_Byte_per_s": 60377358.49056604,
+            "RI_star": 0.7765567765567766,
+            "U_star": 99.3992673992674,
+            "average_update_ns_per_16KiB": 271360.0
+          },
+          "pass_check": true
+        },
+        {
+          "profile": "long",
+          "raw_stream_stages_ns": {
+            "binary_sense": 2560,
+            "new_tile_capture": 320,
+            "digital_reduction": 2560,
+            "boundaries": 20
+          },
+          "raw_full_load_stages_ns": {
+            "encoded_load_control": 20480.0,
+            "initial_interphase_transitions": 61440.0,
+            "two_polarization_plateaus": 40960.0,
+            "observation_including_final_return": 102400.0,
+            "terminal_sense": 81920.0,
+            "terminal_capture": 10240.0,
+            "terminal_compare": 81920.0
+          },
+          "raw_delta_S_ns": 5460,
+          "raw_T_R_ns": 399360.0,
+          "counts_and_resources": {
+            "tile_reads": 32,
+            "full_load_transactions": 1024.0,
+            "write_batches_per_transaction": 1,
+            "physical_cells": 131072,
+            "bias_node_demand_uA": 13.333333333333332,
+            "fixed_installed_bias_nodes": 288
+          },
+          "independent_mapping": {
+            "K": 128,
+            "N": 128,
+            "b_S": 1,
+            "b_R": 1,
+            "B_S_Byte": 128,
+            "full_resident_payload_Byte": 16384,
+            "delta_S_ns": 5460.0,
+            "T_R_ns": 399360.0,
+            "rho_Byte_per_s": 23443223.443223443,
+            "tau_Byte_per_s": 41025641.025641024,
+            "RI_star": 0.5714285714285714,
+            "U_star": 73.14285714285714,
+            "average_update_ns_per_16KiB": 399360.0
+          },
+          "pass_check": true
+        }
+      ],
+      "primary_evidence_checks": [
+        {
+          "source_id": "FENOR-02",
+          "path": "literature/10_fenor_3d/FENOR-02_2026_Vertical_FeFET_Array.pdf",
+          "pdf_pages_inspected": [
+            2,
+            3
+          ],
+          "sha256": "322482d834c279a278d0aaa007a0cfeb26dee49253fe50661d0483975d9b19d5",
+          "checked_claim": "SL+O-poor +/-2V20ns,RAWD<100ns,Vw/3 bias and simulated readRC"
+        }
+      ]
     }
   ],
-  "geometry_checks": [
-    "PCM 512 diagonal groups cover all 16384 weights once",
-    "RRAM grouped updates tile the full matrix",
-    "FeRAM 32 physical reads and 256 compute rounds",
-    "NOR independent read/erase partitions",
-    "NAND data/reference utilization"
-  ],
-  "gain_cell_infeasible_cases": 1,
-  "shared_hashes": {
-    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+  "geometry_and_cross_case_checks": {
+    "FeRAM_address_coverage_bits": 131072,
+    "FeFET_address_coverage_bits": 131072,
+    "MRAM_complementary_weight_bits": 65536,
+    "RRAM_update_coverage_weights": 8192,
+    "PCM_row_striped_update_coverage_weights": 32768,
+    "PCM_isolated_columns_and_common_return_ratings_declared": true,
+    "NAND_exhaustive_signed_scalar_pairs": 65536,
+    "NAND_offset_intermediate_width_valid": true,
+    "GC_main_scenarios_sustainable_with_fixed_refresh_and_no_shadow": true,
+    "GC_infeasible_cases_have_null_effective_throughput": 1
   },
-  "unique_case_prefixed_labels": 35,
+  "unified_export_checks": {
+    "main_scenarios_matched_to_independent_arithmetic": 30,
+    "all_ledger_rows_JSON_CSV_identical": 70,
+    "fixed_main_resources": true,
+    "full_matrix_payload_time_boundary": true,
+    "source_hashes_current": true,
+    "unified_json_sha256": "4cad3118d730afb4fab14714a151ce0fdab738f0e48fbb6aaac4399784985caa",
+    "unified_csv_sha256": "52784fe9c9b79da7bda92c8e5b98636c330e1029460940244028a44e4f9a6f99"
+  },
+  "shared_hashes": {
+    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
+    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
+  },
+  "unique_case_prefixed_labels": 24,
+  "external_review_judgments": [
+    "NAND: selected 25uA current frontend at original bias/native16pFSL, row grouping and settling budgets; SGVC SLC full-program/erase bridge; offset-encoding quantization error.",
+    "RRAM/PCM: cross-implementation program waveform and binary acceptance-window completion; finite attempt scenarios are not measured yield distributions.",
+    "FeRAM/FeFET/MRAM: explicitly provisioned driver, isolation, sense/mux/hold paths and supply load must meet engineering timing; FeRAM simultaneous PL restoration supply remains a sizing condition.",
+    "GC-04: endpoint sign retention and adapted integration frontend, isolation to original write load, and repeated no-shadow refresh need physical qualification."
+  ],
   "all_passed": true
 }

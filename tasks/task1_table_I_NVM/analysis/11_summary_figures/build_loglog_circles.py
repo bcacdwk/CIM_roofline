@@ -2,7 +2,7 @@
 """Add short/long scenario circles to the existing reference-point log-log style.
 
 Only rho_tau_loglog_circles.* and its associated records are written.
-The old final figure and all scientific estimates remain untouched.
+Scientific estimates are read from the unified native-configuration data.
 """
 from __future__ import annotations
 import math
@@ -45,9 +45,7 @@ def circle_for(group):
 def main():
     _, groups, report = load_and_validate()
     specs = [circle_for(g) for g in groups]
-    # Slightly extend only the upper limits, so every circle is fully visible.
-    fig = render_final(groups, report, circle_specs=specs, output_stem=STEM,
-                       xlimits=(.0011, 12000), ylimits=(.04, 160))
+    fig = render_final(groups, report, circle_specs=specs, output_stem=STEM)
     plt.close(fig)
     print('PASS: 10 uniquely defined log-space circles; 20 short/long points on edges; '
           '10 references inside; nearest-center optimality and display circularity verified.')

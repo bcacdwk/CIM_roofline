@@ -3,14 +3,14 @@
   "status": "READY_FOR_ANALYSIS",
   "prepared_on": "2026-09-08",
   "corpus_scope": "统一 28 nm 外围参考条件下的小规模 CIM 参考设计估算；十类介质，不含独立 DRAM 行",
-  "policy": "以本地已审全文开展后续分析，不再自动检索/下载；缺少的定值作为边界、模型假设或不确定性明确处理。",
+  "policy": "优先本地原始文献；主导参数存在具体缺口时，经supervisor判断定向补充少量一手来源。原值、跨实现桥接与工程选择分别登记。",
   "counts": {
-    "sources": 55,
-    "main_pdfs": 55,
+    "sources": 56,
+    "main_pdfs": 56,
     "supplement_pdfs": 4,
-    "total_pdfs": 59,
+    "total_pdfs": 60,
     "core_sources": 44,
-    "support_sources": 11,
+    "support_sources": 12,
     "missing_required_files": 0
   },
   "groups": [
@@ -3444,6 +3444,41 @@
       "notes": "literature/10_fenor_3d/NOTES.zh.md#FENOR-06",
       "fulltext_review": "正文/Methods/相关图表已按估算用途审阅",
       "evidence_relationship": "与 FENOR-01/02 同团队；FENOR-04 提供另一团队/结构的直接交叉。"
+    },
+    {
+      "source_id": "NAND-06",
+      "group": "04_nand_3d",
+      "title": "MX30LF1G18AC: 3V, 1Gb NAND Flash Memory",
+      "authors": [
+        "Macronix International Co., Ltd."
+      ],
+      "year": 2016,
+      "venue": "Official SLC NAND datasheet",
+      "publication_date": "2016-05-27",
+      "doi": null,
+      "official_url": "https://www.macronix.com/Lists/Datasheet/Attachments/8458/MX30LF1G18AC%2C%203V%2C%201Gb%2C%20v1.2.pdf",
+      "document_version": "PM2133 revision 1.2",
+      "priority": "补充",
+      "roles": [
+        "SLC完整program/erase周期",
+        "跨实现更新预算锚点"
+      ],
+      "evidence_level": "厂商产品时序规格",
+      "process_condition": "Macronix floating-gate SLC产品；不是16-layer SGVC同栈",
+      "state_mode": "SLC；2048+64 Byte物理页，64页/block",
+      "confirmed_evidence": "tPROG典型300µs/最大600µs；tERASE典型1ms/最大3.5ms；内部busy覆盖完整program/erase至状态检查。",
+      "limitations": "跨实现完整周期预算，不是所选SGVC CIM阵列的配对实测或保证；不以产品外部带宽代替局部能力。",
+      "anchors": "PDF pp.5、58 Table 14；pp.25、31操作/状态时序",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
+        "pages": 73,
+        "bytes": 976793,
+        "sha256": "8f7cb36dbd90d3592f13cee5b57404e1def5caf64296537b59d40385aff86f24"
+      },
+      "supplements": [],
+      "notes": "literature/04_nand_3d/NOTES.zh.md#NAND-06",
+      "fulltext_review": "关键时序表与完整操作页已回查",
+      "evidence_relationship": "与NAND-04/05不同栈；仅提供相容SLC模式完整更新的跨实现锚点"
     }
   ]
 }

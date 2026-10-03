@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Read-only recomputation; --emit explicitly refreshes result JSON and TeX."""
+# result_card.tex is owned and checked by analysis/scripts/export_ten_cases.py.
 import argparse, hashlib, importlib.util, json, math, sys
 from pathlib import Path
 sys.dont_write_bytecode = True
@@ -9,8 +10,9 @@ CORPUS=BASE.parents[1]
 spec=importlib.util.spec_from_file_location('shared_api',SHARED/'scripts/check_shared.py')
 api=importlib.util.module_from_spec(spec); spec.loader.exec_module(api)
 X=json.loads((BASE/'data/inputs.json').read_text())
-L=api.L; R=api.R
+R=api.R
 M=X['mapping']; P=X['program']
+L=api.logical_configuration(M['logical_K'],M['logical_N'])
 
 def digest(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
@@ -19,15 +21,15 @@ def geometry(heads=32):
     width=cols//M['writeheads']
     all_seen=set(); examples=[]; transactions=[]
     # The two subsets used with 16 heads are indexed by the ADC mux parity.
-    for d in range(n):
+    for row_index in range(n):
         for s in range(width):
-            coords=[((width*h+s+d)%n,width*h+s) for h in range(per)]
-            assert len({r for r,c in coords})==per
+            coords=[(row_index,width*h+s) for h in range(per)]
+            assert len({r for r,c in coords})==1
             assert len({c for r,c in coords})==per
             for cell in coords:
                 assert cell not in all_seen; all_seen.add(cell)
-            transactions.append({'diagonal':d,'column_slot':s,'logical_weights':len(coords)})
-            if d==0 and s==0:
+            transactions.append({'row':row_index,'column_slot':s,'logical_weights':len(coords)})
+            if row_index==0 and s==0:
                 for plane in range(R['acim']['weight_planes']):
                     groups=[coords] if heads==32 else [coords[k::2] for k in range(2)]
                     for group in groups:
@@ -45,7 +47,7 @@ def compute(profile,heads=32,set_ns=None,weak_verify=False,drive_ns=None):
     cfg={**R['acim'],'rows_per_group':M['rows_per_group']}
     front_read=x['read_front_including_TI_ns']
     assert front_read>=v['input_step']
-    ds,counts,hold=api.acim_service(cfg,v,front_read-v['input_step'])
+    ds,counts,hold=api.acim_service(cfg,v,front_read-v['input_step'],L)
     assert hold==0
     weights=M['logical_weights_per_transaction']; planes=cfg['weight_planes']
     geom=geometry(heads); batches=geom['example_transaction_batches']
@@ -72,19 +74,22 @@ def compute(profile,heads=32,set_ns=None,weak_verify=False,drive_ns=None):
                                    'verify_front':nv*verify_front,
                                    'verify_ADC':nv*v['adc_batch'],'verify_endpoint_compare':nv*v['digital_tick']},
                   shared_profile_ns=v,drive_transition_ns=g,read_front_total_ns=front_read,read_media_API_ns=front_read-v['input_step'],
-                  transaction_pattern=M['transaction_pattern'],dominant_read='16 row groups,1024 serial front/ADC/decode rounds',
+                  transaction_pattern=M['transaction_pattern'],dominant_read='32 native row groups,2048 serial front/ADC/decode rounds',
                   dominant_write='SET+RESET pulses' if not weak_verify else '16 repeated768ns weak-signal read-front blocks',
                   successful_service_condition=P['normal_service_condition'])
     assert math.isclose(sum(result['read_stages_ns'].values()),ds)
     assert math.isclose(sum(result['write_stages_ns'].values()),dr)
-    assert result['B_R_Byte']==32 and result['B_S_Byte']==128
-    assert np*heads==encoded and nv==16 and counts['evaluations']==1024
-    assert counts['useful_scalar_conversions']==131072
-    assert math.isclose(result['ridge'],4*dr/ds)
+    assert result['B_R_Byte']==32 and result['B_S_Byte']==256
+    assert np*heads==encoded and nv==16 and counts['evaluations']==2048
+    assert counts['useful_scalar_conversions']==262144
+    assert math.isclose(result['ridge'],8*dr/ds)
     transactions=geom['logical_transaction_count']
     result['matrix_reload']={'B_R_Byte':transactions*result['B_R_Byte'],'delta_R_ns':transactions*dr,'transactions':transactions,
                             'tau_Byte_per_s':transactions*result['B_R_Byte']/api.seconds(transactions*dr,'ns')}
     assert math.isclose(result['matrix_reload']['tau_Byte_per_s'],result['tau_Byte_per_s'])
+    load=api.full_load_service(L,[{'payload_Byte':32,'service_ns':dr,'count':transactions}])
+    result['mapping_interface']=api.mapping_metrics(L,ds,load['T_R_ns'])
+    result['maintenance']={'raw':result['mapping_interface'],'effective':dict(result['mapping_interface']),'maintenance_payload_Byte':0}
     return result
 
 def results():
@@ -99,10 +104,26 @@ def results():
     weak=compute('reference',weak_verify=True)
     assert weak['delta_R_ns']-ref['delta_R_ns']==16*(768-20)==11968
     assert weak['delta_S_ns']==ref['delta_S_ns']
-    assert ref['delta_S_ns']==1024*(20+20+2*5)+2*5==51210
+    assert ref['delta_S_ns']==2048*(20+20+2*5)+2*5==102410
     assert ref['delta_R_ns']==3*5+8*(5+3*20+125+300+2*(20+20+5))==4655
+    assert geometry()['logical_transaction_count']==1024
+    assert geometry()['physical_cell_count']==262144
+    assert ref['mapping_interface']['T_R_ns']==1024*4655==4766720
+    assert math.isclose(ref['mapping_interface']['U_star'],128*ref['ridge'])
+    assert L['output_container_bits']==24
+    # Independent nativeWL + column-bias selection, including half-selected row cells.
+    for row_index in [0,127,255]:
+        for slot in range(4):
+            for plane in [0,7]:
+                biased={8*(4*h+slot)+plane for h in range(32)}
+                selected={(row_index,p) for p in range(1024) if p in biased}
+                expected={(row_index,8*c+plane) for c in range(128) if c%4==slot}
+                assert selected==expected and len(selected)==32
+                assert all(p not in biased for p in range(1024) if p%8!=plane)
+                # Gates in all other rows are low; same-row unselected columns have zero program differential.
+                assert all((row_index,p) not in selected for p in range(1024) if p not in biased)
     bounds={k:[min(s[k] for s in pairs),max(s[k] for s in pairs)] for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
-    return dict(case_id=X['case_id'],baseline_id=api.D['baseline_id'],inputs_sha256=digest(BASE/'data/inputs.json'),mode=X['mode'],units={'time':'ns','payload':'Byte','rates':'Byte/s','ridge':'dimensionless'},
+    return dict(native_configuration={**L,'logical_capacity_Byte':32768,'physical_capacity_bit':262144,'physical_capacity_Byte':32768,'physical_cells_per_weight':8,'native_bank_rows':256,'native_bank_columns':1024,'physical_banks':1,'mode':X['mode'],'update_mode':'wholematrix1024aligned32Brow-stripedtransactions','resources':{'ADC_count':128,'ADC_per_plane':16,'digital_output_channels':16,'active_rows':8,'IDAC_count':32,'RESET_current_rating_mA':22.4,'SET_current_rating_mA':4,'transaction_buffer_bits':256,'mask_done_bits':32,'input_register_bits':2048,'output_register_bits':128*24,'mode_gate_mux_per_cell':False,'column_mode_isolation_channels':1024,'compute_WL_lines':256,'shared_return_RESET_rating_mA':22.4,'shared_return_SET_rating_mA':4,'plane_isolation':True,'write_interface_bits':128,'update_domains':1}},case_id=X['case_id'],baseline_id=api.D['baseline_id'],inputs_sha256=digest(BASE/'data/inputs.json'),mode=X['mode'],units={'time':'ns','payload':'Byte','rates':'Byte/s','ridge':'dimensionless'},
                 shared_sha256={str(p.relative_to(SHARED)):digest(p) for p in [SHARED/'data/shared_parameters.json',SHARED/'scripts/check_shared.py']},
                 sources=sources,paired_scenarios=pairs,paired_ranges=bounds,
                 driver_transition_sensitivity=[compute('reference',drive_ns=g) for g in [10,50]],
@@ -110,10 +131,10 @@ def results():
 
 def table(r):
     t=[r'% Generated by scripts/check_pcm.py --emit.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
-       r'情景 & $\Delta_S$ ($\mu$s) & $\Delta_R$ ($\mu$s) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
+       r'情景 & $\Delta_S$ ($\mu$s) & $T_R$ (ms) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
     for label,row in zip(['短','参考','长'],r['paired_scenarios']):
-        t.append(f"{label} & {row['delta_S_ns']/1000:.3f} & {row['delta_R_ns']/1000:.3f} & {row['rho_Byte_per_s']/1e6:.3f} & {row['tau_Byte_per_s']/1e6:.3f} & {row['ridge']:.4f}\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{二进制 PCM 八行电压式近似 ACIM 的条件配对服务预算；MB 为十进制单位，时间小数用于复算。}\label{07_pcm:tab:results}\end{table}']
+        t.append(f"{label} & {row['delta_S_ns']/1000:.3f} & {row['mapping_interface']['T_R_ns']/1e6:.3f} & {row['rho_Byte_per_s']/1e6:.3f} & {row['tau_Byte_per_s']/1e6:.3f} & {row['ridge']:.4f}\\\\")
+    t += [r'\bottomrule\end{tabular}',r'\caption{原生 $K=256,N=128$、八行电压式近似 ACIM 的配对服务；$T_R$ 是32768 Byte完整矩阵装载，局部事务为32 Byte。MB 为十进制。}\label{07_pcm:tab:results}\end{table}']
     return '\n'.join(t)+'\n'
 
 def stages(r):
@@ -127,10 +148,11 @@ def stages(r):
 def main():
     parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('--emit',action='store_true'); args=parser.parse_args()
     r=results(); files={'data/results.json':json.dumps(r,ensure_ascii=False,indent=2)+'\n','tex/generated_results.tex':table(r),'tex/generated_write.tex':stages(r)}
+    q=r['paired_scenarios'][1]
     for p,text in files.items():
         if args.emit: (BASE/p).write_text(text)
         else: assert (BASE/p).read_text()==text, f'{p} stale; run --emit explicitly'
-    print('PCM OK: shared API/hashes, source hashes, full diagonal coverage, program/verify ADC routing, stage coverage, paired metrics, matrix aggregation.')
+    print('PCM OK: shared API/hashes, source hashes, full row-striped coverage, program/verify ADC routing, stage coverage, paired metrics, matrix aggregation.')
     for s in r['paired_scenarios']: print(s['profile'],s['delta_S_ns'],s['delta_R_ns'],s['rho_Byte_per_s']/1e6,s['tau_Byte_per_s']/1e6,s['ridge'])
     print('weak verify:',r['verify_organization_comparison']['delta_R_ns'],r['verify_organization_comparison']['ridge'])
     print('SET total250ns:',r['set_total250ns_sensitivity']['delta_R_ns'])

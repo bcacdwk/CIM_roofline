@@ -2,6 +2,45 @@
   "case_id": "03_nor_2d",
   "baseline_id": "shared_baseline",
   "mode": "binary NOR + local exact digital reduction",
+  "native_configuration": {
+    "K": 128,
+    "N": 128,
+    "b_S": 1,
+    "b_R": 1,
+    "logical_capacity_Byte": 16384,
+    "effective_logical_capacity_Byte": 16384,
+    "physical_capacity_Byte": 16384,
+    "physical_storage_bits": 131072,
+    "physical_binary_storage_sites": 131072,
+    "encoding": "eight independent binary storage bits per signed INT8 weight; no analog tuning",
+    "signal_enhancement_replication": 1,
+    "independent_service_units": 1,
+    "native_page_Byte": 256,
+    "native_sector_Byte": 4096,
+    "physical_organization": "32 slices x 512 Byte; eight slices per 4 KiB sector; two full pages per slice",
+    "output_container_bits": 23,
+    "input_register_bits": 1024,
+    "output_register_bits": 2944,
+    "update_payload_Byte": 16384,
+    "update_shape": "arbitrary full-matrix sustained overwrite; erase four dedicated sectors, program all sixty-four pages",
+    "resources": {
+      "binary_sense_nodes": 4096,
+      "adc_count": 0,
+      "sense_bits_per_read": 4096,
+      "weight_tile_register_bits": 4096,
+      "weight_tile_register_banks": 1,
+      "capture_ticks_per_read": 1,
+      "digital_output_lanes": 16,
+      "active_input_rows": 32,
+      "partial_sum_register_bits": 368,
+      "page_buffer_bits": 2048,
+      "write_domains": 1,
+      "physical_write_parallelism": "one native page engine; internal cell parallelism not reported",
+      "encoded_interface_bits": 128,
+      "streaming_update_overlap": false
+    },
+    "display_conversion": "T_R_ns * 16384 / logical_capacity_Byte; average cost, not arbitrary request latency"
+  },
   "units": {
     "payload": "Byte",
     "interval": "ns",
@@ -12,8 +51,8 @@
   "provenance": {
     "baseline_id": "shared_baseline",
     "shared_sha256": {
-      "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-      "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+      "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
+      "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
     },
     "sources": {
       "NOR-01": {
@@ -63,7 +102,7 @@
       "id": "main_short",
       "profile": "short",
       "baseline_id": "shared_baseline",
-      "configuration_id": "R0",
+      "configuration_id": "native_32_slices_shared_sectors",
       "mode": "binary NOR + local exact digital reduction",
       "mapping": {
         "read_slices": 32,
@@ -82,6 +121,73 @@
         "logical_storage_bits": 131072,
         "write_domains": 1,
         "write_data_lanes": 128
+      },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 3780,
+        "delta_R_ns": 205602320.0,
+        "rho_Byte_per_s": 33862433.86243386,
+        "tau_Byte_per_s": 79687.81675226233,
+        "ridge": 424.9386574074074,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 424.9386574074074,
+        "T_R_ns": 205602320.0,
+        "U_star": 54392.148148148146,
+        "average_update_ns_per_16KiB": 205602320.0
+      },
+      "full_load": {
+        "logical_payload_Byte": 16384,
+        "T_R_ns": 205602320.0,
+        "transactions": 4
+      },
+      "scenario_type": "paired_engineering_scenario",
+      "maintenance_service": {
+        "raw": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 3780,
+          "delta_R_ns": 205602320.0,
+          "rho_Byte_per_s": 33862433.86243386,
+          "tau_Byte_per_s": 79687.81675226233,
+          "ridge": 424.9386574074074,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 424.9386574074074,
+          "T_R_ns": 205602320.0,
+          "U_star": 54392.148148148146,
+          "average_update_ns_per_16KiB": 205602320.0
+        },
+        "effective": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 3780,
+          "delta_R_ns": 205602320.0,
+          "rho_Byte_per_s": 33862433.86243386,
+          "tau_Byte_per_s": 79687.81675226233,
+          "ridge": 424.9386574074074,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 424.9386574074074,
+          "T_R_ns": 205602320.0,
+          "U_star": 54392.148148148146,
+          "average_update_ns_per_16KiB": 205602320.0
+        },
+        "availability": 1,
+        "feasible": true,
+        "maintenance_payload_Byte": 0,
+        "refresh_ns": 0,
+        "restore_ns": 0
       },
       "periphery_ns": {
         "input_step": 2,
@@ -100,7 +206,10 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 256,
+        "tile_reads": 32,
+        "read_rounds": 32,
+        "max_tile_bits": 4096,
+        "capture_ticks": 32,
         "digital_ticks": 256,
         "page_programs": 64,
         "sector_erases": 4,
@@ -108,7 +217,8 @@
         "data_beats_total": 1024
       },
       "read_stages_ns": {
-        "binary_read": 25600,
+        "binary_read": 3200,
+        "tile_capture": 64,
         "digital_reduction": 512,
         "input_output_boundary": 4
       },
@@ -119,13 +229,14 @@
         "internal_sector_erase": 180000000.0
       },
       "page_equivalent": {
+        "kind": "average sustained page cost, not an isolated request latency",
         "B_R_Byte": 256,
         "delta_R_ns": 3212536.25,
         "effective_pages_per_erase": 16
       },
       "dominant_read_stage": "binary_read",
       "dominant_write_stage": "internal_sector_erase",
-      "binary_read_fraction": 0.9802419972430694,
+      "binary_read_fraction": 0.8465608465608465,
       "erase_fraction": 0.8754765024052258,
       "source_ids": [
         "NOR-01",
@@ -134,17 +245,17 @@
       "source_role": "complementary transferred binary budgets",
       "B_S_Byte": 128,
       "B_R_Byte": 16384,
-      "delta_S_ns": 26116,
+      "delta_S_ns": 3780,
       "delta_R_ns": 205602320.0,
-      "rho_Byte_per_s": 4901209.9862153465,
+      "rho_Byte_per_s": 33862433.86243386,
       "tau_Byte_per_s": 79687.81675226233,
-      "ridge": 61.505135740542194
+      "ridge": 424.9386574074074
     },
     {
       "id": "main_reference",
       "profile": "reference",
       "baseline_id": "shared_baseline",
-      "configuration_id": "R0",
+      "configuration_id": "native_32_slices_shared_sectors",
       "mode": "binary NOR + local exact digital reduction",
       "mapping": {
         "read_slices": 32,
@@ -163,6 +274,73 @@
         "logical_storage_bits": 131072,
         "write_domains": 1,
         "write_data_lanes": 128
+      },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 5290,
+        "delta_R_ns": 205605800.0,
+        "rho_Byte_per_s": 24196597.353497162,
+        "tau_Byte_per_s": 79686.4679887435,
+        "ridge": 303.64750708884685,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 303.64750708884685,
+        "T_R_ns": 205605800.0,
+        "U_star": 38866.880907372404,
+        "average_update_ns_per_16KiB": 205605800.0
+      },
+      "full_load": {
+        "logical_payload_Byte": 16384,
+        "T_R_ns": 205605800.0,
+        "transactions": 4
+      },
+      "scenario_type": "paired_engineering_scenario",
+      "maintenance_service": {
+        "raw": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 5290,
+          "delta_R_ns": 205605800.0,
+          "rho_Byte_per_s": 24196597.353497162,
+          "tau_Byte_per_s": 79686.4679887435,
+          "ridge": 303.64750708884685,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 303.64750708884685,
+          "T_R_ns": 205605800.0,
+          "U_star": 38866.880907372404,
+          "average_update_ns_per_16KiB": 205605800.0
+        },
+        "effective": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 5290,
+          "delta_R_ns": 205605800.0,
+          "rho_Byte_per_s": 24196597.353497162,
+          "tau_Byte_per_s": 79686.4679887435,
+          "ridge": 303.64750708884685,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 303.64750708884685,
+          "T_R_ns": 205605800.0,
+          "U_star": 38866.880907372404,
+          "average_update_ns_per_16KiB": 205605800.0
+        },
+        "availability": 1,
+        "feasible": true,
+        "maintenance_payload_Byte": 0,
+        "refresh_ns": 0,
+        "restore_ns": 0
       },
       "periphery_ns": {
         "input_step": 5,
@@ -181,7 +359,10 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 256,
+        "tile_reads": 32,
+        "read_rounds": 32,
+        "max_tile_bits": 4096,
+        "capture_ticks": 32,
         "digital_ticks": 256,
         "page_programs": 64,
         "sector_erases": 4,
@@ -189,7 +370,8 @@
         "data_beats_total": 1024
       },
       "read_stages_ns": {
-        "binary_read": 30720,
+        "binary_read": 3840,
+        "tile_capture": 160,
         "digital_reduction": 1280,
         "input_output_boundary": 10
       },
@@ -200,13 +382,14 @@
         "internal_sector_erase": 180000000.0
       },
       "page_equivalent": {
+        "kind": "average sustained page cost, not an isolated request latency",
         "B_R_Byte": 256,
         "delta_R_ns": 3212590.625,
         "effective_pages_per_erase": 16
       },
       "dominant_read_stage": "binary_read",
       "dominant_write_stage": "internal_sector_erase",
-      "binary_read_fraction": 0.9597000937207123,
+      "binary_read_fraction": 0.725897920604915,
       "erase_fraction": 0.875461684446645,
       "source_ids": [
         "NOR-01",
@@ -215,17 +398,17 @@
       "source_role": "complementary transferred binary budgets",
       "B_S_Byte": 128,
       "B_R_Byte": 16384,
-      "delta_S_ns": 32010,
+      "delta_S_ns": 5290,
       "delta_R_ns": 205605800.0,
-      "rho_Byte_per_s": 3998750.390502968,
+      "rho_Byte_per_s": 24196597.353497162,
       "tau_Byte_per_s": 79686.4679887435,
-      "ridge": 50.18104693845674
+      "ridge": 303.64750708884685
     },
     {
       "id": "main_long",
       "profile": "long",
       "baseline_id": "shared_baseline",
-      "configuration_id": "R0",
+      "configuration_id": "native_32_slices_shared_sectors",
       "mode": "binary NOR + local exact digital reduction",
       "mapping": {
         "read_slices": 32,
@@ -245,6 +428,73 @@
         "write_domains": 1,
         "write_data_lanes": 128
       },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 7060,
+        "delta_R_ns": 1792011600.0,
+        "rho_Byte_per_s": 18130311.614730876,
+        "tau_Byte_per_s": 9142.797959566778,
+        "ridge": 1983.0156692634562,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 1983.0156692634562,
+        "T_R_ns": 1792011600.0,
+        "U_star": 253826.0056657224,
+        "average_update_ns_per_16KiB": 1792011600.0
+      },
+      "full_load": {
+        "logical_payload_Byte": 16384,
+        "T_R_ns": 1792011600.0,
+        "transactions": 4
+      },
+      "scenario_type": "paired_engineering_scenario",
+      "maintenance_service": {
+        "raw": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 7060,
+          "delta_R_ns": 1792011600.0,
+          "rho_Byte_per_s": 18130311.614730876,
+          "tau_Byte_per_s": 9142.797959566778,
+          "ridge": 1983.0156692634562,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 1983.0156692634562,
+          "T_R_ns": 1792011600.0,
+          "U_star": 253826.0056657224,
+          "average_update_ns_per_16KiB": 1792011600.0
+        },
+        "effective": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 7060,
+          "delta_R_ns": 1792011600.0,
+          "rho_Byte_per_s": 18130311.614730876,
+          "tau_Byte_per_s": 9142.797959566778,
+          "ridge": 1983.0156692634562,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 1983.0156692634562,
+          "T_R_ns": 1792011600.0,
+          "U_star": 253826.0056657224,
+          "average_update_ns_per_16KiB": 1792011600.0
+        },
+        "availability": 1,
+        "feasible": true,
+        "maintenance_payload_Byte": 0,
+        "refresh_ns": 0,
+        "restore_ns": 0
+      },
       "periphery_ns": {
         "input_step": 10,
         "adc_batch": 50,
@@ -262,7 +512,10 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 256,
+        "tile_reads": 32,
+        "read_rounds": 32,
+        "max_tile_bits": 4096,
+        "capture_ticks": 32,
         "digital_ticks": 256,
         "page_programs": 64,
         "sector_erases": 4,
@@ -270,7 +523,8 @@
         "data_beats_total": 1024
       },
       "read_stages_ns": {
-        "binary_read": 33280,
+        "binary_read": 4160,
+        "tile_capture": 320,
         "digital_reduction": 2560,
         "input_output_boundary": 20
       },
@@ -281,13 +535,14 @@
         "internal_sector_erase": 1600000000.0
       },
       "page_equivalent": {
+        "kind": "average sustained page cost, not an isolated request latency",
         "B_R_Byte": 256,
         "delta_R_ns": 28000181.25,
         "effective_pages_per_erase": 16
       },
       "dominant_read_stage": "binary_read",
       "dominant_write_stage": "internal_sector_erase",
-      "binary_read_fraction": 0.928053541550474,
+      "binary_read_fraction": 0.5892351274787535,
       "erase_fraction": 0.8928513632389433,
       "source_ids": [
         "NOR-01",
@@ -296,18 +551,18 @@
       "source_role": "complementary transferred binary budgets",
       "B_S_Byte": 128,
       "B_R_Byte": 16384,
-      "delta_S_ns": 35860,
+      "delta_S_ns": 7060,
       "delta_R_ns": 1792011600.0,
-      "rho_Byte_per_s": 3569436.6982710543,
+      "rho_Byte_per_s": 18130311.614730876,
       "tau_Byte_per_s": 9142.797959566778,
-      "ridge": 390.4096660624652
+      "ridge": 1983.0156692634562
     }
   ],
   "organization_contrast": {
     "id": "private_sector_reference",
     "profile": "reference",
     "baseline_id": "shared_baseline",
-    "configuration_id": "R0",
+    "configuration_id": "native_32_slices_shared_sectors",
     "mode": "binary NOR + local exact digital reduction",
     "mapping": {
       "read_slices": 32,
@@ -327,6 +582,73 @@
       "write_domains": 1,
       "write_data_lanes": 128
     },
+    "mapping_interface": {
+      "B_S_Byte": 128,
+      "B_R_Byte": 16384,
+      "delta_S_ns": 5290,
+      "delta_R_ns": 1465606080.0,
+      "rho_Byte_per_s": 24196597.353497162,
+      "tau_Byte_per_s": 11178.992925575198,
+      "ridge": 2164.4702268431006,
+      "K": 128,
+      "N": 128,
+      "b_S": 1,
+      "b_R": 1,
+      "full_resident_payload_Byte": 16384,
+      "RI_star": 2164.4702268431006,
+      "T_R_ns": 1465606080.0,
+      "U_star": 277052.1890359168,
+      "average_update_ns_per_16KiB": 1465606080.0
+    },
+    "full_load": {
+      "logical_payload_Byte": 16384,
+      "T_R_ns": 1465606080.0,
+      "transactions": 32
+    },
+    "scenario_type": "separate_comparison",
+    "maintenance_service": {
+      "raw": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 5290,
+        "delta_R_ns": 1465606080.0,
+        "rho_Byte_per_s": 24196597.353497162,
+        "tau_Byte_per_s": 11178.992925575198,
+        "ridge": 2164.4702268431006,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 2164.4702268431006,
+        "T_R_ns": 1465606080.0,
+        "U_star": 277052.1890359168,
+        "average_update_ns_per_16KiB": 1465606080.0
+      },
+      "effective": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 5290,
+        "delta_R_ns": 1465606080.0,
+        "rho_Byte_per_s": 24196597.353497162,
+        "tau_Byte_per_s": 11178.992925575198,
+        "ridge": 2164.4702268431006,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 2164.4702268431006,
+        "T_R_ns": 1465606080.0,
+        "U_star": 277052.1890359168,
+        "average_update_ns_per_16KiB": 1465606080.0
+      },
+      "availability": 1,
+      "feasible": true,
+      "maintenance_payload_Byte": 0,
+      "refresh_ns": 0,
+      "restore_ns": 0
+    },
     "periphery_ns": {
       "input_step": 5,
       "adc_batch": 20,
@@ -344,7 +666,10 @@
       "row_groups": 4,
       "output_groups": 8,
       "compute_rounds": 256,
-      "read_rounds": 256,
+      "tile_reads": 32,
+      "read_rounds": 32,
+      "max_tile_bits": 4096,
+      "capture_ticks": 32,
       "digital_ticks": 256,
       "page_programs": 64,
       "sector_erases": 32,
@@ -352,7 +677,8 @@
       "data_beats_total": 1024
     },
     "read_stages_ns": {
-      "binary_read": 30720,
+      "binary_read": 3840,
+      "tile_capture": 160,
       "digital_reduction": 1280,
       "input_output_boundary": 10
     },
@@ -363,13 +689,14 @@
       "internal_sector_erase": 1440000000.0
     },
     "page_equivalent": {
+      "kind": "average sustained page cost, not an isolated request latency",
       "B_R_Byte": 256,
       "delta_R_ns": 22900095.0,
       "effective_pages_per_erase": 2
     },
     "dominant_read_stage": "binary_read",
     "dominant_write_stage": "internal_sector_erase",
-    "binary_read_fraction": 0.9597000937207123,
+    "binary_read_fraction": 0.725897920604915,
     "erase_fraction": 0.9825286750993828,
     "source_ids": [
       "NOR-01",
@@ -378,15 +705,15 @@
     "source_role": "complementary transferred binary budgets",
     "B_S_Byte": 128,
     "B_R_Byte": 16384,
-    "delta_S_ns": 32010,
+    "delta_S_ns": 5290,
     "delta_R_ns": 1465606080.0,
-    "rho_Byte_per_s": 3998750.390502968,
+    "rho_Byte_per_s": 24196597.353497162,
     "tau_Byte_per_s": 11178.992925575198,
-    "ridge": 357.70220243673856,
+    "ridge": 2164.4702268431006,
     "ratios_to_reference": {
       "rho_Byte_per_s": 1.0,
       "tau_Byte_per_s": 0.14028721824079768,
-      "ridge": 7.128233152955802
+      "ridge": 7.128233152955804
     }
   },
   "read_budget_sensitivity": [
@@ -394,7 +721,7 @@
       "id": "read_x0.8_reference",
       "profile": "reference",
       "baseline_id": "shared_baseline",
-      "configuration_id": "R0",
+      "configuration_id": "native_32_slices_shared_sectors",
       "mode": "binary NOR + local exact digital reduction",
       "mapping": {
         "read_slices": 32,
@@ -413,6 +740,73 @@
         "logical_storage_bits": 131072,
         "write_domains": 1,
         "write_data_lanes": 128
+      },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 4522.0,
+        "delta_R_ns": 205605800.0,
+        "rho_Byte_per_s": 28306059.26581159,
+        "tau_Byte_per_s": 79686.4679887435,
+        "ridge": 355.21789307828396,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 355.21789307828396,
+        "T_R_ns": 205605800.0,
+        "U_star": 45467.89031402035,
+        "average_update_ns_per_16KiB": 205605800.0
+      },
+      "full_load": {
+        "logical_payload_Byte": 16384,
+        "T_R_ns": 205605800.0,
+        "transactions": 4
+      },
+      "scenario_type": "separate_comparison",
+      "maintenance_service": {
+        "raw": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 4522.0,
+          "delta_R_ns": 205605800.0,
+          "rho_Byte_per_s": 28306059.26581159,
+          "tau_Byte_per_s": 79686.4679887435,
+          "ridge": 355.21789307828396,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 355.21789307828396,
+          "T_R_ns": 205605800.0,
+          "U_star": 45467.89031402035,
+          "average_update_ns_per_16KiB": 205605800.0
+        },
+        "effective": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 4522.0,
+          "delta_R_ns": 205605800.0,
+          "rho_Byte_per_s": 28306059.26581159,
+          "tau_Byte_per_s": 79686.4679887435,
+          "ridge": 355.21789307828396,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 355.21789307828396,
+          "T_R_ns": 205605800.0,
+          "U_star": 45467.89031402035,
+          "average_update_ns_per_16KiB": 205605800.0
+        },
+        "availability": 1,
+        "feasible": true,
+        "maintenance_payload_Byte": 0,
+        "refresh_ns": 0,
+        "restore_ns": 0
       },
       "periphery_ns": {
         "input_step": 5,
@@ -431,7 +825,10 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 256,
+        "tile_reads": 32,
+        "read_rounds": 32,
+        "max_tile_bits": 4096,
+        "capture_ticks": 32,
         "digital_ticks": 256,
         "page_programs": 64,
         "sector_erases": 4,
@@ -439,7 +836,8 @@
         "data_beats_total": 1024
       },
       "read_stages_ns": {
-        "binary_read": 24576.0,
+        "binary_read": 3072.0,
+        "tile_capture": 160,
         "digital_reduction": 1280,
         "input_output_boundary": 10
       },
@@ -450,13 +848,14 @@
         "internal_sector_erase": 180000000.0
       },
       "page_equivalent": {
+        "kind": "average sustained page cost, not an isolated request latency",
         "B_R_Byte": 256,
         "delta_R_ns": 3212590.625,
         "effective_pages_per_erase": 16
       },
       "dominant_read_stage": "binary_read",
       "dominant_write_stage": "internal_sector_erase",
-      "binary_read_fraction": 0.9501275806077476,
+      "binary_read_fraction": 0.6793454223794781,
       "erase_fraction": 0.875461684446645,
       "source_ids": [
         "NOR-01",
@@ -465,19 +864,19 @@
       "source_role": "complementary transferred binary budgets",
       "B_S_Byte": 128,
       "B_R_Byte": 16384,
-      "delta_S_ns": 25866.0,
+      "delta_S_ns": 4522.0,
       "delta_R_ns": 205605800.0,
-      "rho_Byte_per_s": 4948581.148998685,
+      "rho_Byte_per_s": 28306059.26581159,
       "tau_Byte_per_s": 79686.4679887435,
-      "ridge": 62.10064611845666,
-      "rho_relative_change": 0.23753189515193673,
-      "ridge_relative_change": 0.23753189515193673
+      "ridge": 355.21789307828396,
+      "rho_relative_change": 0.16983635559486965,
+      "ridge_relative_change": 0.16983635559486965
     },
     {
       "id": "read_x1.2_reference",
       "profile": "reference",
       "baseline_id": "shared_baseline",
-      "configuration_id": "R0",
+      "configuration_id": "native_32_slices_shared_sectors",
       "mode": "binary NOR + local exact digital reduction",
       "mapping": {
         "read_slices": 32,
@@ -497,6 +896,73 @@
         "write_domains": 1,
         "write_data_lanes": 128
       },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 6058.0,
+        "delta_R_ns": 205605800.0,
+        "rho_Byte_per_s": 21129085.50676791,
+        "tau_Byte_per_s": 79686.4679887435,
+        "ridge": 265.15274224166393,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 265.15274224166393,
+        "T_R_ns": 205605800.0,
+        "U_star": 33939.55100693298,
+        "average_update_ns_per_16KiB": 205605800.0
+      },
+      "full_load": {
+        "logical_payload_Byte": 16384,
+        "T_R_ns": 205605800.0,
+        "transactions": 4
+      },
+      "scenario_type": "separate_comparison",
+      "maintenance_service": {
+        "raw": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 6058.0,
+          "delta_R_ns": 205605800.0,
+          "rho_Byte_per_s": 21129085.50676791,
+          "tau_Byte_per_s": 79686.4679887435,
+          "ridge": 265.15274224166393,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 265.15274224166393,
+          "T_R_ns": 205605800.0,
+          "U_star": 33939.55100693298,
+          "average_update_ns_per_16KiB": 205605800.0
+        },
+        "effective": {
+          "B_S_Byte": 128,
+          "B_R_Byte": 16384,
+          "delta_S_ns": 6058.0,
+          "delta_R_ns": 205605800.0,
+          "rho_Byte_per_s": 21129085.50676791,
+          "tau_Byte_per_s": 79686.4679887435,
+          "ridge": 265.15274224166393,
+          "K": 128,
+          "N": 128,
+          "b_S": 1,
+          "b_R": 1,
+          "full_resident_payload_Byte": 16384,
+          "RI_star": 265.15274224166393,
+          "T_R_ns": 205605800.0,
+          "U_star": 33939.55100693298,
+          "average_update_ns_per_16KiB": 205605800.0
+        },
+        "availability": 1,
+        "feasible": true,
+        "maintenance_payload_Byte": 0,
+        "refresh_ns": 0,
+        "restore_ns": 0
+      },
       "periphery_ns": {
         "input_step": 5,
         "adc_batch": 20,
@@ -514,7 +980,10 @@
         "row_groups": 4,
         "output_groups": 8,
         "compute_rounds": 256,
-        "read_rounds": 256,
+        "tile_reads": 32,
+        "read_rounds": 32,
+        "max_tile_bits": 4096,
+        "capture_ticks": 32,
         "digital_ticks": 256,
         "page_programs": 64,
         "sector_erases": 4,
@@ -522,7 +991,8 @@
         "data_beats_total": 1024
       },
       "read_stages_ns": {
-        "binary_read": 36864.0,
+        "binary_read": 4608.0,
+        "tile_capture": 160,
         "digital_reduction": 1280,
         "input_output_boundary": 10
       },
@@ -533,13 +1003,14 @@
         "internal_sector_erase": 180000000.0
       },
       "page_equivalent": {
+        "kind": "average sustained page cost, not an isolated request latency",
         "B_R_Byte": 256,
         "delta_R_ns": 3212590.625,
         "effective_pages_per_erase": 16
       },
       "dominant_read_stage": "binary_read",
       "dominant_write_stage": "internal_sector_erase",
-      "binary_read_fraction": 0.9661896524610788,
+      "binary_read_fraction": 0.7606470782436447,
       "erase_fraction": 0.875461684446645,
       "source_ids": [
         "NOR-01",
@@ -548,27 +1019,27 @@
       "source_role": "complementary transferred binary budgets",
       "B_S_Byte": 128,
       "B_R_Byte": 16384,
-      "delta_S_ns": 38154.0,
+      "delta_S_ns": 6058.0,
       "delta_R_ns": 205605800.0,
-      "rho_Byte_per_s": 3354825.1821565237,
+      "rho_Byte_per_s": 21129085.50676791,
       "tau_Byte_per_s": 79686.4679887435,
-      "ridge": 42.1003122215233,
-      "rho_relative_change": -0.16103160874351308,
-      "ridge_relative_change": -0.1610316087435132
+      "ridge": 265.15274224166393,
+      "rho_relative_change": -0.12677451304060738,
+      "ridge_relative_change": -0.12677451304060727
     }
   ],
   "paired_ranges": {
     "rho_Byte_per_s": [
-      3569436.6982710543,
-      4901209.9862153465
+      18130311.614730876,
+      33862433.86243386
     ],
     "tau_Byte_per_s": [
       9142.797959566778,
       79687.81675226233
     ],
     "ridge": [
-      50.18104693845674,
-      390.4096660624652
+      303.64750708884685,
+      1983.0156692634562
     ]
   },
   "interpretation": "conditional paired reference designs, not material bounds or same-chip measured pairs"

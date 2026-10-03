@@ -2,6 +2,7 @@
 \usepackage[margin=22mm]{geometry}
 \usepackage{amsmath,amssymb,booktabs,longtable,array,tabularx}
 \usepackage{enumitem,setspace,xcolor,hyperref,fancyhdr,needspace}
+\usepackage{placeins}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!45!black,pdftitle={RRAM 二状态位切片的局部服务估算}}
 \setstretch{1.12}
 \setlength{\emergencystretch}{3em}
@@ -24,6 +25,8 @@
 \maketitle\vspace{-2em}
 \input{result_card}
 \input{05_rram}
-\clearpage
+\FloatBarrier
+\needspace{8\baselineskip}
+\section*{参数证据与定位}
 \input{generated_evidence}
 \end{document}

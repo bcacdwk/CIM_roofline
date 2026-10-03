@@ -93,3 +93,14 @@ MLC/TLC、QLC 与 SLC 器件/模式分开。制造商芯片、实际 SLC 器件�
 
 **出版标识：** [DOI](https://doi.org/10.1109/iedm19573.2019.8993652)。
 
+
+<a id="NAND-06"></a>
+## NAND-06 — MX30LF1G18AC: 3V, 1Gb NAND Flash Memory
+
+**补充** · Macronix International Co., Ltd. · PM2133 Rev.1.2, 2016-05-27 · [官方原PDF](NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf)
+
+**定位：** p.5模式/组织；pp.25、31完整program/erase及状态；p.43参数页；p.58 Table14：SLC完整tPROG典型/最大300/600 µs，tERASE典型/最大1/3.5 ms。页2048+64 Byte，块64页。
+
+**用途与限制：** 同厂SLC完整操作的跨实现时间锚点。该低密度产品不是NAND-05的16-layer SGVC测试芯片；不迁移其保证、ECC条件或尺寸，不按页尺寸缩时。NAND-04/05未给配对完整SGVC SLC写擦周期。
+
+**官方地址：** https://www.macronix.com/Lists/Datasheet/Attachments/8458/MX30LF1G18AC%2C%203V%2C%201Gb%2C%20v1.2.pdf

@@ -1,18 +1,7 @@
-% Generated evidence table.
-\begingroup\footnotesize
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{16mm}>{\raggedright\arraybackslash}p{50mm}>{\raggedright\arraybackslash}p{42mm}>{\raggedright\arraybackslash}p{48mm}@{}}
-\caption{原始证据与工程选择分列。页码为本地PDF页序。}\label{05_rram:tab:evidence}\\
-\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endfirsthead
-\toprule ID/来源 & 原值、单位、条件 & 定位 & 采用/换算及限制\\\midrule\endhead
-E01\newline RRAM-05 & 28nm；64$\times$128 cell由4个64$\times$32子阵列构成；32输入项；RHRS/RLRS典型100/10 k$\Omega$；m=1的LRS约0.5 $\mu$A，HRS<30 nA；Fig.7(b)仿真使用LRS10\%/HRS30\%变化标准差\newline VTBL=0.1 V、VBL=0.3 V、VWL=0.6 V；3-bit空间权重、4-bit原读出；RRAM-05为BEOL TaOx & PDF p.3 Fig.3/4；p.4 Fig.7；p.7 Fig.16/17 & 二状态与m=1读取；选择LRS8--12k$\Omega$/HRS$\geq$70k$\Omega$为设计验收窗，原typ与仿真标准差不冒充保证界\\
-E02\newline RRAM-05 & PH0=5 ns；PH1--4各20 ns；4-bit输出access=66 ns；按5/1/1/1 ns估计优化access=13 ns\newline PH0电流稳定与漏电补偿；PH1--4比较和逐次参考扣除；测试板外部DAC提供偏置 & PDF p.5 Fig.9/10；p.7 Fig.18及正文 & 5ns作读前端锚点；PH1 intrinsic5ns支持本地判决量级；binary完整sense用共同10/20/50ns能力预算，另计选通/建立；非SAR精度缩放\\
-E03\newline RRAM-05 & memory模式以AX/AY选择cell，DIN/DOUT数据；CIM通路与memory通路解耦\newline IO器件承受写电压，core器件用于CIM；未报告完整write/verify时间或128cell并行 & PDF p.3 Fig.3(a)/(b)及D节 & memory电流SA与CIM读出解耦支持专用binary verify；不再把逐cell完整SAR当物理要求；本设计新增明确的16lane资源\\
-E04\newline RRAM-03 & 28nm、1Mb；每SET/RESET后读比较阈值；大多数cell名义条件完成，数十cell需额外program；读扰测试10 ns脉冲\newline 二状态P\&V后HRS/LRS分布无重叠；不报告绝对SET/RESET/verify周期或重试分布 & PDF p.5 E节及Fig.9；p.4 Fig.7 & 二状态阈值P\&V支持一次及少量追加尝试情景；K为设计情景而非统计；10ns读扰脉冲仍不替代完整读回\\
-E05\newline RRAM-06 & 40nm、2Mb；两个G0/G1组，每IO每组选一列；组内全done再推进；timeout报fail；时间轴归一化；99.2\% page-write缩短\newline HRPW先在idle RESET全页再SET所需cell；FORMING为另一步；无绝对page时长 & PDF p.1 AF/ARST/ASET；p.2 Figs.3--10 & 采用每IO双group、独立mask/done及分组等待机制，8位平面$\times$双group选择16lane；显式RESET再SET并计全部RESET；不从归一化图取绝对时间\\
-E06\newline RRAM-01 & 130nm；SET初值1.2 V、RESET1.5 V、步进0.1 V；脉宽1 $\mu$s；read 1--10 $\mu$s；±1 $\mu$S；30次极性反转timeout；平均8.52脉冲；集成预测56 $\mu$s/cell\newline 差分多级；gmin=1 $\mu$S，gmax=30/40 $\mu$S；99\%达窗；外部DAC/ADC控制限速；3轮重编程后至少30min再测推理；HfOx加TaOx热增强层，与RRAM-05的TaOx不同stack & PDF p.10 Methods；p.11延续；Extended Data Fig.3在PDF p.18 & 跨stack借用实际1$\mu$s波形；1--10$\mu$s读回保留测试层级，不压入本地binary主服务。8.52次/56$\mu$s、成功概率和G目标不移用\\
-E07\newline RRAM-02 & 28nm、576K；64 ADC；512输出需8轮；单cell verify；模拟program最多1000脉冲；32/128输入MVM相对误差1.14\%/2.03\%\newline 1T1R/2T2R/hybrid多级差分；速度按平均脉冲数比较 & PDF pp.3--5 Figs.2--5；p.7 Fig.11正文 & 保留32项主读分组；28nm最终SET幅度见E10；多级平均脉冲数不充当binary分布\\
-E08\newline RRAM-04 & 256 Byte buffer；tWC在50\%翻转为8500/17000 $\mu$s典型/最大，100\%为16000/25000 $\mu$s；SPI最高5MHz\newline 1.65--3.6 V，-40至85°C；CS上升启动NVM提交，WIP清零才结束 & PDF p.9 WRITE；p.17 AC表 & 完整数字存储提交证据，与本地CIM单元分开；$\mu$s到ns乘1000；不能配本读侧给ridge\\
-E09\newline 共享基线 & 128$\times$128 INT8；BS=128 Byte；8权重平面、每平面16ADC、16数字通道、每轮2拍；TI/TA/TD为2/10/2、5/20/5、10/50/10 ns\newline 共同28nm、0.9 V/25°C近标称参考，非实测PVT保证；顺序服务 & shared\_parameters.json common\_conditions / reference\_instance / selection\_rules；tex/01、02 & 共同逻辑/读ADC/数字预算不变；读r=32；写并行由16个驱动/双组寻址给出，非128bit口\\
-E10\newline RRAM-02 & 最终SET编程BL电压约1.1--1.5V；插图WL约0.6--0.7V\newline 28nm、1T1R/2T2R/hybrid模拟编程，图为末次SET的分布而非binary完整波形 & PDF p.7 Fig.8(b) & 与RRAM-01共同支持1V量级可调专用写域；不据图反推脉宽或循环次数\\
-E11\newline 本文选择 & 16lane、32binary比较器；每lane限流300$\mu$A、总4.8mA；每次HV建立/回读各1$\mu$s；两目标验收窗；binary完整sense时隙10/20/50ns、另计选通和5ns建立\newline 8位平面$\times$双组，2计数器和独立mask/done；1.8V/8k$\Omega$=225$\mu$A只作额定电流量级检查；1.8V需独立耐压I/O/电平转换，原core0.8V/IO1.2V测量不提供耐压证明 & 输入JSON：采用参数、写资源 & 补齐可审查资源及HV恢复预算，明确工程选择；不把欧姆比值声称为RRAM动态编程电流测量\\
+\begingroup\footnotesize\begin{longtable}{@{}>{\raggedright\arraybackslash}p{22mm}>{\raggedright\arraybackslash}p{59mm}>{\raggedright\arraybackslash}p{70mm}@{}}\toprule 来源 & 原始证据 & 采用与限制\\\midrule\endhead
+RRAM-05 & p.3 Figs.3--4：64行128列、四个64×32子阵列共享TBL；独立memory BL/SL写路径 & 每位平面保留完整原宏；四个32项输入组由CIMSEL分时。128驱动为明确新增资源，不能从原DIN接口推出。\\
+RRAM-05 & pp.4--7：典型LRS10千欧/HRS100千欧；32项m=1求和；PH0为5 ns & LRS8--12千欧、HRS至少70千欧为参考窗；CIM与memory窗口读验分开，5 ns是建立量级锚点。\\
+RRAM-01 & p.10：1微秒SET/RESET；外部DAC/ADC受限的1--10微秒读回 & 只借完整脉冲波形；外部读回不等于本地切换，HfOx/TaOx与本TaOx不同栈。\\
+RRAM-03/06 & 03 p.5：二态多数名义条件完成，少量追加；06 pp.1--2：双组mask/done及超时 & 1/1、2/1、4/2尝试是有限正常完成条件；保留完整RESET，不隐藏在idle。\\
+公共方法与选择 & 128个实际目标、300微安每lane、256比较器、每lane局部切换负载不大于1 pF & 最大1.8 V与8千欧量级给225微安；剩余75微安对1.8 pC约24 ns。50/100/250 ns是有限切换预算，不是实测转换延时。\\
 \bottomrule\end{longtable}\endgroup

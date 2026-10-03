@@ -2,13 +2,45 @@
   "analysis_id": "02_sram_dcim",
   "baseline_id": "shared_baseline",
   "baseline_files_actual": {
-    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
-    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
-    "tex/02_estimation_method.tex": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
-    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+    "README.md": "3e3d0bb2f40ca5352f5d155da2333efb1162adf2f89848202fa5e8e49ee1f07f",
+    "tex/01_cmos_periphery.tex": "bc5647725b6565c998f9351a2098c39b60dc18142f1d7f1c327d410135c24ef1",
+    "tex/02_estimation_method.tex": "beaf6fde5a7683e7f1ad1139e78afbc576c65ac95a9327d7097ccfc019e9b39e",
+    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
+    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
   },
   "status": "conditional_reference_estimate_not_measured_paired_chip",
+  "native_configuration": {
+    "K": 128,
+    "N": 16,
+    "b_S": 1,
+    "b_R": 1,
+    "effective_capacity_Byte": 2048,
+    "physical_capacity": {
+      "binary_cells": 16384,
+      "tiles": 1,
+      "tile_rows": 128,
+      "tile_bit_columns": 128
+    },
+    "necessary_encoding": "8binary cells per INT8; two-complement reconstruction; static connection across input bits",
+    "independent_payload_replicas": 1,
+    "output_bits": 23,
+    "update_mode": "one128bit aligned local row;16Byte payload,128 complete cycles cover matrix",
+    "resources": {
+      "digital_lanes": 16,
+      "digital_terms_per_round": 16,
+      "installed_HCA_BFA": 16,
+      "active_HCA_BFA": 16,
+      "adc": 0,
+      "input_register_bits": 1024,
+      "output_register_bits": 368,
+      "added_operand_hold_bits": 0,
+      "weight_hold": "existing static local bitline connection",
+      "write_drivers": 128,
+      "write_domains": 1,
+      "encoded_interface_bits": 128
+    },
+    "configuration_kind": "native D6CIM128x16INT8 tile; no unused output capacity tiles in primary configuration"
+  },
   "scenarios": [
     {
       "id": "short",
@@ -24,12 +56,15 @@
         "input_slices": 8,
         "weight_groups": 1,
         "row_groups": 8,
-        "output_groups": 8,
-        "compute_rounds": 512,
-        "read_rounds": 512,
-        "digital_ticks": 512
+        "output_groups": 1,
+        "compute_rounds": 64,
+        "tile_reads": 8,
+        "read_rounds": 8,
+        "max_tile_bits": 2048,
+        "capture_ticks": 0,
+        "digital_ticks": 64
       },
-      "physical_static_row_group_activations": 64,
+      "physical_static_row_group_activations": 8,
       "write_batches": 1,
       "write_data_beats": 1,
       "stage_coverage": {
@@ -42,7 +77,7 @@
           },
           {
             "stage": "complete_MAC_round",
-            "count": 512,
+            "count": 64,
             "duration_each_ns": 4.3,
             "coverage": "static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation"
           },
@@ -50,7 +85,7 @@
             "stage": "whole_vector_commit",
             "count": 1,
             "duration_each_ns": 2,
-            "coverage": "all128 results ready in24-bit registers; sign extension wiring"
+            "coverage": "all16 results ready in23-bit registers"
           },
           {
             "stage": "extra_read_or_ADC",
@@ -78,11 +113,66 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 2205.6,
+      "delta_S_ns": 279.2,
       "delta_R_ns": 2.2,
-      "rho_Byte_per_s": 58034095.03083061,
+      "rho_Byte_per_s": 458452722.0630372,
       "tau_Byte_per_s": 7272727272.727272,
-      "ridge": 0.00797968806673921
+      "ridge": 0.06303724928366762,
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 279.2,
+        "delta_R_ns": 281.6,
+        "rho_Byte_per_s": 458452722.0630372,
+        "tau_Byte_per_s": 7272727272.727272,
+        "ridge": 0.06303724928366762,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.06303724928366762,
+        "T_R_ns": 281.6,
+        "U_star": 1.0085959885386822,
+        "average_update_ns_per_16KiB": 2252.8
+      },
+      "raw_mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 279.2,
+        "delta_R_ns": 281.6,
+        "rho_Byte_per_s": 458452722.0630372,
+        "tau_Byte_per_s": 7272727272.727272,
+        "ridge": 0.06303724928366762,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.06303724928366762,
+        "T_R_ns": 281.6,
+        "U_star": 1.0085959885386822,
+        "average_update_ns_per_16KiB": 2252.8
+      },
+      "effective_mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 279.2,
+        "delta_R_ns": 281.6,
+        "rho_Byte_per_s": 458452722.0630372,
+        "tau_Byte_per_s": 7272727272.727272,
+        "ridge": 0.06303724928366762,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.06303724928366762,
+        "T_R_ns": 281.6,
+        "U_star": 1.0085959885386822,
+        "average_update_ns_per_16KiB": 2252.8
+      },
+      "raw_equals_effective": true
     },
     {
       "id": "reference",
@@ -98,12 +188,15 @@
         "input_slices": 8,
         "weight_groups": 1,
         "row_groups": 8,
-        "output_groups": 8,
-        "compute_rounds": 512,
-        "read_rounds": 512,
-        "digital_ticks": 512
+        "output_groups": 1,
+        "compute_rounds": 64,
+        "tile_reads": 8,
+        "read_rounds": 8,
+        "max_tile_bits": 2048,
+        "capture_ticks": 0,
+        "digital_ticks": 64
       },
-      "physical_static_row_group_activations": 64,
+      "physical_static_row_group_activations": 8,
       "write_batches": 1,
       "write_data_beats": 1,
       "stage_coverage": {
@@ -116,7 +209,7 @@
           },
           {
             "stage": "complete_MAC_round",
-            "count": 512,
+            "count": 64,
             "duration_each_ns": 5,
             "coverage": "static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation"
           },
@@ -124,7 +217,7 @@
             "stage": "whole_vector_commit",
             "count": 1,
             "duration_each_ns": 5,
-            "coverage": "all128 results ready in24-bit registers; sign extension wiring"
+            "coverage": "all16 results ready in23-bit registers"
           },
           {
             "stage": "extra_read_or_ADC",
@@ -152,11 +245,66 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 2570.0,
+      "delta_S_ns": 330.0,
       "delta_R_ns": 5.0,
-      "rho_Byte_per_s": 49805447.47081712,
+      "rho_Byte_per_s": 387878787.8787879,
       "tau_Byte_per_s": 3200000000.0,
-      "ridge": 0.01556420233463035
+      "ridge": 0.12121212121212122,
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 330.0,
+        "delta_R_ns": 640.0,
+        "rho_Byte_per_s": 387878787.8787879,
+        "tau_Byte_per_s": 3200000000.0,
+        "ridge": 0.12121212121212122,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.12121212121212122,
+        "T_R_ns": 640.0,
+        "U_star": 1.9393939393939394,
+        "average_update_ns_per_16KiB": 5120.0
+      },
+      "raw_mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 330.0,
+        "delta_R_ns": 640.0,
+        "rho_Byte_per_s": 387878787.8787879,
+        "tau_Byte_per_s": 3200000000.0,
+        "ridge": 0.12121212121212122,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.12121212121212122,
+        "T_R_ns": 640.0,
+        "U_star": 1.9393939393939394,
+        "average_update_ns_per_16KiB": 5120.0
+      },
+      "effective_mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 330.0,
+        "delta_R_ns": 640.0,
+        "rho_Byte_per_s": 387878787.8787879,
+        "tau_Byte_per_s": 3200000000.0,
+        "ridge": 0.12121212121212122,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.12121212121212122,
+        "T_R_ns": 640.0,
+        "U_star": 1.9393939393939394,
+        "average_update_ns_per_16KiB": 5120.0
+      },
+      "raw_equals_effective": true
     },
     {
       "id": "long",
@@ -172,12 +320,15 @@
         "input_slices": 8,
         "weight_groups": 1,
         "row_groups": 8,
-        "output_groups": 8,
-        "compute_rounds": 512,
-        "read_rounds": 512,
-        "digital_ticks": 512
+        "output_groups": 1,
+        "compute_rounds": 64,
+        "tile_reads": 8,
+        "read_rounds": 8,
+        "max_tile_bits": 2048,
+        "capture_ticks": 0,
+        "digital_ticks": 64
       },
-      "physical_static_row_group_activations": 64,
+      "physical_static_row_group_activations": 8,
       "write_batches": 1,
       "write_data_beats": 1,
       "stage_coverage": {
@@ -190,7 +341,7 @@
           },
           {
             "stage": "complete_MAC_round",
-            "count": 512,
+            "count": 64,
             "duration_each_ns": 10,
             "coverage": "static SRAM read/hold, NOR multiplication, HCA reduction, BFA sign/shift/accumulation"
           },
@@ -198,7 +349,7 @@
             "stage": "whole_vector_commit",
             "count": 1,
             "duration_each_ns": 10,
-            "coverage": "all128 results ready in24-bit registers; sign extension wiring"
+            "coverage": "all16 results ready in23-bit registers"
           },
           {
             "stage": "extra_read_or_ADC",
@@ -226,34 +377,112 @@
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 5140.0,
+      "delta_S_ns": 660.0,
       "delta_R_ns": 10.0,
-      "rho_Byte_per_s": 24902723.73540856,
+      "rho_Byte_per_s": 193939393.93939394,
       "tau_Byte_per_s": 1600000000.0,
-      "ridge": 0.01556420233463035
+      "ridge": 0.12121212121212122,
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 660.0,
+        "delta_R_ns": 1280.0,
+        "rho_Byte_per_s": 193939393.93939394,
+        "tau_Byte_per_s": 1600000000.0,
+        "ridge": 0.12121212121212122,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.12121212121212122,
+        "T_R_ns": 1280.0,
+        "U_star": 1.9393939393939394,
+        "average_update_ns_per_16KiB": 10240.0
+      },
+      "raw_mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 660.0,
+        "delta_R_ns": 1280.0,
+        "rho_Byte_per_s": 193939393.93939394,
+        "tau_Byte_per_s": 1600000000.0,
+        "ridge": 0.12121212121212122,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.12121212121212122,
+        "T_R_ns": 1280.0,
+        "U_star": 1.9393939393939394,
+        "average_update_ns_per_16KiB": 10240.0
+      },
+      "effective_mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 2048,
+        "delta_S_ns": 660.0,
+        "delta_R_ns": 1280.0,
+        "rho_Byte_per_s": 193939393.93939394,
+        "tau_Byte_per_s": 1600000000.0,
+        "ridge": 0.12121212121212122,
+        "K": 128,
+        "N": 16,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 2048,
+        "RI_star": 0.12121212121212122,
+        "T_R_ns": 1280.0,
+        "U_star": 1.9393939393939394,
+        "average_update_ns_per_16KiB": 10240.0
+      },
+      "raw_equals_effective": true
     }
   ],
   "sensitivities": [
     {
-      "id": "R0_same_clock_short",
-      "kind": "conditional_resource_comparison",
-      "premise": "32-term/16-output round reaches same full clock; not measured D6 timing",
+      "id": "eight_tiles_serial_short",
+      "kind": "organization_comparison",
+      "premise": "eight native16-term tiles installed,one active;no32-term same-clock claim",
+      "installed_output_lanes": 128,
+      "active_output_lanes": 16,
       "counts": {
         "input_slices": 8,
         "weight_groups": 1,
-        "row_groups": 4,
+        "row_groups": 8,
         "output_groups": 8,
-        "compute_rounds": 256,
-        "read_rounds": 256,
-        "digital_ticks": 256
+        "compute_rounds": 512,
+        "tile_reads": 64,
+        "read_rounds": 64,
+        "max_tile_bits": 2048,
+        "capture_ticks": 0,
+        "digital_ticks": 512
+      },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 2205.6,
+        "delta_R_ns": 2252.8,
+        "rho_Byte_per_s": 58034095.03083061,
+        "tau_Byte_per_s": 7272727272.727272,
+        "ridge": 0.00797968806673921,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 0.00797968806673921,
+        "T_R_ns": 2252.8,
+        "U_star": 1.0214000725426189,
+        "average_update_ns_per_16KiB": 2252.8
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 1104.8,
+      "delta_S_ns": 2205.6,
       "delta_R_ns": 2.2,
-      "rho_Byte_per_s": 115858073.85952209,
+      "rho_Byte_per_s": 58034095.03083061,
       "tau_Byte_per_s": 7272727272.727272,
-      "ridge": 0.01593048515568429
+      "ridge": 0.00797968806673921
     },
     {
       "id": "extra_handshake_short",
@@ -262,32 +491,55 @@
       "added_handshake_ns": 4,
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 2205.6,
+      "delta_S_ns": 279.2,
       "delta_R_ns": 6.2,
-      "rho_Byte_per_s": 58034095.03083061,
+      "rho_Byte_per_s": 458452722.0630372,
       "tau_Byte_per_s": 2580645161.2903223,
-      "ridge": 0.022488211824446862
+      "ridge": 0.17765042979942694
     },
     {
-      "id": "R0_same_clock_reference",
-      "kind": "conditional_resource_comparison",
-      "premise": "32-term/16-output round reaches same full clock; not measured D6 timing",
+      "id": "eight_tiles_serial_reference",
+      "kind": "organization_comparison",
+      "premise": "eight native16-term tiles installed,one active;no32-term same-clock claim",
+      "installed_output_lanes": 128,
+      "active_output_lanes": 16,
       "counts": {
         "input_slices": 8,
         "weight_groups": 1,
-        "row_groups": 4,
+        "row_groups": 8,
         "output_groups": 8,
-        "compute_rounds": 256,
-        "read_rounds": 256,
-        "digital_ticks": 256
+        "compute_rounds": 512,
+        "tile_reads": 64,
+        "read_rounds": 64,
+        "max_tile_bits": 2048,
+        "capture_ticks": 0,
+        "digital_ticks": 512
+      },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 2570.0,
+        "delta_R_ns": 5120.0,
+        "rho_Byte_per_s": 49805447.47081712,
+        "tau_Byte_per_s": 3200000000.0,
+        "ridge": 0.01556420233463035,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 0.01556420233463035,
+        "T_R_ns": 5120.0,
+        "U_star": 1.9922178988326849,
+        "average_update_ns_per_16KiB": 5120.0
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 1290.0,
+      "delta_S_ns": 2570.0,
       "delta_R_ns": 5.0,
-      "rho_Byte_per_s": 99224806.20155038,
+      "rho_Byte_per_s": 49805447.47081712,
       "tau_Byte_per_s": 3200000000.0,
-      "ridge": 0.031007751937984492
+      "ridge": 0.01556420233463035
     },
     {
       "id": "extra_handshake_reference",
@@ -296,32 +548,55 @@
       "added_handshake_ns": 10,
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 2570.0,
+      "delta_S_ns": 330.0,
       "delta_R_ns": 15,
-      "rho_Byte_per_s": 49805447.47081712,
+      "rho_Byte_per_s": 387878787.8787879,
       "tau_Byte_per_s": 1066666666.6666665,
-      "ridge": 0.04669260700389106
+      "ridge": 0.3636363636363637
     },
     {
-      "id": "R0_same_clock_long",
-      "kind": "conditional_resource_comparison",
-      "premise": "32-term/16-output round reaches same full clock; not measured D6 timing",
+      "id": "eight_tiles_serial_long",
+      "kind": "organization_comparison",
+      "premise": "eight native16-term tiles installed,one active;no32-term same-clock claim",
+      "installed_output_lanes": 128,
+      "active_output_lanes": 16,
       "counts": {
         "input_slices": 8,
         "weight_groups": 1,
-        "row_groups": 4,
+        "row_groups": 8,
         "output_groups": 8,
-        "compute_rounds": 256,
-        "read_rounds": 256,
-        "digital_ticks": 256
+        "compute_rounds": 512,
+        "tile_reads": 64,
+        "read_rounds": 64,
+        "max_tile_bits": 2048,
+        "capture_ticks": 0,
+        "digital_ticks": 512
+      },
+      "mapping_interface": {
+        "B_S_Byte": 128,
+        "B_R_Byte": 16384,
+        "delta_S_ns": 5140.0,
+        "delta_R_ns": 10240.0,
+        "rho_Byte_per_s": 24902723.73540856,
+        "tau_Byte_per_s": 1600000000.0,
+        "ridge": 0.01556420233463035,
+        "K": 128,
+        "N": 128,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 16384,
+        "RI_star": 0.01556420233463035,
+        "T_R_ns": 10240.0,
+        "U_star": 1.9922178988326849,
+        "average_update_ns_per_16KiB": 10240.0
       },
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 2580.0,
+      "delta_S_ns": 5140.0,
       "delta_R_ns": 10.0,
-      "rho_Byte_per_s": 49612403.10077519,
+      "rho_Byte_per_s": 24902723.73540856,
       "tau_Byte_per_s": 1600000000.0,
-      "ridge": 0.031007751937984492
+      "ridge": 0.01556420233463035
     },
     {
       "id": "extra_handshake_long",
@@ -330,37 +605,37 @@
       "added_handshake_ns": 20,
       "B_S_Byte": 128,
       "B_R_Byte": 16,
-      "delta_S_ns": 5140.0,
+      "delta_S_ns": 660.0,
       "delta_R_ns": 30,
-      "rho_Byte_per_s": 24902723.73540856,
+      "rho_Byte_per_s": 193939393.93939394,
       "tau_Byte_per_s": 533333333.33333325,
-      "ridge": 0.04669260700389106
+      "ridge": 0.3636363636363637
     }
   ],
   "ranges": {
     "delta_S_ns": [
-      2205.6,
-      5140.0
+      279.2,
+      660.0
     ],
     "delta_R_ns": [
       2.2,
       10.0
     ],
     "rho_Byte_per_s": [
-      24902723.73540856,
-      58034095.03083061
+      193939393.93939394,
+      458452722.0630372
     ],
     "tau_Byte_per_s": [
       1600000000.0,
       7272727272.727272
     ],
     "ridge": [
-      0.00797968806673921,
-      0.01556420233463035
+      0.06303724928366762,
+      0.12121212121212122
     ]
   },
   "whole_matrix_updates": {
-    "logical_payload_Byte": 16384,
-    "aligned_transactions": 1024
+    "logical_payload_Byte": 2048,
+    "aligned_transactions": 128
   }
 }

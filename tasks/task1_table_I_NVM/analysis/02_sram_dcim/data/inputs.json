@@ -2,15 +2,14 @@
   "analysis_id": "02_sram_dcim",
   "title": "SRAM DCIM：完整精度数字求值与普通SRAM更新",
   "baseline_id": "shared_baseline",
-  "git_start_head": "49d11fe3ea994b63fc27e3d35e65602071ba1c0f",
   "baseline_files": {
-    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
-    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
-    "tex/02_estimation_method.tex": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9",
-    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
+    "README.md": "3e3d0bb2f40ca5352f5d155da2333efb1162adf2f89848202fa5e8e49ee1f07f",
+    "tex/01_cmos_periphery.tex": "bc5647725b6565c998f9351a2098c39b60dc18142f1d7f1c327d410135c24ef1",
+    "tex/02_estimation_method.tex": "beaf6fde5a7683e7f1ad1139e78afbc576c65ac95a9327d7097ccfc019e9b39e",
+    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
+    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
   },
-  "source_manifest_sha256": "b2f6189c6553ad11f4b6c723d00973d9446b8236a5cadab2f072d421757e6ee7",
+  "source_manifest_sha256": "5e2c9d0e38de5b397a8a8e2e05cdfe2fa0e2b21f6ae4bebcd16346a39adc43c6",
   "sources": {
     "CMOS-03": {
       "title": "SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS",
@@ -100,8 +99,8 @@
       "original_value": "128×128 bit；128×16 INT8；16项×16输出/拍；64 clock/VMM",
       "unit": "bit / elements / clocks",
       "conditions": "28 nm，6T binary SRAM，8-bit signed/unsigned full-precision；输出23 bit",
-      "adopted": "一份128×128 INT8需8个容量分片；单分片64拍，顺序覆盖512拍",
-      "conversion_reason": "128个物理bit列除以每权重8 bit，仅16个逻辑输出；16项归约保留原结构"
+      "adopted": "单原生128×128物理bit，对应K128N16 INT8、64拍完整向量",
+      "conversion_reason": "128物理bit列/8bit权重=16逻辑输出；不聚合闲置容量分片"
     },
     {
       "id": "E02",
@@ -113,7 +112,7 @@
       "unit": "lanes / bit",
       "conditions": "静态dual-wordline access；每LBL 16 cell；BFA不在8输入位之间重切WL",
       "adopted": "每轮含本地读保持、1-bit输入×8-bit权重、16项归约、符号/移位/累加；无独立read_ns",
-      "conversion_reason": "完整计算周期覆盖读与算；64次行组选择支撑512个bit-round，不把静态WL重复解释成512次切换"
+      "conversion_reason": "完整MAC覆盖静态读与计算；8次行组选择支撑64个bit-round，不新增锁存或重复感测"
     },
     {
       "id": "E03",
@@ -193,11 +192,11 @@
       "kind": "accepted_reference_choice",
       "locator": "data/shared_parameters.json: common_conditions; reference_instance",
       "parameter": "共同逻辑/外围/边界",
-      "original_value": "128×128 INT8；128×24-bit输出；T_D=2/5/10 ns；R0=32项×16输出/轮",
+      "original_value": "R1–R8统一逻辑字节、INT8与资源政策；原生K/N显式参数；TD=2/5/10ns、128bit外部编码接口，非固定宏容量",
       "unit": "elements / bits / ns",
       "conditions": "28 nm，0.9 V/25 °C参考，非固定PVT验证；单独立服务单元/更新域；无等面积约束",
-      "adopted": "逻辑/精度/边界不变；D6型R2例外16项/轮；全向量捕获和提交2T_D",
-      "conversion_reason": "R0=256轮是其资源选择；D6型512轮是16项而非32项的结果，不是共享计数错误"
+      "adopted": "原生K128N16，16项归约，23bit输出；全向量捕获/提交2TD",
+      "conversion_reason": "shared logical参数显式传入；128×128仅公共算例，非硬件约束"
     },
     {
       "id": "E10",
@@ -217,9 +216,9 @@
     "cells_per_weight": 8,
     "logical_matrix": [
       128,
-      128
+      16
     ],
-    "capacity_tiles": 8,
+    "capacity_tiles": 1,
     "tile_physical_bits": [
       128,
       128
@@ -230,12 +229,16 @@
     ],
     "active_tiles": 1,
     "independent_service_units": 1,
-    "output_container_bits": 24,
-    "mapping": "Each tile stores all 128 inputs for a distinct 16-output group. Tiles execute serially. No weight or input payload replication is counted."
+    "output_container_bits": 23,
+    "mapping": "One native128x128bit D6CIM tile represents K128N16INT8;16 HCA/BFA;16 terms per cycle;64 complete MAC cycles;one shared controller/update domain"
   },
   "dcim_overrides": {
     "rows_per_group": 16,
-    "boundary_ticks": 0
+    "boundary_ticks": 0,
+    "read_reuse_input_slices": true,
+    "hold_source": "static_connection",
+    "weight_latch_bits": 0,
+    "read_bits_per_batch": 2048
   },
   "update_geometry": {
     "logical_weights_completed": 16,
@@ -246,10 +249,11 @@
   },
   "cycle_semantics": {
     "compute_slot": "full local SRAM/NOR/HCA/BFA MAC clock with sign handling and accumulation; extra_read_ns=0 is covered, not instantaneous",
-    "stream_boundary": "one common digital tick for whole-vector capture plus one common digital tick for final 128-result commit; no cross-vector overlap",
+    "stream_boundary": "one common tick captures K128 input;one commits N16x23bit outputs;no cross-vector overlap",
     "memory_slot": "command, address and all 128-bit data captured at a rising edge; decode/BL drive/WL/write flip/recovery inside complete memory cycle; state compute-ready at next admissible edge",
     "write_control_substitution": "full memory slot replaces common T_front for this one-beat transaction; no separately charged task handshake",
-    "compute_memory_exclusion": "no overlap assumed; one controller services only one operation/tile at a time"
+    "compute_memory_exclusion": "no overlap assumed; one controller services only one operation/tile at a time",
+    "scenario_resources": "same16HCA/BFA,16-term datapath,128write drivers and static read connections in all three scenarios"
   },
   "scenarios": [
     {
@@ -279,143 +283,33 @@
   ],
   "exceptions_to_common_configuration": [
     {
-      "id": "X1",
-      "rule_id": "R1",
-      "reason_and_source_locator": "共同边界/格式保持；SDCIM-01 p.1–2原生23-bit结果符号扩展24 bit",
-      "R0_values": {
-        "logical_in": 128,
-        "logical_out": 128,
-        "output_bits": 24
-      },
-      "changed_values": {},
-      "resource_and_timing_consequences": "8个存储容量分片共同表示一份128×128 INT8矩阵；输入捕获寄存器1024 bit、结果寄存器3072 bit；不引入跨单元峰值相加",
-      "effect_on_both_services": "B_S=128 Byte，容量16384 Byte；B_R=16 Byte，单更新域"
+      "rule_id": "R1/R2",
+      "reason_and_source_locator": "SDCIM-01 p1Fig1 native128x128physical bits and128x16INT8;64clocks",
+      "selected": "single native tile,K128N16,capacity2048Byte;16active and16installed output channels",
+      "effect_on_both_services": "BS128Byte;16Byte alignedwrites128times per full load"
     },
     {
-      "id": "X2",
-      "rule_id": "R2",
-      "reason_and_source_locator": "SDCIM-01 p.1 Fig.1 / p.2 HCA每轮仅16项",
-      "R0_values": {
-        "rows_per_group": 32,
-        "output_lanes": 16,
-        "compute_rounds": 256
-      },
-      "changed_values": {
-        "rows_per_group": 16,
-        "output_lanes": 16,
-        "compute_rounds": 512,
-        "capacity_tiles": 8,
-        "active_tiles": 1
-      },
-      "resource_and_timing_consequences": "每分片128×128物理bit；保留每片16 HCA/BFA，共128条已安装但仅16条同时活动；串行访问8分片避免独立复制峰值；未声称等面积",
-      "effect_on_both_services": "streaming轮数翻倍；写口保持128 bit，一次只写一个分片；B_R及write-domain不变"
+      "rule_id": "R3/R4",
+      "reason_and_source_locator": "SDCIM-01 pp1–2 staticdualwordline,bitfirstaccumulation",
+      "selected": "static_connection reuse;zero added hold;8 rowgroup activations,64 clocks;read_ns=0 because covered by completeMAC",
+      "effect_on_both_services": "no added read/capture fee;write uses complete synchronous cycle"
     },
     {
-      "id": "X3",
-      "rule_id": "R4",
-      "reason_and_source_locator": "SDCIM-01 p.1–4完整MAC clock；Fig.10(a)0.9V/233MHz",
-      "R0_values": {
-        "separate_read_plus_digital": true,
-        "T_D_ns": [
-          2,
-          5,
-          10
-        ]
-      },
-      "changed_values": {
-        "complete_mac_round_ns": [
-          4.3,
-          5,
-          10
-        ],
-        "extra_physical_read_ns": 0,
-        "boundary_T_D_ns": [
-          2,
-          5,
-          10
-        ]
-      },
-      "resource_and_timing_consequences": "MAC完整槽替代已覆盖read+数字阶段；短公共2 ns仍用于捕获/提交，但实际MAC4.3 ns；无模拟ADC/DAC",
-      "effect_on_both_services": "仅streaming MAC槽改变；memory周期另取，不由compute频率推导"
+      "rule_id": "R5/R7",
+      "reason_and_source_locator": "D6Fig1 writeport;CMOS-07 p2,p9;CMOS-03 pp1,3",
+      "selected": "128real BL drivers fixed across scenarios;2.2/5/10ns completecycles",
+      "effect_on_both_services": "cross-implementation writebudget remains qualification;no retry/erase/refresh"
     },
     {
-      "id": "X4",
-      "rule_id": "R4",
-      "reason_and_source_locator": "CMOS-07 p.2 Fig.2 / p.9 Table II；CMOS-03 p.1周期末成功定义；SDCIM-01 p.1写口",
-      "R0_values": {
-        "physical_write_data_lanes": 128,
-        "control_ticks": 2,
-        "first_data_in_command": true
-      },
-      "changed_values": {
-        "physical_write_data_lanes": 128,
-        "separately_charged_control_ticks": 0,
-        "complete_memory_cycle_ns": [
-          2.2,
-          5,
-          10
-        ]
-      },
-      "resource_and_timing_consequences": "128bit命令和数据同沿捕获；完整同步周期已含本地写控制，下一周期可计算；原48bit 2RW/eFlash锚点移植至128bit 6T属于设计预算",
-      "effect_on_both_services": "tau按完整memory周期；rho不变；若存在未含外部握手则+2T_D单列而非默认重复加"
-    },
-    {
-      "id": "X5",
-      "rule_id": "R3",
-      "reason_and_source_locator": "R0的32项/轮资源条件对照；不将D6原时序认证为32项时序",
-      "R0_values": {
-        "rows_per_group": 32
-      },
-      "changed_values": {
-        "comparison_only_same_cycle_assumption": true
-      },
-      "resource_and_timing_consequences": "32项同拍需要更宽乘法/归约与相应读带宽；同MAC槽仅作条件性资源敏感性，不替换D6主情景",
-      "effect_on_both_services": "条件性rho约翻倍；普通SRAM写口和tau不变"
-    },
-    {
-      "id": "X6",
-      "rule_id": "R5",
-      "reason_and_source_locator": "SRAM二进制直接写；SDCIM-01 p.1 R/W及p.2静态读",
-      "R0_values": {
-        "write_domains": 1,
-        "erase": false
-      },
-      "changed_values": {},
-      "resource_and_timing_consequences": "无page/block erase、program/verify迭代或破坏性读restore；通电保持，不从无数据推断掉电保持",
-      "effect_on_both_services": "刷新/擦除不计；compute/memory共享状态与控制，能力分别服务，不能保证同时达到两峰值"
-    }
-  ],
-  "method_issues": [
-    {
-      "id": "M1",
-      "finding": "existing R4 and shared operation composition fully express this case; included-stage coverage must be recorded explicitly at call sites",
-      "impact": "feeding a full synchronous cycle into a physical-update-only argument without applying R4 would double-count controls; this is a usage constraint, not an inability of the common method",
-      "resolution": "local adapter calls shared dcim_service with bundled MAC clock and zero boundary; shared program_sequence_ns adds only unmatched boundary; direct geometry from shared direct_service and full memory service composed with zero front",
-      "requires_shared_change": false
-    },
-    {
-      "id": "M2",
-      "finding": "dcim read_rounds conflates repeated service slots with actual WL switching when SRAM static access persists over bit slices",
-      "impact": "D6 has512 MAC slots but64 row-group activations; no numerical difference when extra read is covered",
-      "resolution": "store both numbers; do not misuse read_reuse_input_slices, which requires an added latch while D6 uses static cell connection",
-      "requires_shared_change": false
-    },
-    {
-      "id": "M3",
-      "finding": "logical shape and active resource shape determine rounds; full macro cycles cannot move unchanged between16 and128outputs or16 and32terms",
-      "impact": "D6 native64 clocks becomes512; R0 remains256 under different resources",
-      "resolution": "native mapping and conditional R0 sensitivity are separately recorded"
-    },
-    {
-      "id": "M4",
-      "finding": "cross-chip complete write cycle transfer is the largest evidence gap",
-      "impact": "CMOS-07 is48-bit8T at1.05V eFlash, D6 is128-bit6T; t_mem is reference choice, not measured D6write",
-      "resolution": "retain source conditions, include6T transient-success evidence; no PVT-guarantee or fabricated-pair claim; extra-handshake and write-time sensitivities show effect"
+      "rule_id": "R8",
+      "reason_and_source_locator": "shared mapping formula",
+      "selected": "fullTR=128*T_M;DS=64*T_C+2*T_D",
+      "effect_on_both_services": "U*=TR/DS=16RI*"
     }
   ],
   "array_response_and_endpoint": {
     "read_response": "bundled in full MAC round; no separate read_ns value adopted",
-    "endpoint": "exact updated BFA accumulator after each round; all128 output registers ready after final commit",
+    "endpoint": "exact updated BFA accumulator after each round; all 16 native output registers ready after final commit",
     "source": "SDCIM-01 PDF pp.1-4"
   },
   "update_sequence_and_complete_timings": {
@@ -436,7 +330,7 @@
   "local_read_write_grain_and_parallelism": {
     "compute_rows_per_round": 16,
     "active_output_lanes": 16,
-    "installed_output_lanes": 128,
+    "installed_output_lanes": 16,
     "weight_bits_parallel": 8,
     "input_bits_per_round": 1,
     "write_bits_parallel": 128,
@@ -458,7 +352,7 @@
     "endurance": "no artificial pulse/endurance limit included in instantaneous tau"
   },
   "compatibility_of_parameter_pairs": {
-    "same_hardware_scope": "eight capacity slices of one matrix, serial controller, one active compute/write domain; same exact INT8 state",
+    "same_hardware_scope": "single native128x16INT8 tile,one controller and16active16installed channels,onewrite domain",
     "source_conditions_not_conflated": "D6 compute233MHz@0.9V, CMOS-07 frequency455MHz@typical1.05V eFlash and48bit8T, CMOS-03 transient6T model@1V retained separately",
     "reference_pair_assumption": "complete MAC and widened128bit6T memory timing budgets must both be achievable by selected near-nominal28nm design; data do not prove fixed0.9V/25C paired silicon operation",
     "short_scenario_condition": "4.3ns local MAC and2.2ns widened memory port with adequate drive and no extra handshake; most optimistic conditional pair",
@@ -466,27 +360,40 @@
   },
   "paired_rho_tau_ridge_and_driver_summary": {
     "derived_data": "results.json",
-    "rho_driver": "512 complete bit-serial MAC rounds with16-term reduction and16 active outputs",
+    "rho_driver": "64 complete bit-serial MAC clocks;16-term reduction and16outputs",
     "tau_driver": "one successful128bit binary SRAM memory write cycle",
-    "ridge_driver": "8×complete_memory_cycle/(512 complete_MAC_rounds plus2 boundary ticks)"
+    "ridge_driver": "8*T_M/(64*T_C+2*T_D)"
   },
-  "initial_baseline_files": {
-    "README.md": "d923de6133ca0c8bddcc13a830f222e09edb14e33eb360a60ed3a02773e53b4d",
-    "tex/01_cmos_periphery.tex": "ebf418e078ab4ca80fd12233a8a7bef3b2d743339d052e33cff707b9d37faf4a",
-    "tex/02_estimation_method.tex": "4af0b8d4d68953b4e2d5882f9079e64386647fa82be07ac2731bb8cde292abbb",
-    "data/shared_parameters.json": "6460c046e34818041458c7a68d2cb5f3f8593096192cb6db6a31a97f00598a42",
-    "scripts/check_shared.py": "eaa2e2675d03d81140633727077de25ce494b897070e6f95b20ae15c2c2614f3"
-  },
-  "baseline_read_notes": [
-    "Initial JSON and calculation-script hashes match task contract.",
-    "Shared TeX method typo w_IO corrected by main agent during review; read diff and update actual TeX hash. No numerical parameters or calculation script changed."
-  ],
-  "final_baseline_confirmation": {
-    "main_review_completed": true,
-    "final_hashes_verified": true,
-    "numeric_parameters_unchanged": true,
-    "calculation_api_unchanged": true,
-    "shared_method_change": "only w_IO typography corrected; no equation or service-boundary change",
-    "method_tex_sha256": "b623299c49cc3f19a9bd41cdd324929dd166513cd36e0aaaba6adc402568b7b9"
+  "native_configuration": {
+    "K": 128,
+    "N": 16,
+    "b_S": 1,
+    "b_R": 1,
+    "effective_capacity_Byte": 2048,
+    "physical_capacity": {
+      "binary_cells": 16384,
+      "tiles": 1,
+      "tile_rows": 128,
+      "tile_bit_columns": 128
+    },
+    "necessary_encoding": "8binary cells per INT8; two-complement reconstruction; static connection across input bits",
+    "independent_payload_replicas": 1,
+    "output_bits": 23,
+    "update_mode": "one128bit aligned local row;16Byte payload,128 complete cycles cover matrix",
+    "resources": {
+      "digital_lanes": 16,
+      "digital_terms_per_round": 16,
+      "installed_HCA_BFA": 16,
+      "active_HCA_BFA": 16,
+      "adc": 0,
+      "input_register_bits": 1024,
+      "output_register_bits": 368,
+      "added_operand_hold_bits": 0,
+      "weight_hold": "existing static local bitline connection",
+      "write_drivers": 128,
+      "write_domains": 1,
+      "encoded_interface_bits": 128
+    },
+    "configuration_kind": "native D6CIM128x16INT8 tile; no unused output capacity tiles in primary configuration"
   }
 }

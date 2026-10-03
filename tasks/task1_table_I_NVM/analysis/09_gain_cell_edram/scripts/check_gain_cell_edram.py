@@ -9,8 +9,10 @@ CORPUS=BASE.parents[1]
 X=json.loads((BASE/'data/inputs.json').read_text())
 spec=importlib.util.spec_from_file_location('gain_cell_shared',SHARED/'scripts/check_shared.py')
 S=importlib.util.module_from_spec(spec);spec.loader.exec_module(S)
+L=S.logical_configuration(**X['logical_configuration'])
 
-def calc(profile,width=16,dedicated_read_ns=None,period_ns=None):
+def calc(profile,width=16,dedicated_read_ns=None,period_ns=None,logical=None):
+    logical=L if logical is None else logical
     p=next(p for p in X['profiles'] if p['id']==profile)
     v=S.C['propagation']['profile_values'][profile]; td=v['digital_tick']
     a={**S.R['acim'],'rows_per_group':X['mapping']['native_rows'],
@@ -19,14 +21,14 @@ def calc(profile,width=16,dedicated_read_ns=None,period_ns=None):
     residual=p['dedicated_read_ns'] if dedicated_read_ns is None else dedicated_read_ns
     frontend=v['input_step']+residual+v['adc_batch']
     assert residual>=0
-    ds,n,hold=S.acim_service(a,v,residual)
+    ds,n,hold=S.acim_service(a,v,residual,logical)
     encoded=width*X['mapping']['encoded_bits_per_weight']
     front,beats=S.front_ns(encoded,td,X['write']['first_data_in_command'])
     payload,dr,batches,_=S.direct_service(dict(logical_weights_completed=width,
         cells_per_weight=X['mapping']['cells_per_weight'],parallel_cells=16*width,
         encoded_load_bits=encoded,first_data_in_command=True,
-        complete_physical_update_ns=p['program_complete_ns']),td)
-    groups=math.ceil(S.L['resident_capacity_Byte']/payload)
+        complete_physical_update_ns=p['program_complete_ns']),td,logical)
+    groups=math.ceil(logical['resident_capacity_Byte']/payload)
     rf_read=frontend; rf_decode=X['refresh']['decode_ticks']*td
     rf_one=S.program_sequence_ns(rf_read+rf_decode+front,0,[dict(count=1,
          drive_program_ns=p['program_complete_ns'],verify_ns=0,recover_ns=0)])
@@ -35,19 +37,20 @@ def calc(profile,width=16,dedicated_read_ns=None,period_ns=None):
     slack=period-rf_total-guard
     alpha=slack/period
     feasible=alpha>0
-    nominal=S.metrics(S.L['B_S_Byte'],payload,ds,dr)
-    effective=(S.metrics(S.L['B_S_Byte'],payload,ds/alpha,dr/alpha) if feasible else
-       dict(B_S_Byte=S.L['B_S_Byte'],B_R_Byte=payload,delta_S_ns=None,delta_R_ns=None,
-            rho_Byte_per_s=None,tau_Byte_per_s=None,ridge=None))
+    nominal=S.metrics(logical['B_S_Byte'],payload,ds,dr)
+    effective=S.apply_maintenance(nominal,period,rf_total,guard)['effective']
+    load=S.full_load_service(logical,[dict(payload_Byte=payload,service_ns=dr,count=groups)])
+    raw_interface=S.mapping_metrics(logical,ds,load['T_R_ns'])
+    effective_interface=S.apply_maintenance(raw_interface,period,rf_total,guard)['effective']
     return dict(id=profile if width==16 else 'wide32',baseline_id=X['baseline_id'],mode=X['mode'],
        scenario_type=('resource_comparison' if width!=16 else
           'infeasible_stress' if not feasible else
-          'refresh_critical_stress' if profile=='long' else
+          'refresh_critical_stress' if logical['n_in']==128 and profile=='long' else
           'recommended_reference' if profile=='reference' else 'paired_engineering_scenario'),
        feasibility='feasible_under_stated_conditions' if feasible else 'infeasible_fixed_refresh_schedule',
        mapping='8 binary endpoint planes; pseudodifferential pairs; 64 rows/group',
        profile=profile,output_width=width,adc_count=width*8,pair_write_drivers=width*8,
-       physical_cells=X['mapping']['physical_cells'],counts=n,write_batches=batches,
+       K=logical['n_in'],N=logical['n_out'],physical_cells=int(logical['resident_capacity_Byte']*16),counts=n,write_batches=batches,
        data_beats=beats,encoded_load_bits=encoded,frontend_complete_ns=frontend,
        dedicated_read_ns=residual,frontend_coverage=['input_step','dedicated_integration','adc_batch'],
        write_front_ns=front,program_complete_ns=p['program_complete_ns'],
@@ -58,45 +61,48 @@ def calc(profile,width=16,dedicated_read_ns=None,period_ns=None):
           total_reserved_fraction=(rf_total+guard)/period,workload_slack_ns=slack,
           availability_not_clipped=True,
           workload_payload_Byte=0),
-       full_matrix_update=dict(logical_Byte=S.L['resident_capacity_Byte'],transactions=groups,
+       full_matrix_update=dict(logical_Byte=logical['resident_capacity_Byte'],transactions=groups,
           raw_service_ns=groups*dr,average_service_with_reserved_refresh_ns=groups*dr/alpha if feasible else None),
        dominant='whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance',
+       mapping_interface=effective_interface,raw_mapping_interface=raw_interface,
+       effective_mapping_interface=dict(effective_interface),
        provenance={'frontend':'engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only',
           'program':'GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget',
           'refresh_period':'GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation'},**effective)
 
 def results():
     rows=[calc(p['id']) for p in X['profiles']]
-    wide=calc('reference',32); ref=rows[1]
+    wide=calc('reference',32);ref=rows[1]
     wide['ratios_to_reference']={k:wide[k]/ref[k] for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']}
-    failed=calc('long',dedicated_read_ns=216)
-    failed['id']='long_read216_infeasible'
+    big=S.logical_configuration(128,128)
+    capacity=calc('reference',logical=big);capacity['id']='capacity128_reference';capacity['scenario_type']='organization_comparison'
+    pressure=calc('long',logical=big);pressure['id']='capacity128_long'
+    failed=calc('long',dedicated_read_ns=216,logical=big);failed['id']='capacity128_read216_infeasible'
     return dict(baseline_id=X['baseline_id'],kind=X['kind'],units=X['units'],baseline_hashes=X['baseline_hashes'],
-                scenarios=rows,structure_comparison=wide,
-                recommended_reference_id='reference',ordinary_scenario_ids=['short','reference'],
-                pressure_scenario_ids=['long','long_read216_infeasible'],
-                infeasible_stress=failed,
-                range_meaning='Ordinary paired engineering scenarios only; long is refresh-critical stress, not a lower uncertainty bound.',
-                paired_ranges={k:[min(r[k] for r in rows[:2]),max(r[k] for r in rows[:2])]
-                      for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']},
-                refresh_threshold=dict(profile='long',fixed_period_ns=400000,
-                    equation='1025 * dedicated_read_ns + 179280 < 400000',
-                    dedicated_read_strict_upper_bound_ns=(400000-179280)/1025,
-                    margin_from_long_ns=(400000-179280)/1025-200,
-                    note='Equality leaves zero workload availability; above it the schedule is infeasible. No throughput or finite ridge is exported at alpha <= 0.'))
+        native_configuration=X['native_configuration'],scenarios=rows,structure_comparison=wide,
+        capacity_comparison=capacity,refresh_pressure=pressure,infeasible_stress=failed,
+        recommended_reference_id='reference',ordinary_scenario_ids=['short','reference','long'],
+        pressure_scenario_ids=['capacity128_long','capacity128_read216_infeasible'],
+        range_meaning='Three sustainable paired windows in64x64nativeconfiguration;capacity andresource changes separate',
+        paired_ranges={k:[min(r[k] for r in rows),max(r[k] for r in rows)]
+             for k in ['rho_Byte_per_s','tau_Byte_per_s','ridge']},
+        refresh_threshold=dict(configuration='capacity128',profile='long',fixed_period_ns=400000,
+            equation='1025 * dedicated_read_ns +179280 <400000',
+            dedicated_read_strict_upper_bound_ns=(400000-179280)/1025,
+            note='appliesonly128x128capacity stress;notordinary64x64longscenario'))
 
 def tex_tables(r):
     t=[r'% Generated by scripts/check_gain_cell_edram.py --emit.',r'\begin{table}[htbp]\centering\small',
        r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',
        r'情景 & $C_A$ (ns) & $P$ (ns) & $C_S$ (ns) & $C_R$ (ns) & $T_{\rm ref}$ ($\mu$s) & 可用率\\\midrule']
-    for z,label in zip(r['scenarios'],['短','参考','长：临界压力']):
+    for z,label in zip(r['scenarios'],['短','参考','长']):
         t.append(f"{label} & {z['frontend_complete_ns']:g} & {z['program_complete_ns']:g} & {z['nominal']['delta_S_ns']:g} & {z['nominal']['delta_R_ns']:g} & {z['refresh']['total_ns']/1000:.3f} & {100*z['refresh']['availability']:.3f}\\%\\\\")
     t += [r'\bottomrule\end{tabular}',r'\caption{无维护时的占用 $C_S,C_R$ 与每 0.4 ms 全矩阵刷新时间；可用率再扣批边界余量 116/185/280 ns。}\end{table}',
       r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
       r'情景 & $\Delta_S$ ($\mu$s) & $\Delta_R$ (ns) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
-    for z,label in zip(r['scenarios'],['短','参考','长：临界压力']):
+    for z,label in zip(r['scenarios'],['短','参考','长']):
         t.append(f"{label} & {z['delta_S_ns']/1000:.3f} & {z['delta_R_ns']:.2f} & {z['rho_Byte_per_s']/1e6:.4g} & {z['tau_Byte_per_s']/1e6:.4g} & {z['ridge']:.5f}\\\\")
-    t += [r'\bottomrule\end{tabular}',r'\caption{包含固定刷新预留后的长期平均服务；$B_S=128$ Byte、$B_R=16$ Byte，MB=$10^6$ Byte。普通情景只含短与参考，长点单列为压力情景。}\label{09_gain_cell_edram:tab:results}\end{table}']
+    t += [r'\bottomrule\end{tabular}',r'\caption{包含固定刷新预留后的长期平均服务；$B_S=64$ Byte、$B_R=16$ Byte，MB=$10^6$ Byte。三点均为同一64×64原生组织的可持续情景；容量压力另列。}\label{09_gain_cell_edram:tab:results}\end{table}']
     w=r['structure_comparison']
     t += [r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrrr@{}}\toprule',
           r'配置 & ADC/写对驱动 & $N_E$ & 刷新 ($\mu$s) & $\rho$ (MB/s) & $\tau$ (MB/s) & $\RI^*$\\\midrule']
@@ -120,8 +126,8 @@ def check():
     for p in X['profiles']:
         assert p['program_coarse_ns']+p['program_fine_ns']==p['program_complete_ns']
         assert p['dedicated_read_ns']>=X['refresh']['single_pair_pulse_ns']
-    assert S.L['resident_capacity_Byte']*16==X['mapping']['physical_cells']==262144
-    assert X['mapping']['physical_tiles']*64*64*2==262144
+    assert L['resident_capacity_Byte']*16==X['mapping']['physical_cells']==65536
+    assert X['mapping']['physical_tiles']*64*64*2==65536
     for weight in range(-128,128):
         bits=[(weight>>i)&1 for i in range(8)]
         assert sum(((1<<i) if i<7 else -128)*b for i,b in enumerate(bits))==weight
@@ -136,31 +142,35 @@ def check():
     for z in r['scenarios']+[r['structure_comparison']]:
         v=S.C['propagation']['profile_values'][z['profile']];td=v['digital_tick']
         n=z['counts'];w=z['output_width'];f=z['refresh'];nom=z['nominal']
-        assert n['evaluations']==8*2*(128//w)
-        assert n['useful_scalar_conversions']==8*2*8*128==16384
-        assert n['digital_ticks']==256
+        assert n['evaluations']==8*(64//w)
+        assert n['useful_scalar_conversions']==8*8*64==4096
+        assert n['digital_ticks']==64
         assert f['sign_decode_lanes']==z['adc_count']
-        assert f['scalar_pair_reads']==131072 and f['cells_rewritten']==262144
-        assert f['groups']==128*(128//w)
-        assert nom['delta_S_ns']==n['evaluations']*z['frontend_complete_ns']+258*td
+        assert f['scalar_pair_reads']==32768 and f['cells_rewritten']==65536
+        assert f['groups']==64*(64//w)
+        assert nom['delta_S_ns']==n['evaluations']*z['frontend_complete_ns']+66*td
         assert nom['delta_R_ns']==(2+math.ceil(16*w/128)-1)*td+z['program_complete_ns']
         assert f['group_service_ns']==z['frontend_complete_ns']+td+nom['delta_R_ns']
         assert f['total_ns']==f['groups']*f['group_service_ns']
         assert f['total_ns']+f['scheduling_guard_ns']<f['period_ns']
-        assert math.isclose(z['ridge'],(128/w)*nom['delta_R_ns']/nom['delta_S_ns'])
+        assert math.isclose(z['ridge'],(64/w)*nom['delta_R_ns']/nom['delta_S_ns'])
         assert math.isclose(z['rho_Byte_per_s']/z['tau_Byte_per_s'],z['ridge'])
         assert z['refresh']['workload_payload_Byte']==0
         agg=z['full_matrix_update'];assert math.isclose(agg['logical_Byte']/(agg['average_service_with_reserved_refresh_ns']*1e-9),z['tau_Byte_per_s'])
     ref=r['scenarios'][1]
-    assert ref['nominal']['delta_S_ns']==23690 and ref['nominal']['delta_R_ns']==80
-    assert ref['refresh']['total_ns']==266240
+    assert ref['nominal']['delta_S_ns']==32*175+66*5 and ref['nominal']['delta_R_ns']==80
+    assert ref['refresh']['total_ns']==256*(175+5+80)
+    assert math.isclose(ref['mapping_interface']['U_star'],256*80/(32*175+66*5))
+    assert all(z['refresh']['availability']>.75 for z in r['scenarios'])
+    for z in r['scenarios']:
+        assert math.isclose(z['mapping_interface']['U_star'],64*z['ridge'])
     stress=r['infeasible_stress']
     assert stress['refresh']['availability']<0 and stress['rho_Byte_per_s'] is None and stress['ridge'] is None
     # At exactly zero available time the model must also suppress throughput/ridge.
     long_refresh=r['scenarios'][2]['refresh']
     at_zero=calc('long',period_ns=long_refresh['total_ns']+long_refresh['scheduling_guard_ns'])
     assert at_zero['refresh']['availability']==0 and at_zero['tau_Byte_per_s'] is None and at_zero['ridge'] is None
-    assert r['paired_ranges']['rho_Byte_per_s'][0]==ref['rho_Byte_per_s']
+    assert r['paired_ranges']['rho_Byte_per_s'][0]==r['scenarios'][2]['rho_Byte_per_s']
     for path,text in artifacts().items():assert (BASE/path).read_text()==text,path
     print('PASS: source/baseline hashes; endpoint mapping; coverage; stage coverage; actual refresh capacity; paired metrics; aggregation; generated files.')
 

@@ -1,9 +1,10 @@
-% Generated from results.json.
 \begin{table}[htbp]\centering\small
-\begin{tabular}{@{}lrrrr@{}}\toprule
-参考事务 & 数据/参考页 & program次数 & erase次数 & $\Delta_R$ (s)\\\midrule
-预擦除append & 1024/0 & 1024 & 0 & 2.560644\\
-同地址持续重写 & 1024/256 & 1280 & 128 & 7.040785\\
+\begin{tabular}{@{}lrl@{}}\toprule
+完整操作 & 次数 & 有效逻辑payload\\\midrule
+数据页program & 5760 & 2,211,840 Byte（全矩阵）\\
+参考页program & 384 & 0\\
+块erase & 64 & 0\\
+输入向量求值 & 480轮 & 4608 Byte\\
+校准参考读 & 12轮 & 0\\
 \bottomrule\end{tabular}
-\caption{整矩阵服务操作计数与参考时间。两行都完成$B_R=16384$ Byte；每页完整装入108拍加两拍控制，串行单更新域。}
-\label{04_nand_3d:tab:operations}\end{table}
+\caption{编码复制和参考页占用物理资源，逻辑字节仅在完整状态就绪后提交。}\end{table}

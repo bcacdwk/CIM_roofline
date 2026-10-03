@@ -1,53 +1,121 @@
 {
   "all_passed": true,
   "point_count": 10,
-  "selection": "recommended reference only",
+  "reference_point_count": 10,
+  "selection": "recommended typical points",
   "x": {
     "metric": "tau",
-    "label": "Resident throughput",
     "scale": "log10",
     "limits": [
-      0.0011,
-      6000
+      0.01778279410038923,
+      10000.0
     ]
   },
   "y": {
     "metric": "rho",
-    "label": "Streaming throughput",
     "scale": "log10",
     "limits": [
-      0.04,
-      60
+      0.5623413251903491,
+      1000.0
     ]
   },
-  "title": "Typical streaming and resident throughput",
-  "footer_notes": false,
-  "plot_width_over_height": 2.1210846968006827,
+  "dynamic_limits_from_data_and_circle_extent": true,
+  "title": "Typical streaming and resident capacity",
+  "plot_width_over_height": 1.7692307692307692,
   "inches_per_decade": 2.6,
-  "equality_line_angle_degrees": 44.99999999999999,
+  "equality_line_angle_degrees": 45.0,
   "same_scale_per_decade_verified": true,
-  "all_ten_points_and_labels_contained": true,
+  "all_points_and_labels_contained": true,
   "unmodified_coordinates_verified": true,
-  "label_content": "Technology name, then RI = rho/tau on the next line; RI denotes RI_star",
-  "no_label_leaders_verified": true,
-  "labels_below_points_verified": true,
-  "no_overlapping_labels_or_label_dot_collisions": true,
-  "all_four_spines_visible": true,
-  "marker_area_points_squared": 320,
-  "guide_lines": {
-    "1": {
-      "linewidth": 3.0,
-      "label_size": 16.5
+  "label_content": "Technology and RI_star = rho/tau; never workload RI",
+  "label_offsets": {
+    "10_fenor_3d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
     },
-    "0.01": {
-      "linewidth": 1.65,
-      "label_size": 13.2
+    "08_feram_hfo2": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
     },
-    "100": {
-      "linewidth": 1.65,
-      "label_size": 13.2
+    "09_gain_cell_edram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "04_nand_3d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "05_rram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "06_mram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "01_sram_acim": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "02_sram_dcim": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "03_nor_2d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "07_pcm": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
     }
   },
+  "no_label_leaders_verified": true,
+  "no_overlapping_labels_or_label_dot_collisions": true,
+  "guide_labels_included_in_collision_checks": true,
+  "all_four_spines_visible": true,
+  "marker_area_points_squared": 320,
   "source_checks_passed": true,
-  "source_sha256": "a2825a24733966d130648566722d011f387289ab1eae2564a0211228bec6422b"
+  "source_sha256": "4cad3118d730afb4fab14714a151ce0fdab738f0e48fbb6aaac4399784985caa",
+  "native_configuration_note": "Selected different native sizes and resources; not equal-area or equal-work ranking"
 }

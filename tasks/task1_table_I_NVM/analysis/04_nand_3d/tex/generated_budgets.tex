@@ -1,10 +1,8 @@
-% Generated from inputs/results.
 \begin{table}[htbp]\centering\small
-\begin{tabular}{@{}lrrrrr@{}}\toprule
-情景 & 建立/恢复各(ns) & $T_{int}$ ($\mu$s) & $P$ (ms) & $E$ (ms) & $C$ ($\mu$s)\\\midrule
-短预算 & 530 & 25 & 1.3 & 15 & 79.310\\
-参考 & 640 & 25 & 2.5 & 30 & 80.687\\
-长预算 & 750 & 25 & 5 & 45 & 82.582\\
+\begin{tabular}{@{}lrrr@{}}\toprule
+情景 & SL建立(ns) & 完整页program($\mu$s) & 完整块erase(ms)\\\midrule
+乐观 & 530 & 300 & 1\\
+典型 & 640 & 300 & 1\\
+悲观 & 750 & 600 & 3.5\\
 \bottomrule\end{tabular}
-\caption{主情景的选定预算及推导校准时间。$P/E$是完整操作预算；$T_{int}$由电荷守恒导出，$C$由三次参考读和固定数字序列导出。}
-\label{04_nand_3d:tab:budget}\end{table}
+\caption{SL 是模型桥接预算；program/erase 是同厂异实现 SLC 完整操作锚点。短、典型共享典型 P/E，长端使用源表最大预算身份。}\end{table}
