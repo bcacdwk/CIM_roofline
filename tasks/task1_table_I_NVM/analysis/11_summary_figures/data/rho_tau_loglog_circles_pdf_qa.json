@@ -1,6 +1,6 @@
 {
   "file": "rho_tau_loglog_circles.pdf",
-  "sha256": "a3a5a796833ba56b203a2fa0c4abccebdda1afe75659f63389d59f4bdc3487ac",
+  "sha256": "efb62c4ff19696ae996adf3206ba51f39321d34cb49cfff644fbfbce63b59e0f",
   "pages": 1,
   "text_within_page": true,
   "all_fonts_embedded": true,
@@ -16,27 +16,29 @@
   "renders": [
     {
       "page": 1,
-      "path": "/var/folders/h4/nk9sp9vn727dw0rbjftvt9bw0000gn/T/table_i_pdf_qa_d6ab38t2/rho_tau_loglog_circles-1.png",
+      "path": "tmp/pdfs/final/rho_tau_loglog_circles-1.png",
       "sha256": "f9bff2d6403c043ae342c476f79b06684db0d46d360eef97c80caebcdbbfd419",
       "width_px": 2011,
-      "height_px": 1345
+      "height_px": 1345,
+      "retained": false
     }
   ],
   "visual_review": {
     "status": "passed",
-    "reviewer": "figures agent",
+    "reviewer": "supervisor",
     "pages_inspected": [
       1
     ],
     "checks": [
-      "table alignment and configuration notes legible",
-      "all technology labels and dots present",
+      "table alignment and qualification note legible",
+      "all technology labels and points present",
       "no text clipping or overlap",
       "circle and plot edges complete",
-      "axis labels separated from footer notes"
+      "axis labels separated from footnotes"
     ],
-    "method": "Each rendered page opened with view_image after final PDF generation; review PDF checked separately page by page"
+    "method": "Final standalone PDF pages and merged pages 2/3 opened with view_image; merged page 1 render is SHA-256-identical to the inspected standalone table render."
   },
-  "source_sha256": "4cad3118d730afb4fab14714a151ce0fdab738f0e48fbb6aaac4399784985caa",
-  "renderer": "pypdfium2; scale=1.4; actual PDF page render"
+  "source_sha256": "362f89b7c04da63a56f0c817c8fd6824053a3615f41436258b57625f408e5628",
+  "renderer": "pypdfium2; scale=1.4; actual PDF page render",
+  "temporary_render_policy": "Rendered pages were inspected and their hashes recorded, then removed; formal output PNG/PDF/SVG files remain."
 }

@@ -22,6 +22,6 @@ Gain-cell eDRAM & 64$\times$64; 16 B groups & 15 & 200 & 0.076 & \textbf{9.0} & 
 3D FeFET & 128$\times$128; 16 B groups & 100 & 81 & 1.3 & \textbf{47} & \textbf{60} & \textbf{0.78} & 23 & 41 & 0.57\\
 \bottomrule\end{tabular}}
 \par\smallskip\begin{minipage}{\textwidth}\footnotesize
-$K$ and $N$ count input and output elements. Local group shapes are shown; $\tau$ uses the entire logical matrix and all required loading overhead. Fast/typical/slow retain one resource configuration. NOR/NAND include erase; gain-cell rates include refresh. Resource-expansion and maintenance-stress contrasts are excluded. Native resources and sizes differ, so the table is not an equal-area or equal-work ranking. For the matched INT8 matrix, $U^{*}=N\mathrm{RI}^{*}$; this relation requires matching full-load and full-vector boundaries.
+$K$ and $N$ count input and output elements. Local group shapes are shown; $\tau$ uses the entire logical matrix and all required loading overhead. Fast/typical/slow retain one resource configuration. NOR/NAND include erase; gain-cell rates include refresh. Resource-expansion and maintenance-stress contrasts are excluded. Native resources and sizes differ, so the table is not an equal-area or equal-work ranking. NAND rates are conditional: offset-coded quantization can reverse weak or canceling outputs; small-signal accuracy is not guaranteed. For the matched INT8 matrix, $U^{*}=N\mathrm{RI}^{*}$; this relation requires matching full-load and full-vector boundaries.
 \end{minipage}
 \end{table*}

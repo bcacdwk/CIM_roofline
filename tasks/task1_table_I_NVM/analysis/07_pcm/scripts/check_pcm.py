@@ -42,10 +42,21 @@ def geometry(heads=32):
     return {'logical_transaction_count':len(transactions),'physical_cell_count':len(all_seen)*M['physical_cells_per_weight'],
             'full_coverage_unique_weights':len(all_seen),'transaction_inventory':transactions,'example_transaction_batches':examples}
 
-def compute(profile,heads=32,set_ns=None,weak_verify=False,drive_ns=None):
+def compute(profile,heads=32,set_ns=None,weak_verify=False,drive_ns=None,parameter_overrides=None):
     v=api.C['propagation']['profile_values'][profile]; x=X['profiles'][profile]
+    values={**v,'shared_front_ns':x['read_front_including_TI_ns'],
+            'long_observation_ns':P['verify_precharge_ns']+P['verify_low_current_read_ns'],
+            'drive_transition_ns':x['drive_transition_ns'] if drive_ns is None else drive_ns,
+            'reset_pulse_ns':P['reset_pulse_ns'],
+            'set_pulse_ns':P['set_total_budget_ns'] if set_ns is None else set_ns}
+    verify_mode='long_observation_verify' if weak_verify else 'endpoint_verify'
+    bindings={name:X['service_modes'][mode]['parameter_bindings'] for name,mode in
+              [('normal_evaluation','normal_evaluation'),('endpoint_verify',verify_mode),('write_control','write_control')]}
+    resolved=api.resolve_service_parameters(values,bindings,parameter_overrides)
+    evaluation=resolved['normal_evaluation']; verification=resolved['endpoint_verify']; control=resolved['write_control']
+    v={name:evaluation[name] for name in ['input_step','adc_batch','digital_tick']}
     cfg={**R['acim'],'rows_per_group':M['rows_per_group']}
-    front_read=x['read_front_including_TI_ns']
+    front_read=evaluation['front_ns']
     assert front_read>=v['input_step']
     ds,counts,hold=api.acim_service(cfg,v,front_read-v['input_step'],L)
     assert hold==0
@@ -54,28 +65,32 @@ def compute(profile,heads=32,set_ns=None,weak_verify=False,drive_ns=None):
     nv=sum(len(b['verify_passes']) for b in batches)
     np=len(batches)
     encoded=weights*M['physical_cells_per_weight']
-    front,beats=api.front_ns(encoded,v['digital_tick'],True)
-    s=P['set_total_budget_ns'] if set_ns is None else set_ns
-    pulse=P['reset_pulse_ns']+s
-    verify_front=(P['verify_precharge_ns']+P['verify_low_current_read_ns']) if weak_verify else front_read
-    verify=verify_front+v['adc_batch']+v['digital_tick']
-    g=x['drive_transition_ns'] if drive_ns is None else drive_ns
-    steps=[dict(count=1,drive_program_ns=v['digital_tick']+3*g+pulse,
+    front,beats=api.front_ns(encoded,control['digital_tick'],True)
+    s=control['set_ns']; reset=control['reset_ns']; pulse=reset+s
+    verify_front=max(verification['front_ns'],verification.get('minimum_observation_ns',0))
+    verify=verify_front+verification['adc_batch']+verification['digital_tick']
+    g=control['drive_ns']
+    steps=[dict(count=1,drive_program_ns=control['digital_tick']+3*g+pulse,
                 verify_ns=len(b['verify_passes'])*verify,recover_ns=0) for b in batches]
     dr=api.program_sequence_ns(front,0,steps)
     result=api.metrics(L['B_S_Byte'],weights*L['b_R'],ds,dr)
-    result.update(profile=profile,mode=X['mode'],baseline_id=api.D['baseline_id'],writeheads=heads,verify_mode='weak_signal_analog_front' if weak_verify else 'same_front_binary_endpoint',
+    scenario_class='operation_mode_comparison' if weak_verify else ('resource_comparison' if heads!=32 else
+                   'parameter_uncertainty' if set_ns is not None or drive_ns is not None or parameter_overrides else 'paired_main')
+    result.update(profile=profile,mode=X['mode'],baseline_id=api.D['baseline_id'],writeheads=heads,
+                  verify_mode=X['service_modes'][verify_mode]['mode_id'],scenario_class=scenario_class,
+                  service_parameters=resolved,parameter_overrides={} if parameter_overrides is None else parameter_overrides,
                   read_counts=counts,program_batches=np,verify_passes=nv,encoded_load_bits=encoded,data_beats=beats,
                   physical_cells_updated=encoded,
                   read_stages_ns={'front_including_TI':counts['evaluations']*front_read,'ADC':counts['adc_batches']*v['adc_batch'],
                                   'digital_decode_reconstruct':counts['digital_ticks']*v['digital_tick'],'boundary':cfg['boundary_ticks']*v['digital_tick']},
-                  write_stages_ns={'interface':front,'batch_select':np*v['digital_tick'],'current_driver_transitions':3*np*g,
-                                   'RESET_pulses':np*P['reset_pulse_ns'],'SET_pulses':np*s,
+                  write_stages_ns={'interface':front,'batch_select':np*control['digital_tick'],'current_driver_transitions':3*np*g,
+                                   'RESET_pulses':np*reset,'SET_pulses':np*s,
                                    'verify_front':nv*verify_front,
-                                   'verify_ADC':nv*v['adc_batch'],'verify_endpoint_compare':nv*v['digital_tick']},
+                                   'verify_ADC':nv*verification['adc_batch'],'verify_endpoint_compare':nv*verification['digital_tick']},
                   shared_profile_ns=v,drive_transition_ns=g,read_front_total_ns=front_read,read_media_API_ns=front_read-v['input_step'],
+                  verify_front_total_ns=verify_front,
                   transaction_pattern=M['transaction_pattern'],dominant_read='32 native row groups,2048 serial front/ADC/decode rounds',
-                  dominant_write='SET+RESET pulses' if not weak_verify else '16 repeated768ns weak-signal read-front blocks',
+                  dominant_write='SET+RESET pulses' if np*pulse>=nv*verify_front else '16 repeated verify-front blocks',
                   successful_service_condition=P['normal_service_condition'])
     assert math.isclose(sum(result['read_stages_ns'].values()),ds)
     assert math.isclose(sum(result['write_stages_ns'].values()),dr)
@@ -102,8 +117,38 @@ def results():
     # Independent literal hand arithmetic only for the reference arithmetic audit.
     ref=pairs[1]
     weak=compute('reference',weak_verify=True)
+    shared_slow=compute('reference',parameter_overrides={'shared_front_ns':768})
     assert weak['delta_R_ns']-ref['delta_R_ns']==16*(768-20)==11968
     assert weak['delta_S_ns']==ref['delta_S_ns']
+    assert weak['scenario_class']=='operation_mode_comparison'
+    assert shared_slow['scenario_class']=='parameter_uncertainty'
+    assert shared_slow['delta_S_ns']==2048*(768+20+2*5)+2*5==1634314
+    assert shared_slow['delta_R_ns']==3*5+8*(5+3*20+125+300+2*(768+20+5))==16623
+    assert shared_slow['mapping_interface']['T_R_ns']==1024*16623==17021952
+    assert math.isclose(shared_slow['rho_Byte_per_s'],256/1634314*1e9)
+    assert math.isclose(shared_slow['tau_Byte_per_s'],32768/17021952*1e9)
+    for key,value,ds_change,dr_change in [('shared_front_ns',27,2048*7,16*7),
+            ('adc_batch',23,2048*3,16*3),('digital_tick',7,4098*2,27*2),('input_step',6,0,0)]:
+        changed=compute('reference',parameter_overrides={key:value})
+        assert changed['delta_S_ns']-ref['delta_S_ns']==ds_change
+        assert changed['delta_R_ns']-ref['delta_R_ns']==dr_change
+        assert changed['mapping_interface']['T_R_ns']-ref['mapping_interface']['T_R_ns']==1024*dr_change
+        assert math.isclose(changed['mapping_interface']['U_star'],128*changed['ridge'])
+    independent=compute('reference',weak_verify=True,parameter_overrides={'long_observation_ns':800})
+    assert independent['delta_S_ns']==weak['delta_S_ns']
+    assert independent['delta_R_ns']-weak['delta_R_ns']==16*(800-768)
+    # Same physical frontend: the independent observation floor cannot hide slower settling.
+    floor=compute('reference',weak_verify=True,parameter_overrides={'shared_front_ns':768})
+    assert floor['verify_front_total_ns']==768 and floor['delta_R_ns']==weak['delta_R_ns']
+    beyond=compute('reference',weak_verify=True,parameter_overrides={'shared_front_ns':900})
+    assert beyond['service_parameters']['endpoint_verify']['front_ns']==900
+    assert beyond['service_parameters']['endpoint_verify']['minimum_observation_ns']==768
+    assert beyond['verify_front_total_ns']==900
+    assert beyond['delta_S_ns']==2048*(900+20+2*5)+2*5==1904650
+    assert beyond['delta_R_ns']==15+8*(5+60+125+300+2*(900+20+5))==18735
+    assert beyond['delta_R_ns']-weak['delta_R_ns']==16*(900-768)
+    assert beyond['mapping_interface']['T_R_ns']==1024*18735==19184640
+    assert math.isclose(beyond['mapping_interface']['U_star'],128*beyond['ridge'])
     assert ref['delta_S_ns']==2048*(20+20+2*5)+2*5==102410
     assert ref['delta_R_ns']==3*5+8*(5+3*20+125+300+2*(20+20+5))==4655
     assert geometry()['logical_transaction_count']==1024
@@ -127,7 +172,8 @@ def results():
                 shared_sha256={str(p.relative_to(SHARED)):digest(p) for p in [SHARED/'data/shared_parameters.json',SHARED/'scripts/check_shared.py']},
                 sources=sources,paired_scenarios=pairs,paired_ranges=bounds,
                 driver_transition_sensitivity=[compute('reference',drive_ns=g) for g in [10,50]],
-                verify_organization_comparison=compute('reference',weak_verify=True),set_total250ns_sensitivity=compute('reference',32,250),mapping=geometry())
+                verify_organization_comparison=weak,shared_front_parameter_sensitivity=shared_slow,
+                set_total250ns_sensitivity=compute('reference',32,250),mapping=geometry())
 
 def table(r):
     t=[r'% Generated by scripts/check_pcm.py --emit.',r'\begin{table}[htbp]\centering\small',r'\begin{tabular}{@{}lrrrrr@{}}\toprule',
@@ -152,8 +198,9 @@ def main():
     for p,text in files.items():
         if args.emit: (BASE/p).write_text(text)
         else: assert (BASE/p).read_text()==text, f'{p} stale; run --emit explicitly'
-    print('PCM OK: shared API/hashes, source hashes, full row-striped coverage, program/verify ADC routing, stage coverage, paired metrics, matrix aggregation.')
+    print('PCM OK: shared API/hashes, source hashes, full row-striped coverage, program/verify routing, independent arithmetic, mode/profile propagation, full load/U*.')
     for s in r['paired_scenarios']: print(s['profile'],s['delta_S_ns'],s['delta_R_ns'],s['rho_Byte_per_s']/1e6,s['tau_Byte_per_s']/1e6,s['ridge'])
     print('weak verify:',r['verify_organization_comparison']['delta_R_ns'],r['verify_organization_comparison']['ridge'])
+    print('shared F_A=768ns:',r['shared_front_parameter_sensitivity']['delta_S_ns'],r['shared_front_parameter_sensitivity']['delta_R_ns'],r['shared_front_parameter_sensitivity']['ridge'])
     print('SET total250ns:',r['set_total250ns_sensitivity']['delta_R_ns'])
 if __name__=='__main__': main()

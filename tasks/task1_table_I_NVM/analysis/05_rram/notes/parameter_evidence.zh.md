@@ -10,7 +10,7 @@ PDF p.3 Fig.3/4；p.4 Fig.7；p.7 Fig.16/17
 
 条件：VTBL=0.1 V、VBL=0.3 V、VWL=0.6 V；3-bit空间权重、4-bit原读出；RRAM-05为BEOL TaOx
 
-采用：二状态与m=1读取；选择LRS8–12kΩ/HRS≥70kΩ为设计验收窗，原typ与仿真标准差不冒充保证界
+采用：二状态与m=1读取；选择LRS8–12kΩ/HRS≥70kΩ为设计验收窗，原typ与仿真标准差不冒充保证界；计算需要电流可校准与HRS贡献受控，原文未证明8/12/70kΩ为计算充分界，memory可辨二态不单独保证MAC。
 
 ## E02 — RRAM-05
 
@@ -40,7 +40,7 @@ PDF p.5 E节及Fig.9；p.4 Fig.7
 
 条件：二状态P&V后HRS/LRS分布无重叠；不报告绝对SET/RESET/verify周期或重试分布
 
-采用：二状态阈值P&V支持一次及少量追加尝试情景；K为设计情景而非统计；10ns读扰脉冲仍不替代完整读回
+采用：二状态阈值P&V支持一次及少量追加尝试情景；K为设计情景而非统计；10ns读扰脉冲仍不替代完整读回；未给出精确追加次数，也未给本窗的达窗概率。
 
 ## E05 — RRAM-06
 
@@ -50,7 +50,7 @@ PDF p.1 AF/ARST/ASET；p.2 Figs.3–10
 
 条件：HRPW先在idle RESET全页再SET所需cell；FORMING为另一步；无绝对page时长
 
-采用：借双group、独立mask/done和分组等待机制；每平面每group实际扩为8个列驱动，8平面×2group×8lane=128目标；显式RESET再SET并计全部RESET，不从归一化图取绝对时间
+采用：借双group、独立mask/done和分组等待机制；每平面每group实际扩为8个列驱动，8平面×2group×8lane=128目标；显式RESET再SET并计全部RESET，不从归一化图取绝对时间；RESET较慢仅支撑非对称预算方向，不量化2/1。
 
 ## E06 — RRAM-01
 
@@ -60,7 +60,7 @@ PDF p.10 Methods；p.11延续；Extended Data Fig.3在PDF p.18
 
 条件：差分多级；gmin=1 µS，gmax=30/40 µS；99%达窗；外部DAC/ADC控制限速；3轮重编程后至少30min再测推理；HfOx加TaOx热增强层，与RRAM-05的TaOx不同stack
 
-采用：跨stack借用实际1µs波形；1–10µs读回保留测试层级，不压入本地binary主服务。8.52次/56µs、成功概率和G目标不移用
+采用：跨stack借用实际1µs波形；1–10µs读回保留测试层级，不压入本地binary主服务。8.52次/56µs、成功概率和G目标不移用；本LRS83–125µS高于其gmax，不能把相同1µs脉宽解释为该窗可达保证。
 
 ## E07 — RRAM-02
 

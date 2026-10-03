@@ -1320,7 +1320,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "CIM 选定阈值态／权重编码，不能自动等同商品 TLC 页模式",
       "confirmed_evidence": "给出 NAND 串读、映射、64-block subarray 边界和 RC／HSPICE 求值方法，可复用估算思路。",
-      "limitations": "Table 1 是作者估计；外围为 32 nm 并另用高压器件，不能称统一 28 nm 实测。器件数据与 NAND-05 有来源关联。",
+      "limitations": "Table 1 是作者估计；外围为 32 nm 并另用高压器件，不能称统一 28 nm 实测。器件数据与 NAND-05 有来源关联。 二态write-verify用于阈值终点；530–750 ns来自原输入映射的SL建立估计，1152项分组需保持偏置和负载条件桥接。",
       "anchors": "pp.2–4，II、Table 1、Fig.3；后续建模小节",
       "pdf": {
         "path": "literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
@@ -1383,7 +1383,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "实际 16-layer 64 Gb SLC SGVC 器件，multi-bit 用 SLC 复制/选择编码",
       "confirmed_evidence": "实际 16-layer 64 Gb SLC SGVC 器件与电流分布，用 SSL／BL／SL 解释多位输入及 SLC 复制编码；补直接 SLC 结构证据。",
-      "limitations": "多位感测及 accelerator 指标含设计预估，不是完整已流片 CIM 性能；缺完整 SLC program/erase 服务。",
+      "limitations": "多位感测及 accelerator 指标含设计预估，不是完整已流片 CIM 性能；缺完整 SLC program/erase 服务。 ON平台和校准证据不直接证明当前signed INT8量化后重构；原4I4W网络结果不外推为统一准确率。",
       "anchors": "pp.1–2，器件与映射；pp.3–4，Figs.1–16",
       "pdf": {
         "path": "literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
@@ -1432,7 +1432,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "模拟多级、差分权重",
       "confirmed_evidence": "NeuRRAM 正文含完整 set-read/reset-read 闭环、导电目标容差、超时条件与 MVM 实测；读／写测试条件可以分开记录。",
-      "limitations": "1–10 ns 控制脉冲能力不能替代 Methods 中实际微秒级 program/verify 配置；网络级效果与 local MVM 分开。主文含所需 Methods/Extended Data。",
+      "limitations": "1–10 ns 控制脉冲能力不能替代 Methods 中实际微秒级 program/verify 配置；网络级效果与 local MVM 分开。主文含所需 Methods/Extended Data。 1 μs波形对应不同材料与多级电导窗，不能保证所选二态LRS/HRS参考窗到达。",
       "anchors": "p.10，Methods：编程／控制；p.27，Extended Data Fig.12",
       "pdf": {
         "path": "literature/05_rram/RRAM-01_2022_NeuRRAM.pdf",
@@ -1549,7 +1549,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "数字存储；多级适用性未主张",
       "confirmed_evidence": "Weebit/CEA-Leti 实际阵列对照 raw 与 P&V 的分布，说明固定脉冲、温度、可靠性终点改变可用写策略。",
-      "limitations": "重点是可靠性；读扰应力脉冲不是完整 array access。不能提供独立的完整 CIM 求值周期。",
+      "limitations": "重点是可靠性；读扰应力脉冲不是完整 array access。不能提供独立的完整 CIM 求值周期。 追加尝试证据不提供RESET/SET为2/1的统计典型次数。",
       "anchors": "pp.2–5，raw reliability、读扰与 Program and verify",
       "pdf": {
         "path": "literature/05_rram/RRAM-03_2022_Weebit_28nm.pdf",
@@ -1717,7 +1717,7 @@
       "evidence_level": "实测普通 ReRAM macro；时序图/归一化测量",
       "process_condition": "40 nm 专用外围；其他工艺交叉参考",
       "confirmed_evidence": "实际 40 nm 2 Mb bipolar ReRAM；两组 IO/column 控制、等待组内完成、地址跳过、timeout 和 FORMING/SET/RESET 终止机制清楚。HRPW 把 page RESET 放在 idle，再对所需 cell SET，支持显式更新步骤/资源占用建模。",
-      "limitations": "Fig.9 使用 normalized time unit，Fig.10 也是归一化时间/相对改善；全文没有因此补出绝对 page 延时。99% 改善包含 hidden-RESET，不能解释为省掉 RESET，FORMING 也不能算作每次更新。",
+      "limitations": "Fig.9 使用 normalized time unit，Fig.10 也是归一化时间/相对改善；全文没有因此补出绝对 page 延时。99% 改善包含 hidden-RESET，不能解释为省掉 RESET，FORMING 也不能算作每次更新。 RESET/SET不对称与组内完成机制不确定精确尝试次数；主三点采用有限条件完成预算。",
       "anchors": "p.1 AF/ARST/ASET 与测量小节；p.2 Figs.3–10",
       "pdf": {
         "path": "literature/05_rram/RRAM-06_2019_AutoForming_AutoWrite.pdf",
@@ -2072,7 +2072,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "模拟多级 PCM、差分映射",
       "confirmed_evidence": "64-core 芯片的 diagonal selection 一次选不同 row/column 的器件，局部 write DAC、SET/RESET 形状与读 ADC 边界清楚。",
-      "limitations": "部分 latency 由 RTL 得到，不能全部称直接测量；14 nm、四 PCM/cell 与其他芯片条件不同。",
+      "limitations": "部分 latency 由 RTL 得到，不能全部称直接测量；14 nm、四 PCM/cell 与其他芯片条件不同。 0.2 V、256 ns预充及512 ns观察的读验不同于PCM-03电压求和；独立长观察模式不代表共享前端不确定性包络。",
       "anchors": "pp.2–3，diagonal programming/ADC；Methods 与 p.10，Power measurements",
       "pdf": {
         "path": "literature/07_pcm/PCM-01_2023_PCM64_Core.pdf",
@@ -2229,7 +2229,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "hybrid SLC／MLC（分模式）",
       "confirmed_evidence": "40 nm 实测 PCM CIM，8-bit weight 以 2 SLC+3 MLC 编码，8-bit input 默认八拍；VSA 四阶段与 sparsity 重排解释求值粒度。",
-      "limitations": "低功耗全 MLC 与混合模式不同；input-reordering 的跳过拍数依赖数据；没有完整 SET/RESET 更新周期。",
+      "limitations": "低功耗全 MLC 与混合模式不同；input-reordering 的跳过拍数依赖数据；没有完整 SET/RESET 更新周期。 八行弱码与所选单cell终验共用前端时间仍需偏置、访问通路、负载及建立终点资格。",
       "anchors": "p.1，Figs.11.3.2–6 的说明；pp.2–3，图与 summary",
       "pdf": {
         "path": "literature/07_pcm/PCM-03_2022_Hybrid_SLC_MLC.pdf",
@@ -3091,7 +3091,7 @@
       "process_condition": "介质专用器件/阵列条件；不据此自动认定共同 28 nm 外围",
       "state_mode": "3T1C current-programmed dynamic-cascode MLC",
       "confirmed_evidence": "65 nm 3T1C MLC gain-cell，电流写入自校正，先电压粗写再电流精写；完整 CIM 含 precharge、DTC 求值和 SAR。",
-      "limitations": "5 ns 仅粗写；60 ns 建立结论在 Fig.12 仿真中，不能称实测完整更新；180 ns compute 与保持漂移精度相关。",
+      "limitations": "5 ns 仅粗写；60 ns 建立结论在 Fig.12 仿真中，不能称实测完整更新；180 ns compute 与保持漂移精度相关。 并行MAC与逐行读取模式可区分，但未分项报告本参考1/64 ns积分及专用前端预算；提前释放只能另作控制模式条件。",
       "anchors": "pp.4–7，Figs.4–11；p.8，Fig.12／measurement",
       "pdf": {
         "path": "literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",

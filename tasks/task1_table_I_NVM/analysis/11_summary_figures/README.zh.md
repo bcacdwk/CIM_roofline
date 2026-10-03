@@ -21,6 +21,8 @@
 
 每例三点均为同一原生组织与资源下的可持续成对工程情景；典型不是统计中位数。资源扩展、维护临界点、不可行调度和预擦除有限 burst 均不进入普通三情景。Gain-cell 的慢点也是可持续主情景。3D FeFET 的主身份为 2026 vertical AND FeFET，图中使用技术简称；Gain-cell 保持 GC-04 的 65 nm 3T1C current-programmed dynamic-cascode 路径。完整模式、编码、保持、外围与更新资源由[统一数据](../data/ten_case_results.json)及[各例章节入口](../TEN_CASE_REVIEW.zh.md)保存。
 
+可持续性表示声明时序与维护占用可排程，不替代数值精度资格。NAND偏置编码的名义10bit量化诊断可使弱信号或抵消输出发生符号错误；其点仅为条件近似求值预算，未保证小信号准确度。该限制同时写入正式表脚注、统一结果卡及[机器诊断](../04_nand_3d/data/quantization_diagnostics.json)。PCM共享前端768 ns敏感性与独立长观察、GC提前释放模式均另列，不进入本表或普通圆。
+
 表图的 RI* = ρ/τ 是硬件配置的服务比值。对匹配的 INT8 矩阵，U* = N·RI* = T_R/Δ_S；扩大到算子时必须重新确认完整矩阵装载、输入共享、重放与资源分时，见[公共方法](../shared_baseline/README.md)。图中所有比值标签和参考线均标为 RI*，不代表某一 workload 的 RI。
 
 ## 双对数图与圆的含义

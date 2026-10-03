@@ -22,6 +22,26 @@ R = D['reference_instance']
 V = C['propagation']['profile_values']['reference']
 
 
+def resolve_service_parameters(parameter_values, service_bindings, overrides=None):
+    """Resolve one parameter value into every declared service consumer.
+
+    Bindings are {service: {local_slot: parameter_name}}; there are no expressions,
+    cached derived times or implicit mode changes. A distinct operation may bind a
+    different parameter, with its physical qualification documented by the caller.
+    """
+    overrides = {} if overrides is None else overrides
+    assert set(overrides) <= set(parameter_values), 'unknown parameter override'
+    values = {**parameter_values, **overrides}
+    assert service_bindings and all(service_bindings.values()), 'empty service bindings'
+    used = {name for binding in service_bindings.values() for name in binding.values()}
+    assert used <= set(values), 'unknown bound parameter'
+    assert set(overrides) <= used, 'overridden parameter has no service consumer'
+    assert all(isinstance(values[name], (int, float)) and math.isfinite(values[name])
+               and values[name] >= 0 for name in used), 'invalid service parameter'
+    return {service: {slot: values[name] for slot, name in binding.items()}
+            for service, binding in service_bindings.items()}
+
+
 def chunks(total, width):
     assert isinstance(total, int) and isinstance(width, int) and total > 0 and width > 0
     return [min(width, total-start) for start in range(0, total, width)]
@@ -340,6 +360,86 @@ def generated_files():
 
 
 class SharedChecks(unittest.TestCase):
+    def test_mode_parameter_and_profile_propagation(self):
+        values={**V,'shared_front':20,'long_observation':768}
+        binding={'evaluation':{'front':'shared_front','ti':'input_step','ta':'adc_batch','td':'digital_tick'},
+                 'verify':{'front':'shared_front','ti':'input_step','ta':'adc_batch','td':'digital_tick'},
+                 'write_control':{'td':'digital_tick'}}
+        def schedule(override=None, modes=binding):
+            p=resolve_service_parameters(values,modes,override)
+            a,b,c=p['evaluation'],p['verify'],p['write_control']
+            # Full frontend already includes TI; changing TI partitions this fixed total.
+            ds=8*(a['ti']+(a['front']-a['ti'])+a['ta']+2*a['td'])+2*a['td']
+            local=3*c['td']+2*(100+b['front']+b['ta']+b['td'])
+            load=full_load_service(logical_configuration(8,4),[dict(payload_Byte=8,service_ns=local,count=4)])
+            return p,ds,load['T_R_ns']
+        base= schedule()
+        self.assertEqual(base[1:],(410,1220))
+        for name,delta,ds_change,tr_change in [('shared_front',7,56,56),
+                ('adc_batch',3,24,24),('digital_tick',2,36,40),('input_step',1,0,0)]:
+            changed=schedule({name:values[name]+delta})
+            self.assertEqual(changed[1]-base[1],ds_change)
+            self.assertEqual(changed[2]-base[2],tr_change)
+            if name=='input_step':
+                self.assertEqual(changed[0]['evaluation']['ti'],6)
+                self.assertEqual(changed[0]['verify']['ti'],6)
+        with self.assertRaises(AssertionError): schedule({'typo':1})
+        with self.assertRaises(AssertionError): schedule({'long_observation':1})
+        with self.assertRaises(AssertionError): resolve_service_parameters(values,{'x':{'a':'missing'}})
+
+    def test_distinct_mode_and_maintenance_propagation(self):
+        # Synthetic independently qualified physical verify path, not an observation-only override.
+        values={**V,'front':20,'separate_verify_front':768,'residual':86,'mac_pulse':1,'refresh_pulse':64}
+        modes={'evaluation':{'front':'front','ta':'adc_batch','td':'digital_tick'},
+               'verify':{'front':'separate_verify_front','ta':'adc_batch','td':'digital_tick'},
+               'mac':{'residual':'residual','pulse':'mac_pulse','ta':'adc_batch','td':'digital_tick'},
+               'refresh':{'residual':'residual','pulse':'refresh_pulse','ta':'adc_batch','td':'digital_tick'}}
+        base=resolve_service_parameters(values,modes)
+        altered=resolve_service_parameters(values,modes,{'separate_verify_front':900})
+        self.assertEqual(altered['evaluation'],base['evaluation'])
+        self.assertEqual(altered['verify']['front']-base['verify']['front'],132)
+        # Same-path observation-only mode must preserve the common settling lower bound.
+        same_path={'evaluation':{'front':'front'},
+                   'verify':{'front':'front','minimum_observation':'observation_floor'}}
+        for front,expected in [(20,768),(768,768),(900,900)]:
+            p=resolve_service_parameters({'front':20,'observation_floor':768},same_path,{'front':front})
+            self.assertEqual(p['evaluation']['front'],front)
+            self.assertEqual(max(p['verify'].values()),expected)
+        # Independent synthetic maintenance schedule: shared residual propagates to both modes.
+        def maintained(override=None):
+            p=resolve_service_parameters(values,modes,override)
+            m,f=p['mac'],p['refresh']
+            read=m['residual']+m['pulse']+m['ta']+m['td']
+            h=4*(f['residual']+f['pulse']+f['ta']+f['td']+75)
+            guard=max(read,75)
+            return apply_maintenance(mapping_metrics(logical_configuration(8,4),8*read,2400),10000,h,guard)
+        b=maintained(); c=maintained({'residual':96})
+        self.assertEqual(b['busy_ns'],1000)
+        self.assertEqual(c['busy_ns'],1040)
+        self.assertEqual((b['guard_ns'],c['guard_ns']),(112,122))
+        self.assertAlmostEqual(c['availability'],1-(1040+122)/10000)
+        self.assertEqual(c['raw']['delta_S_ns']-b['raw']['delta_S_ns'],80)
+        self.assertLess(c['effective']['rho_Byte_per_s'],b['effective']['rho_Byte_per_s'])
+        self.assertLess(c['effective']['tau_Byte_per_s'],b['effective']['tau_Byte_per_s'])
+        self.assertAlmostEqual(c['effective']['U_star'],4*c['effective']['ridge'])
+
+    def test_quantized_reconstruction_is_not_ideal_identity(self):
+        a=R['acim']; l=logical_configuration(128,128)
+        self.assertEqual((a['adc_nominal_bits'],a['adc_effective_bits_target'],l['output_container_bits']),(10,8,23))
+        # Synthetic normalized signals, not PCM/NAND device distributions.
+        # 0.4 - 0.2 - 0.2 vanishes algebraically; rounding each sample first need not.
+        def quantized(value,bits):
+            clipped=min(1,max(0,value)); levels=2**bits-1
+            return math.floor(clipped*levels+.5)/levels,clipped!=value
+        ideal=.4-.2-.2
+        reconstructed=quantized(.4,2)[0]-2*quantized(.2,2)[0]
+        self.assertEqual(ideal,0)
+        self.assertAlmostEqual(reconstructed,-1/3)
+        self.assertEqual(quantized(1.2,10),(1,True))
+        self.assertEqual(quantized(-.1,10),(0,True))
+        self.assertNotEqual(1/(2**a['adc_nominal_bits']-1),1/2**a['adc_effective_bits_target'])
+        self.assertIn('ENOB',D['numerical_service_policy']['enob_rule'])
+
     def test_units_and_logical_shapes(self):
         for k,n,bs,br in [(128,128,1,1),(64,64,1,1),(70,35,1,1),(17,9,2,1)]:
             l=logical_configuration(k,n,bs,br)

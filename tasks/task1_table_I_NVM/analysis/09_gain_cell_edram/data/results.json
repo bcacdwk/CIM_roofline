@@ -9,8 +9,8 @@
     "summary_throughput": "decimal MB/s = 1e6 Byte/s"
   },
   "baseline_hashes": {
-    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
-    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
+    "data/shared_parameters.json": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+    "scripts/check_shared.py": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
   },
   "native_configuration": {
     "K": 64,
@@ -56,6 +56,29 @@
       "feasibility": "feasible_under_stated_conditions",
       "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
       "profile": "short",
+      "release_policy": "fixed_slot",
+      "resolved_services": {
+        "normal_evaluation": {
+          "input_ns": 2,
+          "common_overhead_ns": 36,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 1,
+          "adc_ns": 10
+        },
+        "refresh_read": {
+          "input_ns": 2,
+          "common_overhead_ns": 36,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 64,
+          "adc_ns": 10
+        },
+        "digital_control": {
+          "tick_ns": 2
+        },
+        "resident_write": {
+          "complete_ns": 65
+        }
+      },
       "output_width": 16,
       "adc_count": 128,
       "pair_write_drivers": 128,
@@ -83,7 +106,8 @@
       "dedicated_read_ns": 100,
       "frontend_coverage": [
         "input_step",
-        "dedicated_integration",
+        "common_frontend_overhead",
+        "mode_integration_reservation",
         "adc_batch"
       ],
       "write_front_ns": 6,
@@ -179,7 +203,7 @@
         "average_update_ns_per_16KiB": 82495.37620133664
       },
       "provenance": {
-        "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
         "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
         "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
       },
@@ -199,6 +223,29 @@
       "feasibility": "feasible_under_stated_conditions",
       "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
       "profile": "reference",
+      "release_policy": "fixed_slot",
+      "resolved_services": {
+        "normal_evaluation": {
+          "input_ns": 5,
+          "common_overhead_ns": 86,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 1,
+          "adc_ns": 20
+        },
+        "refresh_read": {
+          "input_ns": 5,
+          "common_overhead_ns": 86,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 64,
+          "adc_ns": 20
+        },
+        "digital_control": {
+          "tick_ns": 5
+        },
+        "resident_write": {
+          "complete_ns": 65
+        }
+      },
       "output_width": 16,
       "adc_count": 128,
       "pair_write_drivers": 128,
@@ -226,7 +273,8 @@
       "dedicated_read_ns": 150,
       "frontend_coverage": [
         "input_step",
-        "dedicated_integration",
+        "common_frontend_overhead",
+        "mode_integration_reservation",
         "adc_batch"
       ],
       "write_front_ns": 15,
@@ -322,7 +370,7 @@
         "average_update_ns_per_16KiB": 98327.10687011448
       },
       "provenance": {
-        "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
         "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
         "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
       },
@@ -342,6 +390,29 @@
       "feasibility": "feasible_under_stated_conditions",
       "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
       "profile": "long",
+      "release_policy": "fixed_slot",
+      "resolved_services": {
+        "normal_evaluation": {
+          "input_ns": 10,
+          "common_overhead_ns": 136,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 1,
+          "adc_ns": 50
+        },
+        "refresh_read": {
+          "input_ns": 10,
+          "common_overhead_ns": 136,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 64,
+          "adc_ns": 50
+        },
+        "digital_control": {
+          "tick_ns": 10
+        },
+        "resident_write": {
+          "complete_ns": 75
+        }
+      },
       "output_width": 16,
       "adc_count": 128,
       "pair_write_drivers": 128,
@@ -369,7 +440,8 @@
       "dedicated_read_ns": 200,
       "frontend_coverage": [
         "input_step",
-        "dedicated_integration",
+        "common_frontend_overhead",
+        "mode_integration_reservation",
         "adc_batch"
       ],
       "write_front_ns": 30,
@@ -465,7 +537,7 @@
         "average_update_ns_per_16KiB": 141604.1090478072
       },
       "provenance": {
-        "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
         "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
         "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
       },
@@ -486,6 +558,29 @@
     "feasibility": "feasible_under_stated_conditions",
     "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
     "profile": "reference",
+    "release_policy": "fixed_slot",
+    "resolved_services": {
+      "normal_evaluation": {
+        "input_ns": 5,
+        "common_overhead_ns": 86,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 1,
+        "adc_ns": 20
+      },
+      "refresh_read": {
+        "input_ns": 5,
+        "common_overhead_ns": 86,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 64,
+        "adc_ns": 20
+      },
+      "digital_control": {
+        "tick_ns": 5
+      },
+      "resident_write": {
+        "complete_ns": 65
+      }
+    },
     "output_width": 32,
     "adc_count": 256,
     "pair_write_drivers": 256,
@@ -513,7 +608,8 @@
     "dedicated_read_ns": 150,
     "frontend_coverage": [
       "input_step",
-      "dedicated_integration",
+      "common_frontend_overhead",
+      "mode_integration_reservation",
       "adc_batch"
     ],
     "write_front_ns": 25,
@@ -609,7 +705,7 @@
       "average_update_ns_per_16KiB": 50464.75653328588
     },
     "provenance": {
-      "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+      "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
       "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
       "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
     },
@@ -634,6 +730,29 @@
     "feasibility": "feasible_under_stated_conditions",
     "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
     "profile": "reference",
+    "release_policy": "fixed_slot",
+    "resolved_services": {
+      "normal_evaluation": {
+        "input_ns": 5,
+        "common_overhead_ns": 86,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 1,
+        "adc_ns": 20
+      },
+      "refresh_read": {
+        "input_ns": 5,
+        "common_overhead_ns": 86,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 64,
+        "adc_ns": 20
+      },
+      "digital_control": {
+        "tick_ns": 5
+      },
+      "resident_write": {
+        "complete_ns": 65
+      }
+    },
     "output_width": 16,
     "adc_count": 128,
     "pair_write_drivers": 128,
@@ -661,7 +780,8 @@
     "dedicated_read_ns": 150,
     "frontend_coverage": [
       "input_step",
-      "dedicated_integration",
+      "common_frontend_overhead",
+      "mode_integration_reservation",
       "adc_batch"
     ],
     "write_front_ns": 15,
@@ -757,7 +877,7 @@
       "average_update_ns_per_16KiB": 245315.3658993075
     },
     "provenance": {
-      "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+      "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
       "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
       "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
     },
@@ -777,6 +897,29 @@
     "feasibility": "feasible_under_stated_conditions",
     "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
     "profile": "long",
+    "release_policy": "fixed_slot",
+    "resolved_services": {
+      "normal_evaluation": {
+        "input_ns": 10,
+        "common_overhead_ns": 136,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 1,
+        "adc_ns": 50
+      },
+      "refresh_read": {
+        "input_ns": 10,
+        "common_overhead_ns": 136,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 64,
+        "adc_ns": 50
+      },
+      "digital_control": {
+        "tick_ns": 10
+      },
+      "resident_write": {
+        "complete_ns": 75
+      }
+    },
     "output_width": 16,
     "adc_count": 128,
     "pair_write_drivers": 128,
@@ -804,7 +947,8 @@
     "dedicated_read_ns": 200,
     "frontend_coverage": [
       "input_step",
-      "dedicated_integration",
+      "common_frontend_overhead",
+      "mode_integration_reservation",
       "adc_batch"
     ],
     "write_front_ns": 30,
@@ -900,7 +1044,7 @@
       "average_update_ns_per_16KiB": 2735877.86259542
     },
     "provenance": {
-      "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+      "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
       "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
       "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
     },
@@ -920,6 +1064,29 @@
     "feasibility": "infeasible_fixed_refresh_schedule",
     "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
     "profile": "long",
+    "release_policy": "fixed_slot",
+    "resolved_services": {
+      "normal_evaluation": {
+        "input_ns": 10,
+        "common_overhead_ns": 152,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 1,
+        "adc_ns": 50
+      },
+      "refresh_read": {
+        "input_ns": 10,
+        "common_overhead_ns": 152,
+        "integration_reservation_ns": 64,
+        "pulse_ns": 64,
+        "adc_ns": 50
+      },
+      "digital_control": {
+        "tick_ns": 10
+      },
+      "resident_write": {
+        "complete_ns": 75
+      }
+    },
     "output_width": 16,
     "adc_count": 128,
     "pair_write_drivers": 128,
@@ -947,7 +1114,8 @@
     "dedicated_read_ns": 216,
     "frontend_coverage": [
       "input_step",
-      "dedicated_integration",
+      "common_frontend_overhead",
+      "mode_integration_reservation",
       "adc_batch"
     ],
     "write_front_ns": 30,
@@ -1043,7 +1211,7 @@
       "average_update_ns_per_16KiB": null
     },
     "provenance": {
-      "frontend": "engineering dedicated response plus actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+      "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
       "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
       "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
     },
@@ -1055,6 +1223,527 @@
     "tau_Byte_per_s": null,
     "ridge": null
   },
+  "mode_comparisons": [
+    {
+      "id": "early_release_short",
+      "baseline_id": "shared_baseline",
+      "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "scenario_type": "operation_mode_comparison",
+      "feasibility": "feasible_under_stated_conditions",
+      "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+      "profile": "short",
+      "release_policy": "early_release",
+      "resolved_services": {
+        "normal_evaluation": {
+          "input_ns": 2,
+          "common_overhead_ns": 36,
+          "integration_reservation_ns": 1,
+          "pulse_ns": 1,
+          "adc_ns": 10
+        },
+        "refresh_read": {
+          "input_ns": 2,
+          "common_overhead_ns": 36,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 64,
+          "adc_ns": 10
+        },
+        "digital_control": {
+          "tick_ns": 2
+        },
+        "resident_write": {
+          "complete_ns": 65
+        }
+      },
+      "output_width": 16,
+      "adc_count": 128,
+      "pair_write_drivers": 128,
+      "K": 64,
+      "N": 64,
+      "physical_cells": 65536,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 32,
+        "adc_batches": 32,
+        "reconstruction_rounds": 32,
+        "digital_ticks": 64,
+        "useful_scalar_conversions": 4096,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "write_batches": 1,
+      "data_beats": 2,
+      "encoded_load_bits": 256,
+      "frontend_complete_ns": 49,
+      "dedicated_read_ns": 37,
+      "frontend_coverage": [
+        "input_step",
+        "common_frontend_overhead",
+        "mode_integration_reservation",
+        "adc_batch"
+      ],
+      "write_front_ns": 6,
+      "program_complete_ns": 65,
+      "nominal": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 16,
+        "delta_S_ns": 1700,
+        "delta_R_ns": 71,
+        "rho_Byte_per_s": 37647058.823529415,
+        "tau_Byte_per_s": 225352112.67605633,
+        "ridge": 0.1670588235294118
+      },
+      "refresh": {
+        "period_ns": 400000,
+        "groups": 256,
+        "scalar_pair_reads": 32768,
+        "cells_rewritten": 65536,
+        "group_read_ns": 112,
+        "group_decode_ns": 2,
+        "group_load_control_ns": 6,
+        "group_program_ns": 65,
+        "sign_decode_lanes": 128,
+        "group_service_ns": 185.0,
+        "total_ns": 47360.0,
+        "busy_fraction": 0.1184,
+        "scheduling_guard_ns": 71,
+        "availability": 0.8814225,
+        "total_reserved_fraction": 0.1185775,
+        "workload_slack_ns": 352569.0,
+        "availability_not_clipped": true,
+        "workload_payload_Byte": 0
+      },
+      "full_matrix_update": {
+        "logical_Byte": 4096,
+        "transactions": 256,
+        "raw_service_ns": 18176,
+        "average_service_with_reserved_refresh_ns": 20621.211734440636
+      },
+      "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+      "mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 1928.7004813242231,
+        "delta_R_ns": 20621.211734440636,
+        "rho_Byte_per_s": 33182964.705882356,
+        "tau_Byte_per_s": 198630422.53521127,
+        "ridge": 0.1670588235294118,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.1670588235294118,
+        "T_R_ns": 20621.211734440636,
+        "U_star": 10.691764705882353,
+        "average_update_ns_per_16KiB": 82484.84693776254
+      },
+      "raw_mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 1700,
+        "delta_R_ns": 18176,
+        "rho_Byte_per_s": 37647058.823529415,
+        "tau_Byte_per_s": 225352112.67605633,
+        "ridge": 0.1670588235294118,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.1670588235294118,
+        "T_R_ns": 18176,
+        "U_star": 10.691764705882353,
+        "average_update_ns_per_16KiB": 72704.0
+      },
+      "effective_mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 1928.7004813242231,
+        "delta_R_ns": 20621.211734440636,
+        "rho_Byte_per_s": 33182964.705882356,
+        "tau_Byte_per_s": 198630422.53521127,
+        "ridge": 0.1670588235294118,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.1670588235294118,
+        "T_R_ns": 20621.211734440636,
+        "U_star": 10.691764705882353,
+        "average_update_ns_per_16KiB": 82484.84693776254
+      },
+      "provenance": {
+        "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+        "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+      },
+      "B_S_Byte": 64,
+      "B_R_Byte": 16,
+      "delta_S_ns": 1928.7004813242231,
+      "delta_R_ns": 80.55160833765873,
+      "rho_Byte_per_s": 33182964.705882356,
+      "tau_Byte_per_s": 198630422.53521127,
+      "ridge": 0.1670588235294118,
+      "scenario_class": "operation_mode_comparison",
+      "ratios_to_same_profile_fixed_slot": {
+        "rho_Byte_per_s": 2.186161382754416,
+        "tau_Byte_per_s": 1.000127650883344,
+        "ridge": 2.185882352941177
+      }
+    },
+    {
+      "id": "early_release_reference",
+      "baseline_id": "shared_baseline",
+      "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "scenario_type": "operation_mode_comparison",
+      "feasibility": "feasible_under_stated_conditions",
+      "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+      "profile": "reference",
+      "release_policy": "early_release",
+      "resolved_services": {
+        "normal_evaluation": {
+          "input_ns": 5,
+          "common_overhead_ns": 86,
+          "integration_reservation_ns": 1,
+          "pulse_ns": 1,
+          "adc_ns": 20
+        },
+        "refresh_read": {
+          "input_ns": 5,
+          "common_overhead_ns": 86,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 64,
+          "adc_ns": 20
+        },
+        "digital_control": {
+          "tick_ns": 5
+        },
+        "resident_write": {
+          "complete_ns": 65
+        }
+      },
+      "output_width": 16,
+      "adc_count": 128,
+      "pair_write_drivers": 128,
+      "K": 64,
+      "N": 64,
+      "physical_cells": 65536,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 32,
+        "adc_batches": 32,
+        "reconstruction_rounds": 32,
+        "digital_ticks": 64,
+        "useful_scalar_conversions": 4096,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "write_batches": 1,
+      "data_beats": 2,
+      "encoded_load_bits": 256,
+      "frontend_complete_ns": 112,
+      "dedicated_read_ns": 87,
+      "frontend_coverage": [
+        "input_step",
+        "common_frontend_overhead",
+        "mode_integration_reservation",
+        "adc_batch"
+      ],
+      "write_front_ns": 15,
+      "program_complete_ns": 65,
+      "nominal": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 16,
+        "delta_S_ns": 3914,
+        "delta_R_ns": 80,
+        "rho_Byte_per_s": 16351558.507920286,
+        "tau_Byte_per_s": 200000000.0,
+        "ridge": 0.08175779253960143
+      },
+      "refresh": {
+        "period_ns": 400000,
+        "groups": 256,
+        "scalar_pair_reads": 32768,
+        "cells_rewritten": 65536,
+        "group_read_ns": 175,
+        "group_decode_ns": 5,
+        "group_load_control_ns": 15,
+        "group_program_ns": 65,
+        "sign_decode_lanes": 128,
+        "group_service_ns": 260.0,
+        "total_ns": 66560.0,
+        "busy_fraction": 0.1664,
+        "scheduling_guard_ns": 122,
+        "availability": 0.833295,
+        "total_reserved_fraction": 0.166705,
+        "workload_slack_ns": 333318.0,
+        "availability_not_clipped": true,
+        "workload_payload_Byte": 0
+      },
+      "full_matrix_update": {
+        "logical_Byte": 4096,
+        "transactions": 256,
+        "raw_service_ns": 20480,
+        "average_service_with_reserved_refresh_ns": 24577.130548005207
+      },
+      "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+      "mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 4697.016062738886,
+        "delta_R_ns": 24577.130548005207,
+        "rho_Byte_per_s": 13625671.946857434,
+        "tau_Byte_per_s": 166659000.0,
+        "ridge": 0.08175779253960143,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.08175779253960143,
+        "T_R_ns": 24577.130548005207,
+        "U_star": 5.232498722534491,
+        "average_update_ns_per_16KiB": 98308.52219202083
+      },
+      "raw_mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 3914,
+        "delta_R_ns": 20480,
+        "rho_Byte_per_s": 16351558.507920286,
+        "tau_Byte_per_s": 200000000.0,
+        "ridge": 0.08175779253960143,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.08175779253960143,
+        "T_R_ns": 20480,
+        "U_star": 5.232498722534491,
+        "average_update_ns_per_16KiB": 81920.0
+      },
+      "effective_mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 4697.016062738886,
+        "delta_R_ns": 24577.130548005207,
+        "rho_Byte_per_s": 13625671.946857434,
+        "tau_Byte_per_s": 166659000.0,
+        "ridge": 0.08175779253960143,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.08175779253960143,
+        "T_R_ns": 24577.130548005207,
+        "U_star": 5.232498722534491,
+        "average_update_ns_per_16KiB": 98308.52219202083
+      },
+      "provenance": {
+        "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+        "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+      },
+      "B_S_Byte": 64,
+      "B_R_Byte": 16,
+      "delta_S_ns": 4697.016062738886,
+      "delta_R_ns": 96.00441620314534,
+      "rho_Byte_per_s": 13625671.946857434,
+      "tau_Byte_per_s": 166659000.0,
+      "ridge": 0.08175779253960143,
+      "scenario_class": "operation_mode_comparison",
+      "ratios_to_same_profile_fixed_slot": {
+        "rho_Byte_per_s": 1.5153605093108993,
+        "tau_Byte_per_s": 1.00018904442544,
+        "ridge": 1.515074092999489
+      }
+    },
+    {
+      "id": "early_release_long",
+      "baseline_id": "shared_baseline",
+      "mode": "ACIM_binary_endpoints_pseudodifferential_3T1C",
+      "scenario_type": "operation_mode_comparison",
+      "feasibility": "feasible_under_stated_conditions",
+      "mapping": "8 binary endpoint planes; pseudodifferential pairs; 64 rows/group",
+      "profile": "long",
+      "release_policy": "early_release",
+      "resolved_services": {
+        "normal_evaluation": {
+          "input_ns": 10,
+          "common_overhead_ns": 136,
+          "integration_reservation_ns": 1,
+          "pulse_ns": 1,
+          "adc_ns": 50
+        },
+        "refresh_read": {
+          "input_ns": 10,
+          "common_overhead_ns": 136,
+          "integration_reservation_ns": 64,
+          "pulse_ns": 64,
+          "adc_ns": 50
+        },
+        "digital_control": {
+          "tick_ns": 10
+        },
+        "resident_write": {
+          "complete_ns": 75
+        }
+      },
+      "output_width": 16,
+      "adc_count": 128,
+      "pair_write_drivers": 128,
+      "K": 64,
+      "N": 64,
+      "physical_cells": 65536,
+      "counts": {
+        "input_slices": 8,
+        "row_groups": 1,
+        "weight_groups": 1,
+        "base_combinations": 8,
+        "evaluations": 32,
+        "adc_batches": 32,
+        "reconstruction_rounds": 32,
+        "digital_ticks": 64,
+        "useful_scalar_conversions": 4096,
+        "adc_total": 128,
+        "max_batch_code_slots": 128,
+        "max_hold_window_ns": 0
+      },
+      "write_batches": 1,
+      "data_beats": 2,
+      "encoded_load_bits": 256,
+      "frontend_complete_ns": 197,
+      "dedicated_read_ns": 137,
+      "frontend_coverage": [
+        "input_step",
+        "common_frontend_overhead",
+        "mode_integration_reservation",
+        "adc_batch"
+      ],
+      "write_front_ns": 30,
+      "program_complete_ns": 75,
+      "nominal": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 16,
+        "delta_S_ns": 6964,
+        "delta_R_ns": 105,
+        "rho_Byte_per_s": 9190120.62033314,
+        "tau_Byte_per_s": 152380952.3809524,
+        "ridge": 0.060310166570936234
+      },
+      "refresh": {
+        "period_ns": 400000,
+        "groups": 256,
+        "scalar_pair_reads": 32768,
+        "cells_rewritten": 65536,
+        "group_read_ns": 260,
+        "group_decode_ns": 10,
+        "group_load_control_ns": 30,
+        "group_program_ns": 75,
+        "sign_decode_lanes": 128,
+        "group_service_ns": 375.0,
+        "total_ns": 96000.0,
+        "busy_fraction": 0.24,
+        "scheduling_guard_ns": 217,
+        "availability": 0.7594575,
+        "total_reserved_fraction": 0.2405425,
+        "workload_slack_ns": 303783.0,
+        "availability_not_clipped": true,
+        "workload_payload_Byte": 0
+      },
+      "full_matrix_update": {
+        "logical_Byte": 4096,
+        "transactions": 256,
+        "raw_service_ns": 26880,
+        "average_service_with_reserved_refresh_ns": 35393.68562427786
+      },
+      "dominant": "whole analog frontend in streaming; current settling in update; full-capacity read/decode/rewrite maintenance",
+      "mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 9169.703373789844,
+        "delta_R_ns": 35393.68562427786,
+        "rho_Byte_per_s": 6979506.031016656,
+        "tau_Byte_per_s": 115726857.14285715,
+        "ridge": 0.060310166570936234,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.060310166570936234,
+        "T_R_ns": 35393.68562427786,
+        "U_star": 3.8598506605399194,
+        "average_update_ns_per_16KiB": 141574.74249711144
+      },
+      "raw_mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 6964,
+        "delta_R_ns": 26880,
+        "rho_Byte_per_s": 9190120.62033314,
+        "tau_Byte_per_s": 152380952.3809524,
+        "ridge": 0.060310166570936234,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.060310166570936234,
+        "T_R_ns": 26880,
+        "U_star": 3.8598506605399194,
+        "average_update_ns_per_16KiB": 107520.0
+      },
+      "effective_mapping_interface": {
+        "B_S_Byte": 64,
+        "B_R_Byte": 4096,
+        "delta_S_ns": 9169.703373789844,
+        "delta_R_ns": 35393.68562427786,
+        "rho_Byte_per_s": 6979506.031016656,
+        "tau_Byte_per_s": 115726857.14285715,
+        "ridge": 0.060310166570936234,
+        "K": 64,
+        "N": 64,
+        "b_S": 1,
+        "b_R": 1,
+        "full_resident_payload_Byte": 4096,
+        "RI_star": 0.060310166570936234,
+        "T_R_ns": 35393.68562427786,
+        "U_star": 3.8598506605399194,
+        "average_update_ns_per_16KiB": 141574.74249711144
+      },
+      "provenance": {
+        "frontend": "common stage allowance plus explicit control reservation and actual shared TI/TA; GC-04 Fig10 whole 180 ns is scale anchor only",
+        "program": "GC-04 pp9-10 measured 65 ns complete; 75 ns measured comparison used as long budget",
+        "refresh_period": "GC-04 p10 limited +/-7 retention statistics; binary-margin-conditioned adaptation"
+      },
+      "B_S_Byte": 64,
+      "B_R_Byte": 16,
+      "delta_S_ns": 9169.703373789844,
+      "delta_R_ns": 138.2565844698354,
+      "rho_Byte_per_s": 6979506.031016656,
+      "tau_Byte_per_s": 115726857.14285715,
+      "ridge": 0.060310166570936234,
+      "scenario_class": "operation_mode_comparison",
+      "ratios_to_same_profile_fixed_slot": {
+        "rho_Byte_per_s": 1.289756275486665,
+        "tau_Byte_per_s": 1.000207427894113,
+        "ridge": 1.289488799540494
+      }
+    }
+  ],
   "recommended_reference_id": "reference",
   "ordinary_scenario_ids": [
     "short",

@@ -51,17 +51,87 @@
     },
     "precision_contract": "calibrated approximate bit-plane sums;INT8 final23bit container"
   },
-  "baseline_json_sha256": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
-  "baseline_script_sha256": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3",
-  "input_sha256": "c58be47e14f9d1aff6c8ed719955569ee9fc913a8eedb41f72f14e164fa8cd77",
+  "baseline_json_sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+  "baseline_script_sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
+  "input_sha256": "b6c3a374d214fb476a43cfb833cabfb629fa82e0721b58bbd9218d634affd845",
   "numerical_media_write_point_available": true,
+  "service_modes": [
+    {
+      "mode_id": "normal_evaluation",
+      "bias_load_endpoint": "32活动m=1 cell，VBL0.3V/VWL0.6V/VTBL0.1V，core T2与共享TBL的电流建立/漏电补偿，公共SAR近似部分和",
+      "parameter_bindings": {
+        "frontend_ns": "cim_frontend_ns",
+        "input_ns": "input_step",
+        "conversion_ns": "adc_batch",
+        "digital_ns": "digital_tick"
+      },
+      "qualification": "5ns锚定原PH0；原CIM路径与memory路径分离，该5ns不是memory读验实测",
+      "source": "RRAM-05 PDF pp.3–4 Figs.3–7; p.7 Figs.16–18"
+    },
+    {
+      "mode_id": "endpoint_verify",
+      "bias_load_endpoint": "program后局部退偏，独立T1/IO/BL/SL memory路径逐lane判LRS双门限与HRS门限；128lane/256窗口比较器",
+      "parameter_bindings": {
+        "frontend_ns": "verify_frontend_ns",
+        "input_ns": "input_step",
+        "sense_ns": "adc_batch",
+        "digital_ns": "digital_tick"
+      },
+      "qualification": "5ns是独立memory前端参考预算；未由CIM的PH0实测证明。T_B=T_A为共同能力政策依赖而非共享ADC物理依赖。改变同一公共T_I/T_A/T_D会作用所有消费者",
+      "source": "RRAM-05 PDF p.3 Fig.3/4; E02/E03/E09; reference design"
+    },
+    {
+      "mode_id": "resident_update",
+      "bias_load_endpoint": "128专用驱动，同极性RESET后masked SET；rail在512事务期间保持，完整窗口读验完成后才发布矩阵",
+      "parameter_bindings": {
+        "setup_ns": "local_setup_ns",
+        "return_ns": "local_return_ns",
+        "set_pulse_ns": "set_pulse_ns",
+        "reset_pulse_ns": "reset_pulse_ns",
+        "digital_ns": "digital_tick",
+        "rail_setup_ns": "rail_setup_ns",
+        "rail_exit_ns": "rail_exit_ns"
+      },
+      "qualification": "pulse、local偏置和rail只作用更新；端点读验使用endpoint_verify绑定，完整RESET不隐藏",
+      "source": "RRAM-01 PDF p.10; RRAM-03 PDF p.5; RRAM-06 PDF pp.1–2; reference design"
+    }
+  ],
+  "range_semantics": {
+    "main": "固定组织/128驱动的short/reference/long配对条件：外围能力、局部切换与有限RESET/SET完成预算一并声明；不是实测典型/良率分位/材料快慢物理界。",
+    "attempt_sensitivity": "Fixed reference periphery,128driver resources and100ns local transitions;RESET/SET1/1,2/1,4/2 independent of common clock.",
+    "transition_sensitivity": "Fixed reference attempts andresources;eachlocaltransition50/100/1000ns;not a new driver count."
+  },
   "scenarios": [
     {
       "profile": "short",
+      "scenario_class": "fixed_resource_conditional_completion",
       "periphery_ns": {
         "input_step": 2,
         "adc_batch": 10,
         "digital_tick": 2
+      },
+      "resolved_service_parameters": {
+        "normal_evaluation": {
+          "frontend_ns": 5,
+          "input_ns": 2,
+          "conversion_ns": 10,
+          "digital_ns": 2
+        },
+        "endpoint_verify": {
+          "frontend_ns": 5,
+          "input_ns": 2,
+          "sense_ns": 10,
+          "digital_ns": 2
+        },
+        "resident_update": {
+          "setup_ns": 50,
+          "return_ns": 50,
+          "set_pulse_ns": 1000,
+          "reset_pulse_ns": 1000,
+          "digital_ns": 2,
+          "rail_setup_ns": 1000,
+          "rail_exit_ns": 1000
+        }
       },
       "counts": {
         "input_slices": 8,
@@ -107,6 +177,8 @@
           }
         ],
         "local_transition_ns_each": 50,
+        "local_setup_ns": 50,
+        "local_return_ns": 50,
         "verify_read_ns": 17,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -197,10 +269,34 @@
     },
     {
       "profile": "reference",
+      "scenario_class": "fixed_resource_conditional_completion",
       "periphery_ns": {
         "input_step": 5,
         "adc_batch": 20,
         "digital_tick": 5
+      },
+      "resolved_service_parameters": {
+        "normal_evaluation": {
+          "frontend_ns": 5,
+          "input_ns": 5,
+          "conversion_ns": 20,
+          "digital_ns": 5
+        },
+        "endpoint_verify": {
+          "frontend_ns": 5,
+          "input_ns": 5,
+          "sense_ns": 20,
+          "digital_ns": 5
+        },
+        "resident_update": {
+          "setup_ns": 100,
+          "return_ns": 100,
+          "set_pulse_ns": 1000,
+          "reset_pulse_ns": 1000,
+          "digital_ns": 5,
+          "rail_setup_ns": 1000,
+          "rail_exit_ns": 1000
+        }
       },
       "counts": {
         "input_slices": 8,
@@ -246,6 +342,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -336,10 +434,34 @@
     },
     {
       "profile": "long",
+      "scenario_class": "fixed_resource_conditional_completion",
       "periphery_ns": {
         "input_step": 10,
         "adc_batch": 50,
         "digital_tick": 10
+      },
+      "resolved_service_parameters": {
+        "normal_evaluation": {
+          "frontend_ns": 5,
+          "input_ns": 10,
+          "conversion_ns": 50,
+          "digital_ns": 10
+        },
+        "endpoint_verify": {
+          "frontend_ns": 5,
+          "input_ns": 10,
+          "sense_ns": 50,
+          "digital_ns": 10
+        },
+        "resident_update": {
+          "setup_ns": 250,
+          "return_ns": 250,
+          "set_pulse_ns": 1000,
+          "reset_pulse_ns": 1000,
+          "digital_ns": 10,
+          "rail_setup_ns": 1000,
+          "rail_exit_ns": 1000
+        }
       },
       "counts": {
         "input_slices": 8,
@@ -385,6 +507,8 @@
           }
         ],
         "local_transition_ns_each": 250,
+        "local_setup_ns": 250,
+        "local_return_ns": 250,
         "verify_read_ns": 65,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -491,6 +615,7 @@
   "comparisons_at_reference": [
     {
       "label": "W128",
+      "scenario_class": "reference",
       "write_details": {
         "parallel_cells": 128,
         "local_transaction_Byte": 16,
@@ -520,6 +645,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -553,6 +680,7 @@
     },
     {
       "label": "W16",
+      "scenario_class": "resource_comparison",
       "write_details": {
         "parallel_cells": 16,
         "local_transaction_Byte": 16,
@@ -582,6 +710,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -617,6 +747,7 @@
   "attempt_sensitivity": [
     {
       "attempt_profile": "short",
+      "scenario_class": "fixed_resource_completion_condition_sensitivity",
       "attempts": {
         "RESET": 1,
         "SET": 1,
@@ -651,6 +782,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -684,6 +817,7 @@
     },
     {
       "attempt_profile": "reference",
+      "scenario_class": "fixed_resource_completion_condition_sensitivity",
       "attempts": {
         "RESET": 2,
         "SET": 1,
@@ -718,6 +852,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -751,6 +887,7 @@
     },
     {
       "attempt_profile": "long",
+      "scenario_class": "fixed_resource_completion_condition_sensitivity",
       "attempts": {
         "RESET": 4,
         "SET": 2,
@@ -785,6 +922,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -820,6 +959,7 @@
   "local_transition_sensitivity": [
     {
       "local_transition_ns_each": 50,
+      "scenario_class": "same_mode_parameter_sensitivity",
       "write_details": {
         "parallel_cells": 128,
         "local_transaction_Byte": 16,
@@ -849,6 +989,8 @@
           }
         ],
         "local_transition_ns_each": 50,
+        "local_setup_ns": 50,
+        "local_return_ns": 50,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -882,6 +1024,7 @@
     },
     {
       "local_transition_ns_each": 100,
+      "scenario_class": "same_mode_parameter_sensitivity",
       "write_details": {
         "parallel_cells": 128,
         "local_transaction_Byte": 16,
@@ -911,6 +1054,8 @@
           }
         ],
         "local_transition_ns_each": 100,
+        "local_setup_ns": 100,
+        "local_return_ns": 100,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,
@@ -944,6 +1089,7 @@
     },
     {
       "local_transition_ns_each": 1000,
+      "scenario_class": "same_mode_parameter_sensitivity",
       "write_details": {
         "parallel_cells": 128,
         "local_transaction_Byte": 16,
@@ -973,6 +1119,8 @@
           }
         ],
         "local_transition_ns_each": 1000,
+        "local_setup_ns": 1000,
+        "local_return_ns": 1000,
         "verify_read_ns": 30,
         "rail_setup_ns": 1000,
         "rail_exit_ns": 1000,

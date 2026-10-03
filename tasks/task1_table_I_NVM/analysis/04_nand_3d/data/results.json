@@ -70,9 +70,65 @@
     "metadata_lifecycle": "Invalidate whole matrix before first erase;accumulate offset-weight sums from canonical,nonduplicated bit-plane data using same metadata bank;publish only after all pages,reference/calibration and metadata complete;no concurrent evaluation during replacement;failure leaves matrix invalid",
     "precision_contract": "calibrated approximate sums;offset correction does not recover ADC quantization"
   },
-  "baseline_json_sha256": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
-  "baseline_script_sha256": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3",
-  "baseline_method_tex_sha256": "beaf6fde5a7683e7f1ad1139e78afbc576c65ac95a9327d7097ccfc019e9b39e",
+  "numerical_service_qualification": {
+    "contract": "approximate_partial_sum",
+    "weak_signal_guarantee": false,
+    "quantized_service_status": "weak_signal_and_cancellation_not_qualified",
+    "diagnostic_path": "data/quantization_diagnostics.json",
+    "limitations": [
+      "Nominal10bit deterministic quantization with existing affine offset reconstruction can turn a positive small dot product negative.",
+      "No clipping in nominal deterministic test vectors does not certify small-signal or cancellation accuracy.",
+      "Approximately8ENOB describes a resolution scale,not an8bit quantizer,noise model or application error guarantee.",
+      "Throughput values remain conditional approximate-evaluation budgets;qualifying general signed INT8 weak outputs requires a service choice or additional supported implementation."
+    ]
+  },
+  "service_modes": {
+    "normal_evaluation": {
+      "operation": "1152 logical terms, base4 digits, SL current sum",
+      "bias": "VG=1 V,VBL=0.2 V,Vpass=4.5 V",
+      "load": "native SL approximately16 pF; fixed0-25uA current frontend",
+      "endpoint": "ADC sample after conditional SL settling; approximate partial sum",
+      "source_qualification": "NAND-04 p.3 Table1 HSPICE max-bit mapping; group selection is a reference bridge,not measured at1152 terms"
+    },
+    "load_calibration": {
+      "operation": "zero/full reference WL;zero/full/half input at each of4 groups",
+      "bias": "same as normal_evaluation",
+      "load": "same SL,group selection,current frontend and ADC",
+      "endpoint": "two-point gain/offset plus half-input residual<=4 nominal ADC codes;no weak-output guarantee",
+      "source_qualification": "NAND-05 p.2 II(e),p.4 Fig.12;finite schedule and threshold are declared reference choices"
+    },
+    "page_program_verify": {
+      "operation": "native PB controls two-state threshold program/verify and return-to-ready",
+      "bias": "program/verify internal WL/BL bias;not normal SL MAC bias",
+      "load": "native page buffer and internal verify sense path",
+      "endpoint": "valid high/low Vt states plus successful page status;ON platform and subsequent SL calibration are separate conditions",
+      "source_qualification": "NAND-04 p.2 II-A says both states use write-verify to fine-tune Vt;NAND-05 pp.2-3 Fig.6 uses SLC distribution and saturated ON;NAND-06 pp.25,31,58 is only cross-implementation complete P/E timing"
+    }
+  },
+  "service_parameter_bindings": {
+    "normal_evaluation": {
+      "sl_setup": "sl_setup_ns",
+      "bl_setup": "bl_setup_ns",
+      "wl_setup": "wl_setup_ns",
+      "adc_batch": "adc_batch_ns",
+      "digital_tick": "digital_tick_ns"
+    },
+    "load_calibration": {
+      "sl_setup": "sl_setup_ns",
+      "bl_setup": "bl_setup_ns",
+      "wl_setup": "wl_setup_ns",
+      "adc_batch": "adc_batch_ns",
+      "digital_tick": "digital_tick_ns"
+    },
+    "resident_load": {
+      "program_full": "program_full_ns",
+      "erase_full": "erase_full_ns",
+      "digital_tick": "digital_tick_ns"
+    }
+  },
+  "baseline_json_sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+  "baseline_script_sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
+  "baseline_method_tex_sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441",
   "main_scenarios": [
     {
       "id": "short",
@@ -82,6 +138,27 @@
         "input_step": 2,
         "adc_batch": 10,
         "digital_tick": 2
+      },
+      "resolved_service_parameters_ns": {
+        "normal_evaluation": {
+          "sl_setup": 530,
+          "bl_setup": 12,
+          "wl_setup": 303,
+          "adc_batch": 10,
+          "digital_tick": 2
+        },
+        "load_calibration": {
+          "sl_setup": 530,
+          "bl_setup": 12,
+          "wl_setup": 303,
+          "adc_batch": 10,
+          "digital_tick": 2
+        },
+        "resident_load": {
+          "program_full": 300000,
+          "erase_full": 1000000.0,
+          "digital_tick": 2
+        }
       },
       "read_counts": {
         "input_slices": 4,
@@ -258,7 +335,7 @@
         },
         "maintenance_payload_Byte": 0
       },
-      "result_nature": "conditional reference estimate from compatible native mapping and cross-implementation SLC P/E budget"
+      "result_nature": "conditional approximate-evaluation budget;weak signed outputs and cancellation not qualified;cross-implementation SLC P/E timing"
     },
     {
       "id": "reference",
@@ -268,6 +345,27 @@
         "input_step": 5,
         "adc_batch": 20,
         "digital_tick": 5
+      },
+      "resolved_service_parameters_ns": {
+        "normal_evaluation": {
+          "sl_setup": 640,
+          "bl_setup": 12,
+          "wl_setup": 303,
+          "adc_batch": 20,
+          "digital_tick": 5
+        },
+        "load_calibration": {
+          "sl_setup": 640,
+          "bl_setup": 12,
+          "wl_setup": 303,
+          "adc_batch": 20,
+          "digital_tick": 5
+        },
+        "resident_load": {
+          "program_full": 300000,
+          "erase_full": 1000000.0,
+          "digital_tick": 5
+        }
       },
       "read_counts": {
         "input_slices": 4,
@@ -444,7 +542,7 @@
         },
         "maintenance_payload_Byte": 0
       },
-      "result_nature": "conditional reference estimate from compatible native mapping and cross-implementation SLC P/E budget"
+      "result_nature": "conditional approximate-evaluation budget;weak signed outputs and cancellation not qualified;cross-implementation SLC P/E timing"
     },
     {
       "id": "long",
@@ -454,6 +552,27 @@
         "input_step": 10,
         "adc_batch": 50,
         "digital_tick": 10
+      },
+      "resolved_service_parameters_ns": {
+        "normal_evaluation": {
+          "sl_setup": 750,
+          "bl_setup": 12,
+          "wl_setup": 303,
+          "adc_batch": 50,
+          "digital_tick": 10
+        },
+        "load_calibration": {
+          "sl_setup": 750,
+          "bl_setup": 12,
+          "wl_setup": 303,
+          "adc_batch": 50,
+          "digital_tick": 10
+        },
+        "resident_load": {
+          "program_full": 600000,
+          "erase_full": 3500000.0,
+          "digital_tick": 10
+        }
       },
       "read_counts": {
         "input_slices": 4,
@@ -630,7 +749,7 @@
         },
         "maintenance_payload_Byte": 0
       },
-      "result_nature": "conditional reference estimate from compatible native mapping and cross-implementation SLC P/E budget"
+      "result_nature": "conditional approximate-evaluation budget;weak signed outputs and cancellation not qualified;cross-implementation SLC P/E timing"
     }
   ],
   "main_paired_ranges": {
@@ -717,8 +836,8 @@
     }
   },
   "external_review_judgments": [
-    "Current-sense frontend budgets at original bias with25uA fixed range and16pF native SL",
-    "SGVC SLC full P/E absolute times inferred from same-manufacturer SLC product",
-    "Approximate quantization with signed offset cancellation and finite row-group calibration"
+    "Conditional current-sense timing bridge:original bias/native16pF retained,active grouping/mapping changed",
+    "SGVC two-state write-verify endpoint and ON platform required;complete P/E timing remains a cross-implementation anchor",
+    "Nominal10bit grouped diagnostic exposes weak-signal/cancellation limitation;finite calibration does not certify general signed INT8 outputs"
   ]
 }

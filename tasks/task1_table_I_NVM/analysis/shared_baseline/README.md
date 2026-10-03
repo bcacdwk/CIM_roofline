@@ -70,6 +70,26 @@ block = S.native_block_service([
 
 每例结果顶层使用 `native_configuration` 保存 K、N、b_S、b_R、有效容量、物理容量/编码/复制、输出位宽和资源；每情景的 `mapping_interface` 直接保存公共映射结果，保留原有局部事务字段用于复算。
 
+## 模式、参数作用范围与数值服务
+
+`inputs.service_modes` 为正常求值、写后终验、装载校准及恢复/刷新声明实际操作、偏置/负载/建立终点、来源与资格条件。相同物理量或明确的共同能力政策只保留一个参数值；各服务以 `parameter_bindings` 绑定该值。相同数值不证明模式相同，不同数值也必须由实际操作区别支持。完整页 program 中已包含的内部 verify 标为 `included_in_cycle`，不重复加入。
+
+```python
+values = {**profile, "shared_front_ns": 20, "long_observation_ns": 768}
+bindings = {
+    "normal_evaluation": {"front_ns": "shared_front_ns", "ta": "adc_batch", "td": "digital_tick"},
+    "endpoint_verify": {"front_ns": "shared_front_ns", "ta": "adc_batch", "td": "digital_tick"},
+}
+p = S.resolve_service_parameters(values, bindings, {"shared_front_ns": 768})
+# 两个服务均从 p 取参数，再计算 Delta_S、完整 T_R 及映射。
+```
+
+API 返回 `{service: {local_slot: value}}`，拒绝未知参数、未知绑定及没有消费者的 override。同一物理通路仅增加最低观察要求时，终验必须同时绑定 `shared_front_ns` 和 `long_observation_ns`，实际前端取 `max(shared_front_ns, long_observation_ns)`；独立验收要求不能解除共同建立下限。只有实际采用不同路径或偏置、并有相应证据和资格条件时，才可将终验前端独立绑定到另一参数，同时保留仍然共用的转换和控制依赖。操作模式对照不代表共享前端较慢。共享参数不确定性保持绑定关系，仅改变一个源值。`T_I` 已含于完整前端 `F` 时由 `t_m=F-T_I` 分解，固定 `F` 的 `T_I` 扰动不会再增加完整周期；若考察固定残余 `t_m`，则 `F` 必须随 `T_I` 变化。两种条件不可混用。
+
+`scenario_class` 明确区分 `paired_main`、`parameter_uncertainty`、`operation_mode_comparison`、`resource_comparison`、`maintenance_pressure`；有限重试选点另用 `finite_retry_sensitivity`。`input_step/adc_batch/digital_tick` 的可能消费者及已含周期规则见共享 JSON 的 `parameter_scope_policy`。每例检查实际消费者；涉及维护时须同步计算 `H`、guard、alpha 和两路原始/有效能力。通过参数解析只证明绑定，不代替实际阶段计数和物理资格判断。
+
+活动行、编码、偏置或量程变化时，按真实分组和数字重构顺序检查确定性零值、小值、正负抵消及大幅值。理想代数恒等式与名义码宽量化后的重构分开保存，并保留动态范围、饱和、抵消和弱信号诊断。ADC 名义码宽、ENOB 和最终输出容器位宽分别声明；约 8 ENOB 可用 `full_scale/2**ENOB` 表示分辨能力量级，不能将其当成实际 8-bit 量化器或无来源的噪声分布。DCIM 精确整数、ACIM 近似部分和合同保持不变；该最小检查不设统一网络准确率门槛，也不证明器件变异或电路建立已经验证。
+
 ## 复算与构建
 
 ```sh

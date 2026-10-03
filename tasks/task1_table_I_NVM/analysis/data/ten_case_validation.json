@@ -1,11 +1,43 @@
 {
   "validation_kind": "independent input-derived stage arithmetic, native geometry and resource/maintenance semantics; not silicon qualification or user acceptance",
-  "independence": "No case/shared calculation functions imported; no unified result or old expected point used to derive answers.",
+  "independence": "Independent expected values derive from input geometry and stage ledgers. Case/shared functions are imported only for observed perturbation responses; no generator result or old expected point derives an answer.",
   "cases": [
     {
       "case_id": "01_sram_acim",
-      "inputs_sha256": "68ec369a3e44c183e3efc43d66b8011b96c69e5a85f84d652047dadc45476430",
-      "results_sha256": "961be3a32263a37e637c69c12ed3c5174128efee0b7d302b8c41ac0d6c4db9f8",
+      "inputs_sha256": "b2288879b649aa801c4e4d464cd5e64b169aa1c8f4084a7ce3d46bd374edd160",
+      "results_sha256": "555ebfff97747afab7ca70191507ccd922f4f860415976838aba099e9e3af347",
+      "declared_input_provenance_checks": [
+        {
+          "field": "baseline_files.README.md",
+          "path": "analysis/shared_baseline/README.md",
+          "sha256": "2c30f1bce6299f80f6b62dba253f39bf54ef8e8c203a2fccd62ea96e9a7c1d9f"
+        },
+        {
+          "field": "baseline_files.tex/01_cmos_periphery.tex",
+          "path": "analysis/shared_baseline/tex/01_cmos_periphery.tex",
+          "sha256": "d8d2b206191bc4166822c7b3c8428da4c9ad8ef38e3bb31dd40e2b3175cb4551"
+        },
+        {
+          "field": "baseline_files.tex/02_estimation_method.tex",
+          "path": "analysis/shared_baseline/tex/02_estimation_method.tex",
+          "sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441"
+        },
+        {
+          "field": "baseline_files.data/shared_parameters.json",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "baseline_files.scripts/check_shared.py",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        },
+        {
+          "field": "source_manifest_sha256",
+          "path": "source_manifest.json",
+          "sha256": "4318ac43ae0b37e6a98b402877182a4c066ed6c5f2fcd2c4a0393a91cda2c095"
+        }
+      ],
       "native_configuration": {
         "K": 128,
         "N": 128,
@@ -151,29 +183,63 @@
         {
           "source_id": "SACIM-03",
           "path": "literature/01_sram_acim/SACIM-03_2023_Hierarchical_Attenuator.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             2,
             5
           ],
           "sha256": "4a0318542c1d90b3722e7f944f66dbc50bc2fd1601e12d47f98df243603c9bc8",
-          "checked_claim": "128 rows, 9T1C/HCA architecture and full 100MHz operation; SAR adaptation remains engineering"
+          "inherited_claim_locator": "128 rows, 9T1C/HCA architecture and full 100MHz operation; SAR adaptation remains engineering",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         },
         {
           "source_id": "CMOS-07",
           "path": "literature/00_cmos_periphery/CMOS-07_2023_LowPower_DualPort_SRAM_AuthorRevision.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             2,
             9
           ],
           "sha256": "c63c21e5c4a6eee45ed35be0703ed1f6380009edc17e41dfc13d22f66a24d6a1",
-          "checked_claim": "complete synchronous SRAM write-cycle anchor, not read access"
+          "inherited_claim_locator": "complete synchronous SRAM write-cycle anchor, not read access",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "02_sram_dcim",
-      "inputs_sha256": "013093ac1bc912ba3f8da25a1dbe73f48e213137c8258cfebb5bf18e8c0b44e1",
-      "results_sha256": "2be07619bfa8aa6fdd9032b34e537030edcbbf6bb3e1d02e3041bed8c28b6399",
+      "inputs_sha256": "0f019ddf2273f069b16f8611380c394872fb42a8a68c029b63dada912cd0cdfd",
+      "results_sha256": "6347a158ebc8b2c1475fc55170534ddabaaf2ef9f8d321921c44a833f64fcae1",
+      "declared_input_provenance_checks": [
+        {
+          "field": "baseline_files.README.md",
+          "path": "analysis/shared_baseline/README.md",
+          "sha256": "2c30f1bce6299f80f6b62dba253f39bf54ef8e8c203a2fccd62ea96e9a7c1d9f"
+        },
+        {
+          "field": "baseline_files.tex/01_cmos_periphery.tex",
+          "path": "analysis/shared_baseline/tex/01_cmos_periphery.tex",
+          "sha256": "d8d2b206191bc4166822c7b3c8428da4c9ad8ef38e3bb31dd40e2b3175cb4551"
+        },
+        {
+          "field": "baseline_files.tex/02_estimation_method.tex",
+          "path": "analysis/shared_baseline/tex/02_estimation_method.tex",
+          "sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441"
+        },
+        {
+          "field": "baseline_files.data/shared_parameters.json",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "baseline_files.scripts/check_shared.py",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        },
+        {
+          "field": "source_manifest_sha256",
+          "path": "source_manifest.json",
+          "sha256": "4318ac43ae0b37e6a98b402877182a4c066ed6c5f2fcd2c4a0393a91cda2c095"
+        }
+      ],
       "native_configuration": {
         "K": 128,
         "N": 16,
@@ -315,18 +381,20 @@
         {
           "source_id": "SDCIM-01",
           "path": "literature/02_sram_dcim/SDCIM-01_2023_D6CIM.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             1
           ],
           "sha256": "bbb72fb65095bfeee511c7ef5ca4f12c8a427a6718347695c0a462f1f4358e9e",
-          "checked_claim": "128x128 bit physical macro = K128N16 INT8; 16 HCA/BFA and 64 clocks"
+          "inherited_claim_locator": "128x128 bit physical macro = K128N16 INT8; 16 HCA/BFA and 64 clocks",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "03_nor_2d",
       "inputs_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
-      "results_sha256": "d47ef084cf415c718d4becefdcc51b909a1ef95f7a6190b532c403a98a6b6131",
+      "results_sha256": "5b5b61ab5559637572ddbd859edf970424dc63448d87fac89db4125b47ed87fb",
+      "declared_input_provenance_checks": [],
       "native_configuration": {
         "K": 128,
         "N": 128,
@@ -493,18 +561,36 @@
         {
           "source_id": "NOR-02",
           "path": "literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             66
           ],
           "sha256": "5e2f6a77e0225a5c61b8f4b5b9680b57e0e1fe68cfc011465e30f665fe282057",
-          "checked_claim": "full tPP 0.4/3ms and 4KiB tSE45/400ms"
+          "inherited_claim_locator": "full tPP 0.4/3ms and 4KiB tSE45/400ms",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "04_nand_3d",
-      "inputs_sha256": "b358be22ede7829b4ca607eab4ce49fe36628eb1140a447050c2e8a94d7ddc08",
-      "results_sha256": "379b38d1b160f3b4c1130d262aa7ba6de550f20a9beaa8ee409a71f25a13cf91",
+      "inputs_sha256": "13d0c2c218aebdf6ed7a188ff5fa45979529aac3b97f740ee31ef1658ac02e27",
+      "results_sha256": "724ddb2ee42db6aea5e2eac82c8e35644017f9e0847720a0e124a9385187e50d",
+      "declared_input_provenance_checks": [
+        {
+          "field": "baseline.json_sha256",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "baseline.script_sha256",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        },
+        {
+          "field": "baseline.method_tex_sha256",
+          "path": "analysis/shared_baseline/tex/02_estimation_method.tex",
+          "sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441"
+        }
+      ],
       "native_configuration": {
         "n_in": 4608,
         "n_out": 480,
@@ -741,38 +827,53 @@
         {
           "source_id": "NAND-04",
           "path": "literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             3
           ],
           "sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5",
-          "checked_claim": "native 13824BL,64blocks,base4 mapping;303nsWL/12nsBL and native16pFSL"
+          "inherited_claim_locator": "native 13824BL,64blocks,base4 mapping;303nsWL/12nsBL and native16pFSL",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         },
         {
           "source_id": "NAND-05",
           "path": "literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             2,
             3,
             4
           ],
           "sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833",
-          "checked_claim": "2nA current and actual bias;25uA application scale is not universal full-scale"
+          "inherited_claim_locator": "2nA current and actual bias;25uA application scale is not universal full-scale",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         },
         {
           "source_id": "NAND-06",
           "path": "literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             58
           ],
           "sha256": "8f7cb36dbd90d3592f13cee5b57404e1def5caf64296537b59d40385aff86f24",
-          "checked_claim": "SLC full page program300/600us,blockerase1/3.5ms;cross-implementation bridge"
+          "inherited_claim_locator": "SLC full page program300/600us,blockerase1/3.5ms;cross-implementation bridge",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "05_rram",
-      "inputs_sha256": "c58be47e14f9d1aff6c8ed719955569ee9fc913a8eedb41f72f14e164fa8cd77",
-      "results_sha256": "985f4f020fb3fd350c728518071fafba381cb2b732e0a117bd0641fc0c628fcb",
+      "inputs_sha256": "b6c3a374d214fb476a43cfb833cabfb629fa82e0721b58bbd9218d634affd845",
+      "results_sha256": "5e2a59bb0771d5fa9ffee2c84ccaaaf503958f14368edeedac2fdc9b3729688e",
+      "declared_input_provenance_checks": [
+        {
+          "field": "baseline.json_sha256",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "baseline.script_sha256",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        }
+      ],
       "native_configuration": {
         "n_in": 128,
         "n_out": 64,
@@ -1008,30 +1109,44 @@
         {
           "source_id": "RRAM-05",
           "path": "literature/05_rram/RRAM-05_2023_WeightedHybrid_2T1R.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             3,
             5,
             7
           ],
           "sha256": "2770738ae1d93c87e37d71e25bd832c7280008523104adcda5d59ee3fe0833d4",
-          "checked_claim": "native four64x32 subarrays with sharedTBL;PH0 frontend5ns"
+          "inherited_claim_locator": "native four64x32 subarrays with sharedTBL;PH0 frontend5ns",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         },
         {
           "source_id": "RRAM-01",
           "path": "literature/05_rram/RRAM-01_2022_NeuRRAM.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             10,
             11
           ],
           "sha256": "4e75d89025e0e3bc7c04bf00f50bf0f618935c3e405612fd23c95856bf209a5b",
-          "checked_claim": "1us actual SET/RESET waveform;external readback distinct from local binary verify"
+          "inherited_claim_locator": "1us actual SET/RESET waveform;external readback distinct from local binary verify",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "06_mram",
-      "inputs_sha256": "0bab344443f734eed751fefdaf2ece503d794765274351f21e0cf91587712548",
-      "results_sha256": "cf14abb702ff0855a44277bbecf766ca6ffd5298e13d20fe5aa329adf6908484",
+      "inputs_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+      "results_sha256": "5ca0b9fb846396159d9259833b557419749d1314c36743b43f8f3ab0b725fce5",
+      "declared_input_provenance_checks": [
+        {
+          "field": "baseline_hashes.data/shared_parameters.json",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "baseline_hashes.scripts/check_shared.py",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        }
+      ],
       "native_configuration": {
         "K": 256,
         "N": 32,
@@ -1215,19 +1330,21 @@
         {
           "source_id": "MRAM-06",
           "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             5,
             9
           ],
           "sha256": "970c5d694e51446846ae4da6160b86a924b33a53f5aa7a72ee8bf58053048eff",
-          "checked_claim": "64banks x256rows x4bit;two-step complementary writes and actual row readback"
+          "inherited_claim_locator": "64banks x256rows x4bit;two-step complementary writes and actual row readback",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "07_pcm",
-      "inputs_sha256": "701543f0ccc53cd443faa1e18a8afe124fb5468fd25090b8afc0990ecd578bf0",
-      "results_sha256": "4522c145102a302a5563081ddf71b1eb9917fcdad4e187952783c8dc3c54ea67",
+      "inputs_sha256": "9e5ec07e30c4bde2d6ef1aa971897da7bc0c4c3df170a5a86986d6be24ee53f2",
+      "results_sha256": "aba81a6e791e3fdd90f0dd0875fbb9cd8c76c75ea09aa52a058518c890bcd548",
+      "declared_input_provenance_checks": [],
       "native_configuration": {
         "n_in": 256,
         "n_out": 128,
@@ -1423,38 +1540,53 @@
         {
           "source_id": "PCM-03",
           "path": "literature/07_pcm/PCM-03_2022_Hybrid_SLC_MLC.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             1,
             2,
             3
           ],
           "sha256": "91ae3c12a4d505f13863934b2cd244e108f3755e1a3dbabc119d4a9ad611ba60",
-          "checked_claim": "8activeWL,256inputs in32groups,native256x1024cellbank;pureSLC is an organization choice"
+          "inherited_claim_locator": "8activeWL,256inputs in32groups,native256x1024cellbank;pureSLC is an organization choice",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         },
         {
           "source_id": "PCM-01",
           "path": "literature/07_pcm/PCM-01_2023_PCM64_Core.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             7
           ],
           "sha256": "81c512921e635d20769b9a0752d958f6820158f8459728e9333cb320d39b1278",
-          "checked_claim": "32IDACs,RESET125ns700uA and SET250ns/50ns tail wording;current resource and waveform bridge"
+          "inherited_claim_locator": "32IDACs,RESET125ns700uA and SET250ns/50ns tail wording;current resource and waveform bridge",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         },
         {
           "source_id": "PCM-06",
           "path": "literature/07_pcm/PCM-06_2021_RowWise_ClosedLoopProgramming.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             4
           ],
           "sha256": "7b2e5d3b71928bf8be4720fc9edece45d3a4e759b4b8a530bb09dcdbaa67b7c8",
-          "checked_claim": "selected-row programming with independent column conditions;supports row-wise mechanism,not imported512lanes"
+          "inherited_claim_locator": "selected-row programming with independent column conditions;supports row-wise mechanism,not imported512lanes",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "08_feram_hfo2",
-      "inputs_sha256": "af71a5ccb65cacfa0973c4903ec4e60538a66d6eeae439d85bded2e82eee28f6",
-      "results_sha256": "2e594c40e95a020006c1520117ebcd35ca8ac8a7fe97d30861f1cfec33e63d09",
+      "inputs_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+      "results_sha256": "a7141d90927568a9d6f4f6e4f9a5817c561c8b33f5f519a59dbb94cd3e7d77cf",
+      "declared_input_provenance_checks": [
+        {
+          "field": "provenance.shared_json_sha256",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "provenance.shared_api_sha256",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        }
+      ],
       "native_configuration": {
         "K": 128,
         "N": 128,
@@ -1623,19 +1755,32 @@
         {
           "source_id": "FERAM-03",
           "path": "literature/08_feram_hfo2/FERAM-03_2020_SoC_1T1C_HZO.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             1,
             2
           ],
           "sha256": "3baca7408c4bb97570f0a03e4e8d4c206013a3b3793313c283b36d5efa97afe2",
-          "checked_claim": "14ns write vs8ns sense;destructive read/writeback inFig9;250fF BL Fig12"
+          "inherited_claim_locator": "14ns write vs8ns sense;destructive read/writeback inFig9;250fF BL Fig12",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "09_gain_cell_edram",
-      "inputs_sha256": "247670ada6df65885f9bc94a843797a6fbe7c47f79841bebd0e26a60f98d1ac8",
-      "results_sha256": "f7630f53392a75e8a3f2629cd322a76c13f671bc06120f049aa0504702a53f16",
+      "inputs_sha256": "eac6d9a73b0cc3362612fbe4e7a8a63ee08db611b3fb5b985cafc327c0cafcba",
+      "results_sha256": "49750ae1190a5dfa5d2db0b539c533f39afaa6d00c848833149fa8d8cd3c6e1a",
+      "declared_input_provenance_checks": [
+        {
+          "field": "baseline_hashes.data/shared_parameters.json",
+          "path": "analysis/shared_baseline/data/shared_parameters.json",
+          "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31"
+        },
+        {
+          "field": "baseline_hashes.scripts/check_shared.py",
+          "path": "analysis/shared_baseline/scripts/check_shared.py",
+          "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
+        }
+      ],
       "native_configuration": {
         "K": 64,
         "N": 64,
@@ -1804,19 +1949,21 @@
         {
           "source_id": "GC-04",
           "path": "literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             9,
             10
           ],
           "sha256": "d4c926b1f4d3fdae724fffaab9b13e1845424ae23ab6b6cfd297925bfd355194",
-          "checked_claim": "5ns coarse+60ns fine;row-wise retention read;0.4ms99.7% original-LSB criterion"
+          "inherited_claim_locator": "5ns coarse+60ns fine;row-wise retention read;0.4ms99.7% original-LSB criterion",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     },
     {
       "case_id": "10_fenor_3d",
       "inputs_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
-      "results_sha256": "d08d8c27bcd310a7bf5c0310780eaecf7e922a1d824cd98bbf825f55cc55a2db",
+      "results_sha256": "81d34f4fc3a082c1d4c97bd7b2569112236de449fcb7b80fa562adb20f5b3806",
+      "declared_input_provenance_checks": [],
       "native_configuration": {
         "K": 128,
         "N": 128,
@@ -2000,12 +2147,13 @@
         {
           "source_id": "FENOR-02",
           "path": "literature/10_fenor_3d/FENOR-02_2026_Vertical_FeFET_Array.pdf",
-          "pdf_pages_inspected": [
+          "prior_source_review_page_locators": [
             2,
             3
           ],
           "sha256": "322482d834c279a278d0aaa007a0cfeb26dee49253fe50661d0483975d9b19d5",
-          "checked_claim": "SL+O-poor +/-2V20ns,RAWD<100ns,Vw/3 bias and simulated readRC"
+          "inherited_claim_locator": "SL+O-poor +/-2V20ns,RAWD<100ns,Vw/3 bias and simulated readRC",
+          "review_scope": "Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page."
         }
       ]
     }
@@ -2024,16 +2172,973 @@
   },
   "unified_export_checks": {
     "main_scenarios_matched_to_independent_arithmetic": 30,
-    "all_ledger_rows_JSON_CSV_identical": 70,
+    "all_ledger_rows_JSON_CSV_identical": 74,
     "fixed_main_resources": true,
     "full_matrix_payload_time_boundary": true,
     "source_hashes_current": true,
-    "unified_json_sha256": "4cad3118d730afb4fab14714a151ce0fdab738f0e48fbb6aaac4399784985caa",
-    "unified_csv_sha256": "52784fe9c9b79da7bda92c8e5b98636c330e1029460940244028a44e4f9a6f99"
+    "unified_json_sha256": "362f89b7c04da63a56f0c817c8fd6824053a3615f41436258b57625f408e5628",
+    "unified_csv_sha256": "ca7e4fa510dc052b095e5b9dfd44272caa28c0f5a801fc4cc745e72c212d63f7"
   },
+  "actual_parameter_dependency_checks": {
+    "expected_method": "Independent input-derived stage counts; production functions are observation-only, with in-memory parameters restored after each probe.",
+    "common_parameter_probes": [
+      {
+        "case_id": "01_sram_acim",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 3210,
+          "T_R_ns": 5120.0,
+          "rho_Byte_per_s": 39875389.40809969,
+          "tau_Byte_per_s": 3200000000.0,
+          "RI_star": 0.012461059190031152,
+          "U_star": 1.5950155763239875
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "01_sram_acim",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 64,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 3274,
+          "T_R_ns": 5120.0,
+          "rho_Byte_per_s": 39095907.14722052,
+          "tau_Byte_per_s": 3200000000.0,
+          "RI_star": 0.012217470983506413,
+          "U_star": 1.563836285888821
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "01_sram_acim",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 130,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 3340,
+          "T_R_ns": 5120.0,
+          "rho_Byte_per_s": 38323353.29341317,
+          "tau_Byte_per_s": 3200000000.0,
+          "RI_star": 0.011976047904191616,
+          "U_star": 1.532934131736527
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "02_sram_dcim",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 330.0,
+          "T_R_ns": 640.0,
+          "rho_Byte_per_s": 387878787.8787879,
+          "tau_Byte_per_s": 3200000000.0,
+          "RI_star": 0.12121212121212122,
+          "U_star": 1.9393939393939394
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "02_sram_dcim",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 330.0,
+          "T_R_ns": 640.0,
+          "rho_Byte_per_s": 387878787.8787879,
+          "tau_Byte_per_s": 3200000000.0,
+          "RI_star": 0.12121212121212122,
+          "U_star": 1.9393939393939394
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "02_sram_dcim",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 2,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 332.0,
+          "T_R_ns": 640.0,
+          "rho_Byte_per_s": 385542168.67469877,
+          "tau_Byte_per_s": 3200000000.0,
+          "RI_star": 0.12048192771084336,
+          "U_star": 1.927710843373494
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "03_nor_2d",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5290,
+          "T_R_ns": 205605800.0,
+          "rho_Byte_per_s": 24196597.353497162,
+          "tau_Byte_per_s": 79686.4679887435,
+          "RI_star": 303.64750708884685,
+          "U_star": 38866.880907372404
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "03_nor_2d",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5290,
+          "T_R_ns": 205605800.0,
+          "rho_Byte_per_s": 24196597.353497162,
+          "tau_Byte_per_s": 79686.4679887435,
+          "RI_star": 303.64750708884685,
+          "U_star": 38866.880907372404
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "03_nor_2d",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 290,
+        "expected_raw_full_load_change_ns": 1160.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5580,
+          "T_R_ns": 205606960.0,
+          "rho_Byte_per_s": 22939068.100358423,
+          "tau_Byte_per_s": 79686.0184110499,
+          "RI_star": 287.868167562724,
+          "U_star": 36847.12544802867
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 340600,
+          "T_R_ns": 1911281320.0,
+          "rho_Byte_per_s": 13529066.353493832,
+          "tau_Byte_per_s": 1157255.0711686963,
+          "RI_star": 11.690652035623408,
+          "U_star": 5611.512977099236
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 480,
+        "expected_raw_full_load_change_ns": 12.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 341080,
+          "T_R_ns": 1911281332.0,
+          "rho_Byte_per_s": 13510026.97314413,
+          "tau_Byte_per_s": 1157255.0639028582,
+          "RI_star": 11.674199918885112,
+          "U_star": 5603.615961064853
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 1790,
+        "expected_raw_full_load_change_ns": 814530.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 342390,
+          "T_R_ns": 1912095850.0,
+          "rho_Byte_per_s": 13458336.98414089,
+          "tau_Byte_per_s": 1156762.0943270181,
+          "RI_star": 11.6344899700147,
+          "U_star": 5584.555185607056
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 128,
+        "expected_raw_full_load_change_ns": 1536,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5258,
+          "T_R_ns": 1913296.0,
+          "rho_Byte_per_s": 24343856.97984024,
+          "tau_Byte_per_s": 4281616.644784707,
+          "RI_star": 5.685669456066945,
+          "U_star": 363.88284518828453
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 128,
+        "expected_raw_full_load_change_ns": 1536,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5258,
+          "T_R_ns": 1913296.0,
+          "rho_Byte_per_s": 24343856.97984024,
+          "tau_Byte_per_s": 4281616.644784707,
+          "RI_star": 5.685669456066945,
+          "U_star": 363.88284518828453
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 258,
+        "expected_raw_full_load_change_ns": 4096,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5388,
+          "T_R_ns": 1915856.0,
+          "rho_Byte_per_s": 23756495.916852266,
+          "tau_Byte_per_s": 4275895.474398911,
+          "RI_star": 5.5559112843355605,
+          "U_star": 355.57832219747587
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "06_mram",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 810,
+          "T_R_ns": 107520.0,
+          "rho_Byte_per_s": 316049382.7160494,
+          "tau_Byte_per_s": 76190476.1904762,
+          "RI_star": 4.148148148148148,
+          "U_star": 132.74074074074073
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "06_mram",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 810,
+          "T_R_ns": 107520.0,
+          "rho_Byte_per_s": 316049382.7160494,
+          "tau_Byte_per_s": 76190476.1904762,
+          "RI_star": 4.148148148148148,
+          "U_star": 132.74074074074073
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "06_mram",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 146,
+        "expected_raw_full_load_change_ns": 7168.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 956,
+          "T_R_ns": 114688.0,
+          "rho_Byte_per_s": 267782426.77824268,
+          "tau_Byte_per_s": 71428571.42857142,
+          "RI_star": 3.748953974895398,
+          "U_star": 119.96652719665272
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 102410,
+          "T_R_ns": 4766720.0,
+          "rho_Byte_per_s": 2499755.8832145296,
+          "tau_Byte_per_s": 6874328.678839956,
+          "RI_star": 0.36363636363636365,
+          "U_star": 46.54545454545455
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 2048,
+        "expected_raw_full_load_change_ns": 16384,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 104458,
+          "T_R_ns": 4783104.0,
+          "rho_Byte_per_s": 2450745.754274445,
+          "tau_Byte_per_s": 6850781.417255404,
+          "RI_star": 0.35773229431924797,
+          "U_star": 45.78973367286373
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 4098,
+        "expected_raw_full_load_change_ns": 27648,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 106508,
+          "T_R_ns": 4794368.0,
+          "rho_Byte_per_s": 2403575.3182859505,
+          "tau_Byte_per_s": 6834686.031610423,
+          "RI_star": 0.3516731137567131,
+          "U_star": 45.01415856085928
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "08_feram_hfo2",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 4810,
+          "T_R_ns": 153600.0,
+          "rho_Byte_per_s": 26611226.611226607,
+          "tau_Byte_per_s": 106666666.66666666,
+          "RI_star": 0.24948024948024947,
+          "U_star": 31.933471933471935
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "08_feram_hfo2",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 4810,
+          "T_R_ns": 153600.0,
+          "rho_Byte_per_s": 26611226.611226607,
+          "tau_Byte_per_s": 106666666.66666666,
+          "RI_star": 0.24948024948024947,
+          "U_star": 31.933471933471935
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "08_feram_hfo2",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 258,
+        "expected_raw_full_load_change_ns": 2048,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 5068,
+          "T_R_ns": 155648.0,
+          "rho_Byte_per_s": 25256511.444356747,
+          "tau_Byte_per_s": 105263157.89473684,
+          "RI_star": 0.2399368587213891,
+          "U_star": 30.711917916337807
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 32,
+        "expected_raw_full_load_change_ns": 0,
+        "expected_availability": 0.832495,
+        "observed_mapping": {
+          "delta_S_ns": 7161.604574201647,
+          "T_R_ns": 24600.748352842962,
+          "rho_Byte_per_s": 8936544.783629652,
+          "tau_Byte_per_s": 166499000.0,
+          "RI_star": 0.053673264005367316,
+          "U_star": 3.4350888963435087
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 32,
+        "expected_raw_full_load_change_ns": 0,
+        "expected_availability": 0.832495,
+        "observed_mapping": {
+          "delta_S_ns": 7161.604574201647,
+          "T_R_ns": 24600.748352842962,
+          "rho_Byte_per_s": 8936544.783629652,
+          "tau_Byte_per_s": 166499000.0,
+          "RI_star": 0.053673264005367316,
+          "U_star": 3.4350888963435087
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 66,
+        "expected_raw_full_load_change_ns": 768,
+        "expected_availability": 0.8305725,
+        "observed_mapping": {
+          "delta_S_ns": 7219.11693440368,
+          "T_R_ns": 25582.354339928184,
+          "rho_Byte_per_s": 8865350.23348899,
+          "tau_Byte_per_s": 160110361.4457831,
+          "RI_star": 0.055370246831220805,
+          "U_star": 3.543695797198132
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "10_fenor_3d",
+        "parameter": "input_step",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 2730,
+          "T_R_ns": 271360.0,
+          "rho_Byte_per_s": 46886446.886446886,
+          "tau_Byte_per_s": 60377358.49056604,
+          "RI_star": 0.7765567765567766,
+          "U_star": 99.3992673992674
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "10_fenor_3d",
+        "parameter": "adc_batch",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 0,
+        "expected_raw_full_load_change_ns": 0.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 2730,
+          "T_R_ns": 271360.0,
+          "rho_Byte_per_s": 46886446.886446886,
+          "tau_Byte_per_s": 60377358.49056604,
+          "RI_star": 0.7765567765567766,
+          "U_star": 99.3992673992674
+        },
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "10_fenor_3d",
+        "parameter": "digital_tick",
+        "perturbation_ns": 1,
+        "expected_raw_vector_change_ns": 290,
+        "expected_raw_full_load_change_ns": 11264.0,
+        "expected_availability": 1,
+        "observed_mapping": {
+          "delta_S_ns": 3020,
+          "T_R_ns": 282624.0,
+          "rho_Byte_per_s": 42384105.9602649,
+          "tau_Byte_per_s": 57971014.49275362,
+          "RI_star": 0.7311258278145696,
+          "U_star": 93.5841059602649
+        },
+        "all_affected_services_recomputed": true
+      }
+    ],
+    "local_and_mode_parameter_probes": [
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "sl_setup_ns",
+        "value_ns": 641,
+        "independent_raw_delta_S_ns": 480,
+        "independent_raw_delta_T_R_ns": 12,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "bl_setup_ns",
+        "value_ns": 13,
+        "independent_raw_delta_S_ns": 480,
+        "independent_raw_delta_T_R_ns": 12,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "wl_setup_ns",
+        "value_ns": 304,
+        "independent_raw_delta_S_ns": 30,
+        "independent_raw_delta_T_R_ns": 2,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "adc_batch_ns",
+        "value_ns": 21,
+        "independent_raw_delta_S_ns": 480,
+        "independent_raw_delta_T_R_ns": 12,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "digital_tick_ns",
+        "value_ns": 6,
+        "independent_raw_delta_S_ns": 1790,
+        "independent_raw_delta_T_R_ns": 814530,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "program_full_ns",
+        "value_ns": 300001,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 6144,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "04_nand_3d",
+        "mode": "main",
+        "parameter": "erase_full_ns",
+        "value_ns": 1000001,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 64,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "cim_frontend_ns",
+        "value_ns": 6,
+        "independent_raw_delta_S_ns": 128,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "verify_frontend_ns",
+        "value_ns": 6,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 1536,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "local_setup_ns",
+        "value_ns": 101,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 1536,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "local_return_ns",
+        "value_ns": 101,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 1536,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "reset_pulse_ns",
+        "value_ns": 1001,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 1024,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "set_pulse_ns",
+        "value_ns": 1001,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 512,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "rail_setup_ns",
+        "value_ns": 1001,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 1,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "05_rram",
+        "mode": "main",
+        "parameter": "rail_exit_ns",
+        "value_ns": 1001,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 1,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "mode": "main",
+        "parameter": "shared_front_ns",
+        "value_ns": 21,
+        "independent_raw_delta_S_ns": 2048,
+        "independent_raw_delta_T_R_ns": 16384,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "mode": "main",
+        "parameter": "shared_front_ns",
+        "value_ns": 768,
+        "independent_raw_delta_S_ns": 1531904,
+        "independent_raw_delta_T_R_ns": 12255232,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "mode": "long_observation",
+        "parameter": "long_observation_ns",
+        "value_ns": 769,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 16384,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "mode": "long_observation",
+        "parameter": "shared_front_ns",
+        "value_ns": 768,
+        "independent_raw_delta_S_ns": 1531904,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "07_pcm",
+        "mode": "long_observation",
+        "parameter": "shared_front_ns",
+        "value_ns": 900,
+        "independent_raw_delta_S_ns": 1802240,
+        "independent_raw_delta_T_R_ns": 2162688,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "fixed_slot",
+        "parameter": "common_overhead_ns",
+        "value_ns": 87,
+        "independent_raw_delta_S_ns": 32,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 256,
+        "independent_guard_change_ns": 1,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "fixed_slot",
+        "parameter": "read_slot_reservation_ns",
+        "value_ns": 65,
+        "independent_raw_delta_S_ns": 32,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 256,
+        "independent_guard_change_ns": 1,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "fixed_slot",
+        "parameter": "mac_integration_ns",
+        "value_ns": 2,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "fixed_slot",
+        "parameter": "program_complete_ns",
+        "value_ns": 66,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 256,
+        "independent_refresh_busy_change_ns": 256,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "early_release",
+        "parameter": "common_overhead_ns",
+        "value_ns": 87,
+        "independent_raw_delta_S_ns": 32,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 256,
+        "independent_guard_change_ns": 1,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "early_release",
+        "parameter": "mac_integration_ns",
+        "value_ns": 2,
+        "independent_raw_delta_S_ns": 32,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 0,
+        "independent_guard_change_ns": 1,
+        "all_affected_services_recomputed": true
+      },
+      {
+        "case_id": "09_gain_cell_edram",
+        "mode": "early_release",
+        "parameter": "refresh_integration_ns",
+        "value_ns": 65,
+        "independent_raw_delta_S_ns": 0,
+        "independent_raw_delta_T_R_ns": 0,
+        "independent_refresh_busy_change_ns": 256,
+        "independent_guard_change_ns": 0,
+        "all_affected_services_recomputed": true
+      }
+    ]
+  },
+  "mode_comparison_checks": {
+    "PCM_long_observation": "conditional separate acceptance protocol; source PWM/CCO architecture not transplanted",
+    "PCM_shared_front_uncertainty": "propagates to evaluation and every terminal read; not a measured performance correction",
+    "GC_early_release_independent_stages": [
+      {
+        "profile": "short",
+        "raw_delta_S_ns": 1700,
+        "raw_T_R_ns": 18176,
+        "refresh_busy_ns": 47360,
+        "guard_ns": 71,
+        "availability": 0.8814225
+      },
+      {
+        "profile": "reference",
+        "raw_delta_S_ns": 3914,
+        "raw_T_R_ns": 20480,
+        "refresh_busy_ns": 66560,
+        "guard_ns": 122,
+        "availability": 0.833295
+      },
+      {
+        "profile": "long",
+        "raw_delta_S_ns": 6964,
+        "raw_T_R_ns": 26880,
+        "refresh_busy_ns": 96000,
+        "guard_ns": 217,
+        "availability": 0.7594575
+      }
+    ],
+    "GC_fixed_slot": "intentional sampling reservation, including post-pulse analog hold; original 180 ns is only a whole-cycle anchor"
+  },
+  "numerical_service_checks": {
+    "04_nand_3d": {
+      "method": "Independent integer/Fraction reconstruction of all ten deterministic vectors, four physical row groups and sixteen digit partials per group.",
+      "nominal_bits": 10,
+      "gain_Q8_16_integer": 800327,
+      "full_reference_code": 849,
+      "half_reference_residual_codes": 0.5,
+      "vector_checks": [
+        {
+          "id": "zero",
+          "exact_signed_dot": 0,
+          "quantized_signed_dot": -65536,
+          "signed_error": -65536,
+          "sign_reversal": false,
+          "clipped_partials": 0
+        },
+        {
+          "id": "unit_positive",
+          "exact_signed_dot": 4608,
+          "quantized_signed_dot": -58896,
+          "signed_error": -63504,
+          "sign_reversal": true,
+          "clipped_partials": 0
+        },
+        {
+          "id": "unit_negative",
+          "exact_signed_dot": -4608,
+          "quantized_signed_dot": 59904,
+          "signed_error": 64512,
+          "sign_reversal": true,
+          "clipped_partials": 0
+        },
+        {
+          "id": "alternating_cancel",
+          "exact_signed_dot": 0,
+          "quantized_signed_dot": 1008,
+          "signed_error": 1008,
+          "sign_reversal": false,
+          "clipped_partials": 0
+        },
+        {
+          "id": "large_cancel",
+          "exact_signed_dot": 0,
+          "quantized_signed_dot": 171360,
+          "signed_error": 171360,
+          "sign_reversal": false,
+          "clipped_partials": 0
+        },
+        {
+          "id": "large_positive",
+          "exact_signed_dot": 74322432,
+          "quantized_signed_dot": 74322432,
+          "signed_error": 0,
+          "sign_reversal": false,
+          "clipped_partials": 0
+        },
+        {
+          "id": "large_negative",
+          "exact_signed_dot": -74907648,
+          "quantized_signed_dot": -74907648,
+          "signed_error": 0,
+          "sign_reversal": false,
+          "clipped_partials": 0
+        },
+        {
+          "id": "small_ramp",
+          "exact_signed_dot": 2,
+          "quantized_signed_dot": -14868,
+          "signed_error": -14870,
+          "sign_reversal": true,
+          "clipped_partials": 0
+        },
+        {
+          "id": "wide_ramp",
+          "exact_signed_dot": -2923776,
+          "quantized_signed_dot": -2900456,
+          "signed_error": 23320,
+          "sign_reversal": false,
+          "clipped_partials": 0
+        },
+        {
+          "id": "isolated_unit",
+          "exact_signed_dot": 1,
+          "quantized_signed_dot": -65792,
+          "signed_error": -65793,
+          "sign_reversal": true,
+          "clipped_partials": 0
+        }
+      ],
+      "ENOB_is_resolution_scale_only": true,
+      "pressure_clipping_detected": true,
+      "diagnostic_reproduction_passed": true,
+      "weak_signal_numerical_service_qualified": false,
+      "diagnostic_sha256": "ec0c0f50759f00f0cea249e353cf20171ac7df9de266c2e0f395ad0c32668b0c"
+    }
+  },
+  "numerical_service_qualifications": {
+    "04_nand_3d": {
+      "contract": "approximate_partial_sum",
+      "weak_signal_guarantee": false,
+      "quantized_service_status": "weak_signal_and_cancellation_not_qualified",
+      "diagnostic_path": "data/quantization_diagnostics.json",
+      "limitations": [
+        "Nominal10bit deterministic quantization with existing affine offset reconstruction can turn a positive small dot product negative.",
+        "No clipping in nominal deterministic test vectors does not certify small-signal or cancellation accuracy.",
+        "Approximately8ENOB describes a resolution scale,not an8bit quantizer,noise model or application error guarantee.",
+        "Throughput values remain conditional approximate-evaluation budgets;qualifying general signed INT8 weak outputs requires a service choice or additional supported implementation."
+      ]
+    }
+  },
+  "remaining_qualification": "NAND weak signed outputs and cancellation are not qualified. PCM shared weakest-code settling, GC control/hold conditions and RRAM cross-stack endpoint completion remain explicitly conditional engineering assumptions.",
+  "all_passed_scope": "Execution, independent arithmetic, parameter propagation, deterministic diagnostic reproduction and export consistency only; not numerical-service adequacy, circuit qualification or user acceptance.",
   "shared_hashes": {
-    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
-    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
+    "data/shared_parameters.json": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+    "scripts/check_shared.py": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
   },
   "unique_case_prefixed_labels": 24,
   "external_review_judgments": [

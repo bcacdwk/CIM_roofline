@@ -1,0 +1,119 @@
+{
+  "kind": "deterministic_dependency_diagnostics",
+  "method": "Expected deltas use 32 compute groups, 256 refresh groups, 3 TD per write, 1 TD sign decode, and independent maximum-group scheduling arithmetic.",
+  "scope": "Parameter propagation only; no circuit simulation or measured speed claim.",
+  "records": [
+    {
+      "release_policy": "fixed_slot",
+      "override": {
+        "common_overhead_ns": 96
+      },
+      "delta_raw_vector_ns": 320,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 2560.0,
+      "delta_guard_ns": 10,
+      "availability": 0.8267125,
+      "rho_Byte_per_s": 8465536.0,
+      "tau_Byte_per_s": 165342500.0,
+      "ridge": 0.0512
+    },
+    {
+      "release_policy": "fixed_slot",
+      "override": {
+        "input_step": 6
+      },
+      "delta_raw_vector_ns": 32,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 256.0,
+      "delta_guard_ns": 1,
+      "availability": 0.832495,
+      "rho_Byte_per_s": 8936544.783629652,
+      "tau_Byte_per_s": 166499000.0,
+      "ridge": 0.053673264005367316
+    },
+    {
+      "release_policy": "fixed_slot",
+      "override": {
+        "adc_batch": 21
+      },
+      "delta_raw_vector_ns": 32,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 256.0,
+      "delta_guard_ns": 1,
+      "availability": 0.832495,
+      "rho_Byte_per_s": 8936544.783629652,
+      "tau_Byte_per_s": 166499000.0,
+      "ridge": 0.053673264005367316
+    },
+    {
+      "release_policy": "fixed_slot",
+      "override": {
+        "digital_tick": 6
+      },
+      "delta_raw_vector_ns": 66,
+      "delta_raw_write_transaction_ns": 3,
+      "delta_refresh_ns": 1024.0,
+      "delta_guard_ns": 2,
+      "availability": 0.8305725,
+      "rho_Byte_per_s": 8865350.23348899,
+      "tau_Byte_per_s": 160110361.4457831,
+      "ridge": 0.055370246831220805
+    },
+    {
+      "release_policy": "fixed_slot",
+      "override": {
+        "read_slot_reservation_ns": 65
+      },
+      "delta_raw_vector_ns": 32,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 256.0,
+      "delta_guard_ns": 1,
+      "availability": 0.832495,
+      "rho_Byte_per_s": 8936544.783629652,
+      "tau_Byte_per_s": 166499000.0,
+      "ridge": 0.053673264005367316
+    },
+    {
+      "release_policy": "fixed_slot",
+      "override": {
+        "mac_integration_ns": 2
+      },
+      "delta_raw_vector_ns": 0,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 0.0,
+      "delta_guard_ns": 0,
+      "availability": 0.8331375,
+      "rho_Byte_per_s": 8991703.204047216,
+      "tau_Byte_per_s": 166627500.0,
+      "ridge": 0.05396290050590219
+    },
+    {
+      "release_policy": "early_release",
+      "override": {
+        "mac_integration_ns": 2
+      },
+      "delta_raw_vector_ns": 32,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 0.0,
+      "delta_guard_ns": 1,
+      "availability": 0.8332925,
+      "rho_Byte_per_s": 13515134.313228587,
+      "tau_Byte_per_s": 166658500.0,
+      "ridge": 0.08109477952356817
+    },
+    {
+      "release_policy": "early_release",
+      "override": {
+        "refresh_integration_ns": 65
+      },
+      "delta_raw_vector_ns": 0,
+      "delta_raw_write_transaction_ns": 0,
+      "delta_refresh_ns": 256.0,
+      "delta_guard_ns": 0,
+      "availability": 0.832655,
+      "rho_Byte_per_s": 13615206.949412366,
+      "tau_Byte_per_s": 166531000.0,
+      "ridge": 0.08175779253960143
+    }
+  ]
+}

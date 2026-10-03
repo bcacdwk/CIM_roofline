@@ -1,6 +1,6 @@
 # 参数证据与采用条件
 
-PDF页序从1计。原器件/模式、报告身份、采用值和推导分开；公共源登记在任务总目录。
+PDF页序从1计。关键页图已回查：NAND-04 pp.2–3、NAND-05 pp.1–4、NAND-06 pp.25、31、58。原始证据、参考选择和条件资格分开；不新增原文没有的精调倍数。
 
 ## E01 — NAND-04
 
@@ -18,7 +18,7 @@ PDF页序从1计。原器件/模式、报告身份、采用值和推导分开；
 
 原值：16-layer64Gb SGVC SLC;mean ON2nA,sigma0.3nA,OFF<0.5pA;VG1V,VBL0.2V,Vpass4.5V
 
-采用：Retain original device/bias;no increased current or invented integration capacitor
+采用：Retain original device/bias and saturated ON platform;NAND-04 p.2 explicitly requires two-state write-verify Vt control;no evidence for extra per-cell analog-current fine tuning or a numerical timing multiplier
 
 身份：`measured_device`。
 
@@ -28,7 +28,7 @@ PDF页序从1计。原器件/模式、报告身份、采用值和推导分开；
 
 原值：WL303ns;BL12ns@50% sparsity;SL530–750ns@max-bit input;native SL capacitance about16pF
 
-采用：WL retained per output group;BL12ns and native SL530/640/750ns as explicit compatible frontend service budgets;640ns is an engineering interior point
+采用：Keep native load/bias and budgets530/640/750ns;active BL grouping/mapping and25uA frontend differ from original max-bit case;BL12ns source is50% sparsity;not a measured group deadline or I/C rescaling
 
 身份：`reported_RC_model_to_budget`。
 
@@ -58,7 +58,7 @@ PDF页序从1计。原器件/模式、报告身份、采用值和推导分开；
 
 原值：SLC2KB+64B page,64pages/block;tPROG typ/max300/600us;tERASE typ/max1/3.5ms;busy/status for complete program/erase
 
-采用：short/reference300us+1ms;long600us+3.5ms;complete-cycle cross-implementation SLC budgets,not SGVC measurements or guarantees;no page-size scaling
+采用：Complete SLC internal program/verify and erase status budget;cross-implementation timing only,not proof of SGVC ON-current distribution;no extra loop count without evidence
 
 身份：`manufacturer_datasheet_cross_implementation`。
 
@@ -78,7 +78,7 @@ PDF页序从1计。原器件/模式、报告身份、采用值和推导分开；
 
 原值：x=xprime−128,w=wprime−128
 
-采用：y=sum(xprime*wprime)−128sum(xprime)−128sum(wprime)+16384K;480×21bit weight-sum metadata generated during complete load;16-lane input sum and output correction costs explicitly charged
+采用：y=sum(xprime*wprime)−128sum(xprime)−128sum(wprime)+16384K;480×21bit weight-sum metadata generated during complete load;16-lane input sum and output correction costs explicitly charged;ideal identity checked separately from nominal10bit grouped quantization,which does not qualify weak signed outputs
 
 身份：`algebra_and_resource_choice`。
 
@@ -92,4 +92,10 @@ PDF页序从1计。原器件/模式、报告身份、采用值和推导分开；
 
 身份：`operation_coverage`。
 
-偏置编码最大中间值为4608×255²=299635200；使用30-bit signed中间通道及29-bit最终输出。权重和/输入和各21bit。480×30=14400bit，480×29=13920bit。
+## 数值资格和前端桥接
+
+NAND-04的二态write-verify、NAND-05的饱和ON平台、SL参考校准是三个不同条件。NAND-06状态成功仅认证其自身SLC操作，不能跨实现证明ON电流终点；没有同栈完整P/E配对实测。
+
+12 ns是50%稀疏输入模型，530–750 ns是max-bit映射SL建立模型；当前固定1152项组、原偏置、16 pF原生负载及25 µA量程按条件桥接，不机械按I/C变周期。
+
+名义10-bit诊断按真实分组和有限重构顺序揭示弱输出变号及抵消残差。约8 ENOB仅提供分辨尺度。源文4I4W/VGG准确率不能转移为当前signed INT8保证；详见`review.md`及`data/quantization_diagnostics.json`。

@@ -53,7 +53,7 @@
     "set_attempts": 1,
     "verify_precharge_ns": 256,
     "verify_low_current_read_ns": 512,
-    "verify_adc_timing": "Main binary verify uses the same IM/clamp/column voltage path with single-row,one-cell-per-selected-column selection: full F_A already covers q=0 and q=1 endpoint levels at fixed bias/column load, followed by shared TA and16parallel two-class comparisons in one TD. No assumption that8cell signal always larger. Per-mode thresholds calibrate inactive-branch leakage/offset; same access-gate voltage and clamp compliance required. Each pass repeats full F_A; no hold.",
+    "verify_adc_timing": "Main endpoint verify shares the named F_A parameter with normal evaluation only under explicit IM/clamp/gate/load and weakest-code settling qualification. One selected WL changes inactive branches relative to eight-WL q=0/1; separate thresholds address static offsets but do not prove equal settling. F_A includes input/reset; each pass pays it freshly, followed by TA and TD.",
     "acceptance": "Two calibrated endpoint classes: HRS below lower threshold, SET above upper threshold, with disjoint band and rail check; source |GRESET|<5 and GSET>50 ADC-count unit-cell distributions motivate separation only. New local thresholds are calibrated in the chosen SAR/voltage frontend, not copied as literal shared-ADC counts. No analog target-tuning or per-weight error guarantee.",
     "normal_service_condition": "One full RESET/SET schedule on characterized working cells reaches the two endpoint classes. Final verify is real time and rejects failures; a failed transaction produces no successful BR. No empirical batch yield, retry distribution, or worst-case bound is claimed; retry count is not silently folded into tau.",
     "timing_ambiguity": "PCM01 p7 SET 'width of250ns with trailing edge of50ns' does not disambiguate inclusion. Main conservatively uses300ns; total250ns variant recorded as sensitivity.",
@@ -63,7 +63,7 @@
       "AfterRESET completes: quench at zero current and change toSETbias before pulse",
       "After complete300nsSET including50nstail: isolateIDAC and restore lowreadbias, no duplicate trailingedge"
     ],
-    "verify_weak_signal_comparison": "Single alternative retains PCM01-inspired256ns precharge+512ns low-current read frontend, then replacement SAR+TD; source CCO not added. This is a deliberately conservative analog-style organization, not compulsory binary timing.",
+    "verify_weak_signal_comparison": "Independent optional observation requirement on the same local frontend: actual verify front=max(shared F_A,256ns precharge+minimum512ns observation), then SAR/TD. PCM01 p8 supplies a time-scale anchor from0.2V PWM/CCO analog verify, not an identical frontend. Shared-F_A uncertainty affects both services even in this mode once it exceeds the observation floor.",
     "weak_source_verify_voltage_V": 0.2
   },
   "maintenance": {
@@ -86,12 +86,12 @@
     {
       "rule_id": "R4",
       "reason": "Read front F=10/20/50ns includes shared TI; API receives tm=F−TI. PCM03 full access3.25–15.9ns is an order anchor, never an isolated cell delay or extra macro cycle.",
-      "both_services": "Binary verify front repeats F_A per16cells, sharing the sameIM/clamp/column path and coveredq=0/1 endpoint level range;768ns analog weak-signal frontend only an explicit comparison. No free analog hold."
+      "both_services": "F_A is bound to evaluation and endpoint verify under the stated qualification. Independent long-observation verify has a distinct parameter; shared-F_A sensitivity recomputes both services."
     },
     {
       "rule_id": "R5",
       "reason": "Actual32 IDACs fromPCM01, globally shared across8 bit planes;128-bit input port only determines2 data beats.",
-      "both_services": "BR32Byte/8physical batches;16verify passes. The single contrast changes binary frontF_A to768ns weak-signal front; streaming/read and all32IDAC resources unchanged."
+      "both_services": "BR32Byte/8physical batches;16verify passes. Independent long-observation mode changes only verification observation; shared-F_A uncertainty changes both evaluation and verification, keeping resources fixed."
     }
   ],
   "sources": [
@@ -221,7 +221,7 @@
   "scenario_interpretation": {
     "recommended": "reference",
     "main_range": "conditional paired short/reference/long engineering scenarios, not a physical uncertainty envelope",
-    "linked": "Each shared profile TD and its control/boundary terms must move together; media timing choices need not physically co-vary with the shared profile.",
+    "linked": "TI is included in full F_A; fixed-total TI changes repartition F_A-TI, not total F_A. TA and TD propagate through all consumers. shared_front_ns affects evaluation and endpoint verify; a distinct long_observation_ns applies only to the explicitly different observation protocol. The long-observation mode retains the shared frontend dependency; its actual front is max(shared_front_ns,long_observation_ns).",
     "rate_display": "decimal MB/s = 1e6 Byte/s",
     "maintenance_scope": "No periodic maintenance in the modeled local service window; raw occupancy equals effective interval for the stated accepted service scenario."
   },
@@ -235,5 +235,65 @@
     "native_bank_columns": 1024,
     "source": "PCM-03 p3 Fig11.3.7",
     "update_shape": "row-striped32B,1024transactions"
+  },
+  "service_modes": {
+    "normal_evaluation": {
+      "mode_id": "eight_row_voltage_sum",
+      "physical_operation": "Eight selected WLs, q=0..8 calibrated voltage levels, IM-biased column, replacement SAR then digital reconstruction.",
+      "bias_load_endpoint": "Fixed IM and clamp, selected-gate high level, installed column/mux load; F_A must cover q=0 and q=1 as well as stronger codes.",
+      "parameter_bindings": {
+        "front_ns": "shared_front_ns",
+        "input_step": "input_step",
+        "adc_batch": "adc_batch",
+        "digital_tick": "digital_tick"
+      },
+      "included_in_cycle": [
+        "input_step is part of the full F_A; media residual is F_A-input_step"
+      ],
+      "qualification": "F_A=10/20/50ns is an engineering reference budget, anchored only in the order of PCM-03 complete access; the replacement frontend has not been circuit-validated.",
+      "source": "PCM-03 PDF pp1-2, Figs11.3.2/4/6"
+    },
+    "endpoint_verify": {
+      "mode_id": "single_row_endpoint_verify",
+      "physical_operation": "One selected WL and one cell per selected column, fresh reset/settle per pass, two-class endpoint check.",
+      "bias_load_endpoint": "Same configured IM, clamp, selected-gate level and column/mux load as evaluation; inactive-branch changes need mode-specific threshold calibration and q=0/1 settling qualification.",
+      "parameter_bindings": {
+        "front_ns": "shared_front_ns",
+        "input_step": "input_step",
+        "adc_batch": "adc_batch",
+        "digital_tick": "digital_tick"
+      },
+      "included_in_cycle": [
+        "input_step/reset is included in F_A"
+      ],
+      "qualification": "Sharing F_A is a conditional design requirement, not measured equivalence; q=0/1 labels alone do not prove the eight-WL and one-WL paths settle equally.",
+      "source": "PCM-03 PDF pp1-2 gives computation topology, not this single-cell verify; PCM-01 PDF pp4/8 gives endpoint separation and a different long-read implementation"
+    },
+    "long_observation_verify": {
+      "mode_id": "independent_long_observation_verify",
+      "physical_operation": "Optional endpoint acceptance protocol: minimum256ns precharge+512ns observation, using the same local voltage-read path. Actual front=max(shared_front_ns,long_observation_ns), followed by SAR/comparison.",
+      "bias_load_endpoint": "Uses the configured local voltage-read path and a separately commanded longer observation window. PCM-01 source instead uses0.2V PWM/CCO; its source bias and ADC transfer are not silently transplanted.",
+      "parameter_bindings": {
+        "front_ns": "shared_front_ns",
+        "minimum_observation_ns": "long_observation_ns",
+        "adc_batch": "adc_batch",
+        "digital_tick": "digital_tick"
+      },
+      "qualification": "The768ns minimum observation is a conservative operation quota inspired by a different measured analog verify. It does not bound shared F_A uncertainty; shared settling longer than the minimum extends verify as well as evaluation.",
+      "source": "PCM-01 PDF p8:0.2V,256ns precharge,512ns PWM for small conductance and continuous-target verify"
+    },
+    "write_control": {
+      "mode_id": "row_striped_program",
+      "physical_operation": "32IDAC, eight serial planes, reset/set and all endpoint reads before commit.",
+      "bias_load_endpoint": "Same row/column isolation and rated return resources; complete pulse endpoints and three explicit mode transitions.",
+      "parameter_bindings": {
+        "digital_tick": "digital_tick",
+        "drive_ns": "drive_transition_ns",
+        "reset_ns": "reset_pulse_ns",
+        "set_ns": "set_pulse_ns"
+      },
+      "qualification": "Pulse and route timing remain cross-implementation reference choices, not a measured full-bank update.",
+      "source": "PCM-01 PDF p7; PCM-06 PDF p4 Fig6"
+    }
   }
 }

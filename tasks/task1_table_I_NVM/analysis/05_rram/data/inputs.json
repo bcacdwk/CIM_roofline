@@ -5,15 +5,16 @@
   "baseline": {
     "id": "shared_baseline",
     "reference_instance": "native K128-N64",
-    "json_sha256": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
-    "script_sha256": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3",
+    "json_sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+    "script_sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
     "entrypoints": [
       "logical_configuration",
       "acim_service",
       "front_ns",
       "program_sequence_ns",
       "full_load_service",
-      "mapping_metrics"
+      "mapping_metrics",
+      "resolve_service_parameters"
     ]
   },
   "configuration": {
@@ -83,14 +84,17 @@
       "kind": "reference_acceptance_choice",
       "evidence": "E01",
       "derivation": "围绕10/100kΩ典型二状态；LRS±20%，HRS门槛取典型值70%；原Fig7采用LRS10%/HRS30%变化模型仅为选择尺度锚点；并非良率界",
-      "condition": "LRS导纳83至125µS高于01 gmax30/40µS；窗口更宽只说明非多级精细调谐，不能证明目标更易到达或次数更少。次数仍为所选参考实现达窗的情景条件"
+      "condition": "LRS导纳83至125µS高于01 gmax30/40µS；窗口更宽只说明非多级精细调谐，不能证明目标更易到达或次数更少。次数仍为所选参考实现达窗的情景条件",
+      "computational_role": "WH-2T1R以电阻分压产生T2栅压，再以亚阈值T2电流求和；普通memory可辨HRS/LRS尚不足以独立保证近似MAC的ON电流及漏电。窗口用于约束状态与校准工作域，不编码8bit模拟电导。原文未给出8/12/70kΩ窗边界到TBL电流的完整转移数据，故该窗口并非已证明的必要或充分计算精度界。",
+      "qualification": "保持m=1、VBL=0.3V、VWL=0.6V、VTBL=0.1V及32活动项，须经同偏置校准维持约0.5µA LRS基准和低HRS贡献；不能仅凭memory窗口通过就宣称任意bit-exact MAC。"
     },
     "program_pulse_ns": {
       "SET": 1000,
       "RESET": 1000,
       "kind": "cross_implementation_waveform_budget",
       "evidence": "E06",
-      "condition": "跨stack操作波形预算：RRAM-01为HfOx含TaOx热增强层，RRAM-05为TaOx；1µs是原文实际SET/RESET脉宽，非05测量、同材料上界或成功率保证"
+      "condition": "跨stack操作波形预算：RRAM-01为HfOx含TaOx热增强层，RRAM-05为TaOx；1µs是原文实际SET/RESET脉宽，非05测量、同材料上界或成功率保证",
+      "compatibility": "1µs在原来源中配合gmax=30/40µS与±1µS模拟目标；本LRS8–12kΩ对应83.33333333333333–125µS，超出该目标区间。相同脉宽可作为明确的参考编程时隙，但达本窗口及所列尝试数为条件，没有同栈实测证明，也不能称较宽窗必然更快。"
     },
     "program_voltages": {
       "initial_SET_V": 1.2,
@@ -146,7 +150,9 @@
         "E04",
         "E05"
       ],
-      "meaning": "03二状态大多数名义条件一次、少数追加P&V支持一次与少量重试的模式；06支持RESET较慢/分组all-done。次数非实测分布、良率分位或可证明的材料上界；条件是每批最慢活动cell在所列次数内通过"
+      "meaning": "03二状态大多数名义条件一次、少数追加P&V支持一次与少量重试的模式；06支持RESET较慢/分组all-done。次数非实测分布、良率分位或可证明的材料上界；条件是每批最慢活动cell在所列次数内通过",
+      "reference_selection": "2/1是在一次两相完成的最低选点上，给原文定性较慢的RESET多留一次修正；选择的是有限完成预算，既非均值/中位数/分位数，也不能从03的数十个重编cell或06的归一化时间图反推出2/1。",
+      "group_interpretation": "每个16Byte事务中，RESET和masked SET各由最慢活动lane限制；给出的K_R/K_S是每批的保留次数上限。已done lane可mask关闭，早完成不用于提高本预算吞吐。"
     },
     "data_pattern_and_mask": {
       "policy": "每批为SET保留相位时隙；非目标cell由mask关断。即使某批无目标1也保留预算，不从稀疏或地址跳过额外加速",
@@ -154,18 +160,17 @@
     },
     "failure_policy": {
       "policy": "未到窗口的lane继续修正，超出该情景预算则该次服务不属于该情景；最终超时报告失败，不记成功payload。范围用于声明次数内完成的工程运行情景，不是失败尾部保证",
-      "kind": "service_endpoint_choice"
+      "kind": "service_endpoint_choice",
+      "overshoot": "LRS高于12kΩ可继续SET修正；若低于8kΩ，单纯继续SET不能保证回窗，额外反极性救援及后续读验不在本有限情景内。此类请求不得按已成功完整装载计payload，不能把窗口上界判决删掉。"
     },
     "binary_sense_slot_ns": {
-      "short": 10,
-      "reference": 20,
-      "long": 50,
-      "kind": "accepted_common_capability_as_binary_sense_budget",
+      "binding": "adc_batch",
+      "kind": "common_capability_policy_binding",
       "evidence": [
         "E02",
         "E09"
       ],
-      "condition": "独立memory窗口比较器采用共同完整采样/转换/锁存能力时隙T_B=T_A；不是按SAR精度缩放，也不是测得binary SA内在时延"
+      "condition": "T_B直接绑定公共T_A=adc_batch；共享的是采样/判决/锁存能力预算政策，不是同一ADC或同一物理前端。窗口比较器保持独立；修改公共T_A时求值转换与binary读验同步重算。"
     },
     "binary_verify_frontend_ns": {
       "value": 5,
@@ -202,7 +207,7 @@
       "locator": "PDF p.3 Fig.3/4；p.4 Fig.7；p.7 Fig.16/17",
       "original": "28nm；64×128 cell由4个64×32子阵列构成；32输入项；RHRS/RLRS典型100/10 kΩ；m=1的LRS约0.5 µA，HRS<30 nA；Fig.7(b)仿真使用LRS10%/HRS30%变化标准差",
       "condition": "VTBL=0.1 V、VBL=0.3 V、VWL=0.6 V；3-bit空间权重、4-bit原读出；RRAM-05为BEOL TaOx",
-      "adoption": "二状态与m=1读取；选择LRS8–12kΩ/HRS≥70kΩ为设计验收窗，原typ与仿真标准差不冒充保证界",
+      "adoption": "二状态与m=1读取；选择LRS8–12kΩ/HRS≥70kΩ为设计验收窗，原typ与仿真标准差不冒充保证界；计算需要电流可校准与HRS贡献受控，原文未证明8/12/70kΩ为计算充分界，memory可辨二态不单独保证MAC。",
       "kind": "reported_and_mapping_choice"
     },
     {
@@ -229,7 +234,7 @@
       "locator": "PDF p.5 E节及Fig.9；p.4 Fig.7",
       "original": "28nm、1Mb；每SET/RESET后读比较阈值；大多数cell名义条件完成，数十cell需额外program；读扰测试10 ns脉冲",
       "condition": "二状态P&V后HRS/LRS分布无重叠；不报告绝对SET/RESET/verify周期或重试分布",
-      "adoption": "二状态阈值P&V支持一次及少量追加尝试情景；K为设计情景而非统计；10ns读扰脉冲仍不替代完整读回",
+      "adoption": "二状态阈值P&V支持一次及少量追加尝试情景；K为设计情景而非统计；10ns读扰脉冲仍不替代完整读回；未给出精确追加次数，也未给本窗的达窗概率。",
       "kind": "reported_with_missing_timing"
     },
     {
@@ -238,7 +243,7 @@
       "locator": "PDF p.1 AF/ARST/ASET；p.2 Figs.3–10",
       "original": "40nm、2Mb；两个G0/G1组，每IO每组选一列；组内全done再推进；timeout报fail；时间轴归一化；99.2% page-write缩短",
       "condition": "HRPW先在idle RESET全页再SET所需cell；FORMING为另一步；无绝对page时长",
-      "adoption": "借双group、独立mask/done和分组等待机制；每平面每group实际扩为8个列驱动，8平面×2group×8lane=128目标；显式RESET再SET并计全部RESET，不从归一化图取绝对时间",
+      "adoption": "借双group、独立mask/done和分组等待机制；每平面每group实际扩为8个列驱动，8平面×2group×8lane=128目标；显式RESET再SET并计全部RESET，不从归一化图取绝对时间；RESET较慢仅支撑非对称预算方向，不量化2/1。",
       "kind": "reported_normalized"
     },
     {
@@ -247,7 +252,7 @@
       "locator": "PDF p.10 Methods；p.11延续；Extended Data Fig.3在PDF p.18",
       "original": "130nm；SET初值1.2 V、RESET1.5 V、步进0.1 V；脉宽1 µs；read 1–10 µs；±1 µS；30次极性反转timeout；平均8.52脉冲；集成预测56 µs/cell",
       "condition": "差分多级；gmin=1 µS，gmax=30/40 µS；99%达窗；外部DAC/ADC控制限速；3轮重编程后至少30min再测推理；HfOx加TaOx热增强层，与RRAM-05的TaOx不同stack",
-      "adoption": "跨stack借用实际1µs波形；1–10µs读回保留测试层级，不压入本地binary主服务。8.52次/56µs、成功概率和G目标不移用",
+      "adoption": "跨stack借用实际1µs波形；1–10µs读回保留测试层级，不压入本地binary主服务。8.52次/56µs、成功概率和G目标不移用；本LRS83–125µS高于其gmax，不能把相同1µs脉宽解释为该窗可达保证。",
       "kind": "reported_plus_author_projection"
     },
     {
@@ -326,8 +331,55 @@
     "跨stack1µs脉冲与目标窗的可实现性，以及参考binary接口建立/判决预算；属于有明确资源的工程移植条件，不要求先取得同芯片完整实测"
   ],
   "range_semantics": {
-    "main": "short/reference/long paired conditional engineering scenarios; not physical uncertainty bounds",
+    "main": "固定组织/128驱动的short/reference/long配对条件：外围能力、局部切换与有限RESET/SET完成预算一并声明；不是实测典型/良率分位/材料快慢物理界。",
     "attempt_sensitivity": "Fixed reference periphery,128driver resources and100ns local transitions;RESET/SET1/1,2/1,4/2 independent of common clock.",
     "transition_sensitivity": "Fixed reference attempts andresources;eachlocaltransition50/100/1000ns;not a new driver count."
+  },
+  "service_modes": [
+    {
+      "mode_id": "normal_evaluation",
+      "bias_load_endpoint": "32活动m=1 cell，VBL0.3V/VWL0.6V/VTBL0.1V，core T2与共享TBL的电流建立/漏电补偿，公共SAR近似部分和",
+      "parameter_bindings": {
+        "frontend_ns": "cim_frontend_ns",
+        "input_ns": "input_step",
+        "conversion_ns": "adc_batch",
+        "digital_ns": "digital_tick"
+      },
+      "qualification": "5ns锚定原PH0；原CIM路径与memory路径分离，该5ns不是memory读验实测",
+      "source": "RRAM-05 PDF pp.3–4 Figs.3–7; p.7 Figs.16–18"
+    },
+    {
+      "mode_id": "endpoint_verify",
+      "bias_load_endpoint": "program后局部退偏，独立T1/IO/BL/SL memory路径逐lane判LRS双门限与HRS门限；128lane/256窗口比较器",
+      "parameter_bindings": {
+        "frontend_ns": "verify_frontend_ns",
+        "input_ns": "input_step",
+        "sense_ns": "adc_batch",
+        "digital_ns": "digital_tick"
+      },
+      "qualification": "5ns是独立memory前端参考预算；未由CIM的PH0实测证明。T_B=T_A为共同能力政策依赖而非共享ADC物理依赖。改变同一公共T_I/T_A/T_D会作用所有消费者",
+      "source": "RRAM-05 PDF p.3 Fig.3/4; E02/E03/E09; reference design"
+    },
+    {
+      "mode_id": "resident_update",
+      "bias_load_endpoint": "128专用驱动，同极性RESET后masked SET；rail在512事务期间保持，完整窗口读验完成后才发布矩阵",
+      "parameter_bindings": {
+        "setup_ns": "local_setup_ns",
+        "return_ns": "local_return_ns",
+        "set_pulse_ns": "set_pulse_ns",
+        "reset_pulse_ns": "reset_pulse_ns",
+        "digital_ns": "digital_tick",
+        "rail_setup_ns": "rail_setup_ns",
+        "rail_exit_ns": "rail_exit_ns"
+      },
+      "qualification": "pulse、local偏置和rail只作用更新；端点读验使用endpoint_verify绑定，完整RESET不隐藏",
+      "source": "RRAM-01 PDF p.10; RRAM-03 PDF p.5; RRAM-06 PDF pp.1–2; reference design"
+    }
+  ],
+  "scenario_classification": {
+    "main": "fixed_resource_conditional_completion",
+    "attempt_sensitivity": "fixed_resource_completion_condition_sensitivity",
+    "transition_sensitivity": "same_mode_parameter_sensitivity",
+    "W16": "resource_comparison"
   }
 }

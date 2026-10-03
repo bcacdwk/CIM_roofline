@@ -1,7 +1,7 @@
 \begingroup\footnotesize\begin{longtable}{@{}>{\raggedright\arraybackslash}p{22mm}>{\raggedright\arraybackslash}p{59mm}>{\raggedright\arraybackslash}p{70mm}@{}}\toprule 来源 & 原始证据 & 采用与限制\\\midrule\endhead
 RRAM-05 & p.3 Figs.3--4：64行128列、四个64×32子阵列共享TBL；独立memory BL/SL写路径 & 每位平面保留完整原宏；四个32项输入组由CIMSEL分时。128驱动为明确新增资源，不能从原DIN接口推出。\\
-RRAM-05 & pp.4--7：典型LRS10千欧/HRS100千欧；32项m=1求和；PH0为5 ns & LRS8--12千欧、HRS至少70千欧为参考窗；CIM与memory窗口读验分开，5 ns是建立量级锚点。\\
-RRAM-01 & p.10：1微秒SET/RESET；外部DAC/ADC受限的1--10微秒读回 & 只借完整脉冲波形；外部读回不等于本地切换，HfOx/TaOx与本TaOx不同栈。\\
-RRAM-03/06 & 03 p.5：二态多数名义条件完成，少量追加；06 pp.1--2：双组mask/done及超时 & 1/1、2/1、4/2尝试是有限正常完成条件；保留完整RESET，不隐藏在idle。\\
+RRAM-05 & pp.4--7：典型LRS10千欧/HRS100千欧；32项m=1求和；PH0为5 ns & LRS8--12千欧、HRS至少70千欧为参考窗，非计算充分界。CIM与memory前端分别设参；共同时隙政策联动两路。\\
+RRAM-01 & p.10：1微秒SET/RESET；外部DAC/ADC受限的1--10微秒读回 & 跨stack波形预算：原目标最高30/40微西门子，本LRS窗83--125微西门子，未证明同脉宽可达本窗。\\
+RRAM-03/06 & 03 p.5：二态多数名义条件完成，少量追加；06 pp.1--2：双组mask/done及超时 & 仅支持一次及追加写验的类别；2/1为RESET增加一次裕量的条件选点，无实测次数分布。保留完整RESET。\\
 公共方法与选择 & 128个实际目标、300微安每lane、256比较器、每lane局部切换负载不大于1 pF & 最大1.8 V与8千欧量级给225微安；剩余75微安对1.8 pC约24 ns。50/100/250 ns是有限切换预算，不是实测转换延时。\\
 \bottomrule\end{longtable}\endgroup

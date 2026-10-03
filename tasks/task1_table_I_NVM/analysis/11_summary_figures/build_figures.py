@@ -177,8 +177,9 @@ def make_table(groups):
         (r"$\rho$: complete input-vector evaluation capacity.   $\tau$: full resident-matrix loading capacity.   $\mathrm{RI}^{*}=\rho/\tau$.",10.5,INK),
         ("Fast / typical / slow are paired, sustainable conditions in one configuration; resource expansions and refresh stress points are excluded.",9.7,MUTED),
         ("K × N counts input and output elements. Group labels describe local update shape; reported τ includes all groups and required full-load overhead.",9.7,MUTED),
-        ("Gain-cell rates include refresh. NOR / NAND include erase. Native configurations differ in resources and size; this is not an equal-area or equal-work ranking.",9.5,MUTED)]
-    for y,(s,fs,c) in zip((.144,.109,.076,.043),notes): fig.text(.035,y,s,fontsize=fs,color=c)
+        ("Gain-cell rates include refresh. NOR / NAND include erase. Native configurations differ in resources and size; this is not an equal-area or equal-work ranking.",9.5,MUTED),
+        ("NAND rates are conditional: offset-coded quantization can reverse weak or canceling outputs; small-signal accuracy is not guaranteed.",9.5,MUTED)]
+    for y,(s,fs,c) in zip((.150,.118,.086,.054,.022),notes): fig.text(.035,y,s,fontsize=fs,color=c)
     save_figure(fig,"table_I_three_scenarios")
     return fig
 
@@ -209,6 +210,7 @@ def export_data(document, groups):
     md += ["","三种情景是相同组织和资源下的可持续成对条件，不是独立读写极值、统计区间或资源扩展对照。",
            "τ 使用完整矩阵有效逻辑容量与完整装载服务时间；局部更新分组不改变分子边界。NOR/NAND 包含持续擦写，Gain-cell 包含周期刷新。",
            "不同原生配置的能力不表示等面积或相同计算量的性能排名。完整资源和更新形状在统一机器数据中保留。",
+           "NAND为条件近似求值预算：偏置编码量化可使弱信号或抵消输出符号翻转，未保证小信号准确度；确定性诊断见案例正文与数据。",
            "","## 逐例模式和来源",""]
     for i,c in enumerate(document["cases"]):
         cid=c["case_id"]
@@ -230,6 +232,7 @@ def export_data(document, groups):
         r"$K$ and $N$ count input and output elements. Local group shapes are shown; $\tau$ uses the entire logical matrix and all required loading overhead. "
         r"Fast/typical/slow retain one resource configuration. NOR/NAND include erase; gain-cell rates include refresh. "
         r"Resource-expansion and maintenance-stress contrasts are excluded. Native resources and sizes differ, so the table is not an equal-area or equal-work ranking. "
+        r"NAND rates are conditional: offset-coded quantization can reverse weak or canceling outputs; small-signal accuracy is not guaranteed. "
         r"For the matched INT8 matrix, $U^{*}=N\mathrm{RI}^{*}$; this relation requires matching full-load and full-vector boundaries.",
         r"\end{minipage}",r"\end{table*}"]
     (OUT/"table_I_three_scenarios.tex").write_text("\n".join(tex)+"\n",encoding="utf-8")

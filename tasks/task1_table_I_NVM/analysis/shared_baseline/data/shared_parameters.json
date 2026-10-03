@@ -935,5 +935,84 @@
     "maintenance_rule": "explicit destructive restore/refresh resource occupation; raw/effective separate; no shadow or refresh credit without schedule proof; alpha<=0 null",
     "native_scale_rule": "K/N chosen by native useful computation and installed resources; 16KiB normalized update time is an average, not a request latency",
     "fixed_scenario_resources": "driver/ADC/hold counts and rated current/capability fixed; installed driver rating must cover fastest stated load; typical7.7mA/4mA are demand examples, not supply ceilings"
+  },
+  "parameter_scope_policy": {
+    "single_source_rule": "One physical or explicitly policy-linked parameter has one value and named consumers; all affected service times and derived full-load/maintenance metrics are recomputed from that value.",
+    "service_mode_fields": [
+      "mode_id",
+      "physical_operation",
+      "bias_load_endpoint",
+      "parameter_bindings",
+      "qualification",
+      "source"
+    ],
+    "scenario_classes": [
+      "paired_main",
+      "parameter_uncertainty",
+      "operation_mode_comparison",
+      "resource_comparison",
+      "maintenance_pressure",
+      "finite_retry_sensitivity"
+    ],
+    "mode_distinction": "Different observation, bias, load, endpoint, or control window may use distinct timing parameters only when the actual difference is stated. If the physical path is unchanged and only a minimum observation requirement is added, retain the common settling parameter and use max(common_front, observation_floor). An independent frontend parameter requires an evidenced distinct path or bias and qualification; remaining common conversion/control dependencies persist. A mode comparison is not an uncertainty envelope for an unchanged common frontend.",
+    "profile_consumers": {
+      "input_step": {
+        "consumers": [
+          "normal_evaluation",
+          "endpoint_verify_if_input_or_reset_used",
+          "load_calibration_if_used",
+          "restore_or_refresh_if_used"
+        ],
+        "included_in_cycle": "If TI is already included in a full front/cycle, keep a single total and derive the residual; do not add TI again. Fixed-total and fixed-residual perturbations are different conditions."
+      },
+      "adc_batch": {
+        "consumers": [
+          "all_actual_ADC_batches_in_evaluation",
+          "endpoint_verify_if_ADC_used",
+          "load_calibration_if_ADC_used",
+          "restore_or_refresh_if_ADC_used"
+        ],
+        "policy_link": "A separately implemented binary sense slot may bind this value as a stated common capability policy; this does not imply a shared physical ADC."
+      },
+      "digital_tick": {
+        "consumers": [
+          "input_capture",
+          "output_commit",
+          "decode_and_reconstruction",
+          "added_capture",
+          "write_interface_and_control",
+          "batch_selection",
+          "verify_compare",
+          "maintenance_control_and_guard_if_used"
+        ],
+        "included_in_cycle": "Native complete clocks replace only their explicitly covered stages; extra common control still propagates."
+      }
+    },
+    "included_stage_rule": "Already included page verify, native capture, restore or complete-cycle stages are identified as included_in_cycle, not charged a second time.",
+    "dependency_check": "Perturb each named shared parameter separately, verify every actual consumer and the full T_R, H, guard, alpha, raw/effective rates and U_star; identical values alone do not demonstrate shared scope."
+  },
+  "numerical_service_policy": {
+    "trigger": "Changed active rows, input/weight encoding, bias, analog range or quantizer range requires a minimal deterministic service check.",
+    "contracts": {
+      "DCIM": "exact integer with sufficient container",
+      "ACIM": "calibrated approximate partial sums and reconstruction; no common network-accuracy threshold"
+    },
+    "separate_fields": [
+      "adc_nominal_bits",
+      "adc_effective_bits_target_or_reported_ENOB",
+      "output_container_bits",
+      "analog_full_scale_and_units",
+      "actual_grouping_and_reconstruction_order"
+    ],
+    "checks": [
+      "current_or_voltage_range_and_clipping",
+      "ideal_algebra_separately",
+      "quantized_partial_sums_then_actual_reconstruction",
+      "zero_small_signed_cancellation_and_large_deterministic_inputs",
+      "weak_signal_resolution_scale"
+    ],
+    "enob_rule": "ENOB characterizes effective resolution; it is not an actual integer ADC code width. A full_scale/2**ENOB scale is a diagnostic, not a sampled noise distribution or a guaranteed error bound.",
+    "quantizer_rule": "Declare rounding, code endpoints and saturation for the nominal-bit ideal quantizer; preserve clipping and cancellation diagnostics without inventing device-noise statistics or success probabilities.",
+    "claim_boundary": "A deterministic semantic check does not validate circuit settling, state variability, calibrated class margins or network accuracy."
   }
 }

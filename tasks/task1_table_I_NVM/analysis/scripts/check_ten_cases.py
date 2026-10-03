@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
-"""Independent stage/geometry review. No case or shared calculator is imported.
+"""Independent stage/geometry review, with production-path perturbation probes.
 
 Expected services are reconstructed from input geometry, resources and stage
 budgets, never from unified exports or an old table of expected result values.
-The JSON record binds this review to the exact inputs/results/evidence files.
+Production functions supply observations only; expected values and derivatives
+come from this separate stage ledger. The JSON binds the exact reviewed files.
 """
 import argparse
+import copy
 import csv
 import hashlib
+import importlib.util
 import json
 import math
 import re
+import sys
+from fractions import Fraction
 from pathlib import Path
+sys.dont_write_bytecode = True
 
 A = Path(__file__).resolve().parents[1]
 T = A.parent
@@ -42,6 +48,28 @@ def close(a,b,label):
 
 def ceildiv(a,b):
     return math.ceil(a/b)
+
+def input_provenance_checks(case,d):
+    """Validate existing provenance declarations against actual files.
+
+    A calculator may read the current shared API while stale input metadata
+    still claims a previous one. Both identities must agree; no timing value
+    or expected model answer is changed to satisfy this check.
+    """
+    shared=A/'shared_baseline';checks=[]
+    def check(field,path,declared):
+        actual=sha(path)
+        assert declared==actual,(case,'stale declared provenance',field,str(path.relative_to(T)),declared,actual)
+        checks.append({'field':field,'path':str(path.relative_to(T)),'sha256':actual})
+    for name in ['baseline_files','baseline_hashes']:
+        for path,declared in d.get(name,{}).items():check(name+'.'+path,shared/path,declared)
+    for field,path in {'json_sha256':'data/shared_parameters.json','script_sha256':'scripts/check_shared.py',
+                       'method_tex_sha256':'tex/02_estimation_method.tex'}.items():
+        if field in d.get('baseline',{}):check('baseline.'+field,shared/path,d['baseline'][field])
+    for field,path in {'shared_json_sha256':'data/shared_parameters.json','shared_api_sha256':'scripts/check_shared.py'}.items():
+        if field in d.get('provenance',{}):check('provenance.'+field,shared/path,d['provenance'][field])
+    if 'source_manifest_sha256' in d:check('source_manifest_sha256',T/'source_manifest.json',d['source_manifest_sha256'])
+    return checks
 
 def local_front(bits,td,first=True):
     # Command+completion: two ticks. First data beat may share command.
@@ -144,7 +172,9 @@ def stage_expectation(case,d,profile,p):
             R[phase+'_pulse']=count*v['program_pulse_ns'][phase]
             R[phase+'_local_bias_setup']=count*v['high_voltage_setup_ns_per_attempt']['by_profile'][profile]
             R[phase+'_local_isolate_return']=count*v['high_voltage_return_recover_ns_per_attempt']['by_profile'][profile]
-            R[phase+'_binary_verify']=count*(ti+v['binary_verify_frontend_ns']['value']+v['binary_sense_slot_ns'][profile])
+            # The endpoint comparator is provisioned to the same common slot
+            # policy as the ADC, despite being a distinct physical read mode.
+            R[phase+'_binary_verify']=count*(ti+v['binary_verify_frontend_ns']['value']+ta)
             R[phase+'_address_and_done']=count*(v['address_and_pulse_control_ticks_per_attempt']['value']+v['verify_group_done_commit_ticks_per_attempt']['value'])*td
         voltage=w['voltage_rated_program_IO_required_V'];static_uA=voltage/v['binary_windows']['LRS_resistance_kOhm'][0]*1000
         headroom=w['current_compliance_uA_per_lane']-static_uA
@@ -224,7 +254,10 @@ def stage_expectation(case,d,profile,p):
     elif case=='09_gain_cell_edram':
         q=next(x for x in d['profiles'] if x['id']==profile);m=d['mapping'];w=d['write'];f=d['refresh']
         rounds=8*ceildiv(K,m['rows_per_group'])*ceildiv(N,m['evaluation_output_width'])
-        front=ti+q['dedicated_read_ns']+ta
+        sp=d['service_parameters'];mode=d['service_modes']['fixed_slot']
+        assert mode['service_bindings']['normal_evaluation']['integration_reservation_ns']=='read_slot_reservation_ns'
+        assert mode['service_bindings']['refresh_read']['integration_reservation_ns']=='read_slot_reservation_ns'
+        front=ti+sp['profile_common_overhead_ns'][profile]+sp['read_slot_reservation_ns']+ta
         S={'input_front_ADC':rounds*front,'digital_reconstruction':rounds*2*td,'boundaries':2*td}
         tx=ceildiv(cap,w['logical_weights_completed']);wf=local_front(w['encoded_load_bits'],td,w['first_data_in_command'])
         R={'encoded_load_control':tx*wf,'complete_two_step_program':tx*q['program_complete_ns']}
@@ -288,12 +321,249 @@ SOURCE_INSPECTIONS = {
  '10_fenor_3d':[('FENOR-02',[2,3],'SL+O-poor +/-2V20ns,RAWD<100ns,Vw/3 bias and simulated readRC')]
 }
 
+def mapping_from_stages(case,d,p):
+    K,N,bs,br,S,R,alpha,extra=stage_expectation(case,d,'reference',p)
+    ds,tr=sum(S.values()),sum(R.values())
+    return {'delta_S_ns':ds/alpha,'T_R_ns':tr/alpha,
+            'rho_Byte_per_s':K*bs/ds*1e9*alpha,'tau_Byte_per_s':K*N*br/tr*1e9*alpha,
+            'RI_star':bs*tr/(N*br*ds),'U_star':tr/ds},(ds,tr,alpha,extra)
+
+
+def production_probe_adapter(case):
+    """Import an observation path, never used for an expected answer."""
+    names=['sram_acim','sram_dcim','nor','nand','rram','mram','pcm','feram','gain_cell_edram','fenor']
+    path=A/case/'scripts'/('check_'+names[CASES.index(case)]+'.py')
+    spec=importlib.util.spec_from_file_location('review_observation_'+case,path)
+    mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+    api=next(getattr(mod,n) for n in ['S','api','s','API'] if hasattr(mod,n))
+    d=read(A/case/'data/inputs.json')
+    def observe(overrides=None,mode=None):
+        overrides={} if overrides is None else overrides
+        if case=='01_sram_acim':
+            q=next(x for x in d['scenarios'] if x['id']=='reference')
+            return mod.calculate('reference',q['frontend_complete_ns'],q['complete_memory_cycle_ns'])
+        if case=='02_sram_dcim':return mod.compute()['scenarios'][1]
+        if case=='03_nor_2d':return mod.evaluate(next(x for x in d['scenarios'] if x['profile']=='reference'))
+        if case=='04_nand_3d':return mod.scenario('reference',overrides=overrides)
+        if case=='05_rram':return mod.calculate(parameter_overrides=overrides)['scenarios'][1]
+        if case=='06_mram':return mod.calculate(next(x for x in d['scenarios'] if x['profile']=='reference'))
+        if case=='07_pcm':return mod.compute('reference',weak_verify=mode=='long_observation',parameter_overrides=overrides)
+        if case=='08_feram_hfo2':return mod.make_row('reference',d['paired_media_budgets_ns']['reference'],'reference')
+        if case=='09_gain_cell_edram':return mod.calc('reference',release_policy=mode or 'fixed_slot',parameter_overrides=overrides)
+        if case=='10_fenor_3d':return mod.recompute()['main_scenarios'][1]
+        raise NotImplementedError(case)
+    return mod,api,observe
+
+
+def dependency_checks():
+    """Perturb the real common profile dictionary across all ten consumers.
+
+    The independent stage ledger determines the full response, including zero
+    responses when a complete primitive already includes a common stage.
+    """
+    common=read(A/'shared_baseline/data/shared_parameters.json')['common_conditions']['propagation']['profile_values']['reference']
+    records=[];adapters={}
+    for case in CASES:
+        d=read(A/case/'data/inputs.json');mod,api,observe=production_probe_adapter(case)
+        adapters[case]=(mod,api,observe)
+        expected,stages=mapping_from_stages(case,d,common)
+        base=observe()['mapping_interface']
+        for key,value in expected.items():close(value,base[key],case+'/probe baseline/'+key)
+        for param in ['input_step','adc_batch','digital_tick']:
+            profile=api.C['propagation']['profile_values']['reference'];old=profile[param]
+            try:
+                profile[param]=old+1
+                actual=observe()['mapping_interface']
+            finally:profile[param]=old
+            expected,changed=mapping_from_stages(case,d,{**common,param:common[param]+1})
+            for key,value in expected.items():close(value,actual[key],case+'/shared '+param+'/'+key)
+            records.append({'case_id':case,'parameter':param,'perturbation_ns':1,
+                'expected_raw_vector_change_ns':changed[0]-stages[0],
+                'expected_raw_full_load_change_ns':changed[1]-stages[1],
+                'expected_availability':changed[2],'observed_mapping':{k:actual[k] for k in expected},
+                'all_affected_services_recomputed':True})
+    # Local front-end dependencies: expectation is a separate stage count,
+    # not the production resolver's binding graph.
+    local=[]
+    def check_local(case,name,value,dds,dtr,mode=None,dh=0,dguard=0):
+        observe=adapters[case][2];base=observe(mode=mode);row=observe({name:value},mode=mode)
+        b=base['mapping_interface'];m=row['mapping_interface']
+        if case=='09_gain_cell_edram':
+            raw_s=base['nominal']['delta_S_ns']+dds
+            raw_r=base['raw_mapping_interface']['T_R_ns']+dtr
+            period=base['refresh']['period_ns']
+            busy=base['refresh']['total_ns']+dh;guard=base['refresh']['scheduling_guard_ns']+dguard
+            alpha=1-(busy+guard)/period
+            close(row['refresh']['total_ns'],busy,'GC busy propagation')
+            close(row['refresh']['scheduling_guard_ns'],guard,'GC guard propagation')
+            close(row['refresh']['availability'],alpha,'GC availability propagation')
+        else:raw_s=b['delta_S_ns']+dds;raw_r=b['T_R_ns']+dtr;alpha=1
+        K,N,bs,br=dimensions(read(A/case/'data/inputs.json'))
+        expected={'delta_S_ns':raw_s/alpha,'T_R_ns':raw_r/alpha,
+                  'rho_Byte_per_s':K*bs/raw_s*1e9*alpha,'tau_Byte_per_s':K*N*br/raw_r*1e9*alpha,
+                  'RI_star':bs*raw_r/(N*br*raw_s),'U_star':raw_r/raw_s}
+        for key,v in expected.items():close(v,m[key],case+'/local '+name+'/'+key)
+        local.append({'case_id':case,'mode':mode or 'main','parameter':name,'value_ns':value,
+                      'independent_raw_delta_S_ns':dds,'independent_raw_delta_T_R_ns':dtr,
+                      'independent_refresh_busy_change_ns':dh,'independent_guard_change_ns':dguard,
+                      'all_affected_services_recomputed':True})
+    # 30 selected WL, 480 grouped evaluations, 12 calibration reads,
+    # 2 calibration WL setups; 6144 pages and 64 block erases.
+    for name,value,ds,tr in [('sl_setup_ns',641,480,12),('bl_setup_ns',13,480,12),
+          ('wl_setup_ns',304,30,2),('adc_batch_ns',21,480,12),
+          ('digital_tick_ns',6,1790,6144*110+480*8*36+450),
+          ('program_full_ns',300001,0,6144),('erase_full_ns',1000001,0,64)]:
+        check_local('04_nand_3d',name,value,ds,tr)
+    # 128 compute rounds; 512 full-load groups; RESET/SET attempts 2/1.
+    for name,value,ds,tr in [('cim_frontend_ns',6,128,0),('verify_frontend_ns',6,0,512*3),
+          ('local_setup_ns',101,0,512*3),('local_return_ns',101,0,512*3),
+          ('reset_pulse_ns',1001,0,512*2),('set_pulse_ns',1001,0,512),
+          ('rail_setup_ns',1001,0,1),('rail_exit_ns',1001,0,1)]:
+        check_local('05_rram',name,value,ds,tr)
+    # 2048 evaluations; 1024 updates x 16 fresh end-point reads.
+    check_local('07_pcm','shared_front_ns',21,2048,1024*16)
+    check_local('07_pcm','shared_front_ns',768,2048*748,1024*16*748)
+    check_local('07_pcm','long_observation_ns',769,0,1024*16,mode='long_observation')
+    # A minimum observation quota on the same physical voltage-read path
+    # cannot hide an even longer common settling requirement.
+    check_local('07_pcm','shared_front_ns',768,2048*748,0,mode='long_observation')
+    check_local('07_pcm','shared_front_ns',900,2048*(900-20),1024*16*(900-768),mode='long_observation')
+    # 32 compute groups, 256 refresh/update groups; exact max-group guard.
+    for mode,name,value,ds,tr,h,g in [
+        ('fixed_slot','common_overhead_ns',87,32,0,256,1),
+        ('fixed_slot','read_slot_reservation_ns',65,32,0,256,1),
+        ('fixed_slot','mac_integration_ns',2,0,0,0,0),
+        ('fixed_slot','program_complete_ns',66,0,256,256,0),
+        ('early_release','common_overhead_ns',87,32,0,256,1),
+        ('early_release','mac_integration_ns',2,32,0,0,1),
+        ('early_release','refresh_integration_ns',65,0,0,256,0)]:
+        check_local('09_gain_cell_edram',name,value,ds,tr,mode=mode,dh=h,dguard=g)
+    return {'expected_method':'Independent input-derived stage counts; production functions are observation-only, with in-memory parameters restored after each probe.',
+            'common_parameter_probes':records,'local_and_mode_parameter_probes':local}
+
+
+def mode_comparison_checks():
+    pcm=read(A/'07_pcm/data/results.json');d=read(A/'07_pcm/data/inputs.json')
+    p=read(A/'shared_baseline/data/shared_parameters.json')['common_conditions']['propagation']['profile_values']
+    normal=pcm['paired_scenarios'][1];long=pcm['verify_organization_comparison'];slow=pcm['shared_front_parameter_sensitivity']
+    # An independent acceptance observation quota is a conditional protocol,
+    # not PCM-01's 0.2 V PWM/CCO transplanted into the voltage/SAR circuit.
+    assert '0.2V PWM/CCO' in d['service_modes']['long_observation_verify']['bias_load_endpoint']
+    assert 'conservative operation quota' in d['service_modes']['long_observation_verify']['qualification']
+    assert long['scenario_class']=='operation_mode_comparison'
+    assert slow['scenario_class']=='parameter_uncertainty'
+    for row,front in [(long,20),(slow,768)]:
+        ds=2048*(front+p['reference']['adc_batch']+2*p['reference']['digital_tick'])+2*p['reference']['digital_tick']
+        tr=1024*(3*5+8*(5+3*20+125+300+2*(768+20+5)))
+        m=row['mapping_interface']
+        close(m['delta_S_ns'],ds,'PCM mode deltaS');close(m['T_R_ns'],tr,'PCM mode full load')
+        close(m['rho_Byte_per_s'],256e9/ds,'PCM mode rho');close(m['tau_Byte_per_s'],32768e9/tr,'PCM mode tau')
+        close(m['U_star'],tr/ds,'PCM mode U*')
+    assert long['rho_Byte_per_s']==normal['rho_Byte_per_s'] and slow['rho_Byte_per_s']<normal['rho_Byte_per_s']
+    gc=read(A/'09_gain_cell_edram/data/results.json');gd=read(A/'09_gain_cell_edram/data/inputs.json')
+    records=[]
+    for mode in gc['mode_comparisons']:
+        profile=mode['profile'];v=p[profile];sp=gd['service_parameters']
+        q=next(x for x in gd['profiles'] if x['id']==profile)
+        front=v['input_step']+sp['profile_common_overhead_ns'][profile]+sp['mac_integration_ns']+v['adc_batch']
+        refresh_front=v['input_step']+sp['profile_common_overhead_ns'][profile]+sp['refresh_integration_ns']+v['adc_batch']
+        ds=32*(front+2*v['digital_tick'])+2*v['digital_tick']
+        local=3*v['digital_tick']+q['program_complete_ns'];tr=256*local
+        busy=256*(refresh_front+v['digital_tick']+local)
+        guard=max(front+2*v['digital_tick'],local);alpha=1-(busy+guard)/gd['refresh']['period_ns']
+        assert mode['scenario_class']=='operation_mode_comparison'
+        close(mode['nominal']['delta_S_ns'],ds,'GC early-release raw DS')
+        close(mode['refresh']['total_ns'],busy,'GC early-release refresh')
+        close(mode['refresh']['scheduling_guard_ns'],guard,'GC early-release guard')
+        close(mode['refresh']['availability'],alpha,'GC early-release alpha')
+        m=mode['mapping_interface']
+        for key,value in {'delta_S_ns':ds/alpha,'T_R_ns':tr/alpha,'rho_Byte_per_s':64e9/ds*alpha,
+                          'tau_Byte_per_s':4096e9/tr*alpha,'RI_star':tr/ds/64,'U_star':tr/ds}.items():
+            close(m[key],value,'GC early-release '+key)
+        records.append({'profile':profile,'raw_delta_S_ns':ds,'raw_T_R_ns':tr,
+                        'refresh_busy_ns':busy,'guard_ns':guard,'availability':alpha})
+    return {'PCM_long_observation':'conditional separate acceptance protocol; source PWM/CCO architecture not transplanted',
+            'PCM_shared_front_uncertainty':'propagates to evaluation and every terminal read; not a measured performance correction',
+            'GC_early_release_independent_stages':records,
+            'GC_fixed_slot':'intentional sampling reservation, including post-pulse analog hold; original 180 ns is only a whole-cycle anchor'}
+
+
+def nand_quantization_checks():
+    """Rebuild vectors and finite ADC arithmetic independently of case code."""
+    d=read(A/'04_nand_3d/data/inputs.json');path=A/'04_nand_3d/data/quantization_diagnostics.json';diag=read(path)
+    m=d['mapping'];v=d['design_choices'];K=m['K'];width=m['rows_per_group'];bits=v['quantization_diagnostic']['nominal_ADC_bits']
+    full_scale=Fraction(str(v['current_sense_full_scale_uA']))*1000
+    current=Fraction(str(d['reported_numeric']['cell_on_current_nA']))
+    def nearest(value):return (2*value.numerator+value.denominator)//(2*value.denominator)
+    def adc(count,i=current):
+        unbounded=nearest(count*i*(1<<bits)/full_scale)
+        return min((1<<bits)-1,max(0,unbounded)),unbounded<0 or unbounded>=(1<<bits)
+    dense=width*9;full_code,clipped=adc(dense)
+    gain=nearest(Fraction(dense*(1<<16),full_code))
+    half_code,_=adc(dense//2);residual=Fraction(half_code)-Fraction(full_code,2)
+    assert not clipped and abs(residual)<=v['calibration']['residual_limit_ADC_codes']
+    assert gain<2**v['calibration']['coefficient_bits']
+    makers={
+      'zero':lambda k:(0,0),'unit_positive':lambda k:(1,1),'unit_negative':lambda k:(-1,1),
+      'alternating_cancel':lambda k:(1 if k%2==0 else -1,1),
+      'large_cancel':lambda k:(127 if k%2==0 else -127,127),
+      'large_positive':lambda k:(127,127),'large_negative':lambda k:(-128,127),
+      'small_ramp':lambda k:(k%7-3,k%5-2),'wide_ramp':lambda k:(k%256-128,(73*k)%256-128),
+      'isolated_unit':lambda k:((1,1) if k==0 else (0,0))}
+    checked=[]
+    assert {x['id'] for x in diag['cases']}==set(makers)
+    for row in diag['cases']:
+        pairs=[makers[row['id']](k) for k in range(K)]
+        exact=sum(x*w for x,w in pairs);unsigned=0;real=Fraction(0);maximum=0;clipped_partials=0
+        for group,actual in enumerate(row['groups']):
+            pairs_group=pairs[group*width:(group+1)*width]
+            counts=[[sum(((x+128)//(4**a)%4)*((w+128)//(4**b)%4) for x,w in pairs_group) for b in range(4)] for a in range(4)]
+            codes=[[adc(c)[0] for c in line] for line in counts]
+            decoded=[[nearest(Fraction(c*gain,1<<16)) for c in line] for line in codes]
+            assert counts==actual['nominal_unit_counts_by_input_weight_digit']
+            assert codes==actual['ADC_codes_by_input_weight_digit']
+            assert decoded==actual['decoded_integer_counts_by_input_weight_digit']
+            group_sum=sum(decoded[a][b]*4**(a+b) for a in range(4) for b in range(4))
+            assert group_sum==actual['reconstructed_unsigned_group_sum']
+            unsigned+=group_sum
+            real+=sum(Fraction(codes[a][b]*dense,full_code)*4**(a+b) for a in range(4) for b in range(4))
+            maximum=max(maximum,max(c for line in counts for c in line)*current)
+            clipped_partials+=sum(adc(c)[1] for line in counts for c in line)
+        correction=128*sum(x+128+w+128 for x,w in pairs)-16384*K
+        finite=unsigned-correction;real-=correction
+        assert exact==row['exact_signed_dot'] and finite==row['quantized_reconstructed_signed_dot']
+        assert finite-exact==row['signed_error'] and real==Fraction(row['ideal_real_coefficient_signed_dot_fraction'])
+        assert clipped_partials==row['clipped_partials']==0
+        close(float(maximum/1000),row['maximum_partial_current_uA'],'NAND maximum current')
+        assert row['calibration']['gain_Q8_16_integer']==gain and row['calibration']['full_code']==full_code
+        assert row['calibration']['finite_calibration_pass'] is True
+        checked.append({'id':row['id'],'exact_signed_dot':exact,'quantized_signed_dot':finite,
+                        'signed_error':finite-exact,'sign_reversal':exact*finite<0,'clipped_partials':clipped_partials})
+    by_id={q['id']:q for q in checked}
+    assert by_id['zero']['quantized_signed_dot']!=0 and by_id['unit_positive']['sign_reversal']
+    assert by_id['large_cancel']['quantized_signed_dot']!=0
+    qualification=d['numerical_service_qualification']
+    assert qualification==diag['qualification'] and qualification['weak_signal_guarantee'] is False
+    assert qualification['quantized_service_status']=='weak_signal_and_cancellation_not_qualified'
+    close(diag['ENOB_resolution_scale_only']['full_scale_divided_by_2_to_ENOB_nA'],float(full_scale/2**8),'NAND ENOB scale')
+    pressure=diag['current_headroom'];pressure_i=Fraction(str(pressure['deterministic_pressure_current_nA']))
+    pc,clip=adc(dense,pressure_i);ph,_=adc(dense//2,pressure_i)
+    assert clip and abs(Fraction(ph)-Fraction(pc,2))>v['calibration']['residual_limit_ADC_codes']
+    assert pressure['pressure_calibration']['finite_calibration_pass'] is False
+    return {'method':'Independent integer/Fraction reconstruction of all ten deterministic vectors, four physical row groups and sixteen digit partials per group.',
+            'nominal_bits':bits,'gain_Q8_16_integer':gain,'full_reference_code':full_code,
+            'half_reference_residual_codes':float(residual),'vector_checks':checked,
+            'ENOB_is_resolution_scale_only':True,'pressure_clipping_detected':True,
+            'diagnostic_reproduction_passed':True,'weak_signal_numerical_service_qualified':False,
+            'diagnostic_sha256':sha(path)}
+
 def run(check_export=True):
     shared=A/'shared_baseline/data/shared_parameters.json';s=read(shared)
     profiles=s['common_conditions']['propagation']['profile_values']
     checks=[]
     for case in CASES:
         ip=A/case/'data/inputs.json';rp=A/case/'data/results.json';d=read(ip);r=read(rp)
+        input_provenance=input_provenance_checks(case,d)
         rows=scenario_rows(r)
         paired=[x for x in rows if scenario_profile(x) in PROFILES]
         assert len(paired)==3,(case,len(paired))
@@ -326,11 +596,16 @@ def run(check_export=True):
         for prefix,pages,judgment in SOURCE_INSPECTIONS[case]:
             matches=[p for p in (T/'literature').rglob(prefix+'_*.pdf') if 'Supplement' not in p.name];assert len(matches)==1,(prefix,matches)
             evidence.append({'source_id':prefix,'path':str(matches[0].relative_to(T)),
-                             'pdf_pages_inspected':pages,'sha256':sha(matches[0]),'checked_claim':judgment})
+                             'prior_source_review_page_locators':pages,'sha256':sha(matches[0]),'inherited_claim_locator':judgment,
+                             'review_scope':'Existing source-review locator retained; this execution checks file identity, not a new visual inspection of every original page.'})
         checks.append({'case_id':case,'inputs_sha256':sha(ip),'results_sha256':sha(rp),
+                       'declared_input_provenance_checks':input_provenance,
                        'native_configuration':r['native_configuration'],'independent_stage_formula':FORMULAE[case],
                        'main_scenarios':sc,'primary_evidence_checks':evidence})
     geometry=geometry_checks()
+    dependencies=dependency_checks()
+    modes=mode_comparison_checks()
+    numerical=nand_quantization_checks()
     export_review=check_unified(checks) if check_export else {'not_run':'authoring-stage-only invocation'}
     labels=[]
     for case in CASES:
@@ -340,8 +615,13 @@ def run(check_export=True):
                 labels.append(label)
     assert len(labels)==len(set(labels)),'duplicate TeX labels'
     return {'validation_kind':'independent input-derived stage arithmetic, native geometry and resource/maintenance semantics; not silicon qualification or user acceptance',
-            'independence':'No case/shared calculation functions imported; no unified result or old expected point used to derive answers.',
+            'independence':'Independent expected values derive from input geometry and stage ledgers. Case/shared functions are imported only for observed perturbation responses; no generator result or old expected point derives an answer.',
             'cases':checks,'geometry_and_cross_case_checks':geometry,'unified_export_checks':export_review,
+            'actual_parameter_dependency_checks':dependencies,'mode_comparison_checks':modes,
+            'numerical_service_checks':{'04_nand_3d':numerical},
+            'numerical_service_qualifications':{'04_nand_3d':read(A/'04_nand_3d/data/inputs.json')['numerical_service_qualification']},
+            'remaining_qualification':'NAND weak signed outputs and cancellation are not qualified. PCM shared weakest-code settling, GC control/hold conditions and RRAM cross-stack endpoint completion remain explicitly conditional engineering assumptions.',
+            'all_passed_scope':'Execution, independent arithmetic, parameter propagation, deterministic diagnostic reproduction and export consistency only; not numerical-service adequacy, circuit qualification or user acceptance.',
             'shared_hashes':{'data/shared_parameters.json':sha(shared),'scripts/check_shared.py':sha(A/'shared_baseline/scripts/check_shared.py')},
             'unique_case_prefixed_labels':len(labels),
             'external_review_judgments':[
@@ -384,6 +664,18 @@ def check_unified(checks):
             assert x not in main
         if 'append' in x['scenario_id']:
             assert x not in main,'finite pre-erased append cannot be a sustained paired point'
+        if x['case_id']=='07_pcm':
+            if 'verify_organization_comparison' in x['scenario_id']:
+                assert x['scenario_type']=='operation_mode_comparison' and x not in main
+            if 'shared_front_parameter_sensitivity' in x['scenario_id']:
+                assert x['scenario_type']=='parameter_uncertainty' and x not in main
+        if x['case_id']=='09_gain_cell_edram' and 'mode_comparisons' in x['scenario_id']:
+            assert x['scenario_type']=='operation_mode_comparison' and x not in main
+        if x['case_id']=='04_nand_3d':
+            q=x['numerical_service_qualification']
+            assert q['weak_signal_guarantee'] is False and q['quantized_service_status']=='weak_signal_and_cancellation_not_qualified'
+            assert q['diagnostic_path']=='04_nand_3d/data/quantization_diagnostics.json'
+            assert (A/q['diagnostic_path']).is_file()
     # CSV and JSON serialize the identical full ledger, including all contrasts.
     with cp.open(newline='') as stream:csvrows=list(csv.DictReader(stream))
     assert len(csvrows)==len(rows)
@@ -463,4 +755,4 @@ if __name__=='__main__':
     report=run();text=json.dumps(report,ensure_ascii=False,indent=2)+'\n';out=A/'data/ten_case_validation.json'
     if args.emit:out.write_text(text)
     else:assert out.read_text()==text,'stale independent validation record; rerun after resolving model/check failures'
-    print('PASS: ten input-derived native configurations; 30 stage reconstructions; full-load/Table II interface; encoding, resources and maintenance semantics.')
+    print('PASS: 30 independent stage reconstructions; 30 common and 27 local/mode parameter probes; full-load/U*; nominal quantization diagnostics reproduced. NAND weak-signal/cancellation numerical service remains NOT QUALIFIED.')

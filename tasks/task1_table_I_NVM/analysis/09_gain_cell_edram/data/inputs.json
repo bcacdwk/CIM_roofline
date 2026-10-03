@@ -11,8 +11,8 @@
     "summary_throughput": "decimal MB/s = 1e6 Byte/s"
   },
   "baseline_hashes": {
-    "data/shared_parameters.json": "84a1f8d2413b0a89204c090a35df1d739531dc61ae7c0407812a3cf6d9f0e42b",
-    "scripts/check_shared.py": "bd3911aab3887afbe3fd3c540e0a3ad9ac3d3082a3b5bab121151ed6a12d93e3"
+    "data/shared_parameters.json": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+    "scripts/check_shared.py": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f"
   },
   "mapping": {
     "state": "0 or 700 nA per physical cell; a bit is a pseudodifferential pair (700,0) or (0,700)",
@@ -88,8 +88,25 @@
   ],
   "frontend_selection": {
     "kind": "reference_choice",
-    "anchor": "GC-04 PDF pp6-7 Fig10: 180 ns measured whole compute cycle includes 5b SAR. It is only a complete-cycle scale anchor, not a separated device response measurement. Dedicated response 100/150/200 ns is an engineering budget for adapted binary frontend; common TI and 10b-nominal/8b-effective TA are separately added through shared API.",
-    "conditions": "Retain native 64-cell bitline load. MAC pulse 1 ns and single-pair refresh pulse 64 ns are explicit engineering choices; endpoint integrated charge at 700 nA is 44.8 fC in either full-scale case. The 64 ns pulse is contained in dedicated read budget, leaving 36/86/136 ns for select/settle/recovery. Integration capacitance/ADC full-scale and noise must support 129 differential levels. These pulses and dedicated budgets are not measured ported results. Each readout branch has an engineered effective 200 fF integration capacitance including bitline and sampling adaptation; 44.8 fC causes at most 224 mV discharge and +/-224 mV differential ADC swing. Both branches of 128 differential ADC frontends total 51.2 pF. This explicit local resource must be validated after parasitics/CDAC loading, not treated as free analog gain."
+    "anchor": "GC-04 PDF pp6-7 Fig10: measured 180 ns whole compute includes precharge, DTC/MAC and 5b SAR. This anchors only the overall scale; it does not identify individual stages in the adapted frontend.",
+    "conditions": "Retain native 64-cell bitline load, 700 nA endpoint, 200 fF effective integration capacitance per branch and +/-224 mV differential range. MAC 1 ns and single-pair refresh 64 ns are engineering integration choices. The main fixed controller allocates a common 64 ns integration window plus 36/86/136 ns aggregate precharge/select/settle/sample/recovery allowance, then shared TI and TA. MAC does not require 64 ns integration: its remaining 63 ns is controller reservation. The early_release comparison removes that reservation only if the same common allowance covers the actual mode and sampling can start immediately after the configured pulse. Neither phase allowance nor early release is independently measured. Writing isolates added integration/SAR capacitance and retains approximately original 50 fF program load.",
+    "phase_evidence": {
+      "source_pages": [
+        6,
+        7,
+        10
+      ],
+      "figures": [
+        "10",
+        "16",
+        "17",
+        "18"
+      ],
+      "confirmed": "Distinct precharge, variable-RWL MAC and sampled SAR phases; single-row retention reads tune RWL pulse to ADC range. The source reports no separated adapted 1/64 ns phase budget.",
+      "common_physical_conditions": "Same selected 64-cell local bitline, effective integration load, endpoint current, full-scale range and ADC; different number of active rows and RWL width. Equal worst-case integrated charge does not prove equal settling/noise.",
+      "assumed_common_stages": "Aggregate precharge, selection, load reconnect/settle, sample and recovery; no unsupported numerical subdivision of the 36/86/136 ns allowance.",
+      "qualification": "Early release needs mode-specific timing closure with the same load and settling endpoint. This is an operation/control comparison, not a faster measured GC device."
+    }
   },
   "precision": {
     "logical": "K64N64INT8 byINT8;64x22-bit output containers",
@@ -539,7 +556,13 @@
     "meaning": "Three compatible sustainable service windows ofsame64x64nativeconfiguration;larger128x128capacity,longrefresh-critical andinfeasible pressure separately",
     "infeasibility": "Do not clip alpha. At alpha <= 0 export null effective intervals, throughput and ridge; preserve raw occupation and signed availability.",
     "dominant_comparison": "same native64row and64column tile;128x128capacity comparison andwide32resources separated",
-    "targeted_stress": "Keep long periphery, 75 ns program and 400 us period; increase dedicated_read_ns from 200 to 216 to cross the exact 215.33658536585366 ns feasibility boundary."
+    "targeted_stress": "Keep long periphery, 75 ns program and 400 us period; increase dedicated_read_ns from 200 to 216 to cross the exact 215.33658536585366 ns feasibility boundary.",
+    "operation_mode_comparisons": [
+      "early_release_short",
+      "early_release_reference",
+      "early_release_long"
+    ],
+    "parameter_sensitivities": "Common overhead, TI, TA and TD propagate to every bound service. Mode-specific pulses affect their own integration; fixed-slot reservation must cover each pulse. Refresh and scheduling propagate into both effective capacities."
   },
   "logical_configuration": {
     "K": 64,
@@ -581,5 +604,71 @@
       "output_register_bits": 1408
     },
     "native_rationale": "GC-04measured64x64pair local load;8bit planes encodeone64x64INT8matrix without unnecessary2x2 spatial expansion"
+  },
+  "service_parameters": {
+    "read_slot_reservation_ns": 64,
+    "mac_integration_ns": 1,
+    "refresh_integration_ns": 64,
+    "profile_common_overhead_ns": {
+      "short": 36,
+      "reference": 86,
+      "long": 136
+    }
+  },
+  "service_modes": {
+    "fixed_slot": {
+      "classification": "main_fixed_organization_control_mode",
+      "release_rule": "Both modes sample/convert after the same reserved integration window; the MAC pulse stops after 1 ns and holds its analog result during the remaining reservation. The 63 ns is a control allocation, not required integration.",
+      "condition": "Hold droop, leakage and common-mode settling must remain within the stated approximate-ACIM service during the reserved window.",
+      "service_bindings": {
+        "normal_evaluation": {
+          "input_ns": "input_step",
+          "common_overhead_ns": "common_overhead_ns",
+          "integration_reservation_ns": "read_slot_reservation_ns",
+          "pulse_ns": "mac_integration_ns",
+          "adc_ns": "adc_batch"
+        },
+        "refresh_read": {
+          "input_ns": "input_step",
+          "common_overhead_ns": "common_overhead_ns",
+          "integration_reservation_ns": "read_slot_reservation_ns",
+          "pulse_ns": "refresh_integration_ns",
+          "adc_ns": "adc_batch"
+        },
+        "digital_control": {
+          "tick_ns": "digital_tick"
+        },
+        "resident_write": {
+          "complete_ns": "program_complete_ns"
+        }
+      }
+    },
+    "early_release": {
+      "classification": "conditional_operation_mode_comparison",
+      "release_rule": "Sample/convert after each mode pulse: 1 ns MAC, 64 ns single-pair refresh. No full-matrix shadow or extra ADC/driver is introduced.",
+      "condition": "Control supports mode-specific release and aggregate common stages retain their allocated 36/86/136 ns at the same bias, load, range and settling endpoint. The original 180 ns cycle alone does not establish this.",
+      "service_bindings": {
+        "normal_evaluation": {
+          "input_ns": "input_step",
+          "common_overhead_ns": "common_overhead_ns",
+          "integration_reservation_ns": "mac_integration_ns",
+          "pulse_ns": "mac_integration_ns",
+          "adc_ns": "adc_batch"
+        },
+        "refresh_read": {
+          "input_ns": "input_step",
+          "common_overhead_ns": "common_overhead_ns",
+          "integration_reservation_ns": "refresh_integration_ns",
+          "pulse_ns": "refresh_integration_ns",
+          "adc_ns": "adc_batch"
+        },
+        "digital_control": {
+          "tick_ns": "digital_tick"
+        },
+        "resident_write": {
+          "complete_ns": "program_complete_ns"
+        }
+      }
+    }
   }
 }

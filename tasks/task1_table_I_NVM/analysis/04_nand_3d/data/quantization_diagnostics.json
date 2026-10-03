@@ -1,0 +1,3586 @@
+{
+  "method": "deterministic grouped quantization and finite affine reconstruction;not circuit simulation or application accuracy qualification",
+  "qualification": {
+    "contract": "approximate_partial_sum",
+    "weak_signal_guarantee": false,
+    "quantized_service_status": "weak_signal_and_cancellation_not_qualified",
+    "diagnostic_path": "data/quantization_diagnostics.json",
+    "limitations": [
+      "Nominal10bit deterministic quantization with existing affine offset reconstruction can turn a positive small dot product negative.",
+      "No clipping in nominal deterministic test vectors does not certify small-signal or cancellation accuracy.",
+      "Approximately8ENOB describes a resolution scale,not an8bit quantizer,noise model or application error guarantee.",
+      "Throughput values remain conditional approximate-evaluation budgets;qualifying general signed INT8 weak outputs requires a service choice or additional supported implementation."
+    ]
+  },
+  "reconstruction_convention": {
+    "nominal_ADC_bits": 10,
+    "ADC_code_step_definition": "full_scale/2**bits;nearest code with half-up ties,clipped to0..2**bits-1",
+    "calibration_gain_format": "unsigned Q8.16,24bits,count/code",
+    "calibration_offset_format": "signed Q12.12,24bits,count;zero for the ideal nominal device diagnostic",
+    "reconstruction": "quantize each4x4 digit pair per1152-row group;apply finite gain/offset;round count to nearest integer;merge base4 weight digits;accumulate input digits/groups;apply exact digital offset correction",
+    "scope": "deterministic ideal device current;finite nominal ADC and declared fixed-point convention;no invented device/noise statistics"
+  },
+  "logical_terms": 4608,
+  "row_groups": 4,
+  "terms_per_group": 1152,
+  "nominal_ADC_bits": 10,
+  "nominal_LSB_nA": 24.4140625,
+  "nominal_LSB_in_2nA_unit_counts": 12.20703125,
+  "ENOB_resolution_scale_only": {
+    "ENOB_approximately": 8,
+    "full_scale_divided_by_2_to_ENOB_nA": 97.65625,
+    "equivalent_2nA_unit_counts": 48.828125,
+    "interpretation": "Resolution magnitude only;ENOB is not actual code width,a deterministic error bound or a noise distribution. No8bit ADC simulation is substituted."
+  },
+  "current_headroom": {
+    "nominal_dense_uA": 20.736,
+    "full_scale_uA": 25,
+    "uniform_mean_current_at_full_scale_nA": 2.4112654320987654,
+    "deterministic_pressure_current_nA": 2.5,
+    "pressure_dense_uA": 25.92,
+    "pressure_classification": "clipping diagnostic only;not a device distribution or main service condition",
+    "pressure_calibration": {
+      "zero_code": 0,
+      "full_code": 1023,
+      "gain_Q8_16_integer": 664201,
+      "gain_count_per_code": 10.134902954101562,
+      "half_input_residual_nominal_codes": 19.5,
+      "residual_limit_nominal_codes": 4,
+      "reference_clipping": true,
+      "finite_calibration_pass": false
+    }
+  },
+  "cases": [
+    {
+      "id": "zero",
+      "deterministic_vector_definition": "x=w=0",
+      "exact_signed_dot": 0,
+      "quantized_reconstructed_signed_dot": -65536,
+      "signed_error": -65536,
+      "sign_reversal": false,
+      "ideal_real_coefficient_signed_dot": -66693.87985865724,
+      "ideal_real_coefficient_signed_dot_fraction": "-18874368/283",
+      "maximum_partial_current_uA": 9.216,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        }
+      ]
+    },
+    {
+      "id": "unit_positive",
+      "deterministic_vector_definition": "x=w=1",
+      "exact_signed_dot": 4608,
+      "quantized_reconstructed_signed_dot": -58896,
+      "signed_error": -63504,
+      "sign_reversal": true,
+      "ideal_real_coefficient_signed_dot": -60017.97879858657,
+      "ideal_real_coefficient_signed_dot_fraction": "-16985088/283",
+      "maximum_partial_current_uA": 9.216,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              1152,
+              0,
+              0,
+              2304
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2304,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              94,
+              0,
+              0,
+              189
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              189,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              1148,
+              0,
+              0,
+              2308
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2308,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19154556
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              1152,
+              0,
+              0,
+              2304
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2304,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              94,
+              0,
+              0,
+              189
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              189,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              1148,
+              0,
+              0,
+              2308
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2308,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19154556
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              1152,
+              0,
+              0,
+              2304
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2304,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              94,
+              0,
+              0,
+              189
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              189,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              1148,
+              0,
+              0,
+              2308
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2308,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19154556
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              1152,
+              0,
+              0,
+              2304
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2304,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              94,
+              0,
+              0,
+              189
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              189,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              1148,
+              0,
+              0,
+              2308
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2308,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19154556
+        }
+      ]
+    },
+    {
+      "id": "unit_negative",
+      "deterministic_vector_definition": "x=-1,w=1",
+      "exact_signed_dot": -4608,
+      "quantized_reconstructed_signed_dot": 59904,
+      "signed_error": 64512,
+      "sign_reversal": true,
+      "ideal_real_coefficient_signed_dot": 61043.787985865725,
+      "ideal_real_coefficient_signed_dot_fraction": "17275392/283",
+      "maximum_partial_current_uA": 13.824,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1152,
+              0,
+              0,
+              2304
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              94,
+              0,
+              0,
+              189
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1148,
+              0,
+              0,
+              2308
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18889344
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1152,
+              0,
+              0,
+              2304
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              94,
+              0,
+              0,
+              189
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1148,
+              0,
+              0,
+              2308
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18889344
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1152,
+              0,
+              0,
+              2304
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              94,
+              0,
+              0,
+              189
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1148,
+              0,
+              0,
+              2308
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18889344
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1152,
+              0,
+              0,
+              2304
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              283,
+              0,
+              0,
+              566
+            ],
+            [
+              94,
+              0,
+              0,
+              189
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              3456,
+              0,
+              0,
+              6912
+            ],
+            [
+              1148,
+              0,
+              0,
+              2308
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18889344
+        }
+      ]
+    },
+    {
+      "id": "alternating_cancel",
+      "deterministic_vector_definition": "x[k]=(-1)**k,w=1",
+      "exact_signed_dot": 0,
+      "quantized_reconstructed_signed_dot": 1008,
+      "signed_error": 1008,
+      "sign_reversal": false,
+      "ideal_real_coefficient_signed_dot": 1025.809187279152,
+      "ideal_real_coefficient_signed_dot_fraction": "290304/283",
+      "maximum_partial_current_uA": 9.216,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              2304,
+              0,
+              0,
+              4608
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              189,
+              0,
+              0,
+              377
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              2308,
+              0,
+              0,
+              4604
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19022076
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              2304,
+              0,
+              0,
+              4608
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              189,
+              0,
+              0,
+              377
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              2308,
+              0,
+              0,
+              4604
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19022076
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              2304,
+              0,
+              0,
+              4608
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              189,
+              0,
+              0,
+              377
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              2308,
+              0,
+              0,
+              4604
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19022076
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              2304,
+              0,
+              0,
+              4608
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ],
+            [
+              1728,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              189,
+              0,
+              0,
+              377
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ],
+            [
+              142,
+              0,
+              0,
+              283
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              2308,
+              0,
+              0,
+              4604
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ],
+            [
+              1734,
+              0,
+              0,
+              3456
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 19022076
+        }
+      ]
+    },
+    {
+      "id": "large_cancel",
+      "deterministic_vector_definition": "x[k]=127*(-1)**k,w=127",
+      "exact_signed_dot": 0,
+      "quantized_reconstructed_signed_dot": 171360,
+      "signed_error": 171360,
+      "sign_reversal": false,
+      "ideal_real_coefficient_signed_dot": 174387.56183745584,
+      "ideal_real_coefficient_signed_dot_fraction": "49351680/283",
+      "maximum_partial_current_uA": 13.824,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              566,
+              566,
+              566,
+              566
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 37644120
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              566,
+              566,
+              566,
+              566
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 37644120
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              566,
+              566,
+              566,
+              566
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 37644120
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ],
+            [
+              5184,
+              5184,
+              5184,
+              5184
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              566,
+              566,
+              566,
+              566
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ],
+            [
+              425,
+              425,
+              425,
+              425
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              6912,
+              6912,
+              6912,
+              6912
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ],
+            [
+              5190,
+              5190,
+              5190,
+              5190
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 37644120
+        }
+      ]
+    },
+    {
+      "id": "large_positive",
+      "deterministic_vector_definition": "x=w=127",
+      "exact_signed_dot": 74322432,
+      "quantized_reconstructed_signed_dot": 74322432,
+      "signed_error": 0,
+      "sign_reversal": false,
+      "ideal_real_coefficient_signed_dot": 74322432.0,
+      "ideal_real_coefficient_signed_dot_fraction": "74322432",
+      "maximum_partial_current_uA": 20.736,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 74908800
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 74908800
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 74908800
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ],
+            [
+              849,
+              849,
+              849,
+              849
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ],
+            [
+              10368,
+              10368,
+              10368,
+              10368
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 74908800
+        }
+      ]
+    },
+    {
+      "id": "large_negative",
+      "deterministic_vector_definition": "x=-128,w=127",
+      "exact_signed_dot": -74907648,
+      "quantized_reconstructed_signed_dot": -74907648,
+      "signed_error": 0,
+      "sign_reversal": false,
+      "ideal_real_coefficient_signed_dot": -74907648.0,
+      "ideal_real_coefficient_signed_dot_fraction": "-74907648",
+      "maximum_partial_current_uA": 0.0,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 0
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 0
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 0
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 0
+        }
+      ]
+    },
+    {
+      "id": "small_ramp",
+      "deterministic_vector_definition": "x[k]=k%7-3,w[k]=k%5-2",
+      "exact_signed_dot": 2,
+      "quantized_reconstructed_signed_dot": -14868,
+      "signed_error": -14870,
+      "sign_reversal": true,
+      "ideal_real_coefficient_signed_dot": -11301.992932862191,
+      "ideal_real_coefficient_signed_dot_fraction": "-3198464/283",
+      "maximum_partial_current_uA": 6.326,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3160,
+              2376,
+              2376,
+              3156
+            ],
+            [
+              2376,
+              1782,
+              1782,
+              2376
+            ],
+            [
+              2376,
+              1782,
+              1782,
+              2376
+            ],
+            [
+              2898,
+              2178,
+              2178,
+              2892
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              259,
+              195,
+              195,
+              259
+            ],
+            [
+              195,
+              146,
+              146,
+              195
+            ],
+            [
+              195,
+              146,
+              146,
+              195
+            ],
+            [
+              237,
+              178,
+              178,
+              237
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3163,
+              2381,
+              2381,
+              3163
+            ],
+            [
+              2381,
+              1783,
+              1783,
+              2381
+            ],
+            [
+              2381,
+              1783,
+              1783,
+              2381
+            ],
+            [
+              2894,
+              2174,
+              2174,
+              2894
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18883475
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3158,
+              2367,
+              2367,
+              3161
+            ],
+            [
+              2364,
+              1773,
+              1773,
+              2367
+            ],
+            [
+              2364,
+              1773,
+              1773,
+              2367
+            ],
+            [
+              2894,
+              2169,
+              2169,
+              2899
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              259,
+              194,
+              194,
+              259
+            ],
+            [
+              194,
+              145,
+              145,
+              194
+            ],
+            [
+              194,
+              145,
+              145,
+              194
+            ],
+            [
+              237,
+              178,
+              178,
+              237
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3163,
+              2369,
+              2369,
+              3163
+            ],
+            [
+              2369,
+              1771,
+              1771,
+              2369
+            ],
+            [
+              2369,
+              1771,
+              1771,
+              2369
+            ],
+            [
+              2894,
+              2174,
+              2174,
+              2894
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18862835
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3161,
+              2370,
+              2370,
+              3158
+            ],
+            [
+              2373,
+              1782,
+              1782,
+              2370
+            ],
+            [
+              2373,
+              1782,
+              1782,
+              2370
+            ],
+            [
+              2897,
+              2172,
+              2172,
+              2896
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              259,
+              194,
+              194,
+              259
+            ],
+            [
+              194,
+              146,
+              146,
+              194
+            ],
+            [
+              194,
+              146,
+              146,
+              194
+            ],
+            [
+              237,
+              178,
+              178,
+              237
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3163,
+              2369,
+              2369,
+              3163
+            ],
+            [
+              2369,
+              1783,
+              1783,
+              2369
+            ],
+            [
+              2369,
+              1783,
+              1783,
+              2369
+            ],
+            [
+              2894,
+              2174,
+              2174,
+              2894
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18867635
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              3163,
+              2373,
+              2373,
+              3161
+            ],
+            [
+              2373,
+              1782,
+              1782,
+              2370
+            ],
+            [
+              2373,
+              1782,
+              1782,
+              2370
+            ],
+            [
+              2895,
+              2172,
+              2172,
+              2896
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              259,
+              194,
+              194,
+              259
+            ],
+            [
+              194,
+              146,
+              146,
+              194
+            ],
+            [
+              194,
+              146,
+              146,
+              194
+            ],
+            [
+              237,
+              178,
+              178,
+              237
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              3163,
+              2369,
+              2369,
+              3163
+            ],
+            [
+              2369,
+              1783,
+              1783,
+              2369
+            ],
+            [
+              2369,
+              1783,
+              1783,
+              2369
+            ],
+            [
+              2894,
+              2174,
+              2174,
+              2894
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18867635
+        }
+      ]
+    },
+    {
+      "id": "wide_ramp",
+      "deterministic_vector_definition": "x[k]=k%256-128,w[k]=(73*k)%256-128",
+      "exact_signed_dot": -2923776,
+      "quantized_reconstructed_signed_dot": -2900456,
+      "signed_error": 23320,
+      "sign_reversal": false,
+      "ideal_real_coefficient_signed_dot": -2904342.6148409895,
+      "ideal_real_coefficient_signed_dot_fraction": "-821928960/283",
+      "maximum_partial_current_uA": 8.064,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 0,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              4032,
+              2592,
+              2592,
+              2624
+            ],
+            [
+              2592,
+              2880,
+              2592,
+              2616
+            ],
+            [
+              2592,
+              2592,
+              2592,
+              2620
+            ],
+            [
+              2400,
+              2400,
+              2400,
+              2244
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              330,
+              212,
+              212,
+              215
+            ],
+            [
+              212,
+              236,
+              212,
+              214
+            ],
+            [
+              212,
+              212,
+              212,
+              215
+            ],
+            [
+              197,
+              197,
+              197,
+              184
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              4030,
+              2589,
+              2589,
+              2626
+            ],
+            [
+              2589,
+              2882,
+              2589,
+              2613
+            ],
+            [
+              2589,
+              2589,
+              2589,
+              2626
+            ],
+            [
+              2406,
+              2406,
+              2406,
+              2247
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 17111270
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              4032,
+              2592,
+              2592,
+              2560
+            ],
+            [
+              2592,
+              2880,
+              2592,
+              2568
+            ],
+            [
+              2592,
+              2592,
+              2592,
+              2564
+            ],
+            [
+              2784,
+              2784,
+              2784,
+              2580
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              330,
+              212,
+              212,
+              210
+            ],
+            [
+              212,
+              236,
+              212,
+              210
+            ],
+            [
+              212,
+              212,
+              212,
+              210
+            ],
+            [
+              228,
+              228,
+              228,
+              211
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              4030,
+              2589,
+              2589,
+              2565
+            ],
+            [
+              2589,
+              2882,
+              2589,
+              2565
+            ],
+            [
+              2589,
+              2589,
+              2589,
+              2565
+            ],
+            [
+              2784,
+              2784,
+              2784,
+              2577
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18892326
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              4032,
+              2592,
+              2592,
+              2624
+            ],
+            [
+              2592,
+              2880,
+              2592,
+              2616
+            ],
+            [
+              2592,
+              2592,
+              2592,
+              2620
+            ],
+            [
+              2400,
+              2400,
+              2400,
+              2244
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              330,
+              212,
+              212,
+              215
+            ],
+            [
+              212,
+              236,
+              212,
+              214
+            ],
+            [
+              212,
+              212,
+              212,
+              215
+            ],
+            [
+              197,
+              197,
+              197,
+              184
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              4030,
+              2589,
+              2589,
+              2626
+            ],
+            [
+              2589,
+              2882,
+              2589,
+              2613
+            ],
+            [
+              2589,
+              2589,
+              2589,
+              2626
+            ],
+            [
+              2406,
+              2406,
+              2406,
+              2247
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 17111270
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              4032,
+              2592,
+              2592,
+              2560
+            ],
+            [
+              2592,
+              2880,
+              2592,
+              2568
+            ],
+            [
+              2592,
+              2592,
+              2592,
+              2564
+            ],
+            [
+              2784,
+              2784,
+              2784,
+              2580
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              330,
+              212,
+              212,
+              210
+            ],
+            [
+              212,
+              236,
+              212,
+              210
+            ],
+            [
+              212,
+              212,
+              212,
+              210
+            ],
+            [
+              228,
+              228,
+              228,
+              211
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              4030,
+              2589,
+              2589,
+              2565
+            ],
+            [
+              2589,
+              2882,
+              2589,
+              2565
+            ],
+            [
+              2589,
+              2589,
+              2589,
+              2565
+            ],
+            [
+              2784,
+              2784,
+              2784,
+              2577
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18892326
+        }
+      ]
+    },
+    {
+      "id": "isolated_unit",
+      "deterministic_vector_definition": "x[0]=w[0]=1;all other terms0",
+      "exact_signed_dot": 1,
+      "quantized_reconstructed_signed_dot": -65792,
+      "signed_error": -65793,
+      "sign_reversal": true,
+      "ideal_real_coefficient_signed_dot": -66949.87985865724,
+      "ideal_real_coefficient_signed_dot_fraction": "-18946816/283",
+      "maximum_partial_current_uA": 9.216,
+      "clipped_partials": 0,
+      "nonzero_partials_below_half_nominal_LSB": 3,
+      "calibration": {
+        "zero_code": 0,
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "gain_count_per_code": 12.212020874023438,
+        "half_input_residual_nominal_codes": 0.5,
+        "residual_limit_nominal_codes": 4,
+        "reference_clipping": false,
+        "finite_calibration_pass": true
+      },
+      "groups": [
+        {
+          "group": 0,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              1,
+              0,
+              0,
+              2
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        },
+        {
+          "group": 1,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        },
+        {
+          "group": 2,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        },
+        {
+          "group": 3,
+          "nominal_unit_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4608
+            ]
+          ],
+          "ADC_codes_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              377
+            ]
+          ],
+          "decoded_integer_counts_by_input_weight_digit": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              4604
+            ]
+          ],
+          "reconstructed_unsigned_group_sum": 18857984
+        }
+      ]
+    }
+  ],
+  "finding": "All nominal vectors fit the current range and pass the finite reference calibration,while zero/weak/cancelling outputs can carry substantial residuals or reverse sign. Diagnostic execution passes;general weak-signal numerical service does not."
+}
