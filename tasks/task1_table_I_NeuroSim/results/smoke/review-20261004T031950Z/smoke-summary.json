@@ -1,0 +1,287 @@
+{
+  "status": "PASS",
+  "timestamp_utc": "2026-10-04T03:20:05.967093+00:00",
+  "run_id": "review-20261004T031950Z",
+  "used_original_main": true,
+  "test_driver_used_for_simulation": false,
+  "compiler": "/opt/homebrew/bin/g++-16",
+  "builds": {
+    "2DInferenceV1.4": {
+      "status": "PASS",
+      "locked_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "exit_code": 0,
+      "source_matches_locked_worktree": true,
+      "source_manifest_sha256": "b044852347ef9e74440469722a9ddf2d50f427737eb83c056df512886211a8e9",
+      "source_patches": [],
+      "make_override": "CXX=/opt/homebrew/bin/g++-16",
+      "upstream_cxxflags": "-fopenmp -O3 -std=c++0x -w",
+      "binary_sha256": "2b683486838b62c0b7379e72700c2b67f2e332784b0c27341b5527dea498a313",
+      "libraries": "/Users/shine/neurosim/build/review-20261004T031950Z/2DInferenceV1.4/main:\n\t/opt/homebrew/opt/gcc/lib/gcc/current/libstdc++.6.dylib (compatibility version 7.0.0, current version 7.36.0)\n\t/opt/homebrew/opt/gcc/lib/gcc/current/libgomp.1.dylib (compatibility version 2.0.0, current version 2.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)\n",
+      "architecture": "/Users/shine/neurosim/build/review-20261004T031950Z/2DInferenceV1.4/main: Mach-O 64-bit executable arm64\n"
+    },
+    "2DInferenceDCIMV1.0-dev": {
+      "status": "PASS",
+      "locked_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "exit_code": 0,
+      "source_matches_locked_worktree": true,
+      "source_manifest_sha256": "7f71d534d5eafa6af2e46774c7ca54b7960a236bef6129a10bdf44b49e131e9f",
+      "source_patches": [],
+      "make_override": "CXX=/opt/homebrew/bin/g++-16",
+      "upstream_cxxflags": "-fopenmp -O3 -std=c++0x -w",
+      "binary_sha256": "2093c4f6390ad6d2cead3166ec86b371daa1dcf6fa720d10068047f43549b320",
+      "libraries": "/Users/shine/neurosim/build/review-20261004T031950Z/2DInferenceDCIMV1.0-dev/main:\n\t/opt/homebrew/opt/gcc/lib/gcc/current/libstdc++.6.dylib (compatibility version 7.0.0, current version 7.36.0)\n\t/opt/homebrew/opt/gcc/lib/gcc/current/libgomp.1.dylib (compatibility version 2.0.0, current version 2.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)\n",
+      "architecture": "/Users/shine/neurosim/build/review-20261004T031950Z/2DInferenceDCIMV1.0-dev/main: Mach-O 64-bit executable arm64\n"
+    }
+  },
+  "parameters": {
+    "2DInferenceV1.4": {
+      "constructor_values": {
+        "technode": "22",
+        "operationmode": "2",
+        "memcelltype": "1",
+        "accesstype": "1",
+        "transistortype": "1",
+        "deviceroadmap": "2",
+        "temp": "300",
+        "numRowSubArray": "128",
+        "numColSubArray": "128",
+        "numRowParallel": "128",
+        "cellBit": "1",
+        "levelOutput": "32",
+        "numColMuxed": "8",
+        "pipeline": "1",
+        "speedUpDegree": "8",
+        "synchronous": "1",
+        "novelMapping": "1",
+        "globalBusType": "0",
+        "globalBufferType": "0",
+        "chipActivation": "1",
+        "SARADC": "0",
+        "currentMode": "1",
+        "sync_data_transfer": "0",
+        "parallelRead": "1",
+        "clkFreq": "1e+09",
+        "algoWeightMin": "-1",
+        "algoWeightMax": "1"
+      },
+      "effective_smoke_initial_values": {
+        "technode": "22",
+        "operationmode": "2",
+        "memcelltype": "1",
+        "accesstype": "1",
+        "transistortype": "1",
+        "deviceroadmap": "2",
+        "temp": "300",
+        "numRowSubArray": "128",
+        "numColSubArray": "128",
+        "numRowParallel": "128",
+        "cellBit": "1",
+        "levelOutput": "32",
+        "numColMuxed": "8",
+        "pipeline": "1",
+        "speedUpDegree": "8",
+        "synchronous": "1",
+        "novelMapping": "1",
+        "globalBusType": "0",
+        "globalBufferType": "0",
+        "chipActivation": "1",
+        "SARADC": "0",
+        "currentMode": "1",
+        "sync_data_transfer": "0",
+        "parallelRead": "1",
+        "clkFreq": "1e+09",
+        "algoWeightMin": "-1",
+        "algoWeightMax": "1",
+        "synapseBit": "8",
+        "numBitInput": "8",
+        "numRowPerSynapse": "1",
+        "numColPerSynapse": "8",
+        "conventionalParallel": "1"
+      },
+      "evidence": "Compiled unmodified Param.cpp with a read-only constructor field dump; V1.4 argv overrides match original main; measured clock period is in simulator stdout",
+      "param_cpp_sha256": "120f4454ac870513aa9e2281d8c2382a65dc8c16271d0347ec5187669b588ad1",
+      "simulation_status": "RUN",
+      "dcim_supported_subarray": null,
+      "runtime_observed": {
+        "clock_period_ns_printed": 1.6974,
+        "pipeline_cycle_ns_printed": 192.655,
+        "speedUpDegree": 1,
+        "evidence": "Original main stdout clock period; ChipDesignInitialize bounds speedUpDegree to max IFM/min IFM = 1 for this one-layer network. Initial clkFreq is replaced by the simulated clock."
+      }
+    },
+    "2DInferenceDCIMV1.0-dev": {
+      "constructor_values": {
+        "technode": "1",
+        "operationmode": "1",
+        "memcelltype": "4",
+        "accesstype": "1",
+        "transistortype": "1",
+        "deviceroadmap": "2",
+        "temp": "300",
+        "numRowSubArray": "256",
+        "numColSubArray": "256",
+        "numRowParallel": "1",
+        "cellBit": "1",
+        "levelOutput": "32",
+        "numColMuxed": "8",
+        "pipeline": "1",
+        "speedUpDegree": "8",
+        "synchronous": "1",
+        "novelMapping": "1",
+        "globalBusType": "0",
+        "globalBufferType": "0",
+        "chipActivation": "1",
+        "SARADC": "0",
+        "currentMode": "1",
+        "sync_data_transfer": "0",
+        "parallelRead": "0",
+        "clkFreq": "1e+09",
+        "algoWeightMin": "-1",
+        "algoWeightMax": "1",
+        "toggle_enforce": "1"
+      },
+      "effective_smoke_initial_values": null,
+      "evidence": "Compiled unmodified Param.cpp with a read-only constructor field dump; V1.4 argv overrides match original main; measured clock period is in simulator stdout",
+      "param_cpp_sha256": "410ab94046fee81fba3bf5893cd49f3c8b8e0b2286a3a28e1c4228edd31999c2",
+      "simulation_status": "NOT_RUN",
+      "dcim_supported_subarray": "256x256 only according to locked README"
+    }
+  },
+  "input_manifest": {
+    "network_rows": 1,
+    "network_columns": 8,
+    "weight_shape": [
+      128,
+      32
+    ],
+    "input_bit_trace_shape": [
+      128,
+      8
+    ],
+    "activation_vectors": 1,
+    "weight_domain": [
+      -1,
+      1
+    ],
+    "generated_weight_min": -0.75,
+    "generated_weight_max": 0.75,
+    "input_domain": [
+      0,
+      1
+    ],
+    "nonzero_weight_count": 4096,
+    "one_bits_in_input": 513,
+    "semantic_multiply_accumulates": 4096,
+    "upstream_numComputation": 8192,
+    "synapseBit": 8,
+    "numBitInput": 8,
+    "numRowSubArray": 128,
+    "numRowParallel": 128,
+    "format_evidence": [
+      "main.cpp: getNetStructure/argv[1..7]",
+      "Chip.cpp: LoadInWeightData/LoadInInputData",
+      "Chip.cpp: numInVector * param->numBitInput"
+    ],
+    "size_rationale": "Preserves default 128x128 SRAM; 128 logical input rows and 32 output channels meet original ChipFloorPlan novel-mapping hierarchy without source changes.",
+    "input_hashes": {
+      "input.csv": "cd11e3261e0d7ce0ec7f2eb8d556a41d6568f2fa2b1ff71f7650ffeed123f97a",
+      "network.csv": "aa8505e0c81d8b6d3000fc1fdd4a39ea66601be012b811b665a5c1828a53e195",
+      "weights.csv": "5f613bf6434466e766882b4c44103d93bac9b5493d6336d96dd2142d40f4d6a9"
+    }
+  },
+  "repeat": {
+    "status": "PASS",
+    "comparison": "exact printed numeric lines, excluding wall-clock Total Run-time",
+    "compared_line_count": 49,
+    "changed_numeric_lines": []
+  },
+  "runs": [
+    {
+      "status": "PASS",
+      "assertions": {
+        "no_error_markers": true,
+        "original_main_completion_marker": true,
+        "layer1_read_latency_present": true,
+        "subarray_size_128x128": true,
+        "nonempty_tile_mapping": true,
+        "chip_area_um2_finite_positive": true,
+        "cim_array_area_um2_finite_positive": true,
+        "chip_clock_period_ns_finite_positive": true,
+        "pipeline_cycle_ns_finite_positive": true,
+        "chip_read_dynamic_energy_pj_finite_positive": true,
+        "layer1_read_latency_ns_finite_positive": true,
+        "layer1_read_dynamic_energy_pj_finite_positive": true,
+        "throughput_tops_finite_positive": true,
+        "exit_zero": true
+      },
+      "metrics": {
+        "chip_area_um2": 91470.1,
+        "cim_array_area_um2": 8881.44,
+        "chip_clock_period_ns": 1.6974,
+        "pipeline_cycle_ns": 192.655,
+        "chip_read_dynamic_energy_pj": 396.526,
+        "layer1_read_latency_ns": 192.655,
+        "layer1_read_dynamic_energy_pj": 396.526,
+        "throughput_tops": 0.0425215
+      },
+      "write_metrics": {
+        "status": "NOT_REPORTED",
+        "value": null
+      },
+      "rho_tau": "NOT_EVALUATED",
+      "exit_code": 0,
+      "stdout_sha256": "3942cb115de40a0dcbf48eb9d01b843bcfcbd2554d452f3fd72c77aebdbc457e"
+    },
+    {
+      "status": "PASS",
+      "assertions": {
+        "no_error_markers": true,
+        "original_main_completion_marker": true,
+        "layer1_read_latency_present": true,
+        "subarray_size_128x128": true,
+        "nonempty_tile_mapping": true,
+        "chip_area_um2_finite_positive": true,
+        "cim_array_area_um2_finite_positive": true,
+        "chip_clock_period_ns_finite_positive": true,
+        "pipeline_cycle_ns_finite_positive": true,
+        "chip_read_dynamic_energy_pj_finite_positive": true,
+        "layer1_read_latency_ns_finite_positive": true,
+        "layer1_read_dynamic_energy_pj_finite_positive": true,
+        "throughput_tops_finite_positive": true,
+        "exit_zero": true
+      },
+      "metrics": {
+        "chip_area_um2": 91470.1,
+        "cim_array_area_um2": 8881.44,
+        "chip_clock_period_ns": 1.6974,
+        "pipeline_cycle_ns": 192.655,
+        "chip_read_dynamic_energy_pj": 396.526,
+        "layer1_read_latency_ns": 192.655,
+        "layer1_read_dynamic_energy_pj": 396.526,
+        "throughput_tops": 0.0425215
+      },
+      "write_metrics": {
+        "status": "NOT_REPORTED",
+        "value": null
+      },
+      "rho_tau": "NOT_EVALUATED",
+      "exit_code": 0,
+      "stdout_sha256": "3942cb115de40a0dcbf48eb9d01b843bcfcbd2554d452f3fd72c77aebdbc457e"
+    }
+  ],
+  "script_hashes": {
+    "setup_step1.sh": "5422ceabdafc4b263f92685a8eb6d751648e9acc8687c819d05fff29b052d3aa",
+    "smoke_io.py": "e0a467fd689d1770af34c6d7be944e11a8126fcf230f172420ddf2edf20fa7c8",
+    "smoke_step1.sh": "5cff18eb15624f9d2c0e40c28cbb9a1cdb6ac08a4add46c422c9e1c12af22488",
+    "step1.py": "93a41af57bae9f872fb1e19fa91e86bc3e13a3b3e6fbbe014ed59601264f1015"
+  },
+  "branches_not_run": [
+    "2DInferenceDCIMV1.0-dev",
+    "2DInferenceV1.5-dev",
+    "2DTrainingV2.1",
+    "MLPInferenceV3.0",
+    "3DInferenceV1.0"
+  ],
+  "source_patches": [],
+  "rho_tau": "NOT_EVALUATED"
+}

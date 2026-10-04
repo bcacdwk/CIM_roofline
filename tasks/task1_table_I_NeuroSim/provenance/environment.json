@@ -1,0 +1,89 @@
+{
+  "recorded_at_utc": "2026-10-04T03:14:06.537726+00:00",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83",
+  "architecture": "arm64",
+  "tools": {
+    "git": {
+      "path": "/opt/homebrew/bin/git",
+      "version": "git version 2.52.0"
+    },
+    "make": {
+      "path": "/usr/bin/make",
+      "version": "GNU Make 3.81\nCopyright (C) 2006  Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A\nPARTICULAR PURPOSE.\n\nThis program built for i386-apple-darwin11.3.0"
+    },
+    "python": {
+      "path": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+      "version": "Python 3.9.6"
+    },
+    "cxx": {
+      "path": "/opt/homebrew/bin/g++-16",
+      "version": "g++-16 (Homebrew GCC 16.2.0) 16.2.0\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+    },
+    "apple_clang": {
+      "path": "/usr/bin/clang++",
+      "version": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
+    },
+    "brew": {
+      "path": "/opt/homebrew/bin/brew",
+      "version": "Homebrew 5.1.0"
+    }
+  },
+  "xcode_developer_directory": "/Applications/Xcode.app/Contents/Developer",
+  "clt_pkg": "package-id: com.apple.pkg.CLTools_Executables\nversion: 26.0.0.0.1.1757719676\nvolume: /\nlocation: /\ninstall-time: 1761369806\n",
+  "compiler_target": "aarch64-apple-darwin25",
+  "compiler_binary": "/opt/homebrew/bin/g++-16: Mach-O 64-bit executable arm64",
+  "openmp_test": {
+    "status": "PASS",
+    "compile_flags": [
+      "-O2",
+      "-fopenmp"
+    ],
+    "result": "sum=500500 threads=10",
+    "executable_architecture": "${NEUROSIM_ROOT}/runs/step1/setup-20261004T031404Z-95067/openmp_probe: Mach-O 64-bit executable arm64",
+    "linked_libraries": "${NEUROSIM_ROOT}/runs/step1/setup-20261004T031404Z-95067/openmp_probe:\n\t/opt/homebrew/opt/gcc/lib/gcc/current/libstdc++.6.dylib (compatibility version 7.0.0, current version 7.36.0)\n\t/opt/homebrew/opt/gcc/lib/gcc/current/libgomp.1.dylib (compatibility version 2.0.0, current version 2.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1356.0.0)\n",
+    "runtime_load_log": "openmp-dyld.log",
+    "loaded_runtime_libraries": [
+      "dyld[95104]: <67EBC864-F804-3801-B5BE-5BF96875E08C> /opt/homebrew/Cellar/gcc/16.2.0/lib/gcc/current/libstdc++.6.dylib",
+      "dyld[95104]: <4125B413-AD14-3A10-B200-2F3A2A7C7540> /opt/homebrew/Cellar/gcc/16.2.0/lib/gcc/current/libgomp.1.dylib",
+      "dyld[95104]: <656CB908-3B92-3E77-A924-6CD29953987D> /opt/homebrew/Cellar/gcc/16.2.0/lib/gcc/current/libgcc_s.1.1.dylib"
+    ]
+  },
+  "installed_by_this_setup_invocation": [],
+  "brew_gcc_dependencies": "gcc 16.2.0\ngmp 6.3.0\nisl 0.28\nlibmpc 1.4.1\nmpfr 4.2.2\nxz 5.8.2 5.8.4",
+  "python_packages_installed": [],
+  "full_environment_exported": false,
+  "installation_record": {
+    "status": "PASS_WITH_POSTINSTALL_WARNING",
+    "new_packages": {
+      "gcc": "16.2.0",
+      "gmp": "6.3.0",
+      "isl": "0.28",
+      "mpfr": "4.2.2",
+      "libmpc": "1.4.1",
+      "xz": "5.8.4"
+    },
+    "reused": [
+      "Xcode developer tools",
+      "Apple Clang",
+      "Git",
+      "GNU make",
+      "Python 3.9.6",
+      "Homebrew 5.1.0"
+    ],
+    "openmp_runtime": "Homebrew GCC libgomp",
+    "openmp_validation": "PASS: compiled, linked, ran reduction sum=500500, threads=10; arm64 executable",
+    "postinstall_status": "FAIL",
+    "postinstall_error": "FormulaUnreadableError: gcc: undefined method file for an instance of Resource::Patch; existing Homebrew 5.1.0 formula API mismatch",
+    "postinstall_impact": "No failure observed in compiler/OpenMP or both original C++ backend builds. No Homebrew update/upgrade performed.",
+    "local_logs": [
+      "runs/step1/brew-install-gcc.log",
+      "runs/step1/brew-install-gcc-local-cache.log",
+      "runs/step1/brew-postinstall-gcc-debug.log"
+    ],
+    "initial_cache_deviation": "Initial brew install was interrupted during GCC download after using the existing ~/Library/Caches/Homebrew cache. No user cache was removed. Retry and all subsequent downloads/temp/logs use the local run root.",
+    "python_packages_installed": [],
+    "system_compiler_replaced": false,
+    "shell_config_changed": false,
+    "brew_developer_mode": "brew cat temporarily enabled developer mode automatically; immediately restored with brew developer off"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "attempts": [
+    {
+      "run_id": "smoke-20261004T030951Z-92017",
+      "status": "FAIL",
+      "reason": "Both original backends built. Our parameter-inspection helper needed <string> before DCIM Param.h; corrected helper only, no upstream changes."
+    },
+    {
+      "run_id": "smoke-20261004T031057Z-93466",
+      "status": "FAIL",
+      "reason": "Initial 16x8 logical network violated upstream novel-mapping hierarchy; original main emitted SubArray Size too large and exited by signal 11. Increased logical shape to 128x32 while retaining 128x128 arrays. Early empty-line repeat checker was corrected to require two successful nonempty outputs."
+    }
+  ],
+  "full_evidence": "${NEUROSIM_ROOT}/runs/step1/<run_id>",
+  "final_successful_run": "smoke-20261004T031429Z-95433"
+}

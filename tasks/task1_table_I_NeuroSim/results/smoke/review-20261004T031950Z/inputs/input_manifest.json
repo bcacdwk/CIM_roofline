@@ -1,0 +1,42 @@
+{
+  "network_rows": 1,
+  "network_columns": 8,
+  "weight_shape": [
+    128,
+    32
+  ],
+  "input_bit_trace_shape": [
+    128,
+    8
+  ],
+  "activation_vectors": 1,
+  "weight_domain": [
+    -1,
+    1
+  ],
+  "generated_weight_min": -0.75,
+  "generated_weight_max": 0.75,
+  "input_domain": [
+    0,
+    1
+  ],
+  "nonzero_weight_count": 4096,
+  "one_bits_in_input": 513,
+  "semantic_multiply_accumulates": 4096,
+  "upstream_numComputation": 8192,
+  "synapseBit": 8,
+  "numBitInput": 8,
+  "numRowSubArray": 128,
+  "numRowParallel": 128,
+  "format_evidence": [
+    "main.cpp: getNetStructure/argv[1..7]",
+    "Chip.cpp: LoadInWeightData/LoadInInputData",
+    "Chip.cpp: numInVector * param->numBitInput"
+  ],
+  "size_rationale": "Preserves default 128x128 SRAM; 128 logical input rows and 32 output channels meet original ChipFloorPlan novel-mapping hierarchy without source changes.",
+  "input_hashes": {
+    "input.csv": "cd11e3261e0d7ce0ec7f2eb8d556a41d6568f2fa2b1ff71f7650ffeed123f97a",
+    "network.csv": "aa8505e0c81d8b6d3000fc1fdd4a39ea66601be012b811b665a5c1828a53e195",
+    "weights.csv": "5f613bf6434466e766882b4c44103d93bac9b5493d6336d96dd2142d40f4d6a9"
+  }
+}
