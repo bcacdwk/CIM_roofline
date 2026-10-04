@@ -1,3 +1,15 @@
+# Step 3 当前工作约定
+
+用户已授权的三个 reference pilot（01 SRAM ACIM、02 SRAM DCIM、05 RRAM）已完成并独立验收。当前停止在 Step 3，不扩展其余案例、不改历史验收。
+
+- supervisor 唯一维护公共 `pilots/backend*`、`pilots/schedule.py`、`scripts/run_step3.py`、公共报告和导出；案例 agent 只写分配的 `pilots/adapters/<case>.py` 与 `<case>.zh.md`。
+- 每 agent 本地使用独立 `runs/step3/<role>-<id>`，共享锁定 worktree、兄弟 NVM、Table II、论文只读。所有构建、完整日志与大 trace 留本地。
+- Step 2 配置和证据不改；生效值另存 Step 3 快照。采用接口 3.0.0 与已有路径/环境变量。
+- reviewer 不修改实现，在新的本地目录实际编译复跑，再核对调用、数值、来源与计量；supervisor 白名单导出审查结论。
+- 不暂存、提交或推送；保留用户 `.DS_Store` 修改。
+
+以下为历史 Step 2 工作约定（原文保留，不限制已授权 Step 3）：
+
 # Step 2 工作约定
 
 - 本轮仅做 Step 2：源码覆盖、十例典型输入接口及机制探针。Step 1 已归档；不生成十例新性能表，不进入 Step 3。

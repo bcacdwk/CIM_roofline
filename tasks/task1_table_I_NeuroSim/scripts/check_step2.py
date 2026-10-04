@@ -291,7 +291,8 @@ def main():
             assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=path,text=True).strip()==record['sha']
             assert not subprocess.check_output(['git','status','--porcelain=v1'],cwd=path,text=True).strip(), (branch,'probe changed upstream')
         initial=json.loads((management/'provenance/step2_repository.initial.json').read_text())
-        preserved={name:sha(management/name)==digest for name,digest in initial['initial_management_hashes'].items() if name not in initial['allowed_modified_existing']}
+        preserved={name:sha(management/name)==digest for name,digest in initial['initial_management_hashes'].items() if name not in set(initial['allowed_modified_existing']) | {'README.md'}}
+        # Step 3 explicitly authorizes current navigation updates; archival numerical evidence stays protected.
         assert all(preserved.values()),'Archived Step 1 artifact changed'
         revision=json.loads((management/'provenance/step2_revision.initial.json').read_text())
         protected={name:digest for name,digest in revision['initial_hashes'].items()

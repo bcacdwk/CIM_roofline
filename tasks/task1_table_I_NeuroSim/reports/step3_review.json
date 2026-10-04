@@ -1,0 +1,130 @@
+{
+  "status": "PASS",
+  "role": "independent reviewer; implementation read-only",
+  "run_from_cwd": "/tmp",
+  "run_id": "review-final-20261004",
+  "comparison_run": "integration-final-20261004",
+  "summary_and_all_three_result_resolved_sensitivity_files": "exact equality",
+  "source_review_findings": {
+    "R1_composed_path_loads": "resolved: actual NAND ci, bounded inverter fanout trees and sign extension loads",
+    "R2_missing_feedback_select_paths": "resolved: feedback, select, clear independently measured",
+    "R3_vector_reset": "resolved: existing admission cycle clears/reinitializes existing accumulators; path modeled",
+    "R4_unknown_native_zero_sentinels": "resolved: not exported as physical device values",
+    "R5_clock_Q_slew": "resolved: fresh q slew propagated, side-effect gate calls sequential",
+    "R6_transaction_interval": "resolved: explicit numeric local latency versus service interval",
+    "R7_README_archival_guard": "resolved: narrowly authorized reading-entry exception; first failure preserved"
+  },
+  "evidence": {
+    "01_sram_acim": {
+      "period_ns": 11.252857500398692,
+      "independent_formula_delta_S_ns": 3623.420115128379,
+      "independent_formula_T_R_ns": 11522.92608040826,
+      "rho_Byte_per_s": 35325740.85615378,
+      "tau_Byte_per_s": 1421861069.4601896,
+      "RI_star": 0.02484472049689441,
+      "U_star": 3.1801242236024847,
+      "transaction_latency_ns": 5.0,
+      "transaction_service_interval_ns": 11.252857500398692,
+      "actual_compile_and_model_commands": 7,
+      "backend_SHA": "8a88abf85844c0e1ba17cc771ea535fff6040456"
+    },
+    "02_sram_dcim": {
+      "period_ns": 5.0,
+      "independent_formula_delta_S_ns": 330.0,
+      "independent_formula_T_R_ns": 640.0,
+      "rho_Byte_per_s": 387878787.8787879,
+      "tau_Byte_per_s": 3200000000.0,
+      "RI_star": 0.12121212121212122,
+      "U_star": 1.9393939393939394,
+      "transaction_latency_ns": 5.0,
+      "transaction_service_interval_ns": 5.0,
+      "actual_compile_and_model_commands": 7,
+      "backend_SHA": "8a88abf85844c0e1ba17cc771ea535fff6040456"
+    },
+    "05_rram": {
+      "period_ns": 11.252857500398692,
+      "independent_formula_delta_S_ns": 5783.968755204927,
+      "independent_formula_T_R_ns": 1949377.516224067,
+      "rho_Byte_per_s": 22130133.376812287,
+      "tau_Byte_per_s": 4202367.130953606,
+      "RI_star": 5.266111381322957,
+      "U_star": 337.03112840466923,
+      "transaction_latency_ns": 3803.4658351347575,
+      "transaction_service_interval_ns": 3803.4658351347584,
+      "actual_compile_and_model_commands": 7,
+      "backend_SHA": "8a88abf85844c0e1ba17cc771ea535fff6040456"
+    }
+  },
+  "check_count": 64152,
+  "all_checks_pass": true,
+  "step2_regression": {
+    "contract_version": "3.0.0",
+    "status": "PASS",
+    "run_id": "step3-review-regression-final-20261004",
+    "configuration_status": "PASS",
+    "probes_status": "PASS",
+    "probe_statuses": {
+      "read_timing": "PASS",
+      "write_update": "PASS",
+      "special": "PASS",
+      "encoding_resources": "PASS",
+      "interface_revision": "PASS"
+    },
+    "worktrees": {
+      "2DInferenceV1.4": {
+        "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+        "clean": true
+      },
+      "2DInferenceDCIMV1.0-dev": {
+        "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+        "clean": true
+      },
+      "2DInferenceV1.5-dev": {
+        "sha": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+        "clean": true
+      },
+      "2DTrainingV2.1": {
+        "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+        "clean": true
+      },
+      "MLPInferenceV3.0": {
+        "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+        "clean": true
+      },
+      "3DInferenceV1.0": {
+        "sha": "6d2ee9b9b5067c4c8660ad8cd0cbedcab477ba69",
+        "clean": true
+      }
+    },
+    "step1_archives_unchanged": true,
+    "prior_step2_results_unchanged": true,
+    "revision_base": "faf8a42165e5d3655ec0fe70f4597e4baebe3f6f",
+    "root_ds_store_matches_initial": false,
+    "root_ds_store_sha256": "a989614652633afb8335b9ea6e4300cd0cab10943e563e3c6bf4f708245ba1a9",
+    "git_index_empty": true,
+    "case_count": 10,
+    "new_ten_case_performance": "NOT_RUN",
+    "compiler": "/opt/homebrew/bin/g++-16"
+  },
+  "limitations": [
+    "Explicit gate topology, local wire length and two-inverter FF boundary are engineering conditions, not extracted layout or characterized library timing.",
+    "Nominal ADC-code arithmetic checks do not validate analog precision or physical calibration.",
+    "Native complete charge/MAC/write/program/window services remain sourced conditional budgets.",
+    "Partial called-module area is not full macro PPA."
+  ],
+  "initial_review_file": "runs/step3/review-source-20261004/source_review_initial.json",
+  "archive_only_failed_first_regression": "runs/step2/step3-review-regression-20261004/failure.json",
+  "single_case_actual_fresh_run": {
+    "status": "PASS",
+    "run_id": "review-single-dcim-20261004",
+    "case": "02_sram_dcim",
+    "summary_result_resolved_sensitivity_exact_equality": true
+  },
+  "separate_original_time_replay": {
+    "status": "PASS",
+    "run_id": "review-replay-20261004",
+    "cases": 3,
+    "matches_v3_only": true
+  },
+  "review_script_sha256": "e7e1bb230035b7422b3892758396cb08756b3ecf54ee0cc4fdab2e1f1f8be9c7"
+}
