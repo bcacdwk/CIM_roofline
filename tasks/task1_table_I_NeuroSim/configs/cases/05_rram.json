@@ -1,0 +1,1831 @@
+{
+  "contract_version": "2.0.0",
+  "status": "input_specification",
+  "case_id": "05_rram",
+  "provenance": {
+    "baseline_repository": "https://github.com/bcacdwk/CIM_roofline",
+    "baseline_v3_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+    "profile": "reference",
+    "sources": {
+      "inputs": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/inputs.json",
+        "sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "results": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/results.json",
+        "sha256": "e882a21b7c9d37c3c8d47438d7f0f2071da663284ac4af61e7cd1f7559f1a5fd",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "calculator": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/scripts/check_rram.py",
+        "sha256": "fd7db50d549cefe7f9fe90a1edda5b059fd9ab3024a1e433d523a96726845586",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+        "functions": {
+          "write_service": {
+            "start_line": 24,
+            "end_line": 49
+          }
+        }
+      },
+      "shared": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/data/shared_parameters.json",
+        "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "shared_calculator": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/scripts/check_shared.py",
+        "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+        "functions": {
+          "logical_configuration": {
+            "start_line": 61,
+            "end_line": 69
+          }
+        }
+      },
+      "method": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/tex/02_estimation_method.tex",
+        "sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      }
+    },
+    "prior_performance_values_imported": false
+  },
+  "logical": {
+    "K": 128,
+    "N": 64,
+    "matrix_order": "W[N,K]",
+    "input_bits": 8,
+    "weight_bits": 8,
+    "signed": true,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "B_S_Byte": 128,
+    "B_R_Byte": 8192,
+    "resident_transaction_Byte": 16,
+    "output_bits": 23,
+    "numerical_contract": "calibrated_approximate_partial_sums",
+    "byte_bit_rule": "v3 b_S=b_R=1 means Byte/element, not 1-bit arithmetic. Encoded copies add physical occupancy, never logical payload.",
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      },
+      {
+        "source_id": "shared_calculator",
+        "function": "logical_configuration"
+      }
+    ]
+  },
+  "physical": {
+    "resident_capacity_Byte": 8192,
+    "logical_capacity_Byte": 8192,
+    "physical_capacity_bit": 65536,
+    "physical_capacity_Byte": 8192,
+    "physical_data_cells": 65536,
+    "encoding": "8binarybitplanes,no differential duplication;allm=1",
+    "mode": "WH-2T1R32-item ACIM with native CIMSEL time selection",
+    "physical_native_macros": 8,
+    "physical_macro_shape": [
+      64,
+      128
+    ],
+    "subarrays_per_macro": 4,
+    "subarray_shape": [
+      64,
+      32
+    ],
+    "update_mode": "single-domain sustained whole8192B matrix load;512local16B groups",
+    "precision_contract": "calibrated approximate bit-plane sums;INT8 final23bit container",
+    "cells_per_INT8_weight": 8,
+    "data_storage_sites": 65536,
+    "effective_capacity_Byte": 8192,
+    "independent_payload_replicas": 1,
+    "signal_enhancement_replication": 1,
+    "complementary_encoding_factor": 1,
+    "neurosim_array_assignment": {
+      "numRowSubArray": null,
+      "numColSubArray": null,
+      "status": "requires_per_primitive_topology_adapter",
+      "rule": "Never substitute logical K,N for a physical array; preserve native banks, plane orientation, active rows, isolation and access direction."
+    },
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      }
+    ],
+    "access_direction": "Eight complete64×128 m=1 reference macros,one per bit-plane;retain four64×32 subarrays and sharedTBL in each macro;CIMSEL time-selects four32-input groups",
+    "update_mapping": "one32-input subarray,one selected outputWL per plane;8columns in each of2groups,16columnBL/SL pairs ×8planes=128targets;512transactions coverK128×N64"
+  },
+  "device": {
+    "identity": "WH-2T1R m=1 binary RRAM; distinct CIM and memory paths",
+    "primitives": [
+      {
+        "id": "cim_front",
+        "original": {
+          "value": 5,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 5e-09,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "CIM",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/front_end_settle_ns/value"
+          }
+        ]
+      },
+      {
+        "id": "memory_verify_front",
+        "original": {
+          "value": 5,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 5e-09,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/binary_verify_frontend_ns/value"
+          }
+        ]
+      },
+      {
+        "id": "reset_pulse",
+        "original": {
+          "value": 1000,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 1.0000000000000002e-06,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/program_pulse_ns/RESET"
+          }
+        ]
+      },
+      {
+        "id": "set_pulse",
+        "original": {
+          "value": 1000,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 1.0000000000000002e-06,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/program_pulse_ns/SET"
+          }
+        ]
+      },
+      {
+        "id": "local_setup",
+        "original": {
+          "value": 100,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 1.0000000000000001e-07,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/reference"
+          }
+        ]
+      },
+      {
+        "id": "local_return",
+        "original": {
+          "value": 100,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 1.0000000000000001e-07,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/reference"
+          }
+        ]
+      },
+      {
+        "id": "rail_setup",
+        "original": {
+          "value": 1000,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 1.0000000000000002e-06,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/rail_lifecycle_ns/setup"
+          }
+        ]
+      },
+      {
+        "id": "rail_exit",
+        "original": {
+          "value": 1000,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 1.0000000000000002e-06,
+          "unit": "s"
+        },
+        "status": "retained_v3_input",
+        "kind": "primitive_budget",
+        "mode": "memory_program_or_verify",
+        "included_stages": [],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/rail_lifecycle_ns/exit"
+          }
+        ]
+      }
+    ],
+    "native_technology_policy": "Retain native device bias/load/geometry independently of the low-voltage peripheral technology; no 28nm Technology table or enum relabeling.",
+    "source_refs": [
+      {
+        "source_id": "inputs",
+        "json_pointer": ""
+      }
+    ],
+    "mode_bias_load_endpoint": [
+      {
+        "mode_id": "normal_evaluation",
+        "bias_load_endpoint": "32活动m=1 cell，VBL0.3V/VWL0.6V/VTBL0.1V，core T2与共享TBL的电流建立/漏电补偿，公共SAR近似部分和",
+        "parameter_bindings": {
+          "frontend_ns": "cim_frontend_ns",
+          "input_ns": "input_step",
+          "conversion_ns": "adc_batch",
+          "digital_ns": "digital_tick"
+        },
+        "qualification": "5ns锚定原PH0；原CIM路径与memory路径分离，该5ns不是memory读验实测",
+        "source": "RRAM-05 PDF pp.3–4 Figs.3–7; p.7 Figs.16–18"
+      },
+      {
+        "mode_id": "endpoint_verify",
+        "bias_load_endpoint": "program后局部退偏，独立T1/IO/BL/SL memory路径逐lane判LRS双门限与HRS门限；128lane/256窗口比较器",
+        "parameter_bindings": {
+          "frontend_ns": "verify_frontend_ns",
+          "input_ns": "input_step",
+          "sense_ns": "adc_batch",
+          "digital_ns": "digital_tick"
+        },
+        "qualification": "5ns是独立memory前端参考预算；未由CIM的PH0实测证明。T_B=T_A为共同能力政策依赖而非共享ADC物理依赖。改变同一公共T_I/T_A/T_D会作用所有消费者",
+        "source": "RRAM-05 PDF p.3 Fig.3/4; E02/E03/E09; reference design"
+      },
+      {
+        "mode_id": "resident_update",
+        "bias_load_endpoint": "128专用驱动，同极性RESET后masked SET；rail在512事务期间保持，完整窗口读验完成后才发布矩阵",
+        "parameter_bindings": {
+          "setup_ns": "local_setup_ns",
+          "return_ns": "local_return_ns",
+          "set_pulse_ns": "set_pulse_ns",
+          "reset_pulse_ns": "reset_pulse_ns",
+          "digital_ns": "digital_tick",
+          "rail_setup_ns": "rail_setup_ns",
+          "rail_exit_ns": "rail_exit_ns"
+        },
+        "qualification": "pulse、local偏置和rail只作用更新；端点读验使用endpoint_verify绑定，完整RESET不隐藏",
+        "source": "RRAM-01 PDF p.10; RRAM-03 PDF p.5; RRAM-06 PDF pp.1–2; reference design"
+      }
+    ],
+    "mode_inputs": {
+      "native_electrical_parameter_policy": {
+        "read_bias_V": null,
+        "native_RC_load": null,
+        "status": "not_separately_specified_for_instantiated_adapter",
+        "fallback": "retain native complete service or stated primitive; never silently use upstream default device/load"
+      },
+      "normal_evaluation": {
+        "VBL": {
+          "value": 0.3,
+          "unit": "V",
+          "normalized_value": 0.3,
+          "normalized_unit": "V",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows/qualification"
+            }
+          ]
+        },
+        "VWL": {
+          "value": 0.6,
+          "unit": "V",
+          "normalized_value": 0.6,
+          "normalized_unit": "V",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows/qualification"
+            }
+          ]
+        },
+        "VTBL": {
+          "value": 0.1,
+          "unit": "V",
+          "normalized_value": 0.1,
+          "normalized_unit": "V",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows/qualification"
+            }
+          ]
+        },
+        "ON_current_reference": {
+          "value": 0.5,
+          "unit": "uA",
+          "normalized_value": 5e-07,
+          "normalized_unit": "A",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows/qualification"
+            }
+          ]
+        },
+        "HRS_contribution": "low after same-bias calibration; not assigned zero",
+        "m": 1,
+        "active_terms": 32
+      },
+      "memory_endpoint": {
+        "LRS_window": {
+          "value": [
+            8,
+            12
+          ],
+          "unit": "kOhm",
+          "normalized_value": [
+            8000,
+            12000
+          ],
+          "normalized_unit": "ohm",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows/LRS_resistance_kOhm"
+            }
+          ]
+        },
+        "HRS_min": {
+          "value": 70,
+          "unit": "kOhm",
+          "normalized_value": 70000,
+          "normalized_unit": "ohm",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows/HRS_min_resistance_kOhm"
+            }
+          ]
+        },
+        "memory_read_bias_V": null,
+        "qualification": "Independent T1/IO/BL/SL memory path; conditional window budget, not CIM transfer equivalence"
+      },
+      "program": {
+        "SET_initial": {
+          "value": 1.2,
+          "unit": "V",
+          "normalized_value": 1.2,
+          "normalized_unit": "V",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/program_voltages/initial_SET_V"
+            }
+          ]
+        },
+        "RESET_initial": {
+          "value": 1.5,
+          "unit": "V",
+          "normalized_value": 1.5,
+          "normalized_unit": "V",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/program_voltages/initial_RESET_V"
+            }
+          ]
+        },
+        "same_polarity_retry_increment": {
+          "value": 0.1,
+          "unit": "V",
+          "normalized_value": 0.1,
+          "normalized_unit": "V",
+          "status": "retained_v3_mode_input",
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/program_voltages/increment_on_same_polarity_retry_V"
+            }
+          ]
+        },
+        "reference_RESET_attempts": 2,
+        "reference_SET_attempts": 1,
+        "retry_RESET_sequence_V": [
+          1.5,
+          1.6
+        ],
+        "retry_SET_sequence_V": [
+          1.2
+        ],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/group_attempt_scenarios/reference"
+          }
+        ]
+      }
+    }
+  },
+  "periphery": {
+    "policy_id": "lv_v14_22nm_lstp_300k_v1",
+    "candidate_branch": "2DInferenceV1.4",
+    "locked_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+    "technode_nm": 22,
+    "device_roadmap": "LSTP",
+    "temperature_K": 300,
+    "clock": {
+      "clock_id": "lv_core",
+      "target_period_ns": 5,
+      "actual_period_ns": null,
+      "status": "requires_critical_path_measurement",
+      "rule": "actual=max(target_period_ns, measured used sensing/combinational critical path); DFF alone does not prove closure"
+    },
+    "unit_conversion": {
+      "backend_output": "s",
+      "contract_time": "ns",
+      "scale": 1000000000.0,
+      "apply_exactly_once": true
+    },
+    "native_loads_transplanted": false,
+    "scope": "Low-voltage peripheral candidates only; native array/driver/sense complete services retain their original load and bias."
+  },
+  "resources": {
+    "installed": {
+      "adc_count": 128,
+      "sense_or_verify_nodes": 256,
+      "digital_output_channels": 16,
+      "operand_hold_bits": 0,
+      "analog_cross_group_hold_slots": 0,
+      "input_register_bits": 1024,
+      "output_register_bits": 1472,
+      "encoded_interface_bits": 128,
+      "real_write_driver_count": 128,
+      "external_update_domains": 1,
+      "binary_window_comparators": 256,
+      "program_voltage_rating_V": 1.8,
+      "program_current_rating_uA_per_lane": 300,
+      "program_current_rating_mA_total": 38.4,
+      "switched_load_limit_pF_per_lane": 1,
+      "mux_groups_per_plane": 2,
+      "mux_channels": 128,
+      "mux_fanin": 4,
+      "existing_SAR_code_bits": 1280,
+      "new_intermediate_hold_bits": 0
+    },
+    "active": {
+      "streaming": {
+        "input_terms_per_group": 32,
+        "output_lanes": 16,
+        "weight_planes_parallel": 8,
+        "adc_count": 128
+      },
+      "resident": {
+        "logical_Byte_per_transaction": 16,
+        "encoded_bits_per_load_unit": 128,
+        "physical_write_driver_count": 128
+      }
+    },
+    "native_declared": {
+      "ADC_count": 128,
+      "ADC_per_plane": 16,
+      "digital_output_channels": 16,
+      "active_input_terms": 32,
+      "write_driver_count": 128,
+      "binary_window_comparators": 256,
+      "program_current_rating_uA_per_lane": 300,
+      "total_program_current_rating_mA": 38.4,
+      "switched_capacitance_limit_pF_per_lane": 1,
+      "program_voltage_rating_V": 1.8,
+      "encoded_buffer_bits": 128,
+      "mask_done_bits": 128,
+      "input_register_bits": 1024,
+      "output_register_bits": 1472,
+      "write_interface_bits": 128,
+      "external_update_domains": 1,
+      "shared_TBL_policy": "retain native4subarrays per macro;CIMSEL time-selects;no freeTBL isolation"
+    },
+    "capacity_policy": "Installed capacity is not active parallelism. No extra ADC, SA, hold bank, driver or mux lane may appear without a resource edit.",
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      },
+      {
+        "source_id": "shared",
+        "json_pointer": "/resource_policy"
+      }
+    ],
+    "mux_scope": {
+      "status": "selection_inventory_not_transistor_load_characterization",
+      "source_refs": [
+        {
+          "source_id": "results",
+          "json_pointer": "/native_configuration"
+        }
+      ],
+      "rule": "Ratios express selected outputs/local addresses; native row/layer/CIMSEL decoding is separate. No switch capacitance or RC assumed from fanin alone."
+    }
+  },
+  "services": [
+    {
+      "id": "input_capture",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "call": {
+        "entrypoint": "DFF::Initialize; DFF::CalculateLatency",
+        "status": "specified_not_executed",
+        "inputs": {
+          "digital_tick": "binding",
+          "clock_id": "lv_core",
+          "numRead": 1,
+          "numDff": 1024,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false
+        },
+        "outputs": [
+          {
+            "field": "DFF.readLatency",
+            "unit": "cycles",
+            "clock_id": "lv_core",
+            "mode": "synchronous",
+            "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
+        "components": [
+          {
+            "module": "DFF",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numDff": 1024,
+            "numDff_status": "specified",
+            "clock_id": "lv_core",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "DFF_one_cycle_is_sole_digital_timer; combination_logic_only_checks_critical_path",
+        "timing_plan": {
+          "clock_id": "lv_core",
+          "cycles_per_occurrence": {
+            "value": 1,
+            "source": "one existing scheduled register-to-register tick per stage.count occurrence"
+          },
+          "formula": "stage.count * cycles_per_occurrence * lv_core.actual_period_ns; apply schedule-dependent cycle factor before summing different page kinds",
+          "DFF_numRead": 1,
+          "DFF_role": "sole cycle timer; existing end-of-cycle register capture is within this tick",
+          "Adder_role": "critical_path_qualification_only",
+          "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
+          "forbid_additive_combination_cycles": true,
+          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
+          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+        },
+        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+      },
+      "depends_on": [],
+      "count": {
+        "value": 1,
+        "unit": "cycles",
+        "per": "vector"
+      },
+      "processing_range": {
+        "scope": "vector"
+      },
+      "resources": [
+        "input_register_bits"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    {
+      "id": "analog_front",
+      "service_kind": "streaming",
+      "provider": "v3_native_service",
+      "call": {
+        "entrypoint": "retained native frontend primitive from v3",
+        "status": "specified_not_executed",
+        "inputs": {
+          "duration_parameter": "cim_front",
+          "input_step": "binding"
+        },
+        "outputs": [
+          {
+            "field": "native_mode_duration",
+            "unit": "s",
+            "status": "retained_input_not_new_performance",
+            "clock_id": null
+          }
+        ],
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication"
+      },
+      "depends_on": [
+        "input_capture"
+      ],
+      "count": {
+        "value": 128,
+        "unit": "evaluations",
+        "per": "vector"
+      },
+      "processing_range": {
+        "scope": "vector"
+      },
+      "resources": [
+        "native_declared"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/service_modes/0"
+        }
+      ]
+    },
+    {
+      "id": "sar",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "call": {
+        "entrypoint": "SarADC::Initialize; SarADC::CalculateLatency",
+        "status": "specified_not_executed",
+        "inputs": {
+          "adc_batch": "binding",
+          "numCol": 128,
+          "levelOutput": 1024,
+          "numRead": 1,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false
+        },
+        "outputs": [
+          {
+            "field": "SarADC.readLatency",
+            "unit": "s",
+            "status": "native_primitive_total",
+            "convert_to_ns_once": true,
+            "clock_id": null
+          }
+        ],
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
+        "components": [],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "one physical conversion; stage.count owns repetition"
+      },
+      "depends_on": [
+        "analog_front"
+      ],
+      "count": {
+        "value": 128,
+        "unit": "batches",
+        "per": "vector"
+      },
+      "processing_range": {
+        "scope": "vector"
+      },
+      "resources": [
+        "adc_count"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    {
+      "id": "digital_reconstruct",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "call": {
+        "entrypoint": "AdderTree::CalculateLatency; Adder::CalculateLatency; DFF::CalculateLatency",
+        "status": "specified_not_executed",
+        "inputs": {
+          "digital_tick": "binding",
+          "clock_id": "lv_core",
+          "output_bits": 23,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false,
+          "existing_output_register_inventory_bits": 1472,
+          "active_register_bits": 368,
+          "numDff": 368,
+          "register_allocation": "Reuse declared output/partial-sum containers; no new hidden hold bank or ShiftAdd register.",
+          "arithmetic_widths": {
+            "adc_nominal_bits": 10,
+            "weight_bits": 8,
+            "weighted_signed_leaf_bits": 18,
+            "leaf_width_formula": "adc_nominal_bits+(weight_bits-1)+1",
+            "fanin": 8,
+            "parallel_trees": 16,
+            "tree_result_bits": 21,
+            "accumulator_bits": 23
+          },
+          "SAR_code_lifetime": "All128 converter codes remain in existing10bit SAR result state through both digital ticks; do not start another conversion; no added analog/digital hold bank.",
+          "phase_plan": [
+            {
+              "phase": 1,
+              "operation": "weighted signed plane reduction qualification",
+              "new_intermediate_register": false,
+              "capture_policy": "keep source SAR codes unchanged; do not assume a free tree-result bank"
+            },
+            {
+              "phase": 2,
+              "operation": "recompute weighted plane sum if needed, signed input-bit shift and accumulate into existing23bit output container",
+              "register": "existing output group",
+              "new_intermediate_register": false
+            }
+          ]
+        },
+        "outputs": [
+          {
+            "field": "AdderTree.readLatency",
+            "unit": "s",
+            "clock_id": null,
+            "mode": "asynchronous_critical_path_qualification",
+            "conversion": "physical seconds *1e9 once; not additional schedule cycles",
+            "critical_path_measurement": "paired asynchronous CalculateLatency gives seconds; native load still required",
+            "timing_role": "critical_path_qualification_only",
+            "qualification_clock_id": "lv_core"
+          },
+          {
+            "field": "Adder.readLatency",
+            "unit": "s",
+            "convert_to_ns_once": true,
+            "timing_role": "critical_path_qualification_only",
+            "clock_id": null
+          },
+          {
+            "field": "DFF.readLatency",
+            "unit": "cycles",
+            "clock_id": "lv_core",
+            "mode": "synchronous",
+            "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
+        "reference_schedule_count_only": true,
+        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle.",
+        "components": [
+          {
+            "module": "AdderTree",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numUnitAdd": 8,
+            "input_word_bits": 18,
+            "input_word_bits_status": "explicit conservative shifted signed code container",
+            "numAdderTree": 16,
+            "capLoad_F": null,
+            "clock_id": "lv_core",
+            "timing_role": "critical_path_qualification_only",
+            "qualification_mode": "asynchronous physical seconds; synchronous ceil-cycle return is not a second timer"
+          },
+          {
+            "module": "Adder",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numAdderBit": 23,
+            "numAdder": 16,
+            "capLoad_F": null,
+            "timing_role": "critical_path_qualification_only"
+          },
+          {
+            "module": "DFF",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numDff": 368,
+            "numDff_status": "specified",
+            "clock_id": "lv_core",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "DFF_one_cycle_is_sole_digital_timer; combination_logic_only_checks_critical_path",
+        "timing_plan": {
+          "clock_id": "lv_core",
+          "cycles_per_occurrence": {
+            "value": 1,
+            "source": "one existing scheduled register-to-register tick per stage.count occurrence"
+          },
+          "formula": "stage.count * cycles_per_occurrence * lv_core.actual_period_ns; apply schedule-dependent cycle factor before summing different page kinds",
+          "DFF_numRead": 1,
+          "DFF_role": "sole cycle timer; existing end-of-cycle register capture is within this tick",
+          "Adder_role": "critical_path_qualification_only",
+          "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
+          "forbid_additive_combination_cycles": true,
+          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
+          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates.",
+          "serial_paths": [
+            [
+              "weighted8-plane tree",
+              "signed input-bit shift/sign",
+              "23bit accumulator adder",
+              "existing output DFF setup"
+            ]
+          ]
+        }
+      },
+      "depends_on": [
+        "sar"
+      ],
+      "count": {
+        "value": 256,
+        "unit": "cycles",
+        "per": "vector"
+      },
+      "processing_range": {
+        "scope": "vector"
+      },
+      "resources": [
+        "digital_output_channels"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    {
+      "id": "rail_setup",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "call": {
+        "entrypoint": "check_rram.write_service / rail_setup_ns",
+        "status": "specified_not_executed",
+        "inputs": {
+          "duration_parameter": "rail_setup"
+        },
+        "outputs": [
+          {
+            "field": "native_mode_duration",
+            "unit": "s",
+            "status": "retained_input_not_new_performance",
+            "clock_id": null
+          }
+        ],
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication"
+      },
+      "depends_on": [],
+      "count": {
+        "value": 1,
+        "unit": "rail_start",
+        "per": "full_matrix"
+      },
+      "processing_range": {
+        "scope": "full_matrix"
+      },
+      "resources": [
+        "external_update_domains"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/rail_lifecycle_ns"
+        }
+      ]
+    },
+    {
+      "id": "program_attempts",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "call": {
+        "entrypoint": "check_rram.write_service / finite RESET then masked SET",
+        "status": "specified_not_executed",
+        "inputs": {
+          "transaction_Byte": 16,
+          "reset_attempts": 2,
+          "set_attempts": 1,
+          "duration_parameters": [
+            "local_setup",
+            "local_return"
+          ],
+          "digital_tick": "binding",
+          "clock_id": "lv_core",
+          "control_cycles_per_attempt": 1,
+          "pulse_parameter_by_enclosing_axis": {
+            "RESET_attempt": "reset_pulse",
+            "masked_SET_attempt": "set_pulse"
+          },
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false
+        },
+        "outputs": [
+          {
+            "field": "composed_duration",
+            "unit": "ns",
+            "status": "pending constituent instantiation; see native_components; convert seconds or cycles once before summation",
+            "clock_id": null
+          }
+        ],
+        "native_components": [
+          {
+            "provider": "v3_native_service",
+            "parameters": [
+              "local_setup",
+              "local_return"
+            ],
+            "included_native_stages": []
+          },
+          {
+            "provider": "neurosim_composed",
+            "bindings": [
+              "digital_tick"
+            ],
+            "status": "explicit external bound capability; native included stages are not repeated"
+          }
+        ],
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
+        "components": [],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "composed native occupation plus explicitly counted digital schedule/ADC binding; no opaque native stage splitting"
+      },
+      "depends_on": [
+        "rail_setup"
+      ],
+      "count": {
+        "value": 1536,
+        "unit": "program_attempts",
+        "per": "full_matrix"
+      },
+      "processing_range": {
+        "scope": "one attempt within one16B transaction",
+        "pulse_select": "use the enclosing RESET_attempt or masked_SET_attempt loop; never apply both pulses in one attempt",
+        "verify_before_next_attempt": true,
+        "rail_held_across_all_transactions": true
+      },
+      "resources": [
+        "real_write_driver_count",
+        "binary_window_comparators"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/group_attempt_scenarios/reference"
+        },
+        {
+          "source_id": "calculator",
+          "function": "write_service"
+        }
+      ]
+    },
+    {
+      "id": "endpoint_verify",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "call": {
+        "entrypoint": "check_rram.write_service / independent memory path window comparator",
+        "status": "specified_not_executed",
+        "inputs": {
+          "input_step": "binding",
+          "duration_parameter": "memory_verify_front",
+          "adc_batch": "common capability policy for binary sense, not shared physical ADC",
+          "LRS_window_kOhm": [
+            8,
+            12
+          ],
+          "HRS_min_kOhm": 70,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false
+        },
+        "outputs": [
+          {
+            "field": "composed_duration",
+            "unit": "ns",
+            "status": "pending constituent instantiation; see native_components; convert seconds or cycles once before summation",
+            "clock_id": null
+          }
+        ],
+        "policy_link": {
+          "id": "binary_sense_capability",
+          "bound_to": "adc_batch",
+          "same_physical_ADC": false,
+          "physical_resource": "256 window comparators; distinct T1/IO/BL/SL memory frontend"
+        },
+        "native_components": [
+          {
+            "provider": "v3_native_service",
+            "parameters": [
+              "memory_verify_front"
+            ],
+            "included_native_stages": []
+          },
+          {
+            "provider": "neurosim_composed",
+            "bindings": [
+              "adc_batch"
+            ],
+            "status": "explicit external bound capability; native included stages are not repeated"
+          }
+        ],
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
+        "components": [],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "composed native occupation plus explicitly counted digital schedule/ADC binding; no opaque native stage splitting"
+      },
+      "depends_on": [
+        "program_attempts"
+      ],
+      "count": {
+        "value": 1536,
+        "unit": "attempt_verifies",
+        "per": "full_matrix"
+      },
+      "processing_range": {
+        "scope": "full_matrix"
+      },
+      "resources": [
+        "binary_window_comparators"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/binary_sense_slot_ns"
+        },
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/binary_windows"
+        }
+      ]
+    },
+    {
+      "id": "rail_exit",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "call": {
+        "entrypoint": "check_rram.write_service / rail_exit_ns",
+        "status": "specified_not_executed",
+        "inputs": {
+          "duration_parameter": "rail_exit",
+          "commit_condition": "all lanes meet both window endpoints within finite attempts; else invalid matrix"
+        },
+        "outputs": [
+          {
+            "field": "native_mode_duration",
+            "unit": "s",
+            "status": "retained_input_not_new_performance",
+            "clock_id": null
+          }
+        ],
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication"
+      },
+      "depends_on": [
+        "endpoint_verify"
+      ],
+      "count": {
+        "value": 1,
+        "unit": "rail_exit",
+        "per": "full_matrix"
+      },
+      "processing_range": {
+        "scope": "full_matrix"
+      },
+      "resources": [
+        "external_update_domains"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/failure_policy"
+        }
+      ]
+    },
+    {
+      "id": "output_commit",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "call": {
+        "entrypoint": "DFF::Initialize; DFF::CalculateLatency",
+        "status": "specified_not_executed",
+        "inputs": {
+          "digital_tick": "binding",
+          "clock_id": "lv_core",
+          "numRead": 1,
+          "numDff": 1472,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false
+        },
+        "outputs": [
+          {
+            "field": "DFF.readLatency",
+            "unit": "cycles",
+            "clock_id": "lv_core",
+            "mode": "synchronous",
+            "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
+        "components": [
+          {
+            "module": "DFF",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numDff": 1472,
+            "numDff_status": "specified",
+            "clock_id": "lv_core",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "DFF_one_cycle_is_sole_digital_timer; combination_logic_only_checks_critical_path",
+        "timing_plan": {
+          "clock_id": "lv_core",
+          "cycles_per_occurrence": {
+            "value": 1,
+            "source": "one existing scheduled register-to-register tick per stage.count occurrence"
+          },
+          "formula": "stage.count * cycles_per_occurrence * lv_core.actual_period_ns; apply schedule-dependent cycle factor before summing different page kinds",
+          "DFF_numRead": 1,
+          "DFF_role": "sole cycle timer; existing end-of-cycle register capture is within this tick",
+          "Adder_role": "critical_path_qualification_only",
+          "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
+          "forbid_additive_combination_cycles": true,
+          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
+          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+        },
+        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+      },
+      "depends_on": [
+        "digital_reconstruct"
+      ],
+      "count": {
+        "value": 1,
+        "unit": "cycles",
+        "per": "vector"
+      },
+      "processing_range": {
+        "scope": "vector"
+      },
+      "resources": [
+        "output_register_bits"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    {
+      "id": "resident_front",
+      "service_kind": "resident",
+      "provider": "neurosim_native",
+      "call": {
+        "entrypoint": "DFF::Initialize; DFF::CalculateLatency",
+        "status": "specified_not_executed",
+        "inputs": {
+          "digital_tick": "binding",
+          "clock_id": "lv_core",
+          "encoded_bits": 128,
+          "data_beats": 1,
+          "control_cycles": 2,
+          "first_data_in_command": true,
+          "front_cycles_formula": "control_cycles + data_beats - (1 if first_data_in_command else 0)",
+          "front_reference_cycles": 2,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false,
+          "numDff": 128,
+          "register_allocation": "Reuse declared transaction/page/staging inventory for this local load unit; inspect resources.native_declared."
+        },
+        "outputs": [
+          {
+            "field": "DFF.readLatency",
+            "unit": "cycles",
+            "clock_id": "lv_core",
+            "mode": "synchronous",
+            "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
+        "components": [
+          {
+            "module": "DFF",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numDff": 128,
+            "numDff_status": "specified",
+            "clock_id": "lv_core",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "DFF_one_cycle_is_sole_digital_timer; combination_logic_only_checks_critical_path",
+        "timing_plan": {
+          "clock_id": "lv_core",
+          "cycles_per_occurrence": {
+            "value": 2,
+            "source": "call.inputs.front_reference_cycles"
+          },
+          "formula": "stage.count * cycles_per_occurrence * lv_core.actual_period_ns; apply schedule-dependent cycle factor before summing different page kinds",
+          "DFF_numRead": 1,
+          "DFF_role": "sole cycle timer; existing end-of-cycle register capture is within this tick",
+          "Adder_role": "critical_path_qualification_only",
+          "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
+          "forbid_additive_combination_cycles": true,
+          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
+          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+        },
+        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+      },
+      "depends_on": [],
+      "count": {
+        "value": 512,
+        "unit": "transactions",
+        "per": "full_matrix"
+      },
+      "processing_range": {
+        "scope": "full_matrix"
+      },
+      "resources": [
+        "encoded_interface_bits"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "calculator",
+          "function": "write_service"
+        }
+      ]
+    },
+    {
+      "id": "attempt_done",
+      "service_kind": "resident",
+      "provider": "neurosim_native",
+      "call": {
+        "entrypoint": "DFF::Initialize; DFF::CalculateLatency",
+        "status": "specified_not_executed",
+        "inputs": {
+          "digital_tick": "binding",
+          "clock_id": "lv_core",
+          "numDff": 128,
+          "numRead": 1,
+          "done_mask_commit_cycles": 1,
+          "primitive_numRead": 1,
+          "input_bit_loop_owner": "outer scheduler",
+          "weight_plane_loop_owner": "outer scheduler",
+          "output_load_F": null,
+          "load_status": "requires_native_geometry_adapter",
+          "ShiftAdd_used": false
+        },
+        "outputs": [
+          {
+            "field": "DFF.readLatency",
+            "unit": "cycles",
+            "clock_id": "lv_core",
+            "mode": "synchronous",
+            "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
+        "components": [
+          {
+            "module": "DFF",
+            "method": "CalculateLatency",
+            "numRead": 1,
+            "numDff": 128,
+            "numDff_status": "specified",
+            "clock_id": "lv_core",
+            "timing_role": "sole_cycle_timer"
+          }
+        ],
+        "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
+        "timing_role": "DFF_one_cycle_is_sole_digital_timer; combination_logic_only_checks_critical_path",
+        "timing_plan": {
+          "clock_id": "lv_core",
+          "cycles_per_occurrence": {
+            "value": 1,
+            "source": "one existing scheduled register-to-register tick per stage.count occurrence"
+          },
+          "formula": "stage.count * cycles_per_occurrence * lv_core.actual_period_ns; apply schedule-dependent cycle factor before summing different page kinds",
+          "DFF_numRead": 1,
+          "DFF_role": "sole cycle timer; existing end-of-cycle register capture is within this tick",
+          "Adder_role": "critical_path_qualification_only",
+          "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
+          "forbid_additive_combination_cycles": true,
+          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
+          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+        },
+        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+      },
+      "depends_on": [],
+      "count": {
+        "value": 1536,
+        "unit": "commit_cycles",
+        "per": "full_matrix"
+      },
+      "processing_range": {
+        "scope": "full_matrix"
+      },
+      "resources": [
+        "native_declared.mask_done_bits"
+      ],
+      "included_stages": [],
+      "overlap": {
+        "allowed": false,
+        "reason": "Serial baseline; no additional banks, resources or scheduling proof."
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/verify_group_done_commit_ticks_per_attempt"
+        }
+      ]
+    }
+  ],
+  "parameter_bindings": [
+    {
+      "id": "input_step",
+      "status": "active",
+      "single_source": {
+        "source_id": "shared",
+        "json_pointer": "/common_conditions/propagation/profile_values/reference/input_step",
+        "v3_reference_value_ns": 5
+      },
+      "replacement_status": "retained_v3_input_reset_budget",
+      "replacement_value_ns": 5,
+      "clock_id": null,
+      "consumers": [
+        "analog_front",
+        "endpoint_verify"
+      ],
+      "conversion": "C++ seconds * 1e9 once; cycle count multiplied by actual clock period only when explicitly cycle-domain",
+      "included_overhead_rule": "Do not add to complete opaque cycles or fronts where already included.",
+      "maintenance_recompute": "Recompute every affected stage, busy reservation and nonpreemptive guard; never copy old rho/tau/T_R as targets.",
+      "selected_implementation": "v3 dedicated input/reset budget; not inferred from DFF"
+    },
+    {
+      "id": "adc_batch",
+      "status": "active",
+      "single_source": {
+        "source_id": "shared",
+        "json_pointer": "/common_conditions/propagation/profile_values/reference/adc_batch",
+        "v3_reference_value_ns": 20
+      },
+      "replacement_status": "selected_function_pending_case_instantiation",
+      "replacement_value_ns": null,
+      "clock_id": null,
+      "consumers": [
+        "sar",
+        "endpoint_verify"
+      ],
+      "conversion": "C++ seconds * 1e9 once; cycle count multiplied by actual clock period only when explicitly cycle-domain",
+      "included_overhead_rule": "Do not add to complete opaque cycles or fronts where already included.",
+      "maintenance_recompute": "Recompute every affected stage, busy reservation and nonpreemptive guard; never copy old rho/tau/T_R as targets.",
+      "selected_implementation": "SarADC::Initialize(levelOutput=2^nominal_bits); CalculateLatency(numRead=1); readLatency_s * 1e9"
+    },
+    {
+      "id": "digital_tick",
+      "status": "active",
+      "single_source": {
+        "source_id": "shared",
+        "json_pointer": "/common_conditions/propagation/profile_values/reference/digital_tick",
+        "v3_reference_value_ns": 5
+      },
+      "replacement_status": "selected_function_pending_case_instantiation",
+      "replacement_value_ns": null,
+      "clock_id": "lv_core",
+      "consumers": [
+        "input_capture",
+        "digital_reconstruct",
+        "program_attempts",
+        "output_commit",
+        "resident_front",
+        "attempt_done"
+      ],
+      "conversion": "C++ seconds * 1e9 once; cycle count multiplied by actual clock period only when explicitly cycle-domain",
+      "included_overhead_rule": "Do not add to complete opaque cycles or fronts where already included.",
+      "maintenance_recompute": "Recompute every affected stage, busy reservation and nonpreemptive guard; never copy old rho/tau/T_R as targets.",
+      "selected_implementation": "lv_core.actual_period_ns"
+    },
+    {
+      "id": "cim_front",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/0/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/front_end_settle_ns/value"
+          }
+        ]
+      },
+      "consumers": [
+        "analog_front"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "memory_verify_front",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/1/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/binary_verify_frontend_ns/value"
+          }
+        ]
+      },
+      "consumers": [
+        "endpoint_verify"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "reset_pulse",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/2/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/program_pulse_ns/RESET"
+          }
+        ]
+      },
+      "consumers": [
+        "program_attempts"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "set_pulse",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/3/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/program_pulse_ns/SET"
+          }
+        ]
+      },
+      "consumers": [
+        "program_attempts"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "local_setup",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/4/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/reference"
+          }
+        ]
+      },
+      "consumers": [
+        "program_attempts"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "local_return",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/5/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/reference"
+          }
+        ]
+      },
+      "consumers": [
+        "program_attempts"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "rail_setup",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/6/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/rail_lifecycle_ns/setup"
+          }
+        ]
+      },
+      "consumers": [
+        "rail_setup"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    },
+    {
+      "id": "rail_exit",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/7/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/rail_lifecycle_ns/exit"
+          }
+        ]
+      },
+      "consumers": [
+        "rail_exit"
+      ],
+      "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
+      "included_overhead": [],
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "wh2t1r",
+      "status": "retained_v3_frontend",
+      "reason": "Preserve resistive divider to T2 subthreshold current and shared TBL/CIMSEL; direct conductance-array RRAM model is not a transfer-equivalent device."
+    },
+    {
+      "id": "finite_attempt_qualification",
+      "status": "conditional_input",
+      "reason": "2 RESET/1 SET are finite engineering budgets, not measured yield probabilities; no hidden rescue or retry."
+    }
+  ],
+  "implementation_plan": {
+    "status": "design_only",
+    "run_formal_ten_case_performance": false,
+    "code_generation": "No full NAND matrix and no model/dataset download.",
+    "candidate_modules": [
+      "DFF::Initialize/CalculateLatency",
+      "Adder::Initialize/CalculateLatency",
+      "AdderTree::Initialize/CalculateLatency",
+      "SarADC::Initialize/CalculateLatency"
+    ],
+    "comparison_only_modules": [
+      "ShiftAdd: internal DFF/read-pulse capacity and overlap require separate proof"
+    ],
+    "next": "Root integrates source probes and pins coverage decisions before Step 3.",
+    "no_double_counting": "Native opaque stages exclude replacement charges for their included stages. For constituent-mode stages, charge only listed primitives; calculator function is provenance, not a command to add its total again."
+  },
+  "service_schedules": {
+    "semantics": "Ordered loops; execute each nested stage before advancing the enclosing group/attempt. Top-level flat dependencies must not globally reorder phases. Zero new payload in maintenance.",
+    "streaming": {
+      "per": "vector",
+      "steps": [
+        {
+          "stage_id": "input_capture",
+          "count": 1
+        },
+        {
+          "repeat": 128,
+          "axis": "input_bit_row_output_group",
+          "steps": [
+            {
+              "stage_id": "analog_front",
+              "count": 1
+            },
+            {
+              "stage_id": "sar",
+              "count": 1
+            },
+            {
+              "stage_id": "digital_reconstruct",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "stage_id": "output_commit",
+          "count": 1
+        }
+      ]
+    },
+    "resident": {
+      "per": "full_matrix",
+      "update_domain": 1,
+      "steps": [
+        {
+          "stage_id": "rail_setup",
+          "count": 1
+        },
+        {
+          "repeat": 512,
+          "axis": "16B_transaction",
+          "steps": [
+            {
+              "stage_id": "resident_front",
+              "count": 1
+            },
+            {
+              "repeat": 2,
+              "axis": "RESET_attempt",
+              "steps": [
+                {
+                  "stage_id": "program_attempts",
+                  "count": 1
+                },
+                {
+                  "stage_id": "endpoint_verify",
+                  "count": 1
+                },
+                {
+                  "stage_id": "attempt_done",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "repeat": 1,
+              "axis": "masked_SET_attempt",
+              "steps": [
+                {
+                  "stage_id": "program_attempts",
+                  "count": 1
+                },
+                {
+                  "stage_id": "endpoint_verify",
+                  "count": 1
+                },
+                {
+                  "stage_id": "attempt_done",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stage_id": "rail_exit",
+          "count": 1
+        }
+      ]
+    },
+    "maintenance": {
+      "per": "not_scheduled",
+      "steps": []
+    }
+  }
+}

@@ -1,0 +1,349 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "2.0.0"
+    },
+    "status": {
+      "const": "input_specification"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "baseline_v3_sha": {
+          "const": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+        },
+        "sources": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "baseline_v3_sha",
+        "sources"
+      ]
+    },
+    "logical": {
+      "type": "object",
+      "properties": {
+        "K": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "N": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "matrix_order": {
+          "const": "W[N,K]"
+        },
+        "input_bits": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "weight_bits": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bytes_per_input": {
+          "type": "number"
+        },
+        "bytes_per_weight": {
+          "type": "number"
+        },
+        "B_S_Byte": {
+          "type": "number"
+        },
+        "B_R_Byte": {
+          "type": "number"
+        },
+        "output_bits": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "numerical_contract": {
+          "type": "string"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_id": {
+                "type": "string"
+              },
+              "json_pointer": {
+                "type": "string"
+              },
+              "function": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source_id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "K",
+        "N",
+        "matrix_order",
+        "input_bits",
+        "weight_bits",
+        "bytes_per_input",
+        "bytes_per_weight",
+        "B_S_Byte",
+        "B_R_Byte",
+        "output_bits",
+        "numerical_contract",
+        "source_refs"
+      ]
+    },
+    "physical": {
+      "type": "object"
+    },
+    "device": {
+      "type": "object"
+    },
+    "periphery": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "const": "lv_v14_22nm_lstp_300k_v1"
+        },
+        "candidate_branch": {
+          "const": "2DInferenceV1.4"
+        },
+        "locked_sha": {
+          "const": "8a88abf85844c0e1ba17cc771ea535fff6040456"
+        },
+        "technode_nm": {
+          "const": 22
+        },
+        "device_roadmap": {
+          "const": "LSTP"
+        },
+        "temperature_K": {
+          "const": 300
+        },
+        "clock": {
+          "type": "object",
+          "properties": {
+            "clock_id": {
+              "type": "string"
+            },
+            "target_period_ns": {
+              "type": "number"
+            },
+            "actual_period_ns": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "status": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "clock_id",
+            "target_period_ns",
+            "actual_period_ns",
+            "status"
+          ]
+        }
+      },
+      "required": [
+        "policy_id",
+        "candidate_branch",
+        "locked_sha",
+        "technode_nm",
+        "device_roadmap",
+        "temperature_K",
+        "clock"
+      ]
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "installed": {
+          "type": "object"
+        },
+        "active": {
+          "type": "object"
+        },
+        "native_declared": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "installed",
+        "active",
+        "native_declared"
+      ]
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "service_kind": {
+            "type": "string"
+          },
+          "provider": {
+            "enum": [
+              "neurosim_native",
+              "neurosim_composed",
+              "v3_native_service",
+              "unresolved"
+            ]
+          },
+          "call": {
+            "type": "object",
+            "properties": {
+              "entrypoint": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "inputs": {
+                "type": "object"
+              },
+              "outputs": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "entrypoint",
+              "status",
+              "inputs",
+              "outputs"
+            ]
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "count": {
+            "type": "object"
+          },
+          "processing_range": {
+            "type": "object"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "included_stages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "overlap": {
+            "type": "object",
+            "properties": {
+              "allowed": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "allowed",
+              "reason"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source_id": {
+                  "type": "string"
+                },
+                "json_pointer": {
+                  "type": "string"
+                },
+                "function": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "source_id"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "service_kind",
+          "provider",
+          "call",
+          "depends_on",
+          "count",
+          "processing_range",
+          "resources",
+          "included_stages",
+          "overlap",
+          "source_refs"
+        ]
+      }
+    },
+    "parameter_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "implementation_plan": {
+      "type": "object"
+    },
+    "service_schedules": {
+      "type": "object",
+      "required": [
+        "semantics",
+        "streaming",
+        "resident",
+        "maintenance"
+      ]
+    }
+  },
+  "required": [
+    "contract_version",
+    "status",
+    "case_id",
+    "provenance",
+    "logical",
+    "physical",
+    "device",
+    "periphery",
+    "resources",
+    "services",
+    "parameter_bindings",
+    "unresolved",
+    "implementation_plan",
+    "service_schedules"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cim-roofline:neurosim:case:2.0.0",
+  "title": "Step 2 typical input specification, no evaluated case performance"
+}

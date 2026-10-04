@@ -1,0 +1,362 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "2.0.0"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "OK",
+        "PARTIAL",
+        "NOT_IMPLEMENTED",
+        "FAILED"
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "backend_sha": {
+          "type": "string"
+        },
+        "input_sha256": {
+          "type": "string"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "driver_sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "backend_sha",
+        "input_sha256",
+        "patches",
+        "driver_sha256"
+      ]
+    },
+    "effective_config": {
+      "type": "object"
+    },
+    "derived_snapshot": {
+      "type": "object"
+    },
+    "clocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "clock_id": {
+            "type": "string"
+          },
+          "target_period_ns": {
+            "type": "number"
+          },
+          "sensing_limit_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "combinational_limit_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "actual_period_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "closure_status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clock_id",
+          "target_period_ns",
+          "sensing_limit_ns",
+          "combinational_limit_ns",
+          "actual_period_ns",
+          "closure_status"
+        ]
+      }
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage_id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "raw_returns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "unit": {
+                  "enum": [
+                    "s",
+                    "ns",
+                    "cycles",
+                    "J",
+                    "pJ",
+                    "m^2",
+                    "um^2",
+                    "count",
+                    "A",
+                    "V",
+                    "Ohm",
+                    "F"
+                  ]
+                },
+                "scope": {
+                  "type": "string"
+                },
+                "clock_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "status": {
+                  "enum": [
+                    "OK",
+                    "NOT_IMPLEMENTED",
+                    "NOT_APPLICABLE",
+                    "FAILED"
+                  ]
+                },
+                "reason": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "value",
+                "unit",
+                "scope",
+                "clock_id",
+                "status",
+                "reason"
+              ]
+            }
+          },
+          "latency_once_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "count": {
+            "type": "number"
+          },
+          "resource_occupancy_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "initiation_interval_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "initiation_interval_proof": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "clock_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "included_substages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "included_repetition_dimensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "external_repetition_dimensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conversion_count": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "stage_id",
+          "provider",
+          "raw_returns",
+          "latency_once_ns",
+          "count",
+          "resource_occupancy_ns",
+          "initiation_interval_ns",
+          "initiation_interval_proof",
+          "clock_id",
+          "included_substages",
+          "included_repetition_dimensions",
+          "external_repetition_dimensions",
+          "conversion_count",
+          "status",
+          "reason"
+        ]
+      }
+    },
+    "resident_load": {
+      "type": "object",
+      "properties": {
+        "transaction_latency_ns": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "T_R_ns": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "payload_Byte": {
+          "type": "number"
+        },
+        "coverage_status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "transaction_latency_ns",
+        "T_R_ns",
+        "payload_Byte",
+        "coverage_status"
+      ]
+    },
+    "maintenance": {
+      "type": "object",
+      "properties": {
+        "raw_stage_metrics": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "effective_stage_metrics": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "workload_write_Byte": {
+          "const": 0
+        },
+        "recompute_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "raw_stage_metrics",
+        "effective_stage_metrics",
+        "workload_write_Byte",
+        "recompute_required"
+      ]
+    },
+    "derived_metrics": {
+      "type": "object",
+      "properties": {
+        "rho_Byte_per_s": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "tau_Byte_per_s": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "RI_star": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "U_star": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rho_Byte_per_s",
+        "tau_Byte_per_s",
+        "RI_star",
+        "U_star",
+        "status"
+      ]
+    }
+  },
+  "required": [
+    "contract_version",
+    "case_id",
+    "status",
+    "identity",
+    "effective_config",
+    "derived_snapshot",
+    "clocks",
+    "stages",
+    "resident_load",
+    "maintenance",
+    "derived_metrics"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cim-roofline:neurosim:output:2.0.0",
+  "title": "Future stage output contract; Step 2 does not produce case outputs"
+}

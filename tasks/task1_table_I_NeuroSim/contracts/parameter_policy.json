@@ -1,0 +1,101 @@
+{
+  "contract_version": "2.0.0",
+  "policy_id": "lv_v14_22nm_lstp_300k_v1",
+  "status": "ADOPTED_FOR_PILOT_INTERFACE",
+  "primary_backend": {
+    "branch": "2DInferenceV1.4",
+    "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+    "core_path": "Inference_pytorch/NeuroSIM",
+    "technode_nm": 22,
+    "roadmap": "LSTP",
+    "transistor_type": "conventional",
+    "temperature_K": 300
+  },
+  "initialization": {
+    "isolation": "new process and new Param/Technology/MemCell/modules for each configuration",
+    "method": "specialize a reviewed whitelist of constructor INPUT assignments in local Param.cpp before constructing; preserve formulas; record exact diff and hashes",
+    "algorithm_fields": "explicit precision, physical shape, per-cell bits, mux and active row count before module construction; centralized synchronized derived fields only",
+    "forbidden": "post-constructor ad hoc changes to node, resistance, temperature or any primary with uncatalogued dependents",
+    "required_order": [
+      "configuration validation",
+      "constructor input specialization and fresh Param",
+      "explicit missing algorithm parameters",
+      "InputParameter/Technology::Initialize/MemCell load",
+      "module Initialize",
+      "CalculateArea (including internal capacitances)",
+      "physical critical-path pass",
+      "select compatible actual clock",
+      "fresh count pass / typed conversion",
+      "immutable effective snapshot"
+    ],
+    "snapshot_fields": [
+      "Param primary and dependent values",
+      "Technology featureSize/vdd/roadmap",
+      "MemCell mode-specific voltage/resistance/capacitance and native geometry",
+      "module actual dimensions, levelOutput, mux, numRead, numAdd",
+      "all clocks and calibration factors"
+    ]
+  },
+  "clock": {
+    "clock_id": "lv_core",
+    "target_period_ns": 5,
+    "actual_rule": "max(target_period_ns, sensing_critical_path_ns, used_combinational_path_ns); use same actual period in count pass and conversion",
+    "cycle_conversion": "raw_cycles * clocks[clock_id].actual_period_ns exactly once",
+    "seconds_conversion": "raw_seconds * 1e9 exactly once",
+    "main_route": "regression only; never use main sensing clkPeriod as a substitute for slower actual target period",
+    "dff_caveat": "cycle count is not frequency closure evidence",
+    "no_implicit_pipeline": true
+  },
+  "calibration": {
+    "validated_default": true,
+    "alpha": 1.44,
+    "beta": 1.4,
+    "gamma": 0.5,
+    "delta": 0.15,
+    "epsilon": 0.05,
+    "zeta": 1.22,
+    "apply_only_at_native_scope": true,
+    "new_case_silicon_validation_claim": false,
+    "primitive_sar_latency": "(log2(levelOutput)+1)*1e-9*numRead; do not add beta again outside a calibrated aggregate",
+    "scope": {
+      "alpha": "LevelShifter wiring area",
+      "beta": "SubArray sensing-cycle delay",
+      "gamma": "DFF dynamic energy where validated is supplied",
+      "delta": "Adder dynamic energy",
+      "epsilon": "control decoder/encoder/comparator dynamic energy",
+      "zeta": "main-level final energy efficiency denominator; not primitive delay"
+    }
+  },
+  "parameter_ownership": {
+    "device_native": "original technology, load, bias, pulse, full opaque cycle retained per case; never scaled to 22nm automatically",
+    "hardware_inputs": "ADC/SA/lane/mux/hold/driver/port/domain counts explicit from case spec",
+    "backend_defaults": "RC/gate models and documented fit/table/constant implementations; relevant defaults snapshot",
+    "binding_change": "all named consumers, maintenance busy time and nonpreemptive guard recompute; do not retain old alpha"
+  },
+  "counting": {
+    "primitive_numRead": 1,
+    "outer_counts_owner": "case services count; declare any already included input bits/weight planes/row groups/mux/shift-add",
+    "zero_input": "data-dependent switching/current may change; fixed v3 phases and scheduled work never skipped",
+    "steady_state": "initiation_interval remains null without resource and scheduling proof",
+    "opaque_cycles": "retain complete; do not subtract guessed peripheral component",
+    "payload": "B_S=K*bytes_per_input, B_R=K*N*bytes_per_weight; restore/refresh contributes zero workload write payload",
+    "digital_schedule": "Existing v3 register-to-register scheduled ticks remain the repetition source. Combinational Adder/AdderTree results constrain actual_period, not another serial cycle charge. Each scheduled register capture is timed once by DFF=1 cycle. Alternate composed schedules must explicitly replace the source tick schedule, not add to it."
+  },
+  "branch_routes": {
+    "2DTrainingV2.1": "incremental-update mechanism only; v3 complete update transactions remain primary",
+    "MLPInferenceV3.0": "cell electrical/pulse and hybrid reference only",
+    "2DInferenceDCIMV1.0-dev": "256x256 native reference only, reject mapping D6 128x16 as native",
+    "2DInferenceV1.5-dev": "Cap comparison only, external chargeDelay does not predict HZO restore or GC refresh",
+    "3DInferenceV1.0": "README navigation only"
+  },
+  "unimplemented": "value=null with explicit status/reason; raw zero writeLatency is not a zero-time update",
+  "formal_case_performance_this_step": false,
+  "module_routes": {
+    "conversion": "SarADC direct primitive seconds, levelOutput=2^bits, numRead=1; lane and outer batch count separate",
+    "digital": "explicit Adder or AdderTree plus declared DFF resources; no implicit ShiftAdd pipeline",
+    "ShiftAdd": "comparison only unless internal registers/numReadPulse and overlap match reference; never blindly set numReadPulse=1",
+    "SwitchMatrix": "read only with explicit param unitcap/unitres/numColSubArray/buffernumber/drivecapin binding; synchronous write mixed units rejected",
+    "SRAMWriteDriver": "valid RC primitive; complete v3 ordinary SRAM write cycle remains opaque in main pilot",
+    "LevelShifter": "low-level RC/area reference only; no full pump, settle, recovery or verify coverage"
+  }
+}

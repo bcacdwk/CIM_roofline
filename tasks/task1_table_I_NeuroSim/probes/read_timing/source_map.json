@@ -1,0 +1,414 @@
+{
+  "schema_version": "step2-source-map-1",
+  "branch": "2DInferenceV1.4",
+  "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+  "core": "Inference_pytorch/NeuroSIM",
+  "sources": [
+    {
+      "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+      "sha256": "120f4454ac870513aa9e2281d8c2382a65dc8c16271d0347ec5187669b588ad1",
+      "symbols": [
+        {
+          "name": "Param::Param",
+          "lines": [
+            56,
+            566
+          ],
+          "role": "constructor base/default and dependent fields"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/Technology.cpp",
+      "sha256": "971238a4572d8d76da22cf867a0e5789cdc1fbb9f1651a7a14ab8c77861e5f34",
+      "symbols": [
+        {
+          "name": "Technology::Initialize",
+          "lines": [
+            51,
+            768
+          ],
+          "role": "supported conventional CMOS table; 22nm LSTP starts line 700"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/formula.cpp",
+      "sha256": "acb56387ae15b990656994d6c5e0fa5c10c965dd26a0b813972e6d4000168445",
+      "symbols": [
+        {
+          "name": "CalculateGateCap",
+          "lines": [
+            54,
+            69
+          ],
+          "role": "capacitance from tech parameters"
+        },
+        {
+          "name": "CalculateOnResistance",
+          "lines": [
+            1321,
+            1349
+          ],
+          "role": "temperature indexed I_on; ohm"
+        },
+        {
+          "name": "horowitz",
+          "lines": [
+            1411,
+            1420
+          ],
+          "role": "RC propagation seconds"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/SarADC.cpp",
+      "sha256": "9c673b4d7e74a148a0e56df8595fa545232c70ad76f18ca2dc1004defc9b7a6c",
+      "symbols": [
+        {
+          "name": "SarADC::Initialize",
+          "lines": [
+            55,
+            68
+          ],
+          "role": "lane/levels/clock interface"
+        },
+        {
+          "name": "SarADC::CalculateLatency",
+          "lines": [
+            126,
+            134
+          ],
+          "role": "fixed bits+1 ns times numRead"
+        },
+        {
+          "name": "SarADC::GetColumnPower",
+          "lines": [
+            157,
+            243
+          ],
+          "role": "node/roadmap and conductance dependent empirical power"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/MultilevelSenseAmp.cpp",
+      "sha256": "7beae43228e2c4c21162c3b602decb974a019f0308cc5ef3f871c851f2560cb8",
+      "symbols": [
+        {
+          "name": "MultilevelSenseAmp::CalculateLatency",
+          "lines": [
+            217,
+            235
+          ],
+          "role": "Rref endpoint table or fixed voltage mode latency"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/DFF.cpp",
+      "sha256": "5e4dcaf9030499930708af83723ffe2bcbbf1e70df1852dbb1ee1199497d9f06",
+      "symbols": [
+        {
+          "name": "DFF::CalculateArea",
+          "lines": [
+            73,
+            157
+          ],
+          "role": "initializes capacitances"
+        },
+        {
+          "name": "DFF::CalculateLatency",
+          "lines": [
+            160,
+            173
+          ],
+          "role": "cycles synchronous; half-period seconds async"
+        },
+        {
+          "name": "DFF::CalculatePower",
+          "lines": [
+            174,
+            211
+          ],
+          "role": "gamma dynamic energy"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/Adder.cpp",
+      "sha256": "20b220416b8b1db8b889e5ebd9afac0739e7e8bff97c8f767a27cb6d99135946",
+      "symbols": [
+        {
+          "name": "Adder::CalculateArea",
+          "lines": [
+            70,
+            137
+          ],
+          "role": "initializes capacitances"
+        },
+        {
+          "name": "Adder::CalculateLatency",
+          "lines": [
+            138,
+            233
+          ],
+          "role": "RC seconds even sync"
+        },
+        {
+          "name": "Adder::CalculatePower",
+          "lines": [
+            232,
+            280
+          ],
+          "role": "delta calibration"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/AdderTree.cpp",
+      "sha256": "15197777c66af84ba251ff5e21bc9d4f7939351d1adaa73de4c5e6609f4d105d",
+      "symbols": [
+        {
+          "name": "AdderTree::CalculateArea",
+          "lines": [
+            67,
+            121
+          ],
+          "role": "layout required; capacitance prerequisite"
+        },
+        {
+          "name": "AdderTree::CalculateLatency",
+          "lines": [
+            123,
+            179
+          ],
+          "role": "physical tree or ceil cycles"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/ShiftAdd.cpp",
+      "sha256": "21edc35e8ca61e5ab8d1dfe5bb4aee6d1701dc49015afc729e243018a398a2b8",
+      "symbols": [
+        {
+          "name": "ShiftAdd::CalculateLatency",
+          "lines": [
+            199,
+            241
+          ],
+          "role": "internal digital reconstruction and overlap"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "sha256": "72f2cab85d9e2874506bf919689a831374bed05afc32058c8bb6d454d3f5c427",
+      "symbols": [
+        {
+          "name": "SubArray::Initialize",
+          "lines": [
+            84,
+            549
+          ],
+          "role": "native geometry, state mutations and submodule initialization"
+        },
+        {
+          "name": "SubArray::CalculateArea",
+          "lines": [
+            541,
+            885
+          ],
+          "role": "layout capacitance prerequisites"
+        },
+        {
+          "name": "SubArray::CalculateLatency",
+          "lines": [
+            887,
+            1488
+          ],
+          "role": "true physical seconds; false cycle/time and internal repeats"
+        },
+        {
+          "name": "SRAM disabled write aggregation",
+          "lines": [
+            955,
+            967
+          ],
+          "role": "write not implemented"
+        },
+        {
+          "name": "RRAM disabled write aggregation",
+          "lines": [
+            1263,
+            1270
+          ],
+          "role": "write not implemented"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "sha256": "16f2ed755e6bd78367e0e124d9bab220bb44b4c47d593b6ff2960d6178d54c7c",
+      "symbols": [
+        {
+          "name": "ProcessingUnitInitialize",
+          "lines": [
+            72,
+            229
+          ],
+          "role": "Param to tech/cell/subarray mapping; initialize then area"
+        },
+        {
+          "name": "ProcessingUnitCalculatePerformance",
+          "lines": [
+            291,
+            614
+          ],
+          "role": "bit/vector iteration and PE aggregation"
+        },
+        {
+          "name": "GetInputVector",
+          "lines": [
+            667,
+            687
+          ],
+          "role": "nonzero activity divided by configured physical rows"
+        },
+        {
+          "name": "GetColumnResistance",
+          "lines": [
+            690,
+            756
+          ],
+          "role": "selected conductance and row grouping"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/Chip.cpp",
+      "sha256": "c10e3a31dd2a7a035abf64a98a1d2ff3887686d08aba173ae0804c7b1d100271",
+      "symbols": [
+        {
+          "name": "LoadInWeightData",
+          "lines": [
+            1370,
+            1477
+          ],
+          "role": "algorithm normalized mapper not project signed encoder"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/main.cpp",
+      "sha256": "2dc04d6df0c83fd97151a3baec2e16b51e261053ffd806b3012ab3eb6d384911",
+      "symbols": [
+        {
+          "name": "input precision/mapping",
+          "lines": [
+            73,
+            155
+          ],
+          "role": "main-only fields"
+        },
+        {
+          "name": "first pass clock",
+          "lines": [
+            290,
+            305
+          ],
+          "role": "sensing vs target clock"
+        },
+        {
+          "name": "second pass conversion",
+          "lines": [
+            319,
+            326
+          ],
+          "role": "uses sensing period even slower configured clock"
+        },
+        {
+          "name": "energy efficiency",
+          "lines": [
+            528,
+            587
+          ],
+          "role": "zeta final efficiency factor"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/LevelShifter.cpp",
+      "sha256": "78be27a2016350753434971c602cbd35589e08b41836a7dc3ce3a2b1c0b2f55d",
+      "symbols": [
+        {
+          "name": "LevelShifter::CalculateArea",
+          "lines": [
+            77,
+            136
+          ],
+          "role": "alpha area"
+        },
+        {
+          "name": "LevelShifter::CalculateLatency",
+          "lines": [
+            139,
+            170
+          ],
+          "role": "two pullup RC segments; no charge pump/recovery"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/RowDecoder.cpp",
+      "sha256": "b98d57c1f99bc15dc6aa4d66d5f3b2821b22432a58a14b87903f1fd9909596a8",
+      "symbols": [
+        {
+          "name": "RowDecoder::CalculateLatency",
+          "lines": [
+            330,
+            446
+          ],
+          "role": "gate RC, loads and repeats"
+        },
+        {
+          "name": "RowDecoder::CalculatePower",
+          "lines": [
+            450,
+            515
+          ],
+          "role": "epsilon control switching"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/SwitchMatrix.cpp",
+      "sha256": "d76fbe0348cd17ce07fa66e8b7d5e9762f2a95f8cd66e05928a91e155b817d7a",
+      "symbols": [
+        {
+          "name": "SwitchMatrix::CalculateLatency",
+          "lines": [
+            237,
+            279
+          ],
+          "role": "read distributed RC uses global wire fields; synchronous write mixes DFF cycles with seconds"
+        }
+      ]
+    },
+    {
+      "path": "Inference_pytorch/NeuroSIM/Mux.cpp",
+      "sha256": "fd76c08bf9d5fafc104d54421bcb7478f7f0b74cb815aeca3d4518adb4a2c026",
+      "symbols": [
+        {
+          "name": "Mux::CalculateLatency",
+          "lines": [
+            194,
+            214
+          ],
+          "role": "2.3RC 0\u201390% charging seconds times numRead"
+        }
+      ]
+    }
+  ]
+}

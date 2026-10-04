@@ -1,0 +1,2648 @@
+{
+  "status": "PASS_WITH_NONBLOCKING_METADATA_EXCEPTION",
+  "functional_acceptance": "PASS",
+  "review_kind": "independent_semantic_audit_and_fresh_native_rerun",
+  "recorded_at_utc": "2026-10-04T05:15:42.944349+00:00",
+  "reviewer_write_scope": "local runtime only; no management/upstream/git/install mutation",
+  "run_directory": "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517",
+  "cwd_of_uniform_entry": "/tmp",
+  "entry_command": [
+    "python3",
+    "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim/scripts/check_step2.py",
+    "--root",
+    "/Users/shine/neurosim",
+    "--run-id",
+    "step2-independent-review-final-20261004T1517",
+    "--no-export"
+  ],
+  "uniform_entry_result": {
+    "contract_version": "2.0.0",
+    "status": "PASS",
+    "run_id": "step2-independent-review-final-20261004T1517",
+    "configuration_status": "PASS",
+    "probes_status": "PASS",
+    "probe_statuses": {
+      "read_timing": "PASS",
+      "write_update": "PASS",
+      "special": "PASS",
+      "encoding_resources": "PASS"
+    },
+    "worktrees": {
+      "2DInferenceV1.4": {
+        "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+        "clean": true
+      },
+      "2DInferenceDCIMV1.0-dev": {
+        "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+        "clean": true
+      },
+      "2DInferenceV1.5-dev": {
+        "sha": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+        "clean": true
+      },
+      "2DTrainingV2.1": {
+        "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+        "clean": true
+      },
+      "MLPInferenceV3.0": {
+        "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+        "clean": true
+      },
+      "3DInferenceV1.0": {
+        "sha": "6d2ee9b9b5067c4c8660ad8cd0cbedcab477ba69",
+        "clean": true
+      }
+    },
+    "step1_archives_unchanged": true,
+    "root_ds_store_matches_initial": false,
+    "root_ds_store_sha256": "9adc00d8fd181d79efcd158ac42da52eca289561f2ccf471d0e58a63c98a4efb",
+    "git_index_empty": true,
+    "case_count": 10,
+    "new_ten_case_performance": "NOT_RUN",
+    "compiler": "/opt/homebrew/bin/g++-16"
+  },
+  "checks": [
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/Param.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/Technology.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/formula.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/SarADC.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/MultilevelSenseAmp.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/DFF.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/Adder.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/AdderTree.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/ShiftAdd.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/Chip.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/main.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/LevelShifter.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/RowDecoder.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/SwitchMatrix.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:read_timing:Inference_pytorch/NeuroSIM/Mux.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Training_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Training_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Training_pytorch/NeuroSIM/SwitchMatrix.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Inference_pytorch/NeuroSIM/SRAMWriteDriver.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Cell.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:Array.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:write_update:NeuroSim.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:README.md",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:Inference_pytorch/NeuroSIM/typedef.h",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:Inference_pytorch/NeuroSIM/Param.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:NeuroSIM/typedef.h",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:NeuroSIM/Param.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:NeuroSIM/SubArray.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:NeuroSIM/ProcessingUnit.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:README.md",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:Cell.h",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-map:special:Cell.cpp",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:SI:charge_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:primitive-source:charge_front",
+      "status": "PASS",
+      "detail": {
+        "source_value": 20,
+        "declared": 20
+      }
+    },
+    {
+      "name": "01_sram_acim:SI:sram_write_cycle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:primitive-source:sram_write_cycle",
+      "status": "PASS",
+      "detail": {
+        "source_value": 5,
+        "declared": 5
+      }
+    },
+    {
+      "name": "01_sram_acim:local-binding:charge_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:local-binding:sram_write_cycle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:physical-time-clock:charge_front:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:physical-time-clock:sar:SarADC.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:physical-time-clock:reconstruct:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:physical-time-clock:reconstruct:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:cycle-clock:reconstruct",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:physical-time-clock:sram_write:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:SI:native_mac_cycle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:primitive-source:native_mac_cycle",
+      "status": "PASS",
+      "detail": {
+        "source_value": 5,
+        "declared": 5
+      }
+    },
+    {
+      "name": "02_sram_dcim:SI:sram_write_cycle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:primitive-source:sram_write_cycle",
+      "status": "PASS",
+      "detail": {
+        "source_value": 5,
+        "declared": 5
+      }
+    },
+    {
+      "name": "02_sram_dcim:local-binding:native_mac_cycle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:local-binding:sram_write_cycle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:physical-time-clock:native_mac:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:physical-time-clock:sram_write:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:SI:nor_read",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:primitive-source:nor_read",
+      "status": "PASS",
+      "detail": {
+        "source_value": 120,
+        "declared": 120
+      }
+    },
+    {
+      "name": "03_nor_2d:SI:page_program",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:primitive-source:page_program",
+      "status": "PASS",
+      "detail": {
+        "source_value": 0.4,
+        "declared": 0.4
+      }
+    },
+    {
+      "name": "03_nor_2d:SI:sector_erase",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:primitive-source:sector_erase",
+      "status": "PASS",
+      "detail": {
+        "source_value": 45,
+        "declared": 45
+      }
+    },
+    {
+      "name": "03_nor_2d:local-binding:nor_read",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:local-binding:page_program",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:local-binding:sector_erase",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:physical-time-clock:binary_read:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:cycle-clock:operand_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:physical-time-clock:digital_mac:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:physical-time-clock:digital_mac:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:cycle-clock:digital_mac",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:cycle-clock:page_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:physical-time-clock:page_program:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:physical-time-clock:sector_erase:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:SI:sl_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:sl_setup",
+      "status": "PASS",
+      "detail": {
+        "source_value": 640,
+        "declared": 640
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:bl_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:bl_setup",
+      "status": "PASS",
+      "detail": {
+        "source_value": 12,
+        "declared": 12
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:wl_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:wl_setup",
+      "status": "PASS",
+      "detail": {
+        "source_value": 303,
+        "declared": 303
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:cell_on_current",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:cell_on_current",
+      "status": "PASS",
+      "detail": {
+        "source_value": 2,
+        "declared": 2
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:sl_capacitance",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:sl_capacitance",
+      "status": "PASS",
+      "detail": {
+        "source_value": 16,
+        "declared": 16
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:frontend_full_scale",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:frontend_full_scale",
+      "status": "PASS",
+      "detail": {
+        "source_value": 25,
+        "declared": 25
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:page_program",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:page_program",
+      "status": "PASS",
+      "detail": {
+        "source_value": 300,
+        "declared": 300
+      }
+    },
+    {
+      "name": "04_nand_3d:SI:block_erase",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:primitive-source:block_erase",
+      "status": "PASS",
+      "detail": {
+        "source_value": 1,
+        "declared": 1
+      }
+    },
+    {
+      "name": "04_nand_3d:local-binding:sl_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:bl_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:wl_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:cell_on_current",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:sl_capacitance",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:frontend_full_scale",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:page_program",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:local-binding:block_erase",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:input_magnitude_sign:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:cycle-clock:input_magnitude_sign",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:native_wl:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:native_bl_sl:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:sar:SarADC.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:affine_merge_sign:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:affine_merge_sign:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:cycle-clock:affine_merge_sign",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:resident_encode:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:cycle-clock:resident_encode",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:cycle-clock:page_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:page_program:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:block_erase:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:physical-time-clock:load_calibration:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:SI:cim_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:cim_front",
+      "status": "PASS",
+      "detail": {
+        "source_value": 5,
+        "declared": 5
+      }
+    },
+    {
+      "name": "05_rram:SI:memory_verify_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:memory_verify_front",
+      "status": "PASS",
+      "detail": {
+        "source_value": 5,
+        "declared": 5
+      }
+    },
+    {
+      "name": "05_rram:SI:reset_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:reset_pulse",
+      "status": "PASS",
+      "detail": {
+        "source_value": 1000,
+        "declared": 1000
+      }
+    },
+    {
+      "name": "05_rram:SI:set_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:set_pulse",
+      "status": "PASS",
+      "detail": {
+        "source_value": 1000,
+        "declared": 1000
+      }
+    },
+    {
+      "name": "05_rram:SI:local_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:local_setup",
+      "status": "PASS",
+      "detail": {
+        "source_value": 100,
+        "declared": 100
+      }
+    },
+    {
+      "name": "05_rram:SI:local_return",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:local_return",
+      "status": "PASS",
+      "detail": {
+        "source_value": 100,
+        "declared": 100
+      }
+    },
+    {
+      "name": "05_rram:SI:rail_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:rail_setup",
+      "status": "PASS",
+      "detail": {
+        "source_value": 1000,
+        "declared": 1000
+      }
+    },
+    {
+      "name": "05_rram:SI:rail_exit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:primitive-source:rail_exit",
+      "status": "PASS",
+      "detail": {
+        "source_value": 1000,
+        "declared": 1000
+      }
+    },
+    {
+      "name": "05_rram:local-binding:cim_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:memory_verify_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:reset_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:set_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:local_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:local_return",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:rail_setup",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:local-binding:rail_exit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:analog_front:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:sar:SarADC.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:digital_reconstruct:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:digital_reconstruct:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:cycle-clock:digital_reconstruct",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:rail_setup:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:program_attempts:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:endpoint_verify:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:physical-time-clock:rail_exit:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:cycle-clock:resident_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:cycle-clock:attempt_done",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:SI:ibmd_read",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:primitive-source:ibmd_read",
+      "status": "PASS",
+      "detail": {
+        "source_value": 5,
+        "declared": 5
+      }
+    },
+    {
+      "name": "06_mram:SI:direction_write_slot",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:primitive-source:direction_write_slot",
+      "status": "PASS",
+      "detail": {
+        "source_value": 30,
+        "declared": 30
+      }
+    },
+    {
+      "name": "06_mram:local-binding:ibmd_read",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:local-binding:direction_write_slot",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:physical-time-clock:binary_read:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:cycle-clock:operand_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:physical-time-clock:digital_mac:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:physical-time-clock:digital_mac:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:cycle-clock:digital_mac",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:cycle-clock:encoded_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:physical-time-clock:direction_write:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:physical-time-clock:terminal_verify:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:cycle-clock:polarity_turn",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:SI:shared_voltage_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:primitive-source:shared_voltage_front",
+      "status": "PASS",
+      "detail": {
+        "source_value": 20,
+        "declared": 20
+      }
+    },
+    {
+      "name": "07_pcm:SI:drive_transition",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:primitive-source:drive_transition",
+      "status": "PASS",
+      "detail": {
+        "source_value": 20,
+        "declared": 20
+      }
+    },
+    {
+      "name": "07_pcm:SI:reset_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:primitive-source:reset_pulse",
+      "status": "PASS",
+      "detail": {
+        "source_value": 125,
+        "declared": 125
+      }
+    },
+    {
+      "name": "07_pcm:SI:set_complete_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:primitive-source:set_complete_pulse",
+      "status": "PASS",
+      "detail": {
+        "source_value": 300,
+        "declared": 300
+      }
+    },
+    {
+      "name": "07_pcm:SI:reset_current",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:primitive-source:reset_current",
+      "status": "PASS",
+      "detail": {
+        "source_value": 700,
+        "declared": 700
+      }
+    },
+    {
+      "name": "07_pcm:SI:set_current",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:primitive-source:set_current",
+      "status": "PASS",
+      "detail": {
+        "source_value": 125,
+        "declared": 125
+      }
+    },
+    {
+      "name": "07_pcm:local-binding:shared_voltage_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:local-binding:drive_transition",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:local-binding:reset_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:local-binding:set_complete_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:local-binding:reset_current",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:local-binding:set_current",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:physical-time-clock:analog_front:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:physical-time-clock:sar:SarADC.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:physical-time-clock:digital_reconstruct:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:physical-time-clock:digital_reconstruct:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:cycle-clock:digital_reconstruct",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:cycle-clock:resident_front",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:physical-time-clock:program_reset_set:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:physical-time-clock:endpoint_verify:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:SI:feram_sense",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:primitive-source:feram_sense",
+      "status": "PASS",
+      "detail": {
+        "source_value": 20,
+        "declared": 20
+      }
+    },
+    {
+      "name": "08_feram_hfo2:SI:polarization_hold",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:primitive-source:polarization_hold",
+      "status": "PASS",
+      "detail": {
+        "source_value": 50,
+        "declared": 50
+      }
+    },
+    {
+      "name": "08_feram_hfo2:SI:open_close",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:primitive-source:open_close",
+      "status": "PASS",
+      "detail": {
+        "source_value": 40,
+        "declared": 40
+      }
+    },
+    {
+      "name": "08_feram_hfo2:SI:memory_voltage",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:primitive-source:memory_voltage",
+      "status": "PASS",
+      "detail": {
+        "source_value": 2.5,
+        "declared": 2.5
+      }
+    },
+    {
+      "name": "08_feram_hfo2:SI:BL_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:primitive-source:BL_load",
+      "status": "PASS",
+      "detail": {
+        "source_value": 250,
+        "declared": 250
+      }
+    },
+    {
+      "name": "08_feram_hfo2:SI:BL_rating",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:primitive-source:BL_rating",
+      "status": "PASS",
+      "detail": {
+        "source_value": 80,
+        "declared": 80
+      }
+    },
+    {
+      "name": "08_feram_hfo2:local-binding:feram_sense",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:local-binding:polarization_hold",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:local-binding:open_close",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:local-binding:memory_voltage",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:local-binding:BL_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:local-binding:BL_rating",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:physical-time-clock:binary_read:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:physical-time-clock:digital_mac:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:physical-time-clock:digital_mac:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:cycle-clock:digital_mac",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:cycle-clock:external_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:physical-time-clock:external_polarization_write:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:SI:program_complete",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:primitive-source:program_complete",
+      "status": "PASS",
+      "detail": {
+        "source_value": 65,
+        "declared": 65
+      }
+    },
+    {
+      "name": "09_gain_cell_edram:SI:common_read_overhead",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:primitive-source:common_read_overhead",
+      "status": "PASS",
+      "detail": {
+        "source_value": 86,
+        "declared": 86
+      }
+    },
+    {
+      "name": "09_gain_cell_edram:SI:mac_integration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:primitive-source:mac_integration",
+      "status": "PASS",
+      "detail": {
+        "source_value": 1,
+        "declared": 1
+      }
+    },
+    {
+      "name": "09_gain_cell_edram:SI:refresh_integration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:primitive-source:refresh_integration",
+      "status": "PASS",
+      "detail": {
+        "source_value": 64,
+        "declared": 64
+      }
+    },
+    {
+      "name": "09_gain_cell_edram:SI:refresh_period",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:primitive-source:refresh_period",
+      "status": "PASS",
+      "detail": {
+        "source_value": 400000,
+        "declared": 400000
+      }
+    },
+    {
+      "name": "09_gain_cell_edram:SI:integration_capacitance",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:primitive-source:integration_capacitance",
+      "status": "PASS",
+      "detail": {
+        "source_value": 200,
+        "declared": 200
+      }
+    },
+    {
+      "name": "09_gain_cell_edram:local-binding:program_complete",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:local-binding:common_read_overhead",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:local-binding:mac_integration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:local-binding:refresh_integration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:local-binding:refresh_period",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:local-binding:integration_capacitance",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:analog_front:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:sar:SarADC.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:digital_reconstruct:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:digital_reconstruct:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:cycle-clock:digital_reconstruct",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:cycle-clock:resident_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:current_program:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:refresh_read:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:physical-time-clock:refresh_decode_load_rewrite:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:source:inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:source:results",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:source:calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:source:shared",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:source:shared_calculator",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:source:method",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:SI:binary_read",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:binary_read",
+      "status": "PASS",
+      "detail": {
+        "source_value": 40,
+        "declared": 40
+      }
+    },
+    {
+      "name": "10_fenor_3d:SI:bias_transition",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:bias_transition",
+      "status": "PASS",
+      "detail": {
+        "source_value": 10,
+        "declared": 10
+      }
+    },
+    {
+      "name": "10_fenor_3d:SI:polarization_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:polarization_pulse",
+      "status": "PASS",
+      "detail": {
+        "source_value": 20,
+        "declared": 20
+      }
+    },
+    {
+      "name": "10_fenor_3d:SI:post_pulse_guard",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:post_pulse_guard",
+      "status": "PASS",
+      "detail": {
+        "source_value": 100,
+        "declared": 100
+      }
+    },
+    {
+      "name": "10_fenor_3d:SI:selected_gate_channel",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:selected_gate_channel",
+      "status": "PASS",
+      "detail": {
+        "source_value": 2,
+        "declared": 2
+      }
+    },
+    {
+      "name": "10_fenor_3d:SI:bias_node_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:bias_node_load",
+      "status": "PASS",
+      "detail": {
+        "source_value": 100,
+        "declared": 100
+      }
+    },
+    {
+      "name": "10_fenor_3d:SI:node_current_rating",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:primitive-source:node_current_rating",
+      "status": "PASS",
+      "detail": {
+        "source_value": 60,
+        "declared": 60
+      }
+    },
+    {
+      "name": "10_fenor_3d:local-binding:binary_read",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:local-binding:bias_transition",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:local-binding:polarization_pulse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:local-binding:post_pulse_guard",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:local-binding:selected_gate_channel",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:local-binding:bias_node_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:local-binding:node_current_rating",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:cycle-clock:input_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:physical-time-clock:binary_read:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:cycle-clock:operand_capture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:physical-time-clock:digital_mac:AdderTree.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:physical-time-clock:digital_mac:Adder.readLatency",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:cycle-clock:digital_mac",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:cycle-clock:resident_load",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:physical-time-clock:two_phase_write:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:physical-time-clock:post_pulse_guard:native_mode_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:physical-time-clock:terminal_verify:composed_duration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:cycle-clock:output_commit",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:independent-capacity",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:ADC-inventory",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "FeRAM mapping is bijective",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "FeNOR mapping is bijective",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "NAND data/reference physical split",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:read-before-eight-bit-reuse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:read-before-eight-bit-reuse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:read-before-eight-bit-reuse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:read-before-eight-bit-reuse",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "RRAM each transaction contains RESET then SET with immediate verify",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "MRAM phase-turn-phase then terminal branches",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "MRAM complete write slot is opaque native",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "GC refresh consumers tracked",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative-rejected:missing_write_zero",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative-rejected:cycles_without_clock",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative-rejected:physical_with_conversion_clock",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative-rejected:negative_time",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative-rejected:nan_time",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "slow clock conversion independent 4*100",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "11ns physical independent from 100ns clock",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_8_1_22_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_8_1_22_10000000_8",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_8_1_65_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_8_2_22_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_8_2_22_10000000_8",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_8_2_65_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_10_1_22_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_10_1_22_10000000_8",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_10_1_65_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_10_2_22_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_10_2_22_10000000_8",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:sar_10_2_65_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_0_10000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_0_10000000_2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_0_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_0_1000000000_2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_1_10000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_1_10000000_2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_1_1000000000_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "independent-native:dff_1_1000000000_2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "native slow clock mismatch independently confirmed",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "V14 missing write retained null",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "mixed both phase pulse hand-count 1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "mixed both phase pulse hand-count 4",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "all-set independent limited widths 1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "all-set independent limited widths 4",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "MLP pure electrical VI",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "cross-branch symbolic identities",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "native-probe tail organization rejected",
+      "status": "PASS",
+      "detail": {
+        "argv": [
+          "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517/read_timing/probe",
+          "subarray",
+          "1",
+          "10000000",
+          "1",
+          "1",
+          "2",
+          "3",
+          "16"
+        ],
+        "cwd": "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517",
+        "exit_code": 3,
+        "output": ""
+      }
+    },
+    {
+      "name": "all-native-run-logs-error-free",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "Step1 archived hashes unchanged",
+      "status": "PASS",
+      "detail": {
+        "count": 31
+      }
+    },
+    {
+      "name": "root DS_Store unchanged from Step2 initial",
+      "status": "FAIL",
+      "detail": {
+        "initial_sha256": "3814d3be951dfa8d77db0d986090045bbaa36fcf5cb9e3c905946845af32303b",
+        "observed_sha256": "9adc00d8fd181d79efcd158ac42da52eca289561f2ccf471d0e58a63c98a4efb",
+        "attribution": "unknown; not reverted; nonblocking metadata exception"
+      }
+    },
+    {
+      "name": "repository exact reviewed HEAD",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "only authorized tracked paths changed",
+      "status": "PASS",
+      "detail": ".DS_Store\ntasks/task1_table_I_NeuroSim/AGENTS.md\ntasks/task1_table_I_NeuroSim/STATUS.md"
+    },
+    {
+      "name": "index untouched",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-unchanged:2DInferenceV1.4",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-unchanged:2DInferenceDCIMV1.0-dev",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-unchanged:2DInferenceV1.5-dev",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-unchanged:2DTrainingV2.1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-unchanged:MLPInferenceV3.0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "upstream-unchanged:3DInferenceV1.0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "cloud whitelist only small source/evidence files",
+      "status": "PASS",
+      "detail": {
+        "violations": [],
+        "file_count": 110,
+        "largest_files": [
+          [
+            75799,
+            "probes/encoding_resources/generate_configs.py"
+          ],
+          [
+            74655,
+            "provenance/step2_source_map.json"
+          ],
+          [
+            70748,
+            "configs/cases/04_nand_3d.json"
+          ],
+          [
+            66540,
+            "configs/cases/05_rram.json"
+          ],
+          [
+            55466,
+            "configs/cases/10_fenor_3d.json"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "local path real outside cloud",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "01_sram_acim:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "02_sram_dcim:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "03_nor_2d:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "04_nand_3d:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "05_rram:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "06_mram:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "07_pcm:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "08_feram_hfo2:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "09_gain_cell_edram:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "10_fenor_3d:configuration map hash",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "master source map regenerated from frozen inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "coverage CSV from canonical configuration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "main report case routes generated from canonical configuration",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "C++ numerical repeat across independent runs",
+      "status": "PASS",
+      "detail": null
+    }
+  ],
+  "check_count": 448,
+  "primitive_count": 50,
+  "source_hash_checks": 60,
+  "unique_v3_source_files": 33,
+  "upstream_source_map_records": 41,
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "interface_defect",
+      "initial_evidence": "Nine AdderTree physical-second output templates carried clock_id lv_core but normalize_time rejects physical with conversion clocks.",
+      "resolution": "clock_id=null and separate qualification_clock_id; guard required",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "R2",
+      "severity": "provider_boundary",
+      "initial_evidence": "MRAM direction_write was neurosim_composed with digital_tick binding despite complete opaque write_access_slot_ns in check_mram.calculate:31-35; polarity_turn already owns the separate tick.",
+      "resolution": "native opaque direction slot; remove digital consumer and NS constituent",
+      "status": "RESOLVED"
+    }
+  ],
+  "manual_semantic_review": {
+    "native_models": "SAR constant, DFF cycles/half period, Adder RC, tree latter 2-bit approximate levels, Technology PTM/RC; whole-net scheduler kept regression only",
+    "write": "V14 inactive aggregate null; Training mixed-row else-if and ceil integer behavior confirmed in locked source; finite-head pulse scheduling remains outer native transaction",
+    "clock": "target5ns actual maximum of serial logic/sense/driver requirements; physical ns separate from cycles, no double count; downstream primitive loads still Step3",
+    "ten_case_routes": "All logical identities/encodings preserved incl GC04 silicon and NAND split-sign/base4; D6 complete MAC opaque; all unsupported media stages assigned v3 native, no fake enum substitution",
+    "nested_services": "Per tile read→eight input-bit uses, per transaction phase/verify loops, NAND one row staging/page lifecycle, GC read→decode→rewrite groups preserved",
+    "digital_resources": "DFF only schedule timer; combinational returns only critical-path qualification; no added holding bank; pilot widths18→21→23 and existing SAR-code lifetime explicit",
+    "not_step3": "No evaluated ten-case timing, rho/tau or formal PPA produced; two pilot native load/capacitance and mapped register critical paths explicitly pending"
+  },
+  "negative_native_test": {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517/read_timing/probe",
+      "subarray",
+      "1",
+      "10000000",
+      "1",
+      "1",
+      "2",
+      "3",
+      "16"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517",
+    "exit_code": 3,
+    "output": ""
+  },
+  "git_status": {
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1"
+    ],
+    "cwd": "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline",
+    "exit_code": 0,
+    "output": "M .DS_Store\n M tasks/task1_table_I_NeuroSim/AGENTS.md\n M tasks/task1_table_I_NeuroSim/STATUS.md\n?? tasks/task1_table_I_NeuroSim/configs/cases/\n?? tasks/task1_table_I_NeuroSim/contracts/\n?? tasks/task1_table_I_NeuroSim/probes/\n?? tasks/task1_table_I_NeuroSim/provenance/step2_repository.initial.json\n?? tasks/task1_table_I_NeuroSim/provenance/step2_source_map.json\n?? tasks/task1_table_I_NeuroSim/reports/step2_coverage_and_interface.zh.md\n?? tasks/task1_table_I_NeuroSim/results/step2/\n?? tasks/task1_table_I_NeuroSim/scripts/check_step2.py"
+  },
+  "worktrees": {
+    "2DInferenceV1.4": {
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "status": ""
+    },
+    "2DInferenceDCIMV1.0-dev": {
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "status": ""
+    },
+    "2DInferenceV1.5-dev": {
+      "sha": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+      "status": ""
+    },
+    "2DTrainingV2.1": {
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "status": ""
+    },
+    "MLPInferenceV3.0": {
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "status": ""
+    },
+    "3DInferenceV1.0": {
+      "sha": "6d2ee9b9b5067c4c8660ad8cd0cbedcab477ba69",
+      "status": ""
+    }
+  },
+  "disk_usage": {
+    "argv": [
+      "du",
+      "-sk",
+      "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim",
+      "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517",
+      "/Users/shine/neurosim/runs/step2",
+      "/Users/shine/neurosim"
+    ],
+    "cwd": "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline",
+    "exit_code": 0,
+    "output": "1696\t/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim\n7716\t/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517\n54228\t/Users/shine/neurosim/runs/step2\n310892\t/Users/shine/neurosim"
+  },
+  "dependency_installation": "NONE; reused Step1 toolchain; all scripts use standard library",
+  "remaining_pilot_work": [
+    "map native output/line loads to primitive capacitances",
+    "instantiate fresh objects/actual clock for SRAM ACIM and RRAM",
+    "qualify existing register reuse and serial reduction+accumulator path",
+    "assemble native frontend/update stages with bound SAR/digital timing and independently check complete service"
+  ],
+  "formal_ten_case_performance": "NOT_RUN",
+  "audit_script": {
+    "path": "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517/independent_audit.py",
+    "sha256": "ee508deb96905ebf216373affc0f96bfa95aa9be1095391d40edd596eef72067",
+    "actual_command": [
+      "python3",
+      "/Users/shine/neurosim/runs/step2/step2-independent-review-20261004T1427/independent_audit.py",
+      "/Users/shine/neurosim/runs/step2/step2-independent-review-final-20261004T1517"
+    ],
+    "cwd": "/tmp",
+    "exit_code": 0
+  },
+  "probe_counts": {
+    "read_timing": {
+      "status": "PASS",
+      "assertions": 52
+    },
+    "write_update": {
+      "status": "PASS",
+      "assertions": 69
+    },
+    "special": {
+      "status": "PASS",
+      "assertions": 17
+    },
+    "encoding_resources": {
+      "status": "PASS",
+      "assertions": 328
+    }
+  },
+  "output_contract_checks": {
+    "status": "PASS",
+    "checks": {
+      "slow_clock_four_cycles_400ns": true,
+      "physical_seconds_once": true,
+      "missing_write_is_null": true,
+      "reject_zero_missing": true,
+      "reject_cycles_without_clock": true,
+      "reject_seconds_as_cycles": true,
+      "reject_nonfinite": true,
+      "output_schema_accepts_explicit_missing": true
+    },
+    "formal_case_output_generated": false
+  }
+}

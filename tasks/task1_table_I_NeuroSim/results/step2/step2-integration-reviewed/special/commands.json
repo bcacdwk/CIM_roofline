@@ -1,0 +1,163 @@
+[
+  {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Users/shine/neurosim/worktrees/2DInferenceDCIMV1.0-dev-38eedf926fc1",
+    "exit_code": 0,
+    "seconds": 0.007705792000000003,
+    "log": "head-2DInferenceDCIMV1.0-dev.log"
+  },
+  {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Users/shine/neurosim/worktrees/2DInferenceV1.5-dev-9825ef40bf14",
+    "exit_code": 0,
+    "seconds": 0.006100833,
+    "log": "head-2DInferenceV1.5-dev.log"
+  },
+  {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+    "exit_code": 0,
+    "seconds": 0.004993791999999997,
+    "log": "head-MLPInferenceV3.0.log"
+  },
+  {
+    "argv": [
+      "/opt/homebrew/bin/g++-16",
+      "-std=c++11",
+      "-O2",
+      "-I",
+      "/Users/shine/neurosim/worktrees/2DInferenceDCIMV1.0-dev-38eedf926fc1/Inference_pytorch/NeuroSIM",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/special_probe.cpp",
+      "/Users/shine/neurosim/worktrees/2DInferenceDCIMV1.0-dev-38eedf926fc1/Inference_pytorch/NeuroSIM/Param.cpp",
+      "-o",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/dcim-type"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 0.411101084,
+    "log": "build-dcim-type.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/dcim-type"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 0.46748104199999996,
+    "log": "dcim-type.log"
+  },
+  {
+    "argv": [
+      "/opt/homebrew/bin/g++-16",
+      "-std=c++11",
+      "-O2",
+      "-fopenmp",
+      "-DPROBE_CAP",
+      "-I",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/special_probe.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Adder.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/AdderTree.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/BitShifter.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Buffer.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Bus.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Chip.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Comparator.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/CurrentSenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/DFF.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/DeMux.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/DecoderDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/FunctionUnit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/HTree.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/LevelShifter.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/MaxPooling.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/MultilevelSAEncoder.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/MultilevelSenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Mux.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/NewMux.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/NewSwitchMatrix.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Param.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Precharger.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/ProcessingUnit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/ReadCircuit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/RowDecoder.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/SRAMWriteDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/SarADC.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/SenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/ShiftAdd.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Sigmoid.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/SramNewSA.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/SubArray.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/SwitchMatrix.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Technology.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/Tile.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/VoltageSenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/WLDecoderOutput.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/WLNewDecoderDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/XYBus.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-source/formula.cpp",
+      "-o",
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-probe"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 10.833714707999999,
+    "log": "build-cap.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-probe",
+      "128",
+      "5.0000000000000001e-09"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 0.6059900420000002,
+    "log": "cap-128-5e-09.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-probe",
+      "128",
+      "1e-08"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 0.013891083000000748,
+    "log": "cap-128-1e-08.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-probe",
+      "64",
+      "5.0000000000000001e-09"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 0.012934915999998964,
+    "log": "cap-64-5e-09.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special/cap-probe",
+      "64",
+      "1e-08"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-integration-reviewed/special",
+    "exit_code": 0,
+    "seconds": 0.011736542000001293,
+    "log": "cap-64-1e-08.log"
+  }
+]

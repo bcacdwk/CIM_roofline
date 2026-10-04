@@ -1,0 +1,125 @@
+{
+  "version": "step2-write-update-1",
+  "entries": [
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "function": "GetWriteUpdateEstimation",
+      "line_start": 861,
+      "line_end": 993,
+      "sha256": "181f5aa0cf57dfd2a6351cdc3ae7edf89c26dea5d81b33b3a2d7211637e062b5",
+      "supports": "Conductance delta to per-row SET/RESET maximum pulse sum; activity and energy; known mixed-row and integer-division limitations"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "function": "ProcessingUnitInitialize",
+      "line_start": 117,
+      "line_end": 198,
+      "sha256": "181f5aa0cf57dfd2a6351cdc3ae7edf89c26dea5d81b33b3a2d7211637e062b5",
+      "supports": "Input electrical parameters and averaged pulse width; forced full-row write parallelism and Initialize->CalculateArea"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "function": "ProcessingUnitCalculatePerformance",
+      "line_start": 347,
+      "line_end": 403,
+      "sha256": "181f5aa0cf57dfd2a6351cdc3ae7edf89c26dea5d81b33b3a2d7211637e062b5",
+      "supports": "Call estimator, assign mutable activity/pulses, aggregate enabled training write latency"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+      "function": "SubArray::CalculateLatency / SRAM",
+      "line_start": 970,
+      "line_end": 1125,
+      "sha256": "fca58af1398bfbf28132ce3090c9036cce782082cabf9775660f10854eb065e8",
+      "supports": "Active SRAM RC+decoder+precharge+driver timing in seconds"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+      "function": "SubArray::CalculateLatency / RRAM conventionalParallel",
+      "line_start": 1457,
+      "line_end": 1507,
+      "sha256": "fca58af1398bfbf28132ce3090c9036cce782082cabf9775660f10854eb065e8",
+      "supports": "ceil(columns*activity/write_width) in peripheral calls; pulse_total*pulse_width array timing"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/SwitchMatrix.cpp",
+      "function": "SwitchMatrix::CalculateLatency",
+      "line_start": 171,
+      "line_end": 197,
+      "sha256": "4b1935381c9956cdbd20b2eaa81b1ca2508aaa0d7d1521e1d8b1a5bae3fab9d6",
+      "supports": "Switch RC + latch/write timing repeated according to numWrite"
+    },
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "function": "SubArray::CalculateLatency",
+      "line_start": 880,
+      "line_end": 970,
+      "sha256": "72f2cab85d9e2874506bf919689a831374bed05afc32058c8bb6d454d3f5c427",
+      "supports": "writeLatency reset to zero, SRAM driver/write aggregate commented"
+    },
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "function": "SubArray::CalculateLatency / eNVM",
+      "line_start": 1258,
+      "line_end": 1269,
+      "sha256": "72f2cab85d9e2874506bf919689a831374bed05afc32058c8bb6d454d3f5c427",
+      "supports": "write pulse and write aggregate commented"
+    },
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/SRAMWriteDriver.cpp",
+      "function": "SRAMWriteDriver::CalculateLatency",
+      "line_start": 119,
+      "line_end": 150,
+      "sha256": "b0b0eb925b3c7a511e689aaf17017fed2ef133253b9a40480217c05a218e5520",
+      "supports": "Callable two-inverter RC/Horowitz primitive; not complete SRAM load"
+    },
+    {
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "path": "Cell.cpp",
+      "function": "DigitalNVM::DigitalNVM,Read,Write",
+      "line_start": 631,
+      "line_end": 782,
+      "sha256": "f2f5efd580740bd0161727e6f0a6028c95bec92e2de2903d914b161ce90192af",
+      "supports": "Binary electrical states; Read(V) returns ampere; external pulse defaults/energy; no-op stale energy"
+    },
+    {
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "path": "Array.cpp",
+      "function": "Array::ReadCell / DigitalNVM",
+      "line_start": 119,
+      "line_end": 160,
+      "sha256": "66e21aa85a9f582827aee3122c04b67e1d3075830b1b7181f982b3a6ec856f04",
+      "supports": "Wire/access resistance and current threshold assembled above Read primitive"
+    },
+    {
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "path": "NeuroSim.cpp",
+      "function": "NeuroSimSubArrayWriteLatency",
+      "line_start": 500,
+      "line_end": 624,
+      "sha256": "b6607fdf968538cf56d43f17ec2478de7c6550b2f6ddb972d78c68b351ac88e3",
+      "supports": "Periphery timing with branch-specific pulse scheduling; no verify/retry/MTJ switching physics"
+    }
+  ]
+}
