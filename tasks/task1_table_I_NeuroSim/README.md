@@ -1,6 +1,20 @@
 # Table I · NeuroSim 评估任务
 
-当前完成：**Step 3 V2，三个pilot收敛与独立审查PASS；已停止。**
+当前完成：**Step 4，十例 reference 典型配置实际运行与独立复核 PASS；停止在 Step4。**
+
+阅读入口：[Step4 中文报告](reports/step4_reference.zh.md) · [模型接入表](reports/step4_model_routes.zh.md) · [十例 JSON](results/step4/reference-final-20261004/summary.json) · [CSV](results/step4/reference-final-20261004/summary.csv) · [独立审查](reports/step4_review.json) · [中文复核](results/step4/reviewer-final-20261004/review.zh.md) · [十例统一入口](scripts/run_step4.py)。
+
+七例复用 V1.4/22nm/LSTP/300K 的相容数字或 SAR 模块，保留原生完整服务；没有新增 SubArray 材料映射。三个 pilot 的完整结果与已验收 V2 完全相同。新增七例按实际单拍路径选择 9–11ns；GC 重新计算维护后能力。NAND 乘除预算与 PCM 原生阈值等具体限制在报告明确保留。
+
+```sh
+python3 tasks/task1_table_I_NeuroSim/scripts/run_step4.py --run-id <新名称> --no-export
+python3 tasks/task1_table_I_NeuroSim/scripts/run_step4.py --case 04_nand_3d --run-id <新名称> --no-export
+python3 tasks/task1_table_I_NeuroSim/scripts/run_step4.py --mode replay --run-id <新名称> --no-export
+```
+
+入口也可用绝对路径从任意 cwd 执行，沿用 NEUROSIM_ROOT/NEUROSIM_CXX；只有 `--export` 才按白名单写入管理区。每次新建本地源码/构建目录，不复用旧二进制。旧 Step3 入口及 V1/V2 历史证据继续保留。
+
+**以下 Step3 内容为已验收基线入口。**
 
 阅读入口：[V2报告](reports/step3_v2_pilots.zh.md) · [V2总表](results/step3_v2/integration-audited-v2/summary.csv) · [V2独立复核](reports/step3_v2_review.json) · [统一入口](scripts/run_step3.py)。主运行周期5ns；区分时序下限、E0→E2重构及E1→E2单拍捕获使能。`--period-ns`给出合法整机工作点，`--revision v1`保留原C++对照。
 
@@ -76,7 +90,7 @@ Step 1 使用上游默认支持配置完成环境测试。正式工艺在 Step 2
 | **5. 三情景与一致性检查** | 运行相容情景；检查主导参数敏感性、维护与映射；区分工艺、资源、后端带来的变化。 | 机器可读总表、与 v3 的差异分解、独立复核。 |
 | **6. 精简交付与文稿** | 导出必要输入、代码/补丁、输出和 TeX/PDF；从新的本地目录重建。 | 可重现正式结果的交付包和简洁讨论。 |
 
-每阶段独立验收。当前 Step 3 三个 pilot 已完成并独立验收，Step 1/2 历史证据保留；不提前开展其余七例或修改 v3 结论。
+每阶段独立验收。当前 Step4 十例典型配置已完成并独立复核；Step1–3、原 v3 和历史验收证据保持不变。下一阶段须由用户另行启动，不自动开展三情景扫描或 workload mapping。
 
 ## 5. 分支候选与用途
 

@@ -1,3 +1,18 @@
+# Step 4 当前工作约定
+
+Step4 十例 reference 实际运行、分析与独立复核已完成并停止。以下保留本轮分工和写入边界；不自动进入Step5。历史Step3停止指令曾由本轮用户授权扩展。
+
+- supervisor：唯一维护统一入口、调度器、接口、集成、报告及正式导出。
+- backend 作者：唯一维护 `step4/backend.py`、`step4/backend.cpp`、`step4/*.h`，负责公共数字/SAR 实际构建与完整路径模型；不修改 pilots。
+- native 作者：只写 `step4/adapters/native.py`、`step4/adapters/native.zh.md`，负责 NOR/MRAM/PCM/FeRAM/GC/FeNOR 原生流程适配、维护和数值检查。
+- NAND 作者：只写 `step4/adapters/nand.py`、`step4/adapters/nand.zh.md`，负责 NAND 模板计数、算术边界、校准与数值检查。
+- 独立 reviewer 不参与实现；从新本地目录构建运行并审查来源、类型适配、计数、时钟和数值。
+- 作者本地目录分别为 `/Users/shine/neurosim/runs/step4/{backend,native,nand}-*`。源码副本、构建、完整trace和失败现场留本地。
+- `pilots/`、Step2 配置、历史验收结果、兄弟 NVM/TableII/论文、锁定上游只读。不暂存、提交或推送，保留用户 `.DS_Store` 修改。
+- 接入路线和新增接口见 `reports/step4_model_routes.zh.md` 与 `step4/INTERFACE.md`。
+
+---
+
 # Step 3 V2 当前工作约定
 
 基于 `88448197c570b113f6002524aaacd1bd8865ca86` 的三pilot V2收敛已完成并独立验收，当前停止。保留V1证据；不扩展其余案例或重新估计器件参数。

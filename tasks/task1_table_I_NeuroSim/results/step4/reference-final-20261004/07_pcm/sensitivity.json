@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "scope": "few synthetic service-dependency controls; not new device scenarios",
+  "rows": [
+    {
+      "id": "shared_SAR_duration_plus8ns",
+      "actual_period_ns": 9.5,
+      "streaming_ns": 136211.0,
+      "resident_ns": 5009920.0,
+      "maintenance_ns": 0.0,
+      "availability": 1.0,
+      "maintenance_feasible": true,
+      "guard_ns": null,
+      "metrics": {
+        "rho_Byte_per_s": 1879437.0498711558,
+        "tau_Byte_per_s": 6540623.403168115,
+        "RI_star": 0.2873483052029572,
+        "U_star": 36.78058306597852,
+        "status": "OK"
+      },
+      "actual_SAR_consumers": {
+        "streaming": {
+          "count": 2048,
+          "physical_duration_increase_ns": 16383.999999999996,
+          "total_latency_increase_ns": 19456.0,
+          "policy": "new physical time may consume previous boundary slack without increasing total latency"
+        },
+        "resident": {
+          "count": 16384,
+          "physical_duration_increase_ns": 131071.99999999997,
+          "total_latency_increase_ns": 155648.0,
+          "policy": "new physical time may consume previous boundary slack without increasing total latency"
+        }
+      }
+    },
+    {
+      "id": "native_write_only_plus11ns",
+      "actual_period_ns": 9.5,
+      "streaming_ns": 116755.0,
+      "resident_ns": 4932096.0,
+      "maintenance_ns": 0.0,
+      "availability": 1.0,
+      "maintenance_feasible": true,
+      "guard_ns": null,
+      "metrics": {
+        "rho_Byte_per_s": 2192625.5834867884,
+        "tau_Byte_per_s": 6643828.506176684,
+        "RI_star": 0.3300244100895037,
+        "U_star": 42.24312449145647,
+        "status": "OK"
+      },
+      "resident_native_physical_increase_ns": 90112.0
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "status": "PASS",
+  "acceptance_scope": "Ten reference typical hybrid service evaluations; conditional native services and explicitly unvalidated NAND arithmetic retained; not full macro/analog precision certification",
+  "reviewer_independence": "Reviewer did not implement production files. Static findings were sent to owners; reviewer only wrote reviewer-* local directories. Full fresh run started from /tmp after freeze.",
+  "run": "/Users/shine/neurosim/runs/step4/reviewer-final-20261004",
+  "supervisor_run": "/Users/shine/neurosim/runs/step4/reference-final-20261004",
+  "command": "python3 -B <repo>/tasks/task1_table_I_NeuroSim/scripts/run_step4.py --run-id reviewer-final-20261004 --no-export",
+  "cwd": "/tmp",
+  "fresh_build_count": 10,
+  "new_case_count": 7,
+  "pilot_count": 3,
+  "pilot_entire_accepted_results_identical": true,
+  "primary_outputs_identical_to_supervisor": true,
+  "comparison_exception": [
+    "04_nand_3d/numerical_checks.json#/comparison_only_after_calculation/path"
+  ],
+  "independent_formula_and_source_check_count": 299,
+  "snapshot_source_hash_count": 98,
+  "all_upstream_patch_request_hashes_verified": true,
+  "unit_and_source_pointer_checks": true,
+  "raw_aggregate_write_null_preserved": true,
+  "static_findings_resolved": {
+    "PCM_endpoint_actual_graph": true,
+    "strict_threshold_and_boundary_fixtures": true,
+    "PCM_bitwidth_fixtures_scale": true,
+    "binary_input_group_mux": true,
+    "NAND_288_word_mux_and_formatter": true,
+    "verify_target_and_capture_group_mux": true,
+    "concurrent_controller_state": true
+  },
+  "code_hashes": {
+    "backend.cpp": "62917370bd02605f2d7a2ecf6c73495922a1a8babaf9d3b34b1bbce8de48bf23",
+    "backend.py": "b0e2b82de1034287523adc415c4668cf3284708358155587d11e0040b231c13c",
+    "step4_dag.h": "a5374bfd074d8109b31603e2906d796888c1cced3e32b5660495f6f62cd1d991",
+    "engine.py": "d92c4531fc354c8abe4ab22c0a8a54195b5eaf5aa7feb5fdeb91eb45b24e2663"
+  },
+  "same_code_logic_fixtures_executed": true,
+  "maintenance": {
+    "case_id": "09_gain_cell_edram",
+    "busy_ns": 73216.0,
+    "guard_ns": 132.0,
+    "period_ns": 400000.0,
+    "availability": 0.81663,
+    "feasible": true,
+    "payload_Byte": 0,
+    "physical_latency_separate_from_long_term_service": true,
+    "negative_retention_rejected_without_clipping": true,
+    "SAR_plus8ns_note": "Normal32/refresh256 actual consumers gained256/2048 ns physical time; refresh aligned total unchanged due previous edge slack. Guard132→143 ns and availability recomputed."
+  },
+  "unresolved_blockers": [],
+  "remaining_qualifications": [
+    "NAND affine multiplier/rounding and calibration divider remain explicitly nonzero unverified budgets",
+    "PCM calibrated threshold metadata/storage/generation and native frontend remain conditional",
+    "DFF setup/CQ and gate paths are engineering structural electrical envelopes, not sensitized/extracted STA",
+    "FeRAM PL total load and simultaneous restoration delivery are not validated by public digital modules",
+    "GC endpoint retention evidence does not validate repeated-refresh drift"
+  ],
+  "case_results": [
+    {
+      "case_id": "01_sram_acim",
+      "period_ns": 5.0,
+      "delta_S_ns": 2890.0,
+      "T_R_ns": 5120.0,
+      "rho_MB_s": 44.29065743944637,
+      "tau_MB_s": 3200.0,
+      "RI_star": 0.01384083044982699,
+      "U_star": 1.7716262975778547,
+      "availability": 1.0,
+      "passed_independent_checks": 17
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "period_ns": 5.0,
+      "delta_S_ns": 330.0,
+      "T_R_ns": 640.0,
+      "rho_MB_s": 387.8787878787879,
+      "tau_MB_s": 3200.0,
+      "RI_star": 0.12121212121212122,
+      "U_star": 1.9393939393939394,
+      "availability": 1.0,
+      "passed_independent_checks": 17
+    },
+    {
+      "case_id": "03_nor_2d",
+      "period_ns": 10.0,
+      "delta_S_ns": 7060.0,
+      "T_R_ns": 205612280.0,
+      "rho_MB_s": 18.13031161473088,
+      "tau_MB_s": 0.07968395661971162,
+      "RI_star": 227.52775318696885,
+      "U_star": 29123.552407932013,
+      "availability": 1.0,
+      "passed_independent_checks": 27
+    },
+    {
+      "case_id": "04_nand_3d",
+      "period_ns": 9.0,
+      "delta_S_ns": 685710.0,
+      "T_R_ns": 1923285366.0,
+      "rho_MB_s": 6.720042000262501,
+      "tau_MB_s": 0.5750160738237531,
+      "RI_star": 11.686702870017939,
+      "U_star": 2804.808688804305,
+      "availability": 1.0,
+      "passed_independent_checks": 39
+    },
+    {
+      "case_id": "05_rram",
+      "period_ns": 5.0,
+      "delta_S_ns": 4490.0,
+      "T_R_ns": 1911765.0,
+      "rho_MB_s": 28.50779510022272,
+      "tau_MB_s": 4.285045494608386,
+      "RI_star": 6.652857043429845,
+      "U_star": 425.78285077951,
+      "availability": 1.0,
+      "passed_independent_checks": 31
+    },
+    {
+      "case_id": "06_mram",
+      "period_ns": 11.0,
+      "delta_S_ns": 1782.0,
+      "T_R_ns": 168960.0,
+      "rho_MB_s": 143.658810325477,
+      "tau_MB_s": 48.484848484848484,
+      "RI_star": 2.9629629629629632,
+      "U_star": 94.81481481481481,
+      "availability": 1.0,
+      "passed_independent_checks": 25
+    },
+    {
+      "case_id": "07_pcm",
+      "period_ns": 9.5,
+      "delta_S_ns": 116755.0,
+      "T_R_ns": 4854272.0,
+      "rho_MB_s": 2.1926255834867883,
+      "tau_MB_s": 6.750342790844847,
+      "RI_star": 0.3248169243287225,
+      "U_star": 41.57656631407649,
+      "availability": 1.0,
+      "passed_independent_checks": 34
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "period_ns": 10.0,
+      "delta_S_ns": 6100.0,
+      "T_R_ns": 174080.0,
+      "rho_MB_s": 20.983606557377048,
+      "tau_MB_s": 94.11764705882352,
+      "RI_star": 0.22295081967213115,
+      "U_star": 28.537704918032787,
+      "availability": 1.0,
+      "passed_independent_checks": 36
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "period_ns": 11.0,
+      "delta_S_ns": 4246.0,
+      "T_R_ns": 25344.0,
+      "rho_MB_s": 12.309072067828543,
+      "tau_MB_s": 131.98060606060605,
+      "RI_star": 0.09326424870466321,
+      "U_star": 5.9689119170984455,
+      "availability": 0.81663,
+      "passed_independent_checks": 37
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "period_ns": 10.0,
+      "delta_S_ns": 4500.0,
+      "T_R_ns": 337920.0,
+      "rho_MB_s": 28.444444444444443,
+      "tau_MB_s": 48.484848484848484,
+      "RI_star": 0.5866666666666667,
+      "U_star": 75.09333333333333,
+      "availability": 1.0,
+      "passed_independent_checks": 36
+    }
+  ],
+  "evidence_files": [
+    "review_independent.json",
+    "review_static.json",
+    "review_build_comparison.json",
+    "check_independent.py",
+    "interface_checks.json",
+    "pilot_regression.json"
+  ],
+  "checker_sha256": "a0ec9089a8407ec86ec4da30f2ce2b2731353508732a4b0f361e542a9179b3f9"
+}

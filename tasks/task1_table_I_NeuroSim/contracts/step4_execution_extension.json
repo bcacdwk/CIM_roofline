@@ -1,0 +1,23 @@
+{
+  "extension_version": "1.0.0",
+  "baseline": "ab306ed8f804a8056e27f9763a8a8cc9bbd89b22",
+  "frozen_base_input_output_version": "3.0.0",
+  "pilot_timing_extension_version": "2.0.0",
+  "scope": "seven new reference cases and unified read-only invocation of the three accepted pilots",
+  "case_dispatch": "explicit case IDs; no implicit SRAM/RRAM array default",
+  "public_process": "2DInferenceV1.4 / 22nm / LSTP / 300K",
+  "clock_policy": "target 5ns; modeled complete path bound; otherwise upward 0.5ns grid; explicit legal fixed points permitted",
+  "new_case_path_window": "one complete clock period for every modeled path; PCM/GC retain two scheduled service ticks but receive no pilot multicycle exception",
+  "clock_scope": "native frontend and opaque program/erase/restore do not set the public digital clock; explicitly retained NAND arithmetic budgets are charged but unvalidated",
+  "template_semantics": "ordered serial operations; only digital consumers or explicit capture boundaries align; repeated templates are compressed only after stationary ordered-body timing is verified",
+  "template_verification": "expanded execution compared against compressed latency, counts, physical time and boundary waits for every reference service",
+  "type_context": "new cases use no SubArray; mandatory MemCell context is not storage identity; executed DFF/Adder/SarADC files audited for field reads",
+  "native_service_policy": "complete original operation boundaries retained without subtracting guessed peripherals; external readiness capture is separately declared",
+  "missing_aggregate_write": "null with status and reason; sourced complete native operations plus public control may yield a valid hybrid resident total",
+  "payload": "B_S=K*bytes_per_input; B_R=K*N*bytes_per_weight; internal encoding/copies/reference pages/maintenance add zero workload Byte",
+  "maintenance": "recompute refresh read/decode/load/program occupancy and max nonpreemptive quantum; feasibility requires busy+guard<period; infeasible effective metrics are null without clipping",
+  "latency_vs_capacity": "raw physical service latency is distinct from availability-adjusted long-term cost; arrival-dependent maintenance waiting is not asserted as raw/availability",
+  "metrics": "rho and tau use one configuration, clock and maintenance policy; RI=rho/tau and U=(N*bytes_per_weight/bytes_per_input)*RI",
+  "numerical_scope": "finite digital graph arithmetic and source-grounded nominal ACIM diagnostics are separate from analog accuracy; no synthetic transfer fitted to make vectors pass",
+  "historical_policy": "pilots, Step2 inputs, historical accepted results, native NVM, TableII, paper and locked upstream worktrees unchanged"
+}

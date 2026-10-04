@@ -1,0 +1,160 @@
+{
+  "status": "PASS",
+  "per_case": {
+    "01_sram_acim": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "timing_checks.json": true,
+        "operating_points.json": true
+      }
+    },
+    "02_sram_dcim": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "timing_checks.json": true,
+        "operating_points.json": true
+      }
+    },
+    "03_nor_2d": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      }
+    },
+    "04_nand_3d": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      },
+      "comparison_note": "NAND comparison-only diagnostic absolute source path is normalized by its respective fresh run root; all remaining fields are exactly identical."
+    },
+    "05_rram": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "timing_checks.json": true,
+        "operating_points.json": true
+      }
+    },
+    "06_mram": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      }
+    },
+    "07_pcm": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      }
+    },
+    "08_feram_hfo2": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      }
+    },
+    "09_gain_cell_edram": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      }
+    },
+    "10_fenor_3d": {
+      "new_compile_command": true,
+      "all_commands_succeeded": true,
+      "canonical_upstream_sha256": true,
+      "patch_hash": true,
+      "request_hash": true,
+      "same_as_supervisor": {
+        "result.json": true,
+        "resolved.json": true,
+        "replay.json": true,
+        "sensitivity.json": true,
+        "numerical_checks.json": true,
+        "grouping_checks.json": true
+      }
+    }
+  },
+  "summary_identical": true,
+  "numeric_run_path_differences_only": [
+    "04_nand_3d/numerical_checks.json#/comparison_only_after_calculation/path"
+  ]
+}

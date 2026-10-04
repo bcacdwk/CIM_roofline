@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "reviewer_role": "independent_not_implementation_author",
+  "static_findings_resolved": {
+    "PCM_endpoint_actual_graph": true,
+    "strict_threshold_and_boundary_fixtures": true,
+    "PCM_bitwidth_fixtures_scale": true,
+    "binary_input_group_mux": true,
+    "NAND_288_word_mux_and_formatter": true,
+    "verify_target_and_capture_group_mux": true,
+    "concurrent_controller_state": true
+  },
+  "code_hashes": {
+    "backend.cpp": "62917370bd02605f2d7a2ecf6c73495922a1a8babaf9d3b34b1bbce8de48bf23",
+    "backend.py": "b0e2b82de1034287523adc415c4668cf3284708358155587d11e0040b231c13c",
+    "step4_dag.h": "a5374bfd074d8109b31603e2906d796888c1cced3e32b5660495f6f62cd1d991",
+    "engine.py": "d92c4531fc354c8abe4ab22c0a8a54195b5eaf5aa7feb5fdeb91eb45b24e2663"
+  },
+  "limitations": [
+    "NAND affine multiplier/rounding and calibration divider remain explicitly nonzero unverified budgets",
+    "PCM calibrated threshold metadata/storage/generation and native frontend remain conditional",
+    "DFF setup/CQ and gate paths are engineering structural electrical envelopes, not sensitized/extracted STA",
+    "FeRAM PL total load and simultaneous restoration delivery are not validated by public digital modules",
+    "GC endpoint retention evidence does not validate repeated-refresh drift"
+  ]
+}

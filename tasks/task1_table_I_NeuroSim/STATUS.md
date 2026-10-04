@@ -1,3 +1,22 @@
+# Step 4：十例 reference 完成并停止
+
+基准 `ab306ed8f804a8056e27f9763a8a8cc9bbd89b22`。**十例统一主运行 PASS；独立新目录编译复跑、来源与数值审查 PASS。**
+
+- 主结果：[十例表](results/step4/reference-final-20261004/summary.csv)、[中文报告](reports/step4_reference.zh.md)、[接入表](reports/step4_model_routes.zh.md)、[独立审查](reports/step4_review.json)。
+- 统一入口 `scripts/run_step4.py` 支持全部十例、单选和旧时间回放；输入/输出3.0.0与pilot时序2.0.0不变，新增Step4执行扩展1.0.0。
+- 新七例实际运行 DFF/Adder/formula 与相容 SAR。没有将 NOR/NAND/MRAM/PCM/FeRAM/GC/垂直 AND FeFET 改称其他阵列类型；MemCell占位字段没有被这些调用读取。原生完整周期与特殊负载保留。
+- 三个pilot完整 `result.json` 与已验收Step3 V2相同；旧代码和历史运行证据只读。
+- 新七例周期：NOR10、NAND9、MRAM11、PCM9.5、FeRAM10、GC11、FeNOR10 ns。32项MAC与各自实际重构/选择/读验路径决定合法周期，没有继承pilot多拍资格。
+- GC raw Δ_S/T_R=4246/25344ns；维护H=73216ns、guard=132ns、alpha=0.81663；有效ρ/τ=12.309072/131.980606MB/s，不可行负例返回null。
+- 十例旧时间回放、完整Step2回归、模板/展开等价、共享消费者与非法时钟检查通过。独立 reviewer 从 `/tmp` 启动 `runs/step4/reviewer-final-20261004`，独立闭式边沿公式及来源指针/单位/哈希通过。
+- 修正了审查发现的输入/暂存/终验选择路径、控制状态分配、PCM严格阈值边界和GC边沿slack诊断；正式结果只使用修正后新构建。失败/中间现场保留本地。
+- 保留明确限制：NAND仿射/校准乘除完整路径与工作状态；PCM阈值表/存储/标定；FeRAM原生并行负载；GC保持/重复刷新准确度。不是完整宏PPA、STA或实物验证。
+- 未开展Step5三情景、大扫描、workload mapping或论文排版；无Git暂存/提交/推送。718个受保护文件与全部锁定工作树保持不变，用户 `.DS_Store` 修改保留。
+
+本地最终运行：`/Users/shine/neurosim/runs/step4/reference-final-20261004`；源码、构建、完整trace留本地，管理区仅规范代码、关键快照、结果、来源和审查。
+
+---
+
 # Step 3 V2：完成并停止
 
 审查基准 `88448197c570b113f6002524aaacd1bd8865ca86`。**最终主运行/独立新目录编译复跑PASS，无剩余阻断项。** V1历史证据保留。

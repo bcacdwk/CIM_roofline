@@ -1,0 +1,320 @@
+{
+  "status": "PASS",
+  "checks": {
+    "all_65536_signed_scalar_pairs_physical_encoding": true,
+    "fixed_digit_replication": true,
+    "ideal_encoding_is_exact_separately_from_ADC": true,
+    "nominal_reconstruction_matches_saved_v3_diagnostics": true,
+    "small_signal_limitation_preserved": true,
+    "dense_unit_quantization_loss_preserved": true,
+    "zero_and_symmetric_cancel_remain_zero": true,
+    "all_nominal_calibration_pass_without_clipping": true,
+    "pressure_rejects_reference_clipping": true,
+    "14_20_21_29bit_stage_bounds": true,
+    "frozen_input_source_hashes": true,
+    "calibration_sample_storage_capacity_witness": true
+  },
+  "fixtures": [
+    {
+      "id": "zero",
+      "truth": 0,
+      "ideal": 0,
+      "reconstructed": 0,
+      "residual": 0,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": true,
+      "relative_error_nonzero_truth": null,
+      "max_count": 0,
+      "max_decoded": 0,
+      "max_merge": 0,
+      "max_difference": 0,
+      "max_accumulator": 0,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "unit_positive",
+      "truth": 4608,
+      "ideal": 4608,
+      "reconstructed": 4592,
+      "residual": -16,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 0.003472222222222222,
+      "max_count": 1152,
+      "max_decoded": 1148,
+      "max_merge": 1148,
+      "max_difference": 1148,
+      "max_accumulator": 4592,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "unit_negative",
+      "truth": -4608,
+      "ideal": -4608,
+      "reconstructed": -4592,
+      "residual": 16,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 0.003472222222222222,
+      "max_count": 1152,
+      "max_decoded": 1148,
+      "max_merge": 1148,
+      "max_difference": 1148,
+      "max_accumulator": 4592,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "alternating_cancel",
+      "truth": 0,
+      "ideal": 0,
+      "reconstructed": 0,
+      "residual": 0,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": true,
+      "relative_error_nonzero_truth": null,
+      "max_count": 576,
+      "max_decoded": 574,
+      "max_merge": 574,
+      "max_difference": 574,
+      "max_accumulator": 574,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "large_cancel",
+      "truth": 0,
+      "ideal": 0,
+      "reconstructed": 0,
+      "residual": 0,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": true,
+      "relative_error_nonzero_truth": null,
+      "max_count": 5184,
+      "max_decoded": 5190,
+      "max_merge": 219966,
+      "max_difference": 219966,
+      "max_accumulator": 9300886,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "large_positive",
+      "truth": 74322432,
+      "ideal": 74322432,
+      "reconstructed": 74256896,
+      "residual": -65536,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 0.0008817795413368605,
+      "max_count": 10368,
+      "max_decoded": 10368,
+      "max_merge": 438912,
+      "max_difference": 438912,
+      "max_accumulator": 74256896,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "large_negative",
+      "truth": -74907648,
+      "ideal": -74907648,
+      "reconstructed": -74973184,
+      "residual": -65536,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 0.0008748906386701663,
+      "max_count": 6912,
+      "max_decoded": 6912,
+      "max_merge": 292864,
+      "max_difference": 292864,
+      "max_accumulator": 74973184,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "small_ramp",
+      "truth": 2,
+      "ideal": 2,
+      "reconstructed": 24,
+      "residual": 22,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 11.0,
+      "max_count": 594,
+      "max_decoded": 598,
+      "max_merge": 598,
+      "max_difference": 12,
+      "max_accumulator": 24,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "wide_ramp",
+      "truth": -2923776,
+      "ideal": -2923776,
+      "reconstructed": -2897056,
+      "residual": 26720,
+      "clipped_partials": 0,
+      "weak_partials": 0,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 0.009138866999387095,
+      "max_count": 940,
+      "max_decoded": 940,
+      "max_merge": 35108,
+      "max_difference": 9604,
+      "max_accumulator": 2897056,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "isolated_unit",
+      "truth": 1,
+      "ideal": 1,
+      "reconstructed": 0,
+      "residual": -1,
+      "clipped_partials": 0,
+      "weak_partials": 1,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 1.0,
+      "max_count": 1,
+      "max_decoded": 0,
+      "max_merge": 0,
+      "max_difference": 0,
+      "max_accumulator": 0,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    },
+    {
+      "id": "group_edges",
+      "truth": -130048,
+      "ideal": -130048,
+      "reconstructed": -64512,
+      "residual": 65536,
+      "clipped_partials": 0,
+      "weak_partials": 4,
+      "zero_or_cancellation_output": false,
+      "relative_error_nonzero_truth": 0.5039370078740157,
+      "max_count": 12,
+      "max_decoded": 12,
+      "max_merge": 252,
+      "max_difference": 252,
+      "max_accumulator": 64512,
+      "calibration": {
+        "full_code": 849,
+        "gain_Q8_16_integer": 800327,
+        "half_input_residual_nominal_codes": 0.5,
+        "finite_calibration_pass": true
+      }
+    }
+  ],
+  "source_hash_checks": {
+    "inputs": true,
+    "calculator": true,
+    "shared": true,
+    "shared_calculator": true
+  },
+  "comparison_only_after_calculation": {
+    "path": "/Users/shine/neurosim/runs/step4/reference-final-20261004/snapshot/tasks/task1_table_I_NVM/analysis/04_nand_3d/data/quantization_diagnostics.json",
+    "checks": {
+      "zero": true,
+      "unit_positive": true,
+      "unit_negative": true,
+      "alternating_cancel": true,
+      "large_cancel": true,
+      "large_positive": true,
+      "large_negative": true,
+      "small_ramp": true,
+      "wide_ramp": true,
+      "isolated_unit": true
+    }
+  },
+  "pressure_diagnostic": {
+    "truth": 74322432,
+    "ideal": 74322432,
+    "reconstructed": 76462592,
+    "residual": 2140160,
+    "clipped_partials": 36,
+    "weak_partials": 0,
+    "zero_or_cancellation_output": false,
+    "relative_error_nonzero_truth": 0.028795613146781848,
+    "max_count": 10368,
+    "max_decoded": 10368,
+    "max_merge": 447360,
+    "max_difference": 447360,
+    "max_accumulator": 76462592,
+    "calibration": {
+      "full_code": 1023,
+      "gain_Q8_16_integer": 664201,
+      "half_input_residual_nominal_codes": 19.5,
+      "finite_calibration_pass": false
+    }
+  },
+  "nominal_ADC_bits": 10,
+  "ENOB_scale_only": 8,
+  "output_container_bits": 29,
+  "nominal_LSB_nA": 24.4140625,
+  "nominal_LSB_unit_counts": 12.20703125,
+  "physical_scalar_pairs": 65536,
+  "full_matrix_allocated": false,
+  "level": "Independent ideal-current/nominal-ADC/fixed-point chain with original sign/digit/group order",
+  "analog_accuracy_verified": false,
+  "application_accuracy_verified": false,
+  "arithmetic_circuit_timing_verified": false,
+  "limitations": [
+    "Nominal10bit deterministic diagnostics remove the large common offset of the legacy encoding;they do not certify physical analog accuracy.",
+    "Sparse unit products and asymmetric cancellation remain limited by12.20703125nominal unit counts perADC LSB.",
+    "Approximately8ENOB is a resolution scale,not an8bit ADC or a noise distribution.",
+    "No universal workload accuracy threshold is assumed."
+  ]
+}

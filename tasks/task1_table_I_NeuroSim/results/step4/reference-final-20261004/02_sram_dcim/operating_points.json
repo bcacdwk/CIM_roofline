@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "policy": "main keeps nominal5ns if legal, otherwise rounds up to0.5ns; alternatives are named whole-device points, no mixed rho/tau optima",
+  "points": [
+    {
+      "id": "main",
+      "timing_min_period_ns": 2.6160692818051587,
+      "actual_period_ns": 5.0,
+      "selection_policy": "target_5ns_else_upward_0.5ns_grid",
+      "delta_S_ns": 330.0,
+      "T_R_ns": 640.0,
+      "rho_Byte_per_s": 387878787.8787879,
+      "tau_Byte_per_s": 3200000000.0,
+      "RI_star": 0.12121212121212122,
+      "U_star": 1.9393939393939394,
+      "status": "OK"
+    },
+    {
+      "id": "fixed_period_5.25_ns",
+      "timing_min_period_ns": 2.6160692818051587,
+      "actual_period_ns": 5.25,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 330.75,
+      "T_R_ns": 672.0,
+      "rho_Byte_per_s": 386999244.1421013,
+      "tau_Byte_per_s": 3047619047.6190476,
+      "RI_star": 0.12698412698412698,
+      "U_star": 2.0317460317460316,
+      "status": "OK"
+    },
+    {
+      "id": "fixed_period_5.5_ns",
+      "timing_min_period_ns": 2.6160692818051587,
+      "actual_period_ns": 5.5,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 335.5,
+      "T_R_ns": 704.0,
+      "rho_Byte_per_s": 381520119.2250373,
+      "tau_Byte_per_s": 2909090909.090909,
+      "RI_star": 0.13114754098360656,
+      "U_star": 2.098360655737705,
+      "status": "OK"
+    }
+  ]
+}

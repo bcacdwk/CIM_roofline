@@ -1,0 +1,188 @@
+{
+  "status": "PASS",
+  "checks": {
+    "input_sha256_matches": true,
+    "signed_INT8_encoding": true,
+    "no_output_overflow_for_INT8_extremes": true,
+    "all_activity_and_partial_levels_decode": true,
+    "positive_full_scale_code_saturation_retained": true,
+    "15_deterministic_finite_reconstructions": true,
+    "silicon_3T1C_pseudodifferential_capacity": true,
+    "refresh_endpoint_sign_decode": true
+  },
+  "level": "declared_ideal_current_integration_ADC_and_finite_reconstruction",
+  "source": {
+    "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/inputs.json",
+    "sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0"
+  },
+  "records": [
+    {
+      "id": "zero",
+      "truth": 0,
+      "reconstructed": 0,
+      "absolute_residual": 0,
+      "before_partial_rounding": 0.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "zero_input",
+      "truth": 0,
+      "reconstructed": 0,
+      "absolute_residual": 0,
+      "before_partial_rounding": 0.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "zero_weight",
+      "truth": 0,
+      "reconstructed": 0,
+      "absolute_residual": 0,
+      "before_partial_rounding": 0.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "unit_positive",
+      "truth": 64,
+      "reconstructed": 64,
+      "absolute_residual": 0,
+      "before_partial_rounding": 63.9375,
+      "pre_rounding_residual": -0.0625,
+      "code_saturated_partials": 1,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "unit_negative",
+      "truth": -64,
+      "reconstructed": -64,
+      "absolute_residual": 0,
+      "before_partial_rounding": -63.9375,
+      "pre_rounding_residual": 0.0625,
+      "code_saturated_partials": 8,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "alternating_cancel",
+      "truth": 0,
+      "reconstructed": 0,
+      "absolute_residual": 0,
+      "before_partial_rounding": -0.0625,
+      "pre_rounding_residual": -0.0625,
+      "code_saturated_partials": 1,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "near_cancel_unit",
+      "truth": 1,
+      "reconstructed": 1,
+      "absolute_residual": 0,
+      "before_partial_rounding": 1.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "small_ramp",
+      "truth": -6,
+      "reconstructed": -6,
+      "absolute_residual": 0,
+      "before_partial_rounding": -6.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "large_positive",
+      "truth": 1032256,
+      "reconstructed": 1032256,
+      "absolute_residual": 0,
+      "before_partial_rounding": 1031247.9375,
+      "pre_rounding_residual": -1008.0625,
+      "code_saturated_partials": 49,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "large_negative",
+      "truth": -1040384,
+      "reconstructed": -1040384,
+      "absolute_residual": 0,
+      "before_partial_rounding": -1039368.0,
+      "pre_rounding_residual": 1016.0,
+      "code_saturated_partials": 7,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "large_cancel",
+      "truth": 0,
+      "reconstructed": 0,
+      "absolute_residual": 0,
+      "before_partial_rounding": -7.9375,
+      "pre_rounding_residual": -7.9375,
+      "code_saturated_partials": 7,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "wide_ramp",
+      "truth": -64928,
+      "reconstructed": -64928,
+      "absolute_residual": 0,
+      "before_partial_rounding": -64928.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "isolated_unit",
+      "truth": 1,
+      "reconstructed": 1,
+      "absolute_residual": 0,
+      "before_partial_rounding": 1.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "group_boundary_cancel",
+      "truth": 0,
+      "reconstructed": 0,
+      "absolute_residual": 0,
+      "before_partial_rounding": 0.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    },
+    {
+      "id": "group_boundary_small",
+      "truth": 2,
+      "reconstructed": 2,
+      "absolute_residual": 0,
+      "before_partial_rounding": 2.0,
+      "pre_rounding_residual": 0.0,
+      "code_saturated_partials": 0,
+      "analog_clipped_partials": 0,
+      "output_overflow": false
+    }
+  ],
+  "analog_accuracy_validated": false,
+  "quantization_induced_bias_assessed": true,
+  "limitation": "GC nominal ideal integration preserves finite integer results; positive endpoint saturation and pre-rounding residual remain; no drift/repeated-refresh validation."
+}
