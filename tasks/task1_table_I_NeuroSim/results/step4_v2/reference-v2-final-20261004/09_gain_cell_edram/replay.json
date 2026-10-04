@@ -1,0 +1,264 @@
+{
+  "case_id": "09_gain_cell_edram",
+  "mode": "v3_original_time_replay",
+  "new_neurosim_times": false,
+  "new_boundary_alignment": false,
+  "raw_delta_S_ns": 3914.0,
+  "raw_T_R_ns": 20480.0,
+  "maintenance_busy_ns": 66560.0,
+  "stage_ledger": {
+    "input_capture": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    "analog_front": {
+      "count": 32,
+      "total_ns": 2944.0,
+      "components_ns": {
+        "common_read_overhead": 2752.0,
+        "mac_integration": 32.0,
+        "input_reset": 160
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/service_modes/early_release"
+        }
+      ]
+    },
+    "sar": {
+      "count": 32,
+      "total_ns": 640.0,
+      "components_ns": {
+        "shared_ADC": 640
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    "digital_reconstruct": {
+      "count": 64,
+      "total_ns": 320.0,
+      "components_ns": {
+        "retained_digital_schedule": 320
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    "output_commit": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    "resident_load": {
+      "count": 256,
+      "total_ns": 3840.0,
+      "components_ns": {
+        "retained_digital_schedule": 3840
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/write/encoded_load_bits"
+        }
+      ]
+    },
+    "current_program": {
+      "count": 256,
+      "total_ns": 16640.0,
+      "components_ns": {
+        "program_complete": 16640.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/write/load_isolation"
+        }
+      ]
+    },
+    "refresh_read": {
+      "count": 256,
+      "total_ns": 44800.0,
+      "components_ns": {
+        "input_reset": 1280,
+        "shared_overhead": 22016.0,
+        "refresh_integration": 16384.0,
+        "shared_ADC": 5120
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/refresh"
+        },
+        {
+          "source_id": "inputs",
+          "json_pointer": "/service_modes/early_release/service_bindings/refresh_read"
+        }
+      ]
+    },
+    "refresh_decode_load_rewrite": {
+      "count": 256,
+      "total_ns": 21760.0,
+      "components_ns": {
+        "sign_decode": 1280,
+        "encoded_load_and_control": 3840,
+        "complete_program": 16640.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/refresh/decode_ticks"
+        },
+        {
+          "source_id": "calculator",
+          "function": "calc"
+        }
+      ]
+    }
+  },
+  "schedule_trace": [
+    {
+      "path": "streaming/0",
+      "stage_id": "input_capture",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/0",
+      "stage_id": "analog_front",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 92.0,
+      "components_each_ns": {
+        "common_read_overhead": 86.0,
+        "mac_integration": 1.0,
+        "input_reset": 5
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/1",
+      "stage_id": "sar",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 20,
+      "components_each_ns": {
+        "shared_ADC": 20
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/2",
+      "stage_id": "digital_reconstruct",
+      "count": 64,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/2",
+      "stage_id": "output_commit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/0/16B_transaction/0",
+      "stage_id": "resident_load",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 15,
+      "components_each_ns": {
+        "retained_digital_schedule": 15
+      }
+    },
+    {
+      "path": "resident/0/16B_transaction/1",
+      "stage_id": "current_program",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 65.0,
+      "components_each_ns": {
+        "program_complete": 65.0
+      }
+    },
+    {
+      "path": "maintenance/0/refresh_group_in_fixed_period/0",
+      "stage_id": "refresh_read",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 175.0,
+      "components_each_ns": {
+        "input_reset": 5,
+        "shared_overhead": 86.0,
+        "refresh_integration": 64.0,
+        "shared_ADC": 20
+      }
+    },
+    {
+      "path": "maintenance/0/refresh_group_in_fixed_period/1",
+      "stage_id": "refresh_decode_load_rewrite",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 85.0,
+      "components_each_ns": {
+        "sign_decode": 5,
+        "encoded_load_and_control": 15,
+        "complete_program": 65.0
+      }
+    }
+  ],
+  "input_times_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "program_complete": 65.0,
+    "common_read_overhead": 86.0,
+    "mac_integration": 1.0,
+    "refresh_integration": 64.0,
+    "refresh_period": 400000.0,
+    "binary_verify_sense_ns": 20
+  },
+  "maintenance_guard_ns": 122.0,
+  "maintenance_period_ns": 400000.0,
+  "maintenance_availability": 0.833295,
+  "maintenance_workload_Byte": 0,
+  "effective_delta_S_ns": 4697.016062738886,
+  "effective_T_R_ns": 24577.130548005207,
+  "comparison_source": {
+    "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/results.json",
+    "json_pointer": "/scenarios/1",
+    "usage": "comparison_only_after_aggregation"
+  }
+}

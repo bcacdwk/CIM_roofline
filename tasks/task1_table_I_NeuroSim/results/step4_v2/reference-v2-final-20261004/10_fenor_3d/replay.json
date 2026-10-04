@@ -1,0 +1,241 @@
+{
+  "case_id": "10_fenor_3d",
+  "mode": "v3_original_time_replay",
+  "new_neurosim_times": false,
+  "new_boundary_alignment": false,
+  "raw_delta_S_ns": 2730.0,
+  "raw_T_R_ns": 271360.0,
+  "maintenance_busy_ns": 0.0,
+  "stage_ledger": {
+    "input_capture": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    "binary_read": {
+      "count": 32,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "binary_read": 1280.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/engineering_read_budget"
+        }
+      ]
+    },
+    "operand_capture": {
+      "count": 32,
+      "total_ns": 160.0,
+      "components_ns": {
+        "retained_digital_schedule": 160
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/engineering_read_budget"
+        }
+      ]
+    },
+    "digital_mac": {
+      "count": 256,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "retained_digital_schedule": 1280
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/dcim"
+        }
+      ]
+    },
+    "output_commit": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    "resident_load": {
+      "count": 1024,
+      "total_ns": 10240.0,
+      "components_ns": {
+        "retained_digital_schedule": 10240
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/resident/encoded_load_bits"
+        }
+      ]
+    },
+    "two_phase_write": {
+      "count": 1024,
+      "total_ns": 71680.0,
+      "components_ns": {
+        "bias_edges_before_final": 30720.0,
+        "polarization": 40960.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/resident/write_bias_scheme"
+        }
+      ]
+    },
+    "post_pulse_guard": {
+      "count": 1024,
+      "total_ns": 102400.00000000001,
+      "components_ns": {
+        "guard_including_final_return": 102400.00000000001
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/resident/guard_after_final_pulse_ns"
+        }
+      ]
+    },
+    "terminal_verify": {
+      "count": 1024,
+      "total_ns": 87040.0,
+      "components_ns": {
+        "complete_binary_read": 40960.0,
+        "capture": 5120,
+        "compare": 40960
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/resident/verify_policy"
+        }
+      ]
+    }
+  },
+  "schedule_trace": [
+    {
+      "path": "streaming/0",
+      "stage_id": "input_capture",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/0",
+      "stage_id": "binary_read",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 40.0,
+      "components_each_ns": {
+        "binary_read": 40.0
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/1",
+      "stage_id": "operand_capture",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/2/input_bit/0",
+      "stage_id": "digital_mac",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/2",
+      "stage_id": "output_commit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/0/aligned_16B_transaction/0",
+      "stage_id": "resident_load",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 10,
+      "components_each_ns": {
+        "retained_digital_schedule": 10
+      }
+    },
+    {
+      "path": "resident/0/aligned_16B_transaction/1",
+      "stage_id": "two_phase_write",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 70.0,
+      "components_each_ns": {
+        "bias_edges_before_final": 30.0,
+        "polarization": 40.0
+      }
+    },
+    {
+      "path": "resident/0/aligned_16B_transaction/2",
+      "stage_id": "post_pulse_guard",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 100.00000000000001,
+      "components_each_ns": {
+        "guard_including_final_return": 100.00000000000001
+      }
+    },
+    {
+      "path": "resident/0/aligned_16B_transaction/3",
+      "stage_id": "terminal_verify",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 85.0,
+      "components_each_ns": {
+        "complete_binary_read": 40.0,
+        "capture": 5,
+        "compare": 40
+      }
+    }
+  ],
+  "input_times_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "binary_read": 40.0,
+    "bias_transition": 10.0,
+    "polarization_pulse": 20.0,
+    "post_pulse_guard": 100.00000000000001,
+    "binary_verify_sense_ns": 20
+  },
+  "comparison_source": {
+    "path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/data/results.json",
+    "json_pointer": "/main_scenarios/1",
+    "usage": "comparison_only_after_aggregation"
+  }
+}

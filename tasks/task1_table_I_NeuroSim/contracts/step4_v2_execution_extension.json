@@ -1,0 +1,33 @@
+{
+  "extension_version": "2.0.0",
+  "baseline": "0fac5278fe6477144f6ad74a7747d950b3fc3517",
+  "frozen_input_output_contract": "3.0.0",
+  "retained_pilot_timing_extension": "2.0.0",
+  "scope": "Step4 V2 ten reference timing, boundary and provenance reconciliation",
+  "history": "step4/, run_step4.py and all V1 results/evidence remain read-only",
+  "cycle_operation": "at ceil(physical completion / P), launch existing source into complete combinational operation and capture after nP; destination setup belongs to the path; no duplicate entry setup",
+  "capture_only": "capture at ceil((original physical completion + receiver setup)/P); no added cycle; no preceding artificial alignment wrapper",
+  "native_included_capture": "retained complete cycle owns its capture; no added setup/capture; public port admission may still align with zero extra capture margin",
+  "transparent_wrapper": "ordered repeat/steps containers do not consume time or align; equivalent physical grouping and equivalent cycle-phase splitting preserve timing",
+  "PCM_GC_hold": "SAR, input/group/bit and old accumulator stable E0 through E2; PCM threshold metadata or GC combinational-popcount inputs likewise stable; no capture/data/control-selection update at E1",
+  "PCM_GC_late_control": "only existing phase changes at E1; phase/decode/fanout/output-enable path requires a complete E1-to-E2 single cycle",
+  "binary_MAC": "input/group source pins settle during native read and remain stable across eight bits; ibit and accumulator feedback launch each cycle; first weight capture also receives a complete cycle; no new cache/register/pipeline",
+  "preselection_qualification": "explicit source-pin delay must fit sourced native lead; do not subtract analog duration from the whole MAC path or use analog time as digital clock limit",
+  "clock": "max of qualified delay/(capture-launch); target5ns then upward0.5ns grid; rho/tau recomputed together",
+  "source_categories": [
+    "direct_neurosim_module",
+    "neurosim_gate_composition",
+    "retained_native_or_arithmetic_service",
+    "interface_and_schedule"
+  ],
+  "NAND_budget_controls": "only 1x/2x/4x retained affine and 448 calibration arithmetic cycles at fixed native parameters/resources/period; 2 publish cycles unchanged; no full arithmetic certification",
+  "GC": "raw and effective separate; clock-aligned refresh frame floor(native retention/P)*P; actual repeated writeback endpoints verified within unchanged retention; recompute busy/guard/availability with actual frame; payload zero",
+  "preserved_qualifications": [
+    "NAND unclosed multiplier/round/divider and calibration state",
+    "PCM threshold metadata/storage/calibration",
+    "FeRAM PL load and restore delivery",
+    "GC repeated-refresh error",
+    "public gate timing is structural engineering envelope, not STA/silicon certification"
+  ],
+  "stopping_point": "Step4 V2 only"
+}

@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "scope": "few conditional-budget controls, not modeled multiplier/divider designs",
+  "fixed": [
+    "native P/E/frontend",
+    "ADC",
+    "encoding",
+    "resources",
+    "working period"
+  ],
+  "changed": "normal affine/round budget and 448 calibration arithmetic cycles; two publish cycles unchanged",
+  "rows": [
+    {
+      "factor": 1,
+      "actual_period_ns": 9.0,
+      "affine_cycles_per_round": 1,
+      "calibration_cycles": 450,
+      "delta_S_ns": 685710.0,
+      "T_R_ns": 1923285366.0,
+      "rho_Byte_per_s": 6720042.000262502,
+      "tau_Byte_per_s": 575016.073823753,
+      "RI_star": 11.686702870017939,
+      "U_star": 2804.808688804305,
+      "streaming_time_change_percent": 0.0,
+      "resident_time_change_percent": 0.0
+    },
+    {
+      "factor": 2,
+      "actual_period_ns": 9.0,
+      "affine_cycles_per_round": 2,
+      "calibration_cycles": 898,
+      "delta_S_ns": 694350.0,
+      "T_R_ns": 1923289398.0,
+      "rho_Byte_per_s": 6636422.553467272,
+      "tau_Byte_per_s": 575014.8683552407,
+      "RI_star": 11.541306005616763,
+      "U_star": 2769.9134413480233,
+      "streaming_time_change_percent": 1.2600078750492294,
+      "resident_time_change_percent": 0.00020964127691591727
+    },
+    {
+      "factor": 4,
+      "actual_period_ns": 9.0,
+      "affine_cycles_per_round": 4,
+      "calibration_cycles": 1794,
+      "delta_S_ns": 711630.0,
+      "T_R_ns": 1923297462.0,
+      "rho_Byte_per_s": 6475275.072720374,
+      "tau_Byte_per_s": 575012.4574333786,
+      "RI_star": 11.261103979596138,
+      "U_star": 2702.664955103073,
+      "streaming_time_change_percent": 3.780023625147666,
+      "resident_time_change_percent": 0.0006289238307477518
+    }
+  ],
+  "conclusion": "these bounded controls preserve order of magnitude; unclosed arithmetic remains an explicit condition, not a certification"
+}

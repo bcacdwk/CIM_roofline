@@ -1,0 +1,175 @@
+{
+  "case_id": "08_feram_hfo2",
+  "mode": "v3_original_time_replay",
+  "new_neurosim_times": false,
+  "new_boundary_alignment": false,
+  "raw_delta_S_ns": 4810.0,
+  "raw_T_R_ns": 153600.0,
+  "maintenance_busy_ns": 0.0,
+  "stage_ledger": {
+    "input_capture": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    "binary_read": {
+      "count": 32,
+      "total_ns": 3520.0,
+      "components_ns": {
+        "feram_sense": 640.0,
+        "polarization_hold": 1600.0000000000002,
+        "open_close": 1280.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/read_includes"
+        }
+      ]
+    },
+    "digital_mac": {
+      "count": 256,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "retained_digital_schedule": 1280
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/dcim"
+        }
+      ]
+    },
+    "output_commit": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    "external_load": {
+      "count": 1024,
+      "total_ns": 10240.0,
+      "components_ns": {
+        "retained_digital_schedule": 10240
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/write_includes"
+        }
+      ]
+    },
+    "external_polarization_write": {
+      "count": 1024,
+      "total_ns": 143360.0,
+      "components_ns": {
+        "open_close": 40960.0,
+        "polarization_holds": 102400.00000000001
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/mapping/plate_sequence"
+        },
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/write_includes"
+        }
+      ]
+    }
+  },
+  "schedule_trace": [
+    {
+      "path": "streaming/0",
+      "stage_id": "input_capture",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/0",
+      "stage_id": "binary_read",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 110.0,
+      "components_each_ns": {
+        "feram_sense": 20.0,
+        "polarization_hold": 50.00000000000001,
+        "open_close": 40.0
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/1/input_bit/0",
+      "stage_id": "digital_mac",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/2",
+      "stage_id": "output_commit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/0/aligned_128bit_row/0",
+      "stage_id": "external_load",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 10,
+      "components_each_ns": {
+        "retained_digital_schedule": 10
+      }
+    },
+    {
+      "path": "resident/0/aligned_128bit_row/1",
+      "stage_id": "external_polarization_write",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 140.0,
+      "components_each_ns": {
+        "open_close": 40.0,
+        "polarization_holds": 100.00000000000001
+      }
+    }
+  ],
+  "input_times_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "feram_sense": 20.0,
+    "polarization_hold": 50.00000000000001,
+    "open_close": 40.0,
+    "binary_verify_sense_ns": 20
+  },
+  "comparison_source": {
+    "path": "tasks/task1_table_I_NVM/analysis/08_feram_hfo2/data/results.json",
+    "json_pointer": "/paired/1",
+    "usage": "comparison_only_after_aggregation"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "ordering": "first correct boundary semantics and maintenance framing at V1 clock, then qualify source lifecycle/select V2 clock",
+  "V1_recomputed_matches_archive": true,
+  "native_parameters_and_resources_unchanged": true,
+  "V1_period_ns": 11.0,
+  "V2_period_ns": 9.0,
+  "services": {
+    "streaming": {
+      "V1_ns": 1782.0,
+      "V2_boundary_at_V1_clock_ns": 1782.0,
+      "V2_ns": 1458.0,
+      "boundary_semantics_delta_ns": 0.0,
+      "qualified_clock_and_edge_delta_ns": -324.0,
+      "total_delta_ns": -324.0
+    },
+    "resident": {
+      "V1_ns": 168960.0,
+      "V2_boundary_at_V1_clock_ns": 146432.0,
+      "V2_ns": 129024.0,
+      "boundary_semantics_delta_ns": -22528.0,
+      "qualified_clock_and_edge_delta_ns": -17408.0,
+      "total_delta_ns": -39936.0
+    },
+    "maintenance": {
+      "V1_ns": 0.0,
+      "V2_boundary_at_V1_clock_ns": 0.0,
+      "V2_ns": 0.0,
+      "boundary_semantics_delta_ns": 0.0,
+      "qualified_clock_and_edge_delta_ns": 0.0,
+      "total_delta_ns": 0.0
+    }
+  },
+  "availability": {
+    "V1": 1.0,
+    "V2_boundary_at_V1_clock": 1.0,
+    "V2": 1.0
+  }
+}

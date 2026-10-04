@@ -1,6 +1,20 @@
 # Table I · NeuroSim 评估任务
 
-当前完成：**Step 4，十例 reference 典型配置实际运行与独立复核 PASS；停止在 Step4。**
+当前完成：**Step4 V2，十例时序／消费边界统一、实际重算与独立复核 PASS；停止在Step4 V2。**
+
+[中文V2报告](reports/step4_v2_reference.zh.md) · [NVM→V1→V2比较CSV](results/step4_v2/reference-v2-final-20261004/comparison.csv) · [V2机器结果](results/step4_v2/reference-v2-final-20261004/summary.json) · [V2独立审查](reports/step4_v2_review.json) · [新统一入口](scripts/run_step4_v2.py)。
+
+PCM/GC以真实E0→E2保持资格使用两拍，E1使能仍单拍；四个32项MAC区分早稳group与每拍ibit/反馈；完整数字操作与纯捕获只在所属末端计setup一次。新七例周期为8.5/9/9/5/8.5/5.5/8.5ns，三个pilot完整结果保持一致。GC用不超过400000ns保持限的399998.5ns整数拍刷新帧，并实际验证连续写回间隔。
+
+```sh
+python3 tasks/task1_table_I_NeuroSim/scripts/run_step4_v2.py --run-id <新名称> --no-export
+python3 tasks/task1_table_I_NeuroSim/scripts/run_step4_v2.py --case 09_gain_cell_edram --run-id <新名称> --no-export
+python3 tasks/task1_table_I_NeuroSim/scripts/run_step4_v2.py --mode replay --run-id <新名称> --no-export
+```
+
+旧step4代码、V1入口与全部历史证据保持原样。原NVM参数未重选；NAND乘除预算、PCM标定、FeRAM PL负载、GC重复刷新误差的资格不升级。
+
+**以下为Step4 V1已验收基线导航。**
 
 阅读入口：[Step4 中文报告](reports/step4_reference.zh.md) · [模型接入表](reports/step4_model_routes.zh.md) · [十例 JSON](results/step4/reference-final-20261004/summary.json) · [CSV](results/step4/reference-final-20261004/summary.csv) · [独立审查](reports/step4_review.json) · [中文复核](results/step4/reviewer-final-20261004/review.zh.md) · [十例统一入口](scripts/run_step4.py)。
 
@@ -90,7 +104,7 @@ Step 1 使用上游默认支持配置完成环境测试。正式工艺在 Step 2
 | **5. 三情景与一致性检查** | 运行相容情景；检查主导参数敏感性、维护与映射；区分工艺、资源、后端带来的变化。 | 机器可读总表、与 v3 的差异分解、独立复核。 |
 | **6. 精简交付与文稿** | 导出必要输入、代码/补丁、输出和 TeX/PDF；从新的本地目录重建。 | 可重现正式结果的交付包和简洁讨论。 |
 
-每阶段独立验收。当前 Step4 十例典型配置已完成并独立复核；Step1–3、原 v3 和历史验收证据保持不变。下一阶段须由用户另行启动，不自动开展三情景扫描或 workload mapping。
+每阶段独立验收。当前 Step4 V2 十例典型配置已完成并独立复核；Step1–3、原 v3 和历史验收证据保持不变。下一阶段须由用户另行启动，不自动开展三情景扫描或 workload mapping。
 
 ## 5. 分支候选与用途
 

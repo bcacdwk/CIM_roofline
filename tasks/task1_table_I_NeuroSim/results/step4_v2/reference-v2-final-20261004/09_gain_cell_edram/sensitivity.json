@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "scope": "few synthetic service-dependency controls; not new device scenarios",
+  "rows": [
+    {
+      "id": "shared_SAR_duration_plus8ns",
+      "actual_period_ns": 5.5,
+      "streaming_ns": 4059.0,
+      "resident_ns": 21120.0,
+      "maintenance_ns": 67584.0,
+      "availability": 0.8307231152116821,
+      "maintenance_feasible": true,
+      "guard_ns": 126.5,
+      "metrics": {
+        "rho_Byte_per_s": 13098368.902081214,
+        "tau_Byte_per_s": 161109937.49559894,
+        "RI_star": 0.08130081300813008,
+        "U_star": 5.203252032520325,
+        "status": "OK"
+      },
+      "actual_SAR_consumers": {
+        "streaming": {
+          "count": 32,
+          "physical_duration_increase_ns": 255.99999999999994,
+          "total_latency_increase_ns": 352.0,
+          "policy": "new physical time may consume previous boundary slack without increasing total latency"
+        },
+        "maintenance": {
+          "count": 256,
+          "physical_duration_increase_ns": 2047.9999999999995,
+          "total_latency_increase_ns": 1408.0,
+          "policy": "new physical time may consume previous boundary slack without increasing total latency"
+        }
+      }
+    },
+    {
+      "id": "native_write_only_plus11ns",
+      "actual_period_ns": 5.5,
+      "streaming_ns": 3707.0,
+      "resident_ns": 23936.0,
+      "maintenance_ns": 68992.0,
+      "availability": 0.827230602114758,
+      "maintenance_feasible": true,
+      "guard_ns": 115.5,
+      "metrics": {
+        "rho_Byte_per_s": 14281833.972307663,
+        "tau_Byte_per_s": 141558177.90199068,
+        "RI_star": 0.10089020771513353,
+        "U_star": 6.456973293768546,
+        "status": "OK"
+      },
+      "resident_native_physical_increase_ns": 2816.0
+    },
+    {
+      "id": "infeasible_retention_negative_control",
+      "actual_period_ns": 5.5,
+      "streaming_ns": 3707.0,
+      "resident_ns": 21120.0,
+      "maintenance_ns": 66176.0,
+      "availability": -1.0034906914893618,
+      "maintenance_feasible": false,
+      "guard_ns": 115.5,
+      "metrics": {
+        "rho_Byte_per_s": null,
+        "tau_Byte_per_s": null,
+        "RI_star": null,
+        "U_star": null,
+        "status": "INFEASIBLE"
+      }
+    }
+  ]
+}

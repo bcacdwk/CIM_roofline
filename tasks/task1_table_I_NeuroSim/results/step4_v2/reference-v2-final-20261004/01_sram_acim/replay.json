@@ -1,0 +1,164 @@
+{
+  "case_id": "01_sram_acim",
+  "mode": "v3_original_time_replay",
+  "new_neurosim_times": false,
+  "new_boundary_alignment": false,
+  "raw_delta_S_ns": 3210.0,
+  "raw_T_R_ns": 5120.0,
+  "maintenance_busy_ns": 0.0,
+  "stage_ledger": {
+    "input_capture": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    "charge_front": {
+      "count": 64,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "charge_front": 1280.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/cycle_semantics/frontend"
+        }
+      ]
+    },
+    "sar": {
+      "count": 64,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "shared_ADC": 1280
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    "reconstruct": {
+      "count": 128,
+      "total_ns": 640.0,
+      "components_ns": {
+        "retained_digital_schedule": 640
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    "output_commit": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    "sram_write": {
+      "count": 1024,
+      "total_ns": 5120.0,
+      "components_ns": {
+        "sram_write_cycle": 5120.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/cycle_semantics/memory"
+        }
+      ]
+    }
+  },
+  "schedule_trace": [
+    {
+      "path": "streaming/0",
+      "stage_id": "input_capture",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/0",
+      "stage_id": "charge_front",
+      "count": 64,
+      "context": {},
+      "per_occurrence_ns": 20.0,
+      "components_each_ns": {
+        "charge_front": 20.0
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/1",
+      "stage_id": "sar",
+      "count": 64,
+      "context": {},
+      "per_occurrence_ns": 20,
+      "components_each_ns": {
+        "shared_ADC": 20
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/2",
+      "stage_id": "reconstruct",
+      "count": 128,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/2",
+      "stage_id": "output_commit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/0/aligned_16B_transaction/0",
+      "stage_id": "sram_write",
+      "count": 1024,
+      "context": {},
+      "per_occurrence_ns": 5.0,
+      "components_each_ns": {
+        "sram_write_cycle": 5.0
+      }
+    }
+  ],
+  "input_times_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "charge_front": 20.0,
+    "sram_write_cycle": 5.0,
+    "binary_verify_sense_ns": 20
+  },
+  "comparison_source": {
+    "path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/data/results.json",
+    "json_pointer": "/scenarios/1",
+    "usage": "comparison_only_after_aggregation"
+  }
+}

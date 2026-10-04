@@ -1,0 +1,213 @@
+{
+  "case_id": "03_nor_2d",
+  "mode": "v3_original_time_replay",
+  "new_neurosim_times": false,
+  "new_boundary_alignment": false,
+  "raw_delta_S_ns": 5290.0,
+  "raw_T_R_ns": 205605800.0,
+  "maintenance_busy_ns": 0.0,
+  "stage_ledger": {
+    "input_capture": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    "binary_read": {
+      "count": 32,
+      "total_ns": 3840.0000000000005,
+      "components_ns": {
+        "nor_read": 3840.0000000000005
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/read_full"
+        }
+      ]
+    },
+    "operand_capture": {
+      "count": 32,
+      "total_ns": 160.0,
+      "components_ns": {
+        "retained_digital_schedule": 160
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/read_full"
+        }
+      ]
+    },
+    "digital_mac": {
+      "count": 256,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "retained_digital_schedule": 1280
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/dcim"
+        }
+      ]
+    },
+    "output_commit": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    "sector_erase": {
+      "count": 4,
+      "total_ns": 180000040.0,
+      "components_ns": {
+        "complete_erase": 180000000.0,
+        "erase_control": 40
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/erase_full"
+        }
+      ]
+    },
+    "page_load": {
+      "count": 64,
+      "total_ns": 5760.0,
+      "components_ns": {
+        "retained_digital_schedule": 5760
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/write_front"
+        }
+      ]
+    },
+    "page_program": {
+      "count": 64,
+      "total_ns": 25600000.0,
+      "components_ns": {
+        "page_program": 25600000.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/program_full"
+        }
+      ]
+    }
+  },
+  "schedule_trace": [
+    {
+      "path": "streaming/0",
+      "stage_id": "input_capture",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/0",
+      "stage_id": "binary_read",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 120.00000000000001,
+      "components_each_ns": {
+        "nor_read": 120.00000000000001
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/1",
+      "stage_id": "operand_capture",
+      "count": 32,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/row_output_tile/2/input_bit/0",
+      "stage_id": "digital_mac",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/2",
+      "stage_id": "output_commit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/0/dedicated_sector/0",
+      "stage_id": "sector_erase",
+      "count": 4,
+      "context": {},
+      "per_occurrence_ns": 45000010.0,
+      "components_each_ns": {
+        "complete_erase": 45000000.0,
+        "erase_control": 10
+      }
+    },
+    {
+      "path": "resident/0/dedicated_sector/1/page_in_sector/0",
+      "stage_id": "page_load",
+      "count": 64,
+      "context": {},
+      "per_occurrence_ns": 90,
+      "components_each_ns": {
+        "retained_digital_schedule": 90
+      }
+    },
+    {
+      "path": "resident/0/dedicated_sector/1/page_in_sector/1",
+      "stage_id": "page_program",
+      "count": 64,
+      "context": {},
+      "per_occurrence_ns": 400000.0,
+      "components_each_ns": {
+        "page_program": 400000.0
+      }
+    }
+  ],
+  "input_times_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "nor_read": 120.00000000000001,
+    "page_program": 400000.0,
+    "sector_erase": 45000000.0,
+    "binary_verify_sense_ns": 20
+  },
+  "comparison_source": {
+    "path": "tasks/task1_table_I_NVM/analysis/03_nor_2d/data/results.json",
+    "json_pointer": "/scenarios/1",
+    "usage": "comparison_only_after_aggregation"
+  }
+}

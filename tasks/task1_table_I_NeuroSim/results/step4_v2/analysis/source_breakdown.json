@@ -1,0 +1,192 @@
+{
+  "experiment_scope": "Source-isolated electrical evaluation of unchanged complete V1 gate DAG; actual new locked-source C++ build for each case. Classification changes only active arrival labels, never gate constants, capacitance, arithmetic or resources.",
+  "root": "/Users/shine/neurosim/runs/step4-v2/timing-analysis-20261004",
+  "upstream_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+  "instrumented_cpp_sha256": "4fb396e9960002f906daca1245326fe467502afd7371e0eda1b86f085cdb7a01",
+  "cases": {
+    "03_nor_2d": {
+      "source_class_measurements_ns": {
+        "probe_digital_mac_ibit_s": 8.380406816741893,
+        "probe_digital_mac_ibit_source_s": 1.1451113575385363,
+        "probe_digital_mac_acc_data_s": 5.187720663463888,
+        "probe_digital_mac_acc_data_source_s": 1.1834338062116594,
+        "probe_digital_mac_output_group_select_s": 6.878003559072233,
+        "probe_digital_mac_output_group_select_source_s": 2.873692473627002,
+        "probe_digital_mac_input_data_s": 8.268722323905555,
+        "probe_digital_mac_input_data_source_s": 1.1335846173916015,
+        "probe_digital_mac_input_group_select_s": 9.700951561350758,
+        "probe_digital_mac_input_group_select_source_s": 2.565755592948153,
+        "probe_digital_mac_weight_s": 6.896092836384131,
+        "probe_digital_mac_weight_source_s": 0.18752045701021103
+      },
+      "original_full_timing_paths_ns": {
+        "controller_path_s": 2.4867314230360495,
+        "io_path_s": 1.6148335503714542,
+        "accumulator_clear_path_s": 2.2153827539923325,
+        "digital_mac_path_s": 9.700951561350758
+      },
+      "all_source_class_max_equals_original_path": true,
+      "same_gate_graph_fixtures": 256,
+      "frame_native_read_ns": 120.0,
+      "frame_source_pin_ready_bound_ns": 2.873692473627002,
+      "frame_read_establishes_sources_before_first_MAC": true,
+      "real_single_cycle_min_ns": 8.380406816741893,
+      "policy_period_ns": 8.5
+    },
+    "06_mram": {
+      "source_class_measurements_ns": {
+        "probe_digital_mac_ibit_s": 8.53994110234947,
+        "probe_digital_mac_ibit_source_s": 1.1451113575385363,
+        "probe_digital_mac_acc_data_s": 4.689875550875798,
+        "probe_digital_mac_acc_data_source_s": 0.54403965945258,
+        "probe_digital_mac_output_group_select_s": 5.739690579933267,
+        "probe_digital_mac_output_group_select_source_s": 1.5925527678704419,
+        "probe_digital_mac_input_data_s": 8.748494881259866,
+        "probe_digital_mac_input_data_source_s": 1.4537761614826559,
+        "probe_digital_mac_input_group_select_s": 10.657026966949758,
+        "probe_digital_mac_input_group_select_source_s": 3.36230030248378,
+        "probe_digital_mac_weight_s": 7.055627121991709,
+        "probe_digital_mac_weight_source_s": 0.18752045701021103,
+        "probe_verify_compare_other_s": 2.5734667895277714,
+        "probe_verify_compare_other_source_s": 1.12138609339948
+      },
+      "original_full_timing_paths_ns": {
+        "controller_path_s": 2.771990872645059,
+        "io_path_s": 0.9746618225165579,
+        "accumulator_clear_path_s": 2.0594556480184742,
+        "digital_mac_path_s": 10.657026966949758,
+        "verify_compare_path_s": 2.5734667895277714
+      },
+      "all_source_class_max_equals_original_path": true,
+      "same_gate_graph_fixtures": 272,
+      "frame_native_read_ns": 5.0,
+      "frame_source_pin_ready_bound_ns": 3.36230030248378,
+      "frame_read_establishes_sources_before_first_MAC": true,
+      "real_single_cycle_min_ns": 8.53994110234947,
+      "policy_period_ns": 9.0
+    },
+    "07_pcm": {
+      "source_class_measurements_ns": {
+        "probe_pcm_decode_reconstruct_ibit_s": 5.990880232493957,
+        "probe_pcm_decode_reconstruct_ibit_source_s": 0.9892742444451476,
+        "probe_pcm_decode_reconstruct_acc_data_s": 5.330288792502619,
+        "probe_pcm_decode_reconstruct_acc_data_source_s": 1.1834338062116594,
+        "probe_pcm_decode_reconstruct_output_group_select_s": 7.020571688110963,
+        "probe_pcm_decode_reconstruct_output_group_select_source_s": 2.873692473627002,
+        "probe_pcm_decode_reconstruct_sar_s": 9.407240372889095,
+        "probe_pcm_decode_reconstruct_sar_source_s": 0.48981914808986887,
+        "probe_pcm_decode_reconstruct_threshold_s": 9.073155948609196,
+        "probe_pcm_decode_reconstruct_threshold_source_s": 0.18752045701021103,
+        "probe_verify_compare_other_s": 3.7397848113276835,
+        "probe_verify_compare_other_source_s": 1.753976296844695,
+        "probe_capture_enable_s": 2.0594556480184742
+      },
+      "original_full_timing_paths_ns": {
+        "controller_path_s": 2.771990872645059,
+        "io_path_s": 1.6148335503714542,
+        "accumulator_clear_path_s": 2.2153827539923325,
+        "pcm_decode_reconstruct_path_s": 9.407240372889095,
+        "verify_compare_path_s": 3.7397848113276835
+      },
+      "all_source_class_max_equals_original_path": true,
+      "same_gate_graph_fixtures": 232,
+      "E0_E2_data_ns": 9.407240372889095,
+      "E1_E2_capture_enable_ns": 2.0594556480184742,
+      "two_cycle_qualified_min_ns": 4.703620186444548,
+      "policy_period_ns": 5.0,
+      "policy": "Do not borrow pre-E0 propagation, matching Step3 V2; no intermediate capture and no E1 data/select transition."
+    },
+    "08_feram_hfo2": {
+      "source_class_measurements_ns": {
+        "probe_digital_mac_ibit_s": 8.380406816741893,
+        "probe_digital_mac_ibit_source_s": 1.1451113575385363,
+        "probe_digital_mac_acc_data_s": 5.187720663463888,
+        "probe_digital_mac_acc_data_source_s": 1.1834338062116594,
+        "probe_digital_mac_output_group_select_s": 6.878003559072233,
+        "probe_digital_mac_output_group_select_source_s": 2.873692473627002,
+        "probe_digital_mac_input_data_s": 8.268722323905555,
+        "probe_digital_mac_input_data_source_s": 1.1335846173916015,
+        "probe_digital_mac_input_group_select_s": 9.700951561350758,
+        "probe_digital_mac_input_group_select_source_s": 2.565755592948153,
+        "probe_digital_mac_weight_s": 6.896092836384131,
+        "probe_digital_mac_weight_source_s": 0.18752045701021103
+      },
+      "original_full_timing_paths_ns": {
+        "controller_path_s": 2.771990872645059,
+        "io_path_s": 1.6148335503714542,
+        "accumulator_clear_path_s": 2.2153827539923325,
+        "digital_mac_path_s": 9.700951561350758
+      },
+      "all_source_class_max_equals_original_path": true,
+      "same_gate_graph_fixtures": 256,
+      "frame_native_read_ns": 20.0,
+      "frame_source_pin_ready_bound_ns": 2.873692473627002,
+      "frame_read_establishes_sources_before_first_MAC": true,
+      "real_single_cycle_min_ns": 8.380406816741893,
+      "policy_period_ns": 8.5
+    },
+    "09_gain_cell_edram": {
+      "source_class_measurements_ns": {
+        "probe_gc_decode_reconstruct_ibit_s": 10.500414735024233,
+        "probe_gc_decode_reconstruct_ibit_source_s": 1.3010069396223798,
+        "probe_gc_decode_reconstruct_acc_data_s": 4.724850485201306,
+        "probe_gc_decode_reconstruct_acc_data_source_s": 0.863254095167971,
+        "probe_gc_decode_reconstruct_output_group_select_s": 6.094826504978426,
+        "probe_gc_decode_reconstruct_output_group_select_source_s": 2.233052326500781,
+        "probe_gc_decode_reconstruct_sar_s": 6.606403170395371,
+        "probe_gc_decode_reconstruct_sar_source_s": 0.29022408817129897,
+        "probe_gc_decode_reconstruct_pop_input_s": 9.621505282036587,
+        "probe_gc_decode_reconstruct_pop_input_source_s": 0.524302191756481,
+        "probe_gc_refresh_sign_sar_s": 0.7037000574768039,
+        "probe_gc_refresh_sign_sar_source_s": 0.18752045701021103,
+        "probe_capture_enable_s": 2.0594556480184742
+      },
+      "original_full_timing_paths_ns": {
+        "controller_path_s": 2.6293611478405543,
+        "io_path_s": 1.2945606887501577,
+        "accumulator_clear_path_s": 2.2153827539923325,
+        "gc_decode_reconstruct_path_s": 10.500414735024233,
+        "gc_refresh_sign_path_s": 0.7037000574768039
+      },
+      "all_source_class_max_equals_original_path": true,
+      "same_gate_graph_fixtures": 260,
+      "E0_E2_data_ns": 10.500414735024233,
+      "E1_E2_capture_enable_ns": 2.0594556480184742,
+      "two_cycle_qualified_min_ns": 5.250207367512116,
+      "policy_period_ns": 5.5,
+      "policy": "Do not borrow pre-E0 propagation, matching Step3 V2; no intermediate capture and no E1 data/select transition."
+    },
+    "10_fenor_3d": {
+      "source_class_measurements_ns": {
+        "probe_digital_mac_ibit_s": 8.380406816741893,
+        "probe_digital_mac_ibit_source_s": 1.1451113575385363,
+        "probe_digital_mac_acc_data_s": 5.187720663463888,
+        "probe_digital_mac_acc_data_source_s": 1.1834338062116594,
+        "probe_digital_mac_output_group_select_s": 6.878003559072233,
+        "probe_digital_mac_output_group_select_source_s": 2.873692473627002,
+        "probe_digital_mac_input_data_s": 8.268722323905555,
+        "probe_digital_mac_input_data_source_s": 1.1335846173916015,
+        "probe_digital_mac_input_group_select_s": 9.700951561350758,
+        "probe_digital_mac_input_group_select_source_s": 2.565755592948153,
+        "probe_digital_mac_weight_s": 6.896092836384131,
+        "probe_digital_mac_weight_source_s": 0.18752045701021103,
+        "probe_verify_compare_other_s": 3.002373709163737,
+        "probe_verify_compare_other_source_s": 1.7622776271150271
+      },
+      "original_full_timing_paths_ns": {
+        "controller_path_s": 2.771990872645059,
+        "io_path_s": 1.6148335503714542,
+        "accumulator_clear_path_s": 2.2153827539923325,
+        "digital_mac_path_s": 9.700951561350758,
+        "verify_compare_path_s": 3.002373709163737
+      },
+      "all_source_class_max_equals_original_path": true,
+      "same_gate_graph_fixtures": 272,
+      "frame_native_read_ns": 40.0,
+      "frame_source_pin_ready_bound_ns": 2.873692473627002,
+      "frame_read_establishes_sources_before_first_MAC": true,
+      "real_single_cycle_min_ns": 8.380406816741893,
+      "policy_period_ns": 8.5
+    }
+  }
+}

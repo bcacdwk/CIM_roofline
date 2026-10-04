@@ -1,0 +1,112 @@
+{
+  "frame_ns": 399998.5,
+  "raw_streaming_ns": 3707.0,
+  "raw_resident_ns": 21120.0,
+  "maintenance": {
+    "raw_stage_metrics": {
+      "rho_Byte_per_s": 17264634.475316968,
+      "tau_Byte_per_s": 193939393.93939394,
+      "RI_star": 0.08902077151335312,
+      "U_star": 5.6973293768546,
+      "status": "OK"
+    },
+    "effective_stage_metrics": {
+      "rho_Byte_per_s": 14403377.454801952,
+      "tau_Byte_per_s": 161797940.0756086,
+      "RI_star": 0.08902077151335312,
+      "U_star": 5.6973293768546,
+      "status": "OK"
+    },
+    "workload_write_Byte": 0,
+    "recompute_required": true,
+    "applicable": true,
+    "availability": 0.8342706285148569,
+    "feasible": true,
+    "period_ns": 399998.5,
+    "retention_limit_ns": 400000.0,
+    "nominal_period_ns": 400000.0,
+    "scheduled_frame_period_ns": 399998.5,
+    "frame_quantization_slack_ns": 1.5,
+    "busy_ns": 66176.0,
+    "guard_ns": 115.5,
+    "retention_schedule_proof": {
+      "status": "PASS",
+      "frames_executed": 3,
+      "writeback_groups_per_frame": 256,
+      "physical_writeback_interval_min_ns": 399998.5,
+      "physical_writeback_interval_max_ns": 399998.5,
+      "retention_limit_ns": 400000.0,
+      "frame_sweep_and_guard_fit": true,
+      "frame_starts_ns": [
+        0.0,
+        399998.5,
+        799997.0
+      ],
+      "policy": "stop foreground admissions within guard of each fixed frame start; all maintenance endpoints repeat at identical offsets"
+    },
+    "atomic_streaming_ns": 115.5,
+    "atomic_resident_ns": 82.5,
+    "scheduling_proof": "clock-aligned frame no longer than native retention, complete maintenance sweep plus one max nonpreemptive foreground guard",
+    "effective_delta_S_ns": 4443.402264561427,
+    "effective_T_R_ns": 25315.52625506807,
+    "effective_times_meaning": "long-term service cost; not a single request physical latency"
+  },
+  "metrics": {
+    "rho_Byte_per_s": 14403377.454801952,
+    "tau_Byte_per_s": 161797940.0756086,
+    "RI_star": 0.08902077151335312,
+    "U_star": 5.6973293768546,
+    "status": "OK"
+  },
+  "independent_frames_executed": 11,
+  "independent_cell_interval_pairs": 2560,
+  "min_rewrite_interval_ns": 399998.5,
+  "max_rewrite_interval_ns": 399998.5,
+  "subcycle_retention": {
+    "maintenance": {
+      "raw_stage_metrics": {
+        "rho_Byte_per_s": 17264634.475316968,
+        "tau_Byte_per_s": 193939393.93939394,
+        "RI_star": 0.08902077151335312,
+        "U_star": 5.6973293768546,
+        "status": "OK"
+      },
+      "effective_stage_metrics": {
+        "rho_Byte_per_s": null,
+        "tau_Byte_per_s": null,
+        "RI_star": null,
+        "U_star": null,
+        "status": "INFEASIBLE"
+      },
+      "workload_write_Byte": 0,
+      "recompute_required": true,
+      "applicable": true,
+      "availability": null,
+      "feasible": false,
+      "period_ns": 0.0,
+      "retention_limit_ns": 1,
+      "nominal_period_ns": 1,
+      "scheduled_frame_period_ns": 0.0,
+      "frame_quantization_slack_ns": 1.0,
+      "busy_ns": 66176.0,
+      "guard_ns": 115.5,
+      "retention_schedule_proof": {
+        "status": "INFEASIBLE",
+        "frame_sweep_and_guard_fit": false
+      },
+      "atomic_streaming_ns": 115.5,
+      "atomic_resident_ns": 82.5,
+      "scheduling_proof": "clock-aligned frame no longer than native retention, complete maintenance sweep plus one max nonpreemptive foreground guard",
+      "effective_delta_S_ns": null,
+      "effective_T_R_ns": null,
+      "effective_times_meaning": "long-term service cost; not a single request physical latency"
+    },
+    "metrics": {
+      "rho_Byte_per_s": null,
+      "tau_Byte_per_s": null,
+      "RI_star": null,
+      "U_star": null,
+      "status": "INFEASIBLE"
+    }
+  }
+}

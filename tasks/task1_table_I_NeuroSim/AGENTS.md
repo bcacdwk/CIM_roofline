@@ -1,3 +1,16 @@
+# Step4 V2 当前约定
+
+在 `0fac5278fe6477144f6ad74a7747d950b3fc3517` 上统一十例时序/边界与证据口径已完成并独立复核，停止Step4 V2。以下保留分工；不改器件参数、不进入Step5。
+
+- supervisor 是生产代码唯一维护者，写 `step4_v2/`、`scripts/run_step4_v2.py`、V2 contracts/reports/results/provenance 及当前导航。
+- 两个分析agent只写本地 `runs/step4-v2/timing-analysis-*`、`boundary-analysis-*`，提供时序来源和边界语义分析/实际探针。
+- 本轮独立reviewer不写实现，从新本地目录复跑并审真实生命周期/边界，不只对比数字。
+- 既有 `step4/`、`scripts/run_step4.py`、V1结果/报告/审计、pilots、原NVM、TableII、论文和锁定上游保持只读。V1入口可继续复跑。任何确需pilot实质修订必须单独说明；不得为保持旧结果规避真实问题。
+- 本地构建/源码/完整trace/失败现场留 `/Users/shine/neurosim`；不暂存、提交、推送，保留用户 `.DS_Store` 修改。
+- 完成后停止Step4 V2，不自动扫描三情景或workload。
+
+---
+
 # Step 4 当前工作约定
 
 Step4 十例 reference 实际运行、分析与独立复核已完成并停止。以下保留本轮分工和写入边界；不自动进入Step5。历史Step3停止指令曾由本轮用户授权扩展。

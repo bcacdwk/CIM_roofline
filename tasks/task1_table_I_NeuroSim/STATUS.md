@@ -1,3 +1,20 @@
+# Step4 V2：完成并停止
+
+基准 `0fac5278fe6477144f6ad74a7747d950b3fc3517`。**十例主运行、新目录独立编译复跑、1693项独立审查 PASS。**
+
+- 入口：[V2报告](reports/step4_v2_reference.zh.md)、[三列比较](results/step4_v2/reference-v2-final-20261004/comparison.csv)、[独立审查](reports/step4_v2_review.json)、[统一CLI](scripts/run_step4_v2.py)。
+- 新代码仅 `step4_v2/` 与新入口；旧step4、V1报告/结果/审查、pilots、原NVM、TableII、论文与上游保持不变。三个pilot完整结果、共同边界引擎回归一致。
+- PCM/GC full data E0→E2，E1只phase；独立2.059456ns使能路径保持单拍，无新bank/重叠。周期改为5/5.5ns。
+- 四数字MAC早稳group源pin在原生read期间建立；ibit/反馈/first weight仍单拍。NOR/FeRAM/FeNOR8.5ns、MRAM9ns，有明确源分类及首拍条件；NAND仍9ns。
+- 完整cycle入口不再收目的setup；纯capture/ready仅setup后采样边沿，无额外整拍。MRAM tile capture包含IBMD隔离交接，保留完整一拍；FeRAM原生已有capture/restore不重复计。
+- GC raw3707/21120ns、busy66176ns、guard115.5ns、实际刷新帧399998.5ns、alpha0.8342706285；有效ρ/τ14.403377/161.797940MB/s。独立11帧2560组写回间隔均满足未改的400000ns保持限。
+- NAND保留算术预算2×/4×，streaming增加1.26%/3.78%，resident增加0.000210%/0.000629%；仍非完整数字时序认证。NOR/NAND装载分别99.9952%/99.1637%来自保留P/E时间，不宣称独立验证器件参数。
+- 十例旧时间回放、完整Step2回归、模板/包装等价、窗口/非法周期/覆盖负例和逐消费者传播通过。独立审查披露reviewer曾参与V1 native适配，但本轮不参与实现。
+- 主本地目录 `runs/step4-v2/reference-v2-final-20261004`；独立目录 `runs/step4-v2/reviewer-v2-final-20261004`。完整trace/构建/中间现场留本地，管理区精简导出。
+- 本轮停止Step4 V2，未开展三情景/workload/论文；未暂存、提交、推送，保留用户 `.DS_Store` 修改。
+
+---
+
 # Step 4：十例 reference 完成并停止
 
 基准 `ab306ed8f804a8056e27f9763a8a8cc9bbd89b22`。**十例统一主运行 PASS；独立新目录编译复跑、来源与数值审查 PASS。**

@@ -1,0 +1,961 @@
+{
+  "execution_extension": "step4-2.0.0",
+  "input_config_sha256": "88cfb249f24bf327171658ad9c79d6c7c3348ca7d25889dfa6c8c87e226a2f65",
+  "logical": {
+    "K": 64,
+    "N": 64,
+    "matrix_order": "W[N,K]",
+    "input_bits": 8,
+    "weight_bits": 8,
+    "signed": true,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "B_S_Byte": 64,
+    "B_R_Byte": 4096,
+    "resident_transaction_Byte": 16,
+    "output_bits": 22,
+    "numerical_contract": "calibrated_approximate_partial_sums",
+    "byte_bit_rule": "v3 b_S=b_R=1 means Byte/element, not 1-bit arithmetic. Encoded copies add physical occupancy, never logical payload.",
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      },
+      {
+        "source_id": "shared_calculator",
+        "function": "logical_configuration"
+      }
+    ]
+  },
+  "physical": {
+    "effective_capacity_Byte": 4096,
+    "physical_capacity": {
+      "gain_cells": 65536,
+      "pseudodifferential_pairs": 32768,
+      "tiles": 8,
+      "tile_pair_rows": 64,
+      "tile_pair_columns": 64
+    },
+    "necessary_encoding": "8binary endpoint planes;eachbit two3T1C cells with(700,0) or(0,700)nA;no logical duplication",
+    "independent_payload_replicas": 1,
+    "update_mode": "16aligned INT8 weights per transaction;256 transactions complete4KiB matrix",
+    "native_rationale": "GC-04measured64x64pair local load;8bit planes encodeone64x64INT8matrix without unnecessary2x2 spatial expansion",
+    "cells_per_INT8_weight": 16,
+    "data_storage_sites": 65536,
+    "signal_enhancement_replication": 1,
+    "complementary_encoding_factor": 2,
+    "neurosim_array_assignment": {
+      "numRowSubArray": null,
+      "numColSubArray": null,
+      "status": "requires_per_primitive_topology_adapter",
+      "rule": "Never substitute logical K,N for a physical array; preserve native banks, plane orientation, active rows, isolation and access direction."
+    },
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      }
+    ],
+    "access_direction": "Eight64x64 pseudo-differential pair tiles,one binary plane per tile;each pair stores(700,0)or(0,700)nA;two3T1C cells per bit."
+  },
+  "resources": {
+    "installed": {
+      "adc_count": 128,
+      "sense_or_verify_nodes": 0,
+      "digital_output_channels": 16,
+      "operand_hold_bits": 128,
+      "analog_cross_group_hold_slots": 0,
+      "input_register_bits": 512,
+      "output_register_bits": 1408,
+      "encoded_interface_bits": 128,
+      "external_update_domains": 1,
+      "pair_write_drivers": 128,
+      "write_branches": 256,
+      "refresh_sign_decoders": 128,
+      "refresh_code_hold_bits": 128,
+      "full_matrix_shadow_bits": 0,
+      "integration_capacitance_fF_per_branch": 200,
+      "integration_total_pF": 51.2,
+      "program_original_BL_load_fF": 50,
+      "mux_channels": 128,
+      "mux_fanin": 4
+    },
+    "active": {
+      "streaming": {
+        "input_terms_per_group": 64,
+        "output_lanes": 16,
+        "weight_planes_parallel": 8,
+        "adc_count": 128
+      },
+      "resident": {
+        "logical_Byte_per_transaction": 16,
+        "encoded_bits_per_load_unit": 256,
+        "logical_Byte": 16,
+        "pairs": 128,
+        "branches": 256,
+        "encoded_bits": 256,
+        "data_beats": 2,
+        "transactions": 256
+      }
+    },
+    "native_declared": {
+      "differential_ADC": 128,
+      "ADC_per_weight_plane": 16,
+      "analog_integration_fF_per_branch": 200,
+      "analog_integration_total_pF": 51.2,
+      "digital_output_lanes": 16,
+      "digital_ticks_per_reconstruction": 2,
+      "write_pair_drivers": 128,
+      "write_branches": 256,
+      "encoded_interface_bits": 128,
+      "refresh_sign_decoders": 128,
+      "refresh_code_hold_bits": 128,
+      "full_matrix_shadow_bits": 0,
+      "input_register_bits": 512,
+      "output_register_bits": 1408
+    },
+    "capacity_policy": "Installed capacity is not active parallelism. No extra ADC, SA, hold bank, driver or mux lane may appear without a resource edit.",
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      },
+      {
+        "source_id": "shared",
+        "json_pointer": "/resource_policy"
+      }
+    ],
+    "mux_scope": {
+      "status": "selection_inventory_not_transistor_load_characterization",
+      "source_refs": [
+        {
+          "source_id": "results",
+          "json_pointer": "/native_configuration"
+        }
+      ],
+      "rule": "Ratios express selected outputs/local addresses; native row/layer/CIMSEL decoding is separate. No switch capacitance or RC assumed from fanin alone."
+    },
+    "write_semantics": {
+      "electrical_drive_outputs": {
+        "value": 256,
+        "unit": "electrical_output",
+        "meaning": "Biased/current-driven electrical outputs; not a programming target count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_branches"
+          }
+        ]
+      },
+      "program_driver_channels": {
+        "value": 128,
+        "unit": "pair_programmer",
+        "meaning": "Explicit independent drive channels when reported; page-engine or distributed bias outputs do not establish this count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_pair_drivers"
+          }
+        ]
+      },
+      "selected_storage_targets": {
+        "value": 128,
+        "unit": "complementary_pair",
+        "meaning": "Addressed storage targets per selected_batch; phase and plane organization remain explicit.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_pair_drivers"
+          }
+        ]
+      },
+      "target_scope": "selected_batch",
+      "logical_bits_per_target": {
+        "value": 1,
+        "unit": "logical_bit/complementary_pair",
+        "meaning": "One binary state/pair before INT8 plane and NAND encoding expansion.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "physical_cells_per_target": {
+        "value": 2,
+        "unit": "storage_cell/complementary_pair",
+        "meaning": "Complementary storage branches per addressed target.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "logical_payload_per_transaction": {
+        "value": 16,
+        "unit": "Byte",
+        "meaning": "Workload payload for an indivisible resident transaction; not bias outputs or port beats.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "encoded_bits_per_load_unit": {
+        "value": 256,
+        "unit": "encoded_bit",
+        "meaning": "Encoded bits in one native page for NOR/NAND; otherwise one resident transaction.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "load_unit_scope": "resident_transaction",
+      "data_port_width": {
+        "value": 128,
+        "unit": "bit/beat",
+        "meaning": "External encoded port width; not physical program parallelism.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "update_domains": {
+        "value": 1,
+        "unit": "update_domain",
+        "meaning": "One native independently scheduled update domain.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "full_matrix_transactions": {
+        "value": 256,
+        "unit": "transaction",
+        "meaning": "B_R_Byte / logical_payload_per_transaction, exact integer division.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "program_parallelism_source": "selected_storage_targets plus explicitly reported channels, phases and planes; never electrical_drive_outputs or data_port_width",
+      "transaction_count_rule": "B_R_Byte / logical_payload_per_transaction; reject nonintegral division",
+      "program_batches_per_transaction": 1,
+      "program_batch_count_rule": "program_batches_per_load_unit * load_units_per_transaction; batch is a native selection/program-service target group, not an internal pulse/head count; phase/retry services remain separately scheduled.",
+      "phase_semantics": "128 pair programmers service 256 electrical branches = 128 binary bits = 16 Byte; 256 encoded bits take two 128-bit beats.",
+      "phase_targets": [
+        {
+          "value": 128,
+          "unit": "complementary_pair",
+          "meaning": "One current-program group.",
+          "status": "specified",
+          "source_refs": []
+        },
+        {
+          "value": 256,
+          "unit": "storage_branch",
+          "meaning": "Two current-feedback branches per pair, 128 logical bits.",
+          "status": "specified",
+          "source_refs": []
+        }
+      ],
+      "load_units_per_transaction": 1,
+      "program_batches_per_load_unit": 1
+    }
+  },
+  "native_parameters_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "program_complete": 65.0,
+    "common_read_overhead": 86.0,
+    "mac_integration": 1.0,
+    "refresh_integration": 64.0,
+    "refresh_period": 400000.0,
+    "binary_verify_sense_ns": 20
+  },
+  "backend": {
+    "execution_revision": "step4-2.0.0",
+    "case_id": "09_gain_cell_edram",
+    "actual_period_ns": 5.5,
+    "timing_min_period_ns": 5.250207367512116,
+    "policy_min_period_ns": 5.250207367512116,
+    "selection_policy": "target_5ns_else_upward_0.5ns_grid",
+    "critical_path": "gc_decode_reconstruct_path",
+    "boundary_setup_ns": 0.18111108587456434,
+    "sar_ns": 11.000000000000002,
+    "adc_bits": 10,
+    "wire_um": 10.0,
+    "paths": [
+      {
+        "id": "controller_path",
+        "delay_ns": 2.6293611478405543,
+        "start_register": "declared_data_or_controller_register",
+        "end_register": "declared_data_or_controller_register",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "complete_serial_path": true,
+        "stable_sources": [],
+        "path_class": "single_cycle_control_or_data",
+        "required_period_ns": 2.6293611478405543,
+        "actual_load": {
+          "wire_per_logic_segment_um": 10.0,
+          "wire_cap_F": 2e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+          "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+        },
+        "path_status": "formula_based_bit_arrival_envelope",
+        "eligibility_limit": null
+      },
+      {
+        "id": "io_path",
+        "delay_ns": 1.2945606887501577,
+        "start_register": "declared_data_or_controller_register",
+        "end_register": "declared_data_or_controller_register",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "complete_serial_path": true,
+        "stable_sources": [],
+        "path_class": "single_cycle_control_or_data",
+        "required_period_ns": 1.2945606887501577,
+        "actual_load": {
+          "wire_per_logic_segment_um": 10.0,
+          "wire_cap_F": 2e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+          "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+        },
+        "path_status": "formula_based_bit_arrival_envelope",
+        "eligibility_limit": null
+      },
+      {
+        "id": "accumulator_clear_path",
+        "delay_ns": 2.2153827539923325,
+        "start_register": "declared_data_or_controller_register",
+        "end_register": "declared_data_or_controller_register",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "complete_serial_path": true,
+        "stable_sources": [],
+        "path_class": "single_cycle_control_or_data",
+        "required_period_ns": 2.2153827539923325,
+        "actual_load": {
+          "wire_per_logic_segment_um": 10.0,
+          "wire_cap_F": 2e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+          "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+        },
+        "path_status": "formula_based_bit_arrival_envelope",
+        "eligibility_limit": null
+      },
+      {
+        "id": "capture_enable_path",
+        "delay_ns": 2.0594556480184742,
+        "start_register": "existing_phase_state_updated_at_E1",
+        "end_register": "existing_selected_output_accumulator_capture_enable_at_E2",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 1,
+        "capture_edge": 2,
+        "available_cycles": 1,
+        "complete_serial_path": true,
+        "stable_sources": [],
+        "path_class": "single_cycle_control_or_data",
+        "required_period_ns": 2.0594556480184742,
+        "actual_load": {
+          "wire_per_logic_segment_um": 10.0,
+          "wire_cap_F": 2e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+          "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+        },
+        "path_status": "formula_based_bit_arrival_envelope",
+        "eligibility_limit": null
+      },
+      {
+        "id": "gc_decode_reconstruct_path",
+        "delay_ns": 10.500414735024233,
+        "start_register": "held_native_SAR_code_input_and_old_accumulator",
+        "end_register": "existing_selected_output_accumulator",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": false,
+        "launch_edge": 0,
+        "capture_edge": 2,
+        "available_cycles": 2,
+        "complete_serial_path": true,
+        "stable_sources": [
+          "SAR_codes",
+          "input_register",
+          "input_bit",
+          "output_group",
+          "old_accumulator",
+          "GC_popcount_input_bits"
+        ],
+        "path_class": "held_reconstruction_data",
+        "required_period_ns": 5.250207367512116,
+        "actual_load": {
+          "wire_per_logic_segment_um": 10.0,
+          "wire_cap_F": 2e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+          "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+        },
+        "path_status": "formula_based_bit_arrival_envelope",
+        "eligibility_limit": null
+      },
+      {
+        "id": "gc_refresh_sign_path",
+        "delay_ns": 0.7037000574768039,
+        "start_register": "existing_SAR_signed_code_state",
+        "end_register": "existing_128bit_refresh_code_hold",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "complete_serial_path": true,
+        "stable_sources": [],
+        "path_class": "single_cycle_control_or_data",
+        "required_period_ns": 0.7037000574768039,
+        "actual_load": {
+          "wire_per_logic_segment_um": 10.0,
+          "wire_cap_F": 2e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+          "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+        },
+        "path_status": "formula_based_bit_arrival_envelope",
+        "eligibility_limit": null
+      }
+    ],
+    "raw_module_returns": {
+      "input_DFF_bits": 512.0,
+      "input_DFF_cycles": 1.0,
+      "output_DFF_bits": 1408.0,
+      "output_DFF_cycles": 1.0,
+      "operand_hold_DFF_bits": 128.0,
+      "operand_hold_DFF_cycles": 1.0,
+      "controller_DFF_bits": 31.0,
+      "controller_DFF_cycles": 1.0,
+      "boundary_setup_s": 1.8111108587456434e-10,
+      "clock_q_s": 1.8652101553965415e-10,
+      "dff_data_cap_F": 3.8157973166759144e-16,
+      "wire_cap_F": 2e-15,
+      "wire_resistance_ohm": 97.69736843647854,
+      "controller_path_s": 2.6293611478405545e-09,
+      "io_path_s": 1.2945606887501577e-09,
+      "accumulator_clear_path_s": 2.2153827539923325e-09,
+      "sar_s": 1.1000000000000001e-08,
+      "sar_active_terms": 64.0,
+      "sar_installed_count": 128.0,
+      "sar_bits": 10.0,
+      "capture_enable_path_s": 2.059455648018474e-09,
+      "gc_popcount_level0_adder_bits": 2.0,
+      "gc_popcount_level0_adder_count": 512.0,
+      "gc_popcount_level0_module_diagnostic_s": 2.00014355677003e-10,
+      "gc_popcount_level1_adder_bits": 3.0,
+      "gc_popcount_level1_adder_count": 256.0,
+      "gc_popcount_level1_module_diagnostic_s": 2.7132921807925526e-10,
+      "gc_popcount_level2_adder_bits": 4.0,
+      "gc_popcount_level2_adder_count": 128.0,
+      "gc_popcount_level2_module_diagnostic_s": 3.426440804815076e-10,
+      "gc_popcount_level3_adder_bits": 5.0,
+      "gc_popcount_level3_adder_count": 64.0,
+      "gc_popcount_level3_module_diagnostic_s": 4.1395894288375993e-10,
+      "gc_popcount_level4_adder_bits": 6.0,
+      "gc_popcount_level4_adder_count": 32.0,
+      "gc_popcount_level4_module_diagnostic_s": 4.852738052860122e-10,
+      "gc_popcount_level5_adder_bits": 7.0,
+      "gc_popcount_level5_adder_count": 16.0,
+      "gc_popcount_level5_module_diagnostic_s": 5.565886676882645e-10,
+      "gc_decode_sum_adder_bits": 12.0,
+      "gc_decode_sum_adder_count": 256.0,
+      "gc_decode_sum_module_diagnostic_s": 9.13162979699526e-10,
+      "gc_tree_l0_adder_bits": 8.0,
+      "gc_tree_l0_adder_count": 64.0,
+      "gc_tree_l0_module_diagnostic_s": 6.279035300905168e-10,
+      "gc_tree_l1_adder_bits": 10.0,
+      "gc_tree_l1_adder_count": 32.0,
+      "gc_tree_l1_module_diagnostic_s": 7.705332548950214e-10,
+      "gc_tree_l2_adder_bits": 14.0,
+      "gc_tree_l2_adder_count": 16.0,
+      "gc_tree_l2_module_diagnostic_s": 1.0557927045040309e-09,
+      "gc_acc_adder_bits": 22.0,
+      "gc_acc_adder_count": 16.0,
+      "gc_acc_module_diagnostic_s": 1.6263116037220493e-09,
+      "gc_decode_reconstruct_path_s": 1.0500414735024233e-08,
+      "gc_decode_reconstruct_nodes": 6623.0,
+      "gc_decode_reconstruct_max_source_load_F": 2.2615318176000147e-13,
+      "gc_refresh_sign_path_s": 7.037000574768038e-10,
+      "gc_refresh_sign_nodes": 13.0,
+      "gc_refresh_sign_max_source_load_F": 6.574220400000002e-16,
+      "gc_partial_count_bits": 7.0,
+      "gc_weighted_partial_bits": 14.0,
+      "same_graph_arithmetic_fixtures": 260.0,
+      "DAG_nodes_total": 6636.0,
+      "partial_initialized_module_area_m2": 4.07770356224e-08,
+      "clkFreq_hz": 181818181.8181818,
+      "technode_nm": 22.0,
+      "temperature_K": 300.0,
+      "vdd_V": 0.85,
+      "dff_cycle": 1.0,
+      "native_memcell_fields_read": 0.0
+    },
+    "module_inventory": {
+      "input_DFF": 512,
+      "output_DFF": 1408,
+      "operand_hold_DFF": 128,
+      "resident_staging_DFF": 0,
+      "mask_DFF": 0,
+      "declared_extra_DFF": {},
+      "controller_address_state_DFF": 31,
+      "longest_increment_counter_bits": 8,
+      "controller_state_allocation": "separate concurrent row/group/digit/page/phase/counter state; only the longest increment counter is on the controller critical path",
+      "controller_counter_cardinalities": {
+        "concurrent_state_bits": {
+          "input_row_group": 0,
+          "output_group": 2,
+          "input_bit_or_digit": 3,
+          "resident_transaction": 8,
+          "operation_phase": 4,
+          "completion_flags": 4,
+          "refresh_row": 6,
+          "refresh_output_group": 2,
+          "service_mode": 1,
+          "load_beat": 1
+        },
+        "counter_cardinalities": {
+          "input_row_group": 1,
+          "output_group": 4,
+          "input_bit_or_digit": 8,
+          "resident_transaction": 256,
+          "operation_phase": 16,
+          "completion_flags": 16,
+          "refresh_row": 64,
+          "refresh_output_group": 4,
+          "service_mode": 2,
+          "load_beat": 2
+        }
+      },
+      "SAR": 128,
+      "arithmetic_lanes": 16,
+      "output_bits": 22,
+      "active_terms": 64,
+      "output_bank_mux_fanin": 4,
+      "input_row_group_mux_fanin": null,
+      "input_row_group_mux_organization": null,
+      "added_payload_or_code_banks": 0,
+      "native_page_buffers_or_native_capture": "owned by retained native full service; not modeled a second time",
+      "actual_Adder_modules": {
+        "gc_popcount_level0": {
+          "bits": 2,
+          "count": 512
+        },
+        "gc_popcount_level1": {
+          "bits": 3,
+          "count": 256
+        },
+        "gc_popcount_level2": {
+          "bits": 4,
+          "count": 128
+        },
+        "gc_popcount_level3": {
+          "bits": 5,
+          "count": 64
+        },
+        "gc_popcount_level4": {
+          "bits": 6,
+          "count": 32
+        },
+        "gc_popcount_level5": {
+          "bits": 7,
+          "count": 16
+        },
+        "gc_decode_sum": {
+          "bits": 12,
+          "count": 256
+        },
+        "gc_tree_l0": {
+          "bits": 8,
+          "count": 64
+        },
+        "gc_tree_l1": {
+          "bits": 10,
+          "count": 32
+        },
+        "gc_tree_l2": {
+          "bits": 14,
+          "count": 16
+        },
+        "gc_acc": {
+          "bits": 22,
+          "count": 16
+        }
+      }
+    },
+    "coverage": {
+      "case_id": "09_gain_cell_edram",
+      "route": "public_module_plus_native_service",
+      "SubArray_used": false,
+      "array_or_device_material_simulated": false,
+      "MemCell_context": {
+        "type": "SRAM",
+        "purpose": "mandatory constructor context only",
+        "field_reads_in_called_modules": [],
+        "electrical_fields": "zero/unused; native service fields are bound by the case adapter"
+      },
+      "digital_scope": "declared gate topology and electrical load envelope; no sensitized STA or extracted wiring",
+      "aggregate_write_return": null,
+      "native_frontend_loads_validated": false,
+      "whole_macro_timing_validated": false,
+      "full_arithmetic_paths": true,
+      "conditional_paths": [],
+      "retained_unverified_arithmetic": [],
+      "SAR_scope": "nominal code width dependent conversion-latency fit; no power, array electrical accuracy, or current/voltage transfer claim"
+    },
+    "source_hold_window": {
+      "source_codes": "existing SAR result state; no E0 recapture bank",
+      "stable_sources": [
+        "SAR_codes",
+        "input_register",
+        "input_bit",
+        "output_group",
+        "old_accumulator",
+        "GC_popcount_input_bits"
+      ],
+      "source_stability": {
+        "SAR_codes": [
+          0,
+          2
+        ],
+        "input_register": [
+          0,
+          2
+        ],
+        "input_bit": [
+          0,
+          2
+        ],
+        "output_group": [
+          0,
+          2
+        ],
+        "old_accumulator": [
+          0,
+          2
+        ],
+        "GC_popcount_input_bits": [
+          0,
+          2
+        ]
+      },
+      "source_stability_edges": [
+        0,
+        2
+      ],
+      "capture_edges": [
+        2
+      ],
+      "edge_updates": {
+        "0": [
+          "launch_reconstruction"
+        ],
+        "1": [
+          "phase_only"
+        ],
+        "2": [
+          "selected_output_accumulator",
+          "next_batch_control"
+        ]
+      },
+      "phase_enable_launch_edge": 1,
+      "phase_enable_capture_edge": 2,
+      "capture_enable_at_edge1": false,
+      "phase1_action": "continuous combinational propagation; no capture",
+      "data_path_qualification": "E0 to E2 continuous two-period window; E1 does not restart the data graph",
+      "no_new_intermediate_registers": true,
+      "overlap": false,
+      "input_validity": "input vector and bit select already drove the native integration; popcount is combinational from those same held inputs, no popcount register",
+      "resource_release": "after E2 capture; no next SAR, refresh, group change or accumulator write before release"
+    },
+    "frame_preselection": null,
+    "arithmetic_checks": {
+      "same_timed_gate_graph_fixture_count": 260,
+      "passed": true,
+      "native_analog_accuracy_validated": false,
+      "fixture_role": "logic of instantiated gates; separate native numerical diagnostic remains authoritative"
+    },
+    "engineering_conditions": {
+      "node_nm": 22,
+      "roadmap": "LSTP",
+      "temperature_K": 300,
+      "wire_um_per_local_logic_net": 10.0,
+      "wire_capacitance_fF_per_um": 0.2,
+      "wire_resistance": "locked Param.cpp 22nm wire model",
+      "DFF_boundary": "two loaded inverter engineering clock-Q/setup envelope; not library characterization",
+      "gate_cell": "locked public Adder NAND dimensions/caps and formula.h Horowitz propagation",
+      "multicycle_paths": [
+        "gc_decode_reconstruct_path"
+      ],
+      "native_array_loads": "not replaced by local 10um wiring"
+    },
+    "partial_area_scope": "initialized DFF/SAR/Adder only, excludes formula mux/control and all native arrays/frontends/drivers; not macro PPA",
+    "source_manifest": "source_manifest.json",
+    "constructor_inputs": {
+      "technode": 22,
+      "temp": 300,
+      "deviceroadmap": 2,
+      "memcelltype": 1
+    },
+    "closure_status": "declared_launch_capture_windows_with_native_service_and_calibration_qualifications"
+  },
+  "adapter": {
+    "case_id": "09_gain_cell_edram",
+    "adapter_version": "step4-native-2.0.0",
+    "scheduled_counts": {
+      "input_capture": 1,
+      "analog_front": 32,
+      "sar": 32,
+      "digital_reconstruct": 64,
+      "output_commit": 1,
+      "resident_load": 256,
+      "current_program": 256,
+      "refresh_read": 256,
+      "refresh_decode_load_rewrite": 256
+    },
+    "logical_payload_Byte": {
+      "streaming": 64,
+      "resident": 4096
+    },
+    "device_identity": "GC-04 silicon CMOS pseudo-differential 3T1C gain-cell; NOT IGZO or MLP hybrid",
+    "physical_organization": {
+      "effective_capacity_Byte": 4096,
+      "physical_capacity": {
+        "gain_cells": 65536,
+        "pseudodifferential_pairs": 32768,
+        "tiles": 8,
+        "tile_pair_rows": 64,
+        "tile_pair_columns": 64
+      },
+      "necessary_encoding": "8binary endpoint planes;eachbit two3T1C cells with(700,0) or(0,700)nA;no logical duplication",
+      "independent_payload_replicas": 1,
+      "update_mode": "16aligned INT8 weights per transaction;256 transactions complete4KiB matrix",
+      "native_rationale": "GC-04measured64x64pair local load;8bit planes encodeone64x64INT8matrix without unnecessary2x2 spatial expansion",
+      "cells_per_INT8_weight": 16,
+      "data_storage_sites": 65536,
+      "signal_enhancement_replication": 1,
+      "complementary_encoding_factor": 2,
+      "neurosim_array_assignment": {
+        "numRowSubArray": null,
+        "numColSubArray": null,
+        "status": "requires_per_primitive_topology_adapter",
+        "rule": "Never substitute logical K,N for a physical array; preserve native banks, plane orientation, active rows, isolation and access direction."
+      },
+      "source_refs": [
+        {
+          "source_id": "results",
+          "json_pointer": "/native_configuration"
+        }
+      ],
+      "access_direction": "Eight64x64 pseudo-differential pair tiles,one binary plane per tile;each pair stores(700,0)or(0,700)nA;two3T1C cells per bit."
+    },
+    "native_resources": {
+      "differential_ADC": 128,
+      "ADC_per_weight_plane": 16,
+      "analog_integration_fF_per_branch": 200,
+      "analog_integration_total_pF": 51.2,
+      "digital_output_lanes": 16,
+      "digital_ticks_per_reconstruction": 2,
+      "write_pair_drivers": 128,
+      "write_branches": 256,
+      "encoded_interface_bits": 128,
+      "refresh_sign_decoders": 128,
+      "refresh_code_hold_bits": 128,
+      "full_matrix_shadow_bits": 0,
+      "input_register_bits": 512,
+      "output_register_bits": 1408
+    },
+    "write_semantics": {
+      "electrical_drive_outputs": {
+        "value": 256,
+        "unit": "electrical_output",
+        "meaning": "Biased/current-driven electrical outputs; not a programming target count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_branches"
+          }
+        ]
+      },
+      "program_driver_channels": {
+        "value": 128,
+        "unit": "pair_programmer",
+        "meaning": "Explicit independent drive channels when reported; page-engine or distributed bias outputs do not establish this count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_pair_drivers"
+          }
+        ]
+      },
+      "selected_storage_targets": {
+        "value": 128,
+        "unit": "complementary_pair",
+        "meaning": "Addressed storage targets per selected_batch; phase and plane organization remain explicit.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_pair_drivers"
+          }
+        ]
+      },
+      "target_scope": "selected_batch",
+      "logical_bits_per_target": {
+        "value": 1,
+        "unit": "logical_bit/complementary_pair",
+        "meaning": "One binary state/pair before INT8 plane and NAND encoding expansion.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "physical_cells_per_target": {
+        "value": 2,
+        "unit": "storage_cell/complementary_pair",
+        "meaning": "Complementary storage branches per addressed target.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "logical_payload_per_transaction": {
+        "value": 16,
+        "unit": "Byte",
+        "meaning": "Workload payload for an indivisible resident transaction; not bias outputs or port beats.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "encoded_bits_per_load_unit": {
+        "value": 256,
+        "unit": "encoded_bit",
+        "meaning": "Encoded bits in one native page for NOR/NAND; otherwise one resident transaction.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "load_unit_scope": "resident_transaction",
+      "data_port_width": {
+        "value": 128,
+        "unit": "bit/beat",
+        "meaning": "External encoded port width; not physical program parallelism.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "update_domains": {
+        "value": 1,
+        "unit": "update_domain",
+        "meaning": "One native independently scheduled update domain.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "full_matrix_transactions": {
+        "value": 256,
+        "unit": "transaction",
+        "meaning": "B_R_Byte / logical_payload_per_transaction, exact integer division.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "program_parallelism_source": "selected_storage_targets plus explicitly reported channels, phases and planes; never electrical_drive_outputs or data_port_width",
+      "transaction_count_rule": "B_R_Byte / logical_payload_per_transaction; reject nonintegral division",
+      "program_batches_per_transaction": 1,
+      "program_batch_count_rule": "program_batches_per_load_unit * load_units_per_transaction; batch is a native selection/program-service target group, not an internal pulse/head count; phase/retry services remain separately scheduled.",
+      "phase_semantics": "128 pair programmers service 256 electrical branches = 128 binary bits = 16 Byte; 256 encoded bits take two 128-bit beats.",
+      "phase_targets": [
+        {
+          "value": 128,
+          "unit": "complementary_pair",
+          "meaning": "One current-program group.",
+          "status": "specified",
+          "source_refs": []
+        },
+        {
+          "value": 256,
+          "unit": "storage_branch",
+          "meaning": "Two current-feedback branches per pair, 128 logical bits.",
+          "status": "specified",
+          "source_refs": []
+        }
+      ],
+      "load_units_per_transaction": 1,
+      "program_batches_per_load_unit": 1
+    },
+    "primitive_inputs_ns": {
+      "input_step": 5,
+      "adc_batch": 20,
+      "digital_tick": 5,
+      "program_complete": 65.0,
+      "common_read_overhead": 86.0,
+      "mac_integration": 1.0,
+      "refresh_integration": 64.0,
+      "refresh_period": 400000.0,
+      "binary_verify_sense_ns": 20
+    },
+    "digital_period_ns": 5.5,
+    "boundary_semantics": "cycle: ceil(t/P)+nP, destination setup belongs to path; capture-only: ceil((t+setup)/P), zero added cycle; included native capture is not repeated",
+    "capture_budget_revision": "NOR/FeNOR tile capture and MRAM/FeNOR terminal capture: old one-tick budget replaced by exact eligible sampling edge; MRAM tile capture/isolation retains one full cycle",
+    "SAR_ns": 11.000000000000002,
+    "upstream_aggregate_write_latency_ns": null,
+    "MAC_frame_lifecycle": "input vector and row/output group already selected at native read launch; group held for all 8 bit operations; ibit and output accumulator may change each bit",
+    "downstream_ready": "explicit boundary only after final physical service without existing digital consumer",
+    "retained_service_policy": "opaque native cycles remain whole; only separately declared consumers use NeuroSim",
+    "overlap": false,
+    "maintenance_workload_Byte": 0,
+    "maintenance_release_policy": "early_release",
+    "maintenance_schedule": "One full ordered sweep every retention period; atomic workload guard is recomputed by scheduler.",
+    "qualification_gap": "Retention is conditional endpoint evidence, not a repeated-refresh error guarantee; current-program load isolates added 200fF integration nodes."
+  },
+  "source_provenance": {
+    "baseline_repository": "https://github.com/bcacdwk/CIM_roofline",
+    "baseline_v3_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+    "profile": "reference",
+    "sources": {
+      "inputs": {
+        "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/inputs.json",
+        "sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "results": {
+        "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/results.json",
+        "sha256": "0babd5c35d3033d2fc58d18150983bd8ebf2fb3226f2ca62b9240f3681f903ea",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "calculator": {
+        "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/scripts/check_gain_cell_edram.py",
+        "sha256": "992808d81825f678ef97a38bb83893d20ed4183424d4b704a3e44f21a87a22d1",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+        "functions": {
+          "calc": {
+            "start_line": 14,
+            "end_line": 92
+          }
+        }
+      },
+      "shared": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/data/shared_parameters.json",
+        "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "shared_calculator": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/scripts/check_shared.py",
+        "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+        "functions": {
+          "logical_configuration": {
+            "start_line": 61,
+            "end_line": 69
+          }
+        }
+      },
+      "method": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/tex/02_estimation_method.tex",
+        "sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      }
+    },
+    "prior_performance_values_imported": false
+  },
+  "schedule_policy": {
+    "kind": "strict_serial_ordered_templates_no_overlap",
+    "edge_rule": "physical subsequences continuous; align at explicit digital consumer or boundary",
+    "steady_interval_proof": "second full service from previous completion and expanded-template equivalence",
+    "maintenance": "separate raw request latency and long-term availability-adjusted service cost"
+  }
+}

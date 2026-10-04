@@ -1,0 +1,352 @@
+{
+  "case_id": "05_rram",
+  "mode": "v3_original_time_replay",
+  "new_neurosim_times": false,
+  "new_boundary_alignment": false,
+  "raw_delta_S_ns": 5130.0,
+  "raw_T_R_ns": 1911760.0000000005,
+  "maintenance_busy_ns": 0.0,
+  "stage_ledger": {
+    "input_capture": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ]
+    },
+    "analog_front": {
+      "count": 128,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "cim_front": 640.0,
+        "input_reset": 640
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/service_modes/0"
+        }
+      ]
+    },
+    "sar": {
+      "count": 128,
+      "total_ns": 2560.0,
+      "components_ns": {
+        "shared_ADC": 2560
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    "digital_reconstruct": {
+      "count": 256,
+      "total_ns": 1280.0,
+      "components_ns": {
+        "retained_digital_schedule": 1280
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/acim"
+        }
+      ]
+    },
+    "output_commit": {
+      "count": 1,
+      "total_ns": 5.0,
+      "components_ns": {
+        "retained_digital_schedule": 5
+      },
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ]
+    },
+    "rail_setup": {
+      "count": 1,
+      "total_ns": 1000.0000000000001,
+      "components_ns": {
+        "rail_setup": 1000.0000000000001
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/rail_lifecycle_ns"
+        }
+      ]
+    },
+    "resident_front": {
+      "count": 512,
+      "total_ns": 5120.0,
+      "components_ns": {
+        "retained_digital_schedule": 5120
+      },
+      "source_refs": [
+        {
+          "source_id": "calculator",
+          "function": "write_service"
+        }
+      ]
+    },
+    "program_attempts": {
+      "count": 1536,
+      "total_ns": 1850880.0000000005,
+      "components_ns": {
+        "local_setup": 153600.00000000003,
+        "SET_pulse": 1536000.0000000002,
+        "local_return": 153600.00000000003,
+        "attempt_control": 7680
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/group_attempt_scenarios/reference"
+        },
+        {
+          "source_id": "calculator",
+          "function": "write_service"
+        }
+      ]
+    },
+    "endpoint_verify": {
+      "count": 1536,
+      "total_ns": 46080.0,
+      "components_ns": {
+        "input_reset": 7680,
+        "memory_front": 7680.0,
+        "independent_binary_window": 30720.0
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/binary_sense_slot_ns"
+        },
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/binary_windows"
+        }
+      ]
+    },
+    "attempt_done": {
+      "count": 1536,
+      "total_ns": 7680.0,
+      "components_ns": {
+        "retained_digital_schedule": 7680
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/verify_group_done_commit_ticks_per_attempt"
+        }
+      ]
+    },
+    "rail_exit": {
+      "count": 1,
+      "total_ns": 1000.0000000000001,
+      "components_ns": {
+        "rail_exit": 1000.0000000000001
+      },
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/adopted_inputs/failure_policy"
+        }
+      ]
+    }
+  },
+  "schedule_trace": [
+    {
+      "path": "streaming/0",
+      "stage_id": "input_capture",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/0",
+      "stage_id": "analog_front",
+      "count": 128,
+      "context": {},
+      "per_occurrence_ns": 10.0,
+      "components_each_ns": {
+        "cim_front": 5.0,
+        "input_reset": 5
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/1",
+      "stage_id": "sar",
+      "count": 128,
+      "context": {},
+      "per_occurrence_ns": 20,
+      "components_each_ns": {
+        "shared_ADC": 20
+      }
+    },
+    {
+      "path": "streaming/1/input_bit_row_output_group/2",
+      "stage_id": "digital_reconstruct",
+      "count": 256,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "streaming/2",
+      "stage_id": "output_commit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/0",
+      "stage_id": "rail_setup",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 1000.0000000000001,
+      "components_each_ns": {
+        "rail_setup": 1000.0000000000001
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/0",
+      "stage_id": "resident_front",
+      "count": 512,
+      "context": {},
+      "per_occurrence_ns": 10,
+      "components_each_ns": {
+        "retained_digital_schedule": 10
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/1/RESET_attempt/0",
+      "stage_id": "program_attempts",
+      "count": 1024,
+      "context": {
+        "phase": "SET"
+      },
+      "per_occurrence_ns": 1205.0000000000002,
+      "components_each_ns": {
+        "local_setup": 100.00000000000001,
+        "SET_pulse": 1000.0000000000001,
+        "local_return": 100.00000000000001,
+        "attempt_control": 5
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/1/RESET_attempt/1",
+      "stage_id": "endpoint_verify",
+      "count": 1024,
+      "context": {
+        "phase": "SET"
+      },
+      "per_occurrence_ns": 30.0,
+      "components_each_ns": {
+        "input_reset": 5,
+        "memory_front": 5.0,
+        "independent_binary_window": 20.0
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/1/RESET_attempt/2",
+      "stage_id": "attempt_done",
+      "count": 1024,
+      "context": {
+        "phase": "SET"
+      },
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/2/masked_SET_attempt/0",
+      "stage_id": "program_attempts",
+      "count": 512,
+      "context": {
+        "phase": "SET"
+      },
+      "per_occurrence_ns": 1205.0000000000002,
+      "components_each_ns": {
+        "local_setup": 100.00000000000001,
+        "SET_pulse": 1000.0000000000001,
+        "local_return": 100.00000000000001,
+        "attempt_control": 5
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/2/masked_SET_attempt/1",
+      "stage_id": "endpoint_verify",
+      "count": 512,
+      "context": {
+        "phase": "SET"
+      },
+      "per_occurrence_ns": 30.0,
+      "components_each_ns": {
+        "input_reset": 5,
+        "memory_front": 5.0,
+        "independent_binary_window": 20.0
+      }
+    },
+    {
+      "path": "resident/1/16B_transaction/2/masked_SET_attempt/2",
+      "stage_id": "attempt_done",
+      "count": 512,
+      "context": {
+        "phase": "SET"
+      },
+      "per_occurrence_ns": 5,
+      "components_each_ns": {
+        "retained_digital_schedule": 5
+      }
+    },
+    {
+      "path": "resident/2",
+      "stage_id": "rail_exit",
+      "count": 1,
+      "context": {},
+      "per_occurrence_ns": 1000.0000000000001,
+      "components_each_ns": {
+        "rail_exit": 1000.0000000000001
+      }
+    }
+  ],
+  "input_times_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "cim_front": 5.0,
+    "memory_verify_front": 5.0,
+    "reset_pulse": 1000.0000000000001,
+    "set_pulse": 1000.0000000000001,
+    "local_setup": 100.00000000000001,
+    "local_return": 100.00000000000001,
+    "rail_setup": 1000.0000000000001,
+    "rail_exit": 1000.0000000000001,
+    "binary_verify_sense_ns": 20.0
+  },
+  "comparison_source": {
+    "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/results.json",
+    "json_pointer": "/scenarios/1",
+    "usage": "comparison_only_after_aggregation"
+  }
+}

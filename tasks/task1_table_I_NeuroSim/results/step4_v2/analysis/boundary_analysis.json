@@ -1,0 +1,304 @@
+{
+  "note": "Read-only local hypothesis study; V1 backend/clock/physical parameters fixed. No production changes. Candidate capture conversion needs stage-specific source interpretation (MRAM isolation handoff may justify operation).",
+  "fixed_period_variants": [
+    {
+      "case": "03_nor_2d",
+      "period_ns": 10.0,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 7060.0,
+        "resident": 205612280.0,
+        "maintenance": 0.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 6740.0,
+        "resident": 205612240.0,
+        "maintenance": 0.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 6740.0,
+        "resident": 205612240.0,
+        "maintenance": 0.0
+      }
+    },
+    {
+      "case": "04_nand_3d",
+      "period_ns": 9.0,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 685710.0,
+        "resident": 1923285366.0,
+        "maintenance": 0.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 685710.0,
+        "resident": 1923285366.0,
+        "maintenance": 0.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 685710.0,
+        "resident": 1923285366.0,
+        "maintenance": 0.0
+      },
+      "arithmetic_budget_sensitivity": [
+        {
+          "factor": 1,
+          "streaming": 685710.0,
+          "resident": 1923285366.0,
+          "maintenance": 0.0,
+          "streaming_increase_fraction": 0.0,
+          "resident_increase_fraction": 0.0
+        },
+        {
+          "factor": 2,
+          "streaming": 694350.0,
+          "resident": 1923289398.0,
+          "maintenance": 0.0,
+          "streaming_increase_fraction": 0.012600078750492294,
+          "resident_increase_fraction": 2.0964127691591727e-06
+        },
+        {
+          "factor": 4,
+          "streaming": 711630.0,
+          "resident": 1923297462.0,
+          "maintenance": 0.0,
+          "streaming_increase_fraction": 0.03780023625147666,
+          "resident_increase_fraction": 6.289238307477518e-06
+        }
+      ]
+    },
+    {
+      "case": "06_mram",
+      "period_ns": 11.0,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 1782.0,
+        "resident": 168960.0,
+        "maintenance": 0.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 1782.0,
+        "resident": 168960.0,
+        "maintenance": 0.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 1606.0,
+        "resident": 146432.0,
+        "maintenance": 0.0
+      }
+    },
+    {
+      "case": "07_pcm",
+      "period_ns": 9.5,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 116755.0,
+        "resident": 4854272.0,
+        "maintenance": 0.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 116755.0,
+        "resident": 4854272.0,
+        "maintenance": 0.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 116755.0,
+        "resident": 4854272.0,
+        "maintenance": 0.0
+      }
+    },
+    {
+      "case": "08_feram_hfo2",
+      "period_ns": 10.0,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 6100.0,
+        "resident": 174080.0,
+        "maintenance": 0.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 6100.0,
+        "resident": 174080.0,
+        "maintenance": 0.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 6100.0,
+        "resident": 174080.0,
+        "maintenance": 0.0
+      }
+    },
+    {
+      "case": "09_gain_cell_edram",
+      "period_ns": 11.0,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 4246.0,
+        "resident": 25344.0,
+        "maintenance": 73216.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 4246.0,
+        "resident": 25344.0,
+        "maintenance": 73216.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 4246.0,
+        "resident": 25344.0,
+        "maintenance": 73216.0
+      }
+    },
+    {
+      "case": "10_fenor_3d",
+      "period_ns": 10.0,
+      "setup_ns": 0.18111108587456434,
+      "V1": {
+        "streaming": 4500.0,
+        "resident": 337920.0,
+        "maintenance": 0.0
+      },
+      "all_operations_cycle_inclusive_setup": {
+        "streaming": 4180.0,
+        "resident": 327680.0,
+        "maintenance": 0.0
+      },
+      "capture_only_as_boundary_hypothesis": {
+        "streaming": 4180.0,
+        "resident": 327680.0,
+        "maintenance": 0.0
+      }
+    }
+  ],
+  "edge_examples": [
+    {
+      "physical_complete_ns": 0.0,
+      "cycle_operation_end_ns": 10.0,
+      "capture_boundary_end_ns": 10.0,
+      "V1_setup_plus_operation_end_ns": 20.0
+    },
+    {
+      "physical_complete_ns": 9.9,
+      "cycle_operation_end_ns": 20.0,
+      "capture_boundary_end_ns": 10.0,
+      "V1_setup_plus_operation_end_ns": 20.0
+    },
+    {
+      "physical_complete_ns": 9.95,
+      "cycle_operation_end_ns": 20.0,
+      "capture_boundary_end_ns": 10.0,
+      "V1_setup_plus_operation_end_ns": 20.0
+    },
+    {
+      "physical_complete_ns": 9.99,
+      "cycle_operation_end_ns": 20.0,
+      "capture_boundary_end_ns": 20.0,
+      "V1_setup_plus_operation_end_ns": 30.0
+    },
+    {
+      "physical_complete_ns": 10.0,
+      "cycle_operation_end_ns": 20.0,
+      "capture_boundary_end_ns": 20.0,
+      "V1_setup_plus_operation_end_ns": 30.0
+    },
+    {
+      "physical_complete_ns": 10.01,
+      "cycle_operation_end_ns": 30.0,
+      "capture_boundary_end_ns": 20.0,
+      "V1_setup_plus_operation_end_ns": 30.0
+    }
+  ],
+  "pilot_read_only_replay": [
+    {
+      "case": "01_sram_acim",
+      "streaming": 2890.0,
+      "resident": 5120.0,
+      "digital_entry_margins_all_zero": true,
+      "boundary_events": [
+        {
+          "id": "native_write_accept",
+          "margin_ns": 0,
+          "resources": [
+            "encoded_interface_bits"
+          ]
+        },
+        {
+          "id": "native_write_accept",
+          "margin_ns": 0,
+          "resources": [
+            "encoded_interface_bits"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "02_sram_dcim",
+      "streaming": 330.0,
+      "resident": 640.0,
+      "digital_entry_margins_all_zero": true,
+      "boundary_events": [
+        {
+          "id": "sram_write_accept",
+          "margin_ns": 0,
+          "resources": [
+            "encoded_interface_bits",
+            "external_update_domains"
+          ]
+        },
+        {
+          "id": "sram_write_accept",
+          "margin_ns": 0,
+          "resources": [
+            "encoded_interface_bits",
+            "external_update_domains"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "05_rram",
+      "streaming": 4490.0,
+      "resident": 1911765.0,
+      "digital_entry_margins_all_zero": true,
+      "boundary_events": [
+        {
+          "id": "matrix_publish",
+          "margin_ns": 0.18111108587456434,
+          "resources": [
+            "controller_32b"
+          ]
+        }
+      ]
+    }
+  ],
+  "operation_wrapper_invariance": [
+    {
+      "complete_ns": 0.0,
+      "direct_2cycle": 20.0,
+      "launch_boundary_plus_two_1cycle_phases": 20.0
+    },
+    {
+      "complete_ns": 9.9,
+      "direct_2cycle": 30.0,
+      "launch_boundary_plus_two_1cycle_phases": 30.0
+    },
+    {
+      "complete_ns": 9.95,
+      "direct_2cycle": 30.0,
+      "launch_boundary_plus_two_1cycle_phases": 30.0
+    },
+    {
+      "complete_ns": 9.99,
+      "direct_2cycle": 30.0,
+      "launch_boundary_plus_two_1cycle_phases": 30.0
+    },
+    {
+      "complete_ns": 10.0,
+      "direct_2cycle": 30.0,
+      "launch_boundary_plus_two_1cycle_phases": 30.0
+    },
+    {
+      "complete_ns": 10.01,
+      "direct_2cycle": 40.0,
+      "launch_boundary_plus_two_1cycle_phases": 40.0
+    }
+  ]
+}
