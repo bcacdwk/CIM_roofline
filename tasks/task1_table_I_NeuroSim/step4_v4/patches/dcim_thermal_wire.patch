@@ -1,0 +1,12 @@
+--- a/Param.cpp
++++ b/Param.cpp
+@@ -582,6 +582,9 @@
+ 
+ 	Rho_Metal1 = Rho_Metal1 * 1 / (1- ( (2*AR_Metal1*Metal1 + Metal1)*barrierthickness / (AR_Metal1*pow(Metal1,2) ) ));
+ 	
++	// V4 thermal consistency: same native coefficient used below for general wire Rho.
++	Rho_Metal0 *= (1+0.00451*abs(temp-300));
++	Rho_Metal1 *= (1+0.00451*abs(temp-300));
+ 	Metal0_unitwireresis =  Rho_Metal0 / ( Metal0*1e-9 * Metal0*1e-9 * AR_Metal0 );
+ 	Metal1_unitwireresis =  Rho_Metal1 / ( Metal1*1e-9 * Metal1*1e-9 * AR_Metal1 );
+ 	

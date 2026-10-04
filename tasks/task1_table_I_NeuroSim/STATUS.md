@@ -104,3 +104,9 @@
 共同256×31 signed INT8：ACIM Δ/T_R=4546.745/2008.289ns；1T1R RRAM=10841.397/470779.335ns；专用SRAM DCIM=147.880/2912.094ns。ADC名义校准、RRAM单脉冲验收／稳定供电与native状态更新、DFF抽象等条件不升级为硅验证。
 
 停止在V3，等待用户及外部ChatGPT后续审阅。外部ChatGPT未验收本轮；无git暂存、提交、推送，不开展Step5或论文修改。
+
+## 2026-10-05 追加：Step4 V4
+
+三例参考审查、必要修正、九个成对热设计情景及PNG/SVG表图已完成，独立新构建复核为带明确模型条件通过。350K温热reference的Δ_S/T_R分别为：ACIM1.990/2.603μs、banked1T1R RRAM51.945/543.973μs、SRAM DCIM0.190/3.741μs。不是统计典型值或精度／硅认证。
+
+[报告与条件](step4_v4/REPORT.zh.md) · [独立审查](step4_v4/reports/review.json)。本地完整运行 `/Users/shine/neurosim/runs/step4-v4/reference-v4-20261005`；仅精简交付在`step4_v4/`。旧V3/V2/pilots/NVM/TableII/论文与锁定上游未改，无暂存／提交／推送。停止V4，等待用户及外部ChatGPT审阅，不进入更多器件、workload或论文。

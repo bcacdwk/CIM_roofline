@@ -1,0 +1,558 @@
+{
+  "schema": "step4-v4-independent-review.1",
+  "status": "PASS_WITH_EXPLICIT_MODEL_CONDITIONS",
+  "blocking_findings": [],
+  "reviewer_identity": {
+    "agent": "/root/v4_reviewer",
+    "new_for_this_V4_review": true,
+    "production_code_author": false,
+    "not_the_prior_V3_reviewer": true,
+    "known_prior_engineering_participation_in_this_thread": false,
+    "interpretation": "Independent model/service/source review; not user or external ChatGPT acceptance."
+  },
+  "reviewed_repository_HEAD": "752d7329d031d3b341df4f60971f8a65191fb54d",
+  "independent_run": "/Users/shine/neurosim/runs/step4-v4/reviewer-ninepoints-20261005",
+  "primary_run": "/Users/shine/neurosim/runs/step4-v4/reference-v4-20261005",
+  "fresh_main_points": 9,
+  "fresh_diagnostics": 9,
+  "fresh_builds": 18,
+  "reproduction": {
+    "onlyV4_package": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/only_v4",
+    "source_manifests_identical_to_primary": true,
+    "all_nine_result_rows_and_native_raw_fields_identical": true,
+    "no_historical_result_or_replay_dependency_detected": true,
+    "dependency_audit_scope": "Python file-open/subprocess audit for launcher workers and postprocessing; compiler and service command provenance checked separately. Locked native upstream remains required source. Not an OS-wide syscall trace.",
+    "main_and_independent_three_PNG_hashes_identical": true
+  },
+  "resolved_source_findings": [
+    {
+      "issue": "RRAM1bit RowDecoder phase selection had numNand=numNor=0 but unconditional MUX timing; missing area/caps",
+      "resolution": "Replaced by explicit complementary INV selection with real load/RC and area; final verify includes sticky lane mismatch, phase reduction and bounded failure semantics."
+    },
+    {
+      "issue": "MUX enableNAND serial resistance / real driver predecessor capacitance and NOR fanin consistency",
+      "resolution": "Actual NAND2 seriesR, driver input cap and actual NOR fanin used in canonical patches."
+    },
+    {
+      "issue": "Odd address predecoder INV ignored direct NOR fanout, severe for512word staging",
+      "resolution": "Source Power fanout reused as max input INV load; existing serial native chain disclosed as conservative envelope, not exact STA. Independent original C++ probe preserved."
+    },
+    {
+      "issue": "ACIM second external input capture lacked a held-input contract",
+      "resolution": "One external capture with input register retained across both passes; phase/selection costs retained."
+    },
+    {
+      "issue": "RRAM final reduction area changed after layout iteration; prior components exceeded reported envelope12–14%",
+      "resolution": "Every iteration and final pass reconstruct tree/correction/routes; actual sum fits fixed-rule square footprint in all three temperatures."
+    },
+    {
+      "issue": "Shared Bus direction and many D-pin endpoint loads lacked physical identity",
+      "resolution": "16read and16write directional32bit point links, hub mux, explicit root/bank/staging2INV drivers and actual pin/wire caps installed; external writeport remains32bit."
+    },
+    {
+      "issue": "Declared logical shape/precision and arbitrary overrides could look authoritative without supported consumption",
+      "resolution": "Fixed256x31 INT8 enforced, unknown overrides rejected, actual request/constructor/native thermal fields and causal consumers independently audited."
+    }
+  ],
+  "qualification_conditions": {
+    "ns_sram_acim": [
+      "256-row stock parallel SRAM read stability and calibrated transfer remain unverified.",
+      "Nominal9bit ADC capacity and25bit result container are not measured ENOB."
+    ],
+    "ns_rram_1t1r": [
+      "Generic8k/24k RRAM +5k access and1V10ns programming are model reference inputs, not a jointly measured22nm material pack.",
+      "Requires stiff read rail, nominal calibrated ADC gain and successful bounded program-verify; failure does not publish compute-ready.",
+      "Q4 is a preserved representation. Full-positive error4.30/4.69/5.08%, zero-exact signed-cancel residual16891/762/889, and mixed-vector max relative error11.625/4.78125/2.80208 prevent an exact-INT8 or weak-signal accuracy claim.",
+      "Linear ladder/first-order ADC settling omit stochastic variability, nonlinear access I-V, ADC noise, ENOB and extracted layout."
+    ],
+    "ns_sram_dcim": [
+      "Exact nominal digital mapping is verified; native SRAM/clock abstractions are not transistor or clock-tree signoff."
+    ],
+    "common": [
+      "300/350/400K are finite fixed-architecture design scenarios, with native resizing.350K is warm reference, not a statistical median or one-chip PVT.",
+      "Native SAR time formulas remain temperature-independent. The thermal range does not cover material uncertainty.",
+      "Stable external rails, local macro ports, mutually exclusive read/write, native DFF/reset/enable abstraction; no optimal-throughput, equal-area or general workload accuracy ranking."
+    ]
+  },
+  "RRAM_finite_physical_vector_results": {
+    "optimistic": {
+      "partial_count_max_checked_abs_error": 0.677691992955328,
+      "full_positive_relative_error": 0.04296875,
+      "zero_exact_signed_cancel_residual": 16891.0,
+      "mixed_max_relative_error_nonzero_only": 11.625
+    },
+    "reference": {
+      "partial_count_max_checked_abs_error": 0.7486159184973857,
+      "full_positive_relative_error": 0.046875,
+      "zero_exact_signed_cancel_residual": 762.0,
+      "mixed_max_relative_error_nonzero_only": 4.78125
+    },
+    "pessimistic": {
+      "partial_count_max_checked_abs_error": 0.8189380081045456,
+      "full_positive_relative_error": 0.05078125,
+      "zero_exact_signed_cancel_residual": 889.0,
+      "mixed_max_relative_error_nonzero_only": 2.8020833333333335
+    }
+  },
+  "rejected_candidate_claim": {
+    "claim": "V3 ideal two-codes/count half-up subtraction must incur multiactive +/-1LSB error",
+    "review_conclusion": "False for unclipped ideal linear transfer: Q(a+2m)-Q(a)=2m. Fractional baseline alone is not an integer-algebra defect. The actual issue is distributed resistance and fixed codes not being a generic changed-input interface."
+  },
+  "coverage_interpretation": "Named checks demonstrate these native input/service/resource/geometry dependencies and selected numerical mechanisms. Assertion counts are not physical model coverage, ENOB, Monte-Carlo confidence, or application accuracy.",
+  "plots": {
+    "actual_SVG_nine_marker_positions_and_colors_checked": true,
+    "equal_log10_screen_scale_checked": true,
+    "RI1_line_45_degrees": true,
+    "endpoint_and_reference_circle_geometry_independently_reconstructed": true,
+    "circle_fallbacks": [
+      null,
+      null,
+      null
+    ],
+    "all_three_final_PNGs_visually_inspected": true,
+    "PDF_QA_claimed": false
+  },
+  "case_results": [
+    {
+      "case_id": "ns_sram_acim",
+      "scenario": "optimistic",
+      "paired_id": "ns_sram_acim__optimistic",
+      "status": "conditional_sram_analog_transfer",
+      "qualification": "Timing architecture conditional on 256-row SRAM read stability and calibrated analog transfer; nominal9bits are not ENOB.",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "temperature_K": 300,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 1831.0156524956742,
+      "delta_S_ns": 1831.0156524956742,
+      "T_R_ns": 2008.2888562822413,
+      "rho_MB_per_s": 139.81311391362055,
+      "tau_MB_per_s": 3951.622783333659,
+      "RI_star": 0.03538118934410833,
+      "U_star": 1.0968168696673584,
+      "conditions": [
+        "nominal9bit SAR code contract, not ENOB guarantee",
+        "upstream SRAM parallel abstract model, not9T1C reproduction",
+        "steady power rails; local macro ports; nonoverlap service policy",
+        "Native SRAM parallel model is a timing abstraction; multi-row read stability and analog transfer require physical calibration."
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 1,
+      "physical_bank_rows": 256.0,
+      "adc_count": 32.0,
+      "output_bits": 25,
+      "fractional_output_bits": 0
+    },
+    {
+      "case_id": "ns_sram_acim",
+      "scenario": "reference",
+      "paired_id": "ns_sram_acim__reference",
+      "status": "conditional_sram_analog_transfer",
+      "qualification": "Timing architecture conditional on 256-row SRAM read stability and calibrated analog transfer; nominal9bits are not ENOB.",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "temperature_K": 350,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 1989.6018821206737,
+      "delta_S_ns": 1989.6018821206737,
+      "T_R_ns": 2602.6923034666993,
+      "rho_MB_per_s": 128.66895749371483,
+      "tau_MB_per_s": 3049.150293113601,
+      "RI_star": 0.0421982995670332,
+      "U_star": 1.3081472865780293,
+      "conditions": [
+        "nominal9bit SAR code contract, not ENOB guarantee",
+        "upstream SRAM parallel abstract model, not9T1C reproduction",
+        "steady power rails; local macro ports; nonoverlap service policy",
+        "Native SRAM parallel model is a timing abstraction; multi-row read stability and analog transfer require physical calibration."
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 1,
+      "physical_bank_rows": 256.0,
+      "adc_count": 32.0,
+      "output_bits": 25,
+      "fractional_output_bits": 0
+    },
+    {
+      "case_id": "ns_sram_acim",
+      "scenario": "pessimistic",
+      "paired_id": "ns_sram_acim__pessimistic",
+      "status": "conditional_sram_analog_transfer",
+      "qualification": "Timing architecture conditional on 256-row SRAM read stability and calibrated analog transfer; nominal9bits are not ENOB.",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "temperature_K": 400,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 2175.411317286626,
+      "delta_S_ns": 2175.411317286626,
+      "T_R_ns": 3318.232060029048,
+      "rho_MB_per_s": 117.67889500515555,
+      "tau_MB_per_s": 2391.6350202253566,
+      "RI_star": 0.049204370236252445,
+      "U_star": 1.5253354773238257,
+      "conditions": [
+        "nominal9bit SAR code contract, not ENOB guarantee",
+        "upstream SRAM parallel abstract model, not9T1C reproduction",
+        "steady power rails; local macro ports; nonoverlap service policy",
+        "Native SRAM parallel model is a timing abstraction; multi-row read stability and analog transfer require physical calibration."
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 1,
+      "physical_bank_rows": 256.0,
+      "adc_count": 32.0,
+      "output_bits": 25,
+      "fractional_output_bits": 0
+    },
+    {
+      "case_id": "ns_rram_1t1r",
+      "scenario": "optimistic",
+      "paired_id": "ns_rram_1t1r__optimistic",
+      "status": "conditional_rram_segmented_approx_Q4",
+      "qualification": "Segmented linear DC qualification and approximate Q4 output, stiff read-rail condition, generic reference device and successful bounded program-verify demand; not measured device statistics or ENOB.",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "temperature_K": 300,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 288.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 39776.8474013143,
+      "delta_S_ns": 39776.8474013143,
+      "T_R_ns": 434378.77760110784,
+      "rho_MB_per_s": 6.435904721587897,
+      "tau_MB_per_s": 18.26976917202817,
+      "RI_star": 0.35227071896680306,
+      "U_star": 10.920392287970895,
+      "conditions": [
+        "16banks each16x288cells with32ADCs,512ADCs total; 32bit shared external port with separate native single-direction read/write pointlinks, hub selection and explicit partial staging/reduction",
+        "Nominal ADC gain from actual Ron/Roff/access/readbias with16codes/count; 29bit signedQ4 output keeps fractional information",
+        "Main conditional demand is first-attempt success under a fixedtwo-attempt row-phase retry controller; failure atbound never publishesready",
+        "Stiff readsource rail remains an explicit input-boundary condition, not verified high-voltage supply or material behavior",
+        "Read masks released using native zero-mask setup before gather and after each resident bank"
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 16.0,
+      "physical_bank_rows": 16.0,
+      "adc_count": 512.0,
+      "output_bits": 29.0,
+      "fractional_output_bits": 4.0
+    },
+    {
+      "case_id": "ns_rram_1t1r",
+      "scenario": "reference",
+      "paired_id": "ns_rram_1t1r__reference",
+      "status": "conditional_rram_segmented_approx_Q4",
+      "qualification": "Segmented linear DC qualification and approximate Q4 output, stiff read-rail condition, generic reference device and successful bounded program-verify demand; not measured device statistics or ENOB.",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "temperature_K": 350,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 288.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 51945.04320870549,
+      "delta_S_ns": 51945.04320870549,
+      "T_R_ns": 543972.8130816448,
+      "rho_MB_per_s": 4.928285437581403,
+      "tau_MB_per_s": 14.588964391514335,
+      "RI_star": 0.33780913472158025,
+      "U_star": 10.472083176368988,
+      "conditions": [
+        "16banks each16x288cells with32ADCs,512ADCs total; 32bit shared external port with separate native single-direction read/write pointlinks, hub selection and explicit partial staging/reduction",
+        "Nominal ADC gain from actual Ron/Roff/access/readbias with16codes/count; 29bit signedQ4 output keeps fractional information",
+        "Main conditional demand is first-attempt success under a fixedtwo-attempt row-phase retry controller; failure atbound never publishesready",
+        "Stiff readsource rail remains an explicit input-boundary condition, not verified high-voltage supply or material behavior",
+        "Read masks released using native zero-mask setup before gather and after each resident bank"
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 16.0,
+      "physical_bank_rows": 16.0,
+      "adc_count": 512.0,
+      "output_bits": 29.0,
+      "fractional_output_bits": 4.0
+    },
+    {
+      "case_id": "ns_rram_1t1r",
+      "scenario": "pessimistic",
+      "paired_id": "ns_rram_1t1r__pessimistic",
+      "status": "conditional_rram_segmented_approx_Q4",
+      "qualification": "Segmented linear DC qualification and approximate Q4 output, stiff read-rail condition, generic reference device and successful bounded program-verify demand; not measured device statistics or ENOB.",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "temperature_K": 400,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 288.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 66350.36504186633,
+      "delta_S_ns": 66350.36504186633,
+      "T_R_ns": 674954.0699312456,
+      "rho_MB_per_s": 3.85830582602623,
+      "tau_MB_per_s": 11.75783709372758,
+      "RI_star": 0.32814758320512105,
+      "U_star": 10.172575079358753,
+      "conditions": [
+        "16banks each16x288cells with32ADCs,512ADCs total; 32bit shared external port with separate native single-direction read/write pointlinks, hub selection and explicit partial staging/reduction",
+        "Nominal ADC gain from actual Ron/Roff/access/readbias with16codes/count; 29bit signedQ4 output keeps fractional information",
+        "Main conditional demand is first-attempt success under a fixedtwo-attempt row-phase retry controller; failure atbound never publishesready",
+        "Stiff readsource rail remains an explicit input-boundary condition, not verified high-voltage supply or material behavior",
+        "Read masks released using native zero-mask setup before gather and after each resident bank"
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 16.0,
+      "physical_bank_rows": 16.0,
+      "adc_count": 512.0,
+      "output_bits": 29.0,
+      "fractional_output_bits": 4.0
+    },
+    {
+      "case_id": "ns_sram_dcim",
+      "scenario": "optimistic",
+      "paired_id": "ns_sram_dcim__optimistic",
+      "status": "conditional_digital_native_timing",
+      "qualification": "Exact nominal digital mapping; native 50%-cycle reservation and SRAM/clock primitive abstraction, not transistor signoff.",
+      "backend": "2DInferenceDCIMV1.0-dev",
+      "backend_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "technode_nm": 22,
+      "temperature_K": 300,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 147.87978906284204,
+      "delta_S_ns": 147.87978906284204,
+      "T_R_ns": 2912.0943076990434,
+      "rho_MB_per_s": 1731.135820671288,
+      "tau_MB_per_s": 2725.1864676973787,
+      "RI_star": 0.6352357320099257,
+      "U_star": 19.692307692307693,
+      "conditions": [
+        "Upstream fixed 256x256-bit DCIM model; digital exact nominal arithmetic, not SRAM stability or timing signoff.",
+        "Four 64-bit native write groups use a shared row decoder and bounded simultaneous 256-bit port.",
+        "Native synchronous clock/capture abstraction with ideal clock-enable distribution; both paths mutually exclusive; rails ready at Vdd."
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 1,
+      "physical_bank_rows": 256.0,
+      "adc_count": 0,
+      "output_bits": 25,
+      "fractional_output_bits": 0
+    },
+    {
+      "case_id": "ns_sram_dcim",
+      "scenario": "reference",
+      "paired_id": "ns_sram_dcim__reference",
+      "status": "conditional_digital_native_timing",
+      "qualification": "Exact nominal digital mapping; native 50%-cycle reservation and SRAM/clock primitive abstraction, not transistor signoff.",
+      "backend": "2DInferenceDCIMV1.0-dev",
+      "backend_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "technode_nm": 22,
+      "temperature_K": 350,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 189.95963428524954,
+      "delta_S_ns": 189.95963428524954,
+      "T_R_ns": 3740.7435674633753,
+      "rho_MB_per_s": 1347.6547318236153,
+      "tau_MB_per_s": 2121.503347362957,
+      "RI_star": 0.6352357320099256,
+      "U_star": 19.69230769230769,
+      "conditions": [
+        "Upstream fixed 256x256-bit DCIM model; digital exact nominal arithmetic, not SRAM stability or timing signoff.",
+        "Four 64-bit native write groups use a shared row decoder and bounded simultaneous 256-bit port.",
+        "Native synchronous clock/capture abstraction with ideal clock-enable distribution; both paths mutually exclusive; rails ready at Vdd."
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 1,
+      "physical_bank_rows": 256.0,
+      "adc_count": 0,
+      "output_bits": 25,
+      "fractional_output_bits": 0
+    },
+    {
+      "case_id": "ns_sram_dcim",
+      "scenario": "pessimistic",
+      "paired_id": "ns_sram_dcim__pessimistic",
+      "status": "conditional_digital_native_timing",
+      "qualification": "Exact nominal digital mapping; native 50%-cycle reservation and SRAM/clock primitive abstraction, not transistor signoff.",
+      "backend": "2DInferenceDCIMV1.0-dev",
+      "backend_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "technode_nm": 22,
+      "temperature_K": 400,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 240.23042978545794,
+      "delta_S_ns": 240.23042978545794,
+      "T_R_ns": 4730.691540390557,
+      "rho_MB_per_s": 1065.6435166378603,
+      "tau_MB_per_s": 1677.5560047072568,
+      "RI_star": 0.6352357320099256,
+      "U_star": 19.692307692307693,
+      "conditions": [
+        "Upstream fixed 256x256-bit DCIM model; digital exact nominal arithmetic, not SRAM stability or timing signoff.",
+        "Four 64-bit native write groups use a shared row decoder and bounded simultaneous 256-bit port.",
+        "Native synchronous clock/capture abstraction with ideal clock-enable distribution; both paths mutually exclusive; rails ready at Vdd."
+      ],
+      "scope": "finite paired engineering design scenario; native auto-sizing, not fixed-chip PVT",
+      "banks": 1,
+      "physical_bank_rows": 256.0,
+      "adc_count": 0,
+      "output_bits": 25,
+      "fractional_output_bits": 0
+    }
+  ],
+  "evidence": {
+    "isolation_manifest.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/isolation_manifest.json",
+      "sha256": "eb2ebe6d72490f1fba5ca989a6266d83991538e6db3f55376eb7cc5895f35e94"
+    },
+    "independent_dependencies.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_dependencies.json",
+      "sha256": "b840f73046f574951b5d04db4ab7e272dab984d1d358a3b5529cfe185cb0377f"
+    },
+    "independent_services.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_services.json",
+      "sha256": "f0064764458f3e6c3c8d3479ff5e91841dabd3b5930017726b3001cd7dd304f2"
+    },
+    "independent_inputs.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_inputs.json",
+      "sha256": "6aafc2aa25145166df200a956eab9c555a45e3b2d4caf95cb4ceac6bd0b069e1"
+    },
+    "independent_diagnostics.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_diagnostics.json",
+      "sha256": "dcdccb79aa3f680479773e94010975a7cf54c44b17785b4a3d1e5e243f93e8ff"
+    },
+    "independent_geometry.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_geometry.json",
+      "sha256": "2940d99c36b2aebc9cb1bc14b0d8996a5296a89639158c2321d7739bb9e59d23"
+    },
+    "independent_comparison.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_comparison.json",
+      "sha256": "4d64c5877c776c6a37fb66cbf5684f26b896436edb16d566802078940d74e88d"
+    },
+    "independent_physics.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_physics.py",
+      "sha256": "a3b5a3d0dedeed3164377bee120c584346e821af8d541154a99af3568d543314"
+    },
+    "independent_physics.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_physics.json",
+      "sha256": "58bdf46ad7ba54902b97baf21ce2fbb5247458a4a74f7050e3638a5aad08bec0"
+    },
+    "independent_quantized_vectors.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_quantized_vectors.py",
+      "sha256": "2eee4470c5b07777de8380d3868aa4c8016a33ecfe621235ff7efd40df87fa5d"
+    },
+    "independent_quantized_vectors.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_quantized_vectors.json",
+      "sha256": "46463e267ea8941366006e5b2ce7bd8e91483ebf7b4861fa6e5f8339b104ecaf"
+    },
+    "odd_decoder_probe.cpp": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/odd_decoder_probe.cpp",
+      "sha256": "0a6da83ca32258a9bfe650f0674b035dc04287d135cefc97051673591e27d3ee"
+    },
+    "odd_decoder_probe.log": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/odd_decoder_probe.log",
+      "sha256": "0fdc8bfca074ffbba76dc8c60befbe028fbc86c7e17fcb899e23adb3d203c018"
+    },
+    "ideal_translation.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/ideal_translation.json",
+      "sha256": "51c3ead680e65e6daff586f6d83b278d59f98fb0c93c30ad888e8cec26b69873"
+    },
+    "visual_qa.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/visual_qa.json",
+      "sha256": "ee8846e1ed64156fec9800a57a5f3e812f271bb90000e2d1df5a38c3b63614af"
+    },
+    "build_log_audit.json": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/build_log_audit.json",
+      "sha256": "72b781aa7ec3313d9d93969aee13afd967c725239c405fd82d90bea57549ec9e"
+    },
+    "independent_services.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_services.py",
+      "sha256": "4d7015c6cc465c5a2e5efd28b09beb449061af06d808f6829d2170a4a01572fc"
+    },
+    "independent_inputs.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_inputs.py",
+      "sha256": "aad03333c7db3dcacc2ee4c2a7657b0c59b7a5fdf70a29503d9208b647dcf331"
+    },
+    "independent_diagnostics.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_diagnostics.py",
+      "sha256": "58110b64480f05cd98c99091c213beda19c918cf9f72df40d96f318df1d48893"
+    },
+    "independent_geometry.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/independent_geometry.py",
+      "sha256": "433fbbe5c135db3090397f52c930620456b3f4300a3bd55428846c8807d75326"
+    },
+    "audit_dependencies.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/audit_dependencies.py",
+      "sha256": "524a98f10ed87555cf7fca1f0ba75d24828b58bd0ae0e732b179343e79a39a3c"
+    },
+    "launch_with_read_audit.py": {
+      "path": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005/launch_with_read_audit.py",
+      "sha256": "1a54c3191ed91ab0eb38e51c5452e75592effc94bdd685d1ddf000aa0656d404"
+    }
+  }
+}

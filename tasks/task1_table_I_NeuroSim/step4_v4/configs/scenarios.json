@@ -1,0 +1,28 @@
+{
+  "schema": "step4-v4-scenarios.1",
+  "declared_before_production_results": true,
+  "interpretation": "finite fixed-architecture thermal design scenarios; native automatic sizing retained; not PVT/statistical bounds",
+  "source": "locked NeuroSim transistor temperature domain300..400K and native wire rho factor1+.00451*(T-300)",
+  "reference_meaning": "350K deliberately chosen warm engineering operating point, not empirical median; corrected300K diagnostic separates V3 comparison from this operating-point choice",
+  "scenarios": {
+    "optimistic": {
+      "temperature_K": 300
+    },
+    "reference": {
+      "temperature_K": 350
+    },
+    "pessimistic": {
+      "temperature_K": 400
+    }
+  },
+  "fixed_families": [
+    "node/roadmap",
+    "device resistance and programmed state target",
+    "read/write bias and device pulse",
+    "ADC levels/count",
+    "bank partition/mapping/ports",
+    "program algorithm/attempt requirement",
+    "clock reservation and signed input slots",
+    "validated/alpha/beta"
+  ]
+}

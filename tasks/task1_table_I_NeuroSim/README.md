@@ -149,3 +149,13 @@ Step 1 使用上游默认支持配置完成环境测试。正式工艺在 Step 2
 ```sh
 python3 -B tasks/task1_table_I_NeuroSim/step4_v3/run.py --run-id new-v3-run --diagnostics --no-export
 ```
+
+## 2026-10-05 追加：Step4 V4 参考审查与成对情景
+
+[V4中文报告](step4_v4/REPORT.zh.md) · [九点CSV](step4_v4/results/reference-v4-20261005/summary.csv) · [rho–tau圆图](step4_v4/results/reference-v4-20261005/figures/rho_tau_circles.png) · [独立审查](step4_v4/reports/review.json)。
+
+三个案例已复核并形成300／350／400K完整成对设计情景。ACIM修订译码／负载，RRAM改为真实16银行与Q4近似服务，DCIM保留26／512周期并修正实际前级负载；自动尺寸化与物理限制明确披露。九点及图表独立新构建复核通过，但不代表统计PVT、通用INT8精度或硅验收。V3和其他历史保持原样；本轮停止V4。
+
+```sh
+python3 -B tasks/task1_table_I_NeuroSim/step4_v4/run.py --run-id new-v4-run --diagnostics --plots --no-export
+```

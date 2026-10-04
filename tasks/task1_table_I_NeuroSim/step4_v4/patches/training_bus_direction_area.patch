@@ -1,0 +1,5 @@
+--- a/Bus.cpp
++++ b/Bus.cpp
+@@ -133,1 +133,1 @@
+-			area = numRow*wireLength*wireWidth;
++			area = (mode == HORIZONTAL ? numRow : numCol)*wireLength*wireWidth; // parallel H rows / V columns; point-to-point V has one column

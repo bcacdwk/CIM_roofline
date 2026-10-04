@@ -1,0 +1,310 @@
+{
+  "status": "PASS_nominal_mapping_and_register_lifecycle_only",
+  "qualification": "This is a post-run hardware-sequence emulator. It is neither silicon/ENOB validation nor an untimed CPU stage used by the performance path. Analog physical residuals are reported separately.",
+  "cases": {
+    "ns_rram_1t1r": {
+      "paired_ids": [
+        "ns_rram_1t1r__optimistic",
+        "ns_rram_1t1r__reference",
+        "ns_rram_1t1r__pessimistic"
+      ],
+      "configuration_invariants_checked": true,
+      "patterns": {
+        "zero": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 0,
+          "max_abs_intermediate": 0,
+          "register_trace_hash": "c1623ed698e74d9df94315155fd18fd17b61723f66d7d6cf5914254d402620b7",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "975498ea1728d94e2d79f4cce0e04a66724f35a4e289e1737ca1728a1a225759",
+          "min_output_code": 0,
+          "max_output_code": 0
+        },
+        "positive_max": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 464,
+          "max_abs_intermediate": 66064384,
+          "register_trace_hash": "f4dc1caabdad4ee58ee1613e8ef5d0c8d3d0cc3e8a527eb02ea5f2c19f9b03e1",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "0c6693b143a892a797ceac348a39ddd1e30b992611ad5585875fb73787e3bae3",
+          "min_output_code": 66064384,
+          "max_output_code": 66064384
+        },
+        "negative_min": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 464,
+          "max_abs_intermediate": 67108864,
+          "register_trace_hash": "3cd2c2469ff8b6890bc13e309a36eaade4a37a43409fc7805a8395616d0b75bb",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "0df4b977831a6b617abdf70a51d2468380880fbf6a3ada5cef9c45661078cec8",
+          "min_output_code": 67108864,
+          "max_output_code": 67108864
+        },
+        "opposite": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 464,
+          "max_abs_intermediate": 200802304,
+          "register_trace_hash": "bcc2acd8f541b9b169f6f893e53144ebd1cf496ec4b358d5772473de24332888",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "3968fd7e4d971d63cf1ed2c4432f77479d365981a1680fe08077dbf62af7ae53",
+          "min_output_code": -66584576,
+          "max_output_code": -66584576
+        },
+        "mixed": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 290,
+          "max_abs_intermediate": 68200448,
+          "register_trace_hash": "3409a45c18013ce8acdfd57be46ad146454bfc6ac39e1aa40b7eab57f5aff972",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "12fc6ef105acd24965e414c56b4ee44bb8c8d7ad3d9a73495920c5f8c0134969",
+          "min_output_code": -1091584,
+          "max_output_code": 696320
+        },
+        "bank_boundary": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 58,
+          "max_abs_intermediate": 3983360,
+          "register_trace_hash": "36a926a5e94c4e61c550dd1acb377baccb5d1c2b437abb323f9d961502fc870a",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "79c3ab4b54ea30d72a09917f7bfac27f03279a2908cc94b7000e684d46e1c386",
+          "min_output_code": -837632,
+          "max_output_code": 559104
+        },
+        "cancellation": {
+          "matched": true,
+          "output_fractional_bits": 4,
+          "max_ADC_code": 464,
+          "max_abs_intermediate": 67108864,
+          "register_trace_hash": "f6f7badd40a2b46b8ac9dede7f4120e29e38e8ba69737eaa7d23bbe5cbefcdc9",
+          "tracked_bank_bit_steps": 256,
+          "shared_bus_word_beats": 1024,
+          "output_hash": "975498ea1728d94e2d79f4cce0e04a66724f35a4e289e1737ca1728a1a225759",
+          "min_output_code": 0,
+          "max_output_code": 0
+        }
+      }
+    },
+    "ns_sram_acim": {
+      "paired_ids": [
+        "ns_sram_acim__optimistic",
+        "ns_sram_acim__reference",
+        "ns_sram_acim__pessimistic"
+      ],
+      "configuration_invariants_checked": true,
+      "patterns": {
+        "zero": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 0,
+          "max_abs_intermediate": 0,
+          "register_trace_hash": "3557bf408eb1d0667c3c9802078e5adb171e5289b9e76183528480a01d6acd85",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "975498ea1728d94e2d79f4cce0e04a66724f35a4e289e1737ca1728a1a225759",
+          "min_output_code": 0,
+          "max_output_code": 0
+        },
+        "positive_max": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 256,
+          "max_abs_intermediate": 4129024,
+          "register_trace_hash": "027e6a3cf1a80a2fb9030ddcef88a24757126ac7afa32abb2973fdb8cc65ddc4",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "87cdc38259014d57b02509052f33593139bb4c8fa8afd1761d1f71fbe78f195e",
+          "min_output_code": 4129024,
+          "max_output_code": 4129024
+        },
+        "negative_min": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 256,
+          "max_abs_intermediate": 4194304,
+          "register_trace_hash": "8e4ecbbc6dd4ca628b704d28814735b05b7ff0f454f2b5d142ffc5f0d66e35dd",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "9067c5773155bc4922b980ad20208dcfe71530ac2e6f8de81c57c22d63bc6414",
+          "min_output_code": 4194304,
+          "max_output_code": 4194304
+        },
+        "opposite": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 256,
+          "max_abs_intermediate": 12550144,
+          "register_trace_hash": "07017f181406eafede46c01a289a9f5de4cd64e1390a3ef913e2adb630546460",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "67f7ba406ed03e12acbcc685e43cbeba0de708839202d11f3cbc150f91e763f7",
+          "min_output_code": -4161536,
+          "max_output_code": -4161536
+        },
+        "mixed": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 128,
+          "max_abs_intermediate": 4262528,
+          "register_trace_hash": "4fb6b1e29e7355e495193139b0747cb1ab653314b47807e2819c0c52a9615aac",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "f93b10647950cd2a913c9cb7063452ec91a5c0dbd0b65608bcd12983ac4bae4f",
+          "min_output_code": -68224,
+          "max_output_code": 43520
+        },
+        "bank_boundary": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 6,
+          "max_abs_intermediate": 248960,
+          "register_trace_hash": "710ff80ec3133214ef41021ac105664ae188cb1aefb7ddb489b958c0dc645e25",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "607ae712c066ae196971346bebfe4aa6170bfaad50e6664560d1c29185d9df76",
+          "min_output_code": -52352,
+          "max_output_code": 34944
+        },
+        "cancellation": {
+          "matched": true,
+          "output_fractional_bits": 0,
+          "max_ADC_code": 256,
+          "max_abs_intermediate": 4194304,
+          "register_trace_hash": "f45d49c262e53ff1e6a33450dfb119c5aaee3895269836744f26bb5d66db60c8",
+          "tracked_bank_bit_steps": 16,
+          "shared_bus_word_beats": 0,
+          "output_hash": "975498ea1728d94e2d79f4cce0e04a66724f35a4e289e1737ca1728a1a225759",
+          "min_output_code": 0,
+          "max_output_code": 0
+        }
+      }
+    },
+    "ns_sram_dcim": {
+      "paired_ids": [
+        "ns_sram_dcim__optimistic",
+        "ns_sram_dcim__reference",
+        "ns_sram_dcim__pessimistic"
+      ],
+      "configuration_invariants_checked": true,
+      "patterns": {
+        "zero": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 0,
+          "register_trace_hash": "949c82e782290db36de953c5279e2a28caaf0f858ff9d0e5198169c9ced7bfc1",
+          "output_hash": "975498ea1728d94e2d79f4cce0e04a66724f35a4e289e1737ca1728a1a225759"
+        },
+        "positive_max": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 4129024,
+          "register_trace_hash": "791ec5b630a1ef00ecc8d49286b5b02700dc7360f9535f1e74091bcb031646f0",
+          "output_hash": "87cdc38259014d57b02509052f33593139bb4c8fa8afd1761d1f71fbe78f195e"
+        },
+        "negative_min": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 4194304,
+          "register_trace_hash": "aa20f589777180dd69e04f96a0a64aaf7b09ba92854b1fcaa190c9d55470e048",
+          "output_hash": "9067c5773155bc4922b980ad20208dcfe71530ac2e6f8de81c57c22d63bc6414"
+        },
+        "opposite": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 12550144,
+          "register_trace_hash": "efd9e7478b1f136ffdc3beb0fc9bacd602f0ba4cd1bd48cfb3797817e3a9722d",
+          "output_hash": "67f7ba406ed03e12acbcc685e43cbeba0de708839202d11f3cbc150f91e763f7"
+        },
+        "mixed": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 4262528,
+          "register_trace_hash": "57996500bcaa11159662a2e7d3ab5e2cc6c36337f57df07e3ea01d38fed2bc76",
+          "output_hash": "f93b10647950cd2a913c9cb7063452ec91a5c0dbd0b65608bcd12983ac4bae4f"
+        },
+        "bank_boundary": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 248960,
+          "register_trace_hash": "ab590cf33b5e0bbd8ca2e426b23cc7e6c415c7bdbd4ca80db4a06abf76073671",
+          "output_hash": "607ae712c066ae196971346bebfe4aa6170bfaad50e6664560d1c29185d9df76"
+        },
+        "cancellation": {
+          "matched": true,
+          "cycles": 26,
+          "native_cycles_per_pass": 9,
+          "trees": 64,
+          "tree_bits": 4,
+          "tree_register_bits": 12,
+          "native_shift_register_bits": 20,
+          "A_C_held_during_B_D": true,
+          "max_abs_intermediate": 4194304,
+          "register_trace_hash": "e6b34bab45acc15aab13cf3a2f2fe4c980d5cf0693ebae60d3da5ac34b432fa8",
+          "output_hash": "975498ea1728d94e2d79f4cce0e04a66724f35a4e289e1737ca1728a1a225759"
+        }
+      }
+    }
+  },
+  "verify_failure_lifecycle": {
+    "early_failure_sticky": true,
+    "late_failure_sticky": true,
+    "phase_clear_required": true,
+    "second_attempt_success": {
+      "ready": true,
+      "attempts": 2
+    },
+    "failure_not_published": {
+      "ready": false,
+      "attempts": 2,
+      "performance_point": null
+    }
+  },
+  "DCIM_short_sign_alternative": "Deleting seven zero slots leaves native LSB-first ShiftAdd result shifted by7; no shortened service is published without additional extraction/bypass, state and timing."
+}

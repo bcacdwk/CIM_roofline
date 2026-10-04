@@ -1,0 +1,137 @@
+--- a/RowDecoder.cpp
++++ b/RowDecoder.cpp
+@@ -173,7 +173,7 @@
+ 				height = _newHeight;
+ 				width = wInv * numColInv + wNand * numColNand + M3_PITCH * numMetalConnection * tech.featureSize + wNor * numColNor;
+ 				if (MUX) {    // Mux enable circuit (NAND + INV) + INV
+-					width += (wNand + wInv * 2) * numColNor;
++					width += (wNand + wDriverInv * 2) * numColNor;
+ 				} else {    // REGULAR: 2 INV as output driver
+ 					width += (wDriverInv * 2) * numColNor;
+ 				}
+@@ -181,7 +181,7 @@
+ 				height = MAX(hNor*numNor, hNand*numNand);
+ 				width = wInv + wNand + M3_PITCH * numMetalConnection * tech.featureSize + wNor;
+ 				if (MUX) {	// Mux enable circuit (NAND + INV) + INV
+-					width += wNand + wInv * 2;
++					width += wNand + wDriverInv * 2;
+ 				} else {	// REGULAR: 2 INV as output driver
+ 					width += wDriverInv * 2;
+ 				}
+@@ -222,7 +222,7 @@
+ 				width = _newWidth;
+ 				height = hInv * numRowInv + hNand * numRowNand + M2_PITCH * numMetalConnection * tech.featureSize + hNor * numRowNor;
+ 				if (MUX) {    // Mux enable circuit (NAND + INV) + INV
+-					height += (hNand + hInv * 2) * numRowNor;
++					height += (hNand + hDriverInv * 2) * numRowNor;
+ 				} else {    // REGULAR: 2 INV as output driver
+ 					height += (hDriverInv * 2) * numRowNor;
+ 				}
+@@ -230,7 +230,7 @@
+ 				height = hInv + hNand + M2_PITCH * numMetalConnection * tech.featureSize + hNor;
+ 				width = MAX(wNor*numNor, wNand*numNand);
+ 				if (MUX) {    // Mux enable circuit (NAND + INV) + INV
+-					height += hNand + hInv * 2;
++					height += hNand + hDriverInv * 2;
+ 				} else {    // REGULAR: 2 INV as output driver
+ 					height += hDriverInv * 2;
+ 				}
+@@ -293,7 +293,7 @@
+ 		// INV
+ 		resPullDown = CalculateOnResistance(widthInvN, NMOS, inputParameter.temperature, tech);	// doesn't matter pullup/pulldown?
+ 		if (numNand)
+-			tr = resPullDown * (capInvOutput + capNandInput * 2);	// one address line connects to 2 NAND inputs
++			tr = resPullDown * (capInvOutput + MAX(capNandInput * 2, (numAddrRow%2) * capNorInput * numNor/2)); // V4 odd address INV fanout; conservative native chain envelope	// one address line connects to 2 NAND inputs
+ 		else
+ 			tr = resPullDown * (capInvOutput + capLoad1);
+ 		gm = CalculateTransconductance(widthInvN, NMOS, tech);
+@@ -321,11 +321,11 @@
+ 		
+ 		// NOR (ceil(N/2) inputs)
+ 		if (numNor) {
+-			resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * 2;
++			resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * ceil((double)numAddrRow/2); // actual series PMOS count
+ 			if (MUX)
+ 				tr = resPullUp * (capNorOutput + capNandInput);
+ 			else
+-				tr = resPullUp * (capNorOutput + capInvInput);
++				tr = resPullUp * (capNorOutput + capDriverInvInput);
+ 			gm = CalculateTransconductance(widthNorP, PMOS, tech);
+ 			beta = 1 / (resPullUp * gm);
+ 			readLatency += horowitz(tr, beta, rampNandOutput, &rampNorOutput);
+@@ -335,24 +335,26 @@
+ 
+ 		// Output driver or Mux enable circuit
+ 		if (MUX) {	// Mux enable circuit (NAND + INV) + INV
+-			// 1st NAND
+-			resPullDown = CalculateOnResistance(widthNandN, NMOS, inputParameter.temperature, tech);
+-			tr = resPullDown * (capNandOutput + capInvInput);
++			// 1st NAND: both series NMOS and the actual next driver gate.
++			resPullDown = CalculateOnResistance(widthNandN, NMOS, inputParameter.temperature, tech) * 2;
++			tr = resPullDown * (capNandOutput + capDriverInvInput);
+ 			gm = CalculateTransconductance(widthNandN, NMOS, tech);
+ 			beta = 1 / (resPullDown * gm);
+ 			readLatency += horowitz(tr, beta, rampNorOutput, &rampNandOutput);
+ 			writeLatency += horowitz(tr, beta, rampNorOutput, &rampNandOutput);
+ 			// 2nd INV
+-			resPullUp = CalculateOnResistance(widthInvP, PMOS, inputParameter.temperature, tech);
+-			tr = resPullUp * (capInvOutput + capInvInput + capLoad1);
+-			gm = CalculateTransconductance(widthInvP, PMOS, tech);
++			resPullUp = CalculateOnResistance(widthDriverInvP, PMOS, inputParameter.temperature, tech);
++			tr = resPullUp * (capDriverInvOutput + capDriverInvInput + capLoad1 + muxSelectWireCap)
++                + muxSelectWireRes * (muxSelectWireCap/2 + capLoad1*(muxSelectFanout+1)/(2*muxSelectFanout));
++			gm = CalculateTransconductance(widthDriverInvP, PMOS, tech);
+ 			beta = 1 / (resPullUp * gm);
+ 			readLatency += horowitz(tr, beta, rampNandOutput, &rampInvOutput);
+ 			writeLatency += horowitz(tr, beta, rampNandOutput, &rampInvOutput);
+ 			// 3rd INV
+-			resPullDown = CalculateOnResistance(widthInvN, NMOS, inputParameter.temperature, tech);
+-			tr = resPullDown * (capInvOutput + capLoad2);
+-			gm = CalculateTransconductance(widthInvN, NMOS, tech);
++			resPullDown = CalculateOnResistance(widthDriverInvN, NMOS, inputParameter.temperature, tech);
++			tr = resPullDown * (capDriverInvOutput + capLoad2 + muxSelectWireCap)
++                + muxSelectWireRes * (muxSelectWireCap/2 + capLoad2*(muxSelectFanout+1)/(2*muxSelectFanout));
++			gm = CalculateTransconductance(widthDriverInvN, NMOS, tech);
+ 			beta = 1 / (resPullDown * gm);
+ 			readLatency += horowitz(tr, beta, rampInvOutput, &rampOutput);
+ 			writeLatency += horowitz(tr, beta, rampInvOutput, &rampOutput);
+@@ -398,7 +400,7 @@
+ 		// Output driver or Mux enable circuit
+ 		if (MUX) {
+ 			leakage += CalculateGateLeakage(NAND, 2, widthNandN, widthNandP, inputParameter.temperature, tech) * tech.vdd * numNor;
+-			leakage += CalculateGateLeakage(INV, 1, widthInvN, widthInvP, inputParameter.temperature, tech) * tech.vdd * 2 * numNor;
++			leakage += CalculateGateLeakage(INV, 1, widthDriverInvN, widthDriverInvP, inputParameter.temperature, tech) * tech.vdd * 2 * numNor;
+ 		} else {
+ 			leakage += CalculateGateLeakage(INV, 1, widthDriverInvN, widthDriverInvP, inputParameter.temperature, tech) * tech.vdd * 2 * numNor;
+ 		}
+@@ -430,13 +432,13 @@
+ 		
+ 		// Output driver or Mux enable circuit
+ 		if (MUX) {
+-			readDynamicEnergy += (capNandOutput + capInvInput) * tech.vdd * tech.vdd;
+-			readDynamicEnergy += (capInvOutput + capInvInput) * tech.vdd * tech.vdd;
+-			readDynamicEnergy += capInvOutput * tech.vdd * tech.vdd;
++			readDynamicEnergy += (capNandOutput + capDriverInvInput) * tech.vdd * tech.vdd;
++			readDynamicEnergy += (capDriverInvOutput + capDriverInvInput + muxSelectWireCap) * tech.vdd * tech.vdd;
++			readDynamicEnergy += (capDriverInvOutput + muxSelectWireCap) * tech.vdd * tech.vdd;
+ 			
+-			writeDynamicEnergy += (capNandOutput + capInvInput) * tech.vdd * tech.vdd;
+-			writeDynamicEnergy += (capInvOutput + capInvInput) * tech.vdd * tech.vdd;
+-			writeDynamicEnergy += capInvOutput * tech.vdd * tech.vdd;
++			writeDynamicEnergy += (capNandOutput + capDriverInvInput) * tech.vdd * tech.vdd;
++			writeDynamicEnergy += (capDriverInvOutput + capDriverInvInput + muxSelectWireCap) * tech.vdd * tech.vdd;
++			writeDynamicEnergy += (capDriverInvOutput + muxSelectWireCap) * tech.vdd * tech.vdd;
+ 		} else {
+ 			readDynamicEnergy += (capDriverInvInput + capDriverInvOutput) * tech.vdd * tech.vdd * 2;
+ 			writeDynamicEnergy += (capDriverInvInput + capDriverInvOutput) * tech.vdd * tech.vdd * 2;
+--- a/RowDecoder.h
++++ b/RowDecoder.h
+@@ -61,6 +61,8 @@
+ 	void CalculateLatency(double _rampInput, double _capLoad1, double _capLoad2, double numRead, double numWrite);
+ 	void CalculatePower(double numRead, double numWrite);
+ 
++	// V4 local MUX select routing, zero preserves original unconnected-line abstraction.
++	double muxSelectWireRes=0, muxSelectWireCap=0, muxSelectFanout=1;
+ 	/* Properties */
+ 	bool initialized;	/* Initialization flag */
+ 	int numAddrRow;		/* Number of rows */

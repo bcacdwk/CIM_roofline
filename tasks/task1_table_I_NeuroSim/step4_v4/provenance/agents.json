@@ -1,0 +1,34 @@
+{
+  "supervisor": "/root",
+  "baseline_HEAD": "752d7329d031d3b341df4f60971f8a65191fb54d",
+  "case_workflows": [
+    {
+      "agent": "/root/v4_acim",
+      "local_directory": "/Users/shine/neurosim/runs/step4-v4/acim-agent",
+      "actual_work": "source/device review, independent builds, same-load driver/wire probes, predeclared thermal scenarios"
+    },
+    {
+      "agent": "/root/v4_rram",
+      "local_directory": "/Users/shine/neurosim/runs/step4-v4/rram-agent",
+      "actual_work": "device evidence and distributed-line diagnostics, new banked/native service candidates, fresh builds and lifecycle checks"
+    },
+    {
+      "agent": "/root/v4_dcim",
+      "local_directory": "/Users/shine/neurosim/runs/step4-v4/dcim-agent",
+      "actual_work": "clock/write/native organization review, consistency/thermal probes and physical-bit state lifecycle"
+    }
+  ],
+  "plotting_agent": {
+    "agent": "/root/v4_plots",
+    "local_directory": "/Users/shine/neurosim/runs/step4-v4/plots-agent",
+    "actual_work": "candidate plot script and actual preliminary visual/geometry QA; supervisor integrated and generated final figures"
+  },
+  "independent_reviewer": {
+    "agent": "/root/v4_reviewer",
+    "directory": "/Users/shine/neurosim/runs/step4-v4/reviewer-independent-20261005",
+    "run": "/Users/shine/neurosim/runs/step4-v4/reviewer-ninepoints-20261005",
+    "production_implementation": false,
+    "history": "New V4 reviewer thread; no known previous implementation participation; not the previous V3 reviewer."
+  },
+  "external_ChatGPT": "Future high-level review only; did not execute or accept this work"
+}

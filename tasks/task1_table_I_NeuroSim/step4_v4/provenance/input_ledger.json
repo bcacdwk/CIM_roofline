@@ -1,0 +1,275 @@
+{
+  "schema": "step4-v4-input-ledger.1",
+  "grades": {
+    "primary_measurement": "used for mechanism/limits only when technology/bias/device package differs",
+    "upstream_reference": "actual numeric transistor/wire/binarydevice reference inputs; not silicon statistics",
+    "engineering_choice": "declared architecture/boundary/gain/clock/operating point; fixed in scenarios",
+    "model_output": "parsed initialized RC, sizes, stages and full service; never read back as an input"
+  },
+  "sources": [
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/Param.cpp",
+      "sha256": "6bd61882e14a2c9e2f9d2db131427e420f9af59ff2a500f634079fc73799d791",
+      "role": "temperature300..400 and native32nmwire/thermal coefficient, SRAM/1T1R reference inputs",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/Param.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/formula.cpp",
+      "sha256": "d81dd19fa131125d2ffaec32f65ba000d50a6fc800a6f8e7c92e3bc27b4e8201",
+      "role": "MOS on-current temperature range and transistor/gate/capacitance primitives",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/formula.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/RowDecoder.cpp",
+      "sha256": "30463f37ee25a95ef20eba542499247545f39d8d1da1768d6b93f5f480af835e",
+      "role": "actual gate widths, predecessor caps, odd-address fanout (also power path), declared series counts",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/RowDecoder.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/Mux.cpp",
+      "sha256": "18f99c25ce1c821f47adadcd65305d83ceb215c94b912787c5dfea0b6499846c",
+      "role": "IR_DROP_TOLERANCE target, full native resized gate/cap/area path",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/Mux.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/constant.h",
+      "sha256": "4e4d79e54c4e85a0bd246c65169c6f8dfff33f52290acf263511ae3ed046fc00",
+      "role": "IR_DROP_TOLERANCE0.25",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/constant.h"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+      "sha256": "fca58af1398bfbf28132ce3090c9036cce782082cabf9775660f10854eb065e8",
+      "role": "native array/read/write/ShiftAdd aggregation, original15-20%RC threshold",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/SubArray.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/Bus.cpp",
+      "sha256": "1e25820ce4ee9d18a8983ec3e3720fce19e9f7e42867e9c8805c813a2431b31a",
+      "role": "unidirectional repeaters, physical link size and routing footprint; direction area correction",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/Bus.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/AdderTree.cpp",
+      "sha256": "f2ae60d80e8604eeecf720fb6eb63b5596812a2a5adaa8a5af8f95137d8848b3",
+      "role": "native16-bank reduction",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/AdderTree.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/DFF.cpp",
+      "sha256": "2eee0424262f1d940f2465058bd0859d1bfab51aaf52170db34a68a53e8758b1",
+      "role": "half-cycle asynchronous timing abstraction",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/DFF.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+      "sha256": "120f4454ac870513aa9e2281d8c2382a65dc8c16271d0347ec5187669b588ad1",
+      "role": "22nmMUXdriver110 design precedent, not performance selection",
+      "url": "https://github.com/neurosim/NeuroSim/blob/8a88abf85844c0e1ba17cc771ea535fff6040456/Inference_pytorch/NeuroSIM/Param.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/RowDecoder.cpp",
+      "sha256": "b98d57c1f99bc15dc6aa4d66d5f3b2821b22432a58a14b87903f1fd9909596a8",
+      "role": "sized driver path/area, predecessor-cap inconsistency independently corrected",
+      "url": "https://github.com/neurosim/NeuroSim/blob/8a88abf85844c0e1ba17cc771ea535fff6040456/Inference_pytorch/NeuroSIM/RowDecoder.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/LevelShifter.cpp",
+      "sha256": "78be27a2016350753434971c602cbd35589e08b41836a7dc3ce3a2b1c0b2f55d",
+      "role": "same-tech primitive port; no independent HV reliability qualification",
+      "url": "https://github.com/neurosim/NeuroSim/blob/8a88abf85844c0e1ba17cc771ea535fff6040456/Inference_pytorch/NeuroSIM/LevelShifter.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "README.md",
+      "sha256": "024ff7dd5f2e41e72f3c0f7cfaf3b39a9bb957f00dd146729bde029e2d9073e9",
+      "role": "only256x256nativeDCIM organization",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/README.md"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+      "sha256": "410ab94046fee81fba3bf5893cd49f3c8b8e0b2286a3a28e1c4228edd31999c2",
+      "role": "actual Metal0/1 rho path, native calibration and22nm sizing",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/Param.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/RowDecoder.cpp",
+      "sha256": "b98d57c1f99bc15dc6aa4d66d5f3b2821b22432a58a14b87903f1fd9909596a8",
+      "role": "MUX/regular real driver and nominal series/odd-fanout repairs",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/RowDecoder.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/AdderTree_DCIM.cpp",
+      "sha256": "4fed83c9df88008d743cb09ba60eea9cdae5fd88ca6ec8741c4e94f5a921ac7e",
+      "role": "dedicated4bit tree returns physical seconds",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/AdderTree_DCIM.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/DFF.cpp",
+      "sha256": "5e4dcaf9030499930708af83723ffe2bcbbf1e70df1852dbb1ee1199497d9f06",
+      "role": "synchronous capture returns cycles",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/DFF.cpp"
+    },
+    {
+      "grade": "locked public model/reference",
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "path": "Cell.cpp",
+      "sha256": "f2f5efd580740bd0161727e6f0a6028c95bec92e2de2903d914b161ce90192af",
+      "role": "DigitalNVM630-696 generic binary CMOS-access8k/24k/access5k,.5Vread,1V10nsSET/RESET,4x8F; no material-specific empirical distribution",
+      "url": "https://github.com/neurosim/NeuroSim/blob/6098feabaf17b8209a8edbef4a9c963b5f015132/Cell.cpp"
+    },
+    {
+      "id": "neurram",
+      "path": "tasks/task1_table_I_NVM/literature/05_rram/RRAM-01_2022_NeuRRAM.pdf",
+      "url": "https://doi.org/10.1038/s41586-022-04992-8",
+      "sha256": "4e75d89025e0e3bc7c04bf00f50bf0f618935c3e405612fd23c95856bf209a5b",
+      "grade": "primary measured architecture, not numerical input for generic device",
+      "role": "mechanism-only: need to include wire/driver current limits and program verify; 130nm5VIO1us material not transplanted",
+      "sha256_verified": true
+    },
+    {
+      "id": "weebit",
+      "path": "tasks/task1_table_I_NVM/literature/05_rram/RRAM-03_2022_Weebit_28nm.pdf",
+      "url": "https://doi.org/10.1109/IMW52921.2022.9779293",
+      "sha256": "2ad046df73ffe73b760074f1321cd1c5856ca6f8aad962ed70c3f449d1aaaf1b",
+      "grade": "primary measured architecture, not numerical input for generic device",
+      "role": "mechanism-only: device-dependent retries and read-disturb qualification; no model timing transplant",
+      "sha256_verified": true
+    },
+    {
+      "id": "hybrid",
+      "path": "tasks/task1_table_I_NVM/literature/05_rram/RRAM-02_2025_HybridProgramming.pdf",
+      "url": "https://doi.org/10.1088/1674-4926/24100017",
+      "sha256": "d55cb5abda2d3374d86ea094c82396c86d5c408489816a0fb1d4abd8e4f55752",
+      "grade": "primary measured architecture, not numerical input for generic device",
+      "role": "mechanism-only: segmented activation and same-ADC compute/verify; no2T2Rdevice/timing transplant",
+      "sha256_verified": true
+    },
+    {
+      "grade": "primary mechanism document, not numerical parameter source",
+      "url": "https://patents.google.com/patent/US20230008275A1/en",
+      "role": "parallel SRAM access can disturb state; WL underdrive or specialized cell affects current/area; no validation of this256rowmodel"
+    }
+  ],
+  "inheritance": [
+    {
+      "family": "logical Byte/complete-load/nonshadow/boundary conventions",
+      "origin": "oldNVM shared_baseline methodology, then V3 interface",
+      "numeric_device_input_from_old_NVM": false,
+      "consumer": "payload and service contract"
+    },
+    {
+      "family": "oldspecial9T1C/WH2T1R/D6CIM aggregate slots and finalrho/tau",
+      "origin": "historical only",
+      "used_as_input": false,
+      "consumer": "none; V3 background comparison is explicit post-result script"
+    },
+    {
+      "family": "SRAM geometry/access sizing,22nmLSTP,wire model",
+      "origin": "locked upstream public model",
+      "consumer": "Technology,MemCell,SubArray/Mux/Decoder/RC"
+    },
+    {
+      "family": "RRAM8k/24k/5k/.5V/1V10ns/4x8F",
+      "origin": "MLP DigitalNVM generic reference",
+      "consumer": "same TrainingMemCell and native array/driver/ADC/verify",
+      "limitation": "not measured22nmmaterial; access1.1V separately fromTraining; fixed state targets across thermaldesigns"
+    },
+    {
+      "family": "16banks/512ADCs/Q4/32bitexternaltransport",
+      "origin": "V4 engineering reference redesign after distributed-line failure",
+      "consumer": "nativeSubArrays,Mux,Bus,stagingDFF,AdderTree,signedcorrection",
+      "fixed_across_scenarios": true
+    },
+    {
+      "family": "driver110 and actual wire/pin load",
+      "origin": "same-node V1.4 public design precedent plus consistency corrections",
+      "consumer": "both area and complete predecessor-to-output delay",
+      "not_chosen_by_minimum_result": true
+    },
+    {
+      "family": "300/350/400K and350warm reference",
+      "origin": "predeclared native-table engineering temperatures, no empiricalmedian",
+      "consumer": "constructor→actualMOS/metal→autosizing/layout→allread/write stages",
+      "only_main_scenario_family": true
+    },
+    {
+      "family": "ADC9/10nominal levels and gain",
+      "origin": "reference numerical contract; native SAR delay remains(bit+1)ns",
+      "consumer": "actualconversion/countwidth and expectedverifycodepins",
+      "limitation": "not measuredENOB or transfercalibration; no free fitted endpoint correction"
+    },
+    {
+      "family": "50percentcomb clock reserve, fulltwo8bitpasses,writeport/capture",
+      "origin": "explicit interface/service policy inherited and reviewed",
+      "consumer": "nativeDFF/registeredstages and complete endpoint",
+      "fixed_across_scenarios": true
+    },
+    {
+      "family": "boundedtwoattempt row-phase verify controller; main oneattempt success",
+      "origin": "engineering finite algorithm and conditional demand; primary literature motivates qualification only",
+      "consumer": "pulses,sameADCverify,stickyfail/OR/retrycontrol",
+      "not_probability_or_empirical_mean": true
+    },
+    {
+      "family": "rho,tau,RI,U and oldcompleteT",
+      "origin": "model outputs",
+      "used_as_input": false
+    }
+  ],
+  "predeclared_scenarios": "configs/scenarios.json",
+  "authority": "base_parameters plus scenario merge; generatedrequest.h and constructorbindings from same resolved packet",
+  "classification": "fixed architecture engineering design scenarios with native automatic resizing, not same-chipPVT or statistical bounds",
+  "no_old_NVM_timing_multipliers": true
+}

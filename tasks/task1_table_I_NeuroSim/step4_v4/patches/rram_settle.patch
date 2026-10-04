@@ -1,0 +1,5 @@
+--- a/SubArray.cpp
++++ b/SubArray.cpp
+@@ -1464,1 +1464,1 @@
+-				colDelay = tau * 0.2 * numColMuxed;  // assume the 15~20% voltage drop is enough for sensing
++				colDelay = tau * log(2.0 * levelOutput) * numColMuxed; // V4 first-order nominal half-ADC-LSB settling; compute and same-ADC verify

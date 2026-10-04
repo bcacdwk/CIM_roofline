@@ -1,0 +1,1093 @@
+{
+  "schema": "step4-v4-plot-geometry.1",
+  "source_summary": "/Users/shine/neurosim/runs/step4-v4/reference-v4-20261005/summary.json",
+  "source_summary_sha256": "dabf1a78f35edb3ce17af8bcdd6cc4c75bf57a17e72fc05e9dc4d1cede912150",
+  "nine_unique_actual_records": true,
+  "point_identity_checks": [
+    {
+      "paired_id": "ns_sram_acim__optimistic",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_sram_acim__reference",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_sram_acim__pessimistic",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_rram_1t1r__optimistic",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_rram_1t1r__reference",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_rram_1t1r__pessimistic",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_sram_dcim__optimistic",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_sram_dcim__reference",
+      "numeric_identity_checks": "pass"
+    },
+    {
+      "paired_id": "ns_sram_dcim__pessimistic",
+      "numeric_identity_checks": "pass"
+    }
+  ],
+  "fixed_architecture_checks": [
+    {
+      "case_id": "ns_sram_acim",
+      "fixed_architecture_fields_checked": [
+        "backend",
+        "backend_sha",
+        "technode_nm",
+        "roadmap",
+        "K",
+        "N",
+        "input_bits",
+        "weight_bits",
+        "physical_rows",
+        "physical_cols",
+        "B_S_Byte",
+        "B_R_Byte",
+        "banks",
+        "adc_count",
+        "output_bits",
+        "fractional_output_bits"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "ns_sram_dcim",
+      "fixed_architecture_fields_checked": [
+        "backend",
+        "backend_sha",
+        "technode_nm",
+        "roadmap",
+        "K",
+        "N",
+        "input_bits",
+        "weight_bits",
+        "physical_rows",
+        "physical_cols",
+        "B_S_Byte",
+        "B_R_Byte",
+        "banks",
+        "adc_count",
+        "output_bits",
+        "fractional_output_bits"
+      ],
+      "passed": true
+    },
+    {
+      "case_id": "ns_rram_1t1r",
+      "fixed_architecture_fields_checked": [
+        "backend",
+        "backend_sha",
+        "technode_nm",
+        "roadmap",
+        "K",
+        "N",
+        "input_bits",
+        "weight_bits",
+        "physical_rows",
+        "physical_cols",
+        "B_S_Byte",
+        "B_R_Byte",
+        "banks",
+        "adc_count",
+        "output_bits",
+        "fractional_output_bits"
+      ],
+      "passed": true
+    }
+  ],
+  "source_coordinates_modified": false,
+  "synthetic_model_points": 0,
+  "renderer": {
+    "script_sha256": "e9275918d12125f26311cedcbbd9d653a3ce8971d230976c932a3dee7e319ea5",
+    "matplotlib_version": "3.9.2",
+    "numpy_version": "1.26.4"
+  },
+  "circle_specs": [
+    {
+      "case_id": "ns_sram_acim",
+      "coordinate_space": "log10(tau_MB_per_s), log10(rho_MB_per_s)",
+      "original": {
+        "defined": true,
+        "center_log10": [
+          3.4869457253249414,
+          2.1104234319057373
+        ],
+        "radius_decades": 0.1153096007276781,
+        "reference_distance_decades": 0.002925326796111144,
+        "reference_inside": true,
+        "endpoint_radius_error_decades": 9.71445146547012e-17,
+        "perpendicular_bisector_dot_residual": 1.2106720326934638e-17,
+        "projection_cross_residual": -2.2828802101619566e-17
+      },
+      "fallback_reason": null,
+      "display_rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+      "center_log10": [
+        3.4869457253249414,
+        2.1104234319057373
+      ],
+      "radius_decades": 0.1153096007276781,
+      "point_distances_decades": {
+        "optimistic": 0.1153096007276781,
+        "reference": 0.002925326796111144,
+        "pessimistic": 0.115309600727678
+      },
+      "reference_inside": true,
+      "all_points_inside": true,
+      "endpoints_on_circumference": true,
+      "points_log10": {
+        "optimistic": [
+          3.596775480719337,
+          2.1455479084140614
+        ],
+        "reference": [
+          3.4841788313385713,
+          2.1094737822165177
+        ],
+        "pessimistic": [
+          3.3786949040804735,
+          2.0706985817502646
+        ]
+      },
+      "paired_points": [
+        {
+          "paired_id": "ns_sram_acim__optimistic",
+          "scenario": "optimistic",
+          "log10_tau": 3.596775480719337,
+          "log10_rho": 2.1455479084140614
+        },
+        {
+          "paired_id": "ns_sram_acim__reference",
+          "scenario": "reference",
+          "log10_tau": 3.4841788313385713,
+          "log10_rho": 2.1094737822165177
+        },
+        {
+          "paired_id": "ns_sram_acim__pessimistic",
+          "scenario": "pessimistic",
+          "log10_tau": 3.3786949040804735,
+          "log10_rho": 2.0706985817502646
+        }
+      ],
+      "interpretation": "Finite paired scenario illustration only; not confidence bounds or a feasible region."
+    },
+    {
+      "case_id": "ns_sram_dcim",
+      "coordinate_space": "log10(tau_MB_per_s), log10(rho_MB_per_s)",
+      "original": {
+        "defined": true,
+        "center_log10": [
+          3.3300366257981686,
+          3.1329715449689086
+        ],
+        "radius_decades": 0.14900097230926335,
+        "reference_distance_decades": 0.004798291494549706,
+        "reference_inside": true,
+        "endpoint_radius_error_decades": 6.38378239159465e-16,
+        "perpendicular_bisector_dot_residual": 0.0,
+        "projection_cross_residual": -7.10176025577084e-21
+      },
+      "fallback_reason": null,
+      "display_rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+      "center_log10": [
+        3.3300366257981686,
+        3.1329715449689086
+      ],
+      "radius_decades": 0.14900097230926335,
+      "point_distances_decades": {
+        "optimistic": 0.14900097230926335,
+        "reference": 0.004798291494549706,
+        "pessimistic": 0.1490009723092627
+      },
+      "reference_inside": true,
+      "all_points_inside": true,
+      "endpoints_on_circumference": true,
+      "points_log10": {
+        "optimistic": [
+          3.4353962237214377,
+          3.2383311428921777
+        ],
+        "reference": [
+          3.326643721344263,
+          3.129578640515003
+        ],
+        "pessimistic": [
+          3.2246770278749,
+          3.02761194704564
+        ]
+      },
+      "paired_points": [
+        {
+          "paired_id": "ns_sram_dcim__optimistic",
+          "scenario": "optimistic",
+          "log10_tau": 3.4353962237214377,
+          "log10_rho": 3.2383311428921777
+        },
+        {
+          "paired_id": "ns_sram_dcim__reference",
+          "scenario": "reference",
+          "log10_tau": 3.326643721344263,
+          "log10_rho": 3.129578640515003
+        },
+        {
+          "paired_id": "ns_sram_dcim__pessimistic",
+          "scenario": "pessimistic",
+          "log10_tau": 3.2246770278749,
+          "log10_rho": 3.02761194704564
+        }
+      ],
+      "interpretation": "Finite paired scenario illustration only; not confidence bounds or a feasible region."
+    },
+    {
+      "case_id": "ns_rram_1t1r",
+      "coordinate_space": "log10(tau_MB_per_s), log10(rho_MB_per_s)",
+      "original": {
+        "defined": true,
+        "center_log10": [
+          1.1672559003541298,
+          0.6964473993195827
+        ],
+        "radius_decades": 0.14665024508969335,
+        "reference_distance_decades": 0.004951391273682315,
+        "reference_inside": true,
+        "endpoint_radius_error_decades": 1.3877787807814457e-16,
+        "perpendicular_bisector_dot_residual": -2.1517583577894407e-17,
+        "projection_cross_residual": 4.5981170309353426e-18
+      },
+      "fallback_reason": null,
+      "display_rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+      "center_log10": [
+        1.1672559003541298,
+        0.6964473993195827
+      ],
+      "radius_decades": 0.14665024508969335,
+      "point_distances_decades": {
+        "optimistic": 0.14665024508969335,
+        "reference": 0.004951391273682315,
+        "pessimistic": 0.1466502450896935
+      },
+      "reference_inside": true,
+      "all_points_inside": true,
+      "endpoints_on_circumference": true,
+      "points_log10": {
+        "optimistic": [
+          1.261733060327485,
+          0.8086096060927921
+        ],
+        "reference": [
+          1.1640244642708608,
+          0.6926958534535637
+        ],
+        "pessimistic": [
+          1.0703274386915307,
+          0.586396648733368
+        ]
+      },
+      "paired_points": [
+        {
+          "paired_id": "ns_rram_1t1r__optimistic",
+          "scenario": "optimistic",
+          "log10_tau": 1.261733060327485,
+          "log10_rho": 0.8086096060927921
+        },
+        {
+          "paired_id": "ns_rram_1t1r__reference",
+          "scenario": "reference",
+          "log10_tau": 1.1640244642708608,
+          "log10_rho": 0.6926958534535637
+        },
+        {
+          "paired_id": "ns_rram_1t1r__pessimistic",
+          "scenario": "pessimistic",
+          "log10_tau": 1.0703274386915307,
+          "log10_rho": 0.586396648733368
+        }
+      ],
+      "interpretation": "Finite paired scenario illustration only; not confidence bounds or a feasible region."
+    }
+  ],
+  "scenario_definition": {
+    "schema": "step4-v4-scenarios.1",
+    "declared_before_production_results": true,
+    "interpretation": "finite fixed-architecture thermal design scenarios; native automatic sizing retained; not PVT/statistical bounds",
+    "source": "locked NeuroSim transistor temperature domain300..400K and native wire rho factor1+.00451*(T-300)",
+    "reference_meaning": "350K deliberately chosen warm engineering operating point, not empirical median; corrected300K diagnostic separates V3 comparison from this operating-point choice",
+    "scenarios": {
+      "optimistic": {
+        "temperature_K": 300
+      },
+      "reference": {
+        "temperature_K": 350
+      },
+      "pessimistic": {
+        "temperature_K": 400
+      }
+    },
+    "fixed_families": [
+      "node/roadmap",
+      "device resistance and programmed state target",
+      "read/write bias and device pulse",
+      "ADC levels/count",
+      "bank partition/mapping/ports",
+      "program algorithm/attempt requirement",
+      "clock reservation and signed input slots",
+      "validated/alpha/beta"
+    ]
+  },
+  "circle_rule": "c = p - dot(p-m,d)/dot(d,d) * d; m=(a+b)/2, d=b-a; r=norm(a-c).",
+  "fallback_rule": "If endpoints are degenerate or reference is outside, use the minimum enclosing circle or point; retain original geometry and reason.",
+  "interpretation": "Finite paired scenario illustration; not confidence bounds or a feasible region.",
+  "figures": {
+    "rho_tau_pairs": {
+      "x_axis": "tau_MB_per_s",
+      "y_axis": "rho_MB_per_s",
+      "units": "decimal MB/s",
+      "x_limits_log10": [
+        0.6849911980619727,
+        3.9378697832550835
+      ],
+      "y_limits_log10": [
+        0.19461435703361252,
+        3.6371553144744486
+      ],
+      "x_limits_data": [
+        4.841625548598628,
+        8667.019690930718
+      ],
+      "y_limits_data": [
+        1.5653604506680086,
+        4336.659403512806
+      ],
+      "axes_display_bounds_px": [
+        349.3740979026869,
+        321.0299999999999,
+        1006.2118041946261,
+        1064.8799999999999
+      ],
+      "figure_dpi": 180,
+      "figure_size_inches": [
+        12.8,
+        8.7
+      ],
+      "pixels_per_x_decade": 309.32965305709104,
+      "pixels_per_y_decade": 309.329653057091,
+      "equal_decade_screen_length": true,
+      "RI_1_line_angle_degrees": 44.99999999999999,
+      "all_points_visible": true,
+      "circle_visibility": [
+        {
+          "case_id": "ns_sram_acim",
+          "full_circle_visible": true,
+          "display_circle_bounds_px": [
+            1180.4330409154422,
+            877.9778776665764,
+            71.33735757448858,
+            71.3373575744888
+          ],
+          "display_circular": true,
+          "point_enclosure": true
+        },
+        {
+          "case_id": "ns_sram_dcim",
+          "full_circle_visible": true,
+          "display_circle_bounds_px": [
+            1121.4746633149757,
+            1183.860590432241,
+            92.18083813918724,
+            92.18083813918724
+          ],
+          "display_circular": true,
+          "point_enclosure": true
+        },
+        {
+          "case_id": "ns_rram_1t1r",
+          "full_circle_visible": true,
+          "display_circle_bounds_px": [
+            453.18960151006894,
+            430.8985714285713,
+            90.72653886866448,
+            90.72653886866448
+          ],
+          "display_circular": true,
+          "point_enclosure": true
+        }
+      ],
+      "case_labels_within_axes": true,
+      "case_label_to_point_collisions": 0,
+      "all_point_markers_fully_visible": true,
+      "case_label_count": 3,
+      "all_text_visible": true,
+      "text_collision_count": 0,
+      "checked_text_count": 27,
+      "text_bounds_px": [
+        {
+          "text": "SRAM ACIM",
+          "bounds": [
+            1005.4958373458369,
+            960.3528016449288,
+            169.75,
+            26.0
+          ]
+        },
+        {
+          "text": "SRAM DCIM",
+          "bounds": [
+            955.3905564269869,
+            1275.9014835442522,
+            171.125,
+            26.0
+          ]
+        },
+        {
+          "text": "1T1R RRAM",
+          "bounds": [
+            537.5532919418874,
+            394.6013764817401,
+            170.625,
+            26.0
+          ]
+        },
+        {
+          "text": "Resident update capability $\\tau$ (MB/s)",
+          "bounds": [
+            607.4876904296875,
+            221.82999999999993,
+            489.984619140625,
+            32.0
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{1}}$",
+          "bounds": [
+            425.0373995973568,
+            276.3299999999999,
+            43.556523437500005,
+            27.19999999999999
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{2}}$",
+          "bounds": [
+            734.4295526544479,
+            276.3299999999999,
+            43.43152343749989,
+            27.19999999999999
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{3}}$",
+          "bounds": [
+            1043.571705711539,
+            276.3299999999999,
+            43.80652343749989,
+            27.19999999999999
+          ]
+        },
+        {
+          "text": "Streaming input capability $\\rho$ (MB/s)",
+          "bounds": [
+            233.5675744651869,
+            610.0823046874998,
+            32.0,
+            486.775390625
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{1}}$",
+          "bounds": [
+            288.3175744651869,
+            554.0596615159546,
+            43.556523437500005,
+            27.200000000000045
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{2}}$",
+          "bounds": [
+            288.4425744651869,
+            863.3893145730457,
+            43.431523437500005,
+            27.200000000000045
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{3}}$",
+          "bounds": [
+            288.0675744651869,
+            1172.7189676301368,
+            43.806523437500005,
+            27.199999999999818
+          ]
+        },
+        {
+          "text": "Paired thermal design scenarios",
+          "bounds": [
+            172.79999999999998,
+            1447.8319999999997,
+            817.625,
+            43.0
+          ]
+        },
+        {
+          "text": "Three architectures · nine conditional model points · fixed architecture within each case",
+          "bounds": [
+            172.79999999999998,
+            1402.1919999999998,
+            1174.0,
+            26.0
+          ]
+        },
+        {
+          "text": "SCENARIO KEY",
+          "bounds": [
+            1647.36,
+            1325.8919999999998,
+            206.75,
+            24.0
+          ]
+        },
+        {
+          "text": "SRAM ACIM",
+          "bounds": [
+            1647.36,
+            967.9759999999999,
+            178.0,
+            28.0
+          ]
+        },
+        {
+          "text": "Analog transfer and 256-row read\nstability unverified. Nominal\n9-bit code is not ENOB.",
+          "bounds": [
+            1647.36,
+            865.8299999999998,
+            400.5,
+            81.60000000000002
+          ]
+        },
+        {
+          "text": "SRAM DCIM",
+          "bounds": [
+            1647.36,
+            778.4899999999999,
+            179.625,
+            28.0
+          ]
+        },
+        {
+          "text": "Exact nominal digital mapping.\nNative SRAM/clock timing\nabstraction; no SPICE signoff.",
+          "bounds": [
+            1647.36,
+            676.3439999999998,
+            369.125,
+            81.60000000000002
+          ]
+        },
+        {
+          "text": "1T1R RRAM",
+          "bounds": [
+            1647.36,
+            589.0039999999999,
+            178.5,
+            28.0
+          ]
+        },
+        {
+          "text": "Segmented, approximate Q4 output.\nStiff read rail and successful\nbounded program-verify assumed; no\nENOB claim.",
+          "bounds": [
+            1647.36,
+            457.5579999999999,
+            446.4999999999998,
+            110.89999999999998
+          ]
+        },
+        {
+          "text": "300 / 350 / 400 K are finite engineering design scenarios; 350 K is a warm reference, not a statistical median.",
+          "bounds": [
+            172.79999999999998,
+            160.78799999999995,
+            1378.375,
+            24.0
+          ]
+        },
+        {
+          "text": "Native automatic sizing is retained; these are not fixed-chip PVT or statistical bounds. Decimal MB/s = 10⁶ Byte/s.",
+          "bounds": [
+            172.79999999999998,
+            110.67599999999996,
+            1428.5,
+            24.0
+          ]
+        },
+        {
+          "text": "Connecting lines identify paired scenarios within each case; points retain the source summary coordinates.",
+          "bounds": [
+            172.79999999999998,
+            60.56399999999999,
+            1347.0,
+            24.0
+          ]
+        },
+        {
+          "text": "300 K  optimistic",
+          "bounds": [
+            1697.0159999999998,
+            1266.4119999999998,
+            211.0,
+            24.0
+          ]
+        },
+        {
+          "text": "350 K  warm reference",
+          "bounds": [
+            1697.0159999999998,
+            1226.1619999999998,
+            286.375,
+            24.0
+          ]
+        },
+        {
+          "text": "400 K  pessimistic",
+          "bounds": [
+            1697.0159999999998,
+            1185.9119999999998,
+            227.75,
+            24.0
+          ]
+        },
+        {
+          "text": "$RI^{*}=\\rho/\\tau=1$",
+          "bounds": [
+            1697.0159999999998,
+            1137.4619999999998,
+            152.24220052083342,
+            32.200000000000045
+          ]
+        }
+      ]
+    },
+    "rho_tau_circles": {
+      "x_axis": "tau_MB_per_s",
+      "y_axis": "rho_MB_per_s",
+      "units": "decimal MB/s",
+      "x_limits_log10": [
+        0.6849911980619727,
+        3.9378697832550835
+      ],
+      "y_limits_log10": [
+        0.19461435703361252,
+        3.6371553144744486
+      ],
+      "x_limits_data": [
+        4.841625548598628,
+        8667.019690930718
+      ],
+      "y_limits_data": [
+        1.5653604506680086,
+        4336.659403512806
+      ],
+      "axes_display_bounds_px": [
+        349.3740979026869,
+        321.0299999999999,
+        1006.2118041946261,
+        1064.8799999999999
+      ],
+      "figure_dpi": 180,
+      "figure_size_inches": [
+        12.8,
+        8.7
+      ],
+      "pixels_per_x_decade": 309.32965305709104,
+      "pixels_per_y_decade": 309.329653057091,
+      "equal_decade_screen_length": true,
+      "RI_1_line_angle_degrees": 44.99999999999999,
+      "all_points_visible": true,
+      "circle_visibility": [
+        {
+          "case_id": "ns_sram_acim",
+          "full_circle_visible": true,
+          "display_circle_bounds_px": [
+            1180.4330409154422,
+            877.9778776665764,
+            71.33735757448858,
+            71.3373575744888
+          ],
+          "display_circular": true,
+          "point_enclosure": true
+        },
+        {
+          "case_id": "ns_sram_dcim",
+          "full_circle_visible": true,
+          "display_circle_bounds_px": [
+            1121.4746633149757,
+            1183.860590432241,
+            92.18083813918724,
+            92.18083813918724
+          ],
+          "display_circular": true,
+          "point_enclosure": true
+        },
+        {
+          "case_id": "ns_rram_1t1r",
+          "full_circle_visible": true,
+          "display_circle_bounds_px": [
+            453.18960151006894,
+            430.8985714285713,
+            90.72653886866448,
+            90.72653886866448
+          ],
+          "display_circular": true,
+          "point_enclosure": true
+        }
+      ],
+      "case_labels_within_axes": true,
+      "case_label_to_point_collisions": 0,
+      "all_point_markers_fully_visible": true,
+      "case_label_count": 3,
+      "all_text_visible": true,
+      "text_collision_count": 0,
+      "checked_text_count": 27,
+      "text_bounds_px": [
+        {
+          "text": "SRAM ACIM",
+          "bounds": [
+            1005.4958373458369,
+            960.3528016449288,
+            169.75,
+            26.0
+          ]
+        },
+        {
+          "text": "SRAM DCIM",
+          "bounds": [
+            955.3905564269869,
+            1275.9014835442522,
+            171.125,
+            26.0
+          ]
+        },
+        {
+          "text": "1T1R RRAM",
+          "bounds": [
+            537.5532919418874,
+            394.6013764817401,
+            170.625,
+            26.0
+          ]
+        },
+        {
+          "text": "Resident update capability $\\tau$ (MB/s)",
+          "bounds": [
+            607.4876904296875,
+            221.82999999999993,
+            489.984619140625,
+            32.0
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{1}}$",
+          "bounds": [
+            425.0373995973568,
+            276.3299999999999,
+            43.556523437500005,
+            27.19999999999999
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{2}}$",
+          "bounds": [
+            734.4295526544479,
+            276.3299999999999,
+            43.43152343749989,
+            27.19999999999999
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{3}}$",
+          "bounds": [
+            1043.571705711539,
+            276.3299999999999,
+            43.80652343749989,
+            27.19999999999999
+          ]
+        },
+        {
+          "text": "Streaming input capability $\\rho$ (MB/s)",
+          "bounds": [
+            233.5675744651869,
+            610.0823046874998,
+            32.0,
+            486.775390625
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{1}}$",
+          "bounds": [
+            288.3175744651869,
+            554.0596615159546,
+            43.556523437500005,
+            27.200000000000045
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{2}}$",
+          "bounds": [
+            288.4425744651869,
+            863.3893145730457,
+            43.431523437500005,
+            27.200000000000045
+          ]
+        },
+        {
+          "text": "$\\mathdefault{10^{3}}$",
+          "bounds": [
+            288.0675744651869,
+            1172.7189676301368,
+            43.806523437500005,
+            27.199999999999818
+          ]
+        },
+        {
+          "text": "Paired thermal design scenarios · log-space circles",
+          "bounds": [
+            172.79999999999998,
+            1447.8319999999997,
+            1288.5,
+            43.0
+          ]
+        },
+        {
+          "text": "Three architectures · nine conditional model points · fixed architecture within each case",
+          "bounds": [
+            172.79999999999998,
+            1402.1919999999998,
+            1174.0,
+            26.0
+          ]
+        },
+        {
+          "text": "SCENARIO KEY",
+          "bounds": [
+            1647.36,
+            1325.8919999999998,
+            206.75,
+            24.0
+          ]
+        },
+        {
+          "text": "SRAM ACIM",
+          "bounds": [
+            1647.36,
+            967.9759999999999,
+            178.0,
+            28.0
+          ]
+        },
+        {
+          "text": "Analog transfer and 256-row read\nstability unverified. Nominal\n9-bit code is not ENOB.",
+          "bounds": [
+            1647.36,
+            865.8299999999998,
+            400.5,
+            81.60000000000002
+          ]
+        },
+        {
+          "text": "SRAM DCIM",
+          "bounds": [
+            1647.36,
+            778.4899999999999,
+            179.625,
+            28.0
+          ]
+        },
+        {
+          "text": "Exact nominal digital mapping.\nNative SRAM/clock timing\nabstraction; no SPICE signoff.",
+          "bounds": [
+            1647.36,
+            676.3439999999998,
+            369.125,
+            81.60000000000002
+          ]
+        },
+        {
+          "text": "1T1R RRAM",
+          "bounds": [
+            1647.36,
+            589.0039999999999,
+            178.5,
+            28.0
+          ]
+        },
+        {
+          "text": "Segmented, approximate Q4 output.\nStiff read rail and successful\nbounded program-verify assumed; no\nENOB claim.",
+          "bounds": [
+            1647.36,
+            457.5579999999999,
+            446.4999999999998,
+            110.89999999999998
+          ]
+        },
+        {
+          "text": "300 / 350 / 400 K are finite engineering design scenarios; 350 K is a warm reference, not a statistical median.",
+          "bounds": [
+            172.79999999999998,
+            160.78799999999995,
+            1378.375,
+            24.0
+          ]
+        },
+        {
+          "text": "Native automatic sizing is retained; these are not fixed-chip PVT or statistical bounds. Decimal MB/s = 10⁶ Byte/s.",
+          "bounds": [
+            172.79999999999998,
+            110.67599999999996,
+            1428.5,
+            24.0
+          ]
+        },
+        {
+          "text": "Circles illustrate only the three paired scenarios; they are not confidence intervals or regions of feasible combinations.",
+          "bounds": [
+            172.79999999999998,
+            60.56399999999999,
+            1489.75,
+            24.0
+          ]
+        },
+        {
+          "text": "300 K  optimistic",
+          "bounds": [
+            1697.0159999999998,
+            1266.4119999999998,
+            211.0,
+            24.0
+          ]
+        },
+        {
+          "text": "350 K  warm reference",
+          "bounds": [
+            1697.0159999999998,
+            1226.1619999999998,
+            286.375,
+            24.0
+          ]
+        },
+        {
+          "text": "400 K  pessimistic",
+          "bounds": [
+            1697.0159999999998,
+            1185.9119999999998,
+            227.75,
+            24.0
+          ]
+        },
+        {
+          "text": "$RI^{*}=\\rho/\\tau=1$",
+          "bounds": [
+            1697.0159999999998,
+            1137.4619999999998,
+            152.24220052083342,
+            32.200000000000045
+          ]
+        }
+      ]
+    },
+    "scenario_table": {
+      "display_significant_digits": 3,
+      "all_cell_text_fits": true,
+      "checked_cell_count": 90,
+      "all_text_visible": true,
+      "text_collision_count": 0,
+      "checked_text_count": 7,
+      "text_bounds_px": [
+        {
+          "text": "Three-case paired scenario table",
+          "bounds": [
+            142.56,
+            1429.148,
+            832.125,
+            43.0
+          ]
+        },
+        {
+          "text": "Conditional model estimates · values shown to three significant digits · full precision in plot_points.csv / .json",
+          "bounds": [
+            142.56,
+            1379.584,
+            1434.75,
+            26.0
+          ]
+        },
+        {
+          "text": "SRAM ACIM: Analog transfer and 256-row read stability unverified. Nominal 9-bit code is not ENOB.",
+          "bounds": [
+            142.56,
+            469.812,
+            1242.0,
+            24.0
+          ]
+        },
+        {
+          "text": "SRAM DCIM: Exact nominal digital mapping. Native SRAM/clock timing abstraction; no SPICE signoff.",
+          "bounds": [
+            142.56,
+            409.44000000000005,
+            1255.125,
+            24.0
+          ]
+        },
+        {
+          "text": "1T1R RRAM: Segmented, approximate Q4 output. Stiff read rail and successful bounded program-verify assumed; no ENOB claim.",
+          "bounds": [
+            142.56,
+            349.06800000000004,
+            1628.625,
+            24.0
+          ]
+        },
+        {
+          "text": "300 / 350 / 400 K: finite fixed-architecture design scenarios with native automatic sizing. The 350 K warm reference is not a median.",
+          "bounds": [
+            142.56,
+            171.048,
+            1666.0,
+            24.0
+          ]
+        },
+        {
+          "text": "Decimal MB/s = 10⁶ Byte/s. $RI^{*}=\\rho/\\tau$; $U^{*}=T_R/\\Delta_S$. Qualifications and source fields are preserved in the machine-readable exports.",
+          "bounds": [
+            142.56,
+            108.668,
+            1614.3083561197916,
+            32.19999999999999
+          ]
+        }
+      ]
+    }
+  },
+  "visual_QA": "Programmatic geometry/text checks passed; human or image-view QA is a separate recorded step.",
+  "artifacts": {
+    "plot_points.csv": "0ae42f02127822a9890c4895a5fb81bc20094328d4c0306a39505bac113162eb",
+    "plot_points.json": "ef58ba83f41da8b4df99e8c44d8ed5a0af12fd85dc04689e69dca3cb9cc58951",
+    "rho_tau_circles.png": "ad6984e1396b1e21b5396106def8eeb781918d2e2b30f17328d9d8009b77b175",
+    "rho_tau_circles.svg": "075a3452ce3b206d6d42ce04d537ddeb7e33c90374d4e107aa4c90f7584c515a",
+    "rho_tau_pairs.png": "27cc79c7cad9a690e4ae09d2155f552d146b91446ebdfbcfdd674ec9f1c3f476",
+    "rho_tau_pairs.svg": "b3429d3bd6c2fe7ba5df31a3969e35ce2cd9a9f1173acd8196cbd1e8f1fc79ea",
+    "scenario_table.png": "024aad7363f30f21432154c42bff0b40a9e584cfb5e4b0aee4102e3262f5af8a",
+    "scenario_table.svg": "338fa8539442d5ad777dafaa7c90edcf6bb7c22622f24a9eb9cf50b47385ff5b"
+  }
+}

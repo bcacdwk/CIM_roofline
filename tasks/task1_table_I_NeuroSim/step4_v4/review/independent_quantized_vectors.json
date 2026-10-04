@@ -1,0 +1,116 @@
+{
+  "status": "pass",
+  "method": "Recursive circuit collapse plus direct powers-of-two bit significance; no production solver/mapping import",
+  "limitation": "Finite vectors under ideal stiff-rail linear ladder and deterministic ADC; not ENOB/accuracy certification",
+  "results": {
+    "optimistic": {
+      "temperature_K": 300.0,
+      "vectors": {
+        "zero_input": {
+          "max_abs_output_error": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "zero_weights": {
+          "max_abs_output_error": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "full_positive": {
+          "max_abs_output_error": 177419.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.04296875
+        },
+        "negative_extremes": {
+          "max_abs_output_error": 180224.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.04296875
+        },
+        "signed_cancel": {
+          "max_abs_output_error": 16891.0,
+          "zero_exact_output_max_abs_residual": 16891.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "mixed": {
+          "max_abs_output_error": 6745.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 11.625
+        }
+      },
+      "comparison": "exactly matches independent fresh-run finite qualification metrics"
+    },
+    "reference": {
+      "temperature_K": 350.0,
+      "vectors": {
+        "zero_input": {
+          "max_abs_output_error": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "zero_weights": {
+          "max_abs_output_error": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "full_positive": {
+          "max_abs_output_error": 193548.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.046875
+        },
+        "negative_extremes": {
+          "max_abs_output_error": 196608.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.046875
+        },
+        "signed_cancel": {
+          "max_abs_output_error": 762.0,
+          "zero_exact_output_max_abs_residual": 762.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "mixed": {
+          "max_abs_output_error": 4039.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 4.78125
+        }
+      },
+      "comparison": "exactly matches independent fresh-run finite qualification metrics"
+    },
+    "pessimistic": {
+      "temperature_K": 400.0,
+      "vectors": {
+        "zero_input": {
+          "max_abs_output_error": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "zero_weights": {
+          "max_abs_output_error": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "full_positive": {
+          "max_abs_output_error": 209677.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.05078125
+        },
+        "negative_extremes": {
+          "max_abs_output_error": 212992.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.05078125
+        },
+        "signed_cancel": {
+          "max_abs_output_error": 889.0,
+          "zero_exact_output_max_abs_residual": 889.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "mixed": {
+          "max_abs_output_error": 6816.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 2.8020833333333335
+        }
+      },
+      "comparison": "exactly matches independent fresh-run finite qualification metrics"
+    }
+  },
+  "script_sha256": "2eee4470c5b07777de8380d3868aa4c8016a33ecfe621235ff7efd40df87fa5d"
+}

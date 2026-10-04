@@ -1,0 +1,136 @@
+{
+  "schema": "step4-v4-documentation-review.1",
+  "status": "PASS_NO_SUBSTANTIVE_DOCUMENTATION_ERROR_FOUND",
+  "reviewer": "/root/v4_reviewer",
+  "scope": "Read-only final documentation consistency review; no execution source/config changes and no repeated model builds were needed.",
+  "reviewed_files": {
+    "REPORT.zh.md": {
+      "path": "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim/step4_v4/REPORT.zh.md",
+      "sha256": "f6031d589bf4ff5da9496d97b1deb33e7b73bd5a3d468594ee59f0988e198d91"
+    },
+    "README.md": {
+      "path": "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim/step4_v4/README.md",
+      "sha256": "2384f48b0ff08b00ad976b053cb0d447149802b1e154109e21eddd056034e3ad"
+    },
+    "provenance/input_ledger.json": {
+      "path": "/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim/step4_v4/provenance/input_ledger.json",
+      "sha256": "f2b0eec91b16d0122c380871456351d5f886d7edece481c1244b0d7998c809a6"
+    }
+  },
+  "frozen_execution_package_changed_files": [],
+  "findings": [],
+  "checks": {
+    "conditional_model_conclusion_matches_independent_review": true,
+    "SRAM256row_stability_and_transfer_unverified_explicit": true,
+    "RRAM_Q4_is_format_not_ENOB_or_exact_INT8": true,
+    "RRAM_fullscale_and_zero_cancellation_and_small_value_errors_explicit": true,
+    "nonmonotonic_precision_separated_from_fast_slow_timing": true,
+    "V3_ideal_half_up_translation_error_claim_rejected": true,
+    "all300K_revisions_separated_from350K_operating_point_change": true,
+    "finite_paired_scenarios_not_statistical_bounds_or_same_chip_PVT": true,
+    "automatic_resizing_and_fixed_per_case_resources_disclosed": true,
+    "generic_device_pack_not_joint_measured22nm_material": true,
+    "external_stiff_supply_condition_not_certified_by_LevelShifter": true,
+    "source_numeric_input_engineering_choice_model_output_separated": true,
+    "locked_source_hash_checks": [
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/Param.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/formula.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/RowDecoder.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/Mux.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/constant.h",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/Bus.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/AdderTree.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "path": "Training_pytorch/NeuroSIM/DFF.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceV1.4",
+        "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceV1.4",
+        "path": "Inference_pytorch/NeuroSIM/RowDecoder.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceV1.4",
+        "path": "Inference_pytorch/NeuroSIM/LevelShifter.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceDCIMV1.0-dev",
+        "path": "README.md",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceDCIMV1.0-dev",
+        "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceDCIMV1.0-dev",
+        "path": "Inference_pytorch/NeuroSIM/RowDecoder.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceDCIMV1.0-dev",
+        "path": "Inference_pytorch/NeuroSIM/AdderTree_DCIM.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "2DInferenceDCIMV1.0-dev",
+        "path": "Inference_pytorch/NeuroSIM/DFF.cpp",
+        "sha256_matches_locked_blob": true
+      },
+      {
+        "branch": "MLPInferenceV3.0",
+        "path": "Cell.cpp",
+        "sha256_matches_locked_blob": true
+      }
+    ],
+    "not_user_or_external_ChatGPT_acceptance": true
+  },
+  "read_supply_estimate": {
+    "derivation": "16banks *32simultaneously_selected_columns_per_bank *16active_rows *.5V /13000ohm",
+    "ideal_A": 0.3150769230769231,
+    "ideal_mA": 315.0769230769231,
+    "review": "Approximately315mA is arithmetically and dimensionally correct as the ideal dense selected-column read demand scale. It is not total macro power, guaranteed delivery, extracted IR-drop, or a LevelShifter supply guarantee; final report explicitly treats low-impedance supply as unverified applicability condition."
+  },
+  "primary_literature_review_limit": "This fast document review verifies source grade/limitation wording and locked code hashes; it does not newly certify every external publication claim."
+}

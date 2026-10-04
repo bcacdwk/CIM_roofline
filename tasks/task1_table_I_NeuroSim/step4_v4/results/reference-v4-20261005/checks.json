@@ -1,0 +1,230 @@
+{
+  "status": "PASS",
+  "qualification": "Checks of declared inputs, resource/state bookkeeping, source return units and causal effects; not a physical accuracy percentage.",
+  "service": {
+    "ns_sram_acim__optimistic": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "one_accepted_input_held": true,
+      "native_resources": true,
+      "stream_stages": true,
+      "resident_stages": true,
+      "complete_matrix_overwrite": true,
+      "clock_qualification": true,
+      "sized_mux_with_load": true
+    },
+    "ns_sram_acim__reference": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "one_accepted_input_held": true,
+      "native_resources": true,
+      "stream_stages": true,
+      "resident_stages": true,
+      "complete_matrix_overwrite": true,
+      "clock_qualification": true,
+      "sized_mux_with_load": true
+    },
+    "ns_sram_acim__pessimistic": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "one_accepted_input_held": true,
+      "native_resources": true,
+      "stream_stages": true,
+      "resident_stages": true,
+      "complete_matrix_overwrite": true,
+      "clock_qualification": true,
+      "sized_mux_with_load": true
+    },
+    "ns_rram_1t1r__optimistic": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "banked_physical_mapping": true,
+      "fixed_resources": true,
+      "Q4_container": true,
+      "actual_gain": true,
+      "target_codes_rederived": true,
+      "full_matrix_count": true,
+      "bounded_verify": true,
+      "no_indefinite_read_hold": true,
+      "staging_lifetime_resources": true,
+      "directional_links": true,
+      "data_pin_fanout_not_clock_enable": true,
+      "native_terminal_load_budget": true,
+      "ADC_settling": true,
+      "stream_stages": true,
+      "resident_stages": true,
+      "actual_area_containment": true,
+      "near_square_rule": true,
+      "clock_qualification": true
+    },
+    "ns_rram_1t1r__reference": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "banked_physical_mapping": true,
+      "fixed_resources": true,
+      "Q4_container": true,
+      "actual_gain": true,
+      "target_codes_rederived": true,
+      "full_matrix_count": true,
+      "bounded_verify": true,
+      "no_indefinite_read_hold": true,
+      "staging_lifetime_resources": true,
+      "directional_links": true,
+      "data_pin_fanout_not_clock_enable": true,
+      "native_terminal_load_budget": true,
+      "ADC_settling": true,
+      "stream_stages": true,
+      "resident_stages": true,
+      "actual_area_containment": true,
+      "near_square_rule": true,
+      "clock_qualification": true
+    },
+    "ns_rram_1t1r__pessimistic": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "banked_physical_mapping": true,
+      "fixed_resources": true,
+      "Q4_container": true,
+      "actual_gain": true,
+      "target_codes_rederived": true,
+      "full_matrix_count": true,
+      "bounded_verify": true,
+      "no_indefinite_read_hold": true,
+      "staging_lifetime_resources": true,
+      "directional_links": true,
+      "data_pin_fanout_not_clock_enable": true,
+      "native_terminal_load_budget": true,
+      "ADC_settling": true,
+      "stream_stages": true,
+      "resident_stages": true,
+      "actual_area_containment": true,
+      "near_square_rule": true,
+      "clock_qualification": true
+    },
+    "ns_sram_dcim__optimistic": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "native_fixed_array": true,
+      "paid_full_sign_pass": true,
+      "direct_operand_state": true,
+      "stream26": true,
+      "resident512": true,
+      "write_quantization": true,
+      "physical_and_policy_separate": true,
+      "NOR_load_and_polarity": true
+    },
+    "ns_sram_dcim__reference": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "native_fixed_array": true,
+      "paid_full_sign_pass": true,
+      "direct_operand_state": true,
+      "stream26": true,
+      "resident512": true,
+      "write_quantization": true,
+      "physical_and_policy_separate": true,
+      "NOR_load_and_polarity": true
+    },
+    "ns_sram_dcim__pessimistic": {
+      "logical_payload": true,
+      "balanced_metrics": true,
+      "nonoverlap_declared": true,
+      "temperature_consumed": true,
+      "clock_policy": true,
+      "finite_positive": true,
+      "actual_field_consumption": true,
+      "native_fixed_array": true,
+      "paid_full_sign_pass": true,
+      "direct_operand_state": true,
+      "stream26": true,
+      "resident512": true,
+      "write_quantization": true,
+      "physical_and_policy_separate": true,
+      "NOR_load_and_polarity": true
+    }
+  },
+  "thermal_input_chain": {
+    "ns_sram_acim": {
+      "actual_wire_temperature50K": true,
+      "actual_wire_temperature100K": true
+    },
+    "ns_sram_dcim": {
+      "actual_wire_temperature50K": true,
+      "actual_wire_temperature100K": true,
+      "RI_U_clock_cancel": true
+    },
+    "ns_rram_1t1r": {
+      "actual_wire_temperature50K": true,
+      "actual_wire_temperature100K": true
+    }
+  },
+  "separate_diagnostics": {
+    "ns_sram_acim__diagnostic_corrected300": {},
+    "ns_sram_acim__diagnostic_driver55": {
+      "driver_input_cap_changed": true,
+      "not_a_main_corner": true
+    },
+    "ns_sram_acim__diagnostic_wire2": {
+      "real_wire_consumption": true
+    },
+    "ns_rram_1t1r__diagnostic_corrected300": {},
+    "ns_rram_1t1r__diagnostic_pulse20ns": {
+      "pulse_only_resident": true,
+      "exact_parallel_pulse_delta": true
+    },
+    "ns_rram_1t1r__diagnostic_attempt2": {
+      "same_hardware_demand": true,
+      "pulses_double": true,
+      "verify_double": true,
+      "row_capture_not_repeated": true
+    },
+    "ns_rram_1t1r__diagnostic_activity50": {
+      "resident_not_polluted": true,
+      "read_RC_changed": true
+    },
+    "ns_sram_dcim__diagnostic_corrected300": {},
+    "ns_sram_dcim__diagnostic_wire125": {
+      "real_wire_consumption": true
+    }
+  }
+}

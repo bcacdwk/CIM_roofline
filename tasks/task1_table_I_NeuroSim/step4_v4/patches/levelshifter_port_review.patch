@@ -1,0 +1,33 @@
+--- V1.4/LevelShifter.cpp
++++ Training-port/LevelShifter.cpp
+@@ -85,22 +85,14 @@
+ 		double hlow, hlatch, hhigh, wlow, wlatch, whigh;
+ 
+ 		// 1.4 update: needs check - compatibility with FinFET?
+-		if (param->validated){			
+-			CalculateGateArea(INV, 1, widthN*15*2, widthP*20*2, tech.featureSize*MAX_TRANSISTOR_HEIGHT*2.5, tech, &hlow, &wlow); 	//width*2, height*2.5
+-			CalculateGateArea(INV, 1, widthN*32*2, widthP*10*2, tech.featureSize*MAX_TRANSISTOR_HEIGHT*2.5, tech, &hlatch, &wlatch);
+-			CalculateGateArea(INV, 1, widthN*64*2, widthP*82*2, tech.featureSize*MAX_TRANSISTOR_HEIGHT*2.5, tech, &hhigh, &whigh);
+-			double hLS = max(max(hlow, hlatch), hhigh);
+-			double wLS = (wlow + (2*wlatch + whigh)*2.5);		//latch and high_voltage_pull_up are IO transistors, l=270nm
+-			area = hLS * wLS * numOutput*param->alpha;	//consider wire areas, alpha = 1.44 by default
+-		}else{
+-			CalculateGateArea(INV, 1, widthN*15, widthP*20, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hlow, &wlow);
+-			CalculateGateArea(INV, 1, widthN*32, widthP*10, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hlatch, &wlatch);
+-			CalculateGateArea(INV, 1, widthN*64, widthP*82, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hhigh, &whigh);
+-			double hLS = max(max(hlow, hlatch), hhigh); 
+-			double wLS = wlow + 2*wlatch + whigh;
+-			area = hLS * wLS * numOutput;
+-		}
+-		
++		// Step4 V3: port the upstream unvalidated area branch at the shared tech/cell.
++		CalculateGateArea(INV, 1, widthN*15, widthP*20, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hlow, &wlow);
++		CalculateGateArea(INV, 1, widthN*32, widthP*10, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hlatch, &wlatch);
++		CalculateGateArea(INV, 1, widthN*64, widthP*82, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hhigh, &whigh);
++		double hLS = max(max(hlow, hlatch), hhigh);
++		double wLS = wlow + 2*wlatch + whigh;
++		area = hLS * wLS * numOutput;
++
+ 		if (_newWidth && _option==NONE) {
+ 			width = _newWidth;
+ 			height = area / width;

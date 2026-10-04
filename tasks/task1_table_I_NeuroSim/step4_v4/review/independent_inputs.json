@@ -1,0 +1,221 @@
+{
+  "status": "pass",
+  "cases": {
+    "ns_rram_1t1r": {
+      "rejected_unsupported_overrides": [
+        {
+          "unknown_reviewer_field": 1
+        },
+        {
+          "logical_K": 128
+        },
+        {
+          "logical_N": 32
+        },
+        {
+          "input_bits": 4
+        },
+        {
+          "temperature_K": 299
+        },
+        {
+          "temperature_K": 401
+        },
+        {
+          "temperature_K": 350.5
+        },
+        {
+          "clock_reservation_factor": 1
+        }
+      ],
+      "source_and_actual_temperature_chain": [
+        {
+          "scenario": "optimistic",
+          "temperature_K": 300,
+          "request_header_sha256": "940291262f7b9ed0acbee6d5d148fea297fc51228a2846172bcf1110029918ee",
+          "constructor_sha256": "6a3703e42d2d9574124ad242adcdc4b316cd78cba5f62e6bc780d750fcac1135"
+        },
+        {
+          "scenario": "reference",
+          "temperature_K": 350,
+          "request_header_sha256": "aa2efe49707e57da0730debac9f02b244e697009f440f5f2b02a9746d2d1cfe3",
+          "constructor_sha256": "a7cb391b29836b96d42caadbf577299288cc160c2e9ee11e45f2f40833401f2a"
+        },
+        {
+          "scenario": "pessimistic",
+          "temperature_K": 400,
+          "request_header_sha256": "74b22a78d9c2ac101e3107b74311b4eab218244b99af98d016b8b340b9ae7312",
+          "constructor_sha256": "c5bd2292e12b07191ab9207f4a8bddbbb167fe49e30fd471d4113f9256428c69"
+        }
+      ],
+      "only_temperature_changes_in_main_request": true,
+      "wire_ratios": [
+        1.0,
+        1.2254999999999998,
+        1.451
+      ],
+      "native_resized_fields": {
+        "access_width_f": [
+          3.4542928974044016,
+          4.3537395280193305,
+          5.4523710294090995
+        ],
+        "mux_width_n_m": [
+          1.4965059690908917e-05,
+          1.886173924754221e-05,
+          2.3621348952024655e-05
+        ],
+        "mux_width_p_m": [
+          1.974480301437982e-05,
+          2.7287199560743193e-05,
+          3.64865479348238e-05
+        ]
+      },
+      "interpretation": "Fixed architecture design scenarios; these native sizes do not represent one fixed chip PVT sweep."
+    },
+    "ns_sram_acim": {
+      "rejected_unsupported_overrides": [
+        {
+          "unknown_reviewer_field": 1
+        },
+        {
+          "logical_K": 128
+        },
+        {
+          "logical_N": 32
+        },
+        {
+          "input_bits": 4
+        },
+        {
+          "temperature_K": 299
+        },
+        {
+          "temperature_K": 401
+        },
+        {
+          "temperature_K": 350.5
+        },
+        {
+          "clock_reservation_factor": 1
+        }
+      ],
+      "source_and_actual_temperature_chain": [
+        {
+          "scenario": "optimistic",
+          "temperature_K": 300,
+          "request_header_sha256": "798f91c95ee8bac6373f8e7a977022451c893c23667ce44ceeab9b654ade7b6f",
+          "constructor_sha256": "963cb97da86535c11773771b35d6e0ba5732aea4f4d4112155725bc3f9eba7c3"
+        },
+        {
+          "scenario": "reference",
+          "temperature_K": 350,
+          "request_header_sha256": "411319cdd3467298f7f12dff8b83952fe46a1f5624aeefc29fa5822e1fbbcb26",
+          "constructor_sha256": "d0395ad949e4c7211e43118c167026bca9b1199ec09561a00c356038e3f5bf41"
+        },
+        {
+          "scenario": "pessimistic",
+          "temperature_K": 400,
+          "request_header_sha256": "2c17954ccb4412d43c2fc887cf3d9135ca1ca5d993d7378be200a6dd607defa9",
+          "constructor_sha256": "55a71fa2b5c295df19785c35731deb1ecd7016611cb922adbf1735ce44a87a8d"
+        }
+      ],
+      "only_temperature_changes_in_main_request": true,
+      "wire_ratios": [
+        1.0,
+        1.2254999999999998,
+        1.451
+      ],
+      "native_resized_fields": {
+        "wl_tg_n_m": [
+          2.91049068960903e-07,
+          2.993340915463883e-07,
+          3.166103033423631e-07
+        ],
+        "wl_tg_p_m": [
+          3.8400826009686605e-07,
+          4.3304538272759776e-07,
+          4.890498435556144e-07
+        ],
+        "mux_tg_n_m": [
+          5.902336000000001e-06,
+          5.902336e-06,
+          5.902336e-06
+        ],
+        "mux_tg_p_m": [
+          7.787503962679107e-06,
+          8.53888489247064e-06,
+          9.117001142857143e-06
+        ]
+      },
+      "interpretation": "Fixed architecture design scenarios; these native sizes do not represent one fixed chip PVT sweep."
+    },
+    "ns_sram_dcim": {
+      "rejected_unsupported_overrides": [
+        {
+          "unknown_reviewer_field": 1
+        },
+        {
+          "logical_K": 128
+        },
+        {
+          "logical_N": 32
+        },
+        {
+          "input_bits": 4
+        },
+        {
+          "temperature_K": 299
+        },
+        {
+          "temperature_K": 401
+        },
+        {
+          "temperature_K": 350.5
+        },
+        {
+          "clock_reservation_factor": 1
+        }
+      ],
+      "source_and_actual_temperature_chain": [
+        {
+          "scenario": "optimistic",
+          "temperature_K": 300,
+          "request_header_sha256": "6bee8ff0e3e148e0c1e818d4ab45dfd6b88b252d1dbe544906522b97354a28cd",
+          "constructor_sha256": "78ea93ea52eb72abb38b3acf19c3ff9e0128f202ae0174f4d00783be5269e36e"
+        },
+        {
+          "scenario": "reference",
+          "temperature_K": 350,
+          "request_header_sha256": "59294d96dd02cae6383efdc3188c98f2e4d8cf281d43d44b6f2e27ad94fb2fa8",
+          "constructor_sha256": "b4236bd0de8641a31947d8af2d09c297a1e2c81d4907c8882592d58ebabda16b"
+        },
+        {
+          "scenario": "pessimistic",
+          "temperature_K": 400,
+          "request_header_sha256": "09041c69c2d8b95434a9ce59964ee951a2482ed2009f11f2ccd88aef573900fd",
+          "constructor_sha256": "0543a06c0ffde1adfb60c1bd8e54ba6591fab69a9811e8b62eb90ab6802b0def"
+        }
+      ],
+      "only_temperature_changes_in_main_request": true,
+      "wire_ratios": [
+        1.0,
+        1.2255,
+        1.4509999999999998
+      ],
+      "native_resized_fields": {
+        "wl_tg_n_m": [
+          6.640526305729711e-07,
+          6.829555979038407e-07,
+          7.223727103873512e-07
+        ],
+        "wl_tg_p_m": [
+          8.761467480018924e-07,
+          9.880290171839351e-07,
+          1.1158078472947477e-06
+        ]
+      },
+      "interpretation": "Fixed architecture design scenarios; these native sizes do not represent one fixed chip PVT sweep."
+    }
+  }
+}

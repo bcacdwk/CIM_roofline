@@ -1,0 +1,85 @@
+--- a/SubArray.cpp
++++ b/SubArray.cpp
+@@ -37,6 +37,7 @@
+ ********************************************************************************/
+ 
+ #include <cmath>
++#include <algorithm>
+ #include <iostream>
+ #include <vector>
+ #include "constant.h"
+@@ -270,7 +271,7 @@
+ 		
+     } else if (cell.memCellType == Type::RRAM || cell.memCellType == Type::FeFET) {
+ 		if (cell.accessType == CMOS_access) {	// 1T1R
+-			cell.resCellAccess = cell.resistanceOn * IR_DROP_TOLERANCE;    //calculate access CMOS resistance
++			cell.resCellAccess = cell.resistanceAccess > 0 ? cell.resistanceAccess : cell.resistanceOn * IR_DROP_TOLERANCE;    //calculate access CMOS resistance
+ 			cell.widthAccessCMOS = CalculateOnResistance(tech.featureSize, NMOS, inputParameter.temperature, tech) * LINEAR_REGION_RATIO / cell.resCellAccess;   //get access CMOS width
+ 			if (cell.widthAccessCMOS > cell.widthInFeatureSize) {	// Place transistor vertically
+ 				printf("Transistor width of 1T1R=%.2fF is larger than the assigned cell width=%.2fF in layout\n", cell.widthAccessCMOS, cell.widthInFeatureSize);
+@@ -1458,12 +1459,12 @@
+ 				double capBL = lengthCol * 0.2e-15/1e-6;
+ 				int numWriteOperationPerRow = (int)ceil((double)numCol*activityColWrite/numWriteCellPerOperationNeuro);
+ 				double colRamp = 0;
+-				double tau = (capCol)*(cell.resMemCellAvg/(numRow/2));
++				double tau = capCol * *max_element(columnResistance.begin(), columnResistance.end());
+ 				colDelay = horowitz(tau, 0, 1e20, &colRamp);
+ 				colDelay = tau * 0.2 * numColMuxed;  // assume the 15~20% voltage drop is enough for sensing
+ 				
+ 				if (cell.accessType == CMOS_access) {
+-					wlNewSwitchMatrix.CalculateLatency(1e20, capRow2, resRow, numColMuxed, 2*numWriteOperationPerRow*numRow*activityRowWrite);
++					wlNewSwitchMatrix.CalculateLatency(1e20, capRow2, resRow, 1, 2*numWriteOperationPerRow*numRow*activityRowWrite);
+ 				} else {
+ 					wlSwitchMatrix.CalculateLatency(1e20, capRow1, resRow, numColMuxed, 2*numWriteOperationPerRow*numRow*activityRowWrite);
+ 				}
+@@ -1480,7 +1481,7 @@
+ 				}
+ 				
+ 				if (numCellPerSynapse > 1) {
+-					shiftAddWeight.CalculateLatency(numColMuxed);	
++					shiftAddWeight.CalculateLatency(numCellPerSynapse);	
+ 				}
+ 				if (numReadPulse > 1) {
+ 					shiftAddInput.CalculateLatency(ceil(numColMuxed/numCellPerSynapse));		
+@@ -1488,16 +1489,16 @@
+ 				
+ 				// Read
+ 				readLatency = 0;
+-				readLatency += MAX(wlNewSwitchMatrix.readLatency + wlSwitchMatrix.readLatency, ( ((numColMuxed > 1)==true? (mux.readLatency+muxDecoder.readLatency):0) )/numReadPulse);
++				readLatency += (MAX(wlNewSwitchMatrix.readLatency + wlSwitchMatrix.readLatency, (numColMuxed > 1 ? (mux.readLatency+muxDecoder.readLatency)/numColMuxed : 0)) + (numColMuxed > 1 ? (numColMuxed-1)*(mux.readLatency+muxDecoder.readLatency)/numColMuxed : 0));
+ 				readLatency += multilevelSenseAmp.readLatency;
+ 				readLatency += multilevelSAEncoder.readLatency;
+ 				readLatency += shiftAddInput.readLatency + shiftAddWeight.readLatency;
+-				readLatency += colDelay/numReadPulse;
++				readLatency += colDelay;
+ 				readLatency += sarADC.readLatency;
+ 				
+ 				readLatencyADC = multilevelSenseAmp.readLatency + multilevelSAEncoder.readLatency + sarADC.readLatency;
+ 				readLatencyAccum = shiftAddInput.readLatency + shiftAddWeight.readLatency;
+-				readLatencyOther = MAX(wlNewSwitchMatrix.readLatency + wlSwitchMatrix.readLatency, ( ((numColMuxed > 1)==true? (mux.readLatency+muxDecoder.readLatency):0) )/numReadPulse) + colDelay/numReadPulse;
++				readLatencyOther = (MAX(wlNewSwitchMatrix.readLatency + wlSwitchMatrix.readLatency, (numColMuxed > 1 ? (mux.readLatency+muxDecoder.readLatency)/numColMuxed : 0)) + (numColMuxed > 1 ? (numColMuxed-1)*(mux.readLatency+muxDecoder.readLatency)/numColMuxed : 0)) + colDelay;
+ 
+ 				// Write
+ 				writeLatency = 0;
+--- a/SwitchMatrix.cpp
++++ b/SwitchMatrix.cpp
+@@ -192,7 +192,7 @@
+ 
+ 		writeLatency = horowitz(tr, 0, rampInput, &rampOutput);
+ 		writeLatency *= numWrite;
+-		writeLatency += dff.readLatency;	// Use DFF read latency here because no write in the DFF module
++		{ dff.CalculateLatency(1e20, numWrite); writeLatency += dff.readLatency; }	// Use DFF read latency here because no write in the DFF module
+ 	}
+ }
+ 
+--- a/NewSwitchMatrix.cpp
++++ b/NewSwitchMatrix.cpp
+@@ -153,7 +153,7 @@
+ 		writeLatency = horowitz(tr, 0, rampInput, &rampOutput);     // write latency determined by write pulse width
+ 		writeLatency *= numWrite;
+ 		if (numWrite != 0)
+-		    writeLatency += dff.readLatency;	// Use DFF read latency here because no write in the DFF module
++		    { dff.CalculateLatency(1e20, numWrite); writeLatency += dff.readLatency; }	// Use DFF read latency here because no write in the DFF module
+ 	}
+ }
+ 

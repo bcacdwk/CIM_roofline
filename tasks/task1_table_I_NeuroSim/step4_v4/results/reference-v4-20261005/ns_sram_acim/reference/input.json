@@ -1,0 +1,174 @@
+{
+  "case_id": "ns_sram_acim",
+  "backend": {
+    "branch": "2DTrainingV2.1",
+    "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+    "core_path": "Training_pytorch/NeuroSIM"
+  },
+  "constructor_inputs": {
+    "memcelltype": "1",
+    "cellBit": "1",
+    "trainingEstimation": "false",
+    "SARADC": "true",
+    "readVoltage": "0.85",
+    "writeVoltage": "0.85",
+    "readPulseWidth": "0",
+    "writePulseWidth": "0",
+    "maxNumLevelLTP": "2",
+    "maxNumLevelLTD": "2"
+  },
+  "driver": "acim_service.cpp",
+  "support_sources": [
+    "correction.h",
+    "input_serializer.h"
+  ],
+  "patches": [
+    "training_sram_model.patch",
+    "training_mux_driver_wire.patch"
+  ],
+  "compile_exclude": [
+    "main.cpp",
+    "Chip.cpp",
+    "Tile.cpp",
+    "ProcessingUnit.cpp",
+    "HTree.cpp",
+    "WeightGradientUnit.cpp"
+  ],
+  "process": {
+    "technode_nm": 22,
+    "roadmap": "LSTP",
+    "temperature_K": "resolved per scenario",
+    "wire_width_nm": 32
+  },
+  "status": "conditional_sram_analog_transfer",
+  "conditions": [
+    "nominal9bit SAR code contract, not ENOB guarantee",
+    "upstream SRAM parallel abstract model, not9T1C reproduction",
+    "steady power rails; local macro ports; nonoverlap service policy",
+    "Native SRAM parallel model is a timing abstraction; multi-row read stability and analog transfer require physical calibration."
+  ],
+  "mapping": "31 unsigned-offset byte weight columns plus one byte constant-1 reference per row; two unsigned 8-bit input passes",
+  "source": "NeuroSim locked Training Param.cpp SRAM lines 142-153; read/write latency SubArray.cpp conventionalParallel; V1.4 SRAM cap parasitic precedent",
+  "boundary": {
+    "input_port_bits": 2048,
+    "write_port_bits": 256,
+    "input_mux_selection_count": 9,
+    "output_bits_per_lane": 25,
+    "request_overlap": false,
+    "input_bytes": 256,
+    "matrix_bytes": 7936
+  },
+  "base_parameters": {
+    "technology_nm": 22,
+    "temperature_K": 350,
+    "wire_resistance_scale": 1.0,
+    "clock_reservation_factor": 2.0,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "logical_K": 256,
+    "logical_N": 31,
+    "physical_rows": 256,
+    "physical_cols": 256,
+    "read_mux": 8,
+    "write_parallel_bits": 256,
+    "read_activity": 1.0,
+    "adc_bits": 9,
+    "sram_access_width_F": 1.31,
+    "sram_nmos_width_F": 2.08,
+    "sram_pmos_width_F": 1.23,
+    "sram_cell_height_F": 8,
+    "sram_cell_width_F": 20,
+    "sense_voltage_V": 0.1,
+    "mux_driver_scale": 110,
+    "wire_width_nm": 32,
+    "featuresize_m": 3.2e-08
+  },
+  "constructor_bindings": {
+    "technode": "technology_nm",
+    "temp": "temperature_K",
+    "featuresize": "featuresize_m",
+    "wireWidth": "wire_width_nm",
+    "numRowSubArray": "physical_rows",
+    "numColSubArray": "physical_cols",
+    "numColMuxed": "read_mux",
+    "widthAccessCMOS": "sram_access_width_F",
+    "widthSRAMCellNMOS": "sram_nmos_width_F",
+    "widthSRAMCellPMOS": "sram_pmos_width_F",
+    "heightInFeatureSizeSRAM": "sram_cell_height_F",
+    "widthInFeatureSizeSRAM": "sram_cell_width_F",
+    "minSenseVoltage": "sense_voltage_V"
+  },
+  "qualification": "Timing architecture conditional on 256-row SRAM read stability and calibrated analog transfer; nominal9bits are not ENOB.",
+  "diagnostics": [
+    {
+      "id": "corrected300",
+      "scenario": "reference",
+      "overrides": {
+        "temperature_K": 300
+      },
+      "purpose": "corrected V3 temperature control before warm reference input change"
+    },
+    {
+      "id": "driver55",
+      "scenario": "reference",
+      "overrides": {
+        "mux_driver_scale": 55
+      },
+      "purpose": "separate sizing counterfactual: upstream NAND must see different actual driver cap; not a scenario"
+    },
+    {
+      "id": "wire2",
+      "scenario": "reference",
+      "overrides": {
+        "wire_resistance_scale": 2.0
+      },
+      "purpose": "shared RC input consumption, not a main scenario"
+    }
+  ],
+  "consumption_checks": {
+    "temperature_K": "temperature_K",
+    "technology_nm": "technology_nm",
+    "physical_rows": "physical_rows",
+    "physical_cols": "physical_cols",
+    "read_mux": "resolved_read_mux",
+    "adc_bits": "resolved_adc_bits",
+    "write_parallel_bits": "write_port_bits",
+    "mux_driver_scale": "mux_driver_scale",
+    "clock_reservation_factor": "clock_reservation_factor",
+    "logical_K": "logical_K",
+    "logical_N": "logical_N",
+    "input_bits": "input_bits",
+    "weight_bits": "weight_bits"
+  },
+  "constructor_derived": {
+    "levelOutput": {
+      "pow2": "adc_bits"
+    }
+  },
+  "resolved_parameters": {
+    "technology_nm": 22,
+    "temperature_K": 350,
+    "wire_resistance_scale": 1.0,
+    "clock_reservation_factor": 2.0,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "logical_K": 256,
+    "logical_N": 31,
+    "physical_rows": 256,
+    "physical_cols": 256,
+    "read_mux": 8,
+    "write_parallel_bits": 256,
+    "read_activity": 1.0,
+    "adc_bits": 9,
+    "sram_access_width_F": 1.31,
+    "sram_nmos_width_F": 2.08,
+    "sram_pmos_width_F": 1.23,
+    "sram_cell_height_F": 8,
+    "sram_cell_width_F": 20,
+    "sense_voltage_V": 0.1,
+    "mux_driver_scale": 110,
+    "wire_width_nm": 32,
+    "featuresize_m": 3.2e-08
+  },
+  "scenario": "reference"
+}

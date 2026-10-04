@@ -1,0 +1,2117 @@
+{
+  "status": "DIAGNOSTIC_CONDITIONAL_NOT_PRECISION_CERTIFICATION",
+  "model": "linear distributed column ladder with ideal CMOS+RRAM path resistors and stiff opposite rail; actual native mux terminal resistance",
+  "limitations": [
+    "No stochastic RRAM, nonlinear access I-V, ADC noise/ENOB, supply compliance or complete layout extraction.",
+    "Finite input/state patterns; reported extrema are not an all-matrix mathematical bound.",
+    "No fitted endpoint correction is applied to performance or numerical output.",
+    "Q4 labels preserve quantizer resolution, not measured analog accuracy. Signed cancellation may have nonzero absolute residual."
+  ],
+  "SRAM_ACIM": "256-row read stability and analog transfer remain assumed and unverified; timing improvements do not establish them.",
+  "DCIM": "Nominal digital mapping and register lifecycle checked separately, not SRAM stability or clock-tree signoff.",
+  "paired_results": {
+    "ns_rram_1t1r__optimistic": {
+      "status": "conditional_linear_DC_consistency_diagnostic",
+      "actual_resolved_inputs": {
+        "Ron_path_ohm": 13000.0,
+        "Roff_path_ohm": 29000.0,
+        "column_line_ohm": 32.63815789473685,
+        "mux_series_ohm": 12.6953125,
+        "read_voltage_V": 0.5
+      },
+      "actual": {
+        "rows": 16,
+        "line_ohm": 32.63815789473685,
+        "terminal_mux_ohm": 12.6953125,
+        "dense_count_estimate": 15.322308007044672,
+        "dense_gain_ratio": 0.957644250440292,
+        "max_abs_error_count": 0.677691992955328,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 15.322308007044672,
+          "error_count": -0.677691992955328,
+          "min_cell_voltage_V": 0.48209257976329273
+        },
+        "minimum_cell_voltage_V": 0.48209257976329273,
+        "sample_count": 60,
+        "samples": [
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49974607389541575
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49974607389541575
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.9983605293719746,
+            "error_count": -0.0016394706280253857,
+            "min_cell_voltage_V": 0.49943390329711046
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9983605293719746,
+            "error_count": -0.0016394706280253857,
+            "min_cell_voltage_V": 0.49943390329711046
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49921960836771023
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49921960836771023
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9949695687746704,
+            "error_count": -0.005030431225329646,
+            "min_cell_voltage_V": 0.49826246410267655
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9949695687746704,
+            "error_count": -0.005030431225329646,
+            "min_cell_voltage_V": 0.49826246410267655
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49974607389541575
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49974607389541575
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9983605293719746,
+            "error_count": -0.0016394706280253857,
+            "min_cell_voltage_V": 0.49943390329711046
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9983605293719746,
+            "error_count": -0.0016394706280253857,
+            "min_cell_voltage_V": 0.49943390329711046
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49699909342412696
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49699909342412696
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.9913119826259258,
+            "error_count": -0.008688017374074208,
+            "min_cell_voltage_V": 0.49668973627361557
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9868229913781035,
+            "error_count": -0.013177008621896524,
+            "min_cell_voltage_V": 0.4963907401617588
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 3.9513991071572963,
+            "error_count": -0.04860089284270375,
+            "min_cell_voltage_V": 0.4955088279158008
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 3.937110640404272,
+            "error_count": -0.06288935959572806,
+            "min_cell_voltage_V": 0.4948291742267063
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 7.864969719996827,
+            "error_count": -0.13503028000317308,
+            "min_cell_voltage_V": 0.4933499085104445
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 7.864969719996827,
+            "error_count": -0.13503028000317308,
+            "min_cell_voltage_V": 0.4933499085104445
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4947834031155507
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4947834031155507
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9818217907348943,
+            "error_count": -0.018178209265105716,
+            "min_cell_voltage_V": 0.49413767763326544
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9773787973144967,
+            "error_count": -0.022621202685503272,
+            "min_cell_voltage_V": 0.49384174527689295
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 3.9056051105269836,
+            "error_count": -0.09439488947301644,
+            "min_cell_voltage_V": 0.4919594444281681
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 3.89152047192248,
+            "error_count": -0.10847952807751993,
+            "min_cell_voltage_V": 0.49128948614974827
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 7.752956367296084,
+            "error_count": -0.2470436327039156,
+            "min_cell_voltage_V": 0.4885013970478599
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 7.752956367296084,
+            "error_count": -0.2470436327039156,
+            "min_cell_voltage_V": 0.4885013970478599
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4960256090157469
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4960256090157469
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9913218130908903,
+            "error_count": -0.008678186909109709,
+            "min_cell_voltage_V": 0.4957168562803285
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9823712321693367,
+            "error_count": -0.01762876783066325,
+            "min_cell_voltage_V": 0.4951212267641958
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 3.9450091411911363,
+            "error_count": -0.054990858808863674,
+            "min_cell_voltage_V": 0.4942843218878707
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 3.916564621663626,
+            "error_count": -0.08343537833637393,
+            "min_cell_voltage_V": 0.492932802710155
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 7.834173888592484,
+            "error_count": -0.16582611140751613,
+            "min_cell_voltage_V": 0.49120867403704244
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 7.834173888592484,
+            "error_count": -0.16582611140751613,
+            "min_cell_voltage_V": 0.49120867403704244
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4918322526147797
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4918322526147797
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.9834124975453927,
+            "error_count": -0.016587502454607272,
+            "min_cell_voltage_V": 0.4915273334015235
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9657598578627961,
+            "error_count": -0.034240142137203944,
+            "min_cell_voltage_V": 0.4908990070946055
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 7.772200658779825,
+            "error_count": -0.22779934122017487,
+            "min_cell_voltage_V": 0.48824327842273063
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 7.661092802793454,
+            "error_count": -0.33890719720654605,
+            "min_cell_voltage_V": 0.48560965397845574
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 15.322308007044672,
+            "error_count": -0.677691992955328,
+            "min_cell_voltage_V": 0.48209257976329273
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 15.322308007044672,
+            "error_count": -0.677691992955328,
+            "min_cell_voltage_V": 0.48209257976329273
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4918322526147797
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4918322526147797
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9834124975453927,
+            "error_count": -0.016587502454607272,
+            "min_cell_voltage_V": 0.4915273334015235
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9657598578627961,
+            "error_count": -0.034240142137203944,
+            "min_cell_voltage_V": 0.4908990070946055
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 7.772200658779825,
+            "error_count": -0.22779934122017487,
+            "min_cell_voltage_V": 0.48824327842273063
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 7.661092802793454,
+            "error_count": -0.33890719720654605,
+            "min_cell_voltage_V": 0.48560965397845574
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 15.322308007044672,
+            "error_count": -0.677691992955328,
+            "min_cell_voltage_V": 0.48209257976329273
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 15.322308007044672,
+            "error_count": -0.677691992955328,
+            "min_cell_voltage_V": 0.48209257976329273
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4918322526147797
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4918322526147797
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9834124975453927,
+            "error_count": -0.016587502454607272,
+            "min_cell_voltage_V": 0.4915273334015235
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9657598578627961,
+            "error_count": -0.034240142137203944,
+            "min_cell_voltage_V": 0.4908990070946055
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 7.772200658779825,
+            "error_count": -0.22779934122017487,
+            "min_cell_voltage_V": 0.48824327842273063
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 7.661092802793454,
+            "error_count": -0.33890719720654605,
+            "min_cell_voltage_V": 0.48560965397845574
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 15.322308007044672,
+            "error_count": -0.677691992955328,
+            "min_cell_voltage_V": 0.48209257976329273
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 15.322308007044672,
+            "error_count": -0.677691992955328,
+            "min_cell_voltage_V": 0.48209257976329273
+          }
+        ]
+      },
+      "two_times_mux_resistance_diagnostic": {
+        "rows": 16,
+        "line_ohm": 32.63815789473685,
+        "terminal_mux_ohm": 25.390625,
+        "dense_count_estimate": 14.989813365701947,
+        "dense_gain_ratio": 0.9368633353563717,
+        "max_abs_error_count": 1.0101866342980532,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 14.989813365701947,
+          "error_count": -1.0101866342980532,
+          "min_cell_voltage_V": 0.4748903636103413
+        },
+        "minimum_cell_voltage_V": 0.4748903636103413,
+        "sample_count": 60
+      },
+      "nonstiff_source_counterfactual": {
+        "rows": 16,
+        "line_ohm": 32.63815789473685,
+        "terminal_mux_ohm": 3262.6953125,
+        "dense_count_estimate": 1.133297338778832,
+        "dense_gain_ratio": 0.070831083673677,
+        "max_abs_error_count": 14.866702661221169,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 1.133297338778832,
+          "error_count": -14.866702661221169,
+          "min_cell_voltage_V": 0.09873864547556738
+        },
+        "minimum_cell_voltage_V": 0.09873864547556738,
+        "sample_count": 60
+      },
+      "unsegmented_256row_counterfactual": {
+        "rows": 256,
+        "line_ohm": 522.2105263157896,
+        "terminal_mux_ohm": 0,
+        "dense_count_estimate": 49.43773282358803,
+        "dense_gain_ratio": 0.19311614384214074,
+        "max_abs_error_count": 206.56226717641198,
+        "worst_pattern": {
+          "active": 256,
+          "ones": 256,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 49.43773282358803,
+          "error_count": -206.56226717641198,
+          "min_cell_voltage_V": 0.040170011599839614
+        },
+        "minimum_cell_voltage_V": 0.040170011599839614,
+        "sample_count": 60
+      },
+      "quantized_Q4_mapped_vectors": {
+        "zero_input": {
+          "max_abs_output_error": 0.0,
+          "mean_signed_error": 0.0,
+          "max_error_over_INT8_dot_fullscale": 0.0,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": 0.0,
+          "observed_max": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "zero_weights": {
+          "max_abs_output_error": 0.0,
+          "mean_signed_error": 0.0,
+          "max_error_over_INT8_dot_fullscale": 0.0,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": 0.0,
+          "observed_max": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "full_positive": {
+          "max_abs_output_error": 177419.0,
+          "mean_signed_error": -177419.0,
+          "max_error_over_INT8_dot_fullscale": 0.04229998588562012,
+          "exact_min": 4129024,
+          "exact_max": 4129024,
+          "observed_min": 3951605.0,
+          "observed_max": 3951605.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.04296875
+        },
+        "negative_extremes": {
+          "max_abs_output_error": 180224.0,
+          "mean_signed_error": -180224.0,
+          "max_error_over_INT8_dot_fullscale": 0.04296875,
+          "exact_min": 4194304,
+          "exact_max": 4194304,
+          "observed_min": 4014080.0,
+          "observed_max": 4014080.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.04296875
+        },
+        "signed_cancel": {
+          "max_abs_output_error": 16891.0,
+          "mean_signed_error": -16891.0,
+          "max_error_over_INT8_dot_fullscale": 0.004027128219604492,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": -16891.0,
+          "observed_max": -16891.0,
+          "zero_exact_output_max_abs_residual": 16891.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "mixed": {
+          "max_abs_output_error": 6745.0,
+          "mean_signed_error": 2278.7096774193546,
+          "max_error_over_INT8_dot_fullscale": 0.001608133316040039,
+          "exact_min": -68224,
+          "exact_max": 43520,
+          "observed_min": -66227.0,
+          "observed_max": 47144.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 11.625
+        }
+      },
+      "ADC_gain_codes_per_A": 754000.0,
+      "verify_codes": [
+        13.0,
+        29.0
+      ]
+    },
+    "ns_rram_1t1r__reference": {
+      "status": "conditional_linear_DC_consistency_diagnostic",
+      "actual_resolved_inputs": {
+        "Ron_path_ohm": 13000.0,
+        "Roff_path_ohm": 29000.0,
+        "column_line_ohm": 39.9980625,
+        "mux_series_ohm": 12.6953125,
+        "read_voltage_V": 0.5
+      },
+      "actual": {
+        "rows": 16,
+        "line_ohm": 39.9980625,
+        "terminal_mux_ohm": 12.6953125,
+        "dense_count_estimate": 15.251384081502614,
+        "dense_gain_ratio": 0.9532115050939134,
+        "max_abs_error_count": 0.7486159184973857,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 15.251384081502614,
+          "error_count": -0.7486159184973857,
+          "min_cell_voltage_V": 0.4798377296052506
+        },
+        "minimum_cell_voltage_V": 0.4798377296052506,
+        "sample_count": 60,
+        "samples": [
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49973815114277176
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49973815114277176
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.9983094174639259,
+            "error_count": -0.0016905825360741256,
+            "min_cell_voltage_V": 0.49941625188163585
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9983094174639259,
+            "error_count": -0.0016905825360741256,
+            "min_cell_voltage_V": 0.49941625188163585
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4990931413084517
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4990931413084517
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9941566312186302,
+            "error_count": -0.005843368781369818,
+            "min_cell_voltage_V": 0.49798151333651486
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9941566312186302,
+            "error_count": -0.005843368781369818,
+            "min_cell_voltage_V": 0.49798151333651486
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49973815114277176
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49973815114277176
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9983094174639259,
+            "error_count": -0.0016905825360741256,
+            "min_cell_voltage_V": 0.49941625188163585
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9983094174639259,
+            "error_count": -0.0016905825360741256,
+            "min_cell_voltage_V": 0.49941625188163585
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4967166114880672
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4967166114880672
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.991044881266394,
+            "error_count": -0.008955118733605993,
+            "min_cell_voltage_V": 0.49639782438316604
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9855490157344534,
+            "error_count": -0.014450984265546585,
+            "min_cell_voltage_V": 0.49603183834638626
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 3.9486544949559126,
+            "error_count": -0.051345505044087414,
+            "min_cell_voltage_V": 0.49513161189101973
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 3.9311694339253616,
+            "error_count": -0.06883056607463844,
+            "min_cell_voltage_V": 0.4943001137253121
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 7.854816069267974,
+            "error_count": -0.14518393073202596,
+            "min_cell_voltage_V": 0.4927279299973622
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 7.854816069267974,
+            "error_count": -0.14518393073202596,
+            "min_cell_voltage_V": 0.4927279299973622
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4940066356012639
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4940066356012639
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.979441160978224,
+            "error_count": -0.02055883902177602,
+            "min_cell_voltage_V": 0.49327692446121196
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9740141591014794,
+            "error_count": -0.02598584089852063,
+            "min_cell_voltage_V": 0.4929155242601109
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 3.8927108913335964,
+            "error_count": -0.10728910866640362,
+            "min_cell_voltage_V": 0.49079436968419715
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 3.87553056632493,
+            "error_count": -0.12446943367507002,
+            "min_cell_voltage_V": 0.48997736317183743
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 7.718166127201026,
+            "error_count": -0.2818338727989742,
+            "min_cell_voltage_V": 0.48681189854993207
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 7.718166127201026,
+            "error_count": -0.2818338727989742,
+            "min_cell_voltage_V": 0.48681189854993207
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49552517591203277
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49552517591203277
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9910572862802005,
+            "error_count": -0.008942713719799489,
+            "min_cell_voltage_V": 0.4952071514672978
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9801066179587136,
+            "error_count": -0.019893382041286434,
+            "min_cell_voltage_V": 0.49447871954981537
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 3.9408401440527596,
+            "error_count": -0.05915985594724038,
+            "min_cell_voltage_V": 0.4936334795701097
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 3.906068257739203,
+            "error_count": -0.09393174226079681,
+            "min_cell_voltage_V": 0.49198214088255104
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 7.817201482661445,
+            "error_count": -0.18279851733855512,
+            "min_cell_voltage_V": 0.49011148600067594
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 7.817201482661445,
+            "error_count": -0.18279851733855512,
+            "min_cell_voltage_V": 0.49011148600067594
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4907848637250472
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4907848637250472
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.982921128283099,
+            "error_count": -0.017078871716901034,
+            "min_cell_voltage_V": 0.4904711767630935
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9613577029969769,
+            "error_count": -0.03864229700302313,
+            "min_cell_voltage_V": 0.4897042339999523
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 7.7536826628957956,
+            "error_count": -0.24631733710420445,
+            "min_cell_voltage_V": 0.48687064791964746
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 7.618237900283309,
+            "error_count": -0.38176209971669106,
+            "min_cell_voltage_V": 0.4836633897675824
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 15.251384081502614,
+            "error_count": -0.7486159184973857,
+            "min_cell_voltage_V": 0.4798377296052506
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 15.251384081502614,
+            "error_count": -0.7486159184973857,
+            "min_cell_voltage_V": 0.4798377296052506
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4907848637250472
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4907848637250472
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.982921128283099,
+            "error_count": -0.017078871716901034,
+            "min_cell_voltage_V": 0.4904711767630935
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9613577029969769,
+            "error_count": -0.03864229700302313,
+            "min_cell_voltage_V": 0.4897042339999523
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 7.7536826628957956,
+            "error_count": -0.24631733710420445,
+            "min_cell_voltage_V": 0.48687064791964746
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 7.618237900283309,
+            "error_count": -0.38176209971669106,
+            "min_cell_voltage_V": 0.4836633897675824
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 15.251384081502614,
+            "error_count": -0.7486159184973857,
+            "min_cell_voltage_V": 0.4798377296052506
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 15.251384081502614,
+            "error_count": -0.7486159184973857,
+            "min_cell_voltage_V": 0.4798377296052506
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4907848637250472
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4907848637250472
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.982921128283099,
+            "error_count": -0.017078871716901034,
+            "min_cell_voltage_V": 0.4904711767630935
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9613577029969769,
+            "error_count": -0.03864229700302313,
+            "min_cell_voltage_V": 0.4897042339999523
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 7.7536826628957956,
+            "error_count": -0.24631733710420445,
+            "min_cell_voltage_V": 0.48687064791964746
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 7.618237900283309,
+            "error_count": -0.38176209971669106,
+            "min_cell_voltage_V": 0.4836633897675824
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 15.251384081502614,
+            "error_count": -0.7486159184973857,
+            "min_cell_voltage_V": 0.4798377296052506
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 15.251384081502614,
+            "error_count": -0.7486159184973857,
+            "min_cell_voltage_V": 0.4798377296052506
+          }
+        ]
+      },
+      "two_times_mux_resistance_diagnostic": {
+        "rows": 16,
+        "line_ohm": 39.9980625,
+        "terminal_mux_ohm": 25.390625,
+        "dense_count_estimate": 14.921287469216544,
+        "dense_gain_ratio": 0.932580466826034,
+        "max_abs_error_count": 1.0787125307834557,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 14.921287469216544,
+          "error_count": -1.0787125307834557,
+          "min_cell_voltage_V": 0.47269168305428366
+        },
+        "minimum_cell_voltage_V": 0.47269168305428366,
+        "sample_count": 60
+      },
+      "nonstiff_source_counterfactual": {
+        "rows": 16,
+        "line_ohm": 39.9980625,
+        "terminal_mux_ohm": 3262.6953125,
+        "dense_count_estimate": 1.1319687667189684,
+        "dense_gain_ratio": 0.07074804791993552,
+        "max_abs_error_count": 14.868031233281032,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 1.1319687667189684,
+          "error_count": -14.868031233281032,
+          "min_cell_voltage_V": 0.09852626468260135
+        },
+        "minimum_cell_voltage_V": 0.09852626468260135,
+        "sample_count": 60
+      },
+      "unsegmented_256row_counterfactual": {
+        "rows": 256,
+        "line_ohm": 639.969,
+        "terminal_mux_ohm": 0,
+        "dense_count_estimate": 43.96509373618057,
+        "dense_gain_ratio": 0.17173864740695535,
+        "max_abs_error_count": 212.03490626381944,
+        "worst_pattern": {
+          "active": 256,
+          "ones": 256,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 43.96509373618057,
+          "error_count": -212.03490626381944,
+          "min_cell_voltage_V": 0.028504600314773903
+        },
+        "minimum_cell_voltage_V": 0.028504600314773903,
+        "sample_count": 60
+      },
+      "quantized_Q4_mapped_vectors": {
+        "zero_input": {
+          "max_abs_output_error": 0.0,
+          "mean_signed_error": 0.0,
+          "max_error_over_INT8_dot_fullscale": 0.0,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": 0.0,
+          "observed_max": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "zero_weights": {
+          "max_abs_output_error": 0.0,
+          "mean_signed_error": 0.0,
+          "max_error_over_INT8_dot_fullscale": 0.0,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": 0.0,
+          "observed_max": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "full_positive": {
+          "max_abs_output_error": 193548.0,
+          "mean_signed_error": -193548.0,
+          "max_error_over_INT8_dot_fullscale": 0.04614543914794922,
+          "exact_min": 4129024,
+          "exact_max": 4129024,
+          "observed_min": 3935476.0,
+          "observed_max": 3935476.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.046875
+        },
+        "negative_extremes": {
+          "max_abs_output_error": 196608.0,
+          "mean_signed_error": -196608.0,
+          "max_error_over_INT8_dot_fullscale": 0.046875,
+          "exact_min": 4194304,
+          "exact_max": 4194304,
+          "observed_min": 3997696.0,
+          "observed_max": 3997696.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.046875
+        },
+        "signed_cancel": {
+          "max_abs_output_error": 762.0,
+          "mean_signed_error": -762.0,
+          "max_error_over_INT8_dot_fullscale": 0.00018167495727539062,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": -762.0,
+          "observed_max": -762.0,
+          "zero_exact_output_max_abs_residual": 762.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "mixed": {
+          "max_abs_output_error": 4039.0,
+          "mean_signed_error": 616.258064516129,
+          "max_error_over_INT8_dot_fullscale": 0.0009629726409912109,
+          "exact_min": -68224,
+          "exact_max": 43520,
+          "observed_min": -68931.0,
+          "observed_max": 46208.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 4.78125
+        }
+      },
+      "ADC_gain_codes_per_A": 754000.0,
+      "verify_codes": [
+        13.0,
+        29.0
+      ]
+    },
+    "ns_rram_1t1r__pessimistic": {
+      "status": "conditional_linear_DC_consistency_diagnostic",
+      "actual_resolved_inputs": {
+        "Ron_path_ohm": 13000.0,
+        "Roff_path_ohm": 29000.0,
+        "column_line_ohm": 47.35796710526317,
+        "mux_series_ohm": 12.6953125,
+        "read_voltage_V": 0.5
+      },
+      "actual": {
+        "rows": 16,
+        "line_ohm": 47.35796710526317,
+        "terminal_mux_ohm": 12.6953125,
+        "dense_count_estimate": 15.181061991895454,
+        "dense_gain_ratio": 0.9488163744934659,
+        "max_abs_error_count": 0.8189380081045456,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 15.181061991895454,
+          "error_count": -0.8189380081045456,
+          "min_cell_voltage_V": 0.4776003509008065
+        },
+        "minimum_cell_voltage_V": 0.4776003509008065,
+        "sample_count": 60,
+        "samples": [
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4997302286413313
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4997302286413313
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.9982583096704332,
+            "error_count": -0.0017416903295668362,
+            "min_cell_voltage_V": 0.4993986017138197
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9982583096704332,
+            "error_count": -0.0017416903295668362,
+            "min_cell_voltage_V": 0.4993986017138197
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4989667383086426
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4989667383086426
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9933447374432781,
+            "error_count": -0.006655262556721886,
+            "min_cell_voltage_V": 0.49770087922615724
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9933447374432781,
+            "error_count": -0.006655262556721886,
+            "min_cell_voltage_V": 0.49770087922615724
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4997302286413313
+          },
+          {
+            "active": 1,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4997302286413313
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9982583096704332,
+            "error_count": -0.0017416903295668362,
+            "min_cell_voltage_V": 0.4993986017138197
+          },
+          {
+            "active": 1,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9982583096704332,
+            "error_count": -0.0017416903295668362,
+            "min_cell_voltage_V": 0.4993986017138197
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49643439833916075
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.49643439833916075
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.990778024805588,
+            "error_count": -0.009221975194412035,
+            "min_cell_voltage_V": 0.49610619477736656
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9842772598518078,
+            "error_count": -0.015722740148192194,
+            "min_cell_voltage_V": 0.4956733775624462
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 3.94591372119658,
+            "error_count": -0.05408627880342021,
+            "min_cell_voltage_V": 0.4947548606830192
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 3.9252413655911864,
+            "error_count": -0.07475863440881358,
+            "min_cell_voltage_V": 0.49377203563992206
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 7.844685861426919,
+            "error_count": -0.15531413857308074,
+            "min_cell_voltage_V": 0.49210726248225456
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 7.844685861426919,
+            "error_count": -0.15531413857308074,
+            "min_cell_voltage_V": 0.49210726248225456
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4932320870535715
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4932320870535715
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9770704099055768,
+            "error_count": -0.02292959009442319,
+            "min_cell_voltage_V": 0.4924188736120803
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9706658784868513,
+            "error_count": -0.029334121513148737,
+            "min_cell_voltage_V": 0.4919924635709185
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 3.8798845774970707,
+            "error_count": -0.12011542250292928,
+            "min_cell_voltage_V": 0.4896343020165532
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 3.859637496159901,
+            "error_count": -0.14036250384009907,
+            "min_cell_voltage_V": 0.4886716957723669
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 7.683623205234116,
+            "error_count": -0.3163767947658842,
+            "min_cell_voltage_V": 0.48513300456596403
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 7.683623205234116,
+            "error_count": -0.3163767947658842,
+            "min_cell_voltage_V": 0.48513300456596403
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4950255855428063
+          },
+          {
+            "active": 8,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4950255855428063
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.990793134771753,
+            "error_count": -0.009206865228246985,
+            "min_cell_voltage_V": 0.4946983108830319
+          },
+          {
+            "active": 8,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9778490433209367,
+            "error_count": -0.022150956679063305,
+            "min_cell_voltage_V": 0.49383762773024426
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 3.9366810200772497,
+            "error_count": -0.06331897992275026,
+            "min_cell_voltage_V": 0.49298401472342235
+          },
+          {
+            "active": 8,
+            "ones": 4,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 3.895613330312107,
+            "error_count": -0.10438666968789301,
+            "min_cell_voltage_V": 0.4910346526360718
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 7.800298087797936,
+            "error_count": -0.19970191220206424,
+            "min_cell_voltage_V": 0.4890183806496952
+          },
+          {
+            "active": 8,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 7.800298087797936,
+            "error_count": -0.19970191220206424,
+            "min_cell_voltage_V": 0.4890183806496952
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4897411850952894
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4897411850952894
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 0.9824312629332368,
+            "error_count": -0.017568737066763207,
+            "min_cell_voltage_V": 0.4894187728249919
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 0.9569823340983561,
+            "error_count": -0.04301766590164391,
+            "min_cell_voltage_V": 0.488514323086876
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 7.7352588401630715,
+            "error_count": -0.2647411598369285,
+            "min_cell_voltage_V": 0.48550420639566827
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 7.575734335639591,
+            "error_count": -0.4242656643604086,
+            "min_cell_voltage_V": 0.48173055394669656
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "near",
+            "ones_placement": "near",
+            "count_estimate": 15.181061991895454,
+            "error_count": -0.8189380081045456,
+            "min_cell_voltage_V": 0.4776003509008065
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "near",
+            "ones_placement": "far",
+            "count_estimate": 15.181061991895454,
+            "error_count": -0.8189380081045456,
+            "min_cell_voltage_V": 0.4776003509008065
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4897411850952894
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4897411850952894
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 0.9824312629332368,
+            "error_count": -0.017568737066763207,
+            "min_cell_voltage_V": 0.4894187728249919
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 0.9569823340983561,
+            "error_count": -0.04301766590164391,
+            "min_cell_voltage_V": 0.488514323086876
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 7.7352588401630715,
+            "error_count": -0.2647411598369285,
+            "min_cell_voltage_V": 0.48550420639566827
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 7.575734335639591,
+            "error_count": -0.4242656643604086,
+            "min_cell_voltage_V": 0.48173055394669656
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "far",
+            "ones_placement": "near",
+            "count_estimate": 15.181061991895454,
+            "error_count": -0.8189380081045456,
+            "min_cell_voltage_V": 0.4776003509008065
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "far",
+            "ones_placement": "far",
+            "count_estimate": 15.181061991895454,
+            "error_count": -0.8189380081045456,
+            "min_cell_voltage_V": 0.4776003509008065
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4897411850952894
+          },
+          {
+            "active": 16,
+            "ones": 0,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.0,
+            "error_count": 0.0,
+            "min_cell_voltage_V": 0.4897411850952894
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 0.9824312629332368,
+            "error_count": -0.017568737066763207,
+            "min_cell_voltage_V": 0.4894187728249919
+          },
+          {
+            "active": 16,
+            "ones": 1,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 0.9569823340983561,
+            "error_count": -0.04301766590164391,
+            "min_cell_voltage_V": 0.488514323086876
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 7.7352588401630715,
+            "error_count": -0.2647411598369285,
+            "min_cell_voltage_V": 0.48550420639566827
+          },
+          {
+            "active": 16,
+            "ones": 8,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 7.575734335639591,
+            "error_count": -0.4242656643604086,
+            "min_cell_voltage_V": 0.48173055394669656
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "spread",
+            "ones_placement": "near",
+            "count_estimate": 15.181061991895454,
+            "error_count": -0.8189380081045456,
+            "min_cell_voltage_V": 0.4776003509008065
+          },
+          {
+            "active": 16,
+            "ones": 16,
+            "placement": "spread",
+            "ones_placement": "far",
+            "count_estimate": 15.181061991895454,
+            "error_count": -0.8189380081045456,
+            "min_cell_voltage_V": 0.4776003509008065
+          }
+        ]
+      },
+      "two_times_mux_resistance_diagnostic": {
+        "rows": 16,
+        "line_ohm": 47.35796710526317,
+        "terminal_mux_ohm": 25.390625,
+        "dense_count_estimate": 14.853336761071692,
+        "dense_gain_ratio": 0.9283335475669807,
+        "max_abs_error_count": 1.1466632389283085,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 14.853336761071692,
+          "error_count": -1.1466632389283085,
+          "min_cell_voltage_V": 0.4705098392248526
+        },
+        "minimum_cell_voltage_V": 0.4705098392248526,
+        "sample_count": 60
+      },
+      "nonstiff_source_counterfactual": {
+        "rows": 16,
+        "line_ohm": 47.35796710526317,
+        "terminal_mux_ohm": 3262.6953125,
+        "dense_count_estimate": 1.130645446024088,
+        "dense_gain_ratio": 0.0706653403765055,
+        "max_abs_error_count": 14.869354553975912,
+        "worst_pattern": {
+          "active": 16,
+          "ones": 16,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 1.130645446024088,
+          "error_count": -14.869354553975912,
+          "min_cell_voltage_V": 0.09831454223039855
+        },
+        "minimum_cell_voltage_V": 0.09831454223039855,
+        "sample_count": 60
+      },
+      "unsegmented_256row_counterfactual": {
+        "rows": 256,
+        "line_ohm": 757.7274736842107,
+        "terminal_mux_ohm": 0,
+        "dense_count_estimate": 39.99117090137749,
+        "dense_gain_ratio": 0.1562155113335058,
+        "max_abs_error_count": 216.00882909862253,
+        "worst_pattern": {
+          "active": 256,
+          "ones": 256,
+          "placement": "near",
+          "ones_placement": "near",
+          "count_estimate": 39.99117090137749,
+          "error_count": -216.00882909862253,
+          "min_cell_voltage_V": 0.0208429978228229
+        },
+        "minimum_cell_voltage_V": 0.0208429978228229,
+        "sample_count": 60
+      },
+      "quantized_Q4_mapped_vectors": {
+        "zero_input": {
+          "max_abs_output_error": 0.0,
+          "mean_signed_error": 0.0,
+          "max_error_over_INT8_dot_fullscale": 0.0,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": 0.0,
+          "observed_max": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "zero_weights": {
+          "max_abs_output_error": 0.0,
+          "mean_signed_error": 0.0,
+          "max_error_over_INT8_dot_fullscale": 0.0,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": 0.0,
+          "observed_max": 0.0,
+          "zero_exact_output_max_abs_residual": 0.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "full_positive": {
+          "max_abs_output_error": 209677.0,
+          "mean_signed_error": -209677.0,
+          "max_error_over_INT8_dot_fullscale": 0.04999089241027832,
+          "exact_min": 4129024,
+          "exact_max": 4129024,
+          "observed_min": 3919347.0,
+          "observed_max": 3919347.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.05078125
+        },
+        "negative_extremes": {
+          "max_abs_output_error": 212992.0,
+          "mean_signed_error": -212992.0,
+          "max_error_over_INT8_dot_fullscale": 0.05078125,
+          "exact_min": 4194304,
+          "exact_max": 4194304,
+          "observed_min": 3981312.0,
+          "observed_max": 3981312.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 0.05078125
+        },
+        "signed_cancel": {
+          "max_abs_output_error": 889.0,
+          "mean_signed_error": -889.0,
+          "max_error_over_INT8_dot_fullscale": 0.00021195411682128906,
+          "exact_min": 0,
+          "exact_max": 0,
+          "observed_min": -889.0,
+          "observed_max": -889.0,
+          "zero_exact_output_max_abs_residual": 889.0,
+          "max_relative_error_nonzero_only": null
+        },
+        "mixed": {
+          "max_abs_output_error": 6816.0,
+          "mean_signed_error": -1445.6774193548388,
+          "max_error_over_INT8_dot_fullscale": 0.00162506103515625,
+          "exact_min": -68224,
+          "exact_max": 43520,
+          "observed_min": -69135.0,
+          "observed_max": 45280.0,
+          "zero_exact_output_max_abs_residual": 0,
+          "max_relative_error_nonzero_only": 2.8020833333333335
+        }
+      },
+      "ADC_gain_codes_per_A": 754000.0,
+      "verify_codes": [
+        13.0,
+        29.0
+      ]
+    }
+  }
+}

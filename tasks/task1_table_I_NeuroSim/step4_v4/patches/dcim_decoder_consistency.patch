@@ -1,0 +1,56 @@
+--- a/RowDecoder.cpp
++++ b/RowDecoder.cpp
+@@ -348,7 +348,7 @@
+ 		// INV
+ 		resPullDown = CalculateOnResistance(widthInvN, NMOS, inputParameter.temperature, tech);	// doesn't matter pullup/pulldown?
+ 		if (numNand)
+-			tr = resPullDown * (capInvOutput + capNandInput * 2);	// one address line connects to 2 NAND inputs
++			tr = resPullDown * (capInvOutput + MAX(capNandInput * 2, (numAddrRow%2) * capNorInput * numNor/2)); // V4 odd address INV fanout; conservative native chain envelope	// one address line connects to 2 NAND inputs
+ 		else
+ 			tr = resPullDown * (capInvOutput + capLoad1);
+ 		gm = CalculateTransconductance(widthInvN, NMOS, tech);
+@@ -375,11 +375,11 @@
+ 	
+ 		// NOR (ceil(N/2) inputs)
+ 		if (numNor) {
+-			resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * 2;
++			resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * ceil((double)numAddrRow/2); // actual series PMOS count
+ 			if (MUX)
+ 				tr = resPullUp * (capNorOutput + capNandInput);
+ 			else
+-				tr = resPullUp * (capNorOutput + capInvInput);
++				tr = resPullUp * (capNorOutput + capDriverInvInput);
+ 			gm = CalculateTransconductance(widthNorP, PMOS, tech);
+ 			beta = 1 / (resPullUp * gm);
+ 			readLatency += horowitz(tr, beta, rampNandOutput, &rampNorOutput);
+@@ -392,9 +392,9 @@
+ 
+ 			// 1.4 update : new latency to allow driver sizing
+ 
+-			// 1st NAND
+-			resPullDown = CalculateOnResistance(widthNandN, NMOS, inputParameter.temperature, tech);
+-			tr = resPullDown * (capNandOutput + capInvInput);
++			// 1st NAND: its actual next gate is the sized driver INV; two series NMOS.
++			resPullDown = CalculateOnResistance(widthNandN, NMOS, inputParameter.temperature, tech) * 2;
++			tr = resPullDown * (capNandOutput + capDriverInvInput);
+ 			gm = CalculateTransconductance(widthNandN, NMOS, tech);
+ 			beta = 1 / (resPullDown * gm);
+ 			readLatency += horowitz(tr, beta, rampNorOutput, &rampNandOutput);
+@@ -404,7 +404,7 @@
+ 
+ 			// 2nd INV
+ 			resPullUp = CalculateOnResistance(widthDriverInvP, PMOS, inputParameter.temperature, tech);
+-			tr = resPullUp * (capDriverInvOutput + capDriverInvInput + capLoad1);
++			tr = resPullUp * (capDriverInvOutput + capDriverInvInput + capLoad1) + resLoad * (capLoad1 + capLoad1/colnum)/2;
+ 			gm = CalculateTransconductance(widthDriverInvP, PMOS, tech);
+ 			beta = 1 / (resPullUp * gm);
+ 			readLatency += horowitz(tr, beta, rampNandOutput, &rampInvOutput);
+@@ -412,7 +412,7 @@
+ 
+ 			// 3rd INV
+ 			resPullDown = CalculateOnResistance(widthDriverInvN, NMOS, inputParameter.temperature, tech);
+-			tr = resPullDown * (capDriverInvOutput + capLoad2);
++			tr = resPullDown * (capDriverInvOutput + capLoad2) + resLoad * (capLoad2 + capLoad2/colnum)/2;
+ 			gm = CalculateTransconductance(widthDriverInvN, NMOS, tech);
+ 			beta = 1 / (resPullDown * gm);
+ 			readLatency += horowitz(tr, beta, rampInvOutput, &rampOutput);

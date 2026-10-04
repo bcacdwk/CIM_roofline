@@ -1,0 +1,259 @@
+{
+  "case_id": "ns_rram_1t1r",
+  "backend": {
+    "branch": "2DTrainingV2.1",
+    "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+    "core_path": "Training_pytorch/NeuroSIM"
+  },
+  "constructor_inputs": {
+    "memcelltype": 2,
+    "operationmode": 2,
+    "accesstype": 1,
+    "deviceroadmap": 2,
+    "cellBit": 1,
+    "trainingEstimation": false,
+    "SARADC": true,
+    "readPulseWidth": 0,
+    "maxNumLevelLTP": 2,
+    "maxNumLevelLTD": 2
+  },
+  "driver": "rram_service.cpp",
+  "support_sources": [
+    "correction.h",
+    "input_serializer.h",
+    "rram_verify.h",
+    "LevelShifter.cpp",
+    "LevelShifter.h"
+  ],
+  "patches": [
+    "training_rram_model.patch",
+    "training_mux_driver_wire.patch",
+    "rram_settle.patch",
+    "training_bus_direction_area.patch"
+  ],
+  "compile_exclude": [
+    "main.cpp",
+    "Chip.cpp",
+    "Tile.cpp",
+    "ProcessingUnit.cpp",
+    "HTree.cpp",
+    "WeightGradientUnit.cpp"
+  ],
+  "process": {
+    "technode_nm": 22,
+    "roadmap": "LSTP",
+    "temperature_K": "resolved per scenario",
+    "wire_width_nm": 32
+  },
+  "status": "conditional_rram_segmented_approx_Q4",
+  "conditions": [
+    "16banks each16x288cells with32ADCs,512ADCs total; 32bit shared external port with separate native single-direction read/write pointlinks, hub selection and explicit partial staging/reduction",
+    "Nominal ADC gain from actual Ron/Roff/access/readbias with16codes/count; 29bit signedQ4 output keeps fractional information",
+    "Main conditional demand is first-attempt success under a fixedtwo-attempt row-phase retry controller; failure atbound never publishesready",
+    "Stiff readsource rail remains an explicit input-boundary condition, not verified high-voltage supply or material behavior",
+    "Read masks released using native zero-mask setup before gather and after each resident bank"
+  ],
+  "result_keys": {
+    "logical_K": "logical_k",
+    "logical_N": "logical_n",
+    "stream_latency_s": "stream_single_s"
+  },
+  "diagnostics": [
+    {
+      "id": "corrected300",
+      "scenario": "reference",
+      "overrides": {
+        "temperature_K": 300
+      },
+      "purpose": "corrected/segmented architecture at historical temperature before warm reference change"
+    },
+    {
+      "id": "pulse20ns",
+      "scenario": "reference",
+      "overrides": {
+        "write_pulse_s": 2e-08
+      },
+      "purpose": "device-pulse causality only; same architecture and shared verification"
+    },
+    {
+      "id": "attempt2",
+      "scenario": "reference",
+      "overrides": {
+        "program_attempts": 2
+      },
+      "purpose": "bounded fullrow-phase retry service demand, no probability or empirical average"
+    },
+    {
+      "id": "activity50",
+      "scenario": "reference",
+      "overrides": {
+        "read_activity": 0.5
+      },
+      "purpose": "read RC counterfactual must not alter complete resident"
+    }
+  ],
+  "v3_source_context_not_effective_inputs": {
+    "case_id": "ns_rram_1t1r",
+    "backend": "2DTrainingV2.1",
+    "commit": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+    "process_nm": 22,
+    "device_roadmap": "LSTP",
+    "temperature_K": 300,
+    "wire_width_nm": 32,
+    "logical_shape": [
+      256,
+      31
+    ],
+    "logical_input": "signed INT8",
+    "logical_weight": "signed INT8",
+    "logical_output": "signed 25-bit exact nominal mapped arithmetic",
+    "physical_shape": [
+      256,
+      288
+    ],
+    "physical_mapping": "32 groups of 8 unsigned stored weight bits plus 1 all-HRS current-reference column; groups 0..30 store w+128, group31 stores constant1; two native 8-bit input passes ux and sign(x) then 3 nativeAdder correction stages",
+    "device_parameter_origin": "MLPInferenceV3.0@6098feabaf17b8209a8edbef4a9c963b5f015132 Cell.cpp:630-652 DigitalNVM upstream reference, cmosAccess=true/isSTTMRAM=false; not a measured material-specific RRAM package",
+    "ron_ohm": 8000,
+    "roff_ohm": 24000,
+    "access_resistance_ohm": 5000,
+    "read_voltage_V": 0.5,
+    "access_voltage_V": 1.1,
+    "set_voltage_V": 1,
+    "reset_voltage_V": 1,
+    "set_pulse_s": 1e-08,
+    "reset_pulse_s": 1e-08,
+    "cell_width_F": 8,
+    "cell_height_F": 4,
+    "adc_bits": 10,
+    "adc_count": 32,
+    "mux_columns_per_adc": 9,
+    "adc_nominal_lsb_S": "(1/13000 - 1/29000)/2",
+    "reference_subtract": "10-bit nativeAdder plus inversion, 32 lanes; reference DFF and difference DFF; exact nominal difference >>1 wiring",
+    "array_policy": "asynchronous completion, non-overlap across requests; native MUX/ADC/row/column latency charged in seconds",
+    "clock_policy": "period=2*max instantiated registered digital combinational path (baseline, correction, shiftAdd, verify comparator); no fixed target",
+    "stream_read_activity": "one active HRS cell per column gives the slowest nonzero-input RC envelope; reserve every slot, including zero planes",
+    "writer": "32-bit public port -> one 288-bit expected-row DFF buffer; row buffer retained through all reset/set batches and two onehot row verifies; 9 batches per direction per row fixed, masked SET slots not skipped",
+    "initial_state": "arbitrary binary state; reset every physical cell, then program target1 cells; reference columns remain HRS",
+    "verify": "Same 32 SAR, same 9:1 array MUX and one-hot row. Expected-row native 9:1 MUX, RESET/SET target phase MUX, calibrated code wires/inversion, 64 magnitude comparators (two per lane) plus OR/status implement mismatch detection. Single-pulse success is conditional.",
+    "power_boundary": "1V write and 1.1V access rails already stable, external supply; V1.4 unvalidated LevelShifter primitive port on same Training tech/cell and actual switch control gate loads; enable and release both charged; not chargepump or high-voltage device qualification",
+    "result_status": "conditional on calibrated ideal nominal ADC transfer, upstream reference device package, single-pulse program/verify success, and ready external rails",
+    "geometry_source": "MLPInferenceV3.0 Cell.cpp DigitalNVM CMOS-access height4F width8F; mapped to explicit Training geometry"
+  },
+  "base_parameters": {
+    "technology_nm": 22,
+    "temperature_K": 350,
+    "logical_K": 256,
+    "logical_N": 31,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bank_rows": 16,
+    "banks": 16,
+    "physical_cols": 288,
+    "read_mux": 9,
+    "adc_bits": 10,
+    "write_parallel_bits": 32,
+    "resistance_on_ohm": 8000.0,
+    "resistance_off_ohm": 24000.0,
+    "access_resistance_ohm": 5000.0,
+    "read_voltage_V": 0.5,
+    "write_voltage_V": 1.0,
+    "access_voltage_V": 1.1,
+    "write_pulse_s": 1e-08,
+    "mux_design_rows": 256,
+    "mux_driver_scale": 110,
+    "program_attempts": 1,
+    "read_activity": 0.0625,
+    "wire_resistance_scale": 1.0,
+    "clock_reservation_factor": 2.0,
+    "wire_width_nm": 32,
+    "featuresize_m": 3.2e-08,
+    "cell_width_F": 8,
+    "cell_height_F": 4,
+    "output_fractional_bits": 4
+  },
+  "constructor_bindings": {
+    "technode": "technology_nm",
+    "temp": "temperature_K",
+    "featuresize": "featuresize_m",
+    "wireWidth": "wire_width_nm",
+    "numRowSubArray": "bank_rows",
+    "numColSubArray": "physical_cols",
+    "numColMuxed": "read_mux",
+    "resistanceOn": "resistance_on_ohm",
+    "resistanceOff": "resistance_off_ohm",
+    "resistanceAccess": "access_resistance_ohm",
+    "readVoltage": "read_voltage_V",
+    "writeVoltage": "write_voltage_V",
+    "writePulseWidth": "write_pulse_s",
+    "accessVoltage": "access_voltage_V",
+    "widthInFeatureSize1T1R": "cell_width_F",
+    "heightInFeatureSize1T1R": "cell_height_F"
+  },
+  "constructor_derived": {
+    "levelOutput": {
+      "pow2": "adc_bits"
+    }
+  },
+  "qualification": "Segmented linear DC qualification and approximate Q4 output, stiff read-rail condition, generic reference device and successful bounded program-verify demand; not measured device statistics or ENOB.",
+  "consumption_checks": {
+    "temperature_K": "temperature_K",
+    "technology_nm": "technology_nm",
+    "logical_K": "logical_k",
+    "logical_N": "logical_n",
+    "input_bits": "input_bits",
+    "weight_bits": "weight_bits",
+    "bank_rows": "bank_rows",
+    "banks": "banks",
+    "physical_cols": "physical_cols",
+    "read_mux": "mux_rounds_per_bit",
+    "adc_bits": "adc_bits",
+    "write_parallel_bits": "resident_port_bits",
+    "resistance_on_ohm": "input_r_on_ohm",
+    "resistance_off_ohm": "input_r_off_ohm",
+    "access_resistance_ohm": "access_resistance_ohm",
+    "read_voltage_V": "read_voltage_v",
+    "write_voltage_V": "write_voltage_v",
+    "access_voltage_V": "access_voltage_v",
+    "write_pulse_s": "device_write_pulse_s",
+    "mux_design_rows": "mux_design_rows",
+    "mux_driver_scale": "mux_driver_scale",
+    "program_attempts": "program_attempts",
+    "read_activity": "read_activity",
+    "clock_reservation_factor": "clock_reservation_factor",
+    "output_fractional_bits": "output_fractional_bits"
+  },
+  "resolved_parameters": {
+    "technology_nm": 22,
+    "temperature_K": 300,
+    "logical_K": 256,
+    "logical_N": 31,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bank_rows": 16,
+    "banks": 16,
+    "physical_cols": 288,
+    "read_mux": 9,
+    "adc_bits": 10,
+    "write_parallel_bits": 32,
+    "resistance_on_ohm": 8000.0,
+    "resistance_off_ohm": 24000.0,
+    "access_resistance_ohm": 5000.0,
+    "read_voltage_V": 0.5,
+    "write_voltage_V": 1.0,
+    "access_voltage_V": 1.1,
+    "write_pulse_s": 1e-08,
+    "mux_design_rows": 256,
+    "mux_driver_scale": 110,
+    "program_attempts": 1,
+    "read_activity": 0.0625,
+    "wire_resistance_scale": 1.0,
+    "clock_reservation_factor": 2.0,
+    "wire_width_nm": 32,
+    "featuresize_m": 3.2e-08,
+    "cell_width_F": 8,
+    "cell_height_F": 4,
+    "output_fractional_bits": 4
+  },
+  "scenario": "diagnostic_corrected300",
+  "diagnostic_purpose": "corrected/segmented architecture at historical temperature before warm reference change"
+}
