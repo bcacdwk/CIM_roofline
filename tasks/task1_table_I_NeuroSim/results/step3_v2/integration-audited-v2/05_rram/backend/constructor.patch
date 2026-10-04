@@ -1,0 +1,20 @@
+--- a/Param.cpp
++++ b/Param.cpp
+@@ -58,7 +58,7 @@
+ 	operationmode = 2;     		// 1: conventionalSequential (Use several multi-bit RRAM as one synapse)
+ 								// 2: conventionalParallel (Use several multi-bit RRAM as one synapse)
+ 
+-	memcelltype = 1;        	// 1: cell.memCellType = Type::SRAM
++	memcelltype = 2;        	// 1: cell.memCellType = Type::SRAM
+ 								// 2: cell.memCellType = Type::RRAM
+ 								// 3: cell.memCellType = Type::FeFET
+ 	
+@@ -200,7 +200,7 @@
+ 
+ 	outputtoggle = 0.5; // output bit toggling has a negligible portion of the interconnect energy. Set it to 50 % for simpliciity and generalizability for all neural network workloads.
+ 
+-	numRowSubArray = 128;               // # of rows in single subArray
++	numRowSubArray = 64;               // # of rows in single subArray
+ 	numColSubArray = 128;               // # of columns in single subArray
+ 
+ 	// 230920 update

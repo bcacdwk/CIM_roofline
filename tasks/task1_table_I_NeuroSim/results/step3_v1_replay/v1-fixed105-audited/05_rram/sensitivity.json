@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "scope": "few named one-factor diagnostics; SAR duration perturbation is synthetic service dependency test, not new physical ADC precision",
+  "rows": [
+    {
+      "id": "independent_SAR_duration_plus8ns_same10bit_resources",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.5,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 6741.0,
+      "T_R_ns": 1948128.0,
+      "rho_Byte_per_s": 18988280.670523662,
+      "tau_Byte_per_s": 4205062.501026627,
+      "RI_star": 4.515576323987539,
+      "U_star": 288.9968847352025,
+      "status": "OK"
+    },
+    {
+      "id": "native_write_only_perturbation",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.5,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5397.0,
+      "T_R_ns": 2077152.0,
+      "rho_Byte_per_s": 23716879.748008154,
+      "tau_Byte_per_s": 3943861.5951071465,
+      "RI_star": 6.013618677042802,
+      "U_star": 384.8715953307393,
+      "status": "OK"
+    },
+    {
+      "id": "independent_window_plus5ns",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.5,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5397.0,
+      "T_R_ns": 1948128.0,
+      "rho_Byte_per_s": 23716879.748008154,
+      "tau_Byte_per_s": 4205062.501026627,
+      "RI_star": 5.6400778210116735,
+      "U_star": 360.9649805447471,
+      "status": "OK"
+    },
+    {
+      "id": "fixed_period_10.75_ns",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.75,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5525.5,
+      "T_R_ns": 1944933.0,
+      "rho_Byte_per_s": 23165324.40503122,
+      "tau_Byte_per_s": 4211970.283809262,
+      "RI_star": 5.499878404669261,
+      "U_star": 351.9922178988327,
+      "status": "OK"
+    },
+    {
+      "id": "fixed_period_11_ns",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 11.0,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5654.0,
+      "T_R_ns": 1939410.0,
+      "rho_Byte_per_s": 22638839.759462327,
+      "tau_Byte_per_s": 4223965.020289675,
+      "RI_star": 5.359618190661479,
+      "U_star": 343.01556420233464,
+      "status": "OK"
+    },
+    {
+      "id": "wire_5_timing_floor_policy",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.164702365127313,
+      "selection_policy": "v1_auto_minimum",
+      "delta_S_ns": 6525.7389184117355,
+      "T_R_ns": 1948431.1375617941,
+      "rho_Byte_per_s": 19614636.993653007,
+      "tau_Byte_per_s": 4204408.276009802,
+      "RI_star": 4.665255062305295,
+      "U_star": 298.5763239875389,
+      "status": "OK"
+    },
+    {
+      "id": "wire_5_same_main_clock",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.5,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5397.0,
+      "T_R_ns": 1948128.0,
+      "rho_Byte_per_s": 23716879.748008154,
+      "tau_Byte_per_s": 4205062.501026627,
+      "RI_star": 5.6400778210116735,
+      "U_star": 360.9649805447471,
+      "status": "OK"
+    },
+    {
+      "id": "wire_20_timing_floor_policy",
+      "timing_min_period_ns": 13.341796948177002,
+      "actual_period_ns": 13.341796948177002,
+      "selection_policy": "v1_auto_minimum",
+      "delta_S_ns": 6857.683631362979,
+      "T_R_ns": 1962498.280295148,
+      "rho_Byte_per_s": 18665194.675152976,
+      "tau_Byte_per_s": 4174271.1737652947,
+      "RI_star": 4.471485894941635,
+      "U_star": 286.1750972762646,
+      "status": "OK"
+    },
+    {
+      "id": "wire_20_same_main_clock",
+      "status": "REJECTED_ILLEGAL_PERIOD",
+      "timing_min_period_ns": 13.341796948177002,
+      "requested_period_ns": 10.5
+    }
+  ]
+}

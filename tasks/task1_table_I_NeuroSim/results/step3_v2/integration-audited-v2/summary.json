@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "mode": "pilot",
+  "case_results": [
+    {
+      "case_id": "01_sram_acim",
+      "timing_min_period_ns": 3.2788670599417897,
+      "operating_policy": "target_5ns_else_upward_0.5ns_grid",
+      "K": 128,
+      "N": 128,
+      "actual_period_ns": 5.0,
+      "delta_S_ns": 2890.0,
+      "T_R_ns": 5120.0,
+      "rho_Byte_per_s": 44290657.43944637,
+      "tau_Byte_per_s": 3200000000.0,
+      "RI_star": 0.01384083044982699,
+      "U_star": 1.7716262975778547,
+      "v3_delta_S_ns": 3210.0,
+      "v3_T_R_ns": 5120.0
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "timing_min_period_ns": 2.6160692818051587,
+      "operating_policy": "target_5ns_else_upward_0.5ns_grid",
+      "K": 128,
+      "N": 16,
+      "actual_period_ns": 5.0,
+      "delta_S_ns": 330.0,
+      "T_R_ns": 640.0,
+      "rho_Byte_per_s": 387878787.8787879,
+      "tau_Byte_per_s": 3200000000.0,
+      "RI_star": 0.12121212121212122,
+      "U_star": 1.9393939393939394,
+      "v3_delta_S_ns": 330.0,
+      "v3_T_R_ns": 640.0
+    },
+    {
+      "case_id": "05_rram",
+      "timing_min_period_ns": 3.2164836619843276,
+      "operating_policy": "target_5ns_else_upward_0.5ns_grid",
+      "K": 128,
+      "N": 64,
+      "actual_period_ns": 5.0,
+      "delta_S_ns": 4490.0,
+      "T_R_ns": 1911765.0,
+      "rho_Byte_per_s": 28507795.100222718,
+      "tau_Byte_per_s": 4285045.4946083855,
+      "RI_star": 6.652857043429845,
+      "U_star": 425.78285077951,
+      "v3_delta_S_ns": 5130.0,
+      "v3_T_R_ns": 1911760.0000000005
+    }
+  ],
+  "reproduction": "fresh source copies and executable per case; no cached binary",
+  "scope": "three reference pilots only; source native services are conditional inputs",
+  "execution_revision": "v2"
+}

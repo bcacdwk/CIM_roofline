@@ -239,6 +239,19 @@ def build(case, p, backend):
         "code_retention_uses_existing_inventory": installed["existing_SAR_code_bits"] == 1280 and installed["new_intermediate_hold_bits"] == 0,
         **protocol_checks, **nominal_checks,
     }
+    if backend.get("reconstruction_window"):
+        for item in streaming:
+            if item["id"] in ("reconstruct", "digital_reconstruct"):
+                item["timing_window"] = backend["reconstruction_window"]
+                phase = item.get("context", {}).get("phase")
+                item["launch_offset_cycle"] = 1 if phase == 2 else 0
+                item["capture_offset_cycles"] = [] if phase == 1 else [2]
+                item["context"].update({
+                    "propagation": "continuous E0 to E2; no restart and no capture at E1",
+                    "first_edge_update": "phase only; SAR/input bit/output group/old accumulator held",
+                    "phase_1": "propagate held operands; no intermediate capture",
+                    "phase_2": "same propagation completes; capture existing accumulator at E2",
+                    "recompute_tree_without_intermediate_register": False})
     streaming[0].setdefault("context", {}).update({
         "accumulator_initialization": "synchronous clear all existing output containers during input_capture; clear mux/control path included in backend",
         "new_register_or_cycle": False})

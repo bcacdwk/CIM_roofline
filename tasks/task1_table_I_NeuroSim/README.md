@@ -1,8 +1,10 @@
 # Table I · NeuroSim 评估任务
 
-当前完成：**Step 3 三个 reference pilot，最终集成及独立复跑 PASS；停止在本阶段。**
+当前完成：**Step 3 V2，三个pilot收敛与独立审查PASS；已停止。**
 
-阅读入口：[Step 3 中文报告](reports/step3_pilots.zh.md) · [结果总表](results/step3/integration-final-20261004/summary.csv) · [独立复核](reports/step3_review.json) · [统一入口](scripts/run_step3.py)。规范输入仍为 Step 2 `configs/cases/`；生效配置在三个案例各自的 `resolved.json`，旧时间回放与新结果分开。
+阅读入口：[V2报告](reports/step3_v2_pilots.zh.md) · [V2总表](results/step3_v2/integration-audited-v2/summary.csv) · [V2独立复核](reports/step3_v2_review.json) · [统一入口](scripts/run_step3.py)。主运行周期5ns；区分时序下限、E0→E2重构及E1→E2单拍捕获使能。`--period-ns`给出合法整机工作点，`--revision v1`保留原C++对照。
+
+V1归档：[V1报告](reports/step3_pilots.zh.md) · [V1总表](results/step3/integration-final-20261004/summary.csv) · [V1独立复核](reports/step3_review.json)。V1证据和Step2输入保持不变，V2实际快照另存。
 
 ## 1. 目标与起点
 

@@ -1,0 +1,40 @@
+{
+  "extension_version": "2.0.0",
+  "scope": "Step3 execution/resolved outputs only; input/output contract 3.0.0 remains checked",
+  "base_policy": "lv_v14_22nm_lstp_300k_v1",
+  "baseline": "88448197c570b113f6002524aaacd1bd8865ca86",
+  "replaces_for_V2_only": [
+    "clock.actual_rule single-cycle-only assumption",
+    "digital reconstruction single-cycle qualification"
+  ],
+  "path_time_unit": "physical ns, conversion clock_id=null; constraint_clock_id=lv_core",
+  "required_path_fields": [
+    "id",
+    "delay_ns",
+    "start_register",
+    "end_register",
+    "launch_edge",
+    "capture_edge",
+    "available_cycles",
+    "single_cycle",
+    "path_class",
+    "stable_sources",
+    "complete_serial_path",
+    "actual_load",
+    "required_period_ns"
+  ],
+  "multicycle_qualification": "only held reconstruction data,ibit/group and feedback may launch E0 capture E2; source stability and output write disable at E1 required; first edge only phase update",
+  "single_cycle_paths": [
+    "control",
+    "input_output",
+    "accumulator_clear",
+    "verify_done",
+    "E1 phase to E2 capture_enable"
+  ],
+  "physical_timing_minimum": "max(delay_ns/(capture_edge-launch_edge)) over qualified complete paths",
+  "target_period_ns": 5,
+  "default_operating_policy": "keep nominal5ns if timing-legal; otherwise upward0.5ns grid",
+  "alternatives": "explicit legal fixed periods; report rho and tau together for each; no point splicing",
+  "validator": "pilots/timing.py and pilots/check_v2.py",
+  "fixed_resources": "same16 arithmetic lanes; original registers/SAR1280bit state, no intermediatecapture bank; common9/11/15/23bit network forACIM/RRAM; DCIMnativeMAC staysopaque"
+}

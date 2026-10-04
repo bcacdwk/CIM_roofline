@@ -1,0 +1,1224 @@
+{
+  "execution_extension": {
+    "applicable": false,
+    "mode": "V1 conservative single-cycle rebuild; frozen original source retained"
+  },
+  "input_config_sha256": "7bc834a55a6252150661a217efd951893beed4b1cf5604faab14883befc2d95d",
+  "logical": {
+    "K": 128,
+    "N": 64,
+    "matrix_order": "W[N,K]",
+    "input_bits": 8,
+    "weight_bits": 8,
+    "signed": true,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "B_S_Byte": 128,
+    "B_R_Byte": 8192,
+    "resident_transaction_Byte": 16,
+    "output_bits": 23,
+    "numerical_contract": "calibrated_approximate_partial_sums",
+    "byte_bit_rule": "v3 b_S=b_R=1 means Byte/element, not 1-bit arithmetic. Encoded copies add physical occupancy, never logical payload.",
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      },
+      {
+        "source_id": "shared_calculator",
+        "function": "logical_configuration"
+      }
+    ]
+  },
+  "physical": {
+    "resident_capacity_Byte": 8192,
+    "logical_capacity_Byte": 8192,
+    "physical_capacity_bit": 65536,
+    "physical_capacity_Byte": 8192,
+    "physical_data_cells": 65536,
+    "encoding": "8binarybitplanes,no differential duplication;allm=1",
+    "mode": "WH-2T1R32-item ACIM with native CIMSEL time selection",
+    "physical_native_macros": 8,
+    "physical_macro_shape": [
+      64,
+      128
+    ],
+    "subarrays_per_macro": 4,
+    "subarray_shape": [
+      64,
+      32
+    ],
+    "update_mode": "single-domain sustained whole8192B matrix load;512local16B groups",
+    "precision_contract": "calibrated approximate bit-plane sums;INT8 final23bit container",
+    "cells_per_INT8_weight": 8,
+    "data_storage_sites": 65536,
+    "effective_capacity_Byte": 8192,
+    "independent_payload_replicas": 1,
+    "signal_enhancement_replication": 1,
+    "complementary_encoding_factor": 1,
+    "neurosim_array_assignment": {
+      "numRowSubArray": null,
+      "numColSubArray": null,
+      "status": "requires_per_primitive_topology_adapter",
+      "rule": "Never substitute logical K,N for a physical array; preserve native banks, plane orientation, active rows, isolation and access direction."
+    },
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      }
+    ],
+    "access_direction": "Eight complete64×128 m=1 reference macros,one per bit-plane;retain four64×32 subarrays and sharedTBL in each macro;CIMSEL time-selects four32-input groups",
+    "update_mapping": "one32-input subarray,one selected outputWL per plane;8columns in each of2groups,16columnBL/SL pairs ×8planes=128targets;512transactions coverK128×N64"
+  },
+  "resources": {
+    "installed": {
+      "adc_count": 128,
+      "sense_or_verify_nodes": 256,
+      "digital_output_channels": 16,
+      "operand_hold_bits": 0,
+      "analog_cross_group_hold_slots": 0,
+      "input_register_bits": 1024,
+      "output_register_bits": 1472,
+      "encoded_interface_bits": 128,
+      "external_update_domains": 1,
+      "binary_window_comparators": 256,
+      "program_voltage_rating_V": 1.8,
+      "program_current_rating_uA_per_lane": 300,
+      "program_current_rating_mA_total": 38.4,
+      "switched_load_limit_pF_per_lane": 1,
+      "mux_groups_per_plane": 2,
+      "mux_channels": 128,
+      "mux_fanin": 4,
+      "existing_SAR_code_bits": 1280,
+      "new_intermediate_hold_bits": 0
+    },
+    "active": {
+      "streaming": {
+        "input_terms_per_group": 32,
+        "output_lanes": 16,
+        "weight_planes_parallel": 8,
+        "adc_count": 128
+      },
+      "resident": {
+        "logical_Byte_per_transaction": 16,
+        "encoded_bits_per_load_unit": 128
+      }
+    },
+    "native_declared": {
+      "ADC_count": 128,
+      "ADC_per_plane": 16,
+      "digital_output_channels": 16,
+      "active_input_terms": 32,
+      "write_driver_count": 128,
+      "binary_window_comparators": 256,
+      "program_current_rating_uA_per_lane": 300,
+      "total_program_current_rating_mA": 38.4,
+      "switched_capacitance_limit_pF_per_lane": 1,
+      "program_voltage_rating_V": 1.8,
+      "encoded_buffer_bits": 128,
+      "mask_done_bits": 128,
+      "input_register_bits": 1024,
+      "output_register_bits": 1472,
+      "write_interface_bits": 128,
+      "external_update_domains": 1,
+      "shared_TBL_policy": "retain native4subarrays per macro;CIMSEL time-selects;no freeTBL isolation"
+    },
+    "capacity_policy": "Installed capacity is not active parallelism. No extra ADC, SA, hold bank, driver or mux lane may appear without a resource edit.",
+    "source_refs": [
+      {
+        "source_id": "results",
+        "json_pointer": "/native_configuration"
+      },
+      {
+        "source_id": "shared",
+        "json_pointer": "/resource_policy"
+      }
+    ],
+    "mux_scope": {
+      "status": "selection_inventory_not_transistor_load_characterization",
+      "source_refs": [
+        {
+          "source_id": "results",
+          "json_pointer": "/native_configuration"
+        }
+      ],
+      "rule": "Ratios express selected outputs/local addresses; native row/layer/CIMSEL decoding is separate. No switch capacitance or RC assumed from fanin alone."
+    },
+    "write_semantics": {
+      "electrical_drive_outputs": {
+        "value": 128,
+        "unit": "electrical_output",
+        "meaning": "Biased/current-driven electrical outputs; not a programming target count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_driver_count"
+          }
+        ]
+      },
+      "program_driver_channels": {
+        "value": 128,
+        "unit": "program_channel",
+        "meaning": "Explicit independent drive channels when reported; page-engine or distributed bias outputs do not establish this count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_driver_count"
+          }
+        ]
+      },
+      "selected_storage_targets": {
+        "value": 128,
+        "unit": "storage_cell",
+        "meaning": "Addressed storage targets per selected_batch; phase and plane organization remain explicit.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_driver_count"
+          }
+        ]
+      },
+      "target_scope": "selected_batch",
+      "logical_bits_per_target": {
+        "value": 1,
+        "unit": "logical_bit/storage_cell",
+        "meaning": "One binary state/pair before INT8 plane and NAND encoding expansion.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "physical_cells_per_target": {
+        "value": 1,
+        "unit": "storage_cell/storage_cell",
+        "meaning": "Complementary storage branches per addressed target.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "logical_payload_per_transaction": {
+        "value": 16,
+        "unit": "Byte",
+        "meaning": "Workload payload for an indivisible resident transaction; not bias outputs or port beats.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "encoded_bits_per_load_unit": {
+        "value": 128,
+        "unit": "encoded_bit",
+        "meaning": "Encoded bits in one native page for NOR/NAND; otherwise one resident transaction.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "load_unit_scope": "resident_transaction",
+      "data_port_width": {
+        "value": 128,
+        "unit": "bit/beat",
+        "meaning": "External encoded port width; not physical program parallelism.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "update_domains": {
+        "value": 1,
+        "unit": "update_domain",
+        "meaning": "One native independently scheduled update domain.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "full_matrix_transactions": {
+        "value": 512,
+        "unit": "transaction",
+        "meaning": "B_R_Byte / logical_payload_per_transaction, exact integer division.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "program_parallelism_source": "selected_storage_targets plus explicitly reported channels, phases and planes; never electrical_drive_outputs or data_port_width",
+      "transaction_count_rule": "B_R_Byte / logical_payload_per_transaction; reject nonintegral division",
+      "program_batches_per_transaction": 1,
+      "program_batch_count_rule": "program_batches_per_load_unit * load_units_per_transaction; batch is a native selection/program-service target group, not an internal pulse/head count; phase/retry services remain separately scheduled.",
+      "phase_semantics": "Preserve service-specific pulses/retries; a target is not a pulse count.",
+      "load_units_per_transaction": 1,
+      "program_batches_per_load_unit": 1
+    }
+  },
+  "native_parameters_ns": {
+    "input_step": 5,
+    "adc_batch": 20,
+    "digital_tick": 5,
+    "cim_front": 5.0,
+    "memory_verify_front": 5.0,
+    "reset_pulse": 1000.0000000000001,
+    "set_pulse": 1000.0000000000001,
+    "local_setup": 100.00000000000001,
+    "local_return": 100.00000000000001,
+    "rail_setup": 1000.0000000000001,
+    "rail_exit": 1000.0000000000001,
+    "binary_verify_sense_ns": 20.0
+  },
+  "backend": {
+    "execution_revision": "2.0.0",
+    "datapath_revision": "v1",
+    "sar_ns": 11.000000000000002,
+    "timing_min_period_ns": 10.164702365127313,
+    "policy_min_period_ns": 10.164702365127313,
+    "actual_period_ns": 10.5,
+    "target_period_ns": 5.0,
+    "selection_policy": "explicit_fixed_legal_operating_point",
+    "path_slack_ns": {
+      "control_path": 8.629092509961787,
+      "io_path": 9.70411408452613,
+      "accumulator_clear_path": 9.135658450127837,
+      "verify_done_path": 8.4857738685397,
+      "reconstruct_path": 0.3352976348726866,
+      "bank_feedback_path": 7.96831928103504,
+      "control_select_path": 4.984447754205444
+    },
+    "boundary_setup_ns": 0.10421257263289667,
+    "dff_cycle": 1.0,
+    "paths": [
+      {
+        "id": "control_path",
+        "delay_ns": 1.8709074900382143,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 1.8709074900382143
+      },
+      {
+        "id": "io_path",
+        "delay_ns": 0.7958859154738686,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 0.7958859154738686
+      },
+      {
+        "id": "accumulator_clear_path",
+        "delay_ns": 1.3643415498721638,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 1.3643415498721638
+      },
+      {
+        "id": "verify_done_path",
+        "delay_ns": 2.014226131460299,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 2.014226131460299
+      },
+      {
+        "id": "reconstruct_path",
+        "delay_ns": 10.164702365127313,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 10.164702365127313
+      },
+      {
+        "id": "bank_feedback_path",
+        "delay_ns": 2.5316807189649597,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 2.5316807189649597
+      },
+      {
+        "id": "control_select_path",
+        "delay_ns": 5.515552245794556,
+        "start_register": "existing_data_or_controller_state",
+        "end_register": "existing_data_or_controller_state",
+        "constraint_clock_id": "lv_core",
+        "single_cycle": true,
+        "launch_edge": 0,
+        "capture_edge": 1,
+        "available_cycles": 1,
+        "path_class": "single_cycle_control_or_io",
+        "stable_sources": [],
+        "complete_serial_path": true,
+        "actual_load": {
+          "wire_per_logic_segment_um": 5.0,
+          "wire_cap_F": 1e-15,
+          "destination_DFF_data_cap_F": 3.8157973166759144e-16
+        },
+        "path_status": "actual_case_gate_topology_under_engineering_conditions",
+        "required_period_ns": 5.515552245794556
+      }
+    ],
+    "reconstruction_window": null,
+    "raw_module_returns": {
+      "source_q_ramp": 6861793048.804574,
+      "setup_s": 1.0421257263289668e-10,
+      "clock_q_s": 1.0953650316341462e-10,
+      "dff_data_cap_F": 3.8157973166759144e-16,
+      "gate_input_cap_F": 1.4591583058980342e-16,
+      "wire_cap_F": 1e-15,
+      "wire_res_ohm": 48.84868421823927,
+      "control_path_s": 1.8709074900382144e-09,
+      "io_path_s": 7.958859154738685e-10,
+      "accumulator_clear_path_s": 1.3643415498721637e-09,
+      "nand_input_cap_F": 2.0882703058980344e-16,
+      "control_fanout_max": 4.0,
+      "control_target_sinks": 128.0,
+      "clear_target_sinks": 1472.0,
+      "verify_done_path_s": 2.0142261314602988e-09,
+      "sar_active_terms": 32.0,
+      "sar_installed_count": 128.0,
+      "sar_levelOutput": 1024.0,
+      "sar_s": 1.1000000000000001e-08,
+      "sar_area_m2": 2.7896043929600003e-08,
+      "weight_negate_s": 1.5149185752392098e-09,
+      "tree_level0_s": 1.2802549385365817e-09,
+      "tree_level1_s": 1.348660813445376e-09,
+      "tree_level2_s": 1.4074521625664778e-09,
+      "shift_mux_s": 5.746464948664959e-10,
+      "input_sign_s": 2.096142753802221e-09,
+      "accumulator_s": 1.5785681621812713e-09,
+      "output_enable_s": 1.5030938869336864e-10,
+      "reconstruct_path_s": 1.0164702365127313e-08,
+      "bank_feedback_path_s": 2.5316807189649596e-09,
+      "control_select_path_s": 5.515552245794556e-09,
+      "bank_select_fanin": 4.0,
+      "sign_extension_max_nand_loads": 8.0,
+      "diagnostic_upstream_tree_s": 1.376135624601251e-09,
+      "full_width_tree_s": 4.036367914548436e-09,
+      "dff_cycle": 1.0,
+      "output_cycle": 1.0,
+      "controller_cycle": 1.0,
+      "partial_module_area_m2": 3.5666722784e-08,
+      "clkFreq_hz": 95238095.23809524,
+      "technode_nm": 22.0,
+      "temperature_K": 300.0,
+      "vdd_V": 0.85,
+      "tech_featureSize_m": 2.2000000000000002e-08,
+      "param_featuresize_m": 4e-08,
+      "param_rows": 64.0,
+      "param_cols": 128.0,
+      "param_rowParallel": 64.0,
+      "param_maxConductance_S": 1e-05,
+      "param_minConductance_S": 5.88235294117647e-07,
+      "beta": 1.4,
+      "gamma": 0.5,
+      "delta": 0.15,
+      "alpha": 1.44,
+      "epsilon": 0.05,
+      "zeta": 1.22
+    },
+    "adc_bits": 10,
+    "wire_um": 5.0,
+    "constructor_inputs": {
+      "technode": 22,
+      "temp": 300,
+      "deviceroadmap": 2,
+      "memcelltype": 2,
+      "numRowSubArray": 64,
+      "numColSubArray": 128
+    },
+    "native_electrical_fields_used_by_primitives": false,
+    "native_device": {
+      "identity": "WH-2T1R m=1 binary RRAM; distinct CIM and memory paths",
+      "primitives": [
+        {
+          "id": "cim_front",
+          "original": {
+            "value": 5,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 5e-09,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "CIM",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/front_end_settle_ns/value"
+            }
+          ]
+        },
+        {
+          "id": "memory_verify_front",
+          "original": {
+            "value": 5,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 5e-09,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_verify_frontend_ns/value"
+            }
+          ]
+        },
+        {
+          "id": "reset_pulse",
+          "original": {
+            "value": 1000,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 1.0000000000000002e-06,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/program_pulse_ns/RESET"
+            }
+          ]
+        },
+        {
+          "id": "set_pulse",
+          "original": {
+            "value": 1000,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 1.0000000000000002e-06,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/program_pulse_ns/SET"
+            }
+          ]
+        },
+        {
+          "id": "local_setup",
+          "original": {
+            "value": 100,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 1.0000000000000001e-07,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/reference"
+            }
+          ]
+        },
+        {
+          "id": "local_return",
+          "original": {
+            "value": 100,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 1.0000000000000001e-07,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/reference"
+            }
+          ]
+        },
+        {
+          "id": "rail_setup",
+          "original": {
+            "value": 1000,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 1.0000000000000002e-06,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/rail_lifecycle_ns/setup"
+            }
+          ]
+        },
+        {
+          "id": "rail_exit",
+          "original": {
+            "value": 1000,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 1.0000000000000002e-06,
+            "unit": "s"
+          },
+          "status": "retained_v3_input",
+          "kind": "primitive_budget",
+          "mode": "memory_program_or_verify",
+          "included_stages": [],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/rail_lifecycle_ns/exit"
+            }
+          ]
+        },
+        {
+          "id": "binary_verify_sense_ns",
+          "original": {
+            "value": 20,
+            "unit": "ns"
+          },
+          "normalized": {
+            "value": 2e-08,
+            "unit": "s"
+          },
+          "status": "retained_v3_reference_budget_now_independently_bound",
+          "kind": "native_window_sense_budget",
+          "mode": "memory_endpoint",
+          "included_stages": [
+            "window decision",
+            "latch"
+          ],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_sense_slot_ns"
+            },
+            {
+              "source_id": "shared",
+              "json_pointer": "/common_conditions/propagation/profile_values/reference/adc_batch"
+            }
+          ],
+          "provenance_note": "v3 reference T_B was 20ns through an explicit T_B=T_A capability policy, not a measured same-ADC fact; keep numeric reference and provenance, remove default cross-dependency."
+        }
+      ],
+      "native_technology_policy": "Retain native device bias/load/geometry independently of the low-voltage peripheral technology; no 28nm Technology table or enum relabeling.",
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": ""
+        }
+      ],
+      "mode_bias_load_endpoint": [
+        {
+          "mode_id": "normal_evaluation",
+          "bias_load_endpoint": "32活动m=1 cell，VBL0.3V/VWL0.6V/VTBL0.1V，core T2与共享TBL的电流建立/漏电补偿，公共SAR近似部分和",
+          "parameter_bindings": {
+            "frontend_ns": "cim_frontend_ns",
+            "input_ns": "input_step",
+            "conversion_ns": "adc_batch",
+            "digital_ns": "digital_tick"
+          },
+          "qualification": "5ns锚定原PH0；原CIM路径与memory路径分离，该5ns不是memory读验实测",
+          "source": "RRAM-05 PDF pp.3–4 Figs.3–7; p.7 Figs.16–18"
+        },
+        {
+          "mode_id": "endpoint_verify",
+          "bias_load_endpoint": "program后局部退偏，独立T1/IO/BL/SL memory路径逐lane判LRS双门限与HRS门限；128lane/256窗口比较器",
+          "parameter_bindings": {
+            "frontend_ns": "verify_frontend_ns",
+            "input_ns": "input_step",
+            "sense_ns": "adc_batch",
+            "digital_ns": "digital_tick"
+          },
+          "qualification": "5ns是独立memory前端参考预算；未由CIM的PH0实测证明。T_B=T_A为共同能力政策依赖而非共享ADC物理依赖。改变同一公共T_I/T_A/T_D会作用所有消费者",
+          "source": "RRAM-05 PDF p.3 Fig.3/4; E02/E03/E09; reference design"
+        },
+        {
+          "mode_id": "resident_update",
+          "bias_load_endpoint": "128专用驱动，同极性RESET后masked SET；rail在512事务期间保持，完整窗口读验完成后才发布矩阵",
+          "parameter_bindings": {
+            "setup_ns": "local_setup_ns",
+            "return_ns": "local_return_ns",
+            "set_pulse_ns": "set_pulse_ns",
+            "reset_pulse_ns": "reset_pulse_ns",
+            "digital_ns": "digital_tick",
+            "rail_setup_ns": "rail_setup_ns",
+            "rail_exit_ns": "rail_exit_ns"
+          },
+          "qualification": "pulse、local偏置和rail只作用更新；端点读验使用endpoint_verify绑定，完整RESET不隐藏",
+          "source": "RRAM-01 PDF p.10; RRAM-03 PDF p.5; RRAM-06 PDF pp.1–2; reference design"
+        }
+      ],
+      "mode_inputs": {
+        "native_electrical_parameter_policy": {
+          "read_bias_V": null,
+          "native_RC_load": null,
+          "status": "not_separately_specified_for_instantiated_adapter",
+          "fallback": "retain native complete service or stated primitive; never silently use upstream default device/load"
+        },
+        "normal_evaluation": {
+          "VBL": {
+            "value": 0.3,
+            "unit": "V",
+            "normalized_value": 0.3,
+            "normalized_unit": "V",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/binary_windows/qualification"
+              }
+            ]
+          },
+          "VWL": {
+            "value": 0.6,
+            "unit": "V",
+            "normalized_value": 0.6,
+            "normalized_unit": "V",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/binary_windows/qualification"
+              }
+            ]
+          },
+          "VTBL": {
+            "value": 0.1,
+            "unit": "V",
+            "normalized_value": 0.1,
+            "normalized_unit": "V",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/binary_windows/qualification"
+              }
+            ]
+          },
+          "ON_current_reference": {
+            "value": 0.5,
+            "unit": "uA",
+            "normalized_value": 5e-07,
+            "normalized_unit": "A",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/binary_windows/qualification"
+              }
+            ]
+          },
+          "HRS_contribution": "low after same-bias calibration; not assigned zero",
+          "m": 1,
+          "active_terms": 32
+        },
+        "memory_endpoint": {
+          "LRS_window": {
+            "value": [
+              8,
+              12
+            ],
+            "unit": "kOhm",
+            "normalized_value": [
+              8000,
+              12000
+            ],
+            "normalized_unit": "ohm",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/binary_windows/LRS_resistance_kOhm"
+              }
+            ]
+          },
+          "HRS_min": {
+            "value": 70,
+            "unit": "kOhm",
+            "normalized_value": 70000,
+            "normalized_unit": "ohm",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/binary_windows/HRS_min_resistance_kOhm"
+              }
+            ]
+          },
+          "memory_read_bias_V": null,
+          "qualification": "Independent T1/IO/BL/SL memory path; conditional window budget, not CIM transfer equivalence",
+          "binary_verify_sense_ns": 20,
+          "binary_verify_sense_provider": "v3_native_service"
+        },
+        "program": {
+          "SET_initial": {
+            "value": 1.2,
+            "unit": "V",
+            "normalized_value": 1.2,
+            "normalized_unit": "V",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/program_voltages/initial_SET_V"
+              }
+            ]
+          },
+          "RESET_initial": {
+            "value": 1.5,
+            "unit": "V",
+            "normalized_value": 1.5,
+            "normalized_unit": "V",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/program_voltages/initial_RESET_V"
+              }
+            ]
+          },
+          "same_polarity_retry_increment": {
+            "value": 0.1,
+            "unit": "V",
+            "normalized_value": 0.1,
+            "normalized_unit": "V",
+            "status": "retained_v3_mode_input",
+            "source_refs": [
+              {
+                "source_id": "inputs",
+                "json_pointer": "/adopted_inputs/program_voltages/increment_on_same_polarity_retry_V"
+              }
+            ]
+          },
+          "reference_RESET_attempts": 2,
+          "reference_SET_attempts": 1,
+          "retry_RESET_sequence_V": [
+            1.5,
+            1.6
+          ],
+          "retry_SET_sequence_V": [
+            1.2
+          ],
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/group_attempt_scenarios/reference"
+            }
+          ]
+        }
+      }
+    },
+    "module_inventory": {
+      "input_DFF": 1024,
+      "output_DFF": 1472,
+      "controller_state_DFF": 32,
+      "encoded_DFF": 128,
+      "mask_DFF": 128,
+      "SAR": 128,
+      "arithmetic_lanes": 16,
+      "extra_payload_or_code_registers": 0,
+      "weighted_tree_installed_bits": null,
+      "accumulator_bits": 23,
+      "FA_bitcell_count_per_arithmetic_lane": 194
+    },
+    "engineering_conditions": {
+      "local_wire_um": 5.0,
+      "wire_capacitance_fF_per_um": 0.2,
+      "wire_resistance_provider": "locked Param 22nm wire model",
+      "register_boundary_model": "clock-Q and setup use two loaded inverters; existing V1 engineering approximation, not library STA",
+      "arithmetic_timing": "V1 full-width scalar Adder sums, single-cycle",
+      "source_loads": "V1 explicit fixed fanout and full-width scalar Adder load assumptions; see immutable backend_v1.cpp",
+      "capture_control": "V1 conservative full single-cycle path qualification during two scheduled ticks; no new multicycle exception",
+      "normalized_bits": 6,
+      "shared_installed_partial_sum_bits": 21,
+      "RRAM_upper_count_bits": "V1 overwide18bit leaves do not prune constant cones",
+      "normalization": "q>>2 or q>>4 fixed bit wires; nominal transfer condition unchanged",
+      "scope": "structural gate arrival envelope; no path sensitization, extracted layout, or silicon precision claim"
+    },
+    "partial_area_scope": "Only initialized SAR/DFF/Adder module area; formula mux/control gates, native arrays/frontends/writes/routing excluded. No DAG gate area added again. NOT macro PPA."
+  },
+  "adapter": {
+    "adapter": "WH-2T1R native geometry / public SAR and LV digital",
+    "logical_shape": [
+      128,
+      64
+    ],
+    "native_macro_shape": [
+      64,
+      128
+    ],
+    "native_macros": 8,
+    "subarrays_per_macro": 4,
+    "native_subarray_shape": [
+      64,
+      32
+    ],
+    "streaming_batches": 128,
+    "digital_reconstruction_ticks": 256,
+    "resident_transactions": 512,
+    "payload_Byte_per_transaction": 16,
+    "independent_window_sense_ns": 20.0,
+    "shared_rail_lifecycle": "one establishment and one exit for full matrix",
+    "programming": "reserved two RESET / one masked SET attempt per group; no early-done throughput credit",
+    "controller_state_bits": 32,
+    "controller_inventory": "9 transaction-address bits; 2 retry, 2 phase, ready/fail and control state fit within 32 bits",
+    "native_window_latches": "included in native 20 ns window sense, not added again",
+    "native_window_reference_selection": "two comparators per lane: target-one selects LRS 8/12 kOhm limits; target-zero selects HRS 70 kOhm threshold; second output unused for HRS",
+    "matrix_publish": "existing controller ready capture after rail exit; setup/edge boundary charged by scheduler",
+    "terminal_verify": "last SET window read checks all 128 targets including target-zero HRS; no unsourced extra matrix scan",
+    "sar_retention": "128 existing 10-bit SAR codes frozen through both ticks; next conversion starts only after accumulation",
+    "additional_data_hold_bits": 0,
+    "controller_inventory_explicit_step3_addition": true,
+    "numerical_diagnostics": {
+      "fixtures": [
+        {
+          "name": "both_minimum",
+          "direct_min": 2097152,
+          "direct_max": 2097152,
+          "pass_equal": true,
+          "outputs_sha256": "6b2b00bba9bee4256289ad62c5157e9ea969b95156f798e83f77270443d56fa2"
+        },
+        {
+          "name": "minimum_times_maximum",
+          "direct_min": -2080768,
+          "direct_max": -2080768,
+          "pass_equal": true,
+          "outputs_sha256": "5a7d29181e79c4203888b48cc356d4efeb66941b9d8539ab42ab821198396f90"
+        },
+        {
+          "name": "mixed_signed",
+          "direct_min": -49152,
+          "direct_max": 65024,
+          "pass_equal": true,
+          "outputs_sha256": "a97471cf2e54d4f99c479614a39ef0a7b5c4f3fdc2fc7713397a6ce9982e2bec"
+        }
+      ],
+      "max_code": 512,
+      "max_abs_partial_accumulator": 2097152,
+      "diagnostic_code": "q = 16 * ideal calibrated 32-term partial sum; q >> 4 decodes",
+      "nominal_ADC_code_bits": 10,
+      "reference_ENOB_scale_only_bits": 8,
+      "effective_precision_verified": false,
+      "physical_ADC_transfer_instantiated": false,
+      "device_or_analog_accuracy_verified": false,
+      "qualification": "Diagnostic scaling only; physical calibration and error bounds are not provided by SarADC latency model"
+    },
+    "protocol_diagnostics": {
+      "success": {
+        "published": true,
+        "successful_payload_Byte": 16,
+        "failure": null,
+        "history": [
+          {
+            "phase": "RESET",
+            "attempt": 1,
+            "pulse_active_lanes": 128,
+            "failing_lanes": 8
+          },
+          {
+            "phase": "RESET",
+            "attempt": 2,
+            "pulse_active_lanes": 8,
+            "failing_lanes": 0
+          },
+          {
+            "phase": "SET",
+            "attempt": 1,
+            "pulse_active_lanes": 64,
+            "terminal_verify_lanes": 128,
+            "failing_lanes": 0
+          }
+        ]
+      },
+      "reset_timeout": {
+        "published": false,
+        "successful_payload_Byte": 0,
+        "failure": "RESET_budget_exhausted",
+        "history": [
+          {
+            "phase": "RESET",
+            "attempt": 1,
+            "pulse_active_lanes": 128,
+            "failing_lanes": 8
+          },
+          {
+            "phase": "RESET",
+            "attempt": 2,
+            "pulse_active_lanes": 8,
+            "failing_lanes": 1
+          }
+        ]
+      },
+      "LRS_overshoot": {
+        "published": false,
+        "successful_payload_Byte": 0,
+        "failure": "terminal_window_failure",
+        "history": [
+          {
+            "phase": "RESET",
+            "attempt": 1,
+            "pulse_active_lanes": 128,
+            "failing_lanes": 8
+          },
+          {
+            "phase": "RESET",
+            "attempt": 2,
+            "pulse_active_lanes": 8,
+            "failing_lanes": 0
+          },
+          {
+            "phase": "SET",
+            "attempt": 1,
+            "pulse_active_lanes": 64,
+            "terminal_verify_lanes": 128,
+            "failing_lanes": 1
+          }
+        ]
+      },
+      "LRS_underprogram": {
+        "published": false,
+        "successful_payload_Byte": 0,
+        "failure": "terminal_window_failure",
+        "history": [
+          {
+            "phase": "RESET",
+            "attempt": 1,
+            "pulse_active_lanes": 128,
+            "failing_lanes": 8
+          },
+          {
+            "phase": "RESET",
+            "attempt": 2,
+            "pulse_active_lanes": 8,
+            "failing_lanes": 0
+          },
+          {
+            "phase": "SET",
+            "attempt": 1,
+            "pulse_active_lanes": 64,
+            "terminal_verify_lanes": 128,
+            "failing_lanes": 1
+          }
+        ]
+      },
+      "masked_HRS_disturbance": {
+        "published": false,
+        "successful_payload_Byte": 0,
+        "failure": "terminal_window_failure",
+        "history": [
+          {
+            "phase": "RESET",
+            "attempt": 1,
+            "pulse_active_lanes": 128,
+            "failing_lanes": 8
+          },
+          {
+            "phase": "RESET",
+            "attempt": 2,
+            "pulse_active_lanes": 8,
+            "failing_lanes": 0
+          },
+          {
+            "phase": "SET",
+            "attempt": 1,
+            "pulse_active_lanes": 64,
+            "terminal_verify_lanes": 128,
+            "failing_lanes": 1
+          }
+        ]
+      },
+      "all_zero": {
+        "published": true,
+        "successful_payload_Byte": 16,
+        "failure": null,
+        "history": [
+          {
+            "phase": "RESET",
+            "attempt": 1,
+            "pulse_active_lanes": 128,
+            "failing_lanes": 0
+          },
+          {
+            "phase": "RESET",
+            "attempt": 2,
+            "pulse_active_lanes": 0,
+            "failing_lanes": 0
+          },
+          {
+            "phase": "SET",
+            "attempt": 1,
+            "pulse_active_lanes": 0,
+            "terminal_verify_lanes": 128,
+            "failing_lanes": 0
+          }
+        ]
+      },
+      "scope": "synthetic endpoint inputs; no predicted switching probability"
+    },
+    "source_inputs": {
+      "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/inputs.json",
+      "sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+      "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+    },
+    "raw_NeuroSim_aggregate_writeLatency": null,
+    "aggregate_write_qualification": "V1.4 lacks an aggregate write result; T_R is the sum of native write stages and modeled LV control schedule",
+    "completion_condition": "all active cells reach declared windows within finite attempts; fail has zero successful payload",
+    "cross_stack_condition": "1 us program waveform and 2/1 completion remain sourced engineering conditions, not same-stack measured switching/accuracy"
+  },
+  "source_provenance": {
+    "baseline_repository": "https://github.com/bcacdwk/CIM_roofline",
+    "baseline_v3_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+    "profile": "reference",
+    "sources": {
+      "inputs": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/inputs.json",
+        "sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "results": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/results.json",
+        "sha256": "e882a21b7c9d37c3c8d47438d7f0f2071da663284ac4af61e7cd1f7559f1a5fd",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "calculator": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/scripts/check_rram.py",
+        "sha256": "fd7db50d549cefe7f9fe90a1edda5b059fd9ab3024a1e433d523a96726845586",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+        "functions": {
+          "write_service": {
+            "start_line": 24,
+            "end_line": 49
+          }
+        }
+      },
+      "shared": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/data/shared_parameters.json",
+        "sha256": "e5580da9eebab27f1b31a7017d08ddcb0f530e42c9105431f7b6da45f1c47d31",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      },
+      "shared_calculator": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/scripts/check_shared.py",
+        "sha256": "920c074a8f434bc8b5292d80c9f2a8832623a0c6a26bd655ffe2a72f6f3c8d3f",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+        "functions": {
+          "logical_configuration": {
+            "start_line": 61,
+            "end_line": 69
+          }
+        }
+      },
+      "method": {
+        "path": "tasks/task1_table_I_NVM/analysis/shared_baseline/tex/02_estimation_method.tex",
+        "sha256": "529f22449ce9b9ec74788a653fc9e6881d528c0541ad93001562ecd446e5e441",
+        "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+      }
+    },
+    "prior_performance_values_imported": false
+  },
+  "schedule_policy": {
+    "mode": "strict_serial_no_overlap",
+    "physical_services": "continuous time; only next declared consumer aligns",
+    "execution_extension": "V1 single-cycle timing",
+    "digital_consumer": "V1 two scheduled ticks with conservative full single-cycle path qualification; no V2 multicycle timing exception",
+    "native_write_port": "128bit data only on lv_core edge; native complete cycle includes data setup/capture",
+    "SAR_retention": "hold existing codes until both scheduled reconstruction ticks complete",
+    "boundary_ready_setup": "explicit setup margin only for capture-only matrix publication",
+    "steady_interval_proof": "two consecutive vector/matrix schedules at same global phase; no overlap; admission follows completed publish"
+  }
+}

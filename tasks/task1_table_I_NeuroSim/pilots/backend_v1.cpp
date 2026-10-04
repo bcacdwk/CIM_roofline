@@ -12,7 +12,6 @@
 #include "formula.h"
 #include "constant.h"
 #include "request.h"
-#include "paths_dag.h"
 Param *param=nullptr;
 static void emit(const std::string& k,double v){std::cout<<k<<"="<<std::setprecision(17)<<v<<"\n";}
 struct Gates {
@@ -77,66 +76,35 @@ int main(int argc,char**argv){
  if(ADC_COUNT){
   SarADC sar(ip,tech,cell);sar.Initialize(ADC_COUNT,1<<adc_bits,hz,ACTIVE_TERMS);sar.CalculateUnitArea();sar.CalculateArea(0,1e-4,NONE);sar.CalculateLatency(1);
   emit("sar_active_terms",sar.numReadCellPerOperationNeuro);emit("sar_installed_count",sar.numCol);emit("sar_levelOutput",sar.levelOutput);emit("sar_s",sar.readLatency);emit("sar_area_m2",sar.area);area+=sar.area;
-  // Shared installed 16-lane topology: 4x9,2x11,1x15 + fused23bit accumulator.
-  Adder a9(ip,tech,cell),a11(ip,tech,cell),a15(ip,tech,cell),acc(ip,tech,cell);
-  a9.Initialize(9,64,hz);a11.Initialize(11,32,hz);a15.Initialize(15,16,hz);acc.Initialize(23,16,hz);
-  for(Adder*a:{&a9,&a11,&a15,&acc}){a->CalculateArea(0,0,NONE);area+=a->area;}
-  BitDAG graph(tech,acc,g.wire,g.rwire,300);
-  WeightedReconstruct arithmetic(graph,0,1e20,0,1e20,0,1e20,IS_RRAM?6:8);
-  for(int i:arithmetic.out)graph.nodes[i].cap+=3*g.ni;
-  // Each source is timed with its actual DAG load. Counts have independent
-  // SAR result outputs; ibit is distributed to all sixteen lanes. Existing
-  // accumulator bank data AND held group select have a real mux path.
-  double max_source=0,control_source=0,bank_source=0;
-  for(auto &node:graph.nodes)if(node.a<0 && !node.constant){
-   double slope=1e20;double arrival=g.inv(g.ci,slope);
-   if(node.name.find("ibit_")==0){
-    arrival+=g.inv(g.ci,slope);
-    int sinks=std::max(1,(int)std::ceil(16*node.cap/acc.capNandInput));
-    arrival+=g.distribute(sinks,acc.capNandInput,slope);control_source=std::max(control_source,arrival);
-   }else if(node.name.find("old_acc_")==0){
-    arrival+=g.inv(3*g.ni,slope);arrival+=g.chain(IS_RRAM?4:6,node.cap,slope);
-    double sel_slope=q_ramp;double sel=cq;sel+=g.chain(4,g.ci,sel_slope);
-    sel+=g.distribute(16*23,g.ni,sel_slope);sel+=g.chain(IS_RRAM?4:6,node.cap,sel_slope);
-    // Preserve both possible bank-data/control arrival/slew labels.
-    node.arcs={{arrival,slope},{sel,sel_slope}};bank_source=std::max(bank_source,std::max(arrival,sel));
-   }else{arrival+=g.inv(node.cap,slope);max_source=std::max(max_source,arrival);}
-   node.at=arrival;node.ramp=slope;
-  }
-  graph.evaluate();double full=0,bit_data=0;int labels=0;
-  for(int i:arithmetic.out)for(auto x:graph.nodes[i].arcs){double slope=x.ramp;double d=x.at;
-   bit_data=std::max(bit_data,d);d+=g.chain(2,dcap,slope);d+=setup;full=std::max(full,d);++labels;}
-  emit("reconstruct_path_s",full);emit("bit_DAG_before_capture_mux_s",bit_data);
-  emit("SAR_source_driver_max_s",max_source);emit("ibit_distribution_max_s",control_source);emit("bank_source_max_s",bank_source);
-  emit("arrival_labels_at_outputs",labels);emit("DAG_nodes_per_lane",graph.nodes.size());
-  // E1 phase toggle can only control the E2 write-enable. This remains ONE cycle.
-  double phase_ramp=q_ramp;double phase=cq;phase+=g.chain(4,g.ci,phase_ramp);
-  phase+=g.distribute(16*23,g.ni,phase_ramp);phase+=g.chain(2,dcap,phase_ramp);phase+=setup;
-  emit("capture_enable_path_s",phase);
-  emit("normalized_count_bits",IS_RRAM?6:8);emit("installed_partial_sum_bits",15);
-  emit("semantic_partial_sum_bits",IS_RRAM?13:15);emit("accumulator_bits",23);
-  emit("adder9_count",a9.numAdder);emit("adder11_count",a11.numAdder);emit("adder15_count",a15.numAdder);emit("adder23_count",acc.numAdder);
-  // Same gate graph executes deterministic arithmetic: test every stage,
-  // conditional add/sub and container wrap, not an unrelated sum-only oracle.
-  int coeff[]={1,2,4,8,16,32,64,-128};int fixtures=0;
-  for(int pattern=0;pattern<12;++pattern)for(int ib=0;ib<8;++ib)for(int old:{0,100,-100,1000000,-1000000}){
-   int c[8],w=0;for(int k=0;k<8;++k){int m=ACTIVE_TERMS;
-    c[k]=pattern==0?0:pattern==1?m:pattern==2?(k==7?m:0):pattern==3?(k==7?0:m):(pattern*37+k*53)%(m+1);
-    graph.set(arithmetic.c[k],c[k]);w+=coeff[k]*c[k];}
-   graph.set(arithmetic.ibit,ib);graph.set(arithmetic.acc,old);graph.evaluate();
-   int p0=c[0]+2*c[1],p1=c[2]+2*c[3],p2=c[4]+2*c[5],p3=c[6]-2*c[7];
-   assert(graph.value(arithmetic.p0)==p0 && graph.value(arithmetic.p1)==p1 && graph.value(arithmetic.p2)==p2 && graph.value(arithmetic.p3,true)==p3);
-   assert(graph.value(arithmetic.l0)==p0+4*p1 && graph.value(arithmetic.l1,true)==p2+4*p3 && graph.value(arithmetic.w,true)==w);
-   int64_t expected=(old+coeff[ib]*w)&((1<<23)-1);if(expected&(1<<22))expected-=1<<23;
-   assert(graph.value(arithmetic.out,true)==expected);++fixtures;
-  }
-  emit("same_graph_arithmetic_fixtures",fixtures);
-  // Public module methods still provide initialized electrical dimensions,
-  // area and independent timing diagnostics; scalar timings do not get summed.
-  acc.CalculateLatency(q_ramp,3*g.ni+g.wire,1);emit("diagnostic_Adder23_s",acc.readLatency);
-  AdderTree reference(ip,tech,cell);reference.Initialize(8,15,16,hz);reference.CalculateArea(0,1e-4,NONE);reference.CalculateLatency(1,8,dcap);
-  emit("diagnostic_AdderTree15_s",reference.readLatency);
-
+  // Conservative explicit ripple tree: no intermediate register, full carry-width at every level.
+  Adder neg(ip,tech,cell),a0(ip,tech,cell),a1(ip,tech,cell),a2(ip,tech,cell),sign(ip,tech,cell),acc(ip,tech,cell);
+  neg.Initialize(18,16,hz);a0.Initialize(18,64,hz);a1.Initialize(19,32,hz);a2.Initialize(20,16,hz);sign.Initialize(23,16,hz);acc.Initialize(23,16,hz);
+  for(Adder*a:{&neg,&a0,&a1,&a2,&sign,&acc}){a->CalculateArea(0,0,NONE);area+=a->area;}
+  ramp=q_ramp;double d=cq;d+=g.inv(neg.capNandInput*2+g.wire,ramp);
+  neg.CalculateLatency(ramp,a0.capNandInput*4+g.wire,1);d+=neg.readLatency;ramp=neg.rampOutput;emit("weight_negate_s",d-cq);
+  double tree=0;
+  Adder* as[]={&a0,&a1,&a2};double loads[]={4*a1.capNandInput+g.wire,4*a2.capNandInput+g.wire,8*g.ni+g.wire};
+  for(int i=0;i<3;++i){as[i]->CalculateLatency(ramp,loads[i],1);tree+=as[i]->readLatency;ramp=as[i]->rampOutput;emit("tree_level"+std::to_string(i)+"_s",as[i]->readLatency);}
+  d+=tree;
+  // 3-stage binary 8:1 barrel shift mux: two NAND data levels each. Fixed plane weights/normalization are wires.
+  double shift=g.chain(6,4*g.ni,ramp);d+=shift;emit("shift_mux_s",shift);
+  // XOR (three NAND levels) + increment for sign input bit, followed by accumulator and destination enable mux.
+  double sg=g.chain(3,2*sign.capNandInput+g.wire,ramp);sign.CalculateLatency(ramp,2*acc.capNandInput+g.wire,1);sg+=sign.readLatency;ramp=sign.rampOutput;d+=sg;emit("input_sign_s",sg);
+  acc.CalculateLatency(ramp,3*g.ni+g.wire,1);d+=acc.readLatency;ramp=acc.rampOutput;emit("accumulator_s",acc.readLatency);
+  double enable=g.chain(2,dcap,ramp);d+=enable+setup;emit("output_enable_s",enable);emit("reconstruct_path_s",d);
+  // Bank feedback is explicitly selected from existing N*23 containers into16 lanes.
+  ramp=q_ramp;double feedback=cq+g.chain(IS_RRAM?4:6,2*acc.capNandInput+g.wire,ramp);
+  acc.CalculateLatency(ramp,3*g.ni+g.wire,1);feedback+=acc.readLatency;ramp=acc.rampOutput;
+  feedback+=g.chain(2,dcap,ramp)+setup;emit("bank_feedback_path_s",feedback);
+  // Controller-selected shift/sign path, up to16*23 bit mux control sinks.
+  ramp=q_ramp;double select=cq;select+=g.chain(4,g.ci,ramp);select+=g.distribute(16*23,g.ni,ramp);
+  select+=g.chain(6,4*g.ni,ramp);select+=g.chain(3,2*sign.capNandInput+g.wire,ramp);
+  sign.CalculateLatency(ramp,2*acc.capNandInput+g.wire,1);select+=sign.readLatency;ramp=sign.rampOutput;
+  acc.CalculateLatency(ramp,3*g.ni+g.wire,1);select+=acc.readLatency;ramp=acc.rampOutput;
+  select+=g.chain(2,dcap,ramp)+setup;emit("control_select_path_s",select);
+  emit("bank_select_fanin",IS_RRAM?4:8);emit("sign_extension_max_nand_loads",8);
+  AdderTree reference(ip,tech,cell);reference.Initialize(8,18,16,hz);reference.CalculateArea(0,1e-4,NONE);reference.CalculateLatency(1,8,dcap);
+  emit("diagnostic_upstream_tree_s",reference.readLatency);emit("full_width_tree_s",tree);
  }
  param->synchronous=true;input.CalculateLatency(1e20,1);output.CalculateLatency(1e20,1);controller.CalculateLatency(1e20,1);
  emit("dff_cycle",input.readLatency);emit("output_cycle",output.readLatency);emit("controller_cycle",controller.readLatency);

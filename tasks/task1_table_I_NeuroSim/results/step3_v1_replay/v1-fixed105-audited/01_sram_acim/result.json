@@ -1,0 +1,619 @@
+{
+  "contract_version": "3.0.0",
+  "case_id": "01_sram_acim",
+  "status": "OK",
+  "mode": "neurosim_native_hybrid_pilot",
+  "execution_revision": "v1",
+  "identity": {
+    "backend_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+    "input_sha256": "bdeab46b859a357e65c9342d286a9dfc2dd799d9cfe15d91152939d84b359b0f",
+    "patches": [
+      "backend/constructor.patch"
+    ],
+    "driver_sha256": "90a2552281b6b301a316360720dc3087f871c1cf0b2733e2ab4006681f651495"
+  },
+  "effective_config": {
+    "resolved_snapshot": "resolved.json",
+    "resolved_sha256": "6dade31aa75b6a952bdbdf9700d2955d270f31fa9da0fc152435ecf60c5aa973"
+  },
+  "derived_snapshot": {
+    "actual_period_ns": 10.5,
+    "module_returns": {
+      "source_q_ramp": 6861793048.804574,
+      "setup_s": 1.0421257263289668e-10,
+      "clock_q_s": 1.0953650316341462e-10,
+      "dff_data_cap_F": 3.8157973166759144e-16,
+      "gate_input_cap_F": 1.4591583058980342e-16,
+      "wire_cap_F": 1e-15,
+      "wire_res_ohm": 48.84868421823927,
+      "control_path_s": 1.8709074900382144e-09,
+      "io_path_s": 7.958859154738685e-10,
+      "accumulator_clear_path_s": 1.3643415498721637e-09,
+      "nand_input_cap_F": 2.0882703058980344e-16,
+      "control_fanout_max": 4.0,
+      "control_target_sinks": 128.0,
+      "clear_target_sinks": 2944.0,
+      "sar_active_terms": 128.0,
+      "sar_installed_count": 128.0,
+      "sar_levelOutput": 1024.0,
+      "sar_s": 1.1000000000000001e-08,
+      "sar_area_m2": 2.7896043929600003e-08,
+      "weight_negate_s": 1.5149185752392098e-09,
+      "tree_level0_s": 1.2802549385365817e-09,
+      "tree_level1_s": 1.348660813445376e-09,
+      "tree_level2_s": 1.4074521625664778e-09,
+      "shift_mux_s": 5.746464948664959e-10,
+      "input_sign_s": 2.096142753802221e-09,
+      "accumulator_s": 1.5785681621812713e-09,
+      "output_enable_s": 1.5030938869336864e-10,
+      "reconstruct_path_s": 1.0164702365127313e-08,
+      "bank_feedback_path_s": 2.7350737705023275e-09,
+      "control_select_path_s": 5.515552245794556e-09,
+      "bank_select_fanin": 8.0,
+      "sign_extension_max_nand_loads": 8.0,
+      "diagnostic_upstream_tree_s": 1.376135624601251e-09,
+      "full_width_tree_s": 4.036367914548436e-09,
+      "dff_cycle": 1.0,
+      "output_cycle": 1.0,
+      "controller_cycle": 1.0,
+      "partial_module_area_m2": 3.716962874239999e-08,
+      "clkFreq_hz": 95238095.23809524,
+      "technode_nm": 22.0,
+      "temperature_K": 300.0,
+      "vdd_V": 0.85,
+      "tech_featureSize_m": 2.2000000000000002e-08,
+      "param_featuresize_m": 4e-08,
+      "param_rows": 128.0,
+      "param_cols": 128.0,
+      "param_rowParallel": 128.0,
+      "param_maxConductance_S": 1e-05,
+      "param_minConductance_S": 5.88235294117647e-07,
+      "beta": 1.4,
+      "gamma": 0.5,
+      "delta": 0.15,
+      "alpha": 1.44,
+      "epsilon": 0.05,
+      "zeta": 1.22
+    },
+    "module_inventory": {
+      "input_DFF": 1024,
+      "output_DFF": 2944,
+      "controller_state_DFF": 32,
+      "encoded_DFF": 0,
+      "mask_DFF": 0,
+      "SAR": 128,
+      "arithmetic_lanes": 16,
+      "extra_payload_or_code_registers": 0,
+      "weighted_tree_installed_bits": null,
+      "accumulator_bits": 23,
+      "FA_bitcell_count_per_arithmetic_lane": 194
+    },
+    "partial_area_scope": "Only initialized SAR/DFF/Adder module area; formula mux/control gates, native arrays/frontends/writes/routing excluded. No DAG gate area added again. NOT macro PPA."
+  },
+  "clocks": [
+    {
+      "clock_id": "lv_core",
+      "target_period_ns": 5.0,
+      "combinational_limit_ns": 10.164702365127313,
+      "timing_min_period_ns": 10.164702365127313,
+      "policy_min_period_ns": 10.164702365127313,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "actual_period_ns": 10.5,
+      "closure_status": "modeled_complete_paths_under_declared_topology",
+      "constraining_paths": [
+        {
+          "id": "control_path",
+          "delay_ns": 1.8709074900382143,
+          "start_register": "existing_data_or_controller_state",
+          "end_register": "existing_data_or_controller_state",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "path_class": "single_cycle_control_or_io",
+          "stable_sources": [],
+          "complete_serial_path": true,
+          "actual_load": {
+            "wire_per_logic_segment_um": 5.0,
+            "wire_cap_F": 1e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16
+          },
+          "path_status": "actual_case_gate_topology_under_engineering_conditions",
+          "required_period_ns": 1.8709074900382143
+        },
+        {
+          "id": "io_path",
+          "delay_ns": 0.7958859154738686,
+          "start_register": "existing_data_or_controller_state",
+          "end_register": "existing_data_or_controller_state",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "path_class": "single_cycle_control_or_io",
+          "stable_sources": [],
+          "complete_serial_path": true,
+          "actual_load": {
+            "wire_per_logic_segment_um": 5.0,
+            "wire_cap_F": 1e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16
+          },
+          "path_status": "actual_case_gate_topology_under_engineering_conditions",
+          "required_period_ns": 0.7958859154738686
+        },
+        {
+          "id": "accumulator_clear_path",
+          "delay_ns": 1.3643415498721638,
+          "start_register": "existing_data_or_controller_state",
+          "end_register": "existing_data_or_controller_state",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "path_class": "single_cycle_control_or_io",
+          "stable_sources": [],
+          "complete_serial_path": true,
+          "actual_load": {
+            "wire_per_logic_segment_um": 5.0,
+            "wire_cap_F": 1e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16
+          },
+          "path_status": "actual_case_gate_topology_under_engineering_conditions",
+          "required_period_ns": 1.3643415498721638
+        },
+        {
+          "id": "reconstruct_path",
+          "delay_ns": 10.164702365127313,
+          "start_register": "existing_data_or_controller_state",
+          "end_register": "existing_data_or_controller_state",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "path_class": "single_cycle_control_or_io",
+          "stable_sources": [],
+          "complete_serial_path": true,
+          "actual_load": {
+            "wire_per_logic_segment_um": 5.0,
+            "wire_cap_F": 1e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16
+          },
+          "path_status": "actual_case_gate_topology_under_engineering_conditions",
+          "required_period_ns": 10.164702365127313
+        },
+        {
+          "id": "bank_feedback_path",
+          "delay_ns": 2.7350737705023276,
+          "start_register": "existing_data_or_controller_state",
+          "end_register": "existing_data_or_controller_state",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "path_class": "single_cycle_control_or_io",
+          "stable_sources": [],
+          "complete_serial_path": true,
+          "actual_load": {
+            "wire_per_logic_segment_um": 5.0,
+            "wire_cap_F": 1e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16
+          },
+          "path_status": "actual_case_gate_topology_under_engineering_conditions",
+          "required_period_ns": 2.7350737705023276
+        },
+        {
+          "id": "control_select_path",
+          "delay_ns": 5.515552245794556,
+          "start_register": "existing_data_or_controller_state",
+          "end_register": "existing_data_or_controller_state",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "path_class": "single_cycle_control_or_io",
+          "stable_sources": [],
+          "complete_serial_path": true,
+          "actual_load": {
+            "wire_per_logic_segment_um": 5.0,
+            "wire_cap_F": 1e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16
+          },
+          "path_status": "actual_case_gate_topology_under_engineering_conditions",
+          "required_period_ns": 5.515552245794556
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "input_capture",
+      "provider": "neurosim_native",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 10.5,
+      "count": 1,
+      "resource_occupancy_ns": 10.5,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "resources": [
+        "input_register_bits"
+      ],
+      "service_time_total_ns": 10.5,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "charge_front",
+      "provider": "retained_native_complete_service",
+      "raw_returns": [
+        {
+          "value": 20.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 20.0,
+      "count": 64,
+      "resource_occupancy_ns": 1280.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "resources": [
+        "adc_count",
+        "physical.native"
+      ],
+      "service_time_total_ns": 1280.0,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "sar",
+      "provider": "neurosim_native",
+      "raw_returns": [
+        {
+          "value": 11.000000000000002,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 11.000000000000002,
+      "count": 64,
+      "resource_occupancy_ns": 704.0000000000001,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "resources": [
+        "adc_count"
+      ],
+      "service_time_total_ns": 704.0000000000001,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "reconstruct",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 10.5,
+      "count": 128,
+      "resource_occupancy_ns": 1376.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 32.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "resources": [
+        "adc_count",
+        "digital_output_channels",
+        "existing_SAR_code_bits",
+        "output_register_bits"
+      ],
+      "service_time_total_ns": 1344.0,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "output_commit",
+      "provider": "neurosim_native",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 10.5,
+      "count": 1,
+      "resource_occupancy_ns": 10.5,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "resources": [
+        "output_register_bits"
+      ],
+      "service_time_total_ns": 10.5,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "native_write_accept",
+      "provider": "explicit_public_port_acceptance",
+      "raw_returns": [
+        {
+          "value": 0.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 0.0,
+      "count": 1024,
+      "resource_occupancy_ns": 5626.5,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 5626.5,
+      "case_path_status": "actual_case_path_instantiated",
+      "resources": [
+        "encoded_interface_bits"
+      ],
+      "service_time_total_ns": 0.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "sram_write",
+      "provider": "retained_native_complete_service",
+      "raw_returns": [
+        {
+          "value": 5.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 5.0,
+      "count": 1024,
+      "resource_occupancy_ns": 5120.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "resources": [
+        "encoded_interface_bits",
+        "write_semantics.program_driver_channels"
+      ],
+      "service_time_total_ns": 5120.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "matrix_ready",
+      "provider": "explicit_public_compute_ready_acceptance",
+      "raw_returns": [
+        {
+          "value": 0.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 0.0,
+      "count": 1,
+      "resource_occupancy_ns": 5.5,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "explicit serial event sequence"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 5.5,
+      "case_path_status": "actual_case_path_instantiated",
+      "resources": [
+        "physical.native"
+      ],
+      "service_time_total_ns": 0.0,
+      "service_kind": "resident"
+    }
+  ],
+  "streaming": {
+    "latency_ns": 3381.0,
+    "delta_S_ns": 3381.0,
+    "initiation_interval_ns": 3381.0,
+    "proof": "strict serial vector schedule; all SAR/data resources retained until release; second vector simulated with same global phase"
+  },
+  "resident_load": {
+    "transaction_latency_ns": 5.0,
+    "transaction_service_interval_ns": 10.5,
+    "isolated_transaction_with_rail_ns": null,
+    "T_R_ns": 10752.0,
+    "matrix_service_interval_ns": 10752.0,
+    "payload_Byte": 16384,
+    "transaction_payload_Byte": 16,
+    "coverage_status": "complete_hybrid_conditional_native_services",
+    "normalized_missing_backend_write": {
+      "value": null,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "locked V1.4 aggregate write disabled; no Training substitution"
+    }
+  },
+  "maintenance": {
+    "raw_stage_metrics": null,
+    "effective_stage_metrics": null,
+    "workload_write_Byte": 0,
+    "recompute_required": true
+  },
+  "derived_metrics": {
+    "rho_Byte_per_s": 37858621.70955338,
+    "tau_Byte_per_s": 1523809523.8095238,
+    "RI_star": 0.024844720496894408,
+    "U_star": 3.1801242236024843,
+    "status": "OK"
+  },
+  "comparison": {
+    "v3": {
+      "delta_S_ns": 3210.0,
+      "T_R_ns": 5120.0
+    },
+    "source": {
+      "path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/data/results.json",
+      "json_pointer": "/scenarios/1",
+      "usage": "comparison_only_after_aggregation"
+    },
+    "difference_ns": {
+      "streaming": 171.0,
+      "resident": 5632.0
+    },
+    "streaming_cause_ledger_ns": {
+      "SAR_replacement_and_explicit_service_changes": -576.0,
+      "digital_period_change": 715.0,
+      "consumer_boundary_wait": 32.0
+    },
+    "resident_cause_ledger_ns": {
+      "native_and_explicit_service_changes": 0.0,
+      "digital_period_change": 0.0,
+      "consumer_boundary_wait": 5632.0
+    },
+    "V1": {
+      "delta_S_ns": 3623.4201151283787,
+      "T_R_ns": 11522.92608040826,
+      "source": "88448197:results/step3/integration-final-20261004/01_sram_acim/result.json",
+      "usage": "comparison_only_after_new_aggregation"
+    },
+    "V1_to_current_difference_ns": {
+      "streaming": -242.4201151283787,
+      "resident": -770.9260804082605
+    }
+  },
+  "checks": {
+    "nominal_signed_reconstruction": true,
+    "all_129_nominal_partial_counts": true,
+    "detects_missing_input_msb_sign": true,
+    "detects_missing_code_normalization": true,
+    "existing_containers_suffice": true,
+    "frozen_stage_counts_preserved": true,
+    "exact_scalar_conversion_coverage": true,
+    "full_matrix_payload": true,
+    "one_copy_eight_plane_capacity": true,
+    "no_added_operand_or_analog_hold": true,
+    "SAR_state_held_through_both_reconstruction_cycles": true,
+    "native_complete_write_charged_once": true
+  }
+}

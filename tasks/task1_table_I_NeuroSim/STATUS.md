@@ -1,3 +1,26 @@
+# Step 3 V2：完成并停止
+
+审查基准 `88448197c570b113f6002524aaacd1bd8865ca86`。**最终主运行/独立新目录编译复跑PASS，无剩余阻断项。** V1历史证据保留。
+
+|案例|时序下限ns|运行周期ns|Δ_S ns|T_R ns|ρ MB/s|τ MB/s|
+|---|---:|---:|---:|---:|---:|---:|
+|SRAM ACIM|3.278867|5|2890|5120|44.290657|3200|
+|SRAM DCIM|2.616069|5|330|640|387.878788|3200|
+|RRAM|3.216484|5|4490|1911765|28.507795|4.285045|
+
+- E0→E2：SAR码、输入位/组选择、旧累加值保持；E1只更新phase；E2写回输出，无新增中间bank。phase→capture-enable、控制/I/O/clear/verify_done仍为单拍。
+- 重构采用明确9/11/15bit加权树和23bit符号融合累加；公开Adder尺寸/电容及formula提供门级位到达模型。同一图执行算术检查；固定资源的恒定输出门仍保留输入负载。
+- 数字时序下限与运行周期分开。主政策保持合法5ns目标，少量5.25/5.5ns工作点分别报告完整rho/tau。短连线同频对照通过，非法同频请求拒绝。原生5ns写及真实公共写口间隔分开。
+- V1原C++保留为 `backend_v1.cpp`；实际重建5µm/10.5ns对照得到ACIM3381ns、RRAM5397ns streaming，未作为V2目标值。
+- 主运行 `runs/step3-v2/integration-audited-v2`；独立 `review-audited-v2` 在/tmp发起全新编译。结果/快照/敏感性/工作点/时序检查逐字节一致，另独立核算服务公式、事件账本和编译门图算术/物理负载。
+- 单选DCIM、旧时间回放、完整Step2回归PASS；V1与Step2输入哈希未变。冻结输入/输出3.0.0继续校验；Step3时序扩展2.0.0明确局部演进。
+- 原生前端/D6CIM MAC/SRAM写/RRAM有限写验、rail、独立20ns窗口和失败不发布均保留；缺失聚合写仍null。没有重新估计器件参数。
+- 没有其余七例、大扫描、NVM/TableII/论文/锁定上游改动；没有Git暂存、提交、推送。用户 `.DS_Store` 保留。
+
+入口：[V2报告](reports/step3_v2_pilots.zh.md)、[V2结果](results/step3_v2/integration-audited-v2/summary.csv)、[V2审查](reports/step3_v2_review.json)、[统一CLI](scripts/run_step3.py)。结果限于公开模型/原工程条件，不声称STA或实物精度。本轮停止在三个pilot的Step3 V2。
+
+---
+
 # Step 3 三个 pilot：完成并停止
 
 接手基线 `e93cd8aec72d61d8a55c00c76453d58615ef5b67`（接口3.0.0）；器件基线 `a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0`。**最终集成 PASS，独立全新编译复跑 PASS。**

@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "scope": "Independent Step3 V2 circuit/schedule/operating-policy review; three pilots only",
+  "reviewer": "/root/v2_review; did not implement or edit repository",
+  "timestamp_utc": "2026-10-04T09:05:20.027690+00:00",
+  "baseline": "88448197c570b113f6002524aaacd1bd8865ca86",
+  "fresh_run": "/Users/shine/neurosim/runs/step3-v2/review-audited-v2",
+  "integration_comparison": {
+    "status": "PASS",
+    "integration_run": "/Users/shine/neurosim/runs/step3-v2/integration-audited-v2",
+    "independent_run": "/Users/shine/neurosim/runs/step3-v2/review-audited-v2",
+    "all_result_and_snapshot_files_equal": true,
+    "single_case_result_equal": true,
+    "per_file": {
+      "01_sram_acim/resolved.json": true,
+      "01_sram_acim/result.json": true,
+      "01_sram_acim/sensitivity.json": true,
+      "01_sram_acim/operating_points.json": true,
+      "01_sram_acim/timing_checks.json": true,
+      "02_sram_dcim/resolved.json": true,
+      "02_sram_dcim/result.json": true,
+      "02_sram_dcim/sensitivity.json": true,
+      "02_sram_dcim/operating_points.json": true,
+      "02_sram_dcim/timing_checks.json": true,
+      "05_rram/resolved.json": true,
+      "05_rram/result.json": true,
+      "05_rram/sensitivity.json": true,
+      "05_rram/operating_points.json": true,
+      "05_rram/timing_checks.json": true
+    }
+  },
+  "source_and_schedule_findings": [
+    "Actual backend compiles fresh locked V1.4 C++ copies; SAR and DFF initialized/executed, Adder dimensions/capacitances and formula.h methods supply the explicit gate DAG. Whole-Adder diagnostics are not substituted for the full path.",
+    "Held SAR code, input-bit index, output-group select and old accumulator launch at E0. E1 only changes phase; existing output bank write disabled at E1, capture at E2. No new intermediate storage or conversion overlap. Control counters, IO, clear, verify-done and E1-to-E2 capture-enable retain one-cycle constraints.",
+    "Fixed normalization and plane weighting are wires. Common9/11/15/23bit topology is numerically equivalent to declared signed encoding. Same compiled graph independently checked with random legal counts/ibit/23bit previous accumulator; constant-output NAND gates retain both input pin loads and installed gate counts match for both count domains.",
+    "All timing minima independently recomputed as max(pathdelay/availablecycles). Misclassifying reconstruction as onecycle makes5ns fail; assigning two cycles to captureenable/control is rejected by production tests. Main nominal5ns policy is legal, not a global service optimum.",
+    "Independent closed-form serial-service formulas and every trace/stage ledger match main,5.25,5.5,wire and physical-service dependency points. Each operating point reports rho and tau from its own full streaming/resident schedule; no spliced optima. SRAM public write port and RRAM4096controlticks/rail/publication all follow sameperiod.",
+    "RRAM20ns windows remain independent ofSAR, railsetup/exit once per matrix, bounded1024RESET/512SET/1536verify counts retained, finitefailure semantics unchanged. Aggregate writeLatency remainsnull. At5ns final publication costs5ns relative to legacy sum, givingTR1911765ns.",
+    "V1 result/report files and Step2 ten case inputs retained byte-for-byte; no siblingNVM/TableII/paper/upstream writes by reviewer."
+  ],
+  "resolved_review_items": [
+    {
+      "item": "Explicit early or missing phase capture annotation could contradict generic hold window",
+      "resolution": "Supervisor added per-event capture/launch offsets and per-phase contradiction rejection; source and finalproductionchecks reviewed."
+    },
+    {
+      "item": "Optional V1 rebuild metadata incorrectly described V2 multicycle policy",
+      "resolution": "Supervisor conditioned metadata onrevision; finalsource audited."
+    },
+    {
+      "item": "Supervisor identified constant-output NAND folding dropping physical input pin capacitance",
+      "resolution": "Final DAG retains cells/pinloads while skipping nontransition arrivals. Reviewer independently compiled physicalpin-count and arithmetic checks against finalheader."
+    }
+  ],
+  "numerical_audit": {
+    "status": "PASS",
+    "run": "/Users/shine/neurosim/runs/step3-v2/review-audited-v2",
+    "case_reviews": [
+      {
+        "case_id": "01_sram_acim",
+        "status": "PASS",
+        "delta_S_ns": 2890.0,
+        "T_R_ns": 5120.0,
+        "minimum_ns": 3.2788670599417897,
+        "period_ns": 5.0,
+        "reviewed": "gate source and topology; launch/capture and onecycle control; closed-form service/time ledger; all named paired operating points and dependency diagnostics"
+      },
+      {
+        "case_id": "02_sram_dcim",
+        "status": "PASS",
+        "delta_S_ns": 330.0,
+        "T_R_ns": 640.0,
+        "minimum_ns": 2.6160692818051587,
+        "period_ns": 5.0,
+        "reviewed": "gate source and topology; launch/capture and onecycle control; closed-form service/time ledger; all named paired operating points and dependency diagnostics"
+      },
+      {
+        "case_id": "05_rram",
+        "status": "PASS",
+        "delta_S_ns": 4490.0,
+        "T_R_ns": 1911765.0,
+        "minimum_ns": 3.2164836619843276,
+        "period_ns": 5.0,
+        "reviewed": "gate source and topology; launch/capture and onecycle control; closed-form service/time ledger; all named paired operating points and dependency diagnostics"
+      }
+    ],
+    "V1_and_Step2_inputs_preserved": true,
+    "summary": "Independent formula/trace/operating-point recomputation, source-level timing review and negative singlecycle/illegalperiod mutations pass. No final performance values taken from savedV1 totals."
+  },
+  "compiled_graph_validation": {
+    "status": "PASS",
+    "seed": "0x53eabc9512397",
+    "compiled_DAG_truth_cases": 32768,
+    "domains": [
+      128,
+      32
+    ],
+    "scope": "same shipped gate graph; constant-output NAND pinloads and identical installed gate count checked; independent Boolean evaluator and signed modular arithmetic oracle; no analog precision validation",
+    "header_sha256": "4ed39129b9420e8cabe790e9a01368085d8548e5776e4cadff79c84d92f9f388",
+    "source_snapshot": "/Users/shine/neurosim/runs/step3-v2/review-audited-v2/01_sram_acim/backend/src"
+  },
+  "legacy_replay": {
+    "status": "PASS",
+    "run": "/Users/shine/neurosim/runs/step3-v2/review-replay-v2",
+    "mode": "threecase originaltime stageaggregation; no NeuroSim labels"
+  },
+  "step2_regression": {
+    "status": "PASS",
+    "run": "/Users/shine/neurosim/runs/step2/step3-v2-review-regression-final",
+    "all_five_mechanism_groups": "PASS",
+    "all_locked_worktrees_clean": true,
+    "reuse_scope": "Executed during review before final header/V1metadata corrections; these corrections do not change Step2 scripts/contracts/probes or nativeinputs.",
+    "executed_snapshot_hashes_match_final_sources": true
+  },
+  "single_case": {
+    "status": "PASS",
+    "case": "02_sram_dcim",
+    "run": "/Users/shine/neurosim/runs/step3-v2/review-single-dcim-v2"
+  },
+  "limitations": [
+    "Gate-arrival envelope with declared wiring and surrogate register boundaries, not extractedSTA or silicon hold-time/signoff.",
+    "Nominal code-domain arithmetic checks do not validate ADCtransfer,ENOB or physicalaccuracy.",
+    "Native complete frontend/MAC/write/verify services remain sourced budgets; partialmodule area is not macroPPA."
+  ],
+  "unresolved_blockers": [],
+  "local_evidence": [
+    "/Users/shine/neurosim/runs/step3-v2/review-preflight-20261004/audit.py",
+    "/Users/shine/neurosim/runs/step3-v2/review-preflight-20261004/dag_random_review_final.cpp",
+    "/Users/shine/neurosim/runs/step3-v2/review-preflight-20261004/dag_random_command_final.json",
+    "/Users/shine/neurosim/runs/step3-v2/review-preflight-20261004/baseline_hashes.json"
+  ]
+}

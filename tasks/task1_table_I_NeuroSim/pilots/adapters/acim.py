@@ -192,6 +192,19 @@ def build(case, p, backend):
         "native_complete_write_charged_once": counts["sram_write"] == transactions,
     })
     _require(all(checks.values()), "numerical/resource check failed")
+    if backend.get("reconstruction_window"):
+        for item in streaming:
+            if item["id"] in ("reconstruct", "digital_reconstruct"):
+                item["timing_window"] = backend["reconstruction_window"]
+                phase = item.get("context", {}).get("phase")
+                item["launch_offset_cycle"] = 1 if phase == 2 else 0
+                item["capture_offset_cycles"] = [] if phase == 1 else [2]
+                item["context"].update({
+                    "propagation": "continuous E0 to E2; no restart and no capture at E1",
+                    "first_edge_update": "phase only; SAR/input bit/output group/old accumulator held",
+                    "phase_1": "propagate held operands; no intermediate capture",
+                    "phase_2": "same propagation completes; capture existing accumulator at E2",
+                    "recompute_tree_without_intermediate_register": False})
     streaming[0].setdefault("context", {}).update({
         "accumulator_initialization": "synchronous clear all existing output containers during input_capture; clear mux/control path included in backend",
         "new_register_or_cycle": False})
@@ -222,7 +235,7 @@ def build(case, p, backend):
                 "input_bits": 1024, "SAR_owned_bits": 1280, "output_accumulator_bits": 2944,
                 "active_output_bits": 16 * 23, "new_intermediate_bits": 0,
                 "phase_one": "source held, combinational weighted reduction, no intermediate capture",
-                "phase_two": "same held codes recompute tree, signed input shift, add to existing output accumulator",
+                "phase_two": "E2 capture from continuous E0 propagation" if backend.get("reconstruction_window") else "V1 single-cycle conservative recomputation",
                 "output_commit": "publish existing output bank; no second bank or extra per-batch register",
             },
             "resident": {

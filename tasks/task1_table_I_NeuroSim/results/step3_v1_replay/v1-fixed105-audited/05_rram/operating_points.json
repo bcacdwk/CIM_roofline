@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "policy": "V1 main exact max(5ns,full single-cycle paths), unless explicit legal override; no V2 multicycle exception",
+  "points": [
+    {
+      "id": "main",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.5,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5397.0,
+      "T_R_ns": 1948128.0,
+      "rho_Byte_per_s": 23716879.748008154,
+      "tau_Byte_per_s": 4205062.501026627,
+      "RI_star": 5.6400778210116735,
+      "U_star": 360.9649805447471,
+      "status": "OK"
+    },
+    {
+      "id": "fixed_period_10.75_ns",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 10.75,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5525.5,
+      "T_R_ns": 1944933.0,
+      "rho_Byte_per_s": 23165324.40503122,
+      "tau_Byte_per_s": 4211970.283809262,
+      "RI_star": 5.499878404669261,
+      "U_star": 351.9922178988327,
+      "status": "OK"
+    },
+    {
+      "id": "fixed_period_11_ns",
+      "timing_min_period_ns": 10.164702365127313,
+      "actual_period_ns": 11.0,
+      "selection_policy": "explicit_fixed_legal_operating_point",
+      "delta_S_ns": 5654.0,
+      "T_R_ns": 1939410.0,
+      "rho_Byte_per_s": 22638839.759462327,
+      "tau_Byte_per_s": 4223965.020289675,
+      "RI_star": 5.359618190661479,
+      "U_star": 343.01556420233464,
+      "status": "OK"
+    }
+  ]
+}
