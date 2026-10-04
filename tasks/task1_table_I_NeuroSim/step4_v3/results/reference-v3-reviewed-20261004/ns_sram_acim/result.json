@@ -1,0 +1,29 @@
+{
+  "case_id": "ns_sram_acim",
+  "status": "conditional",
+  "backend": "2DTrainingV2.1",
+  "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+  "technode_nm": 22,
+  "roadmap": "LSTP",
+  "K": 256,
+  "N": 31,
+  "input_bits": 8,
+  "weight_bits": 8,
+  "physical_rows": 256.0,
+  "physical_cols": 256.0,
+  "B_S_Byte": 256,
+  "B_R_Byte": 7936,
+  "single_latency_ns": 4546.744914583846,
+  "delta_S_ns": 4546.744914583846,
+  "T_R_ns": 2008.2888562822413,
+  "rho_MB_per_s": 56.30401634779881,
+  "tau_MB_per_s": 3951.622783333659,
+  "RI_star": 0.014248327695969945,
+  "U_star": 0.44169815857506833,
+  "conditions": [
+    "nominal9bit SAR code contract, not ENOB guarantee",
+    "upstream SRAM parallel abstract model, not9T1C reproduction",
+    "steady power rails; local macro ports; nonoverlap service policy",
+    "Native SRAM parallel model is a timing abstraction; multi-row read stability and analog transfer require physical calibration."
+  ]
+}

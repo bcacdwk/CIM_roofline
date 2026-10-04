@@ -1,0 +1,144 @@
+{
+  "case_id": "ns_sram_dcim",
+  "backend": {
+    "branch": "2DInferenceDCIMV1.0-dev",
+    "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+    "core_path": "Inference_pytorch/NeuroSIM"
+  },
+  "constructor_inputs": {
+    "technode": 22,
+    "memcelltype": 4,
+    "operationmode": 1,
+    "deviceroadmap": 2,
+    "temp": 300,
+    "writeVoltage": 0.85
+  },
+  "driver": "dcim_service.cpp",
+  "support_sources": [
+    "correction.h",
+    "input_serializer.h"
+  ],
+  "patches": [
+    "dcim_model.patch"
+  ],
+  "compile_exclude": [
+    "main.cpp"
+  ],
+  "arguments": [
+    1,
+    1,
+    4,
+    0.5
+  ],
+  "process": {
+    "technode_nm": 22,
+    "roadmap": "LSTP",
+    "temperature_K": 300,
+    "wire_width_nm": 40,
+    "validated": true
+  },
+  "status": "conditional",
+  "conditions": [
+    "Upstream fixed 256x256-bit DCIM model; digital exact nominal arithmetic, not SRAM stability or timing signoff.",
+    "Four 64-bit native write groups use a shared row decoder and bounded simultaneous 256-bit port.",
+    "Native synchronous clock/capture abstraction with ideal clock-enable distribution; both paths mutually exclusive; rails ready at Vdd."
+  ],
+  "organization_and_sources": {
+    "case_id": "ns_sram_dcim",
+    "backend": "2DInferenceDCIMV1.0-dev",
+    "locked_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+    "core_path": "Inference_pytorch/NeuroSIM",
+    "logical_K": 256,
+    "logical_N": 31,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "signed": true,
+    "output_bits": 25,
+    "physical_rows": 256,
+    "physical_cols": 256,
+    "process_nm": 22,
+    "device_roadmap": "LSTP",
+    "temperature_K": 300,
+    "native_parallel_weightprecision": 4,
+    "native_synchronous": true,
+    "native_validated": true,
+    "read_activity": 0.5,
+    "write_groups_parallel": 4,
+    "write_port_bits": 256,
+    "wire_resistance_scale": 1,
+    "access_width_scale": 1,
+    "buffer_supply_policy": "Supplies ready at technology Vdd; full INT8 input at 2048-bit local port, accepted into installed DFFs; one resident row presented at a time at a 256-bit port; reference bits hardwired.",
+    "result_status": "conditional_model_reference",
+    "sources": [
+      {
+        "path": "README.md",
+        "evidence": "Native DCIM supports 256x256 only, memcelltype=4, operationmode=1"
+      },
+      {
+        "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+        "evidence": "22nm-specific sizing and 40nm metal wire dimensions resolved by constructing Param at technode22; default LSTP300K, 4 parallel weight bits"
+      },
+      {
+        "path": "Inference_pytorch/NeuroSIM/SubArray.cpp",
+        "evidence": "DCIM SRAM storage RC, NOR input gates, 256-input 4-bit AdderTree; four numCol/4 write/precharge/sense groups; area includes 64 nibble trees"
+      },
+      {
+        "branch": "2DTrainingV2.1",
+        "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+        "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+        "evidence": "SRAM cell flip primitive resPull average, cell.capSRAMCell and Horowitz; used on this DCIM geometry and same technology, no final timing number borrowed"
+      }
+    ]
+  },
+  "diagnostics": [
+    {
+      "label": "wire125",
+      "arguments": [
+        1.25,
+        1,
+        4,
+        0.5
+      ],
+      "changes": "actual native wire R 1.25x, fixed DCIM dimensions"
+    },
+    {
+      "label": "access125",
+      "arguments": [
+        1,
+        1.25,
+        4,
+        0.5
+      ],
+      "changes": "SRAM access width1.25x, fixed dimensions"
+    },
+    {
+      "label": "write_groups2",
+      "arguments": [
+        1,
+        1,
+        2,
+        0.5
+      ],
+      "changes": "two64bit groups parallel, 128bit external port"
+    },
+    {
+      "label": "activity1",
+      "arguments": [
+        1,
+        1,
+        4,
+        1
+      ],
+      "changes": "read activity1 only"
+    }
+  ],
+  "explicit_mode_overrides": {
+    "readVoltage": ".85V SRAM Vdd, replacing unused eNVM node table before ProcessingUnitInitialize",
+    "writeVoltage": ".85V SRAM Vdd",
+    "numBitInput": 8,
+    "numColPerSynapse": 8,
+    "numRowPerSynapse": 1,
+    "toggle_enforce": 0,
+    "synchronous": true
+  }
+}

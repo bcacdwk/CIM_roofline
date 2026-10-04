@@ -1,0 +1,28 @@
+{
+  "case_id": "ns_rram_1t1r",
+  "status": "conditional",
+  "backend": "2DTrainingV2.1",
+  "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+  "technode_nm": 22,
+  "roadmap": "LSTP",
+  "K": 256,
+  "N": 31,
+  "input_bits": 8,
+  "weight_bits": 8,
+  "physical_rows": 256.0,
+  "physical_cols": 288.0,
+  "B_S_Byte": 256,
+  "B_R_Byte": 7936,
+  "single_latency_ns": 10841.396652998965,
+  "delta_S_ns": 10841.396652998965,
+  "T_R_ns": 470779.3347761028,
+  "rho_MB_per_s": 23.613193778790933,
+  "tau_MB_per_s": 16.857154538812264,
+  "RI_star": 1.400781711078428,
+  "U_star": 43.424233043431265,
+  "conditions": [
+    "conditional on calibrated ideal nominal ADC transfer, upstream reference device package, single-pulse program/verify success, and ready external rails",
+    "LevelShifter latency uses the low-voltage Technology transistor model, not an independent high-voltage transistor qualification.",
+    "Fixed input service uses one-hot HRS RC envelope for all 16 planes, including all-zero planes; no sparse timing skip."
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "case_id": "ns_rram_1t1r",
+  "backend": {
+    "branch": "2DTrainingV2.1",
+    "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+    "core_path": "Training_pytorch/NeuroSIM"
+  },
+  "constructor_inputs": {
+    "memcelltype": 2,
+    "operationmode": 2,
+    "accesstype": 1,
+    "deviceroadmap": 2,
+    "technode": 22,
+    "temp": 300,
+    "featuresize": "32e-9",
+    "wireWidth": 32,
+    "numRowSubArray": 256,
+    "numColSubArray": 288,
+    "cellBit": 1,
+    "trainingEstimation": false,
+    "SARADC": true,
+    "levelOutput": 1024,
+    "numColMuxed": 9,
+    "resistanceOn": 8000,
+    "resistanceOff": 24000,
+    "resistanceAccess": 5000,
+    "readVoltage": 0.5,
+    "writeVoltage": 1,
+    "writePulseWidth": "1e-8",
+    "readPulseWidth": 0,
+    "accessVoltage": 1.1,
+    "maxNumLevelLTP": 2,
+    "maxNumLevelLTD": 2,
+    "widthInFeatureSize1T1R": 8,
+    "heightInFeatureSize1T1R": 4
+  },
+  "driver": "rram_service.cpp",
+  "support_sources": [
+    "correction.h",
+    "input_serializer.h",
+    "rram_verify.h",
+    "LevelShifter.cpp",
+    "LevelShifter.h"
+  ],
+  "patches": [
+    "training_rram_model.patch"
+  ],
+  "compile_exclude": [
+    "main.cpp",
+    "Chip.cpp",
+    "Tile.cpp",
+    "ProcessingUnit.cpp",
+    "HTree.cpp",
+    "WeightGradientUnit.cpp"
+  ],
+  "arguments": [],
+  "process": {
+    "technode_nm": 22,
+    "roadmap": "LSTP",
+    "temperature_K": 300,
+    "wire_width_nm": 32
+  },
+  "status": "conditional",
+  "conditions": [
+    "conditional on calibrated ideal nominal ADC transfer, upstream reference device package, single-pulse program/verify success, and ready external rails",
+    "LevelShifter latency uses the low-voltage Technology transistor model, not an independent high-voltage transistor qualification.",
+    "Fixed input service uses one-hot HRS RC envelope for all 16 planes, including all-zero planes; no sparse timing skip."
+  ],
+  "device_and_policy": {
+    "case_id": "ns_rram_1t1r",
+    "backend": "2DTrainingV2.1",
+    "commit": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+    "process_nm": 22,
+    "device_roadmap": "LSTP",
+    "temperature_K": 300,
+    "wire_width_nm": 32,
+    "logical_shape": [
+      256,
+      31
+    ],
+    "logical_input": "signed INT8",
+    "logical_weight": "signed INT8",
+    "logical_output": "signed 25-bit exact nominal mapped arithmetic",
+    "physical_shape": [
+      256,
+      288
+    ],
+    "physical_mapping": "32 groups of 8 unsigned stored weight bits plus 1 all-HRS current-reference column; groups 0..30 store w+128, group31 stores constant1; two native 8-bit input passes ux and sign(x) then 3 nativeAdder correction stages",
+    "device_parameter_origin": "MLPInferenceV3.0@6098feabaf17b8209a8edbef4a9c963b5f015132 Cell.cpp:630-652 DigitalNVM upstream reference, cmosAccess=true/isSTTMRAM=false; not a measured material-specific RRAM package",
+    "ron_ohm": 8000,
+    "roff_ohm": 24000,
+    "access_resistance_ohm": 5000,
+    "read_voltage_V": 0.5,
+    "access_voltage_V": 1.1,
+    "set_voltage_V": 1,
+    "reset_voltage_V": 1,
+    "set_pulse_s": 1e-08,
+    "reset_pulse_s": 1e-08,
+    "cell_width_F": 8,
+    "cell_height_F": 4,
+    "adc_bits": 10,
+    "adc_count": 32,
+    "mux_columns_per_adc": 9,
+    "adc_nominal_lsb_S": "(1/13000 - 1/29000)/2",
+    "reference_subtract": "10-bit nativeAdder plus inversion, 32 lanes; reference DFF and difference DFF; exact nominal difference >>1 wiring",
+    "array_policy": "asynchronous completion, non-overlap across requests; native MUX/ADC/row/column latency charged in seconds",
+    "clock_policy": "period=2*max instantiated registered digital combinational path (baseline, correction, shiftAdd, verify comparator); no fixed target",
+    "stream_read_activity": "one active HRS cell per column gives the slowest nonzero-input RC envelope; reserve every slot, including zero planes",
+    "writer": "32-bit public port -> one 288-bit expected-row DFF buffer; row buffer retained through all reset/set batches and two onehot row verifies; 9 batches per direction per row fixed, masked SET slots not skipped",
+    "initial_state": "arbitrary binary state; reset every physical cell, then program target1 cells; reference columns remain HRS",
+    "verify": "Same 32 SAR, same 9:1 array MUX and one-hot row. Expected-row native 9:1 MUX, RESET/SET target phase MUX, calibrated code wires/inversion, 64 magnitude comparators (two per lane) plus OR/status implement mismatch detection. Single-pulse success is conditional.",
+    "power_boundary": "1V write and 1.1V access rails already stable, external supply; V1.4 unvalidated LevelShifter primitive port on same Training tech/cell and actual switch control gate loads; enable and release both charged; not chargepump or high-voltage device qualification",
+    "result_status": "conditional on calibrated ideal nominal ADC transfer, upstream reference device package, single-pulse program/verify success, and ready external rails",
+    "geometry_source": "MLPInferenceV3.0 Cell.cpp DigitalNVM CMOS-access height4F width8F; mapped to explicit Training geometry"
+  },
+  "result_keys": {
+    "logical_K": "logical_k",
+    "logical_N": "logical_n",
+    "stream_latency_s": "stream_single_s"
+  },
+  "diagnostics": [
+    {
+      "label": "rows128",
+      "arguments": [
+        "--rows",
+        128
+      ],
+      "changes": "rows128"
+    },
+    {
+      "label": "wire2x",
+      "arguments": [
+        "--wire-scale",
+        2
+      ],
+      "changes": "wire2x"
+    },
+    {
+      "label": "access6k",
+      "arguments": [
+        "--access",
+        6000
+      ],
+      "changes": "access6k"
+    },
+    {
+      "label": "adc9bit",
+      "arguments": [
+        "--levels",
+        512
+      ],
+      "changes": "adc9bit"
+    },
+    {
+      "label": "batch16",
+      "arguments": [
+        "--batch",
+        16
+      ],
+      "changes": "batch16"
+    },
+    {
+      "label": "pulse20ns",
+      "arguments": [
+        "--pulse",
+        "2e-8"
+      ],
+      "changes": "pulse20ns"
+    },
+    {
+      "label": "activity25",
+      "arguments": [
+        "--activity",
+        0.25
+      ],
+      "changes": "activity25"
+    }
+  ]
+}

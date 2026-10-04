@@ -1,0 +1,90 @@
+{
+  "schema": "step4-v3.1",
+  "case_results": [
+    {
+      "case_id": "ns_sram_acim",
+      "status": "conditional",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 4546.744914583846,
+      "delta_S_ns": 4546.744914583846,
+      "T_R_ns": 2008.2888562822413,
+      "rho_MB_per_s": 56.30401634779881,
+      "tau_MB_per_s": 3951.622783333659,
+      "RI_star": 0.014248327695969945,
+      "U_star": 0.44169815857506833,
+      "conditions": [
+        "nominal9bit SAR code contract, not ENOB guarantee",
+        "upstream SRAM parallel abstract model, not9T1C reproduction",
+        "steady power rails; local macro ports; nonoverlap service policy",
+        "Native SRAM parallel model is a timing abstraction; multi-row read stability and analog transfer require physical calibration."
+      ]
+    },
+    {
+      "case_id": "ns_rram_1t1r",
+      "status": "conditional",
+      "backend": "2DTrainingV2.1",
+      "backend_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "technode_nm": 22,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 288.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 10841.396652998965,
+      "delta_S_ns": 10841.396652998965,
+      "T_R_ns": 470779.3347761028,
+      "rho_MB_per_s": 23.613193778790933,
+      "tau_MB_per_s": 16.857154538812264,
+      "RI_star": 1.400781711078428,
+      "U_star": 43.424233043431265,
+      "conditions": [
+        "conditional on calibrated ideal nominal ADC transfer, upstream reference device package, single-pulse program/verify success, and ready external rails",
+        "LevelShifter latency uses the low-voltage Technology transistor model, not an independent high-voltage transistor qualification.",
+        "Fixed input service uses one-hot HRS RC envelope for all 16 planes, including all-zero planes; no sparse timing skip."
+      ]
+    },
+    {
+      "case_id": "ns_sram_dcim",
+      "status": "conditional",
+      "backend": "2DInferenceDCIMV1.0-dev",
+      "backend_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "technode_nm": 22,
+      "roadmap": "LSTP",
+      "K": 256,
+      "N": 31,
+      "input_bits": 8,
+      "weight_bits": 8,
+      "physical_rows": 256.0,
+      "physical_cols": 256.0,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "single_latency_ns": 147.87978906284204,
+      "delta_S_ns": 147.87978906284204,
+      "T_R_ns": 2912.0943076990434,
+      "rho_MB_per_s": 1731.135820671288,
+      "tau_MB_per_s": 2725.1864676973787,
+      "RI_star": 0.6352357320099257,
+      "U_star": 19.692307692307693,
+      "conditions": [
+        "Upstream fixed 256x256-bit DCIM model; digital exact nominal arithmetic, not SRAM stability or timing signoff.",
+        "Four 64-bit native write groups use a shared row decoder and bounded simultaneous 256-bit port.",
+        "Native synchronous clock/capture abstraction with ideal clock-enable distribution; both paths mutually exclusive; rails ready at Vdd."
+      ]
+    }
+  ]
+}

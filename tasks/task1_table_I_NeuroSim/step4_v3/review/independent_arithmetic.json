@@ -1,0 +1,89 @@
+{
+  "DCIM_physical_NOR_truth_table": [
+    {
+      "x": 0,
+      "stored_Q": 0,
+      "input_INV": 1,
+      "existing_Qbar": 1,
+      "NOR_output": 0
+    },
+    {
+      "x": 0,
+      "stored_Q": 1,
+      "input_INV": 1,
+      "existing_Qbar": 0,
+      "NOR_output": 0
+    },
+    {
+      "x": 1,
+      "stored_Q": 0,
+      "input_INV": 0,
+      "existing_Qbar": 1,
+      "NOR_output": 0
+    },
+    {
+      "x": 1,
+      "stored_Q": 1,
+      "input_INV": 0,
+      "existing_Qbar": 0,
+      "NOR_output": 1
+    }
+  ],
+  "status": "PASS_ideal_arithmetic_and_mapping_only",
+  "exhaustive_signed_pairs": 65536,
+  "stage_aggregate_min": [
+    -8355840,
+    -12550144,
+    -4161536
+  ],
+  "stage_aggregate_max": [
+    8290560,
+    4129024,
+    4194304
+  ],
+  "all_active_ones_combinations": 33153,
+  "max_RRAM_ideal_ADC_code": 928,
+  "matrix_vectors": {
+    "zero": {
+      "output_min": 0,
+      "output_max": 0,
+      "match": true
+    },
+    "negative_min": {
+      "output_min": 4194304,
+      "output_max": 4194304,
+      "match": true
+    },
+    "opposite_extremes": {
+      "output_min": -4161536,
+      "output_max": -4161536,
+      "match": true
+    },
+    "positive_max": {
+      "output_min": 4129024,
+      "output_max": 4129024,
+      "match": true
+    },
+    "mixed": {
+      "output_min": -143610,
+      "output_max": 158414,
+      "match": true
+    },
+    "alternating_sign": {
+      "output_min": 0,
+      "output_max": 0,
+      "match": true
+    }
+  },
+  "payload_Byte": 7936,
+  "stream_Byte": 256,
+  "SRAM_bits": 65536,
+  "RRAM_cells": 73728,
+  "SRAM_reference_bits": 2048,
+  "RRAM_reference_cells": 10240,
+  "dense_target_SET_cells": 32000,
+  "SRAM_map_sha256": "ee9beb405e2596de793c07adc17339b0ae37ea7fe576fea4af97352726a133e0",
+  "RRAM_map_sha256": "76e0e7d6e1066dca3483bd455f0470f7811abd4a903d70db7a86809cb5f010ae",
+  "no_production_imports": true,
+  "qualification": "Ideal code mapping with explicitly calibrated gain; not measured precision or analog accuracy."
+}

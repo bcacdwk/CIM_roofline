@@ -1,0 +1,59 @@
+--- a/SubArray.cpp
++++ b/SubArray.cpp
+@@ -419,6 +419,12 @@
+ 			dff.CalculateArea(heightArray, NULL, NONE);	// should be multiplied by 64 later
+ 			addertree.CalculateArea(heightArray, NULL, NONE); // should be multiplied by 64 later
+ 
++			// for multi-bit, add numReadPulse
++			if (numReadPulse > 1) {
++				shiftAddInput.Initialize(1, adderBit, clkFreq, spikingMode, numReadPulse);
++				shiftAddInput.CalculateArea(heightArray, NULL, NONE);
++			}
++
+ 			// res of one section 
+ 			resRowforSwitchMatrix = ( (addertree.width + dff.width + shiftAddInput.width) * (param->numColSubArray/4/param->parallel_weightprecision-1) +  lengthRow/4) / (lengthRow) * resRow;
+ 			
+@@ -448,11 +454,7 @@
+ 			wlDecoder.Initialize(REGULAR_ROW, (int)ceil(log2(numRow)), false, false);
+ 			senseAmp.Initialize(numCol/4, false, cell.minSenseVoltage, lengthRow/(numCol), clkFreq, numReadCellPerOperationNeuro);	
+ 
+-			// for multi-bit, add numReadPulse
+-			if (numReadPulse > 1) {
+-				shiftAddInput.Initialize(1, adderBit, clkFreq, spikingMode, numReadPulse);
+-				shiftAddInput.CalculateArea(heightArray, NULL, NONE);
+-			}
++
+ 			
+ 		} 	
+ 
+@@ -1441,7 +1443,7 @@
+ 					// cap
+ 					double capNandInput, capNandOutput;
+ 
+-					double resPullUp = CalculateOnResistance(widthNorP, NMOS, inputParameter.temperature, tech) * 2;
++					double resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * 2;
+ 
+ 					if ((tech.featureSize <= 2* 1e-9) && (param->speciallayout)) {
+ 						resPullUp= 3/2 * resPullUp;
+@@ -1553,7 +1555,7 @@
+ 						shiftAddInput.CalculateLatency(1);					
+ 					}					
+ 					if (param->synchronous) {
+-						readLatencyADC = (numReadPulse+1)/numReadPulse;
++						readLatencyADC = (numReadPulse+1.0)/numReadPulse;
+ 						
+ 					} else {
+ 						readLatencyADC = 0;
+--- a/ProcessingUnit.cpp
++++ b/ProcessingUnit.cpp
+@@ -105,6 +105,10 @@
+ 	}
+ 	
+ 	subArray = new SubArray(inputParameter, tech, cell);
++	subArray->activityRowRead = 0.5;
++	subArray->activityRowWrite = 1;
++	subArray->activityColWrite = 1;
++	subArray->drivecapin = subArray->drivecapout = 0;
+ 	adderTreeNM = new AdderTree(inputParameter, tech, cell);
+ 	busInputNM = new Bus(inputParameter, tech, cell);
+ 	busOutputNM = new Bus(inputParameter, tech, cell);

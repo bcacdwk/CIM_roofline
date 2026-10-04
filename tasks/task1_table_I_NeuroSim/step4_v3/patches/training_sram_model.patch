@@ -1,0 +1,59 @@
+--- a/SubArray.cpp
++++ b/SubArray.cpp
+@@ -148,6 +148,9 @@
+ 		//firstly calculate the CMOS resistance and capacitance
+ 		resCellAccess = CalculateOnResistance(cell.widthAccessCMOS * tech.featureSize, NMOS, inputParameter.temperature, tech);
+ 		capCellAccess = CalculateDrainCap(cell.widthAccessCMOS * tech.featureSize, NMOS, cell.widthInFeatureSize * tech.featureSize, tech);
++		// V3 SRAM parasitic-load correction, same geometry/device as this SubArray.
++		capRow1 += 2 * CalculateGateCap(cell.widthAccessCMOS * tech.featureSize, tech) * numCol;
++		capCol += capCellAccess * numRow;
+ 		cell.capSRAMCell = capCellAccess + CalculateDrainCap(cell.widthSRAMCellNMOS * tech.featureSize, NMOS, cell.widthInFeatureSize * tech.featureSize, tech) + CalculateDrainCap(cell.widthSRAMCellPMOS * tech.featureSize, PMOS, cell.widthInFeatureSize * tech.featureSize, tech) + CalculateGateCap(cell.widthSRAMCellNMOS * tech.featureSize, tech) + CalculateGateCap(cell.widthSRAMCellPMOS * tech.featureSize, tech);
+ 
+ 		if (conventionalSequential) {
+@@ -1071,7 +1074,8 @@
+ 				int numReadOperationPerRow = (int)ceil((double)numCol/numReadCellPerOperationNeuro);
+ 				int numWriteOperationPerRow = (int)ceil((double)numCol*activityColWrite/numWriteCellPerOperationNeuro);
+ 				
+-				wlSwitchMatrix.CalculateLatency(1e20, capRow1, resRow, numColMuxed, 2*numWriteOperationPerRow*numRow*activityRowWrite);
++				// V3: one input-bit row mask; each column mux group is selected below.
++				wlSwitchMatrix.CalculateLatency(1e20, capRow1, resRow, 1, 2*numWriteOperationPerRow*numRow*activityRowWrite);
+ 				precharger.CalculateLatency(1e20, capCol, numColMuxed, numWriteOperationPerRow*numRow*activityRowWrite);
+ 				sramWriteDriver.CalculateLatency(1e20, capCol, resCol, numWriteOperationPerRow*numRow*activityRowWrite);
+ 				if (numColMuxed > 1) {
+@@ -1096,10 +1100,11 @@
+ 				double gm = CalculateTransconductance(cell.widthAccessCMOS * tech.featureSize, NMOS, tech);
+ 				double beta = 1 / (resPullDown * gm);
+ 				double colRamp = 0;
+-				colDelay = horowitz(tau, beta, wlSwitchMatrix.rampOutput, &colRamp);
++				// V3: each mux group is precharged above, so each requires BL development.
++				colDelay = horowitz(tau, beta, wlSwitchMatrix.rampOutput, &colRamp) * numColMuxed;
+ 
+ 				readLatency = 0;
+-				readLatency += MAX(wlSwitchMatrix.readLatency, ( ((numColMuxed > 1)==true? (mux.readLatency+muxDecoder.readLatency):0) )/numReadPulse);
++				readLatency += (MAX(wlSwitchMatrix.readLatency, ((numColMuxed > 1) ? (mux.readLatency+muxDecoder.readLatency)/numColMuxed : 0)) + ((numColMuxed > 1) ? (mux.readLatency+muxDecoder.readLatency)*(numColMuxed-1)/numColMuxed : 0));
+ 				readLatency += precharger.readLatency;
+ 				readLatency += colDelay;
+ 				readLatency += multilevelSenseAmp.readLatency;
+@@ -1109,7 +1114,7 @@
+ 				
+ 				readLatencyADC = precharger.readLatency + colDelay + multilevelSenseAmp.readLatency + multilevelSAEncoder.readLatency + sarADC.readLatency;
+ 				readLatencyAccum = shiftAddInput.readLatency + shiftAddWeight.readLatency;
+-				readLatencyOther = MAX(wlSwitchMatrix.readLatency, ( ((numColMuxed > 1)==true? (mux.readLatency+muxDecoder.readLatency):0) )/numReadPulse);
++				readLatencyOther = (MAX(wlSwitchMatrix.readLatency, ((numColMuxed > 1) ? (mux.readLatency+muxDecoder.readLatency)/numColMuxed : 0)) + ((numColMuxed > 1) ? (mux.readLatency+muxDecoder.readLatency)*(numColMuxed-1)/numColMuxed : 0));
+ 
+ 				// Write (assume the average delay of pullup and pulldown inverter in SRAM cell)
+ 				
+--- a/SwitchMatrix.cpp
++++ b/SwitchMatrix.cpp
+@@ -192,7 +192,11 @@
+ 
+ 		writeLatency = horowitz(tr, 0, rampInput, &rampOutput);
+ 		writeLatency *= numWrite;
++		// V3: write-side control updates must not reuse the read operation count.
++		double savedReadDffLatency = dff.readLatency;
++		dff.CalculateLatency(1e20, numWrite);
+ 		writeLatency += dff.readLatency;	// Use DFF read latency here because no write in the DFF module
++		dff.readLatency = savedReadDffLatency;
+ 	}
+ }
+ 

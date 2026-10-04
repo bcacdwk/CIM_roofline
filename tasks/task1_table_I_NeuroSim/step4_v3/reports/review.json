@@ -1,0 +1,317 @@
+{
+  "schema": "step4-v3-independent-review.1",
+  "status": "PASS_WITH_EXPLICIT_CONDITIONS",
+  "reviewer": "/root/reviewer",
+  "implementation_participation": false,
+  "participation_disclosure": "New reviewer thread, no known historical implementation participation. Production and upstream read-only; reviewer only wrote independent scripts/reports under reviewer-20261004-* and sent review findings.",
+  "acceptance_authority": "This independent reviewer conclusion only; not user acceptance and not external ChatGPT acceptance.",
+  "repository_HEAD": "b7795fd5acc8f5f3816d1022111330fc569b6853",
+  "reviewed_primary_run": "/Users/shine/neurosim/runs/step4-v3/reviewer-20261004-direct03",
+  "reviewed_standalone_run": "/Users/shine/neurosim/runs/step4-v3/reviewer-20261004-standalone03",
+  "standalone_package": "/Users/shine/neurosim/runs/step4-v3/reviewer-20261004-package03/step4_v3",
+  "producer_expected_function_used": false,
+  "compiler": "g++-16 (Homebrew GCC 16.2.0) 16.2.0",
+  "commands": [
+    "python3 -B \"/Users/shine/Library/CloudStorage/OneDrive-个人/Files/02 Works/202609-ISCAS2027-Roofline/tasks/task1_table_I_NeuroSim/step4_v3/run.py\" --run-id reviewer-20261004-direct03 --diagnostics --no-export",
+    "cd /Users/shine/neurosim/runs/step4-v3/reviewer-20261004-package03 && python3 -B step4_v3/run.py --run-id reviewer-20261004-standalone03 --diagnostics --no-export",
+    "python3 -B /Users/shine/neurosim/runs/step4-v3/reviewer-20261004-audit/check_services.py /Users/shine/neurosim/runs/step4-v3/reviewer-20261004-direct03",
+    "python3 -B /Users/shine/neurosim/runs/step4-v3/reviewer-20261004-audit/check_services.py /Users/shine/neurosim/runs/step4-v3/reviewer-20261004-standalone03",
+    "python3 -B /Users/shine/neurosim/runs/step4-v3/reviewer-20261004-audit/independent_arithmetic.py"
+  ],
+  "canonical_snapshot_manifest_sha256": "78b4be48d25c81bcc396f3cc79d49ae92e0b9830b17465e403c60636fd8108fa",
+  "canonical_snapshot": {
+    "INTERFACE.md": "86740c65d9ab35ad1905e2b6d8b09258ef7b20e54cc3b0111878db2e2e5f0bd6",
+    "check.py": "1d189db4c2b2b4c3f3a972f01548dcc15deaf1731c5164b011f8109a9c5bcc3d",
+    "configs/ns_rram_1t1r.json": "57dfcae0d9eb58b69bd8ce4fc3912b3a2cb29d6e268b8ece5c0a33777f02ad76",
+    "configs/ns_sram_acim.json": "3ee9dc08bff1f8c69937a911c4764bb5547e85152f4372e21f895eec748d5457",
+    "configs/ns_sram_dcim.json": "5aca10c1e0803ebb58932bac007997c6d802a7b7a244e79e9cf7af7f1d17f3b0",
+    "numeric.py": "fa0c15d6f7e761c9bd94e9646d05afd652ea79e69b7aed6bbd1cc069dbeaf00f",
+    "patches/dcim_model.patch": "78aa9c858e6101d446fc963137b83054db271d183bab781a869d1297f14128bc",
+    "patches/levelshifter_port_review.patch": "12eff60d8d0461a0cd1cb9c54c4e42ecc9f052d9812cebea6e0d1827c22743be",
+    "patches/training_rram_model.patch": "89bfe6e7e566fa7c1841e5e462b5b8788ebbde8b7657e1708f10a39342b4b680",
+    "patches/training_sram_model.patch": "e59a5fb0c8b24119644387f7b73c9e261e3a9486eb3b0590b309b371bcde266c",
+    "run.py": "6e1e72016c591a2906d6277eef1bba19140082664dbecb10abe3a02bc14fa2fa",
+    "src/LevelShifter.cpp": "815cc17aea92b372cfa780336e140099ff7354b9da6a51e9c476798f274a0ad9",
+    "src/LevelShifter.h": "b2594414fa9525bd97f87bbd2de74a25b7442bb5cb8e187fbdc389527cb26695",
+    "src/acim_service.cpp": "7636d44a0b218e7a8ea5fb7d76bc8f849f526f986dd67638f52b389bb29f6205",
+    "src/correction.h": "afdd0cee6c13a38e6b80cefb445471829a9c54d01e0cdf71dc1e7982a944da32",
+    "src/dcim_service.cpp": "5ce13d71636069dcda92b10b862e785736c387963023afd0a245171d14b6fb26",
+    "src/input_serializer.h": "7285e35217a84307bae32d3b5766871dd34704ae030a37dbac1bf88d326c1c84",
+    "src/rram_service.cpp": "0d2e621209a39e15086fde6cdf41aef54afa19aed26bd90ef0c4440381616b4c",
+    "src/rram_verify.h": "12549cbcd5d48af23ea8fdf26d8790bdbe4b780d3e6b9c4a2df34a66f2a4b926"
+  },
+  "final_documentation_differences": [
+    {
+      "file": "INTERFACE.md",
+      "change": "Boundary documentation clarification only",
+      "executed_sha256": "86740c65d9ab35ad1905e2b6d8b09258ef7b20e54cc3b0111878db2e2e5f0bd6",
+      "final_sha256": "e06fb13382942abecd2b660bbcfebc88c602c48539245b38cc9d6b603a4a2cdf"
+    }
+  ],
+  "case_sources": {
+    "ns_sram_acim": {
+      "backend": {
+        "branch": "2DTrainingV2.1",
+        "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+        "core_path": "Training_pytorch/NeuroSIM"
+      },
+      "upstream_file_count": 86,
+      "executable_sha256": "8ec118b5360b6b6a3b393994d81c336bc1fedefe311d4f52601ef6e98749da29",
+      "driver_sha256": "7636d44a0b218e7a8ea5fb7d76bc8f849f526f986dd67638f52b389bb29f6205",
+      "patched_SubArray_sha256": "086542fb0be504671f12a388e9877456e0751df61cd048edb33d20df78d07524",
+      "source_manifest_sha256": "9889393ccc3a075e784edd7a29bd4d6e443ff81a5e218ad687d26908d5d44e99"
+    },
+    "ns_rram_1t1r": {
+      "backend": {
+        "branch": "2DTrainingV2.1",
+        "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+        "core_path": "Training_pytorch/NeuroSIM"
+      },
+      "upstream_file_count": 86,
+      "executable_sha256": "cd9af77789fe261b2d2b4cd1fa47941849318174276b87953b9ca89f56cb4f90",
+      "driver_sha256": "0d2e621209a39e15086fde6cdf41aef54afa19aed26bd90ef0c4440381616b4c",
+      "patched_SubArray_sha256": "f0031f835dd0fb2297ac9f62c40bfd47ef18f7b10df2a46307eb846d3af79ab5",
+      "source_manifest_sha256": "99282fb5d4ed61b4fe03053994ade464ce4c44c53c78330be32d6f5a36ae1ab7"
+    },
+    "ns_sram_dcim": {
+      "backend": {
+        "branch": "2DInferenceDCIMV1.0-dev",
+        "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+        "core_path": "Inference_pytorch/NeuroSIM"
+      },
+      "upstream_file_count": 90,
+      "executable_sha256": "3867ebb9aeab48b61d961d52ce393487e4ef92020c4f90e42d1bb20200c342cf",
+      "driver_sha256": "5ce13d71636069dcda92b10b862e785736c387963023afd0a245171d14b6fb26",
+      "patched_SubArray_sha256": "0870f5d1f5d024e8416e7d62d1124ca8b39b2a86bfff41ceb5a4b45fefd94a92",
+      "source_manifest_sha256": "61a0fdad6e6ec4c9329c4a5bc5402ebb2f5d89f837e02bb5b133023f618488de"
+    }
+  },
+  "exact_repeatability": {
+    "canonical_build_inputs": true,
+    "upstream_and_patched_sources": true,
+    "fresh_executables": true,
+    "raw_outputs": true,
+    "diagnostics": true,
+    "summaries": true,
+    "numeric_report": true
+  },
+  "independent_service_assertions_per_run": 387,
+  "independent_main_results": [
+    {
+      "case": "ns_sram_acim",
+      "K": 256,
+      "N": 31,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "delta_S_ns": 4546.744914583847,
+      "T_R_ns": 2008.2888562822413,
+      "rho_MB_per_s": 56.3040163477988,
+      "tau_MB_per_s": 3951.622783333659,
+      "RI_star": 0.014248327695969943,
+      "U_star": 0.4416981585750682
+    },
+    {
+      "case": "ns_rram_1t1r",
+      "K": 256,
+      "N": 31,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "delta_S_ns": 10841.396652998967,
+      "T_R_ns": 470779.3347761028,
+      "rho_MB_per_s": 23.61319377879093,
+      "tau_MB_per_s": 16.857154538812264,
+      "RI_star": 1.4007817110784277,
+      "U_star": 43.42423304343126
+    },
+    {
+      "case": "ns_sram_dcim",
+      "K": 256,
+      "N": 31,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "delta_S_ns": 147.87978906284204,
+      "T_R_ns": 2912.0943076990434,
+      "rho_MB_per_s": 1731.135820671288,
+      "tau_MB_per_s": 2725.1864676973787,
+      "RI_star": 0.6352357320099257,
+      "U_star": 19.692307692307693
+    }
+  ],
+  "arithmetic_checks": {
+    "DCIM_physical_NOR_truth_table": [
+      {
+        "x": 0,
+        "stored_Q": 0,
+        "input_INV": 1,
+        "existing_Qbar": 1,
+        "NOR_output": 0
+      },
+      {
+        "x": 0,
+        "stored_Q": 1,
+        "input_INV": 1,
+        "existing_Qbar": 0,
+        "NOR_output": 0
+      },
+      {
+        "x": 1,
+        "stored_Q": 0,
+        "input_INV": 0,
+        "existing_Qbar": 1,
+        "NOR_output": 0
+      },
+      {
+        "x": 1,
+        "stored_Q": 1,
+        "input_INV": 0,
+        "existing_Qbar": 0,
+        "NOR_output": 1
+      }
+    ],
+    "status": "PASS_ideal_arithmetic_and_mapping_only",
+    "exhaustive_signed_pairs": 65536,
+    "stage_aggregate_min": [
+      -8355840,
+      -12550144,
+      -4161536
+    ],
+    "stage_aggregate_max": [
+      8290560,
+      4129024,
+      4194304
+    ],
+    "all_active_ones_combinations": 33153,
+    "max_RRAM_ideal_ADC_code": 928,
+    "matrix_vectors": {
+      "zero": {
+        "output_min": 0,
+        "output_max": 0,
+        "match": true
+      },
+      "negative_min": {
+        "output_min": 4194304,
+        "output_max": 4194304,
+        "match": true
+      },
+      "opposite_extremes": {
+        "output_min": -4161536,
+        "output_max": -4161536,
+        "match": true
+      },
+      "positive_max": {
+        "output_min": 4129024,
+        "output_max": 4129024,
+        "match": true
+      },
+      "mixed": {
+        "output_min": -143610,
+        "output_max": 158414,
+        "match": true
+      },
+      "alternating_sign": {
+        "output_min": 0,
+        "output_max": 0,
+        "match": true
+      }
+    },
+    "payload_Byte": 7936,
+    "stream_Byte": 256,
+    "SRAM_bits": 65536,
+    "RRAM_cells": 73728,
+    "SRAM_reference_bits": 2048,
+    "RRAM_reference_cells": 10240,
+    "dense_target_SET_cells": 32000,
+    "SRAM_map_sha256": "ee9beb405e2596de793c07adc17339b0ae37ea7fe576fea4af97352726a133e0",
+    "RRAM_map_sha256": "76e0e7d6e1066dca3483bd455f0470f7811abd4a903d70db7a86809cb5f010ae",
+    "no_production_imports": true,
+    "qualification": "Ideal code mapping with explicitly calibrated gain; not measured precision or analog accuracy."
+  },
+  "resolved_issues": [
+    {
+      "id": "R1",
+      "finding": "C/D broadcast and subtraction inverter pin loads understated",
+      "disposition": "FIXED: explicit per-lane maximum NAND/INV pin capacitance, loaded inverter chains and physical span"
+    },
+    {
+      "id": "R2",
+      "finding": "DCIM merge output A/C versus B/D preservation not explicitly timed",
+      "disposition": "FIXED: direct merge-to-operand bank capture with actual operand DFF load and held alternate bank"
+    },
+    {
+      "id": "R3",
+      "finding": "RRAM expected-target selection and equality interpretation incomplete",
+      "disposition": "FIXED: retained-row 9:1 selection, phase2:1 selection, calibrated code encoding, two magnitude comparisons per lane and loaded OR/status"
+    },
+    {
+      "id": "R4",
+      "finding": "RRAM aggregate max could hide later eight MUX selections",
+      "disposition": "FIXED: first WL/MUX overlap plus eight subsequent MUX groups; independently recomputed including column RC"
+    },
+    {
+      "id": "R5",
+      "finding": "DCIM NOR product required input polarity and storage node load closure",
+      "disposition": "FIXED: 256 explicit loaded input inverters and existing Qbar; NOR input capacitance added to cell-flip node; Boolean truth table independently verified"
+    },
+    {
+      "id": "R6",
+      "finding": "Selector control DFF CalculateArea accidentally swallowed by comment",
+      "disposition": "FIXED: explicit Area call before timing, resolved5bits and positive area in every case; fresh03 builds"
+    },
+    {
+      "id": "R7",
+      "finding": "RRAM last verify return state not explicit",
+      "disposition": "CLARIFIED CONDITION: held-read idle; ADC/status complete, stable read bias and held row mask; subsequent native full-mask setup precedes any next device pulse"
+    }
+  ],
+  "remaining_blocking_issues": [],
+  "conditions": [
+    "These are native-model reference cases with explicit extensions, not reproductions of the historical9T1C, WH-2T1R or D6CIM devices and not silicon timing/accuracy signoff.",
+    "NeuroSim Training asynchronous primitive seconds coexist with modeled digital clock/DFF capture. DCIM dedicated AdderTree_DCIM physical seconds and synchronous SubArray/ShiftAdd cycles are distinguished and converted once.",
+    "Native DFF half-period/cycle and ideal clock-enable/control sequencing are primitive abstractions; no load-dependent clock-to-Q, metastability, clock distribution or transistor-level transient validation is claimed.",
+    "SRAM parallel-read stability/transfer and nominal9bit ADC resolution are assumptions; RRAM nominal10bit programmable gain/offset and HRS baseline subtraction do not establish measured ENOB, noise tolerance or analog dot-product accuracy.",
+    "RRAM uses the declared 8k/24k plus5k access reference device,4x8F geometry, fixed onehot-HRS worst-column read slots including zero planes, and conditional first-pulse program/verify success. Failed verify/retry timing is outside the successful-service result.",
+    "1V write/1.1V access rails are stable at acceptance. The V1.4 LevelShifter port uses the same Training technology formulas and real control-pin loads, without dedicated high-voltage device or supply-generation qualification.",
+    "RRAM ready is held-read idle rather than all-wordlines-off: old mask remains in native DFF after completed verify; next service pays full mask-install DFF+TG/RC setup before compute/program pulse. Continuous read-bias disturb, static energy and transient glitch safety are unvalidated.",
+    "External DRAM/network/chip transport is excluded. Installed local2048bit input ports, SRAM256bit resident ports and RRAM32bit intake/288bit held row buffer define the charged boundaries; read/write shared arrays and ADC paths are serialized."
+  ],
+  "upstream_final": {
+    "2DTrainingV2.1": {
+      "head": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "status": ""
+    },
+    "2DInferenceDCIMV1.0-dev": {
+      "head": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "status": ""
+    },
+    "MLPInferenceV3.0": {
+      "head": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "status": ""
+    },
+    "2DInferenceV1.4": {
+      "head": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "status": ""
+    }
+  },
+  "superseded_runs": [
+    {
+      "runs": [
+        "reviewer-20261004-direct01",
+        "reviewer-20261004-standalone01"
+      ],
+      "status": "FAIL_FOR_FINAL_PHYSICAL_MAPPING",
+      "reason": "Pre-polarity/input-NOR and node-cap closure version; numeric coincidence is not acceptance."
+    },
+    {
+      "runs": [
+        "reviewer-20261004-direct02",
+        "reviewer-20261004-standalone02"
+      ],
+      "status": "FAIL_FOR_FINAL_RESOURCE_ACCOUNTING",
+      "reason": "Selector control DFF area call commented out."
+    }
+  ],
+  "independent_scripts": {
+    "check_services.py": "034157d795dbf62167d27df45e438f9a2edbbe5dbffc001df06e5a222161ab99",
+    "independent_arithmetic.py": "041eb5528c029f1850dd3ec33edb2101c6fa3ce8ddd35df4b3c822990c1db77a"
+  }
+}

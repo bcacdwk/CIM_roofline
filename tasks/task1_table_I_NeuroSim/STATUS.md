@@ -96,3 +96,11 @@
 入口：[主报告](reports/step2_coverage_and_interface.zh.md)、`contracts/`、`configs/cases/`、`scripts/check_step2.py`、`probes/interface_revision/`。本轮独立审计为 `reports/step2_revision_review.json`，原审计仍为 `reports/step2_review.json`；Step 1报告和smoke目录未变。
 
 下一轮仍为01 SRAM ACIM、05 RRAM两个pilot，需实例化实际寄存路径/负载、SAR码保持、数字门控/符号/累加与消费边界；未覆盖模拟窗口、高压操作等继续原生服务。本轮不启动。
+
+## 2026-10-04 追加：Step4 V3 新原生参考
+
+本轮三个新增身份均已实际实现、运行并完成独立新构建复核，服务闭合且结果保留模型条件，详见 [V3报告](step4_v3/REPORT.zh.md) 和 [独立审查](step4_v3/reports/review.json)。主运行位于 `/Users/shine/neurosim/runs/step4-v3/reference-v3-reviewed-20261004`，精简交付在 `step4_v3/`。V3不依赖旧最终性能、legacy replay或pilot结果；旧V1/V2/原NVM/论文/锁定上游未改。
+
+共同256×31 signed INT8：ACIM Δ/T_R=4546.745/2008.289ns；1T1R RRAM=10841.397/470779.335ns；专用SRAM DCIM=147.880/2912.094ns。ADC名义校准、RRAM单脉冲验收／稳定供电与native状态更新、DFF抽象等条件不升级为硅验证。
+
+停止在V3，等待用户及外部ChatGPT后续审阅。外部ChatGPT未验收本轮；无git暂存、提交、推送，不开展Step5或论文修改。

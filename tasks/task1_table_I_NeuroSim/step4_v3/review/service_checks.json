@@ -1,0 +1,1984 @@
+{
+  "status": "PASS",
+  "producer_evaluate_used": false,
+  "run": "/Users/shine/neurosim/runs/step4-v3/reviewer-20261004-direct03",
+  "independent_main_results": [
+    {
+      "case": "ns_sram_acim",
+      "K": 256,
+      "N": 31,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "delta_S_ns": 4546.744914583847,
+      "T_R_ns": 2008.2888562822413,
+      "rho_MB_per_s": 56.3040163477988,
+      "tau_MB_per_s": 3951.622783333659,
+      "RI_star": 0.014248327695969943,
+      "U_star": 0.4416981585750682
+    },
+    {
+      "case": "ns_rram_1t1r",
+      "K": 256,
+      "N": 31,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "delta_S_ns": 10841.396652998967,
+      "T_R_ns": 470779.3347761028,
+      "rho_MB_per_s": 23.61319377879093,
+      "tau_MB_per_s": 16.857154538812264,
+      "RI_star": 1.4007817110784277,
+      "U_star": 43.42423304343126
+    },
+    {
+      "case": "ns_sram_dcim",
+      "K": 256,
+      "N": 31,
+      "B_S_Byte": 256,
+      "B_R_Byte": 7936,
+      "delta_S_ns": 147.87978906284204,
+      "T_R_ns": 2912.0943076990434,
+      "rho_MB_per_s": 1731.135820671288,
+      "tau_MB_per_s": 2725.1864676973787,
+      "RI_star": 0.6352357320099257,
+      "U_star": 19.692307692307693
+    }
+  ],
+  "assertion_count": 387,
+  "checks": [
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8e-08,
+      "independent_expected": 8e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 2.7811944231872086e-07,
+      "independent_expected": 2.7811944231872086e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 2.224955538549767e-06,
+      "independent_expected": 2.224955538549767e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.3860922021229914e-08,
+      "independent_expected": 1.3860922021229914e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.620307340409971e-09,
+      "independent_expected": 4.620307340409971e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 4.546744914583846e-06,
+      "independent_expected": 4.546744914583847e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 4.546744914583846e-06,
+      "independent_expected": 4.546744914583847e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 2.0082888562822412e-06,
+      "independent_expected": 2.0082888562822412e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8e-08,
+      "independent_expected": 8e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 2.7811944231872086e-07,
+      "independent_expected": 2.7811944231872086e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 2.224955538549767e-06,
+      "independent_expected": 2.224955538549767e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.3860922021229914e-08,
+      "independent_expected": 1.3860922021229914e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.620307340409971e-09,
+      "independent_expected": 4.620307340409971e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 4.546744914583846e-06,
+      "independent_expected": 4.546744914583847e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 4.546744914583846e-06,
+      "independent_expected": 4.546744914583847e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 2.0082888562822412e-06,
+      "independent_expected": 2.0082888562822412e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 128.0,
+      "independent_expected": 128
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 7.200000000000001e-08,
+      "independent_expected": 7.200000000000001e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 1.7515821202261418e-07,
+      "independent_expected": 1.7515821202261418e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 1.4012656961809134e-06,
+      "independent_expected": 1.4012656961809134e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.5461692534345323e-08,
+      "independent_expected": 1.5461692534345323e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 5.153897511448441e-09,
+      "independent_expected": 5.153897511448442e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 2.889546367441073e-06,
+      "independent_expected": 2.889546367441073e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 2.889546367441073e-06,
+      "independent_expected": 2.889546367441073e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 1.0572646005168162e-06,
+      "independent_expected": 1.0572646005168165e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8e-08,
+      "independent_expected": 8e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 3.197744253480891e-07,
+      "independent_expected": 3.197744253480891e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 2.558195402784713e-06,
+      "independent_expected": 2.558195402784713e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.3860922021229914e-08,
+      "independent_expected": 1.3860922021229914e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.620307340409971e-09,
+      "independent_expected": 4.620307340409971e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 5.213224643053738e-06,
+      "independent_expected": 5.213224643053739e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 5.213224643053738e-06,
+      "independent_expected": 5.213224643053739e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 2.0167853509655806e-06,
+      "independent_expected": 2.016785350965581e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8e-08,
+      "independent_expected": 8e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 2.7876053973514486e-07,
+      "independent_expected": 2.7876053973514486e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 2.230084317881159e-06,
+      "independent_expected": 2.230084317881159e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.4987497987057982e-08,
+      "independent_expected": 1.4987497987057982e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.9958326623526604e-09,
+      "independent_expected": 4.9958326623526604e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 4.561884302431886e-06,
+      "independent_expected": 4.561884302431886e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 4.561884302431886e-06,
+      "independent_expected": 4.561884302431886e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 2.1859659349610976e-06,
+      "independent_expected": 2.1859659349610976e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8e-08,
+      "independent_expected": 8e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 2.7811944231872086e-07,
+      "independent_expected": 2.7811944231872086e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 2.224955538549767e-06,
+      "independent_expected": 2.224955538549767e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.3860922021229914e-08,
+      "independent_expected": 1.3860922021229914e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.620307340409971e-09,
+      "independent_expected": 4.620307340409971e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 4.546744914583846e-06,
+      "independent_expected": 4.546744914583847e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 4.546744914583846e-06,
+      "independent_expected": 4.546744914583847e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 4.0163404533843404e-06,
+      "independent_expected": 4.0163404533843404e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 1024.0,
+      "independent_expected": 1024
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 32.0,
+      "independent_expected": 32.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8.800000000000001e-08,
+      "independent_expected": 8.800000000000001e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 2.862587002944581e-07,
+      "independent_expected": 2.862587002944581e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 2.290069602355665e-06,
+      "independent_expected": 2.290069602355665e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.3860922021229914e-08,
+      "independent_expected": 1.3860922021229914e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.620307340409971e-09,
+      "independent_expected": 4.620307340409971e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 4.676973042195642e-06,
+      "independent_expected": 4.676973042195643e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 4.676973042195642e-06,
+      "independent_expected": 4.676973042195643e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 2.0082888562822412e-06,
+      "independent_expected": 2.0082888562822412e-06
+    },
+    {
+      "check": "ns_sram_acim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "ACIM installed ADC lanes",
+      "actual": 16.0,
+      "independent_expected": 16.0
+    },
+    {
+      "check": "ACIM ADC levels",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "ACIM weight accumulator lanes",
+      "actual": 16.0,
+      "independent_expected": 16.0
+    },
+    {
+      "check": "ACIM input accumulator lanes",
+      "actual": 16.0,
+      "independent_expected": 16.0
+    },
+    {
+      "check": "ACIM write batch count",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "ACIM native SAR groups",
+      "actual": 8e-08,
+      "independent_expected": 8e-08
+    },
+    {
+      "check": "ACIM per-bit native components",
+      "actual": 1.8377741345126803e-07,
+      "independent_expected": 1.8377741345126806e-07
+    },
+    {
+      "check": "ACIM unsigned rounds",
+      "actual": 1.4702193076101443e-06,
+      "independent_expected": 1.4702193076101445e-06
+    },
+    {
+      "check": "ACIM correction registers",
+      "actual": 1.3579887572561344e-08,
+      "independent_expected": 1.3579887572561344e-08
+    },
+    {
+      "check": "ACIM period from installed datapath",
+      "actual": 4.526629190853781e-09,
+      "independent_expected": 4.526629190853782e-09
+    },
+    {
+      "check": "ns_sram_acim complete stream reconstruction",
+      "actual": 3.036054636760372e-06,
+      "independent_expected": 3.036054636760372e-06
+    },
+    {
+      "check": "ns_sram_acim complete interval",
+      "actual": 3.036054636760372e-06,
+      "independent_expected": 3.036054636760372e-06
+    },
+    {
+      "check": "ns_sram_acim resident reconstruction",
+      "actual": 1.9494036278909716e-06,
+      "independent_expected": 1.949403627890972e-06
+    },
+    {
+      "check": "ns_sram_acim exported K",
+      "actual": 256,
+      "independent_expected": 256
+    },
+    {
+      "check": "ns_sram_acim exported N",
+      "actual": 31,
+      "independent_expected": 31
+    },
+    {
+      "check": "ns_sram_acim exported B_S_Byte",
+      "actual": 256,
+      "independent_expected": 256
+    },
+    {
+      "check": "ns_sram_acim exported B_R_Byte",
+      "actual": 7936,
+      "independent_expected": 7936
+    },
+    {
+      "check": "ns_sram_acim exported delta_S_ns",
+      "actual": 4546.744914583846,
+      "independent_expected": 4546.744914583847
+    },
+    {
+      "check": "ns_sram_acim exported T_R_ns",
+      "actual": 2008.2888562822413,
+      "independent_expected": 2008.2888562822413
+    },
+    {
+      "check": "ns_sram_acim exported rho_MB_per_s",
+      "actual": 56.30401634779881,
+      "independent_expected": 56.3040163477988
+    },
+    {
+      "check": "ns_sram_acim exported tau_MB_per_s",
+      "actual": 3951.622783333659,
+      "independent_expected": 3951.622783333659
+    },
+    {
+      "check": "ns_sram_acim exported RI_star",
+      "actual": 0.014248327695969945,
+      "independent_expected": 0.014248327695969943
+    },
+    {
+      "check": "ns_sram_acim exported U_star",
+      "actual": 0.44169815857506833,
+      "independent_expected": 0.4416981585750682
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.3080924758596285e-06,
+      "independent_expected": 4.3080924758596285e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 5.149548548591113e-06,
+      "independent_expected": 5.149548548591113e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.979644503178175e-07,
+      "independent_expected": 1.979644503178175e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.347571098248321e-06,
+      "independent_expected": 5.347571098248321e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.00039765768987323714,
+      "independent_expected": 0.00039765768987323714
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 1.1031822252219695e-05,
+      "independent_expected": 1.1031822252219695e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.253677262924269e-09,
+      "independent_expected": 4.253677262924269e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0841396652998965e-05,
+      "independent_expected": 1.0841396652998966e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0841396652998965e-05,
+      "independent_expected": 1.0841396652998966e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0004707793347761028,
+      "independent_expected": 0.0004707793347761028
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 36864.0,
+      "independent_expected": 36864
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 1152.0,
+      "independent_expected": 1152
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 256.0,
+      "independent_expected": 256
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 1152.0,
+      "independent_expected": 1152
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 2.158367138683393e-06,
+      "independent_expected": 2.158367138683393e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 2.999883589074258e-06,
+      "independent_expected": 2.999883589074258e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.9823614978503047e-07,
+      "independent_expected": 1.9823614978503047e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 3.198177838198678e-06,
+      "independent_expected": 3.198177838198678e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.0001276371855426557,
+      "independent_expected": 0.0001276371855426557
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 5.524605509060662e-06,
+      "independent_expected": 5.524605509060662e-06
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.26122447034685e-09,
+      "independent_expected": 4.26122447034685e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 6.524447320224706e-06,
+      "independent_expected": 6.524447320224708e-06
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 6.524447320224706e-06,
+      "independent_expected": 6.524447320224708e-06
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.00016421974395146557,
+      "independent_expected": 0.00016421974395146557
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.308492859157231e-06,
+      "independent_expected": 4.308492859157231e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 5.151508562193558e-06,
+      "independent_expected": 5.151508562193558e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 2.0498278668960938e-07,
+      "independent_expected": 2.0498278668960938e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.356549448222557e-06,
+      "independent_expected": 5.356549448222557e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.0003985816614598731,
+      "independent_expected": 0.0003985816614598731
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 1.1558738391826178e-05,
+      "independent_expected": 1.1558738391826178e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.448631051029598e-09,
+      "independent_expected": 4.448631051029598e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0861790275298753e-05,
+      "independent_expected": 1.0861790275298755e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0861790275298753e-05,
+      "independent_expected": 1.0861790275298755e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0004729817254058491,
+      "independent_expected": 0.0004729817254058491
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.001329968338055e-06,
+      "independent_expected": 4.001329968338055e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 4.842786196401978e-06,
+      "independent_expected": 4.842786196401978e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.979651493137917e-07,
+      "independent_expected": 1.979651493137917e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.04080944505516e-06,
+      "independent_expected": 5.04080944505516e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.0003776027887242454,
+      "independent_expected": 0.0003776027887242454
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 1.0878221848185118e-05,
+      "independent_expected": 1.0878221848185118e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.253696679479107e-09,
+      "independent_expected": 4.253696679479107e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0227260207314558e-05,
+      "independent_expected": 1.0227260207314558e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0227260207314558e-05,
+      "independent_expected": 1.0227260207314558e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0004504172551869131,
+      "independent_expected": 0.0004504172551869131
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.2e-07,
+      "independent_expected": 7.200000000000001e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.3080924758596285e-06,
+      "independent_expected": 4.3080924758596285e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 5.076435584544012e-06,
+      "independent_expected": 5.076435584544012e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.9351314400881021e-07,
+      "independent_expected": 1.9351314400881021e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.270006827892212e-06,
+      "independent_expected": 5.270006827892212e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.0003900188945031224,
+      "independent_expected": 0.0003900188945031224
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 1.1032138982753119e-05,
+      "independent_expected": 1.1032138982753119e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.253814732773845e-09,
+      "independent_expected": 4.253814732773845e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0682154968028997e-05,
+      "independent_expected": 1.0682154968028995e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0682154968028997e-05,
+      "independent_expected": 1.0682154968028995e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0004631413312323216,
+      "independent_expected": 0.0004631413312323216
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 18432.0,
+      "independent_expected": 18432
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.3080924758596285e-06,
+      "independent_expected": 4.3080924758596285e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 5.149548548591113e-06,
+      "independent_expected": 5.149548548591113e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.979644503178175e-07,
+      "independent_expected": 1.979644503178175e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.347571098248321e-06,
+      "independent_expected": 5.347571098248321e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.00039765768987323714,
+      "independent_expected": 0.00039765768987323714
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 2.206364450443939e-05,
+      "independent_expected": 2.206364450443939e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.253677262924269e-09,
+      "independent_expected": 4.253677262924269e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0841396652998965e-05,
+      "independent_expected": 1.0841396652998966e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0841396652998965e-05,
+      "independent_expected": 1.0841396652998966e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0005439009796789684,
+      "independent_expected": 0.0005439009796789684
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.3080924758596285e-06,
+      "independent_expected": 4.3080924758596285e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 5.149548548591113e-06,
+      "independent_expected": 5.149548548591113e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.979644503178175e-07,
+      "independent_expected": 1.979644503178175e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.347571098248321e-06,
+      "independent_expected": 5.347571098248321e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.00039765768987323714,
+      "independent_expected": 0.00039765768987323714
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 1.1031822252219695e-05,
+      "independent_expected": 1.1031822252219695e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.253677262924269e-09,
+      "independent_expected": 4.253677262924269e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0841396652998965e-05,
+      "independent_expected": 1.0841396652998966e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0841396652998965e-05,
+      "independent_expected": 1.0841396652998966e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0005168593347761028,
+      "independent_expected": 0.0005168593347761028
+    },
+    {
+      "check": "ns_rram_1t1r installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "RRAM physical coverage",
+      "actual": 73728.0,
+      "independent_expected": 73728
+    },
+    {
+      "check": "RRAM write_batches_per_direction",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM write_pulses",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM write_transitions",
+      "actual": 9216.0,
+      "independent_expected": 9216
+    },
+    {
+      "check": "RRAM verify_rows",
+      "actual": 512.0,
+      "independent_expected": 512
+    },
+    {
+      "check": "RRAM resident_input_beats",
+      "actual": 2304.0,
+      "independent_expected": 2304
+    },
+    {
+      "check": "RRAM verify_adc_rounds",
+      "actual": 4608.0,
+      "independent_expected": 4608
+    },
+    {
+      "check": "RRAM verify_comparator_count",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "RRAM SAR groups for eight planes",
+      "actual": 7.920000000000001e-07,
+      "independent_expected": 7.92e-07
+    },
+    {
+      "check": "RRAM first selection overlap plus eight later groups and column RC",
+      "actual": 4.300963845673955e-06,
+      "independent_expected": 4.300963845673955e-06
+    },
+    {
+      "check": "RRAM native component total",
+      "actual": 5.14241991840544e-06,
+      "independent_expected": 5.14241991840544e-06
+    },
+    {
+      "check": "RRAM 64 data subtracts and 8 ref captures",
+      "actual": 1.979644503178175e-07,
+      "independent_expected": 1.979644503178175e-07
+    },
+    {
+      "check": "RRAM unsigned service",
+      "actual": 5.3404424680626474e-06,
+      "independent_expected": 5.3404424680626474e-06
+    },
+    {
+      "check": "RRAM verify rows total",
+      "actual": 0.00039765768987323714,
+      "independent_expected": 0.00039765768987323714
+    },
+    {
+      "check": "RRAM release uses same installed path",
+      "actual": 1.1031822252219695e-05,
+      "independent_expected": 1.1031822252219695e-05
+    },
+    {
+      "check": "RRAM derived period",
+      "actual": 4.253677262924269e-09,
+      "independent_expected": 4.253677262924269e-09
+    },
+    {
+      "check": "ns_rram_1t1r complete stream reconstruction",
+      "actual": 1.0827139392627618e-05,
+      "independent_expected": 1.082713939262762e-05
+    },
+    {
+      "check": "ns_rram_1t1r complete interval",
+      "actual": 1.0827139392627618e-05,
+      "independent_expected": 1.082713939262762e-05
+    },
+    {
+      "check": "ns_rram_1t1r resident reconstruction",
+      "actual": 0.0004707793347761028,
+      "independent_expected": 0.0004707793347761028
+    },
+    {
+      "check": "ns_rram_1t1r exported K",
+      "actual": 256,
+      "independent_expected": 256
+    },
+    {
+      "check": "ns_rram_1t1r exported N",
+      "actual": 31,
+      "independent_expected": 31
+    },
+    {
+      "check": "ns_rram_1t1r exported B_S_Byte",
+      "actual": 256,
+      "independent_expected": 256
+    },
+    {
+      "check": "ns_rram_1t1r exported B_R_Byte",
+      "actual": 7936,
+      "independent_expected": 7936
+    },
+    {
+      "check": "ns_rram_1t1r exported delta_S_ns",
+      "actual": 10841.396652998965,
+      "independent_expected": 10841.396652998967
+    },
+    {
+      "check": "ns_rram_1t1r exported T_R_ns",
+      "actual": 470779.3347761028,
+      "independent_expected": 470779.3347761028
+    },
+    {
+      "check": "ns_rram_1t1r exported rho_MB_per_s",
+      "actual": 23.613193778790933,
+      "independent_expected": 23.61319377879093
+    },
+    {
+      "check": "ns_rram_1t1r exported tau_MB_per_s",
+      "actual": 16.857154538812264,
+      "independent_expected": 16.857154538812264
+    },
+    {
+      "check": "ns_rram_1t1r exported RI_star",
+      "actual": 1.400781711078428,
+      "independent_expected": 1.4007817110784277
+    },
+    {
+      "check": "ns_rram_1t1r exported U_star",
+      "actual": 43.424233043431265,
+      "independent_expected": 43.42423304343126
+    },
+    {
+      "check": "ns_sram_dcim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "DCIM NOR input complement enabled",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM serialized complemented input path",
+      "actual": 1.646747313292892e-10,
+      "independent_expected": 1.646747313292892e-10
+    },
+    {
+      "check": "DCIM writer columns per group",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "DCIM total bit capacity",
+      "actual": 65536.0,
+      "independent_expected": 65536
+    },
+    {
+      "check": "DCIM nibble tree count",
+      "actual": 64.0,
+      "independent_expected": 64.0
+    },
+    {
+      "check": "DCIM native unsigned pipeline cycles",
+      "actual": 9.0,
+      "independent_expected": 9
+    },
+    {
+      "check": "DCIM native core seconds",
+      "actual": 1.1969414738394539e-09,
+      "independent_expected": 1.1969414738394539e-09
+    },
+    {
+      "check": "DCIM native capture in cycles",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM 64bit group write batches",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write port",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write analog path",
+      "actual": 3.0620105941142866e-09,
+      "independent_expected": 3.0620105941142866e-09
+    },
+    {
+      "check": "DCIM capture plus rounded busy interval",
+      "actual": 1.1375368389449388e-08,
+      "independent_expected": 1.1375368389449388e-08
+    },
+    {
+      "check": "DCIM derived period",
+      "actual": 5.687684194724694e-09,
+      "independent_expected": 5.687684194724694e-09
+    },
+    {
+      "check": "ns_sram_dcim complete stream reconstruction",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim complete interval",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim resident reconstruction",
+      "actual": 2.9120943076990434e-06,
+      "independent_expected": 2.9120943076990434e-06
+    },
+    {
+      "check": "ns_sram_dcim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "DCIM NOR input complement enabled",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM serialized complemented input path",
+      "actual": 1.646747313292892e-10,
+      "independent_expected": 1.646747313292892e-10
+    },
+    {
+      "check": "DCIM writer columns per group",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "DCIM total bit capacity",
+      "actual": 65536.0,
+      "independent_expected": 65536
+    },
+    {
+      "check": "DCIM nibble tree count",
+      "actual": 64.0,
+      "independent_expected": 64.0
+    },
+    {
+      "check": "DCIM native unsigned pipeline cycles",
+      "actual": 9.0,
+      "independent_expected": 9
+    },
+    {
+      "check": "DCIM native core seconds",
+      "actual": 1.2174188246070716e-09,
+      "independent_expected": 1.2174188246070716e-09
+    },
+    {
+      "check": "DCIM native capture in cycles",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM 64bit group write batches",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write port",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write analog path",
+      "actual": 3.0857051373645843e-09,
+      "independent_expected": 3.0857051373645843e-09
+    },
+    {
+      "check": "DCIM capture plus rounded busy interval",
+      "actual": 1.1769295081011008e-08,
+      "independent_expected": 1.1769295081011008e-08
+    },
+    {
+      "check": "DCIM derived period",
+      "actual": 5.884647540505504e-09,
+      "independent_expected": 5.884647540505504e-09
+    },
+    {
+      "check": "ns_sram_dcim complete stream reconstruction",
+      "actual": 1.530008360531431e-07,
+      "independent_expected": 1.530008360531431e-07
+    },
+    {
+      "check": "ns_sram_dcim complete interval",
+      "actual": 1.530008360531431e-07,
+      "independent_expected": 1.530008360531431e-07
+    },
+    {
+      "check": "ns_sram_dcim resident reconstruction",
+      "actual": 3.012939540738818e-06,
+      "independent_expected": 3.012939540738818e-06
+    },
+    {
+      "check": "ns_sram_dcim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "DCIM NOR input complement enabled",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM serialized complemented input path",
+      "actual": 1.646747313292892e-10,
+      "independent_expected": 1.646747313292892e-10
+    },
+    {
+      "check": "DCIM writer columns per group",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "DCIM total bit capacity",
+      "actual": 65536.0,
+      "independent_expected": 65536
+    },
+    {
+      "check": "DCIM nibble tree count",
+      "actual": 64.0,
+      "independent_expected": 64.0
+    },
+    {
+      "check": "DCIM native unsigned pipeline cycles",
+      "actual": 9.0,
+      "independent_expected": 9
+    },
+    {
+      "check": "DCIM native core seconds",
+      "actual": 1.1969414738394539e-09,
+      "independent_expected": 1.1969414738394539e-09
+    },
+    {
+      "check": "DCIM native capture in cycles",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM 64bit group write batches",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write port",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write analog path",
+      "actual": 3.1914452932270343e-09,
+      "independent_expected": 3.1914452932270343e-09
+    },
+    {
+      "check": "DCIM capture plus rounded busy interval",
+      "actual": 1.1375368389449388e-08,
+      "independent_expected": 1.1375368389449388e-08
+    },
+    {
+      "check": "DCIM derived period",
+      "actual": 5.687684194724694e-09,
+      "independent_expected": 5.687684194724694e-09
+    },
+    {
+      "check": "ns_sram_dcim complete stream reconstruction",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim complete interval",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim resident reconstruction",
+      "actual": 2.9120943076990434e-06,
+      "independent_expected": 2.9120943076990434e-06
+    },
+    {
+      "check": "ns_sram_dcim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "DCIM NOR input complement enabled",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM serialized complemented input path",
+      "actual": 1.646747313292892e-10,
+      "independent_expected": 1.646747313292892e-10
+    },
+    {
+      "check": "DCIM writer columns per group",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "DCIM total bit capacity",
+      "actual": 65536.0,
+      "independent_expected": 65536
+    },
+    {
+      "check": "DCIM nibble tree count",
+      "actual": 64.0,
+      "independent_expected": 64.0
+    },
+    {
+      "check": "DCIM native unsigned pipeline cycles",
+      "actual": 9.0,
+      "independent_expected": 9
+    },
+    {
+      "check": "DCIM native core seconds",
+      "actual": 1.1969414738394539e-09,
+      "independent_expected": 1.1969414738394539e-09
+    },
+    {
+      "check": "DCIM native capture in cycles",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM 64bit group write batches",
+      "actual": 512.0,
+      "independent_expected": 512.0
+    },
+    {
+      "check": "DCIM write port",
+      "actual": 128.0,
+      "independent_expected": 128.0
+    },
+    {
+      "check": "DCIM write analog path",
+      "actual": 3.0620105941142866e-09,
+      "independent_expected": 3.0620105941142866e-09
+    },
+    {
+      "check": "DCIM capture plus rounded busy interval",
+      "actual": 1.1375368389449388e-08,
+      "independent_expected": 1.1375368389449388e-08
+    },
+    {
+      "check": "DCIM derived period",
+      "actual": 5.687684194724694e-09,
+      "independent_expected": 5.687684194724694e-09
+    },
+    {
+      "check": "ns_sram_dcim complete stream reconstruction",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim complete interval",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim resident reconstruction",
+      "actual": 5.824188615398087e-06,
+      "independent_expected": 5.824188615398087e-06
+    },
+    {
+      "check": "ns_sram_dcim installed selector control bits",
+      "actual": 5.0,
+      "independent_expected": 5
+    },
+    {
+      "check": "DCIM NOR input complement enabled",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM serialized complemented input path",
+      "actual": 1.646747313292892e-10,
+      "independent_expected": 1.646747313292892e-10
+    },
+    {
+      "check": "DCIM writer columns per group",
+      "actual": 64.0,
+      "independent_expected": 64
+    },
+    {
+      "check": "DCIM total bit capacity",
+      "actual": 65536.0,
+      "independent_expected": 65536
+    },
+    {
+      "check": "DCIM nibble tree count",
+      "actual": 64.0,
+      "independent_expected": 64.0
+    },
+    {
+      "check": "DCIM native unsigned pipeline cycles",
+      "actual": 9.0,
+      "independent_expected": 9
+    },
+    {
+      "check": "DCIM native core seconds",
+      "actual": 1.1969414738394539e-09,
+      "independent_expected": 1.1969414738394539e-09
+    },
+    {
+      "check": "DCIM native capture in cycles",
+      "actual": 1.0,
+      "independent_expected": 1
+    },
+    {
+      "check": "DCIM 64bit group write batches",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write port",
+      "actual": 256.0,
+      "independent_expected": 256.0
+    },
+    {
+      "check": "DCIM write analog path",
+      "actual": 3.0620105941142866e-09,
+      "independent_expected": 3.0620105941142866e-09
+    },
+    {
+      "check": "DCIM capture plus rounded busy interval",
+      "actual": 1.1375368389449388e-08,
+      "independent_expected": 1.1375368389449388e-08
+    },
+    {
+      "check": "DCIM derived period",
+      "actual": 5.687684194724694e-09,
+      "independent_expected": 5.687684194724694e-09
+    },
+    {
+      "check": "ns_sram_dcim complete stream reconstruction",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim complete interval",
+      "actual": 1.4787978906284204e-07,
+      "independent_expected": 1.4787978906284204e-07
+    },
+    {
+      "check": "ns_sram_dcim resident reconstruction",
+      "actual": 2.9120943076990434e-06,
+      "independent_expected": 2.9120943076990434e-06
+    },
+    {
+      "check": "ns_sram_dcim exported K",
+      "actual": 256,
+      "independent_expected": 256
+    },
+    {
+      "check": "ns_sram_dcim exported N",
+      "actual": 31,
+      "independent_expected": 31
+    },
+    {
+      "check": "ns_sram_dcim exported B_S_Byte",
+      "actual": 256,
+      "independent_expected": 256
+    },
+    {
+      "check": "ns_sram_dcim exported B_R_Byte",
+      "actual": 7936,
+      "independent_expected": 7936
+    },
+    {
+      "check": "ns_sram_dcim exported delta_S_ns",
+      "actual": 147.87978906284204,
+      "independent_expected": 147.87978906284204
+    },
+    {
+      "check": "ns_sram_dcim exported T_R_ns",
+      "actual": 2912.0943076990434,
+      "independent_expected": 2912.0943076990434
+    },
+    {
+      "check": "ns_sram_dcim exported rho_MB_per_s",
+      "actual": 1731.135820671288,
+      "independent_expected": 1731.135820671288
+    },
+    {
+      "check": "ns_sram_dcim exported tau_MB_per_s",
+      "actual": 2725.1864676973787,
+      "independent_expected": 2725.1864676973787
+    },
+    {
+      "check": "ns_sram_dcim exported RI_star",
+      "actual": 0.6352357320099257,
+      "independent_expected": 0.6352357320099257
+    },
+    {
+      "check": "ns_sram_dcim exported U_star",
+      "actual": 19.692307692307693,
+      "independent_expected": 19.692307692307693
+    }
+  ]
+}

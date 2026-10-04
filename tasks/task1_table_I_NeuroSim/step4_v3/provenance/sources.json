@@ -1,0 +1,181 @@
+{
+  "upstream_url": "https://github.com/neurosim/NeuroSim",
+  "versions": {
+    "2DTrainingV2.1": {
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "local_worktree": "/Users/shine/neurosim/worktrees/2DTrainingV2.1-f80a4345f70d",
+      "clean": true
+    },
+    "2DInferenceDCIMV1.0-dev": {
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "local_worktree": "/Users/shine/neurosim/worktrees/2DInferenceDCIMV1.0-dev-38eedf926fc1",
+      "clean": true
+    },
+    "2DInferenceV1.4": {
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "local_worktree": "/Users/shine/neurosim/worktrees/2DInferenceV1.4-8a88abf85844",
+      "clean": true
+    },
+    "MLPInferenceV3.0": {
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "local_worktree": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "clean": true
+    }
+  },
+  "evidence": [
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/Param.cpp",
+      "sha256": "6bd61882e14a2c9e2f9d2db131427e420f9af59ff2a500f634079fc73799d791",
+      "role": "SRAM geometry/widths; explicit22nm/32nm-wire specialization; access1.1V interface condition",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/Param.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+      "sha256": "fca58af1398bfbf28132ce3090c9036cce782082cabf9775660f10854eb065e8",
+      "role": "native SRAM parallel and CMOS-access1T1R initialization, Area, read/write aggregation",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/SubArray.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "sha256": "181f5aa0cf57dfd2a6351cdc3ae7edf89c26dea5d81b33b3a2d7211637e062b5",
+      "role": "input-bit invocation and MemCell mapping; training-update estimator is not used",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/ProcessingUnit.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/ShiftAdd.cpp",
+      "sha256": "a81ae1ef8402ec2bfa932faf25e990b034caa03ee05f67513feeb6d5e2ac9cdf",
+      "role": "native add/shift capture and overlap return units",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/ShiftAdd.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/DFF.cpp",
+      "sha256": "2eee0424262f1d940f2465058bd0859d1bfab51aaf52170db34a68a53e8758b1",
+      "role": "half-period native register abstraction",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/DFF.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/SwitchMatrix.cpp",
+      "sha256": "4b1935381c9956cdbd20b2eaa81b1ca2508aaa0d7d1521e1d8b1a5bae3fab9d6",
+      "role": "write DFF operation-count defect",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/SwitchMatrix.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/NewSwitchMatrix.cpp",
+      "sha256": "5293372ed26968f7687cee55ccfb400a9d5d068a8760496f5e0f041e490c04c9",
+      "role": "DFF plus TG/RC complete mask update; write count defect",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/NewSwitchMatrix.cpp"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "path": "Training_pytorch/NeuroSIM/Comparator.cpp",
+      "sha256": "467fd12a8b57537d2c04c827ab3e6423fae3612d679ac911b02cb6879f893f21",
+      "role": "magnitude Gin-Gout path: two directions needed for mismatch equality",
+      "url": "https://github.com/neurosim/NeuroSim/blob/f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a/Training_pytorch/NeuroSIM/Comparator.cpp"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "README.md",
+      "sha256": "024ff7dd5f2e41e72f3c0f7cfaf3b39a9bb957f00dd146729bde029e2d9073e9",
+      "role": "fixed256x256 supported organization",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/README.md"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/Param.cpp",
+      "sha256": "410ab94046fee81fba3bf5893cd49f3c8b8e0b2286a3a28e1c4228edd31999c2",
+      "role": "22nm40nm metal, calibration alpha/beta and4parallel-weightbits",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/Param.cpp"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "sha256": "616e7c866f0d4efb8307a42e2cea23248771f6e89efab48641fcba38fc3aed31",
+      "role": "TypeDCIM,64nibble trees, four64-column write/sense groups, one shared WLdecoder; source fixes",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/SubArray.cpp"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/ProcessingUnit.cpp",
+      "sha256": "6311745562bed29cf8489cd75cb4fed1a4162fe016afbd8f1cfb6ba3e4732176",
+      "role": "native mode/device mapping and Initialize then Area",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/ProcessingUnit.cpp"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/AdderTree_DCIM.cpp",
+      "sha256": "4fed83c9df88008d743cb09ba60eea9cdae5fd88ca6ec8741c4e94f5a921ac7e",
+      "role": "dedicated tree delay is seconds, unlike ordinary synchronous aggregate",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/AdderTree_DCIM.cpp"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/DFF.cpp",
+      "sha256": "5e4dcaf9030499930708af83723ffe2bcbbf1e70df1852dbb1ee1199497d9f06",
+      "role": "synchronous DFF return is cycles",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/DFF.cpp"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "path": "Inference_pytorch/NeuroSIM/SwitchMatrix.cpp",
+      "sha256": "611eb549b53d31adcaaa2ac816e8d38d130eaf277cc50e8d0979f67e582c2b05",
+      "role": "TG/scan-DFF does not prove input data polarity inversion",
+      "url": "https://github.com/neurosim/NeuroSim/blob/38eedf926fc1a712df3627f36bb82b097ba6b9cb/Inference_pytorch/NeuroSIM/SwitchMatrix.cpp"
+    },
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/SubArray.cpp",
+      "sha256": "72f2cab85d9e2874506bf919689a831374bed05afc32058c8bb6d454d3f5c427",
+      "role": "SRAM gate/drain parasitic precedent",
+      "url": "https://github.com/neurosim/NeuroSim/blob/8a88abf85844c0e1ba17cc771ea535fff6040456/Inference_pytorch/NeuroSIM/SubArray.cpp"
+    },
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/LevelShifter.cpp",
+      "sha256": "78be27a2016350753434971c602cbd35589e08b41836a7dc3ce3a2b1c0b2f55d",
+      "role": "unvalidated primitive port source",
+      "url": "https://github.com/neurosim/NeuroSim/blob/8a88abf85844c0e1ba17cc771ea535fff6040456/Inference_pytorch/NeuroSIM/LevelShifter.cpp"
+    },
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "path": "Inference_pytorch/NeuroSIM/LevelShifter.h",
+      "sha256": "b2594414fa9525bd97f87bbd2de74a25b7442bb5cb8e187fbdc389527cb26695",
+      "role": "primitive API source",
+      "url": "https://github.com/neurosim/NeuroSim/blob/8a88abf85844c0e1ba17cc771ea535fff6040456/Inference_pytorch/NeuroSIM/LevelShifter.h"
+    },
+    {
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "path": "Cell.cpp",
+      "sha256": "f2f5efd580740bd0161727e6f0a6028c95bec92e2de2903d914b161ce90192af",
+      "role": "DigitalNVM lines630-696: binary CMOS-access Ron8k/Roff24k/access5k,read.5V,SET/RESET1V10ns,4x8F",
+      "url": "https://github.com/neurosim/NeuroSim/blob/6098feabaf17b8209a8edbef4a9c963b5f015132/Cell.cpp"
+    }
+  ],
+  "license": "Upstream NeuroSim CC BY-NC4.0 notices retained in source snapshots and the ported LevelShifter files.",
+  "device_source_classification": "RRAM generic upstream reference; not a material-specific measured package. Original old special-macro timings are not inputs."
+}

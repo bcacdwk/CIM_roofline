@@ -1,0 +1,153 @@
+{
+  "status": "PASS_nominal_arithmetic_only",
+  "K": 256,
+  "N": 31,
+  "payload_bytes": 7936,
+  "sram_bits": 65536,
+  "rram_binary_cells": 73728,
+  "sram_reference_bits": 2048,
+  "rram_reference_cells": 10240,
+  "DCIM": {
+    "nibble_trees": 64,
+    "parallel_weight_bits": 4,
+    "nibble_pairs": 32,
+    "product_polarity": "NOR(~input_bit, SRAM_Qbar) = input_bit AND stored_bit; explicit loaded input INV",
+    "quadrants": 4,
+    "columns_per_quadrant": 64,
+    "physical_bits": 65536
+  },
+  "contract": "Two complete 8-bit native passes; three 25-bit correction operations; no data-dependent timing skip.",
+  "rram_nominal_ADC": {
+    "levels": 1024,
+    "Gon_S": 7.692307692307693e-05,
+    "Goff_S": 3.4482758620689657e-05,
+    "LSB_S": 2.1220159151193635e-05,
+    "rounding": "half-up",
+    "baseline_removal": "(Q(G)-Q(Gref)) >> 1",
+    "qualification": "Ideal programmable gain/offset calibration assumed; not a NeuroSim transfer or measured ENOB validation."
+  },
+  "dense_target": {
+    "sram_ones": 32000,
+    "rram_SET_cells": 32000,
+    "rram_RESET_cells": 73728,
+    "target_formula": "w[r,c]=((37*r+19*c)%256)-128"
+  },
+  "vectors": {
+    "sram": {
+      "zero": {
+        "max_nominal_ADC_code": 0,
+        "max_abs_25bit_intermediate": 0,
+        "output_min": 0,
+        "output_max": 0,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "ee9beb405e2596de793c07adc17339b0ae37ea7fe576fea4af97352726a133e0"
+      },
+      "positive_max": {
+        "max_nominal_ADC_code": 256,
+        "max_abs_25bit_intermediate": 4129024,
+        "output_min": 4129024,
+        "output_max": 4129024,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "dedba74c314fb7fea0c914b103dbc39ed0af61b78f714d26e94d10a6ec0d1c6d"
+      },
+      "negative_min": {
+        "max_nominal_ADC_code": 256,
+        "max_abs_25bit_intermediate": 4194304,
+        "output_min": 4194304,
+        "output_max": 4194304,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "13602a085e20ff11fdeca737fef633da840467f590440fb4b8d9553008461aa7"
+      },
+      "opposite_sign_extremes": {
+        "max_nominal_ADC_code": 256,
+        "max_abs_25bit_intermediate": 12550144,
+        "output_min": -4161536,
+        "output_max": -4161536,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "dedba74c314fb7fea0c914b103dbc39ed0af61b78f714d26e94d10a6ec0d1c6d"
+      },
+      "alternating_cancellation": {
+        "max_nominal_ADC_code": 256,
+        "max_abs_25bit_intermediate": 4194304,
+        "output_min": 0,
+        "output_max": 0,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "dedba74c314fb7fea0c914b103dbc39ed0af61b78f714d26e94d10a6ec0d1c6d"
+      },
+      "mixed": {
+        "max_nominal_ADC_code": 128,
+        "max_abs_25bit_intermediate": 4262528,
+        "output_min": -68224,
+        "output_max": 43520,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "ee9beb405e2596de793c07adc17339b0ae37ea7fe576fea4af97352726a133e0"
+      },
+      "single_negative_one": {
+        "max_nominal_ADC_code": 1,
+        "max_abs_25bit_intermediate": 32887,
+        "output_min": -119,
+        "output_max": 128,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "ee9beb405e2596de793c07adc17339b0ae37ea7fe576fea4af97352726a133e0"
+      }
+    },
+    "rram": {
+      "zero": {
+        "max_nominal_ADC_code": 0,
+        "max_abs_25bit_intermediate": 0,
+        "output_min": 0,
+        "output_max": 0,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "76e0e7d6e1066dca3483bd455f0470f7811abd4a903d70db7a86809cb5f010ae"
+      },
+      "positive_max": {
+        "max_nominal_ADC_code": 928,
+        "max_abs_25bit_intermediate": 4129024,
+        "output_min": 4129024,
+        "output_max": 4129024,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "21417a4411c1bb2093df055baad3533c1f13c76f74f4825a22771275c204a6bd"
+      },
+      "negative_min": {
+        "max_nominal_ADC_code": 928,
+        "max_abs_25bit_intermediate": 4194304,
+        "output_min": 4194304,
+        "output_max": 4194304,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "ba8d05f2aa5e37b1be7d687fc8cfed58eba7419d456da3700eee66ea6603b089"
+      },
+      "opposite_sign_extremes": {
+        "max_nominal_ADC_code": 928,
+        "max_abs_25bit_intermediate": 12550144,
+        "output_min": -4161536,
+        "output_max": -4161536,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "21417a4411c1bb2093df055baad3533c1f13c76f74f4825a22771275c204a6bd"
+      },
+      "alternating_cancellation": {
+        "max_nominal_ADC_code": 928,
+        "max_abs_25bit_intermediate": 4194304,
+        "output_min": 0,
+        "output_max": 0,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "21417a4411c1bb2093df055baad3533c1f13c76f74f4825a22771275c204a6bd"
+      },
+      "mixed": {
+        "max_nominal_ADC_code": 464,
+        "max_abs_25bit_intermediate": 4262528,
+        "output_min": -68224,
+        "output_max": 43520,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "76e0e7d6e1066dca3483bd455f0470f7811abd4a903d70db7a86809cb5f010ae"
+      },
+      "single_negative_one": {
+        "max_nominal_ADC_code": 4,
+        "max_abs_25bit_intermediate": 32887,
+        "output_min": -119,
+        "output_max": 128,
+        "matches_signed_integer_dot": true,
+        "memory_sha256": "76e0e7d6e1066dca3483bd455f0470f7811abd4a903d70db7a86809cb5f010ae"
+      }
+    }
+  }
+}

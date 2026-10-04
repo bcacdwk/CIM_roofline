@@ -139,3 +139,13 @@ Step 1 使用上游默认支持配置完成环境测试。正式工艺在 Step 2
 - Git 工作树与按需获取：`https://git-scm.com/docs/git-worktree`；`https://git-scm.com/docs/git-clone`
 - macOS 工具链：`https://developer.apple.com/documentation/xcode/installing-the-command-line-tools/`；`https://formulae.brew.sh/formula/gcc`
 - OneDrive 同步限制：`https://support.microsoft.com/en-us/onedrive/restrictions-and-limitations-in-onedrive-and-sharepoint`
+
+## 2026-10-04 追加：Step4 V3 新原生三例
+
+[Step4 V3入口](step4_v3/README.md) · [中文报告与主表](step4_v3/REPORT.zh.md) · [JSON](step4_v3/results/reference-v3-reviewed-20261004/summary.json) · [独立复核](step4_v3/reports/review.json)。
+
+新增 `ns_sram_acim`、`ns_rram_1t1r`、`ns_sram_dcim`：Training V2.1原生阵列读写与专用DCIM256×256组织，必要小修正／接口扩展后完整两服务；共同256×31 signed INT8。旧V2为混合服务历史证据，全部保留，不是新三例的阵列读写验收输入。V3独立入口不读取legacy replay或旧结果；本轮停止V3，等待用户及外部审阅，不进入Step5。
+
+```sh
+python3 -B tasks/task1_table_I_NeuroSim/step4_v3/run.py --run-id new-v3-run --diagnostics --no-export
+```

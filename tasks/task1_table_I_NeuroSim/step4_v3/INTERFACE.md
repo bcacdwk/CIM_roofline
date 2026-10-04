@@ -1,0 +1,15 @@
+# V3 independent macro-service boundary (integration contract)
+
+Identities: `ns_sram_acim`, `ns_rram_1t1r`, `ns_sram_dcim`. They are not reproductions of 9T1C, WH-2T1R, or D6CIM.
+
+The independent runner consumes only this directory's source/configuration/patches and locked upstream source. It must never import historical replay, results, adapters, timing budgets, or pilots. It copies canonical inputs to a new local run directory, verifies upstream blob hashes, then builds there.
+
+Preliminary common numerical interface: signed INT8, logical K=256, N=31. A 32nd unsigned output is installed for input-sum measurement, with constant weight 1. Stored unsigned weight u=w+128; input x is read as its eight-bit representation q. Two complete native eight-bit evaluations compute A=sum(q*u), B=sum(sign(x)*u), C=sum(q), D=sum(sign(x)); y=A-128C-256B+32768D. Three timed native-adder correction operations implement this identity; shifts are wiring. This avoids a free host correction. Physical reference bits and all internal passes count as hardware/time, never logical payload. The RRAM case additionally requires same-array HRS reference sensing/subtraction to remove conductance baseline.
+
+Logical B_S=K Byte; B_R=K*N Byte. rho=B_S/delta_S; tau=B_R/T_R; RI*=rho/tau; U*=T_R/delta_S=N*RI*. Decimal MB/s. Latency and interval are reported separately. The baseline policy completes a request before the next; it preserves native internal pipelining and charges each return only according to its source semantics.
+
+Boundary: external DRAM/network/whole-chip transport excluded. Each case must document installed local input and write port/register resources, acceptance, output-ready and matrix compute-ready endpoints. No payload preloading inside the measured service. Resident is deterministic full cover programming from declared initial states, not training delta updates. Array read/write and shared converters/ports are mutually exclusive. Rails are stable at service acceptance; local selection, drive and return-to-ready must be included.
+
+All result scalars are finite SI units in raw C++ output, with resolved geometry, RC, operation counts, resources and primary/intermediate fields. `conditional` records explicit physical/numerical assumptions, not a missing zero-time path. Missing required services remain `blocked`, never numeric valid performance.
+
+Final electrical endpoint clarification: RRAM ends in held-read idle after the last ADC/status capture, with stable read bias and the last one-hot WL mask held by the native control DFF. It does not promise a neutral/all-WL-off idle. The next streaming or resident operation pays a complete native mask install (DFF + switch TG/actual RC) before its sense/program plateau. Continuous read-bias disturb, static power and glitch-free transition qualification are outside the validated scope. See REPORT.zh.md for the closed protocol and verification resource counts. This is a documentation clarification after the reviewed executable/configuration snapshot; it changes no computational input or model source.
