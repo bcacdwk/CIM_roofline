@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/snapshot/probes/encoding_resources/run.py",
+      "--root",
+      "/Users/shine/neurosim",
+      "--out",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/encoding_resources",
+      "--cxx",
+      "/opt/homebrew/bin/g++-16"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated",
+    "exit_code": 0,
+    "description": "entrypoint; snapshots canonical config/probe sources locally"
+  },
+  {
+    "argv": [
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/encoding_resources/snapshot/probe/run.py",
+      "--local"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/encoding_resources",
+    "exit_code": 0,
+    "description": "local snapshot of standard-library probe; no external simulator/calculator invocation"
+  }
+]

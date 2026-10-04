@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "contract_version": {
-      "const": "2.0.0"
+      "const": "3.0.0"
     },
     "status": {
       "const": "input_specification"
@@ -177,12 +177,16 @@
         },
         "native_declared": {
           "type": "object"
+        },
+        "write_semantics": {
+          "type": "object"
         }
       },
       "required": [
         "installed",
         "active",
-        "native_declared"
+        "native_declared",
+        "write_semantics"
       ]
     },
     "services": {
@@ -285,6 +289,20 @@
                 "source_id"
               ]
             }
+          },
+          "clock_role": {
+            "type": "object",
+            "required": [
+              "timing_kind",
+              "constraint_clock_id",
+              "digital_clock_id"
+            ]
+          },
+          "service_timing": {
+            "type": "object"
+          },
+          "coverage": {
+            "type": "object"
           }
         },
         "required": [
@@ -298,7 +316,10 @@
           "resources",
           "included_stages",
           "overlap",
-          "source_refs"
+          "source_refs",
+          "clock_role",
+          "service_timing",
+          "coverage"
         ]
       }
     },
@@ -344,6 +365,6 @@
     "service_schedules"
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:cim-roofline:neurosim:case:2.0.0",
+  "$id": "urn:cim-roofline:neurosim:case:3.0.0",
   "title": "Step 2 typical input specification, no evaluated case performance"
 }

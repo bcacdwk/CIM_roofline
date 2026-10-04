@@ -1,0 +1,121 @@
+{
+  "status": "PASS",
+  "checks": {
+    "dcim_default_256x256": true,
+    "dcim_parallel_weightprecision_four": true,
+    "dcim_documented_native_limit": true,
+    "adapter_rejects_v3_d6_128x16_as_native_dcim": true,
+    "cap_column_input_scaling_0": true,
+    "cap_finite_positive_0": true,
+    "cap_column_input_scaling_1": true,
+    "cap_finite_positive_1": true,
+    "cap_column_input_scaling_2": true,
+    "cap_finite_positive_2": true,
+    "cap_column_input_scaling_3": true,
+    "cap_finite_positive_3": true,
+    "cap_input_delay_propagates_0": true,
+    "cap_input_delay_propagates_2": true,
+    "numeric_memcelltype_is_not_portable": true,
+    "v15_dac_hardware_remains_bit_serial": true,
+    "hybrid_is_lsb_3t1c_plus_two_pcm_not_gc04": true
+  },
+  "locked_shas": {
+    "2DInferenceDCIMV1.0-dev": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+    "2DInferenceV1.5-dev": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+    "MLPInferenceV3.0": "6098feabaf17b8209a8edbef4a9c963b5f015132"
+  },
+  "dcim_constructor": {
+    "symbol": "dcim_v10::DCIM",
+    "config_memcelltype": 4,
+    "enum_value": 3,
+    "rows": 256,
+    "columns": 256,
+    "parallel_weightprecision": 4,
+    "node_nm": 1
+  },
+  "cap_native_runs": [
+    {
+      "symbol": "v15::Cap",
+      "config_memcelltype": 4,
+      "enum_value": 3,
+      "node_nm": 22,
+      "active_rows": 128,
+      "charge_delay_input_s": 5e-09,
+      "col_delay_raw_s": 5e-09,
+      "sensing_critical_raw_s": 9.13738545698465e-09,
+      "area_m2": 4.556327011757317e-09,
+      "beta": 1.4,
+      "cell_on_ohm": 1e+20,
+      "constructor_access_ohm": 1500
+    },
+    {
+      "symbol": "v15::Cap",
+      "config_memcelltype": 4,
+      "enum_value": 3,
+      "node_nm": 22,
+      "active_rows": 128,
+      "charge_delay_input_s": 1e-08,
+      "col_delay_raw_s": 1e-08,
+      "sensing_critical_raw_s": 1.613738545698465e-08,
+      "area_m2": 4.556327011757317e-09,
+      "beta": 1.4,
+      "cell_on_ohm": 1e+20,
+      "constructor_access_ohm": 1500
+    },
+    {
+      "symbol": "v15::Cap",
+      "config_memcelltype": 4,
+      "enum_value": 3,
+      "node_nm": 22,
+      "active_rows": 64,
+      "charge_delay_input_s": 5e-09,
+      "col_delay_raw_s": 2.5e-09,
+      "sensing_critical_raw_s": 5.637385456984649e-09,
+      "area_m2": 5.079473269778414e-09,
+      "beta": 1.4,
+      "cell_on_ohm": 1e+20,
+      "constructor_access_ohm": 1500
+    },
+    {
+      "symbol": "v15::Cap",
+      "config_memcelltype": 4,
+      "enum_value": 3,
+      "node_nm": 22,
+      "active_rows": 64,
+      "charge_delay_input_s": 1e-08,
+      "col_delay_raw_s": 5e-09,
+      "sensing_critical_raw_s": 9.13738545698465e-09,
+      "area_m2": 5.079473269778414e-09,
+      "beta": 1.4,
+      "cell_on_ohm": 1e+20,
+      "constructor_access_ohm": 1500
+    }
+  ],
+  "probe_scope": "branch types; original V1.5 ProcessingUnitInitialize/SubArray sensing path; no v3 case result",
+  "native_initialization_order": [
+    "constructor input specialization",
+    "Param()",
+    "explicit algorithm fields before object creation",
+    "ProcessingUnitInitialize (Technology/Initialize/CalculateArea)",
+    "SubArray::CalculateLatency(CalculateclkFreq=true)"
+  ],
+  "local_constructor_change": {
+    "file": "Param.cpp",
+    "input": "memcelltype",
+    "from": 2,
+    "to": 4,
+    "formula_changed": false
+  },
+  "routing": {
+    "D6CIM": "retain_v3_complete_MAC_cycle",
+    "HZO_1T1C": "retain_v3_destructive_read_restore",
+    "GC04": "retain_v3_current_programming_integrate_refresh",
+    "Cap": "comparison_only_external_chargeDelay_macro"
+  },
+  "output_units": {
+    "col_delay_raw_s": "s",
+    "sensing_critical_raw_s": "s",
+    "area_m2": "m^2"
+  },
+  "no_formal_case_metrics": true
+}

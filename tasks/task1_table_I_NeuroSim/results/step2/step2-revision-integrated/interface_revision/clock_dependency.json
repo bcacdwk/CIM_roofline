@@ -1,0 +1,575 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "clock_A_independent_analog_never_slows_digital",
+      "status": "PASS",
+      "evidence": {
+        "analog_ns": [
+          7,
+          17
+        ],
+        "period_ns": [
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "id": "clock_A_only_service_and_boundary_wait_charge",
+      "status": "PASS",
+      "evidence": {
+        "before": {
+          "completion_ns": 20,
+          "events": [
+            {
+              "id": "analog",
+              "start_ns": 0,
+              "boundary_wait_ns": 0,
+              "service_duration_ns": 7,
+              "completion_ns": 7,
+              "resources": [
+                "analog_front"
+              ]
+            },
+            {
+              "id": "accumulate",
+              "start_ns": 10,
+              "boundary_wait_ns": 3,
+              "service_duration_ns": 10,
+              "completion_ns": 20,
+              "resources": [
+                "accumulator"
+              ]
+            }
+          ],
+          "resource_occupancy_ns": {
+            "analog_front": 10,
+            "accumulator": 10
+          },
+          "overlap": false,
+          "scope": "synthetic interface accounting; not case performance"
+        },
+        "after": {
+          "completion_ns": 30,
+          "events": [
+            {
+              "id": "analog",
+              "start_ns": 0,
+              "boundary_wait_ns": 0,
+              "service_duration_ns": 17,
+              "completion_ns": 17,
+              "resources": [
+                "analog_front"
+              ]
+            },
+            {
+              "id": "accumulate",
+              "start_ns": 20,
+              "boundary_wait_ns": 3,
+              "service_duration_ns": 10,
+              "completion_ns": 30,
+              "resources": [
+                "accumulator"
+              ]
+            }
+          ],
+          "resource_occupancy_ns": {
+            "analog_front": 20,
+            "accumulator": 10
+          },
+          "overlap": false,
+          "scope": "synthetic interface accounting; not case performance"
+        }
+      }
+    },
+    {
+      "id": "clock_A_service_delta_and_boundary_wait_delta_separate",
+      "status": "PASS",
+      "evidence": {
+        "before": {
+          "completion_ns": 20,
+          "events": [
+            {
+              "id": "analog",
+              "start_ns": 0,
+              "boundary_wait_ns": 0,
+              "service_duration_ns": 8,
+              "completion_ns": 8,
+              "resources": [
+                "analog_front"
+              ]
+            },
+            {
+              "id": "accumulate",
+              "start_ns": 10,
+              "boundary_wait_ns": 2,
+              "service_duration_ns": 10,
+              "completion_ns": 20,
+              "resources": [
+                "accumulator"
+              ]
+            }
+          ],
+          "resource_occupancy_ns": {
+            "analog_front": 10,
+            "accumulator": 10
+          },
+          "overlap": false,
+          "scope": "synthetic interface accounting; not case performance"
+        },
+        "after": {
+          "completion_ns": 25,
+          "events": [
+            {
+              "id": "analog",
+              "start_ns": 0,
+              "boundary_wait_ns": 0,
+              "service_duration_ns": 14,
+              "completion_ns": 14,
+              "resources": [
+                "analog_front"
+              ]
+            },
+            {
+              "id": "accumulate",
+              "start_ns": 15,
+              "boundary_wait_ns": 1,
+              "service_duration_ns": 10,
+              "completion_ns": 25,
+              "resources": [
+                "accumulator"
+              ]
+            }
+          ],
+          "resource_occupancy_ns": {
+            "analog_front": 15,
+            "accumulator": 10
+          },
+          "overlap": false,
+          "scope": "synthetic interface accounting; not case performance"
+        },
+        "digital_period_ns": 5
+      }
+    },
+    {
+      "id": "clock_B_actual_register_path_constrains_domain",
+      "status": "PASS",
+      "evidence": {
+        "completion_ns": 21,
+        "events": [
+          {
+            "id": "analog",
+            "start_ns": 0,
+            "boundary_wait_ns": 0,
+            "service_duration_ns": 7,
+            "completion_ns": 7,
+            "resources": [
+              "analog_front"
+            ]
+          },
+          {
+            "id": "accumulate",
+            "start_ns": 7,
+            "boundary_wait_ns": 0,
+            "service_duration_ns": 14,
+            "completion_ns": 21,
+            "resources": [
+              "accumulator"
+            ]
+          }
+        ],
+        "resource_occupancy_ns": {
+          "analog_front": 7,
+          "accumulator": 14
+        },
+        "overlap": false,
+        "scope": "synthetic interface accounting; not case performance"
+      }
+    },
+    {
+      "id": "clock_C_transparent_packaging_preserves_ownership",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "boundary_round_only_actual_digital_consumer",
+      "status": "PASS",
+      "evidence": {
+        "actual": {
+          "completion_ns": 15,
+          "events": [
+            {
+              "id": "subA",
+              "start_ns": 0,
+              "boundary_wait_ns": 0,
+              "service_duration_ns": 2,
+              "completion_ns": 2,
+              "resources": [
+                "analog_front"
+              ]
+            },
+            {
+              "id": "subB",
+              "start_ns": 2,
+              "boundary_wait_ns": 0,
+              "service_duration_ns": 2,
+              "completion_ns": 4,
+              "resources": [
+                "analog_front"
+              ]
+            },
+            {
+              "id": "accumulate",
+              "start_ns": 5,
+              "boundary_wait_ns": 1,
+              "service_duration_ns": 10,
+              "completion_ns": 15,
+              "resources": [
+                "accumulator"
+              ]
+            }
+          ],
+          "resource_occupancy_ns": {
+            "analog_front": 5,
+            "accumulator": 10
+          },
+          "overlap": false,
+          "scope": "synthetic interface accounting; not case performance"
+        },
+        "incorrect_per_internal_stage_ceiling_completion_ns": 20
+      }
+    },
+    {
+      "id": "native_sram_local_cycle_distinct_from_public_clock",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "seconds_ns_cycles_each_convert_once",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_missing_cycle_clock",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_seconds_carrying_conversion_clock",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_double_normalization",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_service_as_clock_constraint",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_path_without_register_boundaries",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_fragment_as_complete_path",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_path_without_actual_load",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_pending_case_path",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_wrapper_clock_override",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "reject_nan_duration",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "RRAM_SAR_8_to_10_bit_does_not_change_window",
+      "status": "PASS",
+      "evidence": {
+        "sar_8bit_ns": 9,
+        "sar_10bit_ns": 11,
+        "window_components_ns": {
+          "input_step": 5,
+          "binary_verify_sense_ns": 20.0
+        }
+      }
+    },
+    {
+      "id": "RRAM_window_parameter_only_actual_consumer",
+      "status": "PASS",
+      "evidence": [
+        "endpoint_verify"
+      ]
+    },
+    {
+      "id": "RRAM_named_equality_policy_disabled",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "RRAM_window_no_SAR_or_digital_Comparator",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "shared_04_nand_3d_adc_batch",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "load_calibration": 36.0,
+          "sar": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_04_nand_3d_wl_setup",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "native_wl": 3.0,
+          "load_calibration": 6.0
+        }
+      }
+    },
+    {
+      "id": "shared_04_nand_3d_bl_setup",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "load_calibration": 36.0,
+          "native_bl_sl": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_04_nand_3d_sl_setup",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "load_calibration": 36.0,
+          "native_bl_sl": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_07_pcm_adc_batch",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "endpoint_verify": 3.0,
+          "sar": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_07_pcm_shared_voltage_front",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "analog_front": 3.0,
+          "endpoint_verify": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_09_gain_cell_edram_adc_batch",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "refresh_read": 3.0,
+          "sar": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_09_gain_cell_edram_common_read_overhead",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "analog_front": 3.0,
+          "refresh_read": 3.0
+        }
+      }
+    },
+    {
+      "id": "shared_09_gain_cell_edram_program_complete",
+      "status": "PASS",
+      "evidence": {
+        "delta_ns_per_occurrence": {
+          "current_program": 3.0,
+          "refresh_decode_load_rewrite": 3.0
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_01_sram_acim",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "reconstruct": 2,
+          "output_commit": 2,
+          "input_capture": 2
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_02_sram_dcim",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "output_commit": 2,
+          "input_capture": 2
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_03_nor_2d",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "input_capture": 2,
+          "output_commit": 2,
+          "sector_erase": 4,
+          "digital_mac": 2,
+          "operand_capture": 2,
+          "page_load": 36
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_04_nand_3d",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "input_capture": 2,
+          "affine_merge_sign": 2,
+          "output_commit": 2,
+          "resident_encode": 2,
+          "input_magnitude_sign": 2,
+          "load_calibration": 900,
+          "page_load": 580
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_05_rram",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "digital_reconstruct": 2,
+          "input_capture": 2,
+          "output_commit": 2,
+          "program_attempts": 2,
+          "resident_front": 4,
+          "attempt_done": 2
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_06_mram",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "input_capture": 2,
+          "output_commit": 2,
+          "digital_mac": 2,
+          "encoded_load": 4,
+          "operand_capture": 2,
+          "polarity_turn": 2,
+          "terminal_verify": 4
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_07_pcm",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "digital_reconstruct": 2,
+          "input_capture": 2,
+          "output_commit": 2,
+          "endpoint_verify": 2,
+          "resident_front": 6,
+          "program_reset_set": 2
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_08_feram_hfo2",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "output_commit": 2,
+          "digital_mac": 2,
+          "external_load": 4,
+          "input_capture": 2
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_09_gain_cell_edram",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "digital_reconstruct": 2,
+          "input_capture": 2,
+          "output_commit": 2,
+          "refresh_decode_load_rewrite": 8,
+          "resident_load": 6
+        }
+      }
+    },
+    {
+      "id": "digital_domain_all_real_steps_10_fenor_3d",
+      "status": "PASS",
+      "evidence": {
+        "per_occurrence_delta_ns": {
+          "input_capture": 2,
+          "output_commit": 2,
+          "digital_mac": 2,
+          "operand_capture": 2,
+          "resident_load": 4,
+          "terminal_verify": 18
+        }
+      }
+    },
+    {
+      "id": "policy_target_and_service_boundary",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "all_services_explicit_clock_ownership",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "all_bindings_typed_dependencies",
+      "status": "PASS",
+      "evidence": null
+    }
+  ],
+  "observations": {
+    "scope": "Synthetic policy tests + executable dependency slices; no ten-case new latency/PPA computation. Separate original-time replay applies no new alignment.",
+    "upstream_main": "Keep existing read_timing slow-target witness unchanged; not a constraint on the composed primitive-service clock.",
+    "RRAM": "20ns retained reference native window budget; SAR conversion and binary window slot are independent by default."
+  }
+}

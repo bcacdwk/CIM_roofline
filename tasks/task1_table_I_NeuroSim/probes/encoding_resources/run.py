@@ -146,8 +146,8 @@ def local_main():
             check(cid+'.counts_positive',all(isinstance(s['count']['value'],int) and s['count']['value']>0 for s in c['services']))
             check(cid+'.no_empty_active_bindings',all(b.get('status')!='active' or bool(b['consumers']) for b in c['parameter_bindings']))
             check(cid+'.policy',c['periphery']['policy_id']=='lv_v14_22nm_lstp_300k_v1' and c['periphery']['clock']['actual_period_ns'] is None)
-            check(cid+'.source_contract',c['status']=='input_specification' and c['contract_version']=='2.0.0')
-            check(cid+'.driver_not_interface_inference',resources['installed']['real_write_driver_count'] is None if cid.startswith(('03_','04_')) else resources['installed']['real_write_driver_count']>0)
+            check(cid+'.source_contract',c['status']=='input_specification' and c['contract_version']=='3.0.0')
+            check(cid+'.driver_not_interface_inference',resources['write_semantics']['program_driver_channels']['value'] is None if cid.startswith(('03_','04_','10_')) else resources['write_semantics']['program_driver_channels']['value']>0)
         details['source_validation']={'file_hashes':source_hash_count,'json_pointer_resolutions':source_pointer_count}
         values=[-128,-1,0,1,127]
         check('two_complement_roundtrip_all_INT8',all(tc_decode(tc_bits(v))==v for v in range(-128,128)))
@@ -204,7 +204,7 @@ def local_main():
     except Exception as exc:
         errors.append(str(exc));assertions.append({'id':'probe_exception','status':'FAIL','detail':traceback.format_exc()})
     dump(out/'assertions.json',assertions);dump(out/'raw-output.json',details)
-    summary={'status':'PASS' if not errors else 'FAIL','probe':'encoding_resources','contract_version':'2.0.0','cases':len(configs),'assertions':len(assertions),'passed':sum(a['status']=='PASS' for a in assertions),'failed':errors,'scope':'input specification, ideal encoding and finite resource accounting only','performance_metrics_generated':False,'CXX_used':False,'source_hashes_file':'source_hashes.json','raw_output_file':'raw-output.json','assertions_file':'assertions.json'}
+    summary={'status':'PASS' if not errors else 'FAIL','probe':'encoding_resources','contract_version':'3.0.0','cases':len(configs),'assertions':len(assertions),'passed':sum(a['status']=='PASS' for a in assertions),'failed':errors,'scope':'input specification, ideal encoding and finite resource accounting only','performance_metrics_generated':False,'CXX_used':False,'source_hashes_file':'source_hashes.json','raw_output_file':'raw-output.json','assertions_file':'assertions.json'}
     dump(out/'summary.json',summary)
     invocation=json.loads((out/'invocation.json').read_text())
     dump(out/'commands.json',[{'argv':invocation['argv'],'cwd':invocation['cwd'],'exit_code':0 if not errors else 1,'description':'entrypoint; snapshots canonical config/probe sources locally'},{'argv':[sys.executable,str(Path(__file__).resolve()),'--local'],'cwd':str(out),'exit_code':0 if not errors else 1,'description':'local snapshot of standard-library probe; no external simulator/calculator invocation'}])

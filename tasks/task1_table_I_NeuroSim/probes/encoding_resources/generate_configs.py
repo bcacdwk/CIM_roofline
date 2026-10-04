@@ -5,6 +5,7 @@ import ast
 import hashlib
 import json
 import math
+import runpy
 from pathlib import Path
 import sys
 sys.dont_write_bytecode = True
@@ -386,9 +387,17 @@ def specify(c,x,r,index):
 
 def generate(repo,out,only=None):
     out.mkdir(parents=True,exist_ok=True)
+    revision=Path(__file__).resolve().parents[1]/'interface_revision'
+    clock_revision=runpy.run_path(str(revision/'clock_dependency.py'))['revise_case']
+    digital_revision=runpy.run_path(str(revision/'digital_resources.py'))['revise_case']
     for i,cid in enumerate(CASES):
         if only and cid not in only:continue
         c,x,r=base(repo,cid,i);specify(c,x,r,i);add_bindings(c)
+        c['contract_version']='3.0.0'
+        clock_revision(c)
+        digital_revision(c)
+        for service in c['services']:
+            service['service_timing']['blocks_resources']=list(service['resources'])
         used={}
         def walk(o):
             if isinstance(o,dict):

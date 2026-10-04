@@ -1,0 +1,269 @@
+[
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/Users/shine/neurosim/worktrees/2DTrainingV2.1-f80a4345f70d",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "head-2DTrainingV2.1.log"
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "head-MLPInferenceV3.0.log"
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/Users/shine/neurosim/worktrees/2DInferenceV1.4-8a88abf85844",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "head-2DInferenceV1.4.log"
+  },
+  {
+    "argv": [
+      "/opt/homebrew/bin/g++-16",
+      "-std=c++11",
+      "-O2",
+      "-fopenmp",
+      "-I",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Adder.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/AdderTree.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/BitShifter.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Buffer.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Bus.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Chip.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Comparator.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/CurrentSenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/DFF.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/DRAM.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/DeMux.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/DecoderDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/FunctionUnit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/HTree.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/MaxPooling.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/MultilevelSAEncoder.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/MultilevelSenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Mux.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/NewMux.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/NewSwitchMatrix.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Param.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Precharger.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/ProcessingUnit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/ReadCircuit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/RowDecoder.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/SRAMWriteDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/SarADC.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/SenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/ShiftAdd.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Sigmoid.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/SramNewSA.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/SubArray.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/SwitchMatrix.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Technology.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/Tile.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/VoltageSenseAmp.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/WLDecoderOutput.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/WLNewDecoderDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/WeightGradientUnit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training-src/formula.cpp",
+      "-o",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "compile-training.log"
+  },
+  {
+    "argv": [
+      "/opt/homebrew/bin/g++-16",
+      "-std=c++11",
+      "-O2",
+      "-fopenmp",
+      "-I",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/mlp-src",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/mlp_probe.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/mlp-src/Cell.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/mlp-src/formula.cpp",
+      "-o",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/mlp_probe"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "compile-mlp.log"
+  },
+  {
+    "argv": [
+      "/opt/homebrew/bin/g++-16",
+      "-std=c++11",
+      "-O2",
+      "-fopenmp",
+      "-I",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/v14-src",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/sram_driver_probe.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/v14-src/FunctionUnit.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/v14-src/Param.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/v14-src/SRAMWriteDriver.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/v14-src/Technology.cpp",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/v14-src/formula.cpp",
+      "-o",
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/sram_driver_probe"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "compile-sram-driver.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "unchanged",
+      "1"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-unchanged-1.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "unchanged",
+      "4"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-unchanged-4.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "set",
+      "1"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-set-1.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "set",
+      "4"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-set-4.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "reset",
+      "1"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-reset-1.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "reset",
+      "4"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-reset-4.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "mixed",
+      "1"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-mixed-1.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "mixed",
+      "4"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-mixed-4.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "two_set_rows",
+      "1"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-two_set_rows-1.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "two_set_rows",
+      "4"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-two_set_rows-4.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "all_set",
+      "1"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-all_set-1.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/training_probe",
+      "all_set",
+      "4"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "training-all_set-4.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/mlp_probe"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "mlp.log"
+  },
+  {
+    "argv": [
+      "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update/sram_driver_probe"
+    ],
+    "cwd": "/Users/shine/neurosim/runs/step2/step2-revision-integrated/write_update",
+    "returncode": 0,
+    "log": "sram-driver.log"
+  }
+]

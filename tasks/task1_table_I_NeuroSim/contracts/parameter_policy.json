@@ -1,5 +1,5 @@
 {
-  "contract_version": "2.0.0",
+  "contract_version": "3.0.0",
   "policy_id": "lv_v14_22nm_lstp_300k_v1",
   "status": "ADOPTED_FOR_PILOT_INTERFACE",
   "primary_backend": {
@@ -39,11 +39,34 @@
   "clock": {
     "clock_id": "lv_core",
     "target_period_ns": 5,
-    "actual_rule": "max(target_period_ns, sensing_critical_path_ns, used_combinational_path_ns); use same actual period in count pass and conversion",
+    "actual_rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+    "constraint_input_kind": "combinational_path",
+    "required_path_evidence": [
+      "constraint_clock_id",
+      "start_register",
+      "end_register",
+      "single_cycle",
+      "complete_serial_path",
+      "actual_load",
+      "path_status"
+    ],
+    "non_constraints": [
+      "SarADC conversion",
+      "analog frontend integration/settling",
+      "complete program/erase",
+      "restore/refresh native operation",
+      "complete local SRAM memory cycle"
+    ],
+    "single_cycle_sensing_exception": "Only an explicitly bounded register-to-register path assigned to this domain may include sensing; do not infer this from SubArray or wrapper membership.",
     "cycle_conversion": "raw_cycles * clocks[clock_id].actual_period_ns exactly once",
     "seconds_conversion": "raw_seconds * 1e9 exactly once",
-    "main_route": "regression only; never use main sensing clkPeriod as a substitute for slower actual target period",
-    "dff_caveat": "cycle count is not frequency closure evidence",
+    "physical_time_clock_id": null,
+    "constraint_clock_field": "constraint_clock_id (not a conversion clock)",
+    "service_boundary_rule": "Keep physical completion time; align once when the next declared digital consumer accepts it. Do not round every native/internal substage. The declared setup/handshake margin is included before alignment; an exactly eligible edge adds no extra cycle. No added overlap or registers.",
+    "native_cycle_interface": "A retained complete cycle owns its internal clock/command/data/recovery. Dispatch at an eligible interface boundary, preserve its physical duration, and align completion only at the declared next digital consumer; no extra capture of included command/data.",
+    "legacy_replay": "Use v3 durations/counts without new clock selection or edge alignment; compare independent stage aggregation with saved v3 results.",
+    "main_route": "Keep upstream slow-target-clock reproduction as upstream behavior evidence only; its sensing critical path is not a primitive-service clock constraint.",
+    "dff_caveat": "DFF cycles are a schedule timer, not frequency closure evidence.",
     "no_implicit_pipeline": true
   },
   "calibration": {
@@ -79,7 +102,7 @@
     "steady_state": "initiation_interval remains null without resource and scheduling proof",
     "opaque_cycles": "retain complete; do not subtract guessed peripheral component",
     "payload": "B_S=K*bytes_per_input, B_R=K*N*bytes_per_weight; restore/refresh contributes zero workload write payload",
-    "digital_schedule": "Existing v3 register-to-register scheduled ticks remain the repetition source. Combinational Adder/AdderTree results constrain actual_period, not another serial cycle charge. Each scheduled register capture is timed once by DFF=1 cycle. Alternate composed schedules must explicitly replace the source tick schedule, not add to it."
+    "digital_schedule": "Existing v3 cycle budgets are retained where full arithmetic/load paths remain pending. A DFF is only a cycle timer; native-module probes do not qualify the full case path. Only complete instantiated single-cycle register-to-register paths may constrain the digital clock."
   },
   "branch_routes": {
     "2DTrainingV2.1": "incremental-update mechanism only; v3 complete update transactions remain primary",
@@ -91,11 +114,42 @@
   "unimplemented": "value=null with explicit status/reason; raw zero writeLatency is not a zero-time update",
   "formal_case_performance_this_step": false,
   "module_routes": {
-    "conversion": "SarADC direct primitive seconds, levelOutput=2^bits, numRead=1; lane and outer batch count separate",
-    "digital": "explicit Adder or AdderTree plus declared DFF resources; no implicit ShiftAdd pipeline",
+    "conversion": "SAR conversion is an independent physical service; its duration blocks declared resources, not every lv_core digital cycle.",
+    "digital": "Candidate Adder/AdderTree/DFF calls plus explicit uncovered arithmetic; native timing budget retained until full case load/logic/register path is instantiated.",
     "ShiftAdd": "comparison only unless internal registers/numReadPulse and overlap match reference; never blindly set numReadPulse=1",
     "SwitchMatrix": "read only with explicit param unitcap/unitres/numColSubArray/buffernumber/drivecapin binding; synchronous write mixed units rejected",
     "SRAMWriteDriver": "valid RC primitive; complete v3 ordinary SRAM write cycle remains opaque in main pilot",
     "LevelShifter": "low-level RC/area reference only; no full pump, settle, recovery or verify coverage"
-  }
+  },
+  "dependency_types": {
+    "physical_shared_circuit": "The same declared circuit is used in multiple modes; preserve each mode's bias/load/count.",
+    "shared_physical_parameter": "One physical quantity affects multiple consumers, without asserting identical circuit or service timing.",
+    "adopted_capability_policy": "Explicit modeling policy; neither an electrical identity nor physical resource sharing.",
+    "dedicated_parameter": "One local native service parameter; no asserted cross-mode sharing."
+  },
+  "rram_binary_verify": {
+    "primary_parameter": "binary_verify_sense_ns",
+    "reference_value_ns": 20,
+    "primary_provider": "v3_native_service",
+    "same_physical_ADC": false,
+    "replacement": "Independent memory-window decision/latch budget retained until a compatible analog window-sense model is instantiated; digital Comparator is not that model.",
+    "historical_source": "inputs:/adopted_inputs/binary_sense_slot_ns plus shared:/common_conditions/propagation/profile_values/reference/adc_batch",
+    "capability_policy_comparison": {
+      "id": "rram_TB_equals_TA_capability_policy",
+      "enabled": false,
+      "dependency_type": "adopted_capability_policy",
+      "rule": "binary_verify_sense_ns = adc_batch only when explicitly selected as a separate comparison"
+    }
+  },
+  "revision": {
+    "base_commit": "faf8a42165e5d3655ec0fe70f4597e4baebe3f6f",
+    "compatibility": "major: clock ownership, RRAM independent sense dependency, and ambiguous write-resource field removal",
+    "old_evidence_retained": true
+  },
+  "model_statuses": [
+    "route_defined",
+    "native_module_probe_run",
+    "case_path_pending",
+    "native_budget_retained"
+  ]
 }

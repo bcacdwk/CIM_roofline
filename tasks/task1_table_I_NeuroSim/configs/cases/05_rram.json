@@ -1,5 +1,5 @@
 {
-  "contract_version": "2.0.0",
+  "contract_version": "3.0.0",
   "status": "input_specification",
   "case_id": "05_rram",
   "provenance": {
@@ -289,6 +289,35 @@
             "json_pointer": "/adopted_inputs/rail_lifecycle_ns/exit"
           }
         ]
+      },
+      {
+        "id": "binary_verify_sense_ns",
+        "original": {
+          "value": 20,
+          "unit": "ns"
+        },
+        "normalized": {
+          "value": 2e-08,
+          "unit": "s"
+        },
+        "status": "retained_v3_reference_budget_now_independently_bound",
+        "kind": "native_window_sense_budget",
+        "mode": "memory_endpoint",
+        "included_stages": [
+          "window decision",
+          "latch"
+        ],
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/binary_sense_slot_ns"
+          },
+          {
+            "source_id": "shared",
+            "json_pointer": "/common_conditions/propagation/profile_values/reference/adc_batch"
+          }
+        ],
+        "provenance_note": "v3 reference T_B was 20ns through an explicit T_B=T_A capability policy, not a measured same-ADC fact; keep numeric reference and provenance, remove default cross-dependency."
       }
     ],
     "native_technology_policy": "Retain native device bias/load/geometry independently of the low-voltage peripheral technology; no 28nm Technology table or enum relabeling.",
@@ -437,7 +466,9 @@
           ]
         },
         "memory_read_bias_V": null,
-        "qualification": "Independent T1/IO/BL/SL memory path; conditional window budget, not CIM transfer equivalence"
+        "qualification": "Independent T1/IO/BL/SL memory path; conditional window budget, not CIM transfer equivalence",
+        "binary_verify_sense_ns": 20,
+        "binary_verify_sense_provider": "v3_native_service"
       },
       "program": {
         "SET_initial": {
@@ -508,8 +539,11 @@
       "clock_id": "lv_core",
       "target_period_ns": 5,
       "actual_period_ns": null,
-      "status": "requires_critical_path_measurement",
-      "rule": "actual=max(target_period_ns, measured used sensing/combinational critical path); DFF alone does not prove closure"
+      "status": "pending_actual_case_register_path_instantiation",
+      "rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+      "constraints": [],
+      "service_boundary_rule": "Keep physical completion time; align once when the next declared digital consumer accepts it. Do not round every native/internal substage. The declared setup/handshake margin is included before alignment; an exactly eligible edge adds no extra cycle. No added overlap or registers.",
+      "constraint_status": "module probe is not actual-case timing closure"
     },
     "unit_conversion": {
       "backend_output": "s",
@@ -530,7 +564,6 @@
       "input_register_bits": 1024,
       "output_register_bits": 1472,
       "encoded_interface_bits": 128,
-      "real_write_driver_count": 128,
       "external_update_domains": 1,
       "binary_window_comparators": 256,
       "program_voltage_rating_V": 1.8,
@@ -552,8 +585,7 @@
       },
       "resident": {
         "logical_Byte_per_transaction": 16,
-        "encoded_bits_per_load_unit": 128,
-        "physical_write_driver_count": 128
+        "encoded_bits_per_load_unit": 128
       }
     },
     "native_declared": {
@@ -595,6 +627,102 @@
         }
       ],
       "rule": "Ratios express selected outputs/local addresses; native row/layer/CIMSEL decoding is separate. No switch capacitance or RC assumed from fanin alone."
+    },
+    "write_semantics": {
+      "electrical_drive_outputs": {
+        "value": 128,
+        "unit": "electrical_output",
+        "meaning": "Biased/current-driven electrical outputs; not a programming target count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_driver_count"
+          }
+        ]
+      },
+      "program_driver_channels": {
+        "value": 128,
+        "unit": "program_channel",
+        "meaning": "Explicit independent drive channels when reported; page-engine or distributed bias outputs do not establish this count.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_driver_count"
+          }
+        ]
+      },
+      "selected_storage_targets": {
+        "value": 128,
+        "unit": "storage_cell",
+        "meaning": "Addressed storage targets per selected_batch; phase and plane organization remain explicit.",
+        "status": "specified",
+        "source_refs": [
+          {
+            "source_id": "results",
+            "json_pointer": "/native_configuration/resources/write_driver_count"
+          }
+        ]
+      },
+      "target_scope": "selected_batch",
+      "logical_bits_per_target": {
+        "value": 1,
+        "unit": "logical_bit/storage_cell",
+        "meaning": "One binary state/pair before INT8 plane and NAND encoding expansion.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "physical_cells_per_target": {
+        "value": 1,
+        "unit": "storage_cell/storage_cell",
+        "meaning": "Complementary storage branches per addressed target.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "logical_payload_per_transaction": {
+        "value": 16,
+        "unit": "Byte",
+        "meaning": "Workload payload for an indivisible resident transaction; not bias outputs or port beats.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "encoded_bits_per_load_unit": {
+        "value": 128,
+        "unit": "encoded_bit",
+        "meaning": "Encoded bits in one native page for NOR/NAND; otherwise one resident transaction.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "load_unit_scope": "resident_transaction",
+      "data_port_width": {
+        "value": 128,
+        "unit": "bit/beat",
+        "meaning": "External encoded port width; not physical program parallelism.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "update_domains": {
+        "value": 1,
+        "unit": "update_domain",
+        "meaning": "One native independently scheduled update domain.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "full_matrix_transactions": {
+        "value": 512,
+        "unit": "transaction",
+        "meaning": "B_R_Byte / logical_payload_per_transaction, exact integer division.",
+        "status": "specified",
+        "source_refs": []
+      },
+      "program_parallelism_source": "selected_storage_targets plus explicitly reported channels, phases and planes; never electrical_drive_outputs or data_port_width",
+      "transaction_count_rule": "B_R_Byte / logical_payload_per_transaction; reject nonintegral division",
+      "program_batches_per_transaction": 1,
+      "program_batch_count_rule": "program_batches_per_load_unit * load_units_per_transaction; batch is a native selection/program-service target group, not an internal pulse/head count; phase/retry services remain separately scheduled.",
+      "phase_semantics": "Preserve service-specific pulses/retries; a target is not a pulse count.",
+      "load_units_per_transaction": 1,
+      "program_batches_per_load_unit": 1
     }
   },
   "services": [
@@ -624,7 +752,9 @@
             "clock_id": "lv_core",
             "mode": "synchronous",
             "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
           }
         ],
         "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
@@ -636,7 +766,8 @@
             "numDff": 1024,
             "numDff_status": "specified",
             "clock_id": "lv_core",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated"
           }
         ],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
@@ -653,10 +784,32 @@
           "Adder_role": "critical_path_qualification_only",
           "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
           "forbid_additive_combination_cycles": true,
-          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
-          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+          "actual_clock_rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+          "combinational_path_rule": "Register boundaries determine paths; sum serial components within each actual path, then constrain that domain. Retained analog/native services and transparent wrappers do not enter the sum.",
+          "closure_status": "pending_actual_case_complete_path_and_load"
         },
-        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+        "microarchitecture_status": "route_defined; retain native budget until all listed register paths and case loads are instantiated; mechanism probes do not qualify full arithmetic",
+        "operation_plan": {
+          "operations": [
+            "existing register capture/control state update"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "declared input/output/operand/mask/target register, selected by call.inputs"
+          ],
+          "reusable_modules": [
+            "DFF"
+          ],
+          "uncovered_logic": [],
+          "timing_evidence": "v3 scheduled budget retained until actual case register paths and loads are instantiated",
+          "instantiation_required": [
+            "actual destination fanout and setup/clock-domain boundary; DFF cycle count alone is not closure"
+          ],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "pending"
       },
       "depends_on": [],
       "count": {
@@ -680,7 +833,43 @@
           "source_id": "shared",
           "json_pointer": "/resource_policy/input_capture_ticks"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "digital_step",
+        "constraint_clock_id": null,
+        "digital_clock_id": "lv_core",
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "digital_step",
+        "blocks_resources": [
+          "input_register_bits"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": "lv_core",
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "digital_tick",
+            "coefficient": 1,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "native_module",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "case_path_pending",
+        "dominant_timing_provider": "v3_scheduled_digital_budget_until_case_path_instantiation",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "analog_front",
@@ -698,10 +887,29 @@
             "field": "native_mode_duration",
             "unit": "s",
             "status": "retained_input_not_new_performance",
-            "clock_id": null
+            "clock_id": null,
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
           }
         ],
-        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication"
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
+        "operation_plan": {
+          "operations": [
+            "complete native physical service or independent analog primitive"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "service launch/completion boundary; no internal digital register invented"
+          ],
+          "reusable_modules": [],
+          "uncovered_logic": [],
+          "timing_evidence": "retained native physical budget or separately probed primitive; no digital path closure claimed",
+          "instantiation_required": [],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "native_budget_retained"
       },
       "depends_on": [
         "input_capture"
@@ -727,7 +935,43 @@
           "source_id": "inputs",
           "json_pointer": "/service_modes/0"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "service_duration",
+        "constraint_clock_id": null,
+        "digital_clock_id": null,
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "service_duration",
+        "blocks_resources": [
+          "native_declared"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": null,
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "input_step",
+            "coefficient": 1,
+            "dependency_type": "adopted_capability_policy",
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "native_service",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "not_applicable",
+        "case_path_status": "native_budget_retained",
+        "dominant_timing_provider": "v3_native_complete_service",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "sar",
@@ -754,13 +998,32 @@
             "unit": "s",
             "status": "native_primitive_total",
             "convert_to_ns_once": true,
-            "clock_id": null
+            "clock_id": null,
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
           }
         ],
         "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
         "components": [],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
-        "timing_role": "one physical conversion; stage.count owns repetition"
+        "timing_role": "one physical conversion; stage.count owns repetition",
+        "operation_plan": {
+          "operations": [
+            "complete native physical service or independent analog primitive"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "service launch/completion boundary; no internal digital register invented"
+          ],
+          "reusable_modules": [],
+          "uncovered_logic": [],
+          "timing_evidence": "retained native physical budget or separately probed primitive; no digital path closure claimed",
+          "instantiation_required": [],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "native_budget_retained"
       },
       "depends_on": [
         "analog_front"
@@ -786,7 +1049,43 @@
           "source_id": "shared",
           "json_pointer": "/reference_instance/acim"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "service_duration",
+        "constraint_clock_id": null,
+        "digital_clock_id": null,
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "service_duration",
+        "blocks_resources": [
+          "adc_count"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": null,
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "adc_batch",
+            "coefficient": 1,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "native_module",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "native_budget_retained",
+        "dominant_timing_provider": "neurosim_SAR_primitive_pending_case_instantiation",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "digital_reconstruct",
@@ -844,14 +1143,19 @@
             "conversion": "physical seconds *1e9 once; not additional schedule cycles",
             "critical_path_measurement": "paired asynchronous CalculateLatency gives seconds; native load still required",
             "timing_role": "critical_path_qualification_only",
-            "qualification_clock_id": "lv_core"
+            "timing_kind": "combinational_path_fragment",
+            "constraint_clock_id": "lv_core",
+            "constraint_status": "candidate_fragment_pending_complete_register_path"
           },
           {
             "field": "Adder.readLatency",
             "unit": "s",
             "convert_to_ns_once": true,
             "timing_role": "critical_path_qualification_only",
-            "clock_id": null
+            "clock_id": null,
+            "timing_kind": "combinational_path_fragment",
+            "constraint_clock_id": "lv_core",
+            "constraint_status": "candidate_fragment_pending_complete_register_path"
           },
           {
             "field": "DFF.readLatency",
@@ -859,12 +1163,14 @@
             "clock_id": "lv_core",
             "mode": "synchronous",
             "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
           }
         ],
         "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
         "reference_schedule_count_only": true,
-        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle.",
+        "microarchitecture_status": "route_defined; retain native budget until all listed register paths and case loads are instantiated; mechanism probes do not qualify full arithmetic",
         "components": [
           {
             "module": "AdderTree",
@@ -877,7 +1183,9 @@
             "capLoad_F": null,
             "clock_id": "lv_core",
             "timing_role": "critical_path_qualification_only",
-            "qualification_mode": "asynchronous physical seconds; synchronous ceil-cycle return is not a second timer"
+            "qualification_mode": "asynchronous physical seconds; synchronous ceil-cycle return is not a second timer",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated",
+            "latency_model_scope": "V1.4 tree-specific first-width then 2-bit carry-arrival approximation; not a model for multiplier/divider or arbitrary serial arithmetic"
           },
           {
             "module": "Adder",
@@ -886,7 +1194,8 @@
             "numAdderBit": 23,
             "numAdder": 16,
             "capLoad_F": null,
-            "timing_role": "critical_path_qualification_only"
+            "timing_role": "critical_path_qualification_only",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated"
           },
           {
             "module": "DFF",
@@ -895,7 +1204,8 @@
             "numDff": 368,
             "numDff_status": "specified",
             "clock_id": "lv_core",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated"
           }
         ],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
@@ -912,8 +1222,8 @@
           "Adder_role": "critical_path_qualification_only",
           "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
           "forbid_additive_combination_cycles": true,
-          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
-          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates.",
+          "actual_clock_rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+          "combinational_path_rule": "Register boundaries determine paths; sum serial components within each actual path, then constrain that domain. Retained analog/native services and transparent wrappers do not enter the sum.",
           "serial_paths": [
             [
               "weighted8-plane tree",
@@ -921,8 +1231,41 @@
               "23bit accumulator adder",
               "existing output DFF setup"
             ]
-          ]
-        }
+          ],
+          "closure_status": "pending_actual_case_complete_path_and_load"
+        },
+        "operation_plan": {
+          "operations": [
+            "signed, weighted eight-plane SAR code reconstruction",
+            "input-bit signed shift",
+            "output accumulator update"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register",
+            "per_conversion_batch": 2,
+            "phase_1": "source codes retained; no free tree-result register",
+            "phase_2": "recompute reduction if needed; signed shift and accumulate"
+          },
+          "register_boundaries": [
+            "existing SAR result state -> weighted tree/sign/accumulator -> existing output register; no new intermediate bank"
+          ],
+          "reusable_modules": [
+            "AdderTree for compatible weighted reduction",
+            "Adder for existing output accumulation",
+            "DFF for existing output capture"
+          ],
+          "uncovered_logic": [
+            "actual code source drive and fanout",
+            "sign/shift/wiring load",
+            "serial reduction-to-accumulator timing and setup"
+          ],
+          "timing_evidence": "v3 scheduled budget retained until actual case register paths and loads are instantiated",
+          "instantiation_required": [
+            "instantiate phase-two full serial path; prove source code lifetime for both ticks using declared state only"
+          ],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "pending"
       },
       "depends_on": [
         "sar"
@@ -948,7 +1291,43 @@
           "source_id": "shared",
           "json_pointer": "/reference_instance/acim"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "digital_step",
+        "constraint_clock_id": null,
+        "digital_clock_id": "lv_core",
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "digital_step",
+        "blocks_resources": [
+          "digital_output_channels"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": "lv_core",
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "digital_tick",
+            "coefficient": 1,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "hybrid_stage",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "case_path_pending",
+        "dominant_timing_provider": "v3_scheduled_digital_budget_until_case_path_instantiation",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "rail_setup",
@@ -965,10 +1344,29 @@
             "field": "native_mode_duration",
             "unit": "s",
             "status": "retained_input_not_new_performance",
-            "clock_id": null
+            "clock_id": null,
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
           }
         ],
-        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication"
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
+        "operation_plan": {
+          "operations": [
+            "complete native physical service or independent analog primitive"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "service launch/completion boundary; no internal digital register invented"
+          ],
+          "reusable_modules": [],
+          "uncovered_logic": [],
+          "timing_evidence": "retained native physical budget or separately probed primitive; no digital path closure claimed",
+          "instantiation_required": [],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "native_budget_retained"
       },
       "depends_on": [],
       "count": {
@@ -992,7 +1390,35 @@
           "source_id": "inputs",
           "json_pointer": "/adopted_inputs/rail_lifecycle_ns"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "service_duration",
+        "constraint_clock_id": null,
+        "digital_clock_id": null,
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "service_duration",
+        "blocks_resources": [
+          "external_update_domains"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": null,
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": []
+      },
+      "coverage": {
+        "kind": "native_service",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "not_applicable",
+        "case_path_status": "native_budget_retained",
+        "dominant_timing_provider": "v3_native_complete_service",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "program_attempts",
@@ -1028,7 +1454,9 @@
             "field": "composed_duration",
             "unit": "ns",
             "status": "pending constituent instantiation; see native_components; convert seconds or cycles once before summation",
-            "clock_id": null
+            "clock_id": null,
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
           }
         ],
         "native_components": [
@@ -1051,7 +1479,31 @@
         "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
         "components": [],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
-        "timing_role": "composed native occupation plus explicitly counted digital schedule/ADC binding; no opaque native stage splitting"
+        "timing_role": "composed native occupation plus explicitly counted digital schedule/ADC binding; no opaque native stage splitting",
+        "operation_plan": {
+          "operations": [
+            "explicit declared encoded load/control/selection steps; native analog portions stay complete"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "declared transaction/page/mask/code registers only; see resources and call.inputs"
+          ],
+          "reusable_modules": [
+            "DFF for capture only"
+          ],
+          "uncovered_logic": [
+            "control decode, selection/enable and wiring load"
+          ],
+          "timing_evidence": "v3 scheduled budget retained until actual case register paths and loads are instantiated",
+          "instantiation_required": [
+            "bind each counted digital control step to its existing source/destination register; retain v3 control tick budget meanwhile"
+          ],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "pending",
+        "microarchitecture_status": "route_defined; retain native budget until all listed register paths and case loads are instantiated; mechanism probes do not qualify full arithmetic"
       },
       "depends_on": [
         "rail_setup"
@@ -1068,7 +1520,7 @@
         "rail_held_across_all_transactions": true
       },
       "resources": [
-        "real_write_driver_count",
+        "write_semantics.program_driver_channels",
         "binary_window_comparators"
       ],
       "included_stages": [],
@@ -1085,19 +1537,55 @@
           "source_id": "calculator",
           "function": "write_service"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "mixed_service",
+        "constraint_clock_id": null,
+        "digital_clock_id": "lv_core",
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "mixed_service",
+        "blocks_resources": [
+          "write_semantics.program_driver_channels",
+          "binary_window_comparators"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": "lv_core",
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "digital_tick",
+            "coefficient": 1,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "hybrid_stage",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "case_path_pending",
+        "dominant_timing_provider": "v3_native_services_plus_pending_primitive_or_control_replacement",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "endpoint_verify",
       "service_kind": "resident",
-      "provider": "neurosim_composed",
+      "provider": "v3_native_service",
       "call": {
-        "entrypoint": "check_rram.write_service / independent memory path window comparator",
+        "entrypoint": "retained memory frontend + independent binary window sense/latch budget",
         "status": "specified_not_executed",
         "inputs": {
           "input_step": "binding",
           "duration_parameter": "memory_verify_front",
-          "adc_batch": "common capability policy for binary sense, not shared physical ADC",
           "LRS_window_kOhm": [
             8,
             12
@@ -1108,42 +1596,69 @@
           "weight_plane_loop_owner": "outer scheduler",
           "output_load_F": null,
           "load_status": "requires_native_geometry_adapter",
-          "ShiftAdd_used": false
+          "ShiftAdd_used": false,
+          "binary_verify_sense_ns": "binding"
         },
         "outputs": [
           {
-            "field": "composed_duration",
+            "field": "independent_window_service",
             "unit": "ns",
-            "status": "pending constituent instantiation; see native_components; convert seconds or cycles once before summation",
-            "clock_id": null
+            "clock_id": null,
+            "status": "retained_native_service_budget",
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
           }
         ],
         "policy_link": {
-          "id": "binary_sense_capability",
-          "bound_to": "adc_batch",
+          "id": "rram_TB_equals_TA_capability_policy",
+          "enabled": false,
+          "dependency_type": "adopted_capability_policy",
+          "rule": "binary_verify_sense_ns = adc_batch only when explicitly selected as a separate comparison",
           "same_physical_ADC": false,
-          "physical_resource": "256 window comparators; distinct T1/IO/BL/SL memory frontend"
+          "physical_resource": "256 independent analog window-decision nodes; T1/IO/BL/SL memory path"
         },
         "native_components": [
           {
             "provider": "v3_native_service",
-            "parameters": [
-              "memory_verify_front"
-            ],
-            "included_native_stages": []
+            "parameter": "memory_verify_front",
+            "count": 1
           },
           {
-            "provider": "neurosim_composed",
-            "bindings": [
-              "adc_batch"
-            ],
-            "status": "explicit external bound capability; native included stages are not repeated"
+            "provider": "v3_native_service",
+            "parameter": "binary_verify_sense_ns",
+            "count": 1,
+            "includes": [
+              "window decision",
+              "latch"
+            ]
+          },
+          {
+            "provider": "v3_native_service",
+            "binding": "input_step",
+            "count": 1
           }
         ],
         "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
         "components": [],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
-        "timing_role": "composed native occupation plus explicitly counted digital schedule/ADC binding; no opaque native stage splitting"
+        "timing_role": "independent physical memory-window service; no SAR formula and no digital Comparator substitution",
+        "operation_plan": {
+          "operations": [
+            "complete native physical service or independent analog primitive"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "service launch/completion boundary; no internal digital register invented"
+          ],
+          "reusable_modules": [],
+          "uncovered_logic": [],
+          "timing_evidence": "retained native physical budget or separately probed primitive; no digital path closure claimed",
+          "instantiation_required": [],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "native_budget_retained"
       },
       "depends_on": [
         "program_attempts"
@@ -1173,7 +1688,50 @@
           "source_id": "inputs",
           "json_pointer": "/adopted_inputs/binary_windows"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "service_duration",
+        "constraint_clock_id": null,
+        "digital_clock_id": null,
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "service_duration",
+        "blocks_resources": [
+          "binary_window_comparators"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": null,
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "input_step",
+            "coefficient": 1,
+            "dependency_type": "adopted_capability_policy",
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
+          },
+          {
+            "parameter": "binary_verify_sense_ns",
+            "coefficient": 1,
+            "dependency_type": "dedicated_parameter",
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "native_service",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "not_applicable",
+        "case_path_status": "native_budget_retained",
+        "dominant_timing_provider": "v3_native_complete_service",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "rail_exit",
@@ -1191,10 +1749,29 @@
             "field": "native_mode_duration",
             "unit": "s",
             "status": "retained_input_not_new_performance",
-            "clock_id": null
+            "clock_id": null,
+            "timing_kind": "service_duration",
+            "constraint_clock_id": null
           }
         ],
-        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication"
+        "count_owner": "stage.count is outer scheduling; per-primitive numRead=1; no implicit loop multiplication",
+        "operation_plan": {
+          "operations": [
+            "complete native physical service or independent analog primitive"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "service launch/completion boundary; no internal digital register invented"
+          ],
+          "reusable_modules": [],
+          "uncovered_logic": [],
+          "timing_evidence": "retained native physical budget or separately probed primitive; no digital path closure claimed",
+          "instantiation_required": [],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "native_budget_retained"
       },
       "depends_on": [
         "endpoint_verify"
@@ -1220,7 +1797,35 @@
           "source_id": "inputs",
           "json_pointer": "/adopted_inputs/failure_policy"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "service_duration",
+        "constraint_clock_id": null,
+        "digital_clock_id": null,
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "service_duration",
+        "blocks_resources": [
+          "external_update_domains"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": null,
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": []
+      },
+      "coverage": {
+        "kind": "native_service",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "not_applicable",
+        "case_path_status": "native_budget_retained",
+        "dominant_timing_provider": "v3_native_complete_service",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "output_commit",
@@ -1248,7 +1853,9 @@
             "clock_id": "lv_core",
             "mode": "synchronous",
             "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
           }
         ],
         "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
@@ -1260,7 +1867,8 @@
             "numDff": 1472,
             "numDff_status": "specified",
             "clock_id": "lv_core",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated"
           }
         ],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
@@ -1277,10 +1885,32 @@
           "Adder_role": "critical_path_qualification_only",
           "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
           "forbid_additive_combination_cycles": true,
-          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
-          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+          "actual_clock_rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+          "combinational_path_rule": "Register boundaries determine paths; sum serial components within each actual path, then constrain that domain. Retained analog/native services and transparent wrappers do not enter the sum.",
+          "closure_status": "pending_actual_case_complete_path_and_load"
         },
-        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+        "microarchitecture_status": "route_defined; retain native budget until all listed register paths and case loads are instantiated; mechanism probes do not qualify full arithmetic",
+        "operation_plan": {
+          "operations": [
+            "existing register capture/control state update"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "declared input/output/operand/mask/target register, selected by call.inputs"
+          ],
+          "reusable_modules": [
+            "DFF"
+          ],
+          "uncovered_logic": [],
+          "timing_evidence": "v3 scheduled budget retained until actual case register paths and loads are instantiated",
+          "instantiation_required": [
+            "actual destination fanout and setup/clock-domain boundary; DFF cycle count alone is not closure"
+          ],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "pending"
       },
       "depends_on": [
         "digital_reconstruct"
@@ -1306,7 +1936,43 @@
           "source_id": "shared",
           "json_pointer": "/resource_policy/output_commit_ticks"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "digital_step",
+        "constraint_clock_id": null,
+        "digital_clock_id": "lv_core",
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "digital_step",
+        "blocks_resources": [
+          "output_register_bits"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": "lv_core",
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "digital_tick",
+            "coefficient": 1,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "native_module",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "case_path_pending",
+        "dominant_timing_provider": "v3_scheduled_digital_budget_until_case_path_instantiation",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "resident_front",
@@ -1340,7 +2006,9 @@
             "clock_id": "lv_core",
             "mode": "synchronous",
             "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
           }
         ],
         "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
@@ -1352,7 +2020,8 @@
             "numDff": 128,
             "numDff_status": "specified",
             "clock_id": "lv_core",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated"
           }
         ],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
@@ -1369,10 +2038,34 @@
           "Adder_role": "critical_path_qualification_only",
           "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
           "forbid_additive_combination_cycles": true,
-          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
-          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+          "actual_clock_rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+          "combinational_path_rule": "Register boundaries determine paths; sum serial components within each actual path, then constrain that domain. Retained analog/native services and transparent wrappers do not enter the sum.",
+          "closure_status": "pending_actual_case_complete_path_and_load"
         },
-        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+        "microarchitecture_status": "route_defined; retain native budget until all listed register paths and case loads are instantiated; mechanism probes do not qualify full arithmetic",
+        "operation_plan": {
+          "operations": [
+            "explicit declared encoded load/control/selection steps; native analog portions stay complete"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "declared transaction/page/mask/code registers only; see resources and call.inputs"
+          ],
+          "reusable_modules": [
+            "DFF for capture only"
+          ],
+          "uncovered_logic": [
+            "control decode, selection/enable and wiring load"
+          ],
+          "timing_evidence": "v3 scheduled budget retained until actual case register paths and loads are instantiated",
+          "instantiation_required": [
+            "bind each counted digital control step to its existing source/destination register; retain v3 control tick budget meanwhile"
+          ],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "pending"
       },
       "depends_on": [],
       "count": {
@@ -1396,7 +2089,43 @@
           "source_id": "calculator",
           "function": "write_service"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "digital_step",
+        "constraint_clock_id": null,
+        "digital_clock_id": "lv_core",
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "digital_step",
+        "blocks_resources": [
+          "encoded_interface_bits"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": "lv_core",
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "digital_tick",
+            "coefficient": 2,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "hybrid_stage",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "case_path_pending",
+        "dominant_timing_provider": "v3_scheduled_digital_budget_until_case_path_instantiation",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     },
     {
       "id": "attempt_done",
@@ -1425,7 +2154,9 @@
             "clock_id": "lv_core",
             "mode": "synchronous",
             "conversion": "numRead=1; actual period supplied by shared clock, not DFF timing closure",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
           }
         ],
         "count_owner": "stage.count owns schedule occurrences; only DFF one-cycle timing, multiplied by explicit per-occurrence cycle factor; no additional Adder/AdderTree ceil-cycle summation",
@@ -1437,7 +2168,8 @@
             "numDff": 128,
             "numDff_status": "specified",
             "clock_id": "lv_core",
-            "timing_role": "sole_cycle_timer"
+            "timing_role": "sole_cycle_timer",
+            "coverage_limit": "callable constituent; actual case load and full register path not validated"
           }
         ],
         "aggregation_status": "Candidate primitives specify interface and ownership only. Existing v3 cycle count is reference schedule, not an executed NeuroSim replacement; combine sequential component occupancies after load/clock/count mapping is resolved.",
@@ -1454,10 +2186,32 @@
           "Adder_role": "critical_path_qualification_only",
           "AdderTree_role": "physical asynchronous critical_path_qualification_only; synchronous ceil-cycles are NOT added",
           "forbid_additive_combination_cycles": true,
-          "actual_clock_rule": "max(5ns,all used register-to-register combinational/sense requirements); native case loads still require closure",
-          "combinational_path_rule": "Sum serial logic delays on each register-to-register path (including reduction,sign/shift,accumulation); then take max across paths and target. Do not take max of individual serial gates."
+          "actual_clock_rule": "max(target_period_ns, complete measured single-cycle register-to-register paths assigned to this clock domain); independent analog/ADC/native service durations never constrain this clock",
+          "combinational_path_rule": "Register boundaries determine paths; sum serial components within each actual path, then constrain that domain. Retained analog/native services and transparent wrappers do not enter the sum.",
+          "closure_status": "pending_actual_case_complete_path_and_load"
         },
-        "microarchitecture_status": "Fixed existing v3 digital tick schedule retained; combinational phase must fit the shared actual clock and does not add another cycle."
+        "microarchitecture_status": "route_defined; retain native budget until all listed register paths and case loads are instantiated; mechanism probes do not qualify full arithmetic",
+        "operation_plan": {
+          "operations": [
+            "existing register capture/control state update"
+          ],
+          "scheduled_cycles": {
+            "source": "existing v3 count and nested schedule; this plan adds no cycle or register"
+          },
+          "register_boundaries": [
+            "declared input/output/operand/mask/target register, selected by call.inputs"
+          ],
+          "reusable_modules": [
+            "DFF"
+          ],
+          "uncovered_logic": [],
+          "timing_evidence": "v3 scheduled budget retained until actual case register paths and loads are instantiated",
+          "instantiation_required": [
+            "actual destination fanout and setup/clock-domain boundary; DFF cycle count alone is not closure"
+          ],
+          "case_timing_validated": false
+        },
+        "case_timing_validation": "pending"
       },
       "depends_on": [],
       "count": {
@@ -1481,7 +2235,43 @@
           "source_id": "inputs",
           "json_pointer": "/adopted_inputs/verify_group_done_commit_ticks_per_attempt"
         }
-      ]
+      ],
+      "clock_role": {
+        "timing_kind": "digital_step",
+        "constraint_clock_id": null,
+        "digital_clock_id": "lv_core",
+        "reason": "Only separately identified complete register paths constrain lv_core; a service or wrapper never does."
+      },
+      "service_timing": {
+        "duration_class": "digital_step",
+        "blocks_resources": [
+          "native_declared.mask_done_bits"
+        ],
+        "determines_digital_period": false,
+        "digital_step_clock_id": "lv_core",
+        "boundary_alignment": "at explicit next digital consumer only; nested analog/native substages remain physical time",
+        "boundary_implementation_status": "pending_case_handshake_and_setup_margin; legacy replay bypasses new alignment",
+        "included_native_capture_not_repeated": true,
+        "bound_contribution_scope": "dependency slices only; not a complete service latency or new PPA",
+        "bound_time_terms": [
+          {
+            "parameter": "digital_tick",
+            "coefficient": 1,
+            "dependency_type": "physical_shared_circuit",
+            "timing_kind": "digital_step",
+            "constraint_clock_id": null
+          }
+        ]
+      },
+      "coverage": {
+        "kind": "native_module",
+        "routing_status": "route_defined",
+        "native_module_probe_status": "native_module_probe_run",
+        "case_path_status": "case_path_pending",
+        "dominant_timing_provider": "v3_scheduled_digital_budget_until_case_path_instantiation",
+        "whole_arithmetic_path_validated": false,
+        "note": "A module mechanism probe does not validate this case path. No unimplemented combinational operation has zero time."
+      }
     }
   ],
   "parameter_bindings": [
@@ -1503,7 +2293,27 @@
       "conversion": "C++ seconds * 1e9 once; cycle count multiplied by actual clock period only when explicitly cycle-domain",
       "included_overhead_rule": "Do not add to complete opaque cycles or fronts where already included.",
       "maintenance_recompute": "Recompute every affected stage, busy reservation and nonpreemptive guard; never copy old rho/tau/T_R as targets.",
-      "selected_implementation": "v3 dedicated input/reset budget; not inferred from DFF"
+      "selected_implementation": "v3 dedicated input/reset budget; not inferred from DFF",
+      "dependency_type": "adopted_capability_policy",
+      "dependency_reason": "v3 selected input/reset budget; common value is not proof of circuit identity",
+      "consumer_dependencies": [
+        {
+          "service_id": "analog_front",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "adopted_capability_policy",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        },
+        {
+          "service_id": "endpoint_verify",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "adopted_capability_policy",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "adc_batch",
@@ -1517,13 +2327,24 @@
       "replacement_value_ns": null,
       "clock_id": null,
       "consumers": [
-        "sar",
-        "endpoint_verify"
+        "sar"
       ],
       "conversion": "C++ seconds * 1e9 once; cycle count multiplied by actual clock period only when explicitly cycle-domain",
       "included_overhead_rule": "Do not add to complete opaque cycles or fronts where already included.",
       "maintenance_recompute": "Recompute every affected stage, busy reservation and nonpreemptive guard; never copy old rho/tau/T_R as targets.",
-      "selected_implementation": "SarADC::Initialize(levelOutput=2^nominal_bits); CalculateLatency(numRead=1); readLatency_s * 1e9"
+      "selected_implementation": "SarADC::Initialize(levelOutput=2^nominal_bits); CalculateLatency(numRead=1); readLatency_s * 1e9",
+      "dependency_type": "physical_shared_circuit",
+      "dependency_reason": "installed SAR lanes; sequential native mode usage; no new ADC",
+      "consumer_dependencies": [
+        {
+          "service_id": "sar",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "digital_tick",
@@ -1547,7 +2368,59 @@
       "conversion": "C++ seconds * 1e9 once; cycle count multiplied by actual clock period only when explicitly cycle-domain",
       "included_overhead_rule": "Do not add to complete opaque cycles or fronts where already included.",
       "maintenance_recompute": "Recompute every affected stage, busy reservation and nonpreemptive guard; never copy old rho/tau/T_R as targets.",
-      "selected_implementation": "lv_core.actual_period_ns"
+      "selected_implementation": "lv_core.actual_period_ns",
+      "dependency_type": "physical_shared_circuit",
+      "dependency_reason": "declared common lv_core clock/control domain",
+      "consumer_dependencies": [
+        {
+          "service_id": "input_capture",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "digital_step"
+        },
+        {
+          "service_id": "digital_reconstruct",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "digital_step"
+        },
+        {
+          "service_id": "program_attempts",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "digital_step"
+        },
+        {
+          "service_id": "output_commit",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "digital_step"
+        },
+        {
+          "service_id": "resident_front",
+          "coefficient_per_occurrence": 2,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "digital_step"
+        },
+        {
+          "service_id": "attempt_done",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "physical_shared_circuit",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "digital_step"
+        }
+      ]
     },
     {
       "id": "cim_front",
@@ -1566,7 +2439,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "analog_front",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "memory_verify_front",
@@ -1585,7 +2470,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "endpoint_verify",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "reset_pulse",
@@ -1604,7 +2501,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "program_attempts",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "set_pulse",
@@ -1623,7 +2532,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "program_attempts",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "local_setup",
@@ -1642,7 +2563,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "program_attempts",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "local_return",
@@ -1661,7 +2594,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "program_attempts",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "rail_setup",
@@ -1680,7 +2625,19 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "rail_setup",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     },
     {
       "id": "rail_exit",
@@ -1699,7 +2656,62 @@
       ],
       "conversion": "Use normalized SI once; preserve complete-cycle included stages.",
       "included_overhead": [],
-      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed."
+      "maintenance_recompute": "Apply to all named modes; update refresh/restore reservation and guard if this parameter is consumed.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "rail_exit",
+          "coefficient_per_occurrence": null,
+          "coefficient_status": "use_original_operation_expression; not evaluated by dependency probe",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
+    },
+    {
+      "id": "binary_verify_sense_ns",
+      "status": "active",
+      "single_source": {
+        "local_json_pointer": "/device/primitives/8/normalized",
+        "source_refs": [
+          {
+            "source_id": "inputs",
+            "json_pointer": "/adopted_inputs/binary_sense_slot_ns"
+          },
+          {
+            "source_id": "shared",
+            "json_pointer": "/common_conditions/propagation/profile_values/reference/adc_batch"
+          }
+        ],
+        "v3_reference_value_ns": 20
+      },
+      "replacement_status": "retained_v3_native_window_budget",
+      "replacement_value_ns": 20,
+      "clock_id": null,
+      "consumers": [
+        "endpoint_verify"
+      ],
+      "selected_implementation": "v3_native_service; compatible analog window-sensing implementation pending; Comparator is not a replacement",
+      "conversion": "native normalized seconds * 1e9 once",
+      "included_overhead": [
+        "window decision",
+        "latch"
+      ],
+      "maintenance_recompute": "Only declared independent memory-window consumers; no dependence on CIM SAR precision.",
+      "dependency_type": "dedicated_parameter",
+      "dependency_reason": "local native input",
+      "consumer_dependencies": [
+        {
+          "service_id": "endpoint_verify",
+          "coefficient_per_occurrence": 1,
+          "coefficient_status": "evaluated_linear_dependency_slice",
+          "dependency_type": "dedicated_parameter",
+          "scope": "per schedule occurrence, not stage.count aggregate",
+          "role": "service_duration_or_native_physical_parameter"
+        }
+      ]
     }
   ],
   "unresolved": [
@@ -1728,7 +2740,8 @@
       "ShiftAdd: internal DFF/read-pulse capacity and overlap require separate proof"
     ],
     "next": "Root integrates source probes and pins coverage decisions before Step 3.",
-    "no_double_counting": "Native opaque stages exclude replacement charges for their included stages. For constituent-mode stages, charge only listed primitives; calculator function is provenance, not a command to add its total again."
+    "no_double_counting": "Native opaque stages exclude replacement charges for their included stages. For constituent-mode stages, charge only listed primitives; calculator function is provenance, not a command to add its total again.",
+    "digital_path_policy": "Four distinct states: route_defined; native_module_probe_run (mechanism only); case_path_pending (no case closure); native_budget_retained. No path is qualified by an AdderTree/Adder/DFF component list."
   },
   "service_schedules": {
     "semantics": "Ordered loops; execute each nested stage before advancing the enclosing group/attempt. Top-level flat dependencies must not globally reorder phases. Zero new payload in maintenance.",

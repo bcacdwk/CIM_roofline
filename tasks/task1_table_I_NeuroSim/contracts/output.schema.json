@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "contract_version": {
-      "const": "2.0.0"
+      "const": "3.0.0"
     },
     "case_id": {
       "type": "string"
@@ -58,12 +58,6 @@
           "target_period_ns": {
             "type": "number"
           },
-          "sensing_limit_ns": {
-            "type": [
-              "number",
-              "null"
-            ]
-          },
           "combinational_limit_ns": {
             "type": [
               "number",
@@ -78,15 +72,21 @@
           },
           "closure_status": {
             "type": "string"
+          },
+          "constraining_paths": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           }
         },
         "required": [
           "clock_id",
           "target_period_ns",
-          "sensing_limit_ns",
           "combinational_limit_ns",
           "actual_period_ns",
-          "closure_status"
+          "closure_status",
+          "constraining_paths"
         ]
       }
     },
@@ -224,6 +224,33 @@
               "string",
               "null"
             ]
+          },
+          "timing_kind": {
+            "enum": [
+              "combinational_path",
+              "service_duration",
+              "digital_step",
+              "mixed_stage"
+            ]
+          },
+          "constraint_clock_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "boundary_wait_ns": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "case_path_status": {
+            "enum": [
+              "case_path_pending",
+              "native_budget_retained",
+              "actual_case_path_instantiated"
+            ]
           }
         },
         "required": [
@@ -241,7 +268,11 @@
           "external_repetition_dimensions",
           "conversion_count",
           "status",
-          "reason"
+          "reason",
+          "timing_kind",
+          "constraint_clock_id",
+          "boundary_wait_ns",
+          "case_path_status"
         ]
       }
     },
@@ -357,6 +388,6 @@
     "derived_metrics"
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:cim-roofline:neurosim:output:2.0.0",
+  "$id": "urn:cim-roofline:neurosim:output:3.0.0",
   "title": "Future stage output contract; Step 2 does not produce case outputs"
 }

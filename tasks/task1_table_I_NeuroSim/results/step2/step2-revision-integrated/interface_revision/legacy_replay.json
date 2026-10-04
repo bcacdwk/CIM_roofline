@@ -1,0 +1,2565 @@
+{
+  "status": "PASS",
+  "checks": {
+    "01_sram_acim.original_time_replay": true,
+    "02_sram_dcim.original_time_replay": true,
+    "03_nor_2d.original_time_replay": true,
+    "04_nand_3d.original_time_replay": true,
+    "05_rram.original_time_replay": true,
+    "06_mram.original_time_replay": true,
+    "07_pcm.original_time_replay": true,
+    "08_feram_hfo2.original_time_replay": true,
+    "09_gain_cell_edram.original_time_replay": true,
+    "10_fenor_3d.original_time_replay": true,
+    "reject_missing_or_changed_front_stage": true,
+    "shared_GC_ADC_replay_consumers": true,
+    "GC_guard_recomputed_from_stage_times": true,
+    "replay_never_selects_new_clock_or_alignment": true
+  },
+  "mode": "original_v3_time_interface_regression",
+  "new_case_performance": false,
+  "calculator_imported_or_called": false,
+  "tolerance": {
+    "relative": 1e-12,
+    "absolute_ns": 1e-07
+  },
+  "replays": [
+    {
+      "case_id": "01_sram_acim",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 3210.0,
+      "raw_T_R_ns": 5120.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "charge_front": {
+          "count": 64,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "charge_front": 1280.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/cycle_semantics/frontend"
+            }
+          ]
+        },
+        "sar": {
+          "count": 64,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "shared_ADC": 1280
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "reconstruct": {
+          "count": 128,
+          "total_ns": 640.0,
+          "components_ns": {
+            "retained_digital_schedule": 640
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "sram_write": {
+          "count": 1024,
+          "total_ns": 5120.0,
+          "components_ns": {
+            "sram_write_cycle": 5120.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/cycle_semantics/memory"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/0",
+          "stage_id": "charge_front",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 20.0,
+          "components_each_ns": {
+            "charge_front": 20.0
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/1",
+          "stage_id": "sar",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 20,
+          "components_each_ns": {
+            "shared_ADC": 20
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/2",
+          "stage_id": "reconstruct",
+          "count": 128,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/aligned_16B_transaction/0",
+          "stage_id": "sram_write",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 5.0,
+          "components_each_ns": {
+            "sram_write_cycle": 5.0
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "charge_front": 20.0,
+        "sram_write_cycle": 5.0,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 3210.0,
+          "expected_v3": 3210,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 5120.0,
+          "expected_v3": 5120.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/data/results.json",
+        "json_pointer": "/scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 330.0,
+      "raw_T_R_ns": 640.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "native_mac": {
+          "count": 64,
+          "total_ns": 320.0,
+          "components_ns": {
+            "native_mac_cycle": 320.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/cycle_semantics/compute_slot"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "sram_write": {
+          "count": 128,
+          "total_ns": 640.0,
+          "components_ns": {
+            "sram_write_cycle": 640.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/cycle_semantics/memory_slot"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/complete_MAC_round/0",
+          "stage_id": "native_mac",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 5.0,
+          "components_each_ns": {
+            "native_mac_cycle": 5.0
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/aligned_16B_transaction/0",
+          "stage_id": "sram_write",
+          "count": 128,
+          "context": {},
+          "per_occurrence_ns": 5.0,
+          "components_each_ns": {
+            "sram_write_cycle": 5.0
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "native_mac_cycle": 5.0,
+        "sram_write_cycle": 5.0,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 330.0,
+          "expected_v3": 330.0,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 640.0,
+          "expected_v3": 640.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/02_sram_dcim/data/results.json",
+        "json_pointer": "/scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "03_nor_2d",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 5290.0,
+      "raw_T_R_ns": 205605800.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "binary_read": {
+          "count": 32,
+          "total_ns": 3840.0000000000005,
+          "components_ns": {
+            "nor_read": 3840.0000000000005
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/read_full"
+            }
+          ]
+        },
+        "operand_capture": {
+          "count": 32,
+          "total_ns": 160.0,
+          "components_ns": {
+            "retained_digital_schedule": 160
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/read_full"
+            }
+          ]
+        },
+        "digital_mac": {
+          "count": 256,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "retained_digital_schedule": 1280
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/dcim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "sector_erase": {
+          "count": 4,
+          "total_ns": 180000040.0,
+          "components_ns": {
+            "complete_erase": 180000000.0,
+            "erase_control": 40
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/erase_full"
+            }
+          ]
+        },
+        "page_load": {
+          "count": 64,
+          "total_ns": 5760.0,
+          "components_ns": {
+            "retained_digital_schedule": 5760
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/write_front"
+            }
+          ]
+        },
+        "page_program": {
+          "count": 64,
+          "total_ns": 25600000.0,
+          "components_ns": {
+            "page_program": 25600000.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/program_full"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/0",
+          "stage_id": "binary_read",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 120.00000000000001,
+          "components_each_ns": {
+            "nor_read": 120.00000000000001
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/1",
+          "stage_id": "operand_capture",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/2/input_bit/0",
+          "stage_id": "digital_mac",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/dedicated_sector/0",
+          "stage_id": "sector_erase",
+          "count": 4,
+          "context": {},
+          "per_occurrence_ns": 45000010.0,
+          "components_each_ns": {
+            "complete_erase": 45000000.0,
+            "erase_control": 10
+          }
+        },
+        {
+          "path": "resident/0/dedicated_sector/1/page_in_sector/0",
+          "stage_id": "page_load",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 90,
+          "components_each_ns": {
+            "retained_digital_schedule": 90
+          }
+        },
+        {
+          "path": "resident/0/dedicated_sector/1/page_in_sector/1",
+          "stage_id": "page_program",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 400000.0,
+          "components_each_ns": {
+            "page_program": 400000.0
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "nor_read": 120.00000000000001,
+        "page_program": 400000.0,
+        "sector_erase": 45000000.0,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 5290.0,
+          "expected_v3": 5290,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 205605800.0,
+          "expected_v3": 205605800.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/03_nor_2d/data/results.json",
+        "json_pointer": "/scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "04_nand_3d",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 674860.0,
+      "raw_T_R_ns": 1916119720.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "input_magnitude_sign": {
+          "count": 288,
+          "total_ns": 1440.0,
+          "components_ns": {
+            "retained_digital_schedule": 1440
+          },
+          "source_refs": [
+            {
+              "source_id": "calculator",
+              "function": "scenario"
+            }
+          ]
+        },
+        "native_wl": {
+          "count": 30,
+          "total_ns": 9090.0,
+          "components_ns": {
+            "wl_setup": 9090.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/reported_numeric/wl_setup_ns"
+            }
+          ]
+        },
+        "native_bl_sl": {
+          "count": 960,
+          "total_ns": 625920.0,
+          "components_ns": {
+            "bl_setup": 11520.000000000002,
+            "sl_setup": 614400.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_parameter_bindings/normal_evaluation"
+            }
+          ]
+        },
+        "sar": {
+          "count": 960,
+          "total_ns": 19200.0,
+          "components_ns": {
+            "shared_ADC": 19200
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/design_choices/quantization_diagnostic"
+            }
+          ]
+        },
+        "affine_merge_sign": {
+          "count": 3840,
+          "total_ns": 19200.0,
+          "components_ns": {
+            "retained_digital_schedule": 19200
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/design_choices/read_order"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "block_erase": {
+          "count": 64,
+          "total_ns": 64000000.0,
+          "components_ns": {
+            "block_erase": 64000000.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/design_choices/erase_full_budget_ms_by_profile/reference"
+            }
+          ]
+        },
+        "resident_encode": {
+          "count": 69120,
+          "total_ns": 345600.0,
+          "components_ns": {
+            "retained_digital_schedule": 345600
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/design_choices/resident_encoding_lifecycle"
+            }
+          ]
+        },
+        "page_load": {
+          "count": 6144,
+          "total_ns": 8563200.0,
+          "components_ns": {
+            "port_and_control": 8563200
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/data_page_effective_encoded_bits_per_beat"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/reference_page_effective_encoded_bits_per_beat"
+            }
+          ]
+        },
+        "page_program": {
+          "count": 6144,
+          "total_ns": 1843200000.0,
+          "components_ns": {
+            "page_program": 1843200000.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/P_includes"
+            }
+          ]
+        },
+        "load_calibration": {
+          "count": 1,
+          "total_ns": 10920.0,
+          "components_ns": {
+            "WL_setup": 606.0,
+            "BL_setup": 144.00000000000003,
+            "SL_setup": 7680.0,
+            "shared_ADC": 240,
+            "native_arithmetic_budget": 2250
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/design_choices/calibration"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_parameter_bindings/load_calibration"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1",
+          "stage_id": "input_magnitude_sign",
+          "count": 288,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2/output_WL_group/0",
+          "stage_id": "native_wl",
+          "count": 30,
+          "context": {},
+          "per_occurrence_ns": 303.0,
+          "components_each_ns": {
+            "wl_setup": 303.0
+          }
+        },
+        {
+          "path": "streaming/2/output_WL_group/1/input_digit_sign_row_group/0",
+          "stage_id": "native_bl_sl",
+          "count": 960,
+          "context": {},
+          "per_occurrence_ns": 652.0,
+          "components_each_ns": {
+            "bl_setup": 12.000000000000002,
+            "sl_setup": 640.0
+          }
+        },
+        {
+          "path": "streaming/2/output_WL_group/1/input_digit_sign_row_group/1",
+          "stage_id": "sar",
+          "count": 960,
+          "context": {},
+          "per_occurrence_ns": 20,
+          "components_each_ns": {
+            "shared_ADC": 20
+          }
+        },
+        {
+          "path": "streaming/2/output_WL_group/1/input_digit_sign_row_group/2",
+          "stage_id": "affine_merge_sign",
+          "count": 3840,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/3",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/native_block/0",
+          "stage_id": "block_erase",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 1000000.0,
+          "components_each_ns": {
+            "block_erase": 1000000.0
+          }
+        },
+        {
+          "path": "resident/1/logical_output_row/0",
+          "stage_id": "resident_encode",
+          "count": 69120,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/1/logical_output_row/1/data_page_for_output_row/0",
+          "stage_id": "page_load",
+          "count": 5760,
+          "context": {
+            "page_kind": "data",
+            "effective_port_bits": 48
+          },
+          "per_occurrence_ns": 1450,
+          "components_each_ns": {
+            "port_and_control": 1450
+          }
+        },
+        {
+          "path": "resident/1/logical_output_row/1/data_page_for_output_row/1",
+          "stage_id": "page_program",
+          "count": 5760,
+          "context": {},
+          "per_occurrence_ns": 300000.0,
+          "components_each_ns": {
+            "page_program": 300000.0
+          }
+        },
+        {
+          "path": "resident/2/reference_page/0",
+          "stage_id": "page_load",
+          "count": 384,
+          "context": {
+            "page_kind": "reference",
+            "effective_port_bits": 128
+          },
+          "per_occurrence_ns": 550,
+          "components_each_ns": {
+            "port_and_control": 550
+          }
+        },
+        {
+          "path": "resident/2/reference_page/1",
+          "stage_id": "page_program",
+          "count": 384,
+          "context": {},
+          "per_occurrence_ns": 300000.0,
+          "components_each_ns": {
+            "page_program": 300000.0
+          }
+        },
+        {
+          "path": "resident/3",
+          "stage_id": "load_calibration",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 10920.0,
+          "components_each_ns": {
+            "WL_setup": 606.0,
+            "BL_setup": 144.00000000000003,
+            "SL_setup": 7680.0,
+            "shared_ADC": 240,
+            "native_arithmetic_budget": 2250
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "sl_setup": 640.0,
+        "bl_setup": 12.000000000000002,
+        "wl_setup": 303.0,
+        "page_program": 300000.0,
+        "block_erase": 1000000.0,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 674860.0,
+          "expected_v3": 674860,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 1916119720.0,
+          "expected_v3": 1916119720.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/04_nand_3d/data/results.json",
+        "json_pointer": "/main_scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "05_rram",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 5130.0,
+      "raw_T_R_ns": 1911760.0000000005,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "analog_front": {
+          "count": 128,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "cim_front": 640.0,
+            "input_reset": 640
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_modes/0"
+            }
+          ]
+        },
+        "sar": {
+          "count": 128,
+          "total_ns": 2560.0,
+          "components_ns": {
+            "shared_ADC": 2560
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "digital_reconstruct": {
+          "count": 256,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "retained_digital_schedule": 1280
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "rail_setup": {
+          "count": 1,
+          "total_ns": 1000.0000000000001,
+          "components_ns": {
+            "rail_setup": 1000.0000000000001
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/rail_lifecycle_ns"
+            }
+          ]
+        },
+        "resident_front": {
+          "count": 512,
+          "total_ns": 5120.0,
+          "components_ns": {
+            "retained_digital_schedule": 5120
+          },
+          "source_refs": [
+            {
+              "source_id": "calculator",
+              "function": "write_service"
+            }
+          ]
+        },
+        "program_attempts": {
+          "count": 1536,
+          "total_ns": 1850880.0000000005,
+          "components_ns": {
+            "local_setup": 153600.00000000003,
+            "SET_pulse": 1536000.0000000002,
+            "local_return": 153600.00000000003,
+            "attempt_control": 7680
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/group_attempt_scenarios/reference"
+            },
+            {
+              "source_id": "calculator",
+              "function": "write_service"
+            }
+          ]
+        },
+        "endpoint_verify": {
+          "count": 1536,
+          "total_ns": 46080.0,
+          "components_ns": {
+            "input_reset": 7680,
+            "memory_front": 7680.0,
+            "independent_binary_window": 30720.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_sense_slot_ns"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/binary_windows"
+            }
+          ]
+        },
+        "attempt_done": {
+          "count": 1536,
+          "total_ns": 7680.0,
+          "components_ns": {
+            "retained_digital_schedule": 7680
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/verify_group_done_commit_ticks_per_attempt"
+            }
+          ]
+        },
+        "rail_exit": {
+          "count": 1,
+          "total_ns": 1000.0000000000001,
+          "components_ns": {
+            "rail_exit": 1000.0000000000001
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/adopted_inputs/failure_policy"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/0",
+          "stage_id": "analog_front",
+          "count": 128,
+          "context": {},
+          "per_occurrence_ns": 10.0,
+          "components_each_ns": {
+            "cim_front": 5.0,
+            "input_reset": 5
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/1",
+          "stage_id": "sar",
+          "count": 128,
+          "context": {},
+          "per_occurrence_ns": 20,
+          "components_each_ns": {
+            "shared_ADC": 20
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/2",
+          "stage_id": "digital_reconstruct",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0",
+          "stage_id": "rail_setup",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 1000.0000000000001,
+          "components_each_ns": {
+            "rail_setup": 1000.0000000000001
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/0",
+          "stage_id": "resident_front",
+          "count": 512,
+          "context": {},
+          "per_occurrence_ns": 10,
+          "components_each_ns": {
+            "retained_digital_schedule": 10
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/1/RESET_attempt/0",
+          "stage_id": "program_attempts",
+          "count": 1024,
+          "context": {
+            "phase": "SET"
+          },
+          "per_occurrence_ns": 1205.0000000000002,
+          "components_each_ns": {
+            "local_setup": 100.00000000000001,
+            "SET_pulse": 1000.0000000000001,
+            "local_return": 100.00000000000001,
+            "attempt_control": 5
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/1/RESET_attempt/1",
+          "stage_id": "endpoint_verify",
+          "count": 1024,
+          "context": {
+            "phase": "SET"
+          },
+          "per_occurrence_ns": 30.0,
+          "components_each_ns": {
+            "input_reset": 5,
+            "memory_front": 5.0,
+            "independent_binary_window": 20.0
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/1/RESET_attempt/2",
+          "stage_id": "attempt_done",
+          "count": 1024,
+          "context": {
+            "phase": "SET"
+          },
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/2/masked_SET_attempt/0",
+          "stage_id": "program_attempts",
+          "count": 512,
+          "context": {
+            "phase": "SET"
+          },
+          "per_occurrence_ns": 1205.0000000000002,
+          "components_each_ns": {
+            "local_setup": 100.00000000000001,
+            "SET_pulse": 1000.0000000000001,
+            "local_return": 100.00000000000001,
+            "attempt_control": 5
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/2/masked_SET_attempt/1",
+          "stage_id": "endpoint_verify",
+          "count": 512,
+          "context": {
+            "phase": "SET"
+          },
+          "per_occurrence_ns": 30.0,
+          "components_each_ns": {
+            "input_reset": 5,
+            "memory_front": 5.0,
+            "independent_binary_window": 20.0
+          }
+        },
+        {
+          "path": "resident/1/16B_transaction/2/masked_SET_attempt/2",
+          "stage_id": "attempt_done",
+          "count": 512,
+          "context": {
+            "phase": "SET"
+          },
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/2",
+          "stage_id": "rail_exit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 1000.0000000000001,
+          "components_each_ns": {
+            "rail_exit": 1000.0000000000001
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "cim_front": 5.0,
+        "memory_verify_front": 5.0,
+        "reset_pulse": 1000.0000000000001,
+        "set_pulse": 1000.0000000000001,
+        "local_setup": 100.00000000000001,
+        "local_return": 100.00000000000001,
+        "rail_setup": 1000.0000000000001,
+        "rail_exit": 1000.0000000000001,
+        "binary_verify_sense_ns": 20.0
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 5130.0,
+          "expected_v3": 5130,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 1911760.0000000005,
+          "expected_v3": 1911760.0,
+          "difference": 4.656612873077393e-10,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/results.json",
+        "json_pointer": "/scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "06_mram",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 810.0,
+      "raw_T_R_ns": 107520.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "binary_read": {
+          "count": 16,
+          "total_ns": 80.0,
+          "components_ns": {
+            "ibmd_read": 80.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/stream"
+            }
+          ]
+        },
+        "operand_capture": {
+          "count": 16,
+          "total_ns": 80.0,
+          "components_ns": {
+            "retained_digital_schedule": 80
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/stream"
+            }
+          ]
+        },
+        "digital_mac": {
+          "count": 128,
+          "total_ns": 640.0,
+          "components_ns": {
+            "retained_digital_schedule": 640
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/dcim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "encoded_load": {
+          "count": 1024,
+          "total_ns": 10240.0,
+          "components_ns": {
+            "retained_digital_schedule": 10240
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/mapping/encoding_location"
+            }
+          ]
+        },
+        "direction_write": {
+          "count": 2048,
+          "total_ns": 61440.00000000001,
+          "components_ns": {
+            "direction_write_slot": 61440.00000000001
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/write_access"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/retry_model"
+            }
+          ]
+        },
+        "polarity_turn": {
+          "count": 1024,
+          "total_ns": 5120.0,
+          "components_ns": {
+            "retained_digital_schedule": 5120
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/turn"
+            }
+          ]
+        },
+        "terminal_verify": {
+          "count": 2048,
+          "total_ns": 30720.0,
+          "components_ns": {
+            "complete_IBMD_read": 10240.0,
+            "capture": 10240,
+            "compare": 10240
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/verify_read"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/mapping/verify_branch_batches"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/0",
+          "stage_id": "binary_read",
+          "count": 16,
+          "context": {},
+          "per_occurrence_ns": 5.0,
+          "components_each_ns": {
+            "ibmd_read": 5.0
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/1",
+          "stage_id": "operand_capture",
+          "count": 16,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/2/input_bit/0",
+          "stage_id": "digital_mac",
+          "count": 128,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/8B_transaction/0",
+          "stage_id": "encoded_load",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 10,
+          "components_each_ns": {
+            "retained_digital_schedule": 10
+          }
+        },
+        {
+          "path": "resident/0/8B_transaction/1",
+          "stage_id": "direction_write",
+          "count": 1024,
+          "context": {
+            "phase": 1,
+            "active_MTJs": 128
+          },
+          "per_occurrence_ns": 30.000000000000004,
+          "components_each_ns": {
+            "direction_write_slot": 30.000000000000004
+          }
+        },
+        {
+          "path": "resident/0/8B_transaction/2",
+          "stage_id": "polarity_turn",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/8B_transaction/3",
+          "stage_id": "direction_write",
+          "count": 1024,
+          "context": {
+            "phase": 2,
+            "active_MTJs": 64
+          },
+          "per_occurrence_ns": 30.000000000000004,
+          "components_each_ns": {
+            "direction_write_slot": 30.000000000000004
+          }
+        },
+        {
+          "path": "resident/0/8B_transaction/4/absolute_verify_branch/0",
+          "stage_id": "terminal_verify",
+          "count": 2048,
+          "context": {},
+          "per_occurrence_ns": 15.0,
+          "components_each_ns": {
+            "complete_IBMD_read": 5.0,
+            "capture": 5,
+            "compare": 5
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "ibmd_read": 5.0,
+        "direction_write_slot": 30.000000000000004,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 810.0,
+          "expected_v3": 810,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 107520.0,
+          "expected_v3": 107520.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/06_mram/data/results.json",
+        "json_pointer": "/scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "07_pcm",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 102410.0,
+      "raw_T_R_ns": 4766720.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "analog_front": {
+          "count": 2048,
+          "total_ns": 40960.0,
+          "components_ns": {
+            "shared_voltage_front": 40960.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_modes/normal_evaluation"
+            }
+          ]
+        },
+        "sar": {
+          "count": 2048,
+          "total_ns": 40960.0,
+          "components_ns": {
+            "shared_ADC": 40960
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "digital_reconstruct": {
+          "count": 4096,
+          "total_ns": 20480.0,
+          "components_ns": {
+            "retained_digital_schedule": 20480
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "resident_front": {
+          "count": 1024,
+          "total_ns": 15360.0,
+          "components_ns": {
+            "retained_digital_schedule": 15360
+          },
+          "source_refs": [
+            {
+              "source_id": "calculator",
+              "function": "compute"
+            }
+          ]
+        },
+        "program_reset_set": {
+          "count": 8192,
+          "total_ns": 4014080.0000000005,
+          "components_ns": {
+            "batch_select": 40960,
+            "mode_transitions": 491520.0,
+            "RESET": 1024000.0000000001,
+            "complete_SET": 2457600.0000000005
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/program/pulse_sequence"
+            },
+            {
+              "source_id": "calculator",
+              "function": "geometry"
+            }
+          ]
+        },
+        "endpoint_verify": {
+          "count": 16384,
+          "total_ns": 737280.0,
+          "components_ns": {
+            "shared_complete_front": 327680.0,
+            "shared_ADC": 327680,
+            "compare": 81920
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_modes/endpoint_verify"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/mapping/verify_rule"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/0",
+          "stage_id": "analog_front",
+          "count": 2048,
+          "context": {},
+          "per_occurrence_ns": 20.0,
+          "components_each_ns": {
+            "shared_voltage_front": 20.0
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/1",
+          "stage_id": "sar",
+          "count": 2048,
+          "context": {},
+          "per_occurrence_ns": 20,
+          "components_each_ns": {
+            "shared_ADC": 20
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/2",
+          "stage_id": "digital_reconstruct",
+          "count": 4096,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/row_striped_32B_transaction/0",
+          "stage_id": "resident_front",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 15,
+          "components_each_ns": {
+            "retained_digital_schedule": 15
+          }
+        },
+        {
+          "path": "resident/0/row_striped_32B_transaction/1/weight_plane/0",
+          "stage_id": "program_reset_set",
+          "count": 8192,
+          "context": {},
+          "per_occurrence_ns": 490.00000000000006,
+          "components_each_ns": {
+            "batch_select": 5,
+            "mode_transitions": 60.0,
+            "RESET": 125.00000000000001,
+            "complete_SET": 300.00000000000006
+          }
+        },
+        {
+          "path": "resident/0/row_striped_32B_transaction/1/weight_plane/1/fresh_mux_verify_pass/0",
+          "stage_id": "endpoint_verify",
+          "count": 16384,
+          "context": {},
+          "per_occurrence_ns": 45.0,
+          "components_each_ns": {
+            "shared_complete_front": 20.0,
+            "shared_ADC": 20,
+            "compare": 5
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "shared_voltage_front": 20.0,
+        "drive_transition": 20.0,
+        "reset_pulse": 125.00000000000001,
+        "set_complete_pulse": 300.00000000000006,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 102410.0,
+          "expected_v3": 102410,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 4766720.0,
+          "expected_v3": 4766720.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/07_pcm/data/results.json",
+        "json_pointer": "/paired_scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 4810.0,
+      "raw_T_R_ns": 153600.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "binary_read": {
+          "count": 32,
+          "total_ns": 3520.0,
+          "components_ns": {
+            "feram_sense": 640.0,
+            "polarization_hold": 1600.0000000000002,
+            "open_close": 1280.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/read_includes"
+            }
+          ]
+        },
+        "digital_mac": {
+          "count": 256,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "retained_digital_schedule": 1280
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/dcim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "external_load": {
+          "count": 1024,
+          "total_ns": 10240.0,
+          "components_ns": {
+            "retained_digital_schedule": 10240
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/write_includes"
+            }
+          ]
+        },
+        "external_polarization_write": {
+          "count": 1024,
+          "total_ns": 143360.0,
+          "components_ns": {
+            "open_close": 40960.0,
+            "polarization_holds": 102400.00000000001
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/mapping/plate_sequence"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/stage_coverage/write_includes"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/0",
+          "stage_id": "binary_read",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 110.0,
+          "components_each_ns": {
+            "feram_sense": 20.0,
+            "polarization_hold": 50.00000000000001,
+            "open_close": 40.0
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/1/input_bit/0",
+          "stage_id": "digital_mac",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/aligned_128bit_row/0",
+          "stage_id": "external_load",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 10,
+          "components_each_ns": {
+            "retained_digital_schedule": 10
+          }
+        },
+        {
+          "path": "resident/0/aligned_128bit_row/1",
+          "stage_id": "external_polarization_write",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 140.0,
+          "components_each_ns": {
+            "open_close": 40.0,
+            "polarization_holds": 100.00000000000001
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "feram_sense": 20.0,
+        "polarization_hold": 50.00000000000001,
+        "open_close": 40.0,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 4810.0,
+          "expected_v3": 4810,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 153600.0,
+          "expected_v3": 153600.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/08_feram_hfo2/data/results.json",
+        "json_pointer": "/paired/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 3914.0,
+      "raw_T_R_ns": 20480.0,
+      "maintenance_busy_ns": 66560.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "analog_front": {
+          "count": 32,
+          "total_ns": 2944.0,
+          "components_ns": {
+            "common_read_overhead": 2752.0,
+            "mac_integration": 32.0,
+            "input_reset": 160
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_modes/early_release"
+            }
+          ]
+        },
+        "sar": {
+          "count": 32,
+          "total_ns": 640.0,
+          "components_ns": {
+            "shared_ADC": 640
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "digital_reconstruct": {
+          "count": 64,
+          "total_ns": 320.0,
+          "components_ns": {
+            "retained_digital_schedule": 320
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/acim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "resident_load": {
+          "count": 256,
+          "total_ns": 3840.0,
+          "components_ns": {
+            "retained_digital_schedule": 3840
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/write/encoded_load_bits"
+            }
+          ]
+        },
+        "current_program": {
+          "count": 256,
+          "total_ns": 16640.0,
+          "components_ns": {
+            "program_complete": 16640.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/write/load_isolation"
+            }
+          ]
+        },
+        "refresh_read": {
+          "count": 256,
+          "total_ns": 44800.0,
+          "components_ns": {
+            "input_reset": 1280,
+            "shared_overhead": 22016.0,
+            "refresh_integration": 16384.0,
+            "shared_ADC": 5120
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/refresh"
+            },
+            {
+              "source_id": "inputs",
+              "json_pointer": "/service_modes/early_release/service_bindings/refresh_read"
+            }
+          ]
+        },
+        "refresh_decode_load_rewrite": {
+          "count": 256,
+          "total_ns": 21760.0,
+          "components_ns": {
+            "sign_decode": 1280,
+            "encoded_load_and_control": 3840,
+            "complete_program": 16640.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/refresh/decode_ticks"
+            },
+            {
+              "source_id": "calculator",
+              "function": "calc"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/0",
+          "stage_id": "analog_front",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 92.0,
+          "components_each_ns": {
+            "common_read_overhead": 86.0,
+            "mac_integration": 1.0,
+            "input_reset": 5
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/1",
+          "stage_id": "sar",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 20,
+          "components_each_ns": {
+            "shared_ADC": 20
+          }
+        },
+        {
+          "path": "streaming/1/input_bit_row_output_group/2",
+          "stage_id": "digital_reconstruct",
+          "count": 64,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/16B_transaction/0",
+          "stage_id": "resident_load",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 15,
+          "components_each_ns": {
+            "retained_digital_schedule": 15
+          }
+        },
+        {
+          "path": "resident/0/16B_transaction/1",
+          "stage_id": "current_program",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 65.0,
+          "components_each_ns": {
+            "program_complete": 65.0
+          }
+        },
+        {
+          "path": "maintenance/0/refresh_group_in_fixed_period/0",
+          "stage_id": "refresh_read",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 175.0,
+          "components_each_ns": {
+            "input_reset": 5,
+            "shared_overhead": 86.0,
+            "refresh_integration": 64.0,
+            "shared_ADC": 20
+          }
+        },
+        {
+          "path": "maintenance/0/refresh_group_in_fixed_period/1",
+          "stage_id": "refresh_decode_load_rewrite",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 85.0,
+          "components_each_ns": {
+            "sign_decode": 5,
+            "encoded_load_and_control": 15,
+            "complete_program": 65.0
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "program_complete": 65.0,
+        "common_read_overhead": 86.0,
+        "mac_integration": 1.0,
+        "refresh_integration": 64.0,
+        "refresh_period": 400000.0,
+        "binary_verify_sense_ns": 20
+      },
+      "maintenance_guard_ns": 122.0,
+      "maintenance_period_ns": 400000.0,
+      "maintenance_availability": 0.833295,
+      "maintenance_workload_Byte": 0,
+      "effective_delta_S_ns": 4697.016062738886,
+      "effective_T_R_ns": 24577.130548005207,
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 3914.0,
+          "expected_v3": 3914,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 20480.0,
+          "expected_v3": 20480,
+          "difference": 0.0,
+          "pass": true
+        },
+        "maintenance_busy_ns": {
+          "computed": 66560.0,
+          "expected_v3": 66560.0,
+          "difference": 0.0,
+          "pass": true
+        },
+        "maintenance_guard_ns": {
+          "computed": 122.0,
+          "expected_v3": 122,
+          "difference": 0.0,
+          "pass": true
+        },
+        "maintenance_availability": {
+          "computed": 0.833295,
+          "expected_v3": 0.833295,
+          "difference": 0.0,
+          "pass": true
+        },
+        "effective_delta_S_ns": {
+          "computed": 4697.016062738886,
+          "expected_v3": 4697.016062738886,
+          "difference": 0.0,
+          "pass": true
+        },
+        "effective_T_R_ns": {
+          "computed": 24577.130548005207,
+          "expected_v3": 24577.130548005207,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/results.json",
+        "json_pointer": "/scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "mode": "v3_original_time_replay",
+      "new_neurosim_times": false,
+      "new_boundary_alignment": false,
+      "raw_delta_S_ns": 2730.0,
+      "raw_T_R_ns": 271360.0,
+      "maintenance_busy_ns": 0.0,
+      "stage_ledger": {
+        "input_capture": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/input_capture_ticks"
+            }
+          ]
+        },
+        "binary_read": {
+          "count": 32,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "binary_read": 1280.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/engineering_read_budget"
+            }
+          ]
+        },
+        "operand_capture": {
+          "count": 32,
+          "total_ns": 160.0,
+          "components_ns": {
+            "retained_digital_schedule": 160
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/engineering_read_budget"
+            }
+          ]
+        },
+        "digital_mac": {
+          "count": 256,
+          "total_ns": 1280.0,
+          "components_ns": {
+            "retained_digital_schedule": 1280
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/reference_instance/dcim"
+            }
+          ]
+        },
+        "output_commit": {
+          "count": 1,
+          "total_ns": 5.0,
+          "components_ns": {
+            "retained_digital_schedule": 5
+          },
+          "source_refs": [
+            {
+              "source_id": "shared",
+              "json_pointer": "/resource_policy/output_commit_ticks"
+            }
+          ]
+        },
+        "resident_load": {
+          "count": 1024,
+          "total_ns": 10240.0,
+          "components_ns": {
+            "retained_digital_schedule": 10240
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/encoded_load_bits"
+            }
+          ]
+        },
+        "two_phase_write": {
+          "count": 1024,
+          "total_ns": 71680.0,
+          "components_ns": {
+            "bias_edges_before_final": 30720.0,
+            "polarization": 40960.0
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/write_bias_scheme"
+            }
+          ]
+        },
+        "post_pulse_guard": {
+          "count": 1024,
+          "total_ns": 102400.00000000001,
+          "components_ns": {
+            "guard_including_final_return": 102400.00000000001
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/guard_after_final_pulse_ns"
+            }
+          ]
+        },
+        "terminal_verify": {
+          "count": 1024,
+          "total_ns": 87040.0,
+          "components_ns": {
+            "complete_binary_read": 40960.0,
+            "capture": 5120,
+            "compare": 40960
+          },
+          "source_refs": [
+            {
+              "source_id": "inputs",
+              "json_pointer": "/resident/verify_policy"
+            }
+          ]
+        }
+      },
+      "schedule_trace": [
+        {
+          "path": "streaming/0",
+          "stage_id": "input_capture",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/0",
+          "stage_id": "binary_read",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 40.0,
+          "components_each_ns": {
+            "binary_read": 40.0
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/1",
+          "stage_id": "operand_capture",
+          "count": 32,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/1/row_output_tile/2/input_bit/0",
+          "stage_id": "digital_mac",
+          "count": 256,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "streaming/2",
+          "stage_id": "output_commit",
+          "count": 1,
+          "context": {},
+          "per_occurrence_ns": 5,
+          "components_each_ns": {
+            "retained_digital_schedule": 5
+          }
+        },
+        {
+          "path": "resident/0/aligned_16B_transaction/0",
+          "stage_id": "resident_load",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 10,
+          "components_each_ns": {
+            "retained_digital_schedule": 10
+          }
+        },
+        {
+          "path": "resident/0/aligned_16B_transaction/1",
+          "stage_id": "two_phase_write",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 70.0,
+          "components_each_ns": {
+            "bias_edges_before_final": 30.0,
+            "polarization": 40.0
+          }
+        },
+        {
+          "path": "resident/0/aligned_16B_transaction/2",
+          "stage_id": "post_pulse_guard",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 100.00000000000001,
+          "components_each_ns": {
+            "guard_including_final_return": 100.00000000000001
+          }
+        },
+        {
+          "path": "resident/0/aligned_16B_transaction/3",
+          "stage_id": "terminal_verify",
+          "count": 1024,
+          "context": {},
+          "per_occurrence_ns": 85.0,
+          "components_each_ns": {
+            "complete_binary_read": 40.0,
+            "capture": 5,
+            "compare": 40
+          }
+        }
+      ],
+      "input_times_ns": {
+        "input_step": 5,
+        "adc_batch": 20,
+        "digital_tick": 5,
+        "binary_read": 40.0,
+        "bias_transition": 10.0,
+        "polarization_pulse": 20.0,
+        "post_pulse_guard": 100.00000000000001,
+        "binary_verify_sense_ns": 20
+      },
+      "comparisons": {
+        "raw_delta_S_ns": {
+          "computed": 2730.0,
+          "expected_v3": 2730,
+          "difference": 0.0,
+          "pass": true
+        },
+        "raw_T_R_ns": {
+          "computed": 271360.0,
+          "expected_v3": 271360.0,
+          "difference": 0.0,
+          "pass": true
+        }
+      },
+      "comparison_source": {
+        "path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/data/results.json",
+        "json_pointer": "/main_scenarios/1",
+        "usage": "comparison_only_after_aggregation"
+      }
+    }
+  ]
+}

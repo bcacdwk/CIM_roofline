@@ -1,5 +1,5 @@
 {
-  "contract_version": "2.0.0",
+  "contract_version": "3.0.0",
   "device_baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
   "upstream_lock": "neurosim.lock.json",
   "probe_maps": {
@@ -668,13 +668,13 @@
       ]
     },
     "encoding_resources": {
-      "contract_version": "2.0.0",
+      "contract_version": "3.0.0",
       "status": "source_map",
       "baseline_v3_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
       "cases": {
         "01_sram_acim": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/01_sram_acim.json",
-          "sha256": "fe5d5972800573dc1fb3f89ef54bc0a082c36d8a7658242c97e1bb2aedb4282b",
+          "sha256": "bdeab46b859a357e65c9342d286a9dfc2dd799d9cfe15d91152939d84b359b0f",
           "logical_shape": [
             128,
             128
@@ -721,7 +721,7 @@
         },
         "02_sram_dcim": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/02_sram_dcim.json",
-          "sha256": "715125ad6ca81f0a9da326fe5c91fe72a95f2bcbabd810a2d12bac2e7daf6d0e",
+          "sha256": "771e38f9c0d1b1381c2041f74007e5f1216a03e04c6c5a60aabd7f362a027a9f",
           "logical_shape": [
             128,
             16
@@ -768,7 +768,7 @@
         },
         "03_nor_2d": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/03_nor_2d.json",
-          "sha256": "7867fb0a4f4e3a9b87850cceebcbc66d5097066a8e619b787d3a17afbf1942bb",
+          "sha256": "f6b25d1377cc131e20d82fe487caa1146bed6c9b01fdc5e3f184605bbfc86e24",
           "logical_shape": [
             128,
             128
@@ -815,7 +815,7 @@
         },
         "04_nand_3d": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/04_nand_3d.json",
-          "sha256": "e7fdcf2ef62ab9a84b1e72a61f53e62d6ce77aa3962a58bd5c6819c487dce168",
+          "sha256": "356bf79ad5d463bb68d191627d7075acde09c4c5e36a7bfa5d993e1ab5a847bc",
           "logical_shape": [
             4608,
             240
@@ -867,7 +867,7 @@
         },
         "05_rram": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/05_rram.json",
-          "sha256": "38e571905775358b19bf28a1e3c7c3753ccf41317a0e2fce889f766aad43581d",
+          "sha256": "7bc834a55a6252150661a217efd951893beed4b1cf5604faab14883befc2d95d",
           "logical_shape": [
             128,
             64
@@ -919,7 +919,7 @@
         },
         "06_mram": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/06_mram.json",
-          "sha256": "17615f3581f66cb6121e6aa71a3166ce28f5ef98b43903b69e46e6a71992c296",
+          "sha256": "a0c7d3e55f7d5ad5aa887c4b3164bdfe1497e7c4a806ed5792f7135c6e014235",
           "logical_shape": [
             256,
             32
@@ -966,7 +966,7 @@
         },
         "07_pcm": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/07_pcm.json",
-          "sha256": "741386511c45f596eaff5cc5a85997d79c05cd7b75bee05f4010797a7bbc600f",
+          "sha256": "ad9fc1fea0508a5dc87f646f69da584bcecdbc27d39939ff8e7b7d5a1a14b911",
           "logical_shape": [
             256,
             128
@@ -1022,7 +1022,7 @@
         },
         "08_feram_hfo2": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/08_feram_hfo2.json",
-          "sha256": "10465799a0b3eed2d09c271aff45f70b2e51c8b327f29fce8b8780896d45a492",
+          "sha256": "e24822b1bbcb261e44e437eaf4960e69594558d7c6a5b80d6de6297deba5d725",
           "logical_shape": [
             128,
             128
@@ -1069,7 +1069,7 @@
         },
         "09_gain_cell_edram": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/09_gain_cell_edram.json",
-          "sha256": "fc32a50a9b6ea0eb8123b9a34844189dbed1e93bd70e7a06016fffb8ff4285fd",
+          "sha256": "88cfb249f24bf327171658ad9c79d6c7c3348ca7d25889dfa6c8c87e226a2f65",
           "logical_shape": [
             64,
             64
@@ -1121,7 +1121,7 @@
         },
         "10_fenor_3d": {
           "config_path": "tasks/task1_table_I_NeuroSim/configs/cases/10_fenor_3d.json",
-          "sha256": "47d7ccebacb8e9595e98a1c6b5f7d5e3ad4b752ba00021ed366dc0b39220cf14",
+          "sha256": "71538c4f3bc2a05e3a2c9203e61014fbd8e34a2689f197b02dec646cc3dbccf2",
           "logical_shape": [
             128,
             128
@@ -1299,6 +1299,244 @@
       "probe_source": "run.py",
       "source_extraction": "generate_configs.py; standard-library JSON/AST reads, no calculator execution",
       "performance_results_imported": false
+    },
+    "interface_revision": {
+      "contract_version": "3.0.0",
+      "revision_base": "faf8a42165e5d3655ec0fe70f4597e4baebe3f6f",
+      "entries": [
+        {
+          "branch": "2DInferenceV1.4",
+          "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+          "path": "Inference_pytorch/NeuroSIM/AdderTree.cpp",
+          "sha256": "15197777c66af84ba251ff5e21bc9d4f7939351d1adaa73de4c5e6609f4d105d",
+          "function": "AdderTree::CalculateLatency",
+          "purpose": "tree carry-arrival approximation and comparison only; not full case qualification"
+        },
+        {
+          "branch": "2DInferenceV1.4",
+          "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+          "path": "Inference_pytorch/NeuroSIM/Adder.cpp",
+          "sha256": "20b220416b8b1db8b889e5ebd9afac0739e7e8bff97c8f767a27cb6d99135946",
+          "function": "Adder::CalculateLatency",
+          "purpose": "tree carry-arrival approximation and comparison only; not full case qualification"
+        },
+        {
+          "branch": "2DInferenceV1.4",
+          "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+          "path": "Inference_pytorch/NeuroSIM/DFF.cpp",
+          "sha256": "5e4dcaf9030499930708af83723ffe2bcbbf1e70df1852dbb1ee1199497d9f06",
+          "function": "DFF::CalculateLatency",
+          "purpose": "tree carry-arrival approximation and comparison only; not full case qualification"
+        }
+      ],
+      "legacy_replay_sources": {
+        "01_sram_acim": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/data/inputs.json",
+            "sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/scripts/check_sram_acim.py",
+            "sha256": "03cfed23a961159ccc6200a6a505b243d10fe3b8384ac9938202b1f85659505b",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {}
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/data/results.json",
+            "sha256": "524ccf6d623695371f69a0af5c6cbf7310dfcaba6e83753476a2aa3ebf339ff1",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "02_sram_dcim": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/02_sram_dcim/data/inputs.json",
+            "sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/02_sram_dcim/scripts/check_sram_dcim.py",
+            "sha256": "870ed3fcf62b47574b93e2f2a26afa2b1e530ae84d7588a94d29ea13952ab64d",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {}
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/02_sram_dcim/data/results.json",
+            "sha256": "c89531e9651fd8067c3d78bfe9dc117f1057efb6cb6a497ae836fc35cbfba0b4",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "03_nor_2d": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/03_nor_2d/data/inputs.json",
+            "sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/03_nor_2d/scripts/check_nor.py",
+            "sha256": "86c5cf6e44b4bf6acb665072594be460f623011c05c810d61181d84a167ecbf4",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {}
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/03_nor_2d/data/results.json",
+            "sha256": "5b5b61ab5559637572ddbd859edf970424dc63448d87fac89db4125b47ed87fb",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "04_nand_3d": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/04_nand_3d/data/inputs.json",
+            "sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/04_nand_3d/scripts/check_nand.py",
+            "sha256": "951968103da071c668b53f84e31c7601d77bb930dbb13bb70cde730f642ea919",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {
+              "scenario": {
+                "start_line": 210,
+                "end_line": 272
+              }
+            }
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/04_nand_3d/data/results.json",
+            "sha256": "55a61c039af221171712598496e7bb6d03423086d08a67a4be402bf003f5c174",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "05_rram": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/inputs.json",
+            "sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/05_rram/scripts/check_rram.py",
+            "sha256": "fd7db50d549cefe7f9fe90a1edda5b059fd9ab3024a1e433d523a96726845586",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {
+              "write_service": {
+                "start_line": 24,
+                "end_line": 49
+              }
+            }
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/05_rram/data/results.json",
+            "sha256": "e882a21b7c9d37c3c8d47438d7f0f2071da663284ac4af61e7cd1f7559f1a5fd",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "06_mram": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/06_mram/data/inputs.json",
+            "sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/06_mram/scripts/check_mram.py",
+            "sha256": "292c84b87339754c4a0e83c13b8e0446f0da8167d100b74f477b6a4b40053e64",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {}
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/06_mram/data/results.json",
+            "sha256": "5ca0b9fb846396159d9259833b557419749d1314c36743b43f8f3ab0b725fce5",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "07_pcm": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/07_pcm/data/inputs.json",
+            "sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/07_pcm/scripts/check_pcm.py",
+            "sha256": "892e1f380820d08a11f4f600926840c105ea445aee29d9fe575907ad8c5be5e1",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {
+              "geometry": {
+                "start_line": 19,
+                "end_line": 43
+              },
+              "compute": {
+                "start_line": 45,
+                "end_line": 108
+              }
+            }
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/07_pcm/data/results.json",
+            "sha256": "7a4b6d2defc2137f44db5d34089e2f0abc013b081c2dbf92a5b7c5e80bbe4ed1",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "08_feram_hfo2": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/08_feram_hfo2/data/inputs.json",
+            "sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/08_feram_hfo2/scripts/check_feram.py",
+            "sha256": "88a366ad41afa55a21e4141084b513cad504d03af374135f10652506b8606113",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {}
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/08_feram_hfo2/data/results.json",
+            "sha256": "a7141d90927568a9d6f4f6e4f9a5817c561c8b33f5f519a59dbb94cd3e7d77cf",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "09_gain_cell_edram": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/inputs.json",
+            "sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/scripts/check_gain_cell_edram.py",
+            "sha256": "992808d81825f678ef97a38bb83893d20ed4183424d4b704a3e44f21a87a22d1",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {
+              "calc": {
+                "start_line": 14,
+                "end_line": 92
+              }
+            }
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/results.json",
+            "sha256": "0babd5c35d3033d2fc58d18150983bd8ebf2fb3226f2ca62b9240f3681f903ea",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        },
+        "10_fenor_3d": {
+          "input": {
+            "path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/data/inputs.json",
+            "sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          },
+          "calculator_provenance_only": {
+            "path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/scripts/check_fenor.py",
+            "sha256": "cf84a67cd8bce087159b8b02763e3ee61f697cf58664bed7f452d36fb283c26e",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0",
+            "functions": {}
+          },
+          "comparison_only_after_aggregation": {
+            "path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/data/results.json",
+            "sha256": "81d34f4fc3a082c1d4c97bd7b2569112236de449fcb7b80fa562adb20f5b3806",
+            "baseline_sha": "a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0"
+          }
+        }
+      },
+      "mode_separation": "new policy synthetic fixtures vs old-time replay without new clock/alignment",
+      "same_locked_upstream": true
     }
   },
   "case_inputs": {

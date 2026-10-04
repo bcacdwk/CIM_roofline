@@ -21,7 +21,7 @@ import traceback
 
 sys.dont_write_bytecode = True
 BASELINE = 'a5cf78bd1be755da8171a8b2d6189c4e7d80b6f0'
-ROLES = ('read_timing', 'write_update', 'special', 'encoding_resources')
+ROLES = ('read_timing', 'write_update', 'special', 'encoding_resources', 'interface_revision')
 EXPECTED = {'01_sram_acim': (128,128), '02_sram_dcim': (128,16),
  '03_nor_2d': (128,128), '04_nand_3d': (4608,240), '05_rram': (128,64),
  '06_mram': (256,32), '07_pcm': (256,128), '08_feram_hfo2': (128,128),
@@ -71,6 +71,7 @@ def objects(value):
 
 def normalize_time(raw, clocks):
     """Single typed conversion usable by the forthcoming pilot driver wrapper."""
+    assert raw.get('normalized') is not True and 'normalized_ns' not in raw and raw.get('conversion_count',0)==0, 'Time already normalized'
     if raw['status'] != 'OK':
         assert raw['value'] is None and raw.get('reason'), 'Missing is not zero'
         return None
@@ -95,12 +96,13 @@ def output_contract_tests(management):
       'reject_zero_missing':{'status':'NOT_IMPLEMENTED','value':0,'unit':'s','reason':'inactive'},
       'reject_cycles_without_clock':{'status':'OK','value':2,'unit':'cycles','clock_id':None},
       'reject_seconds_as_cycles':{'status':'OK','value':1e-9,'unit':'s','clock_id':'lv_core'},
+      'reject_repeated_conversion':{'status':'OK','value':2,'unit':'ns','clock_id':None,'normalized':True},
       'reject_nonfinite':{'status':'OK','value':float('nan'),'unit':'s','clock_id':None}}.items():
         try: normalize_time(raw,clocks)
         except (AssertionError,KeyError): checks[name]=True
         else: checks[name]=False
     schema=json.loads((management/'contracts/output.schema.json').read_text())
-    example={'contract_version':'2.0.0','case_id':'synthetic_contract_check','status':'NOT_IMPLEMENTED',
+    example={'contract_version':'3.0.0','case_id':'synthetic_contract_check','status':'NOT_IMPLEMENTED',
       'identity':{'backend_sha':'8a88abf85844c0e1ba17cc771ea535fff6040456','input_sha256':'0'*64,'patches':[],'driver_sha256':'0'*64},
       'effective_config':{},'derived_snapshot':{},'clocks':[], 'stages':[],
       'resident_load':{'transaction_latency_ns':None,'T_R_ns':None,'payload_Byte':0,'coverage_status':'NOT_IMPLEMENTED'},
@@ -206,18 +208,20 @@ def validate_cases(management, repo):
 
 def render(cases):
     text=io.StringIO(); writer=csv.writer(text,lineterminator='\n')
-    writer.writerow(['case_id','K','N','stage_id','service_kind','provider','entrypoint','count','included_stages','source_refs'])
-    md=['| 案例 | 逻辑 K×N | NeuroSim 主调用 | 保留原生阶段 |','|---|---:|---|---|']
+    writer.writerow(['case_id','K','N','stage_id','service_kind','provider','coverage_kind','dominant_timing_provider','case_path_status','entrypoint','count','included_stages','source_refs'])
+    md=['| 案例 | 逻辑 K×N | 原生模块入口（非案例闭合） | 混合/候选阶段 | 保留原生完整服务 |','|---|---:|---|---|---|']
     for c in cases:
-        native=[]; kept=[]
+        native=[]; mixed=[]; kept=[]
         for s in c['services']:
-            writer.writerow([c['case_id'],c['logical']['K'],c['logical']['N'],s['id'],s['service_kind'],s['provider'],s['call']['entrypoint'],json.dumps(s['count'],ensure_ascii=False),'; '.join(s['included_stages']),json.dumps(s['source_refs'],ensure_ascii=False)])
-            (native if s['provider'].startswith('neurosim_') else kept).append(s['id'])
-        md.append('| '+c['case_id']+' | '+str(c['logical']['K'])+'×'+str(c['logical']['N'])+' | '+', '.join(native)+' | '+', '.join(kept)+' |')
+            cv=s['coverage']
+            writer.writerow([c['case_id'],c['logical']['K'],c['logical']['N'],s['id'],s['service_kind'],s['provider'],cv['kind'],cv['dominant_timing_provider'],cv['case_path_status'],s['call']['entrypoint'],json.dumps(s['count'],ensure_ascii=False),'; '.join(s['included_stages']),json.dumps(s['source_refs'],ensure_ascii=False)])
+            bucket=kept if cv['kind']=='native_service' else mixed if cv['kind']=='hybrid_stage' else native
+            bucket.append(s['id']+('〔原算术预算〕' if s['id'] in ['affine_merge_sign','load_calibration'] else ''))
+        md.append('| '+c['case_id']+' | '+str(c['logical']['K'])+'×'+str(c['logical']['N'])+' | '+', '.join(native)+' | '+', '.join(mixed)+' | '+', '.join(kept)+' |')
     return text.getvalue(),'\n'.join(md)+'\n'
 
 def source_map(management,cases):
-    return {'contract_version':'2.0.0','device_baseline_sha':BASELINE,
+    return {'contract_version':'3.0.0','device_baseline_sha':BASELINE,
       'upstream_lock':'neurosim.lock.json',
       'probe_maps':{role:json.loads((management/'probes'/role/'source_map.json').read_text()) for role in ROLES},
       'case_inputs':{c['case_id']:c['provenance'] for c in cases}}
@@ -289,6 +293,11 @@ def main():
         initial=json.loads((management/'provenance/step2_repository.initial.json').read_text())
         preserved={name:sha(management/name)==digest for name,digest in initial['initial_management_hashes'].items() if name not in initial['allowed_modified_existing']}
         assert all(preserved.values()),'Archived Step 1 artifact changed'
+        revision=json.loads((management/'provenance/step2_revision.initial.json').read_text())
+        protected={name:digest for name,digest in revision['initial_hashes'].items()
+                   if (name.startswith('results/') and name!='results/step2/latest.json')
+                   or name in ['reports/step2_review.json','provenance/step2_delivery.json']}
+        assert all(sha(management/name)==digest for name,digest in protected.items()),'Prior Step 2 evidence changed'
         status=subprocess.check_output(['git','diff','--name-only'],cwd=repo,text=True).splitlines()
         assert all(p.startswith('tasks/task1_table_I_NeuroSim/') or p=='.DS_Store' for p in status),status
         assert not subprocess.check_output(['git','diff','--cached','--name-only'],cwd=repo,text=True).strip()
@@ -298,10 +307,11 @@ def main():
             elif f.is_file():
                 assert f.suffix not in ['.o','.so','.dylib','.a','.pyc','.zip','.gz'],str(f)
                 assert b'\x00' not in f.read_bytes(),('unexpected binary',str(f))
-        summary={'contract_version':'2.0.0','status':'PASS','run_id':runid,
+        summary={'contract_version':'3.0.0','status':'PASS','run_id':runid,
           'configuration_status':'PASS','probes_status':'NOT_RUN' if a.validate_only else 'PASS',
           'probe_statuses':{role:s['status'] for role,s in summaries.items()},
           'worktrees':worktrees,'step1_archives_unchanged':all(preserved.values()),
+          'prior_step2_results_unchanged':True,'revision_base':revision['review_base'],
           'root_ds_store_matches_initial':sha(repo/'.DS_Store')==initial['root_ds_store_sha256'],
           'root_ds_store_sha256':sha(repo/'.DS_Store'),'git_index_empty':True,
           'case_count':len(cases),'new_ten_case_performance':'NOT_RUN','compiler':cxx}
@@ -313,7 +323,7 @@ def main():
                 shutil.copyfile(out/name,dst/name)
             for role in ROLES:
                 sub=dst/role;sub.mkdir()
-                for name in ['summary.json','commands.json','assertions.json','raw-output.json','manifest.json','source_hashes.json']:
+                for name in ['summary.json','commands.json','assertions.json','raw-output.json','manifest.json','source_hashes.json','clock_dependency.json','digital_resources.json','addertree_model.json','legacy_replay.json']:
                     f=out/role/name
                     if f.is_file():
                         assert f.stat().st_size<262144
