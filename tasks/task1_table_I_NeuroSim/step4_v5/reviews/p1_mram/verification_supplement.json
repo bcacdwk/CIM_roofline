@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "points": [
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "rho_MB_per_s": 0.398505603985056,
+      "tau_MB_per_s": 1.9045847670417564,
+      "RI_star": 0.20923490037359896,
+      "U_star": 13.391033623910333,
+      "single_latency_s": 0.0001606,
+      "resident_s": 0.0021505999999999995,
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "native_source_manifest_sha256": "78b994f1b21da8d08bd728684977c56bfc1eff9f83e038c6b75b9be48cfdcc87",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-opt-20261005",
+      "native_run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-service-mram-reviewer-mram-final-opt-20261005"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "rho_MB_per_s": 0.398505603985056,
+      "tau_MB_per_s": 1.2902412902412903,
+      "RI_star": 0.308861301369863,
+      "U_star": 19.76712328767123,
+      "single_latency_s": 0.0001606,
+      "resident_s": 0.0031745999999999996,
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "native_source_manifest_sha256": "ec2b4d4592f2a24078ad88bb2262a9779dae9812017348146a47929c72355994",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-ref-20261005",
+      "native_run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-service-mram-reviewer-mram-final-ref-20261005"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "rho_MB_per_s": 0.398505603985056,
+      "tau_MB_per_s": 0.7842836901160343,
+      "RI_star": 0.508114103362391,
+      "U_star": 32.51930261519302,
+      "single_latency_s": 0.0001606,
+      "resident_s": 0.005222599999999999,
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "native_source_manifest_sha256": "3caddeaf2dc27f41bc77b91dc5e3e4bc331d011666241485f2ec470c1ab3d6fc",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-pess-20261005",
+      "native_run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-service-mram-reviewer-mram-final-pess-20261005"
+    }
+  ],
+  "exact_final_source_hashes": {
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "functional_probe.py": "e19099ac9debdfba9955d491af9342189ddb0cad136e066cbd4733e00bf933ff",
+    "INTERFACE.md": "7e68d94d0c1e26f0b24900ec438edb886f2c63c2207cabe7ee8f6280096a2859",
+    "PROBE_API.md": "cdf7340461b97d4a743842c0d6fbc53170db3ca43c53abd2ced3c311e4e0edff",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "src/native_binary_probe.cpp": "34b81af48cd208bc2bebf5db46f625f3db8baee474e6c94dfcd2fc1659ff7842",
+    "patches/mlp_binary_column_load.patch": "11924d79ef9039a24c8fc1b40af1f85e3a932fb1f22675d9ad876575369d323a",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "patches/mlp_single_row_mux_and_write_target.patch": "3edd90a4a6226100df7140ee33a5b431e0bb568d59f6cf0ce1bb62499f2e0aef",
+    "cases/mram/inputs.json": "6d09c0e49a17b7bae33e573c238a7e1ab32f45b432c84eb0a4b105e127b3a61c",
+    "cases/mram/case_adapter.py": "af62c5c70824db9227bf1fb30f66f8b26f5e05e5032ae09aa0f5a28bde62597a",
+    "cases/mram/umem_port.py": "52f940aa0f996274851cdcbbfbc0df2bc5cda51d61276de4e6aeb429da14aec4",
+    "cases/mram/LICENSE.umem.txt": "f32462e742e70fffebcabf8bb90ce10ffb71272e433d5ee5abcbb53feca69f65",
+    "cases/mram/model.lock.json": "542ee3f0d47a9eb4466e88b3a87a7ff8481161146e1c9ab7ba06759cad66182e"
+  },
+  "max_final_state_difference": 6.727951529228449e-14,
+  "max_crossing_time_difference_s": 4.3966040201658716e-11,
+  "full64output_vectors": {
+    "mixed": {
+      "passed": true,
+      "min": -110691,
+      "max": 114101
+    },
+    "zeros": {
+      "passed": true,
+      "min": 0,
+      "max": 0
+    },
+    "negative_extreme": {
+      "passed": true,
+      "min": 1048576,
+      "max": 1048576
+    },
+    "cancellation": {
+      "passed": true,
+      "min": 0,
+      "max": 0
+    },
+    "bank_and_group_boundary": {
+      "passed": true,
+      "min": -32,
+      "max": 31
+    }
+  },
+  "clear_and_nominal_gate_counterfactuals": {
+    "missing_zero_mask_detected": true,
+    "missing_group_hold_detected": true,
+    "missing_state_clear_detected": true
+  },
+  "failed40ns_pulse": {
+    "program_outcome": "failed",
+    "aggregate_status": "infeasible",
+    "critical_failures": [
+      "all_write_endpoints",
+      "actual_written_state_sense"
+    ],
+    "no_completed_rates": true,
+    "scope": "samefreshnativegeometry;onlypulsewidthcounterfactual;notformalpoint"
+  },
+  "conditions": "Independentreviewpermitsonlydeclaredconditionalmodelscope;notWER,noise/offsetcertification,foundrytransistororSTA."
+}

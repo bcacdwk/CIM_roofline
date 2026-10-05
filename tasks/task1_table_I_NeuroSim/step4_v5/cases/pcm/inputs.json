@@ -1,0 +1,622 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "pcm",
+  "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+  "identity": {
+    "material": "Ti0.4Sb2Te3 source40nm/BEC35nm state/pulse evidence",
+    "cell": "1T1R with actualSKY130HV3um/.5umaccess; all16384cellsHVrated, notold45nmaccess",
+    "periphery": "130nmLSTP LVdecoder/SenseAmp/hold/digital behindHVreadisolation; sourceHVlevelshift+drivers+return",
+    "read": "All128columnsand128references inonephysicalread perrow; matchedreferenceC/no readMUX; nominalvoltage-sense qualification",
+    "program": "16physicalcurrentlanes,completeRESETallcellsandmaskedSETreservedslots;allcolumnsreturnedreadsafe beforefinalverify",
+    "range": "Fixedgeometry/resources; same-sourcepulsepolicies20/100,50/200,100/1000ns; selectedsuccessfulworkingcells only"
+  },
+  "logical": {
+    "K": 128,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "25bit exact arithmetic conditional on binary sensing/storage; no silicon yield/offset/noise guarantee"
+  },
+  "base_parameters": {
+    "technology_nm": 130,
+    "temperature_K": 300,
+    "rows": 128,
+    "cols": 128,
+    "write_lanes": 16,
+    "clock_Hz": 5000000.0,
+    "pitch_x_m": 4e-06,
+    "pitch_y_m": 3e-06,
+    "sense_pitch_m": 6e-06,
+    "wire_cap_F_per_m": 2e-10,
+    "BL_width_m": 1e-06,
+    "BL_thickness_m": 5e-07,
+    "metal_resistivity_ohm_m": 2.2e-08,
+    "source_width_m": 2e-06,
+    "source_thickness_m": 1e-06,
+    "source_bus_width_m": 2e-05,
+    "source_bus_thickness_m": 2e-06,
+    "source_bus_length_factor": 1.5,
+    "source_BL_spacing_m": 5e-07,
+    "read_voltage_V": 0.2,
+    "hot_BL_upper_V": 4.5,
+    "HV_gate_V": 5.0,
+    "read_initial_error_V": 0.008,
+    "enable_skew_s": 1e-09,
+    "reference_R_ohm": 40000.0,
+    "sense_threshold_V": 0.03,
+    "sense_error_V": 0.005,
+    "on_accept_min_ohm": 5000.0,
+    "on_accept_max_ohm": 20000.0,
+    "off_accept_min_ohm": 200000.0,
+    "off_accept_max_ohm": 2000000.0,
+    "reset_current_A": 0.0005,
+    "set_current_A": 0.0002,
+    "reset_waveform_s": 5e-08,
+    "set_waveform_s": 2e-07,
+    "program_supply_limit_A": 0.02,
+    "return_limit_A": 0.04,
+    "precharge_group_lanes": 16,
+    "precharge_rail_limit_A": 0.01,
+    "control_block_quantum_s": 1e-08,
+    "precharge_error_fraction": 0.002,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "mac_lanes": 8,
+    "accumulator_bits": 25,
+    "write_attempt_limit": 1,
+    "read_controller_state_bits": 16,
+    "operand_route_cap_F": 1e-15,
+    "program_control_cap_F": 1e-15
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "rows": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "cols": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "write_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "pitch_x_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "pitch_y_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "sense_pitch_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "wire_cap_F_per_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "BL_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "BL_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "metal_resistivity_ohm_m": {
+      "unit": "ohm*m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "source_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "source_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "source_bus_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "source_bus_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "source_bus_length_factor": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "source_BL_spacing_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "read_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "hot_BL_upper_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "HV_gate_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "read_initial_error_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "enable_skew_s": {
+      "unit": "s",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "reference_R_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "sense_threshold_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "sense_error_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "on_accept_min_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "on_accept_max_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "off_accept_min_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "off_accept_max_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "reset_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "set_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "reset_waveform_s": {
+      "unit": "s",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "set_waveform_s": {
+      "unit": "s",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "program_supply_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "return_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "precharge_group_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "precharge_rail_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "control_block_quantum_s": {
+      "unit": "s",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "precharge_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "mac_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "accumulator_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "write_attempt_limit": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "read_controller_state_bits": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "operand_route_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    },
+    "program_control_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Authoritativefixedresourceorfiniteoperatingpolicy; actualthermalpulsecompatibilityandreadwindowsareexplicitconditions,notpopulationmeasurements"
+    }
+  },
+  "sources": {
+    "PCM-V5-01": {
+      "kind": "external_primitive",
+      "locator": "PDF pp2-3 Fig2-7",
+      "evidence_type": "measured",
+      "applicability": "Ti0.4Sb2Te3 40nm1T1R current pulse and accepted binary endpoint service",
+      "exclusions": "Not device population yield; no measured read bias/current-source compliance or separately defined edge/cooling",
+      "url": "https://doi.org/10.1007/s40820-015-0030-z",
+      "includes": [
+        "reported RESET current waveform duration",
+        "reported SET current waveform duration including its effective crystallization action"
+      ],
+      "excludes": [
+        "new-array selection and admission",
+        "final verify and comparison",
+        "separately characterized edge/cooling not available"
+      ],
+      "domain": "Same material35nmBEC; .5mARESET, .2mASET; only qualified final endpoint at verification time. Pulse width is not a universal access."
+    },
+    "NATIVE": {
+      "kind": "native_circuit",
+      "locator": "MLPInferenceV3.0 SenseAmp/RowDecoder/DFF/Adder/Subtractor actualrun_components voltage_sense route",
+      "evidence_type": "model",
+      "applicability": "130nmLSTP MLPSenseAmp/hold/LVdecoder and actualdigitaloperators; no native lowvoltageaccess inhotcellpath",
+      "exclusions": "No PCM switching/stochastic yield or transistor mismatch model",
+      "path": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132"
+    },
+    "DESIGN": {
+      "kind": "service_policy",
+      "locator": "cases/pcm/inputs.json and case_adapter.py",
+      "evidence_type": "engineering",
+      "applicability": "NewallHVaccessK128N16binaryPCM,128SA/ref,16programlanes; allresourcesfixedacrossthreepolicies",
+      "exclusions": "NotoldLVread-onlyidentity or measuredoriginalmacro; no PVT distribution",
+      "path": "cases/pcm/inputs.json"
+    },
+    "HV": {
+      "kind": "adapter",
+      "path": "cases/pcm/hv_model.py",
+      "locator": "hv_data.json + hv_access_data.json lockedSKY130measuredIV/TTcaps;hardware() port budgets",
+      "evidence_type": "measured_IV_and_model_C",
+      "applicability": "HV3um/.5umaccess,N20/.5+P7/.5drivers,5Vrail/4.5VhotBL,sourcebodydomains; new130nmHVdesign",
+      "exclusions": "NotTiSbTemeasured40nmmacro;notprocesscornerorjointterminalpulsecalibration"
+    },
+    "READMODEL": {
+      "kind": "adapter",
+      "path": "cases/pcm/hv_model.py",
+      "locator": "read_network3nodefull128data/128referencecoupledsource",
+      "evidence_type": "compact_model",
+      "applicability": "0.2Vpassivedischarge with acceptedresistancewindows andactualHVaccessR/C; finiteinitial/skew/leakagebounds",
+      "exclusions": "Notstochasticyield/noise/thermaldriftmodel"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "reset_waveform_s": 2e-08,
+        "set_waveform_s": 1e-07
+      },
+      "meaning": "Shortsourceplateau policycompatiblewithconservativeHVportbudget;fixedhardware;notarrayyield",
+      "evidence": [
+        "PCM-V5-01Figs3/5"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "50nsRESET/200nsSETsourceplateau policy onnewHVhardware;notstatisticaltypical",
+      "evidence": [
+        "PCM-V5-01Figs3/5"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "reset_waveform_s": 1e-07,
+        "set_waveform_s": 1e-06
+      },
+      "meaning": "Longersame-sourcepulsepolicy;no inventedprobability/PVT",
+      "evidence": [
+        "PCM-V5-01Figs3/5"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "Arbitraryfullmatrix;no same-dataskip orpreRESETcredit",
+    "input_port": "128bitlocalinputport→countedfull128Bytehold",
+    "write_port": "128bitrowtargethold→16lanequalifiedcurrentwaveformengine;noentirematrixshadow",
+    "output_endpoint": "All16signed25bitresultsinthecountedlocaloutputregisters",
+    "resident_endpoint": "AllcellsfullcoverRESET/SET,HVaccessoffandallcolumnreturn,physical128bitrowreadback+targetcompare beforematrixpublish",
+    "request_overlap": "serial_nonoverlap; rowlatchreusedfor16bitserialMACclockupdates",
+    "arbitration": "read/write/verifysharearray/128SA;externalpulsecontrollerreusedforreadENandwrite",
+    "retry": "Oneattempt;failedbinaryverifycommitsnopayload;resistancewindowspriorqualificationnotonlinewindowverify",
+    "maintenance": "Nonvolatilelocalpostprogramwindow;longtermdrift/recalibrationnotcovered",
+    "supply_startup": "Stable5V20mAprogramport,40mAreturn andlocal0.2V10mAprechargegroupport;startupexcluded;peakbudgetschecked"
+  },
+  "backend_plan": {
+    "branch": "MLPInferenceV3.0",
+    "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "entry": "run_components.py voltage_sense +digital",
+    "qualification": "NativevoltageoperatorsconsumerealHVarrayC; dedicatedsourceIV/Cdriverblocks; no polarization orRRAMprogramming"
+  },
+  "adapter_files": [
+    "hv_model.py",
+    "hv_port_probe.py",
+    "hv_array_probe.py",
+    "hv_data.json",
+    "hv_access_data.json",
+    "LICENSE.sky130.txt",
+    "adapter.py"
+  ]
+}

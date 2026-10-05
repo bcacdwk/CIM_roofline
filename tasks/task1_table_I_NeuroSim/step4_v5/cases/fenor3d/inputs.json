@@ -1,0 +1,669 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "fenor3d",
+  "implementation_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1",
+  "identity": {
+    "material": "6nmSLHZO/4nmOpoorIGOverticalANDFeFET,4layers",
+    "physical": "4layers×32independentlaterallanes×128binarycolumns=16384cells;oneactivelayeratatime,layercountiscapacity",
+    "read": "source-derivedEKVstateport+nativeMOSactivebias/resistorreference+nativeVSA;2048parallelbinarysenses,two64columnreadgroupsperlayer",
+    "write": "128-bitlogicalrowtarget;explicitbipolarHVgate/BL/SLcontrol,halfselectinhibit,material±2V20ns,perrowverify",
+    "process": "source50nmchannelgeometry;65nm300Knativeperiphery+fixedSKY130HVportgeometry;model-reference,notonefabricatedchip"
+  },
+  "logical": {
+    "K": 128,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "conditionedbinarythresholdthenexactINT8digital25bit;noENOB/yield/STAclaim"
+  },
+  "base_parameters": {
+    "channel_slope_factor": 1.5,
+    "temperature_K": 300,
+    "channel_width_m": 1e-07,
+    "channel_length_m": 5e-08,
+    "FE_relative_permittivity": 25,
+    "FE_thickness_m": 6e-09,
+    "layers": 4,
+    "extra_sense_cap_F": 2e-14,
+    "wire_cap_per_m": 2e-10,
+    "layer_pitch_m": 4e-08,
+    "physical_cols": 128,
+    "column_pitch_m": 1.7e-07,
+    "metal_rho_ohm_m": 2.2e-08,
+    "SL_width_m": 1e-06,
+    "SL_thickness_m": 2e-07,
+    "lateral_lanes": 32,
+    "row_pitch_m": 1.2e-07,
+    "state_window_shift_V": 0.0,
+    "selected_gate_V": -0.5,
+    "unselected_gate_V": -1.1,
+    "HV_control_allowance_s": 8e-09,
+    "threshold_window_V": 0.65,
+    "follower_extra_cap_F": 5e-16,
+    "follower_body_allowance_V": 0.05,
+    "follower_width_F": 2,
+    "technology_nm": 65,
+    "follower_length_ratio": 3,
+    "follower_gate_V": 0.78,
+    "reference_resistance_ohm": 1200000.0,
+    "read_pulse_s": 2e-08,
+    "sense_threshold_V": 0.005,
+    "sense_error_budget_V": 0.002,
+    "low_state_Vt_V": -1.05,
+    "high_state_Vt_V": -0.38,
+    "calibration_current_A": 2e-07,
+    "calibration_gate_V": -0.5,
+    "calibration_drain_V": 0.1,
+    "clock_Hz": 5000000,
+    "read_mux": 2,
+    "mux_target_ohm": 10000.0,
+    "reference_switch_target_ohm": 10000.0,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "mac_lanes": 16,
+    "accumulator_bits": 25,
+    "program_lanes": 128,
+    "program_pulse_s": 2e-08,
+    "program_voltage_V": 2.0,
+    "reset_residual_V": 0.001,
+    "precharge_width_F": 16.0,
+    "gate_driver_width_F": 32.0,
+    "precharge_error_fraction": 0.002,
+    "local_bias_supply_limit_A": 0.1,
+    "operand_route_cap_F": 1e-15,
+    "program_control_cap_F": 2e-14,
+    "qualified_read_field_V": 1.3333333333333333
+  },
+  "parameter_metadata": {
+    "channel_slope_factor": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "channel_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "channel_length_m": {
+      "unit": "m",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "FE_relative_permittivity": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "FE_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "layers": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "extra_sense_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "wire_cap_per_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "layer_pitch_m": {
+      "unit": "m",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "physical_cols": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "column_pitch_m": {
+      "unit": "m",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "metal_rho_ohm_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "SL_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "SL_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "lateral_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "row_pitch_m": {
+      "unit": "m",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "state_window_shift_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "selected_gate_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "unselected_gate_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "HV_control_allowance_s": {
+      "unit": "s",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "threshold_window_V": {
+      "unit": "V",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "follower_extra_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "follower_body_allowance_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "follower_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "follower_length_ratio": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "follower_gate_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "reference_resistance_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "read_pulse_s": {
+      "unit": "s",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "sense_threshold_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "sense_error_budget_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "low_state_Vt_V": {
+      "unit": "V",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "high_state_Vt_V": {
+      "unit": "V",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "calibration_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "calibration_gate_V": {
+      "unit": "V",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "calibration_drain_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "read_mux": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "mux_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "reference_switch_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "mac_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "accumulator_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "program_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "128physicalbitprogramtargetpaths,not16logicalbytes;nativeMUX/maskmatchactualHV128bitrow"
+    },
+    "program_pulse_s": {
+      "unit": "s",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "program_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "FENOR02"
+      ],
+      "role": "physical_evidence",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "reset_residual_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "precharge_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "gate_driver_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "precharge_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "local_bias_supply_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "operand_route_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "program_control_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    },
+    "qualified_read_field_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Sourceorfiniteengineeringmodelinputasexplicitinsourceledger;notclaimedallmeasuredsilicon"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "state_window_shift_V": 0.05
+      },
+      "meaning": "samehardwarefinitewiderthresholdwindowwithin50mVstate-shiftprobe;notprobabilityfastcorner",
+      "evidence": [
+        "FENOR02Fig9"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "samehardwareunshiftedsource-figurethresholdreference",
+      "evidence": [
+        "FENOR02Figs3/9"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "state_window_shift_V": -0.05
+      },
+      "meaning": "samehardwarefinite narrowerthresholdwindowwithin50mVstate-shiftprobe;notmaterialpopulationbound",
+      "evidence": [
+        "FENOR02Fig9"
+      ]
+    }
+  },
+  "sources": {
+    "FENOR02": {
+      "kind": "external_primitive",
+      "path": "tasks/task1_table_I_NVM/literature/10_fenor_3d/FENOR-04_2025_FeNOR_CIM_Design.pdf",
+      "locator": "Figs3,5,7,9,10,11; DOI10.1109/VLSITechnologyandCir65830.2026.11577291",
+      "evidence_type": "measuredprototype+reportedTCADgeometry",
+      "applicability": "4layerverticalAND,SLHZO6nm/OpoorIGO4nm,±2V20nsprogram;readVg−.5V20ns;halfselect2Vw/3/no1e9disturb;C2Cshift<50mV",
+      "exclusions": [
+        "noold20/40/80nsfullreadbudget",
+        "noautomatic100nsRAWDconstant",
+        "no4xthroughputfromlayers"
+      ],
+      "includes": [
+        "20nsdeviceprogramplateau andbinarythresholdendpointcondition"
+      ],
+      "excludes": [
+        "newHVdrive/isolation/return",
+        "newarrayread/sense/digital",
+        "externaldataport/fullcovermapping"
+      ],
+      "domain": "SameO0.1sSLHZOprocess;finite20nsprogram;arrayreadgate−.5,negativeoffgateandshortedgeexposurearequalifiedmodelconditions,notnewmeasuredmacro"
+    },
+    "EKV": {
+      "kind": "adapter",
+      "url": "https://hasler.ece.gatech.edu/Courses/ECE4430/Proj1/ekvpaper1.pdf",
+      "locator": "EnzKrummenacherVittoz1995 p91 Eq28/30/31;DOI10.1007/BF01239381",
+      "evidence_type": "physicalcompactequations",
+      "applicability": "continuousforward-minus-reverseFETport,thresholdstate/selected/passbiasconsumed",
+      "exclusions": [
+        "noPTC/TCADclaim",
+        "notuniquelyextractedIGOmodel"
+      ]
+    },
+    "SKY": {
+      "kind": "external_primitive",
+      "path": "cases/fenor3d/hv_table.json",
+      "locator": "lockedSKY130 g5v0d10v5 rawN/Pmeasurements andseparateTTcap;fullSHA/URLsintable",
+      "evidence_type": "measuredIV+PDKnominalC",
+      "applicability": "fixed130nm20um/.5umN,7um/.5umP;isolatedwellbipolarport;ratings/actualC/currentexplicit",
+      "exclusions": [
+        "notmeasurednegativelevelshifter",
+        "not65nmscaledHVdevices"
+      ],
+      "includes": [
+        "HVdriver/isolationportcurrent/C and8nsfinitecontrolallowancecondition"
+      ],
+      "excludes": [
+        "ferroelectric20nsmaterialpulse",
+        "NeuroSimVSA/digital",
+        "powerrailstartup"
+      ],
+      "domain": "Stablebipolardriverrailsandisolatedwellbodytracking;portsmustmeet±1.333VWL/±.667VBL/SL,qualifiedcontrollevelswithin5.5Voxide/11VVDS.8nscontrolallowanceisengineeringconditionaltransferfromsourced5Vport,notmeasurednegative-domainlatency."
+    },
+    "NATIVE": {
+      "kind": "native_circuit",
+      "path": "provenance/dependencies.lock.json",
+      "locator": "MLPInferenceV3.0 SHA6098feabaf17b8209a8edbef4a9c963b5f015132;RowDecoder/Mux/VSA/DFF/Adder",
+      "evidence_type": "circuitmodel",
+      "applicability": "separateactualarrayperipheryanddigitalbuilds;32copiesofone4layer128columnlane",
+      "exclusions": [
+        "noFeFETwritephysics",
+        "nativepositivegate/PMOSprechargeincompatibleandexplicitlyreplaced"
+      ]
+    },
+    "PORT": {
+      "kind": "adapter",
+      "path": "cases/fenor3d/fenor_model.py",
+      "locator": "ports/sense;activeNMOSsourcefollowerdata+resistorreference;4layerEKVandrealSLreturn",
+      "evidence_type": "finiteengineeringcompactport",
+      "applicability": "nativeIon/width/Vthwithdeclaredbodyallowance/WLscaling;zeroreset,HVisolationC,20nssensepulse;shortbiasexposurethenlatchholds",
+      "exclusions": [
+        "notfulllevelshiftertransistorimplementation",
+        "nooffset/BER/STAguarantee",
+        "noRRAMprogramalgorithm"
+      ]
+    },
+    "DESIGN": {
+      "kind": "service_policy",
+      "path": "cases/fenor3d/inputs.json",
+      "locator": "identity,mapping,resources andfullcover/verify schedule",
+      "evidence_type": "engineeringarchitecture",
+      "applicability": "K128N16/4layers×32laterallanes×128bits,2048SA/ref/followerpairs,4096bittilehold,128bitwriteport",
+      "exclusions": [
+        "notoriginal32x32prototypeoutputcount",
+        "noequalareaclaim",
+        "nofreematrixshadow"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "arbitraryoldbinarymatrix,allBL/SLparked0/allgateidle0 beforemodeentry",
+    "input_port": "128bitinputport,128Bvectorheldonce",
+    "write_port": "128bittargethold for16weights/onephysicalKrow,HVdriversinstalledallcolumns,inhibitunselectedrows",
+    "output_endpoint": "16signedresultsafterfourlayerreadtiles and1024nativeMACupdates",
+    "resident_endpoint": "all128logicalrowsreset/programmedandperrowverified,returnedreadsafe;noalwayspreerasedstate",
+    "request_overlap": "serialnonoverlap,sourcepulseandnativeinternalphaseassignedonce",
+    "arbitration": "samearray/SA/tileholdreadwriteexclusive;target128bitsheldthroughverify",
+    "retry": "onefiniteprogramandverifyattempt;failedbinaryendpointnominalmodel suppressespayload,notWERmodel",
+    "maintenance": "no longtermrecalibrationinlocalwindow;finitebias/enduranceconditionexplicit",
+    "supply_startup": "stable±1.333WL/±.667BL/SL,+3VHVgatecontrol/native1.1/.78Vbias;isolatedwellqualified;startupnotcharged;currents/loadsreported"
+  },
+  "backend_plan": {
+    "native": "MLPthresholdcomponentanddigitaltilebank",
+    "adapter": "fourlayerFETnetwork/activebias/HVports/statefullcover",
+    "external": "source20nspolarizationandqualifiedfinitebipolarport;nooldaggregateread"
+  },
+  "adapter_files": [
+    "fenor_model.py",
+    "ekv_port.py",
+    "hv_table.json",
+    "LICENSE.sky130.txt"
+  ]
+}

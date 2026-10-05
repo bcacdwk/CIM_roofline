@@ -1,0 +1,203 @@
+{
+  "case_id": "nand3d",
+  "revision": "p4-frozen-hybrid-20261005",
+  "status": "three_candidate_model_reference_pairs_ready_for_independent_review",
+  "formal_points": 0,
+  "run_dir": "/Users/shine/neurosim/runs/step4-v5/p0/nand-route-20261005",
+  "sources": {
+    "NAND-04": {
+      "title": "System-Technology Codesign of 3-D NAND Flash-Based Compute-in-Memory Inference Engine",
+      "year": 2021,
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
+        "pages": 9,
+        "bytes": 6526810,
+        "sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5"
+      },
+      "actual_sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5"
+    },
+    "NAND-05": {
+      "title": "Optimal Design Methods to Transform 3D NAND Flash into a High-Density, High-Bandwidth and Low-Power Nonvolatile Computing in Memory (nvCIM) Accelerator for Deep-Learning Neural Networks (DNN)",
+      "year": 2019,
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
+        "pages": 4,
+        "bytes": 898744,
+        "sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833"
+      },
+      "actual_sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833"
+    },
+    "NAND-06": {
+      "title": "MX30LF1G18AC: 3V, 1Gb NAND Flash Memory",
+      "year": 2016,
+      "revision": "PM2133, Rev.1.2, May 27, 2016",
+      "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8458/MX30LF1G18AC%2C%203V%2C%201Gb%2C%20v1.2.pdf",
+      "pdf": {
+        "path": "literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
+        "pages": 73,
+        "bytes": 976793,
+        "sha256": "8f7cb36dbd90d3592f13cee5b57404e1def5caf64296537b59d40385aff86f24"
+      }
+    }
+  },
+  "originals_reviewed": [
+    "NAND-04 pp2–3 topology/geometry/Table1; p7 BSIM description",
+    "NAND-05 pp1–3 device/IdVg/encoding; p2 calibration",
+    "NAND-06 pp25,31,58 complete P/E coverage; legacy extraction traceable to local original"
+  ],
+  "provenance_classes": {
+    "physical_evidence": [
+      "NAND-05 measured low-current SGVC read point and distribution",
+      "NAND-04 16pF SL reported model load"
+    ],
+    "architecture": [
+      "32layer model extension from directly measured16layer SGVC",
+      "64block/3SSL/base4",
+      "split signs and two input sign masks",
+      "4group×1152 activities",
+      "10bit25uAADC and explicit encoding/calibration resources"
+    ],
+    "old_aggregate_slots_comparison_only": [
+      "WL303ns",
+      "BL12ns at50percent sparsity",
+      "SL530–750ns max-bit"
+    ],
+    "external_blackbox": [
+      "NAND-06 complete SLC P/E cross-implementation, no duplicate internal verify"
+    ]
+  },
+  "source_conflict": "NAND-04 p2 calls referenced experimental chip32layer; NAND-05 p1 explicitly16layer. Treat32layer as architectural extrapolation.",
+  "missing": [
+    "Id-Vds/small-signal slope at SL compliance",
+    "selected/unselected state/back-pattern dependent string model",
+    "SGVC WL/BL/SL/SSL/GSL C and R or geometry sufficient to extract them",
+    "qualified HV pass/driver and SL sense transfer",
+    "independent validation point distinct from calibration",
+    "same-implementation full SLC P/E or explicit conditional transfer"
+  ],
+  "supplementary_sources": [
+    {
+      "id": "3D-FPIM",
+      "repo": "https://github.com/SNU-HPCS/3D-FPIM",
+      "sha": "bd17a3a3c7a6a2ef98beb7a5379e2110f94df706",
+      "role": "candidate geometry/parasitic formula only",
+      "limit": "Samsung64-layer macaroni parameters FIXME, time-coded50nA PIM identity differs; no production import",
+      "selected_files": [
+        {
+          "path": "3D-FPIM-selected/README.md",
+          "sha256": "2aa19eff05ba02bd609aeff0db68df93638da170a4f2090df664c6dbe2a8464d"
+        },
+        {
+          "path": "3D-FPIM-selected/3DFPIM-NVSim/3D_FPIM.cell",
+          "sha256": "e63653df0ae0bad4ea0fed9108893fe7895404a5e0e95636454e0417a2cd9ddd"
+        },
+        {
+          "path": "3D-FPIM-selected/3DFPIM-NVSim/README.md",
+          "sha256": "cd954c84ef5e095075859453b34b25dae720964bce4899f3d10bc25ea3eb402d"
+        },
+        {
+          "path": "3D-FPIM-selected/3DFPIM-NVSim/MemCell.cpp",
+          "sha256": "f8a256f6ae229028b5393c7c2d74778323ce475937f9ea6ae035368c4445bb86"
+        },
+        {
+          "path": "3D-FPIM-selected/3DFPIM-NVSim/SubArray.cpp",
+          "sha256": "6318714ed5bfa4d8e28f01e64492b276a570c2624ee87fc00bc7da9a81969521"
+        },
+        {
+          "path": "3D-FPIM-selected/3DFPIM-NVSim/tech_params/Calculate.py",
+          "sha256": "06482b93181dbb2435f0d1b6718961d4f698be9e613a43509dfc53ccab11c13c"
+        },
+        {
+          "path": "3D-FPIM-selected/3DFPIM-NVSim/tech_params/example.cfg",
+          "sha256": "83cf3d399f22cb92400cf77491cbdd92b620bd65d15c7fdcdb59cdde6515fa1a"
+        }
+      ]
+    },
+    {
+      "id": "APS2025",
+      "doi": "10.7498/aps.74.20250891",
+      "url": "https://wulixb.iphy.ac.cn/article/pdf/preview/10.7498/aps.74.20250891.pdf",
+      "local": "/Users/shine/neurosim/runs/step4-v5/p0/nand-route-20261005/APS2025_NAND_CIM.pdf",
+      "sha256": "e27faa7882a8fe293be528eb7c3063d358a35f5cfa1d3663d66b90df41177f75",
+      "repo": "https://github.com/zhenghao21/CIM-Simulator-based-3D-NAND",
+      "sha": "e9de1a5e0deff03209810e195da549f7a2ddf34d",
+      "limit": "160nA product-level segmented SL; aggregate setup times, not source of required compact network"
+    }
+  ],
+  "actual_probe": {
+    "script_sha256": "2226e6adf4f6b92dde478c64baeef09bf11ec7caf82fc2a62b9ae7e3a45ffaa1",
+    "result": {
+      "status": "identifiability_gap_demonstrated_not_service",
+      "physical_scalar_pairs_checked": 65536,
+      "mapping_mismatches": 0,
+      "physical_cells": 84934656,
+      "reference_cells": 5308416,
+      "data_cells": 79626240,
+      "logical_K_N": [
+        4608,
+        240
+      ],
+      "cells_per_INT8_weight": 72,
+      "page_programs": 6144,
+      "block_erases": 64,
+      "data_pages": 5760,
+      "reference_pages": 384,
+      "max_group_current_A": 2.0736000000000003e-05,
+      "nominal_ADC_LSB_in_unit_currents": 12.20703125,
+      "V_over_I_is_ohm": 100000000.0,
+      "witnesses": [
+        {
+          "witness": "A",
+          "I_at_VDS_0p2_A": 2e-09,
+          "gds_S": 0.0,
+          "assumed_feedback_G_S": 0.002,
+          "VSL_steady_V": 0.010368,
+          "single_pole_time_to_1_over_1024_s": 5.545177444479563e-08,
+          "qualification": "arbitrary positive witness, not a device scenario; no performance eligibility"
+        },
+        {
+          "witness": "B",
+          "I_at_VDS_0p2_A": 2e-09,
+          "gds_S": 1e-09,
+          "assumed_feedback_G_S": 0.02,
+          "VSL_steady_V": 0.0010362628013637731,
+          "single_pole_time_to_1_over_1024_s": 5.542304313923224e-09,
+          "qualification": "arbitrary positive witness, not a device scenario; no performance eligibility"
+        }
+      ],
+      "missing": [
+        "dI/dVDS vs selected/pass state and SL compliance",
+        "WL/BL/SSL/GSL capacitance and resistance network",
+        "source sense feedback topology/gain/bandwidth",
+        "same-topology independent load/state/geometry point"
+      ],
+      "published_service_points": 0
+    },
+    "limitation": "arbitrary witnesses demonstrate nonidentifiability; not proposed scenario values"
+  },
+  "next_action": "independentA review of finalthreefresh snapshots andmajorcounts;P5 once full21fresh fromcomputeonlypackage",
+  "p4_second_route": {
+    "script": "string_probe.py",
+    "result": "/Users/shine/neurosim/runs/step4-v5/p4/nand-string-20261005/series_probe.json",
+    "status": "actual_series_node_electrical_probe_not_formal_service",
+    "mechanism": "EKV forward-reverse current, real GSL/storage/SSL series path, finiteVBL/VSL",
+    "source_equation_reference": "../fenor3d/evidence.json p2_compact_alternative equation_source",
+    "unvalidated": "absoluteVt,n approximate sourceFig6 shape; no unique gds/portC extraction; no formal rates",
+    "next": "sharedSL finite-bias integration and HVread-driver scope"
+  },
+  "candidate_points": 3,
+  "p4_hybrid": {
+    "official_amplifier_source": "https://www.analog.com/media/en/technical-documentation/data-sheets/62689f.pdf",
+    "verification": "Official PDF pages3-4 read throughweb;localcurl --http1.1 timed out,no localPDF claimed",
+    "array_frontend": "seriesEKV electricaltable+all41472string KCL+finite2AMP dynamics;internalchannelC uses differentialconductanceRC surrogate",
+    "GPIO_HVsource": "hv_driver_characterization.json;read<=4.5V only",
+    "current_snapshot": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+    "source_pages": "tasks/task1_table_I_NVM/literature/04_nand_3d/NAND-{04,05,06} PDFs; priorledgerSHA retained",
+    "failed_candidates": "passiveSL background-sensitive probe; initialnative400nsclock rejected by409.03ns minimum;current500nsfixedallscenarios",
+    "final_runs": [
+      "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-nand-optimistic-final-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-nand-reference-final-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-nand-pessimistic-final-20261005"
+    ]
+  }
+}

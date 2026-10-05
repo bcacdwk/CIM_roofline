@@ -1,0 +1,563 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "pcm",
+  "implementation_id": "pcm_tst_1t1r_binary_ref64_k128n16_v1",
+  "identity": {
+    "material": "Ti0.4Sb2Te3",
+    "cell": "ordinary1T1R; binary eight weight planes",
+    "device_node_nm": 40,
+    "peripheral_model": "45nmLSTP bulkMOS native1.0V; engineered7.08um-wide write-capable access in8um pitch, not measured40nm macro",
+    "read": "single selected row;64data/reference sense lanes;fixed40kohm resistor and matched-cap reference per lane",
+    "program": "16current-source lanes;.5mARESET/.2mASET;shared8mA return capacity required",
+    "precision": "binary conditional state/sense correctness followed by nominal exact signedINT8 local25bit arithmetic",
+    "source_state": "Selected accepted endpoints10k/500k, on<=20k/off>=200k windows; not measured global means or yield",
+    "source_return": "192data/reference local2umx1um Cu-equivalent straps of128um;full1536um peripheral-inclusive20umx2um commonreturn; couplingcap goes into native readport."
+  },
+  "logical": {
+    "K": 128,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "25bit exact arithmetic conditional on binary sensing/storage; no silicon yield/offset/noise guarantee"
+  },
+  "base_parameters": {
+    "technology_nm": 45,
+    "device_node_nm": 40,
+    "temperature_K": 300,
+    "rows": 128,
+    "cols": 128,
+    "read_mux": 2,
+    "write_mux": 8,
+    "resistance_on_ohm": 10000.0,
+    "resistance_off_ohm": 500000.0,
+    "access_resistance_ohm": 500.0,
+    "cell_pitch_x_m": 8e-06,
+    "cell_pitch_y_m": 1e-06,
+    "read_voltage_V": 0.2,
+    "access_voltage_V": 1.0,
+    "write_port_voltage_V": 1.0,
+    "wire_ohm_per_m": 10000000.0,
+    "clock_Hz": 12500000.0,
+    "extra_column_cap_F": 0.0,
+    "sense_threshold_V": 0.01,
+    "reference_resistance_ohm": 40000.0,
+    "reference_cap_ratio": 1.0,
+    "sense_error_budget_V": 0.005,
+    "on_accept_max_ohm": 20000.0,
+    "off_accept_min_ohm": 200000.0,
+    "reset_current_A": 0.0005,
+    "set_current_A": 0.0002,
+    "reset_waveform_s": 2e-08,
+    "set_waveform_s": 2e-07,
+    "shared_return_limit_A": 0.008,
+    "write_attempt_limit": 1,
+    "precharge_width_F": 8.0,
+    "precharge_error_fraction": 0.01,
+    "source_metal_resistivity_ohm_m": 2.2e-08,
+    "source_column_width_m": 2e-06,
+    "source_column_thickness_m": 1e-06,
+    "source_bus_width_m": 2e-05,
+    "source_bus_thickness_m": 2e-06,
+    "source_BL_spacing_m": 5e-07,
+    "source_dielectric_relative_permittivity": 3.9,
+    "source_fringe_F_per_m": 2e-10,
+    "on_accept_min_ohm": 5000.0,
+    "off_accept_max_ohm": 2000000.0,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "read_mux_IR_fraction": 0.5,
+    "write_mux_target_ohm": 100.0,
+    "enable_skew_limit_s": 1e-09,
+    "unselected_BL_initial_max_V": 0.2
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "device_node_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "rows": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "cols": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "read_mux": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "write_mux": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "resistance_on_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "resistance_off_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "access_resistance_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "cell_pitch_x_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "cell_pitch_y_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "read_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "access_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "write_port_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "wire_ohm_per_m": {
+      "unit": "ohm/m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "extra_column_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Other sense-only addedload excluding source-gridcoupling, which is uniquelyderived fromsource geometry inprepare."
+    },
+    "sense_threshold_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "reference_resistance_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "reference_cap_ratio": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "sense_error_budget_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "on_accept_max_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "off_accept_min_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "reset_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "set_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "reset_waveform_s": {
+      "unit": "s",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "set_waveform_s": {
+      "unit": "s",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "shared_return_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "write_attempt_limit": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed reference design/finite accepted endpoint condition; fields are not inferred measured population values."
+    },
+    "precharge_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "NMOS precharge fromstable.2Vrail; positive Vdd-Vread-Vth checked; native R corrected for reducedoverdrive"
+    },
+    "precharge_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "NMOS precharge fromstable.2Vrail; positive Vdd-Vread-Vth checked; native R corrected for reducedoverdrive"
+    },
+    "source_metal_resistivity_ohm_m": {
+      "unit": "ohm*m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_column_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_column_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_bus_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_bus_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_BL_spacing_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_dielectric_relative_permittivity": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "source_fringe_F_per_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "on_accept_min_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "off_accept_max_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedexplicit sourcegrid/acceptedworking endpoint design; copper effective rho at300K engineering choice, no distributions or measuredchipclaim"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Explicitlocalportwithnativepartial-beatholdmuxes"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Explicitlocalportwithnativepartial-beatholdmuxes"
+    },
+    "read_mux_IR_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Single selectedrow readTGs andindependentthermal-write routes are physicallydistinct;nativeR,width,C andallloads reinitialized"
+    },
+    "write_mux_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Single selectedrow readTGs andindependentthermal-write routes are physicallydistinct;nativeR,width,C andallloads reinitialized"
+    },
+    "enable_skew_limit_s": {
+      "unit": "s",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Finite±1ns residualenable-skew qualification aroundactualnative matched-WLreplica;notmeasuredjitter/PVTdistribution;allendpointloadcontexts mustkeepmargin"
+    },
+    "unselected_BL_initial_max_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "UnobservedBLcanretain0..readrailafterpriorrow;externalprogramengine mustreturn allcolumnsto thisread-safe domain beforeverify;nozero-parking hardwareassumed"
+    }
+  },
+  "sources": {
+    "PCM-V5-01": {
+      "kind": "external_primitive",
+      "locator": "PDF pp2-3 Fig2-7",
+      "evidence_type": "measured",
+      "applicability": "Ti0.4Sb2Te3 40nm1T1R current pulse and accepted binary endpoint service",
+      "exclusions": "Not device population yield; no measured read bias/current-source compliance or separately defined edge/cooling",
+      "url": "https://doi.org/10.1007/s40820-015-0030-z",
+      "includes": [
+        "reported RESET current waveform duration",
+        "reported SET current waveform duration including its effective crystallization action"
+      ],
+      "excludes": [
+        "new-array selection and admission",
+        "final verify and comparison",
+        "separately characterized edge/cooling not available"
+      ],
+      "domain": "Same material35nmBEC; .5mARESET, .2mASET; only qualified final endpoint at verification time. Pulse width is not a universal access."
+    },
+    "NATIVE": {
+      "kind": "native_circuit",
+      "locator": "MLPInferenceV3.0 NeuroSim/SubArray.cpp/VoltageSenseAmp.cpp/formula.cpp",
+      "evidence_type": "model",
+      "applicability": "45nmLSTP300K initialized geometry; explicit read ports",
+      "exclusions": "No PCM switching/stochastic yield or transistor mismatch model",
+      "path": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132"
+    },
+    "DESIGN": {
+      "kind": "service_policy",
+      "locator": "cases/pcm/inputs.json and case_adapter.py",
+      "evidence_type": "engineering",
+      "applicability": "New localK128N16 binary1T1R candidate; fixed read/sense/write resources",
+      "exclusions": "Not measured40nm macro; no generic temperature or material distribution",
+      "path": "cases/pcm/inputs.json"
+    },
+    "RCMODEL": {
+      "kind": "adapter",
+      "locator": "case_adapter.py reference exponential network",
+      "evidence_type": "model",
+      "applicability": "Passive data/reference discharge atactualR/C; native sense pulse with10mV design target",
+      "exclusions": "Not noise/offset characterization; reference resistor mismatch remains explicitly budgeted",
+      "path": "cases/pcm/case_adapter.py"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "reset_waveform_s": 1e-08,
+        "set_waveform_s": 1e-07
+      },
+      "meaning": "Source short characterized current-pulse policy, fixedhardware/temperature/read state; finite successful endpoint condition",
+      "evidence": [
+        "PCM-V5-01 Figs3/5/7"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "Source plateau20nsRESET/200nsSET operating policy chosen as reference, not measured statisticaltypical",
+      "evidence": [
+        "PCM-V5-01 Figs3/5"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "reset_waveform_s": 1e-07,
+        "set_waveform_s": 1e-06
+      },
+      "meaning": "Longer source plateau pulse policy on samehardware; no invented device distribution",
+      "evidence": [
+        "PCM-V5-01 Figs3/5"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "Arbitrary previous full matrix; no pre-reset or same-data skip",
+    "input_port": "128bit local port ->1024bit full inputhold; all128logical inputBytes admitted each request",
+    "write_port": "128bit row targetbuffer,16parallelcurrent lanes;RESET allbits and maskedSET with reserved slots then full128bit rowverify",
+    "output_endpoint": "All16 signed25bit outputs in counted register and locally transferred; no free multiplier",
+    "resident_endpoint": "BLOCKED: source-equivalentcurrentpulses areknown butpostprogramHVvoltage/qualifiedreturnandreadisolation notyetclosed; nofullresidenttime/ratepublished.",
+    "request_overlap": "serial_nonoverlap; row weightlatch reused for8inputbit computations, requests mutually exclusive",
+    "arbitration": "read/write/verifyshare64SAs and array; programming pausesstreaming",
+    "retry": "One complete programattempt per row; verification rejects out-of-window states, no successprobability inferred",
+    "maintenance": "No refresh; local post-write service window only; drift/recalibration beyondwindow uncharacterized",
+    "supply_startup": "Stable devicecurrent sources and readprecharge supply required; power-on/startup excluded; .5mAperlane/8mAtotal musthold"
+  },
+  "backend_plan": {
+    "branch": "MLPInferenceV3.0",
+    "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "entry": "native_probe.py",
+    "extensions": [
+      "actualpassive reference transient",
+      "fullbitcoverageprogram",
+      "25bit localdigitalreconstruction"
+    ],
+    "qualification": "referencecircuit and programwaveform endpoint conditions remain reviewable modelconditions",
+    "resident_gap": "SeparatequalifiedHVreturn/isolation compactport beingtested; native1V TG notvalidatunknownhotBLvoltage"
+  },
+  "adapter_files": [
+    "adapter.py"
+  ]
+}

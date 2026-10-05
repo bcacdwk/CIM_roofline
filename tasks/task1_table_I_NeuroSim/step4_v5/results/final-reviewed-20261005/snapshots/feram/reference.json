@@ -1,0 +1,463 @@
+{
+  "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__reference",
+  "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+  "parameters": {
+    "technology_nm": 130,
+    "temperature_K": 300,
+    "rows": 32,
+    "cols": 128,
+    "clock_Hz": 5000000.0,
+    "FE_area_um2": 1.0,
+    "plate_voltage_V": 2.5,
+    "HV_WL_voltage_V": 5.0,
+    "BL_wire_extra_cap_F": 1.0786e-13,
+    "reference_cap_F": 1.0673515981735165e-13,
+    "sense_threshold_V": 0.05,
+    "sense_error_V": 0.05,
+    "sense_pitch_m": 6e-06,
+    "pitch_x_m": 4e-06,
+    "pitch_y_m": 3e-06,
+    "wire_cap_F_per_m": 2e-10,
+    "plate_wire_cap_F": 1.024e-13,
+    "PL_driver_P7": 128,
+    "PL_driver_N20": 16,
+    "BL_driver_P7_each": 4,
+    "write_supply_limit_A": 0.25,
+    "settle_error_fraction": 0.01,
+    "local_waveform_control_guard_s": 1e-09,
+    "read_dwell_s": 1e-07,
+    "full_write_source_s": 2e-08,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "mac_lanes": 8,
+    "accumulator_bits": 25,
+    "restore_lanes": 128,
+    "external_write_lanes": 128,
+    "operand_route_cap_F": 1e-15,
+    "program_control_cap_F": 1e-15,
+    "control_quantum_s": 1e-08
+  },
+  "logical": {
+    "K": 32,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "25bitexactlocalarithmetic conditionalonbinarypolarizationsense;notmeasuredarrayaccuracy"
+  },
+  "identity": {
+    "material": "TiN/HZO11nm/TiN,1um2,sourceFERAM03",
+    "cell": "Destructive1T1C remanentpolarization;actualHV3um/.5access",
+    "array": "32x128bits/128SA/reference/128realrestoreandexternalwritepaths;globalPLwithunselectedfloatingcapload",
+    "periphery": "130nmLVvoltageSenseAmp/hold/digital behindratedHVports",
+    "precision": "NominalbinaryconditionedexactINT8arithmetic25bit,notENOBorsiliconprecision",
+    "read_policy": "100nsextradwellaftercalculatedstablebias;distinctfromsourcemeasuredfull100nsoperation"
+  },
+  "native_resolved": {
+    "frontend": {
+      "case_charge_ports": 1.0,
+      "external_HV_access_required": 1.0,
+      "synthetic_charge_solution_eligible": 0.0,
+      "native_access_diagnostic_drain_F": 1.9481405291966803e-16,
+      "native_decoder_load_F": 6.525936694444138e-13,
+      "native_decoder_area_m2": 1.1720217599999998e-09,
+      "native_vdd_V": 1.3,
+      "native_SA_internal_cap_F": 7.137835867478258e-15,
+      "actual_access_drain_F": 1.3514059365759998e-13,
+      "actual_BL_total_cap_F": 2.5013842952507824e-13,
+      "native_voltage_sense_s": 2.0006961243262037e-07,
+      "native_sense_included_enable_s": 2e-07,
+      "native_SA_area_m2": 4.552704e-09,
+      "effective_access_R_ohm": 1159.1834804298533,
+      "access_R_source_external": 1.0,
+      "native_access_R_ohm": 51213.83438643167,
+      "native_WL_gate_compatible": 0.0,
+      "native_WL_select_s": 8.215525332654614e-09,
+      "native_LV_decoder_s": 8.215525332654614e-09,
+      "physical_activation_domain_bits": 128.0,
+      "destructive_domain_bits": 128.0,
+      "actual_state_hold_bits": 128.0,
+      "native_state_capture_s": 1e-07,
+      "restore_batches": 1.0,
+      "restore_required": 1.0,
+      "post_read_polarization_state": 1.0,
+      "native_hold_area_m2": 5.52394752e-09,
+      "native_periphery_area_m2": 1.124867328e-08,
+      "component_only": 1.0
+    },
+    "digital": {
+      "input_ingress_beats": 2.0,
+      "input_ingress_select_s": 7.046096041672949e-09,
+      "input_ingress_area_m2": 1.8485084799999997e-09,
+      "target_ingress_beats": 1.0,
+      "target_ingress_select_s": 1.4674635179162552e-10,
+      "target_ingress_area_m2": 9.206579199999998e-10,
+      "weight_ingress_beats": 1.0,
+      "weight_ingress_select_s": 1.4674635179162552e-10,
+      "weight_ingress_area_m2": 9.206579199999998e-10,
+      "input_rows": 32.0,
+      "input_cols": 128.0,
+      "logical_K": 32.0,
+      "logical_N": 16.0,
+      "accumulator_bits": 25.0,
+      "extra_25bit_adder_lanes": 8.0,
+      "input_hold_bits": 256.0,
+      "target_hold_bits": 128.0,
+      "weight_hold_bits": 128.0,
+      "weight_hold_rows": 1.0,
+      "weight_hold_outputs": 16.0,
+      "signed_output_hold_bits": 400.0,
+      "input_capture_s": 1e-07,
+      "target_hold_capture_s": 1e-07,
+      "weight_hold_capture_s": 1e-07,
+      "signed_capture_s": 1e-07,
+      "input_row_capture_s": 1e-07,
+      "input_row_select_s": 4.843733324460205e-09,
+      "input_bit_select_s": 4.0252909356031894e-08,
+      "weight_group_select_s": 7.945560410571192e-09,
+      "weight_row_select_s": 0.0,
+      "weight_keep_s": 1.4674635179162552e-10,
+      "extra_shifted_weight_mux_s": 3.0453358725317937e-10,
+      "extra_shift_select_s": 2.248612536625192e-08,
+      "group_select_s": 2.4756002089315267e-08,
+      "data_zero_mask_s": 1.88498777280063e-10,
+      "extra_accumulator_feedback_mux_s": 4.992068982235556e-10,
+      "extra_25bit_adder_s": 1.4871781033309138e-08,
+      "signed_correction_s": 3.807206374284407e-08,
+      "add_sub_result_select_s": 1.8363242730044785e-10,
+      "accumulator_keep_s": 3.86811914960238e-10,
+      "verify_target_select_s": 2.5060535676568446e-08,
+      "verify_data_select_s": 7.945560410571192e-09,
+      "verify_byte_compare_s": 1.287855496617176e-08,
+      "verify_fail_reduce_s": 1.0467493248735151e-09,
+      "verify_sticky_or_s": 2.1719800821490175e-10,
+      "verify_status_capture_s": 1e-07,
+      "program_target_select_s": 0.0,
+      "program_target_mask_logic_s": 9.400067051559365e-11,
+      "retry_increment_s": 1.2189698953399345e-09,
+      "retry_state_capture_s": 1e-07,
+      "state_clear_bits": 403.0,
+      "state_clear_s": 1.0213772648958701e-07,
+      "state_clear_comb_s": 2.1377264895870116e-09,
+      "state_clear_gates": 808.0,
+      "data_zero_mask_gates": 400.0,
+      "weight_sign_extension_max_fanout": 116.0,
+      "digital_mac_comb_s": 7.908391621841672e-08,
+      "digital_verify_comb_s": 3.920303797582863e-08,
+      "digital_critical_comb_s": 7.908391621841672e-08,
+      "digital_halfcycle_min_period_s": 1.5816783243683344e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_area_m2": 9.132769464e-08,
+      "native_vdd_V": 1.3,
+      "native_vth_V": 0.4660949,
+      "component_only": 1.0
+    }
+  },
+  "stream_stages": [
+    {
+      "id": "input_admission",
+      "duration_s": 2e-07,
+      "count": 2,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "256bitinputhold/128bitlocalport",
+      "includes": "All32logicalinputBytesonce",
+      "excludes": "Nooffmacrotransport",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "stream_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Actualresult/statusclear",
+      "includes": "Removeoldrequeststate",
+      "excludes": "NotresetFEbits",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "input_row_select",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Nativeinputrow/bytehold",
+      "includes": "Oneinputbyteperrow",
+      "excludes": "Notparallelinputports",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "HV_BL_precharge",
+      "duration_s": 2e-08,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "POLICY"
+      ],
+      "resources": "128HVgroundprechargers/rowinhibit/refBL",
+      "includes": "AllWLoff,BL/PL0first,address/controlstable;readstatepreservedatquiescentFEbias",
+      "excludes": "Nooldprechargeaccessbudget"
+    },
+    {
+      "id": "HV_select_and_plate_settle",
+      "duration_s": 2.545811533117516e-08,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "FERAM-03",
+        "QMODEL",
+        "HV",
+        "POLICY"
+      ],
+      "resources": "ActualHVaccess/gate+globalPLsource/128refs",
+      "includes": "TurnselectedWLonlyonthenapply2.5Vplate,includingactualdata/ref/unselectedplatecharge",
+      "excludes": "No100nsdwellalreadyinside"
+    },
+    {
+      "id": "extra_quasistatic_read_dwell",
+      "duration_s": 1e-07,
+      "count": 32,
+      "source_class": "service_policy",
+      "source_ids": [
+        "FERAM-03",
+        "POLICY"
+      ],
+      "resources": "ActualbiasedFE/BLnetwork",
+      "includes": "Newconservative100nswaitAFTERstablebias,basedonsource100nsobservabilitydomain",
+      "excludes": "NotmaterialconstantorclaimedNeuroSimlatency;notold8/20/50nsreadslot"
+    },
+    {
+      "id": "native_voltage_sense",
+      "duration_s": 2.0006961243262037e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128nativevoltageSA",
+      "includes": "Latchafterqualifiedchargepoint;native1/foutput/enablephaseincludedonce",
+      "excludes": "No200nscontinuedpolarization-integrationassumption",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "allbit_state_weight_capture",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128physicalreadhold+128digitalrowhold",
+      "includes": "Bothholdsreceivedsame128binaryvalues;allactivebitsretainedbeforerestore",
+      "excludes": "Nofullmatrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "restore_port_prearm",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "POLICY"
+      ],
+      "resources": "128truewrite/restorepaths+sourceholdselector",
+      "includes": "Oneexplicitextraarmingclock/isolation/targetsourcechoicebeforecompletewrite;actualcontrolbudgetfits",
+      "excludes": "Notmaterialpulseorsecondrestorationport"
+    },
+    {
+      "id": "complete_internal_restore",
+      "duration_s": 2e-08,
+      "count": 32,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "FERAM-03",
+        "HV"
+      ],
+      "resources": "Same128HVwritepaths/globalPL",
+      "includes": "Onefullsource-qualifiedwritecycletooriginal128bitsfromunqualifiedpostreadstates;includesallinternalpolarities/recovery",
+      "excludes": "No2x14ns andrestorepayloadzero"
+    },
+    {
+      "id": "signed_bitserial_MAC",
+      "duration_s": 2e-07,
+      "count": 512,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "8native25bitlanes/16resultregisters",
+      "includes": "8inputbitsx2outputgroupsusingheldcompleteweightrow",
+      "excludes": "Nottruth-correctedanalogoutput",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "result_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "POLICY"
+      ],
+      "resources": "Countedstatus",
+      "includes": "Publishalreadyheld16outputs",
+      "excludes": "Noextrabytes"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "resident_state_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Actualstatus/retryclear",
+      "includes": "Initialcontrolstateclear",
+      "excludes": "NotfreeFEerase",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "target_admission",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bitrowtarget/localport",
+      "includes": "All512logicalweightBytesreceivedrowbyrow",
+      "excludes": "Noentirematrixpreload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "external_write_prearm",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "POLICY"
+      ],
+      "resources": "Same128physicalHVengines/rowsel/targetmux",
+      "includes": "Extraarmingclockafterrowtarget;allHVdomainsstablewithquiescentcells",
+      "excludes": "Not14nsinternalphasechargedtwice"
+    },
+    {
+      "id": "complete_external_row_write",
+      "duration_s": 2e-08,
+      "count": 32,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "FERAM-03",
+        "HV"
+      ],
+      "resources": "128physicalwritepaths/sharedwithrestore",
+      "includes": "Onecompletebipolar-capablewriterowservicefromarbitraryoldstate;includesnativewaveform/recovery",
+      "excludes": "Noerasecreditorperpolarity14nsdoubling"
+    },
+    {
+      "id": "matrix_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "POLICY"
+      ],
+      "resources": "Existingstatus",
+      "includes": "Publishonlyafterall32fullrowsready",
+      "excludes": "Noadditionalpayload"
+    }
+  ],
+  "physical_check_outcomes": [
+    {
+      "id": "real_HZO_identity",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "charge_conservation",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "sense_margin_and_range",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "unselected_PL_hold",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "HVdrive_budget",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "HV_read_isolation",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "same_source_CBL_scale",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "all_destructive_bits_restored",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "failure_zero_payload",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "complete_write_not_perpolarity",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "signed_local_mapping",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true
+    }
+  ],
+  "full_checks_local_source": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-final-seven-from-compute-package-20261005-reference/case_model.json",
+  "maintenance_summary": null
+}

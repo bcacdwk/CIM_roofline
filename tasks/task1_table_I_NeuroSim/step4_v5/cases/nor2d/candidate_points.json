@@ -1,0 +1,206 @@
+{
+  "case_status": "ready_for_review",
+  "formal_eligibility": false,
+  "model_revision": "actualP2v2ports+Ioff;finiteWLandreferenceTG;unfavourablegatechargeenvelope;fixed4pFaddedcap;fullSPI+completePEengine",
+  "paired_points": [
+    {
+      "case_id": "nor2d",
+      "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+      "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "review_state": "not_reviewed",
+      "K": 256,
+      "N": 16,
+      "B_S_Byte": 256,
+      "B_R_Byte": 4096,
+      "single_latency_s": 0.0013859999999999999,
+      "delta_S_raw_s": 0.0013859999999999999,
+      "resident_s": 0.052077656,
+      "rho_MB_per_s": 0.18470418470418473,
+      "tau_MB_per_s": 0.07865177342083138,
+      "RI_star": 2.348379148629149,
+      "U_star": 37.574066378066384,
+      "range_meaning": "Fixedhardware1.3VreadgateandproducttypPEpolicy;notstatisticalfastcorner",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-optimistic-r2-20261005",
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-optimistic-r2-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-optimistic-r2-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-final-optimistic-r2-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-final-optimistic-r2-20261005-frontend",
+          "source_manifest_sha256": "44214badff1be17e913e37b233440b0fdbee4225e4676f1e8f6d0c4930252e92",
+          "request_sha256": "d803806a63e060f14919fa8877690073d9ec1807005bc8db6521dcffc6f6c4c5"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-optimistic-r2-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-optimistic-r2-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-final-optimistic-r2-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-final-optimistic-r2-20261005-digital",
+          "source_manifest_sha256": "3542f89028db1e561ace675e522c2032415f22c10a7b2a0921b04ceb9fccc5dd",
+          "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+        }
+      },
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8"
+    },
+    {
+      "case_id": "nor2d",
+      "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+      "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "review_state": "not_reviewed",
+      "K": 256,
+      "N": 16,
+      "B_S_Byte": 256,
+      "B_R_Byte": 4096,
+      "single_latency_s": 0.0013859999999999999,
+      "delta_S_raw_s": 0.0013859999999999999,
+      "resident_s": 0.052077656,
+      "rho_MB_per_s": 0.18470418470418473,
+      "tau_MB_per_s": 0.07865177342083138,
+      "RI_star": 2.348379148629149,
+      "U_star": 37.574066378066384,
+      "range_meaning": "Fixedhardware1.2VreadgatewithtypPEpolicy;typisproductlabelnotmedianESF1",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005",
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-final-reference-r2-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-final-reference-r2-20261005-frontend",
+          "source_manifest_sha256": "017edbc35bae2d724a7b751c2567342c697304ef1306c07ab63eaf7a2261045f",
+          "request_sha256": "a66e39ef0861a3d4030b62ae6b631ea69976d7420658511411b638ccc76a88eb"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-final-reference-r2-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-final-reference-r2-20261005-digital",
+          "source_manifest_sha256": "c2df2865676a79892cc6e18dc4851a5f05844f7354667e2196e05a8c84560b58",
+          "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+        }
+      },
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8"
+    },
+    {
+      "case_id": "nor2d",
+      "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+      "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "review_state": "not_reviewed",
+      "K": 256,
+      "N": 16,
+      "B_S_Byte": 256,
+      "B_R_Byte": 4096,
+      "single_latency_s": 0.0013859999999999999,
+      "delta_S_raw_s": 0.0013859999999999999,
+      "resident_s": 0.44867765600000004,
+      "rho_MB_per_s": 0.18470418470418473,
+      "tau_MB_per_s": 0.00912904831614793,
+      "RI_star": 20.232578282828285,
+      "U_star": 323.72125252525257,
+      "range_meaning": "Fixedhardware1.1VreadgateandproductmaxPEservice transferredconditionally;noESF1guarantee",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-pessimistic-r2-20261005",
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-pessimistic-r2-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-pessimistic-r2-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-final-pessimistic-r2-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-final-pessimistic-r2-20261005-frontend",
+          "source_manifest_sha256": "718e796cc8354bcc9c98b4d2dcd08325510e005205435da1f1ba84e5e799c52d",
+          "request_sha256": "4873f3245fff9585bffcaee74ad999e09a362a38ed47d727073c871f8b6d53d8"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-pessimistic-r2-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-pessimistic-r2-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-final-pessimistic-r2-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-final-pessimistic-r2-20261005-digital",
+          "source_manifest_sha256": "e3e6d982649f5b4ae5006295b43edc8b71e28dc4e7eeca483094c7f5ee3ffd1b",
+          "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+        }
+      },
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8"
+    }
+  ],
+  "computational_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/nor2d/inputs.json": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+    "cases/nor2d/case_adapter.py": "ed1bafbad889772e8c09ffb318283b2ed4d39a34273425ed170fc201fdb72bcb",
+    "cases/nor2d/threshold_model.py": "ebb03cb99b71bbeede5d2adffd6fc45ac5a8ab078e90c20b8b5681e5693ad0e5",
+    "cases/nor2d/read_network.py": "46049460b7392af3e518a9670a1340f501c3ca2cedd436579c3a5957a7c3d7ad",
+    "cases/nor2d/transfer_samples.json": "4bb058983b3c4473c61cacf455237a132b47d6d63b618cd6d18b4c32266e19aa",
+    "threshold_probe.py": "101c9797230b68cfbc28b697b07f82c671b1ff07612997f2064036667a1ba321",
+    "src/threshold_port_probe.cpp": "b42bc26267dcf4e2708779e77027a5a3c469d129c887865f6714d2d560856550",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+    "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+  },
+  "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+  "range_qualification": "Fixedhardwarethreegate/PEpolicies;opt/refcoincidentservicepointsareintentionaldigitalbottleneck+sameproducttypPE;noinventedthirdPEvalue",
+  "limitations": [
+    "EngineeringC/geometryandSAnoisequalification,notmeasuredESF1macro",
+    "CommodityPEenginecrossimplementationtransfer,notnewarrayguarantee",
+    "Noequalarea/equalnativeNcomparabilityorstatisticalrange"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "identity": "FeNOR-02 geometry/current-scale engineering terminal witness two_dimensional",
+  "point_eligibility": "probe_only",
+  "front_end": "case_terminal_ports",
+  "frontend_identity": "Samefourbranches,columnsharing andoneactivelayer/row;Id(Vds),dielectricconstantandfringe are NOT calibrated",
+  "source_ids": [
+    "FENOR-02_Figs3_5_9_11",
+    "P2_ENGINEERING_WITNESS"
+  ],
+  "applicability": "Notservicequalified;Vds=.1V isassumedtestdomain,notretrieved2026measurement;epsFE25/drainfactor.1 only electricalportwitness",
+  "parameters": {
+    "technology_nm": 65,
+    "temperature_K": 300,
+    "rows": 4,
+    "cols": 16,
+    "layers": 1,
+    "read_mux": 2,
+    "selected_gate_V": -0.5,
+    "unselected_gate_V": -1.1,
+    "drain_rail_V": 0.1,
+    "source_rail_V": 0.0,
+    "row_pitch_m": 1.2e-07,
+    "column_pitch_m": 1.7e-07,
+    "layer_pitch_m": 4e-08,
+    "wire_cap_F_per_m": 2e-10,
+    "wire_res_ohm_per_m": 10000000.0,
+    "mux_target_ohm": 10000.0,
+    "sense_threshold_V": 0.01,
+    "clock_Hz": 10000000.0
+  },
+  "terminal_ports": {
+    "actual_gate_load_F": 1.1342791875200001e-15,
+    "actual_BL_load_F": 1.18756979688e-16,
+    "actual_SL_load_F": 7.80111675008e-16,
+    "sense_current_high_A": 2.0005999999999998e-07,
+    "sense_current_low_A": 1.7872513059998135e-09
+  },
+  "operating_states": [
+    {
+      "selected_state": 0,
+      "min_total_A": 3.5999999999999995e-10,
+      "max_total_A": 1.7872513059998135e-09,
+      "max_unselected_A": 1.4872513059998135e-09
+    },
+    {
+      "selected_state": 1,
+      "min_total_A": 2.0005999999999998e-07,
+      "max_total_A": 2.014872513059998e-07,
+      "max_unselected_A": 1.4872513059998133e-09
+    }
+  ],
+  "geometry_parameters": {
+    "cell_gate_area_m2": 9.999999999999999e-16,
+    "ferroelectric_thickness_m": 6e-09,
+    "epsilon_r_provisional": 25,
+    "drain_source_gate_cap_fraction_provisional": 0.1,
+    "parallel_lateral_lanes_for_future_formal_identity": 32,
+    "layers_active_at_once": 1
+  },
+  "limitations": [
+    "Negativegatecannot be drivenby nativeCMOSport.",
+    "Terminalcurrentnormalization drainbias notidentified.",
+    "Dielectric/drainC areprovisionalengineering witnesses,not sourceextractedRC.",
+    "No formalrho/tau, no3Dthroughputmultiplier, noRRAMwrite."
+  ]
+}

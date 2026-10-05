@@ -1,0 +1,198 @@
+{
+  "geometry": {
+    "nfet_W_m": 2e-05,
+    "nfet_L_m": 5e-07,
+    "pfet_W_m": 7e-06,
+    "pfet_L_m": 5e-07,
+    "diffusion_extension_m": 1e-06,
+    "fingers": 3
+  },
+  "rated_model_domain": {
+    "N_VDS_V": [
+      0,
+      11
+    ],
+    "N_VGS_V": [
+      0,
+      5.5
+    ],
+    "N_VBS_V": [
+      -5.5,
+      0
+    ],
+    "P_absVDS_V": [
+      0,
+      11
+    ],
+    "P_absVGS_V": [
+      0,
+      5.5
+    ]
+  },
+  "model_C": {
+    "toxm_m": 1.16e-08,
+    "cgso_F_per_m": 2.75467857e-10,
+    "cgdo_F_per_m": 2.75467857e-10,
+    "cgbo_F_per_m": 0.0,
+    "cjs_F_per_m2": 0.00084698656,
+    "cjsws_F_per_m": 8.64309376e-11,
+    "cjswgs_F_per_m": 5.47776e-11
+  },
+  "N_read_lower_curve": {
+    "gate": 2.0,
+    "body": -2.5,
+    "V": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      4.0,
+      5.0
+    ],
+    "I": [
+      0.0,
+      0.00019242669999999999,
+      0.00037131670000000003,
+      0.0005372666999999999,
+      0.0006907466999999999,
+      0.0009519467,
+      0.0011525967000000001,
+      0.0012946967000000001,
+      0.0014863967,
+      0.0015848967000000002,
+      0.0016948967,
+      0.0017787967,
+      0.0018387967,
+      0.0018914967000000001,
+      0.0019961967000000002,
+      0.0021662967
+    ]
+  },
+  "N_drive_curve": {
+    "gate": 2.0,
+    "body": 0.0,
+    "V": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      4.0,
+      5.0
+    ],
+    "I": [
+      0.0,
+      0.00024196,
+      0.00047055,
+      0.00068995,
+      0.00089713,
+      0.00127174,
+      0.00158904,
+      0.00183994,
+      0.00222254,
+      0.00238774,
+      0.00252224,
+      0.00260664,
+      0.00266334,
+      0.00270854,
+      0.00280054,
+      0.00295774
+    ]
+  },
+  "P_drive_curve": {
+    "gate": 2.0,
+    "body": 0.0,
+    "V": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0,
+      4.0,
+      5.0
+    ],
+    "I": [
+      0.0,
+      2.440222e-05,
+      4.802122e-05,
+      7.071622000000001e-05,
+      9.251722e-05,
+      0.00013298122,
+      0.00016941122,
+      0.00020121122,
+      0.00025994122,
+      0.00029308122,
+      0.00032441122,
+      0.00034351122,
+      0.00035962122,
+      0.00037400122,
+      0.00039869122,
+      0.00042279122
+    ]
+  },
+  "source_note": "Selected locked SKY130 original measurements/TT capacitances; no PCM material or service imported",
+  "sources": {
+    "raw_repo": "https://foss-eda-tools.googlesource.com/skywater-pdk/sky130-raw-data/",
+    "raw_sha": "5738bf8753688baf2111d8d1b6a3e51a38a0bbeb",
+    "raw_N_file": "sky130_fd_pr__nfet_g5v0d10v5_w20u_l0p5u_m1(8363_5_6_IDVD).mdm",
+    "raw_N_sha256": "7d4487d447c9899dd389417a258d7c7aac7f6939a7b4075a5e33259ce9ea109c",
+    "raw_P_file": "sky130_fd_pr__pfet_g5v0d10v5_w7u_l0p5u_m1(8395_8_7_IDVD).mdm",
+    "raw_P_sha256": "230e833d495e697525a037c15ff58e7163ab2226c8896cfa8ce5b7d7ce504f1a",
+    "model_repo": "https://github.com/google/skywater-pdk-libs-sky130_fd_pr",
+    "model_sha": "f62031a1be9aefe902d6d54cddd6f59b57627436",
+    "C_source": "sky130_fd_pr__nfet_g5v0d10v5__tt.pm3.spice bin7;scalarCparameterssameatadjacentboundarybin15",
+    "model_sha256": "4552045d9df048f36742b667c0672b5fd4417d5593f462178015f6646a6fef50",
+    "ratings": "https://skywater-pdk.readthedocs.io/en/main/rules/device-details.html#v-10-5v-nmos-fet",
+    "P_C_source": "sky130_fd_pr__pfet_g5v0d10v5__tt.pm3.spice bin31; samef62031a1lockedrepo",
+    "P_model_sha256": "c438f61902b269fea15355003564c83840661945ac5da8c9dd0d910d3223f21b"
+  },
+  "limits": [
+    "I-V are nominalrawmeasurements, not a simultaneousN/P siliconcorner or processdistribution.",
+    "C is separateTTBSIMparameter-derived geometricbound; it is not measuredCfromsameIVdevices.",
+    "ZeroVDSinstrumentcurrentoffsetsubtracted toenforceI(0)=0;offcurrentabsbound retained separately.",
+    "W/L areHV130geometry andnever scaledto45nm.",
+    "IntegratedPCM terminalpulseunderchosencompliance is not demonstrated bythisPDKdata.",
+    "Controlprobe usesNcapcoefficientsasageometricupperestimate forP7/.5um; actualPbin31coefficients are separatelypreserved for checking, not silently treatedasidenticaldevices."
+  ],
+  "model_C_P": {
+    "toxm_m": 1.175e-08,
+    "cgso_F_per_m": 1.94170991e-10,
+    "cgdo_F_per_m": 1.94170991e-10,
+    "cgbo_F_per_m": 0.0,
+    "cjs_F_per_m2": 0.00077934735,
+    "cjsws_F_per_m": 9.9605453e-11,
+    "cjswgs_F_per_m": 1.47314e-10
+  },
+  "off_current_bound_A": {
+    "N": 2.3752e-09,
+    "P": 2.3308e-09
+  }
+}

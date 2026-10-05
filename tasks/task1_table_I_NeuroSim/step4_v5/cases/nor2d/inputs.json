@@ -1,0 +1,668 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "nor2d",
+  "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+  "identity": {
+    "material": "180nmESF1 splitgatefloatinggate thresholdstate source",
+    "cell": "binarythresholdFET; CG/D/S ports andunselectedleakage;notRRAMprogramming",
+    "peripheral": "130nmLSTP1.3VnativeCMOS+explicitlowergate-rail/readprechargeports",
+    "array": "New256x128bit=4KiBsector design,64SA/2groups,8MAC lanes,16signedoutputs",
+    "geometry": "EngineeringequivalentEOT/depletion/pitch/parasitics;notmeasuredESF1macro",
+    "resident": "W25Q128JVlikecomplete256Bytepage/4KiBsectorPEengine conditionalcrossimplementationtransfer;stable3VlocalSPIport",
+    "precision": "binaryconditionedsignedINT8exactlocalarithmetic25bit;nominalsensebudgetnotmeasuredaccuracy",
+    "read_frontend": "Fixed4pFadditionalBLintegrationcap,realPMOSprecharge,complementaryreferenceTGandfinitecontrolramps; gatechargeupperenvelope included"
+  },
+  "logical": {
+    "K": 256,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "25bit exactsignedarithmetic conditionalonbinarythresholdsense,notanalogclassifieraccuracy"
+  },
+  "base_parameters": {
+    "technology_nm": 130,
+    "temperature_K": 300,
+    "rows": 256,
+    "cols": 128,
+    "read_mux": 2,
+    "read_gate_V": 1.2,
+    "read_drain_V": 1.0,
+    "clock_Hz": 5000000.0,
+    "sense_threshold_V": 0.02,
+    "sense_error_budget_V": 0.01,
+    "cell_gate_width_m": 6e-07,
+    "cell_gate_length_m": 5e-07,
+    "gate_overlap_length_m": 2e-08,
+    "diffusion_length_m": 2.5e-07,
+    "equivalent_gate_oxide_m": 1e-08,
+    "junction_built_in_V": 0.7,
+    "junction_doping_m3": 1e+23,
+    "junction_sidewall_F_per_m": 1e-10,
+    "pitch_x_m": 1.5e-06,
+    "pitch_y_m": 1.2e-06,
+    "wire_cap_F_per_m": 2e-10,
+    "wire_res_ohm_per_m": 10000000.0,
+    "other_BL_cap_F": 4e-12,
+    "metal_resistivity_ohm_m": 2.2e-08,
+    "source_strap_width_m": 4e-06,
+    "source_strap_thickness_m": 1e-06,
+    "source_column_width_m": 1e-06,
+    "source_column_thickness_m": 5e-07,
+    "source_BL_spacing_m": 5e-07,
+    "mux_target_ohm": 1000.0,
+    "reference_resistance_ohm": 600000.0,
+    "enable_skew_bound_s": 1e-09,
+    "page_Byte": 256,
+    "sector_Byte": 4096,
+    "page_program_s": 0.0004,
+    "sector_erase_s": 0.045,
+    "program_SPI_Hz": 50000000.0,
+    "SPI_CS_gap_s": 5e-08,
+    "SPI_setup_hold_s": 6e-09,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "mac_lanes": 8,
+    "accumulator_bits": 25,
+    "local_input_bits": 8,
+    "program_lanes": 16,
+    "operand_route_cap_F": 1e-15,
+    "program_control_cap_F": 1e-15,
+    "gate_driver_width_F": 32.0,
+    "precharge_width_F": 16.0,
+    "reference_switch_target_ohm": 1000.0,
+    "precharge_error_fraction": 0.002,
+    "precharge_supply_limit_A": 0.02
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "rows": {
+      "unit": "1",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "cols": {
+      "unit": "1",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "read_mux": {
+      "unit": "1",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "read_gate_V": {
+      "unit": "V",
+      "source_ids": [
+        "NOR-04",
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "read_drain_V": {
+      "unit": "V",
+      "source_ids": [
+        "NOR-04",
+        "DESIGN"
+      ],
+      "role": "operating_condition",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "sense_threshold_V": {
+      "unit": "V",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "sense_error_budget_V": {
+      "unit": "V",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "cell_gate_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "cell_gate_length_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "gate_overlap_length_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "diffusion_length_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "equivalent_gate_oxide_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "junction_built_in_V": {
+      "unit": "V",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "junction_doping_m3": {
+      "unit": "1/m3",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "junction_sidewall_F_per_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "pitch_x_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "pitch_y_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "wire_cap_F_per_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "wire_res_ohm_per_m": {
+      "unit": "ohm/m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "other_BL_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixed4pFintegration/readportcapperBL selectedtoboundunfavourableactualreferenceTGgatechargewithoutassumingcancellation;128physicalcaps,notmeasuredESF1C;PEengineisolatesreadfrontendduringwrite"
+    },
+    "metal_resistivity_ohm_m": {
+      "unit": "ohm*m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "source_strap_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "source_strap_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "source_column_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "source_column_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "source_BL_spacing_m": {
+      "unit": "m",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "mux_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "reference_resistance_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "enable_skew_bound_s": {
+      "unit": "s",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "page_Byte": {
+      "unit": "Byte",
+      "source_ids": [
+        "NOR-02"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "sector_Byte": {
+      "unit": "Byte",
+      "source_ids": [
+        "NOR-02"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "page_program_s": {
+      "unit": "s",
+      "source_ids": [
+        "NOR-02"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "sector_erase_s": {
+      "unit": "s",
+      "source_ids": [
+        "NOR-02"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "program_SPI_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "NOR-02-IO"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "SPI_CS_gap_s": {
+      "unit": "s",
+      "source_ids": [
+        "NOR-02-IO"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "SPI_setup_hold_s": {
+      "unit": "s",
+      "source_ids": [
+        "NOR-02-IO"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "mac_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "accumulator_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "local_input_bits": {
+      "unit": "1",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "program_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "operand_route_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "program_control_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "MODEL",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelgeometry/explicitoperatingcondition;notmeasuredESF1capacitanceorstatisticalspread"
+    },
+    "gate_driver_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "FixedexplicitnativeP2v2driver/precharge/referencegeometry;allscenarios reinitializeactualports;notchosenbyfasterfinalrate"
+    },
+    "precharge_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "FixedexplicitnativeP2v2driver/precharge/referencegeometry;allscenarios reinitializeactualports;notchosenbyfasterfinalrate"
+    },
+    "reference_switch_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "FixedexplicitnativeP2v2driver/precharge/referencegeometry;allscenarios reinitializeactualports;notchosenbyfasterfinalrate"
+    },
+    "precharge_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "FixedexplicitnativeP2v2driver/precharge/referencegeometry;allscenarios reinitializeactualports;notchosenbyfasterfinalrate"
+    },
+    "precharge_supply_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Stablelocal1Vreadrail20mAcurrentport;actual128parallelPMOSprechargepeakchecked,notglobalPDN"
+    }
+  },
+  "sources": {
+    "NOR-04": {
+      "kind": "adapter",
+      "path": "tasks/task1_table_I_NVM/literature/03_nor_2d/NOR-04_2017_EmbeddedNOR_Classifier.pdf",
+      "locator": "PDFp3Fig3 measured IDS-VGS atVD1V; splitgateESF1 topologypp1-2; local transfer_samples.json",
+      "evidence_type": "measured_figure_digitization",
+      "applicability": "180nmESF1 thresholdstate endpoints; VGS1.1..1.3; prescribed new equivalentgeometry ratherthanmeasuredfullmacro",
+      "exclusions": "No measuredterminalC,geometry,I-Vdistributionorfullreadaccess. Belowsetupfloor retainedonlyasbound."
+    },
+    "NOR-02": {
+      "kind": "external_primitive",
+      "path": "tasks/task1_table_I_NVM/literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
+      "locator": "PDFpp37/39P/EandBUSY;65SPI;66tPP/tSE",
+      "evidence_type": "product_spec",
+      "applicability": "W25Q128JV completepage/sectorengine conditionallytransferredtonewESF1readarray; notguaranteedtargetchip",
+      "exclusions": "No ESF1 writevoltage/cellalgorithm transplant; no minimumorstatisticalPElatency",
+      "includes": [
+        "selftimedprogram/eraseengine",
+        "internalpulse/verify/voltagepumps",
+        "return/recoveryuntilBUSY0andready",
+        "real256Bytepagebufferandsectoraddressing"
+      ],
+      "excludes": [
+        "externalSPIcommand/address/databeats",
+        "SPIstatuscompletionread",
+        "newbinarycomputeread/digitalservice"
+      ],
+      "domain": "Dedicated4KiBsector,16completepages;previousarbitrarycontents;stable3.0Vengine/interface;sourceproducttyp/max completebusyservice used as conditionalcrossimplementationport."
+    },
+    "NATIVE": {
+      "kind": "native_circuit",
+      "path": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "locator": "RowDecoder/Mux/VoltageSenseAmp/DFF/Adder/Subtractor/formula,actualnativebuild",
+      "evidence_type": "model",
+      "applicability": "130nmLSTP300Kperiphery with actualloadedport; specifiedreadbiascompatibility",
+      "exclusions": "No NORstoredstate/programphysics,noise/mismatchorSTA"
+    },
+    "MODEL": {
+      "kind": "adapter",
+      "path": "cases/nor2d/threshold_model.py",
+      "locator": "fit/ids/geometry/operating_point",
+      "evidence_type": "compact_model",
+      "applicability": "twoVGSfitpoints+heldout1.2V;drain .8..1V saturation; unselected0Vmonotoneupperenvelope; physicalgeometricC andSLKCL",
+      "exclusions": "Noold100/120/130nsaccess, nofoundryPDK,notmeasuredC"
+    },
+    "DESIGN": {
+      "kind": "service_policy",
+      "path": "cases/nor2d/inputs.json",
+      "locator": "authoritativefixedgeometry/resources/clock/localservice",
+      "evidence_type": "engineering",
+      "applicability": "newK256N16binaryexactdigitaldesign;SPIresidentboundaryandlocalstreamingboundary",
+      "exclusions": "Notoriginalanalogclassifierorfullchipdesign;fixedresourcebiaspackagesnotprocesscorners"
+    },
+    "NOR-02-IO": {
+      "kind": "external_primitive",
+      "path": "tasks/task1_table_I_NVM/literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
+      "locator": "PDFpp37/39SPItransactionformat;65ACclock/CSsetup/hold",
+      "evidence_type": "product_spec",
+      "applicability": "Local3VsingleSPIinterface50MHz;physicaldata/command/statusreceptionintosourceenginepagebuffer",
+      "exclusions": "No P/E busyservice inside this IO primitive",
+      "includes": [
+        "opcode/address/data/statusbitclocks",
+        "actualsourceSPIportsetup/hold/deselect",
+        "realpagebufferreceiveinterface"
+      ],
+      "excludes": [
+        "selftimedpageprogram/sectorerase",
+        "localbinarycomputeread"
+      ],
+      "domain": "3.0Vengineinterface;50MHzbelowpublishednonreadlimit andwithinstandardread/statuscapability"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "read_gate_V": 1.3
+      },
+      "meaning": "Fixedhardware1.3VreadgateandproducttypPEpolicy;notstatisticalfastcorner",
+      "evidence": [
+        "NOR-04Fig3",
+        "NOR-02ACtyp"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "Fixedhardware1.2VreadgatewithtypPEpolicy;typisproductlabelnotmedianESF1",
+      "evidence": [
+        "NOR-04Fig3heldoutpoint",
+        "NOR-02ACtyp"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "read_gate_V": 1.1,
+        "page_program_s": 0.003,
+        "sector_erase_s": 0.4
+      },
+      "meaning": "Fixedhardware1.1VreadgateandproductmaxPEservice transferredconditionally;noESF1guarantee",
+      "evidence": [
+        "NOR-04Fig3",
+        "NOR-02ACmax"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "Arbitraryold4KiBsector;all256rows overwritten;no preerasecredit",
+    "input_port": "128bit localstreamport into256Byteinputhold;inputreadyatlocalboundary",
+    "write_port": "Physicalsourceengine SPI DI/CLK/CS at3V localboundary50MHz;WREN+24bitaddress+256Bytepageintocountedrealpagebuffer",
+    "output_endpoint": "16signed25bitoutputs heldlocallyafterexactbitserialMAC;noexternaltransport",
+    "resident_endpoint": "Sectorerase+16completepageprograms+BUSY0completion;engineportconditionaljointqualificationforESF1readstates",
+    "request_overlap": "serial_nonoverlap; full128bitrowholdreusedfor8inputbits",
+    "arbitration": "Customreadport disconnectedduringP/E;completeengineownsHVreturn/readready;localcomputeidle",
+    "retry": "OnecompletesuccessfulPEservice;failureisnocompletedpayload;nostochasticmodelorretryfreecredit",
+    "maintenance": "Nonvolatilelocalpostprogramwindow;noenduranceorretentiondistributionclaimed",
+    "supply_startup": "Stable3Vcompleteengine,1.3Vlogic/readrails;power-onexcluded;noLevelShiftermagic"
+  },
+  "backend_plan": {
+    "branch": "MLPInferenceV3.0",
+    "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "entry": "run_components.py",
+    "qualification": "Separatecase-thresholdports+nativedigital;frontendbias/referencemustqualifybeforepoints"
+  },
+  "adapter_files": [
+    "threshold_model.py",
+    "read_network.py",
+    "transfer_samples.json"
+  ]
+}

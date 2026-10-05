@@ -1,0 +1,38 @@
+{
+  "source": "tasks/task1_table_I_NVM/literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
+  "sha256": "8f7cb36dbd90d3592f13cee5b57404e1def5caf64296537b59d40385aff86f24",
+  "locations": [
+    {
+      "page": 25,
+      "lines": [
+        "6-5. Page Program",
+        "The memory is programmed by page, which is 2,112 bytes. After Program load command (80h) is issued",
+        "The program result is shown in the chip status bit (SR[0]). SR[0] = 1 indicates the Page Program is not",
+        "During the Page Program progressing, only the read status register command and reset command are",
+        "Figure 12. AC Waveforms for Program Operation after Command 80H",
+        "tWC",
+        "Cycle Cycle Cycle Cycle tPROG",
+        "25"
+      ]
+    },
+    {
+      "page": 31,
+      "lines": [
+        "6-7. Block Erase",
+        "Figure 16. AC Waveforms for Erase Operation",
+        "tWC"
+      ]
+    },
+    {
+      "page": 58,
+      "lines": [
+        "Table 12. Capacitance TA = +25\u00b0C, F = 1 MHz",
+        "Table 14. Program and Erase Characteristics",
+        "tPROG Page programming time 300 600 us",
+        "tCBSY (Program) Dummy busy time for cache program 5 600 us",
+        "tRCBSY (Read) Dummy busy time for cache read 3.5 25 us",
+        "tERASE (Block) Block erase time 1 3.5 ms"
+      ]
+    }
+  ]
+}

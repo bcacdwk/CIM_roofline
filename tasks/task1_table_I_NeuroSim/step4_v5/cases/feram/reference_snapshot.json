@@ -1,0 +1,745 @@
+{
+  "status": "ready_for_review",
+  "source_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-full-reference-r1-20261005",
+  "computational_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/feram/inputs.json": "b7c3bbd7651500cb6283995a566dfa2620d0fb5d7da272da8292c2351e8ec6ba",
+    "cases/feram/case_adapter.py": "0beec6312f4b8d212e0dc7c61ce095274501316a6cb488ae2188b34cf6b949e0",
+    "cases/feram/model.py": "258b63db6b66315d8055ac4e9bb37dd1492005cca394a9b20bc90cc3fa9ac0c0",
+    "cases/feram/charge_probe.py": "84781944d31c455a70873394f715e90077ce2cb76e8a9400d5812261115e4069",
+    "cases/feram/hv_port_probe.py": "199ea55c20e6334d629d99566d9d8c620294b1be81f74a6fbcc94b010d05ec59",
+    "cases/feram/hv_data.json": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+    "cases/feram/hv_access_data.json": "48fd214eb8440190abca9007a84da19a458143d8c198c2e13cb70faa39a548b9",
+    "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+    "src/polarization_port_probe.cpp": "39fdbd36532b4d5f4d553b03984e8ce4d01bf4fb598af4fc2d5614671509377c",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+    "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+  },
+  "result": {
+    "case_id": "feram",
+    "implementation_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1",
+    "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__reference",
+    "scenario": "reference",
+    "status": "conditional",
+    "review_state": "not_reviewed",
+    "K": 32,
+    "N": 16,
+    "B_S_Byte": 32,
+    "B_R_Byte": 512,
+    "single_latency_s": 0.00013409688728844145,
+    "delta_S_raw_s": 0.00013409688728844145,
+    "resident_s": 1.384e-05,
+    "rho_MB_per_s": 0.2386334287623562,
+    "tau_MB_per_s": 36.994219653179194,
+    "RI_star": 0.006450559871232441,
+    "U_star": 0.10320895793971906,
+    "range_meaning": "20nscompletewritepolicychoseninsourcepassregion;notmeasuredstatisticaltypical",
+    "component_bindings": {
+      "frontend": {
+        "kind": "polarization",
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "-B",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-full-reference-r1-20261005/canonical/special_probe.py",
+          "--request",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-full-reference-r1-20261005/frontend-request.json",
+          "--root",
+          "/Users/shine/neurosim",
+          "--run-id",
+          "feram-feram-full-reference-r1-20261005-frontend"
+        ],
+        "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/polarization-feram-feram-full-reference-r1-20261005-frontend",
+        "source_manifest_sha256": "fffa6d2dec6a9b5efe927ecf9729cb4ad9cb0ae9affc87b7c2ac06d926f7cbc6",
+        "request_sha256": "ad90e118cb6db4a3ed7ff70f9b4c53ef65bb2345157936a7f842dbec75b6b461"
+      },
+      "digital": {
+        "kind": "digital",
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "-B",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-full-reference-r1-20261005/canonical/digital_probe.py",
+          "--request",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-full-reference-r1-20261005/digital-request.json",
+          "--root",
+          "/Users/shine/neurosim",
+          "--run-id",
+          "feram-feram-full-reference-r1-20261005-digital"
+        ],
+        "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-feram-feram-full-reference-r1-20261005-digital",
+        "source_manifest_sha256": "fae33156764e7e234b8f538c8bbb597fedd937b4c12d1d17bafcc22bfd656f30",
+        "request_sha256": "9371e9719d9e058b3f55fb7dcb59e498a7844a6dd13154e0aaec9a67d01bb179"
+      }
+    },
+    "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-full-reference-r1-20261005",
+    "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb"
+  },
+  "resources": {
+    "data_FE_capacitors": 4096,
+    "HV_access_3um_FETs": 4096,
+    "FE_area_um2_each": 1.0,
+    "physical_shape": [
+      32,
+      128
+    ],
+    "reference_capacitors": 128,
+    "reference_C_each_F": 1.0673515981735165e-13,
+    "matched_reference_BL_C_each_F": 2.5013842952507824e-13,
+    "SAs": 128,
+    "destructive_domain_bits": 128,
+    "native_read_hold_bits": 128,
+    "digital_weight_hold_bits": 128,
+    "actual_restore_lanes": 128,
+    "actual_external_write_lanes": 128,
+    "data_source_restore_write_mux_bits": 128,
+    "HV_read_isolation_and_park_pairs": 128,
+    "HV_precharge_and_return_FETs": 256,
+    "HV_BL_P7_drivers": 512,
+    "HV_PL_P7_drivers": 128,
+    "HV_PL_N20_drivers": 16,
+    "HV_levelshift_channels": 162,
+    "input_hold_bits": 256,
+    "target_hold_bits": 128,
+    "output_hold_bits": 400,
+    "full_matrix_shadow_bits": 0,
+    "local2p5V_supply_limit_A": 0.25,
+    "BL_wire_extra_C_F": 1.0786e-13,
+    "actual_total_BL_C_F": 2.5013842952507824e-13,
+    "unselected_plate_load_F": 1.5606707032271528e-11,
+    "native_area_m2_partial": 1.0257636792e-07,
+    "area_qualification": "HV/passivegeometrieslisted,notfullfoundrylayoutorequalareacomparison"
+  },
+  "resource_annotation": {
+    "reference_HV_access_FETs": 128,
+    "data_HV_access_FETs": 4096,
+    "external_P_gate_control_on_V": 0.5,
+    "external_P_gate_control_off_V": 2.5,
+    "P_driver_on_VSG_V": 2.0,
+    "explanation": "P7source2.5Vusesexactmeasured2V VSGbudget,notassuminggate0. ThisbiascontrolportisaconditionoftheHVserviceblock."
+  },
+  "native_components": {
+    "frontend": {
+      "case_charge_ports": 1.0,
+      "external_HV_access_required": 1.0,
+      "synthetic_charge_solution_eligible": 0.0,
+      "native_access_diagnostic_drain_F": 1.9481405291966803e-16,
+      "native_decoder_load_F": 6.525936694444138e-13,
+      "native_decoder_area_m2": 1.1720217599999998e-09,
+      "native_vdd_V": 1.3,
+      "native_SA_internal_cap_F": 7.137835867478258e-15,
+      "actual_access_drain_F": 1.3514059365759998e-13,
+      "actual_BL_total_cap_F": 2.5013842952507824e-13,
+      "native_voltage_sense_s": 2.0006961243262037e-07,
+      "native_sense_included_enable_s": 2e-07,
+      "native_SA_area_m2": 4.552704e-09,
+      "effective_access_R_ohm": 1159.1834804298533,
+      "access_R_source_external": 1.0,
+      "native_access_R_ohm": 51213.83438643167,
+      "native_WL_gate_compatible": 0.0,
+      "native_WL_select_s": 8.215525332654614e-09,
+      "native_LV_decoder_s": 8.215525332654614e-09,
+      "physical_activation_domain_bits": 128.0,
+      "destructive_domain_bits": 128.0,
+      "actual_state_hold_bits": 128.0,
+      "native_state_capture_s": 1e-07,
+      "restore_batches": 1.0,
+      "restore_required": 1.0,
+      "post_read_polarization_state": 1.0,
+      "native_hold_area_m2": 5.52394752e-09,
+      "native_periphery_area_m2": 1.124867328e-08,
+      "component_only": 1.0
+    },
+    "digital": {
+      "input_ingress_beats": 2.0,
+      "input_ingress_select_s": 7.046096041672949e-09,
+      "input_ingress_area_m2": 1.8485084799999997e-09,
+      "target_ingress_beats": 1.0,
+      "target_ingress_select_s": 1.4674635179162552e-10,
+      "target_ingress_area_m2": 9.206579199999998e-10,
+      "weight_ingress_beats": 1.0,
+      "weight_ingress_select_s": 1.4674635179162552e-10,
+      "weight_ingress_area_m2": 9.206579199999998e-10,
+      "input_rows": 32.0,
+      "input_cols": 128.0,
+      "logical_K": 32.0,
+      "logical_N": 16.0,
+      "accumulator_bits": 25.0,
+      "extra_25bit_adder_lanes": 8.0,
+      "input_hold_bits": 256.0,
+      "target_hold_bits": 128.0,
+      "weight_hold_bits": 128.0,
+      "weight_hold_rows": 1.0,
+      "weight_hold_outputs": 16.0,
+      "signed_output_hold_bits": 400.0,
+      "input_capture_s": 1e-07,
+      "target_hold_capture_s": 1e-07,
+      "weight_hold_capture_s": 1e-07,
+      "signed_capture_s": 1e-07,
+      "input_row_capture_s": 1e-07,
+      "input_row_select_s": 4.843733324460205e-09,
+      "input_bit_select_s": 4.0252909356031894e-08,
+      "weight_group_select_s": 7.945560410571192e-09,
+      "weight_row_select_s": 0.0,
+      "weight_keep_s": 1.4674635179162552e-10,
+      "extra_shifted_weight_mux_s": 3.0453358725317937e-10,
+      "extra_shift_select_s": 2.248612536625192e-08,
+      "group_select_s": 2.4756002089315267e-08,
+      "data_zero_mask_s": 1.88498777280063e-10,
+      "extra_accumulator_feedback_mux_s": 4.992068982235556e-10,
+      "extra_25bit_adder_s": 1.4871781033309138e-08,
+      "signed_correction_s": 3.807206374284407e-08,
+      "add_sub_result_select_s": 1.8363242730044785e-10,
+      "accumulator_keep_s": 3.86811914960238e-10,
+      "verify_target_select_s": 2.5060535676568446e-08,
+      "verify_data_select_s": 7.945560410571192e-09,
+      "verify_byte_compare_s": 1.287855496617176e-08,
+      "verify_fail_reduce_s": 1.0467493248735151e-09,
+      "verify_sticky_or_s": 2.1719800821490175e-10,
+      "verify_status_capture_s": 1e-07,
+      "program_target_select_s": 0.0,
+      "program_target_mask_logic_s": 9.400067051559365e-11,
+      "retry_increment_s": 1.2189698953399345e-09,
+      "retry_state_capture_s": 1e-07,
+      "state_clear_bits": 403.0,
+      "state_clear_s": 1.0213772648958701e-07,
+      "state_clear_comb_s": 2.1377264895870116e-09,
+      "state_clear_gates": 808.0,
+      "data_zero_mask_gates": 400.0,
+      "weight_sign_extension_max_fanout": 116.0,
+      "digital_mac_comb_s": 7.908391621841672e-08,
+      "digital_verify_comb_s": 3.920303797582863e-08,
+      "digital_critical_comb_s": 7.908391621841672e-08,
+      "digital_halfcycle_min_period_s": 1.5816783243683344e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_area_m2": 9.132769464e-08,
+      "native_vdd_V": 1.3,
+      "native_vth_V": 0.4660949,
+      "component_only": 1.0
+    }
+  },
+  "stream_stages": [
+    {
+      "id": "input_admission",
+      "duration_s": 2e-07,
+      "count": 2,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "256bitinputhold/128bitlocalport",
+      "includes": "All32logicalinputBytesonce",
+      "excludes": "Nooffmacrotransport",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "stream_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Actualresult/statusclear",
+      "includes": "Removeoldrequeststate",
+      "excludes": "NotresetFEbits",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "input_row_select",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Nativeinputrow/bytehold",
+      "includes": "Oneinputbyteperrow",
+      "excludes": "Notparallelinputports",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "HV_BL_precharge",
+      "duration_s": 2e-08,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "POLICY"
+      ],
+      "resources": "128HVgroundprechargers/rowinhibit/refBL",
+      "includes": "AllWLoff,BL/PL0first,address/controlstable;readstatepreservedatquiescentFEbias",
+      "excludes": "Nooldprechargeaccessbudget"
+    },
+    {
+      "id": "HV_select_and_plate_settle",
+      "duration_s": 2.545811533117516e-08,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "FERAM-03",
+        "QMODEL",
+        "HV",
+        "POLICY"
+      ],
+      "resources": "ActualHVaccess/gate+globalPLsource/128refs",
+      "includes": "TurnselectedWLonlyonthenapply2.5Vplate,includingactualdata/ref/unselectedplatecharge",
+      "excludes": "No100nsdwellalreadyinside"
+    },
+    {
+      "id": "extra_quasistatic_read_dwell",
+      "duration_s": 1e-07,
+      "count": 32,
+      "source_class": "service_policy",
+      "source_ids": [
+        "FERAM-03",
+        "POLICY"
+      ],
+      "resources": "ActualbiasedFE/BLnetwork",
+      "includes": "Newconservative100nswaitAFTERstablebias,basedonsource100nsobservabilitydomain",
+      "excludes": "NotmaterialconstantorclaimedNeuroSimlatency;notold8/20/50nsreadslot"
+    },
+    {
+      "id": "native_voltage_sense",
+      "duration_s": 2.0006961243262037e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128nativevoltageSA",
+      "includes": "Latchafterqualifiedchargepoint;native1/foutput/enablephaseincludedonce",
+      "excludes": "No200nscontinuedpolarization-integrationassumption",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "allbit_state_weight_capture",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128physicalreadhold+128digitalrowhold",
+      "includes": "Bothholdsreceivedsame128binaryvalues;allactivebitsretainedbeforerestore",
+      "excludes": "Nofullmatrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "restore_port_prearm",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "POLICY"
+      ],
+      "resources": "128truewrite/restorepaths+sourceholdselector",
+      "includes": "Oneexplicitextraarmingclock/isolation/targetsourcechoicebeforecompletewrite;actualcontrolbudgetfits",
+      "excludes": "Notmaterialpulseorsecondrestorationport"
+    },
+    {
+      "id": "complete_internal_restore",
+      "duration_s": 2e-08,
+      "count": 32,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "FERAM-03",
+        "HV"
+      ],
+      "resources": "Same128HVwritepaths/globalPL",
+      "includes": "Onefullsource-qualifiedwritecycletooriginal128bitsfromunqualifiedpostreadstates;includesallinternalpolarities/recovery",
+      "excludes": "No2x14ns andrestorepayloadzero"
+    },
+    {
+      "id": "signed_bitserial_MAC",
+      "duration_s": 2e-07,
+      "count": 512,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "8native25bitlanes/16resultregisters",
+      "includes": "8inputbitsx2outputgroupsusingheldcompleteweightrow",
+      "excludes": "Nottruth-correctedanalogoutput",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "result_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "POLICY"
+      ],
+      "resources": "Countedstatus",
+      "includes": "Publishalreadyheld16outputs",
+      "excludes": "Noextrabytes"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "resident_state_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Actualstatus/retryclear",
+      "includes": "Initialcontrolstateclear",
+      "excludes": "NotfreeFEerase",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "target_admission",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bitrowtarget/localport",
+      "includes": "All512logicalweightBytesreceivedrowbyrow",
+      "excludes": "Noentirematrixpreload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "NativeSA includesone1/fenable/outputphase; explicitcaptureusesonefulllegalclock"
+    },
+    {
+      "id": "external_write_prearm",
+      "duration_s": 2e-07,
+      "count": 32,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "POLICY"
+      ],
+      "resources": "Same128physicalHVengines/rowsel/targetmux",
+      "includes": "Extraarmingclockafterrowtarget;allHVdomainsstablewithquiescentcells",
+      "excludes": "Not14nsinternalphasechargedtwice"
+    },
+    {
+      "id": "complete_external_row_write",
+      "duration_s": 2e-08,
+      "count": 32,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "FERAM-03",
+        "HV"
+      ],
+      "resources": "128physicalwritepaths/sharedwithrestore",
+      "includes": "Onecompletebipolar-capablewriterowservicefromarbitraryoldstate;includesnativewaveform/recovery",
+      "excludes": "Noerasecreditorperpolarity14nsdoubling"
+    },
+    {
+      "id": "matrix_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "POLICY"
+      ],
+      "resources": "Existingstatus",
+      "includes": "Publishonlyafterall32fullrowsready",
+      "excludes": "Noadditionalpayload"
+    }
+  ],
+  "physical_checks": [
+    {
+      "id": "real_HZO_identity",
+      "passed": true,
+      "critical": true,
+      "evidence": "Caseownsremanentpolarizationpaths;nativeaccessisatmostdiagnosticandnotusedat5V"
+    },
+    {
+      "id": "charge_conservation",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "branches": [
+          {
+            "initial_bit": 0,
+            "BL_V": 0.46579015918271804,
+            "FE_V": 2.034209840817282,
+            "dielectric_charge_C": 1.1651201890620128e-13,
+            "path_polarization_charge_C": 0.0,
+            "BL_charge_C": 1.165120189062013e-13,
+            "charge_residual_C": 2.524354896707238e-29,
+            "sense_path_end_state": 0,
+            "restore_original_required": true
+          },
+          {
+            "initial_bit": 1,
+            "BL_V": 1.0296647553207823,
+            "FE_V": 1.4703352446792177,
+            "dielectric_charge_C": 8.421536676751666e-14,
+            "path_polarization_charge_C": 1.733433580657477e-13,
+            "BL_charge_C": 2.5755872483326443e-13,
+            "charge_residual_C": 7.573064690121713e-29,
+            "sense_path_end_state": 0,
+            "restore_original_required": true
+          }
+        ],
+        "CBL_F": 2.5013842952507824e-13
+      }
+    },
+    {
+      "id": "sense_margin_and_range",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "low_V": 0.46579015918271804,
+        "high_V": 1.0296647553207823,
+        "reference_V": 0.7477098544474832,
+        "minimum_margin_V": 0.2819196952647651,
+        "required_V": 0.1
+      }
+    },
+    {
+      "id": "unselected_PL_hold",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "unselected_FE_upper_V": 0.17167404744198378,
+        "guard_V": 0.5,
+        "source": "Wellbelowrough1VcoerciveregioninFig2;fixedfinite-operationqualification,notretentiondistribution",
+        "unselected_PL_cap_F": 1.5606707032271528e-11
+      }
+    },
+    {
+      "id": "HVdrive_budget",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "peak_A": 0.2301575808,
+        "local_limit_A": 0.25,
+        "fullwrite_abs_Q_C": 3.7385889187775423e-10,
+        "port_floor_s": 1.1233201669583838e-08,
+        "selected_fullwrite_s": 2e-08,
+        "prearm_clock_s": 2e-07,
+        "actualcontrol_s": 1.801716889634356e-08
+      }
+    },
+    {
+      "id": "HV_read_isolation",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "worst_full_drain_coupling_V": 0.5330295761560644,
+        "native_rail_V": 1.3,
+        "scope": "HVBL/readisolationOFFandactiveLVparkduring2.5Vwrite;unparkonlyaftercompleteenginequiescentreturn"
+      }
+    },
+    {
+      "id": "same_source_CBL_scale",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "actual_total_F": 2.5013842952507824e-13,
+        "source250fF": "NewK32HVgeometryplusexplicitwire/passiveC,sourcecalibrationloadmatchedwithin1%;not40nmscalingcorner"
+      }
+    },
+    {
+      "id": "all_destructive_bits_restored",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "success": {
+          "destroyed_or_unqualified_bits": 4096,
+          "restored_bits": 4096,
+          "restore_batches": 32,
+          "physical_hold_bits": 128,
+          "preserved": true,
+          "completed_payload_Byte": 512,
+          "restore_payload_Byte": 0
+        },
+        "injected_restore_failure": {
+          "destroyed_or_unqualified_bits": 4096,
+          "restored_bits": 4096,
+          "restore_batches": 32,
+          "physical_hold_bits": 128,
+          "preserved": false,
+          "completed_payload_Byte": 0,
+          "restore_payload_Byte": 0
+        },
+        "native_restore_batches": 1.0
+      }
+    },
+    {
+      "id": "failure_zero_payload",
+      "passed": true,
+      "critical": true,
+      "evidence": "Everyactivated128bitdomainrestoredfromactualhold;failureinvalidateswholelogicalservice"
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "period_s": 2e-07,
+        "required_s": 1.5816783243683344e-07
+      }
+    },
+    {
+      "id": "complete_write_not_perpolarity",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "source_full_s": 2e-08,
+        "physical_port_floor_s": 1.1233201669583838e-08,
+        "charged_once_per128bitrow": true
+      }
+    },
+    {
+      "id": "signed_local_mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "outputs": [
+          26880,
+          26768,
+          -5856,
+          -5968,
+          26688,
+          -5936,
+          -6048,
+          26608,
+          26496,
+          -6128,
+          -6240,
+          26416,
+          26304,
+          -6320,
+          -6432,
+          26224
+        ]
+      }
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "required_s": 1.5816783243683344e-07
+      }
+    }
+  ],
+  "diagnostics": {
+    "hardware_charge": {
+      "access_C_each_F": 4.2231435517999995e-15,
+      "access_gate_C_each_F": 6.118065651041379e-15,
+      "access_R_read_bound_ohm": 1159.1834804298533,
+      "access_R_write_bound_ohm": 1872.5553789527771,
+      "LV_decoder_load_F": 6.525936694444138e-13,
+      "states": [
+        {
+          "initial_bit": 0,
+          "BL_V": 0.46579015918271804,
+          "FE_V": 2.034209840817282,
+          "dielectric_charge_C": 1.1651201890620128e-13,
+          "path_polarization_charge_C": 0.0,
+          "BL_charge_C": 1.165120189062013e-13,
+          "charge_residual_C": 2.524354896707238e-29,
+          "sense_path_end_state": 0,
+          "restore_original_required": true
+        },
+        {
+          "initial_bit": 1,
+          "BL_V": 1.0296647553207823,
+          "FE_V": 1.4703352446792177,
+          "dielectric_charge_C": 8.421536676751666e-14,
+          "path_polarization_charge_C": 1.733433580657477e-13,
+          "BL_charge_C": 2.5755872483326443e-13,
+          "charge_residual_C": 7.573064690121713e-29,
+          "sense_path_end_state": 0,
+          "restore_original_required": true
+        }
+      ],
+      "reference_V": 0.7477098544474832,
+      "reference_C_F": 1.0673515981735165e-13,
+      "BL_C_F": 2.5013842952507824e-13,
+      "unselected_PL_load_F": 1.5606707032271528e-11,
+      "unselected_FE_voltage_upper_V": 0.17167404744198378,
+      "read_PL_charge_C": 9.61802483570222e-11,
+      "fullwrite_abs_charge_C": 3.7385889187775423e-10,
+      "PL_total_effective_C_F": 4.0188489845810483e-11,
+      "PL_rise_bound_s": 5.45811533117516e-09,
+      "PL_fall_bound_s": 4.775086338408678e-09,
+      "WL_loaded_LS_s": 4.265837075710271e-09,
+      "WL_loaded_buffer_bound_s": 5.535806487978677e-09,
+      "fullwrite_port_floor_s": 1.1233201669583838e-08,
+      "write_peak_source_A": 0.2301575808,
+      "read_park_feedthrough_bound_V": 0.5330295761560644,
+      "read_ground_precharge_RC_s": 1.335298270682295e-09,
+      "calibration": {
+        "plate_V": 2.5,
+        "CBL_F": 2.5e-13,
+        "calibration_area_m2": 1e-12,
+        "calibration_median_BL_V": [
+          0.466,
+          1.03
+        ],
+        "dielectric_path_secant_F_per_um2": 5.72763028515241e-14,
+        "polarization_path_secant_F_per_um2": 1.178937651756868e-13,
+        "full_reversal_scale_C_per_um2": 4e-13,
+        "source": "FERAM03PDFp2Fig8/10; manualrasterlinecenter readingsabout±10..15mV; notrawmeasurementprecision",
+        "domain": "Quasistatic2.5V/100nscharacterization; doesnotidentifyfastswitchingkinetics or14nswriteinternals"
+      },
+      "source_scope": "HZOpathQat2.5V/100ns+measuredSKY130HV I/TT C; nofastFEkinetics extractionorjointfabricatedmacroclaim"
+    },
+    "control_raw_s": 1.801716889634356e-08,
+    "control_guard_s": 2e-08,
+    "precharge_block_s": 2e-08,
+    "read_bias_settle_s": 2.545811533117516e-08,
+    "extra_dwell_s": 1e-07,
+    "source_full_write_s": 2e-08,
+    "complete_write_service_s": 2e-08,
+    "state_lifecycle": {
+      "destroyed_or_unqualified_bits": 4096,
+      "restored_bits": 4096,
+      "restore_batches": 32,
+      "physical_hold_bits": 128,
+      "preserved": true,
+      "completed_payload_Byte": 512,
+      "restore_payload_Byte": 0
+    },
+    "restore_failure": {
+      "destroyed_or_unqualified_bits": 4096,
+      "restored_bits": 4096,
+      "restore_batches": 32,
+      "physical_hold_bits": 128,
+      "preserved": false,
+      "completed_payload_Byte": 0,
+      "restore_payload_Byte": 0
+    },
+    "MAC_updates": 512,
+    "read_restore_batches": 32,
+    "external_write_batches": 32,
+    "phase_semantics": "Readcharge+nativeSA/capture;physicalstateunqualified;full128bitrestore;digitalusesheldrow. NativeSA1/fcountedonce,14nsneverperpolarity."
+  },
+  "conditions": [
+    "HZO1T1Cremanentpolarization/destructivereadmaintained;twobranchQispathdependentcharge,notprogrammablenvCap.",
+    "100nsextradwellstartsAFTERnewstablebias;itisaconservativepolicybasedonsource100nsmeasurementdomain,notreplayedcompleteaccessornativeprediction.",
+    "14nsisonecompletewriteoperation;20/50nsarechosenfull-cyclepoliciesinsourceshmooPASSregion. ActualHVcharge/RCportfloorisappliedwithoutinventingmaterialsubpulses.",
+    "Sourcecompletewrite/restore waveform mustremainapplicabletoactual1um2/2.5V/~250fFworkingcellsand128parallelrateddrivers;notnewmacroyieldorsiliconsignoff.",
+    "Native1.3VonlydrivesLVlevel-shifterinputsandreadsisolatedlowBLsignals;allmemoryaccess/BL/PLprogramdomainsareHV.",
+    "GlobalPLunselectedcellsfloatbehindOFFHVaccess;modeledseriescaploadeverycellandfiniteunselectedfieldguardincluded;longtermfatigue/minor-loopdisturbnotpredicted.",
+    "Readlatchesall128bitsthenmarksphysicalstatesunqualifieduntilfullrestore;nooutput-onlyrestorationorfree4096laneport.",
+    "SA50mV+50mVerrorbudgetandnominalQbranchesaremodelqualifications;100nsarea crosscheckischargevalidation,notfastkinetics/ENOB.",
+    "ConservativeHVblocks/currentbudgetaremodel-levelservices;completecontrolSTA/fastFEkineticsandfullPDNnotclaimed."
+  ]
+}

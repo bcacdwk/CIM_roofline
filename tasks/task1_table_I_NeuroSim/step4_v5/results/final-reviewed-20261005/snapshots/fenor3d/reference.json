@@ -1,0 +1,508 @@
+{
+  "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__reference",
+  "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+  "parameters": {
+    "channel_slope_factor": 1.5,
+    "temperature_K": 300,
+    "channel_width_m": 1e-07,
+    "channel_length_m": 5e-08,
+    "FE_relative_permittivity": 25,
+    "FE_thickness_m": 6e-09,
+    "layers": 4,
+    "extra_sense_cap_F": 2e-14,
+    "wire_cap_per_m": 2e-10,
+    "layer_pitch_m": 4e-08,
+    "physical_cols": 128,
+    "column_pitch_m": 1.7e-07,
+    "metal_rho_ohm_m": 2.2e-08,
+    "SL_width_m": 1e-06,
+    "SL_thickness_m": 2e-07,
+    "lateral_lanes": 32,
+    "row_pitch_m": 1.2e-07,
+    "state_window_shift_V": 0.0,
+    "selected_gate_V": -0.5,
+    "unselected_gate_V": -1.1,
+    "HV_control_allowance_s": 8e-09,
+    "threshold_window_V": 0.65,
+    "follower_extra_cap_F": 5e-16,
+    "follower_body_allowance_V": 0.05,
+    "follower_width_F": 2,
+    "technology_nm": 65,
+    "follower_length_ratio": 3,
+    "follower_gate_V": 0.78,
+    "reference_resistance_ohm": 1200000.0,
+    "read_pulse_s": 2e-08,
+    "sense_threshold_V": 0.005,
+    "sense_error_budget_V": 0.002,
+    "low_state_Vt_V": -1.05,
+    "high_state_Vt_V": -0.38,
+    "calibration_current_A": 2e-07,
+    "calibration_gate_V": -0.5,
+    "calibration_drain_V": 0.1,
+    "clock_Hz": 5000000,
+    "read_mux": 2,
+    "mux_target_ohm": 10000.0,
+    "reference_switch_target_ohm": 10000.0,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "mac_lanes": 16,
+    "accumulator_bits": 25,
+    "program_lanes": 128,
+    "program_pulse_s": 2e-08,
+    "program_voltage_V": 2.0,
+    "reset_residual_V": 0.001,
+    "precharge_width_F": 16.0,
+    "gate_driver_width_F": 32.0,
+    "precharge_error_fraction": 0.002,
+    "local_bias_supply_limit_A": 0.1,
+    "operand_route_cap_F": 1e-15,
+    "program_control_cap_F": 2e-14,
+    "qualified_read_field_V": 1.3333333333333333
+  },
+  "logical": {
+    "K": 128,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "conditionedbinarythresholdthenexactINT8digital25bit;noENOB/yield/STAclaim"
+  },
+  "identity": {
+    "material": "6nmSLHZO/4nmOpoorIGOverticalANDFeFET,4layers",
+    "physical": "4layers×32independentlaterallanes×128binarycolumns=16384cells;oneactivelayeratatime,layercountiscapacity",
+    "read": "source-derivedEKVstateport+nativeMOSactivebias/resistorreference+nativeVSA;2048parallelbinarysenses,two64columnreadgroupsperlayer",
+    "write": "128-bitlogicalrowtarget;explicitbipolarHVgate/BL/SLcontrol,halfselectinhibit,material±2V20ns,perrowverify",
+    "process": "source50nmchannelgeometry;65nm300Knativeperiphery+fixedSKY130HVportgeometry;model-reference,notonefabricatedchip"
+  },
+  "native_resolved": {
+    "frontend": {
+      "actual_gate_load_F": 2.3611167500799998e-14,
+      "actual_BL_load_F": 7.514671183763999e-14,
+      "actual_SL_load_F": 4.352e-15,
+      "active_layer_count": 1.0,
+      "layer_count": 4.0,
+      "capacity_cells": 512.0,
+      "native_gate_driver_compatible": 0.0,
+      "actual_native_gate_rail_V": 1.1,
+      "requested_gate_rail_V": -0.5,
+      "native_select_s": 2.3176179472652224e-10,
+      "native_mux_select_s": 3.229622490219195e-09,
+      "native_mux_s": 3.5215710980389854e-09,
+      "native_sense_endpoint_diagnostic_s": 4.0123135979457223e-07,
+      "native_sense_precharge_s": 4.9398077898894555e-11,
+      "native_sense_control_s": 4e-07,
+      "native_sense_node_cap_F": 7.816246961641954e-14,
+      "native_sense_count": 64.0,
+      "native_hold_bits": 128.0,
+      "native_hold_s": 1e-07,
+      "actual_mux_target_ohm": 10000.0,
+      "actual_mux_width_n_m": 2.4337500000000007e-07,
+      "actual_mux_width_p_m": 4.078341013824885e-07,
+      "native_Ioff_N_A_per_m": 0.0001002,
+      "native_Ioff_P_A_per_m": 0.0001002,
+      "native_vth_V": 0.5016636,
+      "native_Ion_N_A_per_m": 400.0,
+      "native_Ion_P_A_per_m": 238.7,
+      "native_gate_address_s": 2.3176179472652224e-10,
+      "gate_enable_control_s": 1.3720154117774264e-10,
+      "gate_enable_NAND_s": 3.552447808734004e-10,
+      "gate_driver_width_n_m": 2.08e-06,
+      "gate_driver_width_p_m": 3.485546711353163e-06,
+      "gate_driver_input_cap_F": 1.331984484678676e-14,
+      "gate_driver_output_cap_F": 1.4389980680800935e-15,
+      "gate_driver_R_n_ohm": 2340.1442307692314,
+      "gate_driver_R_p_bias_ohm": 1e+30,
+      "gate_rise_tau_s": 2.5050165568880092e+16,
+      "gate_fall_tau_s": 5.862100043582878e-11,
+      "gate_enable_area_m2": 1.79816e-11,
+      "gate_global_enable_load_F": 7.071931480469207e-15,
+      "reference_first_INV_input_F": 2.4974709087725172e-15,
+      "actual_mux_drain_F": 6.299226461663853e-16,
+      "actual_mux_gate_n_F": 5.824615995000001e-16,
+      "actual_mux_gate_p_F": 9.760563041474654e-16,
+      "precharge_PMOS_width_m": 1.04e-06,
+      "precharge_PMOS_R_bias_ohm": 1e+30,
+      "precharge_PMOS_drain_F": 4.366186712161545e-16,
+      "precharge_PMOS_gate_F": 2.48899872e-15,
+      "precharge_control_s": 8.550168318102531e-10,
+      "precharge_count": 128.0,
+      "precharge_voltage_V": 0.2,
+      "precharge_error_fraction": 0.002,
+      "precharge_data_lumped_RC_s": 4.8574911667087936e+17,
+      "precharge_reference_lumped_RC_s": 4.8574911667087936e+17,
+      "precharge_bias_compatible": 0.0,
+      "reference_TG_width_n_m": 2.4337500000000007e-07,
+      "reference_TG_width_p_m": 4.078341013824885e-07,
+      "reference_TG_nominal_R_ohm": 10000.0,
+      "reference_TG_R_n_native_ohm": 19999.999999999996,
+      "reference_TG_R_p_native_ohm": 20000.000000000004,
+      "reference_TG_drain_each_side_F": 6.299226461663853e-16,
+      "reference_TG_gate_n_F": 5.824615995000001e-16,
+      "reference_TG_gate_p_F": 9.760563041474654e-16,
+      "reference_TG_P_gate_fall_tau_s": 8.171516721474953e-10,
+      "reference_TG_N_gate_rise_tau_s": 4.715899746084477e-10,
+      "reference_TG_N_gate_delay_s": 5.638346537817717e-10,
+      "reference_TG_control_s": 8.892317362616006e-10,
+      "reference_TG_count": 64.0,
+      "reference_TG_area_m2": 3.6977570949308755e-11,
+      "reference_capacitor_node_total_F": 7.816246961641954e-14,
+      "reference_internal_initial_V": 0.0,
+      "reference_match_cap_F": 7.640655712997276e-14,
+      "reference_match_feasible": 1.0,
+      "native_periphery_area_m2": 2.279963212847926e-09,
+      "sense_current_high_A": 3.3547556465182096e-07,
+      "sense_current_low_A": 4.82835115150449e-09,
+      "probe_only": 1.0
+    },
+    "digital": {
+      "input_ingress_beats": 8.0,
+      "input_ingress_select_s": 4.086989526559048e-09,
+      "input_ingress_area_m2": 1.9111601599999997e-09,
+      "target_ingress_beats": 1.0,
+      "target_ingress_select_s": 8.105560042768082e-11,
+      "target_ingress_area_m2": 2.3016447999999996e-10,
+      "weight_ingress_beats": 2.0,
+      "weight_ingress_select_s": 5.4471387098920325e-08,
+      "weight_ingress_area_m2": 7.3670615199999985e-09,
+      "input_rows": 128.0,
+      "input_cols": 128.0,
+      "logical_K": 128.0,
+      "logical_N": 16.0,
+      "accumulator_bits": 25.0,
+      "extra_25bit_adder_lanes": 16.0,
+      "input_hold_bits": 1024.0,
+      "target_hold_bits": 128.0,
+      "weight_hold_bits": 4096.0,
+      "weight_hold_rows": 32.0,
+      "weight_hold_outputs": 16.0,
+      "signed_output_hold_bits": 400.0,
+      "input_capture_s": 1e-07,
+      "target_hold_capture_s": 1e-07,
+      "weight_hold_capture_s": 1e-07,
+      "signed_capture_s": 1e-07,
+      "input_row_capture_s": 1e-07,
+      "input_row_select_s": 9.126598643514553e-09,
+      "input_bit_select_s": 4.005434690440292e-08,
+      "weight_group_select_s": 0.0,
+      "weight_row_select_s": 8.249668314524264e-09,
+      "weight_keep_s": 8.105560042768082e-11,
+      "extra_shifted_weight_mux_s": 1.5693581325056972e-10,
+      "extra_shift_select_s": 2.183811444253707e-08,
+      "group_select_s": 0.0,
+      "data_zero_mask_s": 9.73330342922026e-11,
+      "extra_accumulator_feedback_mux_s": 0.0,
+      "extra_25bit_adder_s": 7.660904110283295e-09,
+      "signed_correction_s": 1.9663253971467424e-08,
+      "add_sub_result_select_s": 8.105560042768082e-11,
+      "accumulator_keep_s": 2.0172067568813503e-10,
+      "verify_target_select_s": 0.0,
+      "verify_data_select_s": 8.249668314524264e-09,
+      "verify_byte_compare_s": 6.603820266587281e-09,
+      "verify_fail_reduce_s": 5.992612200278223e-10,
+      "verify_sticky_or_s": 1.1423613374484881e-10,
+      "verify_status_capture_s": 1e-07,
+      "program_target_select_s": 0.0,
+      "program_target_mask_logic_s": 5.588315933940383e-10,
+      "retry_increment_s": 6.321107565351957e-10,
+      "retry_state_capture_s": 1e-07,
+      "state_clear_bits": 403.0,
+      "state_clear_s": 1.0107051363123598e-07,
+      "state_clear_comb_s": 1.0705136312359783e-09,
+      "state_clear_gates": 808.0,
+      "data_zero_mask_gates": 800.0,
+      "weight_sign_extension_max_fanout": 116.0,
+      "digital_mac_comb_s": 6.009771018627835e-08,
+      "digital_verify_comb_s": 1.5566985934884215e-08,
+      "digital_critical_comb_s": 6.009771018627835e-08,
+      "digital_halfcycle_min_period_s": 1.201954203725567e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_area_m2": 9.685668174e-08,
+      "native_vdd_V": 1.1,
+      "native_vth_V": 0.5016636,
+      "component_only": 1.0
+    }
+  },
+  "stream_stages": [
+    {
+      "id": "input_admission",
+      "duration_s": 2e-07,
+      "count": 8,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bitport/inputhold1024bits",
+      "includes": "128Blogicalvectoronce",
+      "excludes": "nooffdomainDRAM",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "stream_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "nativeclearandresult/statushold",
+      "includes": "oldoutput/statusclear",
+      "excludes": "nocellstatechange",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "layer_read",
+      "duration_s": 6e-07,
+      "count": 8,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "PORT",
+        "SKY",
+        "FENOR02"
+      ],
+      "resources": "32parallelunits×128SA/ref,oneactiveof4layers",
+      "includes": "nativeinternalprecharge,actualzero-park,HVisolation/negativegate/currentbias,20nsfinitefront,nativeSAoutput,earlylatchedhold,release",
+      "excludes": "no4xlayerthroughput;noold20/40/80nsslots"
+    },
+    {
+      "id": "tile_capture",
+      "duration_s": 2e-07,
+      "count": 8,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "4096bit32rowtilehold",
+      "includes": "physicalSAoutputstolocaltilehold",
+      "excludes": "nofull16384bitshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "input_weight_row_select",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128inputrowselect/32weightrowselect",
+      "includes": "oneinputrowheldfor8bitupdates",
+      "excludes": "noreloadingpayload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "signed_MAC",
+      "duration_s": 2e-07,
+      "count": 1024,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "16lane25bitadd/sub/shift",
+      "includes": "8inputbitsandactualsignedweightmapping",
+      "excludes": "notfree32inputaddertree",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "output_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "resultstatus",
+      "includes": "all16resultsheld",
+      "excludes": "nooutputtransport"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "resident_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "target/status/retry",
+      "includes": "clearpriorcontrol",
+      "excludes": "noterase",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "target_ingress",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bittargethold",
+      "includes": "one16weightrowatatime",
+      "excludes": "nofullmatrixpreload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "row_reset",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "FENOR02",
+        "SKY"
+      ],
+      "resources": "128targetcellHVports,allothersinhibit",
+      "includes": "full−2V20nsbinaryreset+realHVcontrol/settle",
+      "excludes": "notRRAMcurrentwrite"
+    },
+    {
+      "id": "row_program",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "FENOR02",
+        "SKY"
+      ],
+      "resources": "same128targetports,bitmasked",
+      "includes": "+2V20nssettarget1,inhibit0 andallotherlateralrows",
+      "excludes": "nooldstatepayloadskip"
+    },
+    {
+      "id": "verify_layer_read",
+      "duration_s": 6e-07,
+      "count": 256,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "PORT",
+        "SKY",
+        "FENOR02"
+      ],
+      "resources": "4096physicalbitsreadpereachlogicalrowverification",
+      "includes": "wholelayerreadincludingallfourlayerloads",
+      "excludes": "not128bitfreeisolatedsense"
+    },
+    {
+      "id": "verify_capture",
+      "duration_s": 2e-07,
+      "count": 256,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "4096bittilehold",
+      "includes": "readallphysicalstateswhiletarget128bitsretained",
+      "excludes": "notargetshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "verify_compare",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "rowselect+16bytecompare/status",
+      "includes": "targetphysicalrowequalslogical128bits;failedpayload0",
+      "excludes": "nostatisticalWER",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Eachcapture/MACusesonecompletelegalperiod;nativeSApre/outputphasesassignedonce"
+    },
+    {
+      "id": "row_commit",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "explicitrowaddress/progress",
+      "includes": "advanceonlyaftercompletewrite/verify",
+      "excludes": "nofreetrainingupdate"
+    },
+    {
+      "id": "matrix_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "matrixstatus",
+      "includes": "2048Bcorrectlyloaded/readsafe",
+      "excludes": "noextraencodedpayload"
+    }
+  ],
+  "physical_check_outcomes": [
+    {
+      "id": "whole_state_lifecycle",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "four_layer_binary_margin",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "subcoercive_read_field",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "one_layer_not_parallel_multiplier",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "active_bias_supply",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "zero_park_residual",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "full_cover_and_sign",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_legal_clock",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "bounded_HV_voltage",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_gate_replaced_by_explicit_port",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true
+    }
+  ],
+  "full_checks_local_source": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-final-seven-from-compute-package-20261005-reference/case_model.json",
+  "maintenance_summary": null
+}

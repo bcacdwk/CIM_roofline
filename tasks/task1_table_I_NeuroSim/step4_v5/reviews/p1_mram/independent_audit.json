@@ -1,0 +1,296 @@
+{
+  "source_sha256": "07cec8af359e97c37ee711177b2e5c4dc63baf8ce422c12571089947de363523",
+  "method": "LiteralVA303-355/macros independently rewritten; BrentKCL+Brentsharedreturn+DOP853; no productionmodule import",
+  "native_calibration": {
+    "VDD": 1.1,
+    "Vth": 0.5016636,
+    "beta_access": 0.010876899079571565,
+    "beta_read_N": 0.0013822424618292416,
+    "beta_write_N": 0.010876899079571567,
+    "native_effective_R_to_Ion_ratio": 1.77
+  },
+  "drop_roots_V": {
+    "write_positive": 0.0102179446661776,
+    "write_negative": 0.009218362061425588,
+    "read_max": 0.005332323014532849
+  },
+  "count_audit": {
+    "cells": 32768,
+    "program_batches": 1024,
+    "payload_Byte": 4096,
+    "stream_tiles": 128,
+    "updates": 1024,
+    "points": [
+      {
+        "scenario": "optimistic",
+        "stream_cycles": 1606,
+        "resident_cycles": 21506,
+        "delta_S_s": 0.0001606,
+        "T_R_s": 0.0021506,
+        "rho_MB_per_s": 0.398505603985056,
+        "tau_MB_per_s": 1.904584767041756,
+        "RI_star": 0.20923490037359901,
+        "U_star": 13.391033623910337
+      },
+      {
+        "scenario": "reference",
+        "stream_cycles": 1606,
+        "resident_cycles": 31746,
+        "delta_S_s": 0.0001606,
+        "T_R_s": 0.0031745999999999996,
+        "rho_MB_per_s": 0.398505603985056,
+        "tau_MB_per_s": 1.2902412902412903,
+        "RI_star": 0.308861301369863,
+        "U_star": 19.767123287671232
+      },
+      {
+        "scenario": "pessimistic",
+        "stream_cycles": 1606,
+        "resident_cycles": 52226,
+        "delta_S_s": 0.0001606,
+        "T_R_s": 0.0052226,
+        "rho_MB_per_s": 0.398505603985056,
+        "tau_MB_per_s": 0.7842836901160342,
+        "RI_star": 0.508114103362391,
+        "U_star": 32.51930261519303
+      }
+    ],
+    "derivation": "fulladdressenumeration;32lanesglobalwrite;8banksparallelread;4ingressbeats;fullcyclehold/clear/MAC/compare;roundedpulse0and1separately"
+  },
+  "pulses": [
+    {
+      "initial_state": -1.0,
+      "port_V": 0.6,
+      "plateau_s": 5e-07,
+      "final_state": -1.0003438730408958,
+      "crossing_s": null,
+      "peak_current_A": 4.539008669901647e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": 1.0,
+      "port_V": 0.6,
+      "plateau_s": 5e-07,
+      "final_state": -1.0003438730408958,
+      "crossing_s": 7.075603395979833e-08,
+      "peak_current_A": 7.268325098922582e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": -1.0,
+      "port_V": -0.6,
+      "plateau_s": 5e-07,
+      "final_state": 1.000195421566837,
+      "crossing_s": 1.0169889242229215e-07,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.47954586235754754,
+      "shared_drop_V": 0.009218362061425588
+    },
+    {
+      "initial_state": 1.0,
+      "port_V": -0.6,
+      "plateau_s": 5e-07,
+      "final_state": 1.000195421566837,
+      "crossing_s": null,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.4344161713223521,
+      "shared_drop_V": 0.009218362061425588
+    },
+    {
+      "initial_state": -1.0,
+      "port_V": 0.6,
+      "plateau_s": 1e-06,
+      "final_state": -1.0003438730408958,
+      "crossing_s": null,
+      "peak_current_A": 4.539008669901647e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": 1.0,
+      "port_V": 0.6,
+      "plateau_s": 1e-06,
+      "final_state": -1.0003438730408958,
+      "crossing_s": 7.075603395979833e-08,
+      "peak_current_A": 7.268325098922582e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": -1.0,
+      "port_V": -0.6,
+      "plateau_s": 1e-06,
+      "final_state": 1.000195421566837,
+      "crossing_s": 1.0169889242229215e-07,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.47954586235754754,
+      "shared_drop_V": 0.009218362061425588
+    },
+    {
+      "initial_state": 1.0,
+      "port_V": -0.6,
+      "plateau_s": 1e-06,
+      "final_state": 1.000195421566837,
+      "crossing_s": null,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.4344161713223521,
+      "shared_drop_V": 0.009218362061425588
+    },
+    {
+      "initial_state": -1.0,
+      "port_V": 0.6,
+      "plateau_s": 2e-06,
+      "final_state": -1.0003438730408958,
+      "crossing_s": null,
+      "peak_current_A": 4.539008669901647e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": 1.0,
+      "port_V": 0.6,
+      "plateau_s": 2e-06,
+      "final_state": -1.0003438730408958,
+      "crossing_s": 7.075603395979833e-08,
+      "peak_current_A": 7.268325098922582e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": -1.0,
+      "port_V": -0.6,
+      "plateau_s": 2e-06,
+      "final_state": 1.000195421566837,
+      "crossing_s": 1.0169889242229215e-07,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.47954586235754754,
+      "shared_drop_V": 0.009218362061425588
+    },
+    {
+      "initial_state": 1.0,
+      "port_V": -0.6,
+      "plateau_s": 2e-06,
+      "final_state": 1.000195421566837,
+      "crossing_s": null,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.4344161713223521,
+      "shared_drop_V": 0.009218362061425588
+    }
+  ],
+  "read_checks": [
+    {
+      "time_s": 1.23e-09,
+      "P": [
+        0.06930090383357462,
+        1.0002162271755168
+      ],
+      "AP": [
+        0.09473505707344218,
+        -1.0003890283759418
+      ],
+      "ref_early_low_V": 0.07800412077566576,
+      "ref_late_high_V": 0.08767080252192844,
+      "P_margin_V": 0.008703216942091141,
+      "AP_margin_V": 0.007064254551513743,
+      "required_V": 0.007,
+      "passed": true,
+      "method": "Nonlinearinitialrefprechargeerror is integrated asinitialV, notscaledafterODE; Pmaxreturn/APzerodrop; Brent+DOP853",
+      "scenario": "optimistic"
+    },
+    {
+      "time_s": 1.23e-09,
+      "P": [
+        0.06930090383357462,
+        1.0002162271755168
+      ],
+      "AP": [
+        0.09473505707344218,
+        -1.0003890283759418
+      ],
+      "ref_early_low_V": 0.07800412077566576,
+      "ref_late_high_V": 0.08767080252192844,
+      "P_margin_V": 0.008703216942091141,
+      "AP_margin_V": 0.007064254551513743,
+      "required_V": 0.007,
+      "passed": true,
+      "method": "Nonlinearinitialrefprechargeerror is integrated asinitialV, notscaledafterODE; Pmaxreturn/APzerodrop; Brent+DOP853",
+      "scenario": "reference"
+    },
+    {
+      "time_s": 1.23e-09,
+      "P": [
+        0.06930090383357462,
+        1.0002162271755168
+      ],
+      "AP": [
+        0.09473505707344218,
+        -1.0003890283759418
+      ],
+      "ref_early_low_V": 0.07800412077566576,
+      "ref_late_high_V": 0.08767080252192844,
+      "P_margin_V": 0.008703216942091141,
+      "AP_margin_V": 0.007064254551513743,
+      "required_V": 0.007,
+      "passed": true,
+      "method": "Nonlinearinitialrefprechargeerror is integrated asinitialV, notscaledafterODE; Pmaxreturn/APzerodrop; Brent+DOP853",
+      "scenario": "pessimistic"
+    }
+  ],
+  "convergence": [
+    {
+      "initial_state": 1.0,
+      "port_V": 0.6,
+      "plateau_s": 5e-07,
+      "final_state": -1.0003438730408958,
+      "crossing_s": 7.075603395680531e-08,
+      "peak_current_A": 7.268325098922582e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": -1.0,
+      "port_V": -0.6,
+      "plateau_s": 5e-07,
+      "final_state": 1.000195421566837,
+      "crossing_s": 1.0169889244276848e-07,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.47954586235754754,
+      "shared_drop_V": 0.009218362061425588
+    }
+  ],
+  "raw_endpoint_probes": [
+    {
+      "initial_state": 1.001,
+      "port_V": 0.6,
+      "plateau_s": 5e-07,
+      "final_state": -1.0003438730408958,
+      "crossing_s": 7.555318823672568e-08,
+      "peak_current_A": 7.268692881748298e-05,
+      "max_MTJ_V": 0.5092493252973093,
+      "shared_drop_V": 0.0102179446661776
+    },
+    {
+      "initial_state": -1.001,
+      "port_V": -0.6,
+      "plateau_s": 5e-07,
+      "final_state": 1.000195421566837,
+      "crossing_s": 1.0796192017497218e-07,
+      "peak_current_A": 6.55737867617877e-05,
+      "max_MTJ_V": 0.4795534399534546,
+      "shared_drop_V": 0.009218362061425588
+    }
+  ],
+  "return_and_edge_certificate": {
+    "Rmax_ohm": 951.0220873339449,
+    "connected_C_F": 1.5844233518368937e-13,
+    "minimum_slew_for_10mA_s": 3.964085140105983e-10,
+    "RC99p9_s": 1.924019638362504e-09,
+    "sufficient_slew_plus_settle_s": 2.320428152373102e-09,
+    "minimum_zero_bias_clock_wait_s": 9.615196072327499e-08,
+    "max_BL_after_zero_wait_V": 7.154624488879327e-151,
+    "read_rail_V": 0.15,
+    "scope": "Fixed0Vcommandduringclockalignment;chargedBLhasTG/wirereturnpath;nominalcompactmodelandstablelocalrailcondition;notSTAorPDNsignoff"
+  }
+}

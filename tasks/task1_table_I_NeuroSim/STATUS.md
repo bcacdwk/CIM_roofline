@@ -110,3 +110,11 @@
 三例参考审查、必要修正、九个成对热设计情景及PNG/SVG表图已完成，独立新构建复核为带明确模型条件通过。350K温热reference的Δ_S/T_R分别为：ACIM1.990/2.603μs、banked1T1R RRAM51.945/543.973μs、SRAM DCIM0.190/3.741μs。不是统计典型值或精度／硅认证。
 
 [报告与条件](step4_v4/REPORT.zh.md) · [独立审查](step4_v4/reports/review.json)。本地完整运行 `/Users/shine/neurosim/runs/step4-v4/reference-v4-20261005`；仅精简交付在`step4_v4/`。旧V3/V2/pilots/NVM/TableII/论文与锁定上游未改，无暂存／提交／推送。停止V4，等待用户及外部ChatGPT审阅，不进入更多器件、workload或论文。
+
+## 2026-10-05 追加：Step4 V5 完成交付
+
+七例21配置已实际新构建并绑定独立fresh源码/构建/运行，最终表图独立审查通过；连同V4只读九点形成10类30个带模型条件的点。GC raw/单次/长期有效能力分列；NOR/NAND两点重合和FeNOR三点重合保持真实坐标。旧NVM背景单列，不参与新计算。
+
+[报告](step4_v5/REPORT.zh.md) · [结果与图](step4_v5/README.md) · [最终manifest](step4_v5/provenance/final_run_manifest.json) · [独立绑定](step4_v5/results/final_review_bindings.json) · [表图审查](step4_v5/reviews/p5_overview/review.json)。最终计算包位于 `/Users/shine/neurosim/runs/step4-v5/packages/final-compute-seven-r2-20261005`，完整运行集合为 `runs/step4-v5/integration/final-seven-complete-20261005`。首批18成功，MRAM因规范文档打包遗漏仅补跑3点，未重跑其余18；计算hash不变、失败现场保留。
+
+旧版本、原上游、旧NVM、论文/Table II及用户两处.DS_Store均保留；未git add/commit/push。停止于V5，不自动扩展新器件、workload或论文。

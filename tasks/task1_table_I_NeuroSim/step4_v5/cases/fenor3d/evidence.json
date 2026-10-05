@@ -1,0 +1,101 @@
+{
+  "case_id": "fenor3d",
+  "revision": "p0-20261005",
+  "status": "ready_for_independent_review",
+  "formal_points": 0,
+  "source": {
+    "path": "tasks/task1_table_I_NVM/literature/10_fenor_3d/FENOR-02_2026_Vertical_FeFET_Array.pdf",
+    "sha256": "322482d834c279a278d0aaa007a0cfeb26dee49253fe50661d0483975d9b19d5",
+    "doi": "10.1109/VLSITechnologyandCir65830.2026.11577291",
+    "kind": "user-supplied3page manuscript without version string",
+    "read_source": "p2 Figs3,5: gate−0.5V; pulse MW0.65V; read20ns stress only",
+    "write_source": "p2 Fig4(c,d):SL+O-poor ±2V20ns",
+    "geometry_source": "p3 Fig11:TCAD100nmD/120nmX/170nmY/40nmZ;6nmFE/4nmCh/30nmBL-SL/100nmWLpitch",
+    "numeric": {
+      "layers": 4,
+      "manufactured_cells": 4096,
+      "pattern_verified_cells": 1024,
+      "FE_nm": 6,
+      "channel_nm": 4,
+      "channel_length_nm": 50,
+      "pulse_V": [
+        -2,
+        2
+      ],
+      "pulse_ns": 20
+    },
+    "unresolved": [
+      "IdVg drain-bias condition",
+      "port capacitance or qualified extraction",
+      "negative/positive HV drive and supply current",
+      "same-sample SL+Opoor+O0p1s conditions",
+      "SA reference/margin and unselected leakage"
+    ],
+    "ranges": "same-amplitude pulse settings withinFig4 demonstrated map; measured state/margin cases; fixed temperature/resources; no arbitrarypercent",
+    "excluded_legacy": [
+      "20/40/80ns complete read",
+      "5/10/20ns edge",
+      "100ns treated as intrinsic recovery"
+    ],
+    "upstream": "Training f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a Type::FeFET shares2D RRAM geometry/read resistance; verticalAND and gate write not implemented"
+  },
+  "old_input_reference": {
+    "path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/data/inputs.json",
+    "sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+    "use": "source/mapping only; old times and performance not generation inputs"
+  },
+  "run_dir": "/Users/shine/neurosim/runs/step4-v5/p0/fenor-route-20261005",
+  "review": "text extracted withPDFKit; critical original pages rendered/visuallychecked; no production reviewer involved",
+  "p2_isolated_probe": {
+    "script": "port_probe.py",
+    "run": "/Users/shine/neurosim/runs/step4-v5/p2/fenor-port-20261005/probe.json",
+    "scope": "topology/address/gate-stress andnonidentifiabilitywitnesses only;notformalservice",
+    "key_rejections": [
+      "gate0isnotnecessarilyOFFfornegativeVthFeFET",
+      "gate−2VpersistentOFFequalsfullERSstress"
+    ],
+    "caveat": "candidate−1.1Voff/0.1Vdrain has1.2Vstress<4/3V butdoesnotprove longduration/repeatedread immunity;muststaywithin actual same-source halfselectduration/cumulative-testdomain and explicitidle release",
+    "search": "2026conferenceprimaryprogramverifiedtitle;no added fullsourceIdVg drainbias found;2025precursorFig3hasVds.1V butdifferentgeometry/materialconditionsnotcopiedas2026measurement"
+  },
+  "p2_compact_alternative": {
+    "script": "ekv_port.py",
+    "script_sha256": "366c3678c34c5c2d8596b9a373cf933ce91883045b00a53fde2a11c99db99464",
+    "result": "/Users/shine/neurosim/runs/step4-v5/p2/fenor-port-20261005/ekv_diagnostic.json",
+    "equation_source": {
+      "doi": "10.1007/BF01239381",
+      "url": "https://hasler.ece.gatech.edu/Courses/ECE4430/Proj1/ekvpaper1.pdf",
+      "local_pdf": "/Users/shine/neurosim/runs/step4-v5/p2/fenor-port-20261005/EKV1995.pdf",
+      "sha256": "da66caa0781393e54ffda7a59875c7f61504f8ba63e7a6fff6bb14b0bc7efd47",
+      "location": "p91 Eq28,30,31; visually rendered and read",
+      "use": "equations only, no third-party implementation imported"
+    },
+    "other_gate_state_checks": {
+      "lowstate_gate_minus1_V_A": 9.122034732709537e-09,
+      "source_visual_lowstate_gate_minus1_approx_A": 1e-08,
+      "highstate_gate_minus05_A": 3.071739058100695e-10,
+      "source_visual_highstate_gate_minus05_approx_A": 3e-10,
+      "qualification": "approximate figure comparisons, not pixel-fit confidence limits or independent Vds validation"
+    },
+    "four_layer_gap_A": 2.8095215578347267e-08,
+    "eight_layer_same_bias_gap_A": -1.7136805650845058e-07,
+    "missing": [
+      "negative-gate driver/body/well/logic interface",
+      "physical nonlinear FE switching charge/driver load",
+      "repeated negative-off read stress domain vs published pulsed halfselect",
+      "qualified data/reference sense and shared SL network at actual native loads"
+    ]
+  },
+  "final_model_reference": {
+    "implementation_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1",
+    "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+    "runs": [
+      "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-fenor-final-optimistic-r2-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-fenor-final-reference-r2-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-fenor-final-pessimistic-r2-20261005"
+    ],
+    "report": "REPORT.zh.md",
+    "range": "finite50mVengineeringthresholdwindowpackages;allservicepairscoincidentbecausefixedpulse/digitalbottleneck",
+    "source_types": "original4layerdevice+EKVmodel/nativeperiphery+SKYHVcompactport+explicitservicepolicy",
+    "resolved_program_target_bits": 128
+  }
+}

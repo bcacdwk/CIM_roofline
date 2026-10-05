@@ -1,0 +1,29 @@
+{
+  "identity": "UMEM1.0.1 same-package70nm-square STT model;65nm CMOS peripheral circuit probe",
+  "point_eligibility": "probe_only",
+  "parameters": {
+    "technology_nm": 65,
+    "device_node_nm": 70,
+    "temperature_K": 300,
+    "rows": 64,
+    "cols": 64,
+    "read_mux": 2,
+    "write_mux": 2,
+    "resistance_on_ohm": 6907.028505138196,
+    "resistance_off_ohm": 14585.809313131289,
+    "access_resistance_ohm": 1000.0,
+    "cell_pitch_x_m": 6.24e-06,
+    "cell_pitch_y_m": 1.04e-06,
+    "read_voltage_V": 0.1,
+    "access_voltage_V": 1.2,
+    "write_port_voltage_V": 0.6,
+    "wire_ohm_per_m": 10000000.0,
+    "clock_Hz": 100000000.0,
+    "extra_column_cap_F": 0.0,
+    "sense_threshold_V": 0.005
+  },
+  "limitations": [
+    "Only deterministic UMEM port at0.1V;native constant-current SA develop is replaced by independent transient reference network before formal eligibility.",
+    "No measured CMOS macro or WER guarantee."
+  ]
+}

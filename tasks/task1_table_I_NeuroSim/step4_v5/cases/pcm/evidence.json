@@ -1,0 +1,160 @@
+{
+  "case_id": "pcm",
+  "stage": "P0",
+  "implementation_status": "route_ready_for_review_not_service_qualified",
+  "candidate_identity": "40nm Ti0.4Sb2Te3 conventional 1T1R current-read reference, binary planes; architecture/model proposal rather than reproduced measured macro",
+  "sources": [
+    {
+      "id": "PCM-01",
+      "path": "tasks/task1_table_I_NVM/literature/07_pcm/PCM-01_2023_PCM64_Core.pdf",
+      "doi": "10.1038/s41928-023-01010-1",
+      "sha256": "81c512921e635d20769b9a0752d958f6820158f8459728e9333cb320d39b1278",
+      "classification": "physical_evidence_alternative",
+      "use": "IBM doped GST 14nm; current waveforms and verify bias are compatible within this source, but endpoint magnitudes in ADC counts need conversion before a resistor frontend can use them."
+    },
+    {
+      "id": "PCM-03",
+      "path": "tasks/task1_table_I_NVM/literature/07_pcm/PCM-03_2022_Hybrid_SLC_MLC.pdf",
+      "doi": "10.1109/isscc42614.2022.9731670",
+      "sha256": "91ae3c12a4d505f13863934b2cd244e108f3755e1a3dbabc119d4a9ad611ba60",
+      "classification": "organization_and_legacy_access",
+      "use": "Voltage-sum topology is not the new identity; complete access excluded from new computation."
+    },
+    {
+      "id": "PCM-05",
+      "path": "tasks/task1_table_I_NVM/literature/07_pcm/PCM-05_2024_PCM_Drift.pdf",
+      "doi": "10.3390/jlpea14040050",
+      "sha256": "05992e1bd33299c663bbc7c8cb71baeb568d4d00380c35356d8449a0f483cdd7",
+      "classification": "physical_evidence_alternative",
+      "use": "Ge-rich GST resistance/drift and voltage pulses; actual program current and pulse endpoint dynamics missing. Do not combine its R with IBM current waveforms."
+    },
+    {
+      "id": "PCM-06",
+      "path": "tasks/task1_table_I_NVM/literature/07_pcm/PCM-06_2021_RowWise_ClosedLoopProgramming.pdf",
+      "doi": "10.1109/ted.2021.3115993",
+      "sha256": "7b2e5d3b71928bf8be4720fc9edece45d3a4e759b4b8a530bb09dcdbaa67b7c8",
+      "classification": "mechanism_crosscheck",
+      "use": "Row-wise programming/verify and variability; 512 lanes not installed for free."
+    },
+    {
+      "id": "PCM-V5-01",
+      "title": "A Phase Change Memory Chip Based on TiSbTe Alloy in 40-nm Standard CMOS Technology",
+      "doi": "10.1007/s40820-015-0030-z",
+      "url": "https://link.springer.com/article/10.1007/s40820-015-0030-z",
+      "pdf_url": "https://link.springer.com/content/pdf/10.1007/s40820-015-0030-z.pdf",
+      "local_run_path": "/Users/shine/neurosim/runs/step4-v5/p0/pcm-20261005/PCM-V5-01_2015_TiSbTe_40nm.pdf",
+      "classification": "same_source_candidate",
+      "accessed": "2026-10-05",
+      "locator": "PDF pp2-3, Figs1-7; journal pp173-174",
+      "values": {
+        "process_nm": 40,
+        "selector_nominal_V": 1.1,
+        "TiN_BEC_diameter_nm": 35,
+        "reset_current_A": 0.0005,
+        "reset_pulse_s": 1e-08,
+        "set_current_A": 0.0002,
+        "set_pulse_s": 1e-07,
+        "set_log10_Rohm_reported": [
+          3.7,
+          4.5
+        ],
+        "reset_log10_Rohm_reported": [
+          4.7,
+          6.3
+        ],
+        "reset_flat_resistance_width_range_ns": [
+          10,
+          200
+        ],
+        "set_flat_resistance_width_range_ns": [
+          100,
+          2000
+        ]
+      },
+      "limitations": [
+        "Measured read voltage and low-bias I-V not stated in this paper.",
+        "Current-pulse width and edges not fully separated; do not add guessed tail/cooling.",
+        "Resistance distributions are not a paired R_on/R_off joint distribution; statement minimal ratio >10 cannot be inferred by dividing opposite distribution extrema.",
+        "SET speed includes influence of original peripheral parasitics; transfer is an external characterized current-pulse primitive, not intrinsic material switching prediction.",
+        "No finite endpoint retry success distribution or local drift horizon is reported.",
+        "CRITICAL: prose SET distribution appears to describe DC_SET rather than PULSE_SET in Fig6; do not pair DC_SET resistance with 100ns pulse programming. Accepted single-cell endpoint windows/verify may define a finite successful service, but yield remains unknown."
+      ],
+      "sha256": "fdfbf4079a0066697371b043204275e3480470f022da358d337c4d82cf4d5927",
+      "bytes": 856492,
+      "visual_review": {
+        "page": 3,
+        "rendered_image": "/Users/shine/neurosim/runs/step4-v5/p0/pcm-20261005/PCM-V5-01.p3.png",
+        "finding": "Fig6 distinguishes DC_SET blue from PULSE_SET red. Text SET logR3.7-4.5 corresponds visually to DC_SET, not the pulse-programmed distribution. PULSE_SET extends approximately logR4.0-5.2 and overlaps the RST distribution lower range. These visual ranges are approximate, not digitized data. No global fixed threshold yield claim is justified."
+      }
+    }
+  ],
+  "old_input_classification": {
+    "physical_evidence": [
+      "PCM-01 RESET/SET/verify evidence, retained as one alternative package",
+      "PCM-05 Ge-rich GST electrical states/drift, retained separately",
+      "PCM-06 row programming topology and endpoint variability"
+    ],
+    "architecture_choices": [
+      "old K256 N128 8-plane mapping",
+      "32 current drivers and 22.4mA return rating belong to old design, not imposed on new candidate"
+    ],
+    "legacy_aggregate_time_excluded": [
+      "read_front_including_TI_ns 10/20/50",
+      "drive_transition_ns 10/20/50",
+      "PCM-03 complete 3.25-15.9ns access",
+      "old result rho/tau/DeltaS/TR"
+    ],
+    "background_output": [
+      "old PCM voltage-sum output only; no new calculation dependency"
+    ]
+  },
+  "upstream_candidate": {
+    "branch": "2DTrainingV2.1",
+    "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+    "path": "Training_pytorch/NeuroSIM/SubArray.cpp",
+    "read_initialization_lines": [
+      271,
+      404
+    ],
+    "sequential_read_latency_lines": [
+      1350,
+      1417
+    ],
+    "required_lifecycle": [
+      "Initialize",
+      "CalculateArea",
+      "CalculateLatency",
+      "CalculatePower if energy is exported"
+    ],
+    "modules": [
+      "WL decoder/driver or WLNewSwitchMatrix",
+      "access transistor sizing",
+      "SL SwitchMatrix",
+      "Mux+MuxDecoder",
+      "SarADC or MultilevelSenseAmp",
+      "ShiftAdd/Adder/DFF"
+    ],
+    "critical_issue": "read-resistance-based automatic access width is not a proof of 0.5mA thermal-write ability; generic RRAM pulse counter is not PCM full-cover program."
+  },
+  "p1_exit_requirements": [
+    "Select same-source electrical/pulse package and engineering low-read bias qualification.",
+    "Dimension/access-check the 0.5mA path and size column-return current for actual program lanes.",
+    "Resolve analog sum versus binary sense: measured endpoint spread must not silently become exact analog popcount.",
+    "Reference must include endpoint verification, real bit-plane resources, and finite failure result.",
+    "Hold waveform timings fixed unless use a documented protocol comparison; no fabricated retry probabilities.",
+    "Use pulse-programmed resistance states; resolve Fig6 text/legend mismatch and global state-distribution overlap via explicitly successful endpoint conditions, no invented yield."
+  ],
+  "scenario_candidate": {
+    "interpretation": "finite operating-policy scenarios, not measured silicon corners",
+    "fixed": [
+      "same material/process/array geometry/resources",
+      "same low-read bias and endpoint acceptance",
+      "temperature fixed until material evidence supports variation"
+    ],
+    "main_family": "Source demonstrates flat final-state response for RESET width 10-200ns and SET width 100-2000ns; use three documented duration policies only after waveform inclusion/thermal and service checks. Read rate may legitimately remain equal.",
+    "second_family": "Endpoint R sensitivity must be separate or qualified with measured joint support; do not pick independent favorable extrema.",
+    "not_yet_frozen": true
+  },
+  "local_run_root": "/Users/shine/neurosim/runs/step4-v5/p0/pcm-20261005",
+  "production_run_performed": false
+}

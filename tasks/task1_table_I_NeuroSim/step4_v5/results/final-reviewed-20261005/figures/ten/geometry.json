@@ -1,0 +1,901 @@
+{
+  "source_points": "/Users/shine/neurosim/runs/step4-v5/p5/final-comparison-20261005/combined_points.json",
+  "source_sha256": "f89d7e3a3bf755db5aa658e3a739e2094237b47273ec55e092f806224cda93a9",
+  "script_sha256": "48f6eff7df9be7f791a61e9337ad1ac2e21aa0dc07fdcb9dd0136fdbac1f415b",
+  "preview_only": false,
+  "geometry_examples": {
+    "scope": "geometry-only synthetic fixtures, never plotted as device points",
+    "cases": {
+      "all_coincident": {
+        "rule": "minimum_enclosing_point",
+        "fallback_reason": "coincident_or_numerically_degenerate_endpoints",
+        "original": null,
+        "center_log10": [
+          0.0,
+          0.0
+        ],
+        "radius_decades": 0.0,
+        "point_distances_decades": {
+          "optimistic": 0.0,
+          "reference": 0.0,
+          "pessimistic": 0.0
+        },
+        "all_points_inside": true,
+        "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+      },
+      "opt_equals_reference": {
+        "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+        "fallback_reason": null,
+        "original": {
+          "center_log10": [
+            0.5,
+            0.25
+          ],
+          "radius_decades": 0.5590169943749475,
+          "reference_distance_decades": 0.5590169943749475
+        },
+        "center_log10": [
+          0.5,
+          0.25
+        ],
+        "radius_decades": 0.5590169943749475,
+        "point_distances_decades": {
+          "optimistic": 0.5590169943749475,
+          "reference": 0.5590169943749475,
+          "pessimistic": 0.5590169943749475
+        },
+        "all_points_inside": true,
+        "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+      },
+      "endpoints_coincident": {
+        "rule": "minimum_enclosing_circle",
+        "fallback_reason": "coincident_or_numerically_degenerate_endpoints",
+        "original": null,
+        "center_log10": [
+          0.5,
+          0.25
+        ],
+        "radius_decades": 0.5590169943749475,
+        "point_distances_decades": {
+          "optimistic": 0.5590169943749475,
+          "reference": 0.5590169943749475,
+          "pessimistic": 0.5590169943749475
+        },
+        "all_points_inside": true,
+        "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+      },
+      "reference_outside": {
+        "rule": "minimum_enclosing_circle",
+        "fallback_reason": "reference_outside_projected_center_circle",
+        "original": {
+          "center_log10": [
+            0.5,
+            0.0
+          ],
+          "radius_decades": 0.5,
+          "reference_distance_decades": 2.5
+        },
+        "center_log10": [
+          1.5,
+          0.0
+        ],
+        "radius_decades": 1.5,
+        "point_distances_decades": {
+          "optimistic": 1.5,
+          "reference": 1.5,
+          "pessimistic": 0.5
+        },
+        "all_points_inside": true,
+        "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+      }
+    }
+  },
+  "figures": [
+    {
+      "stem": "ten_rho_tau_pairs",
+      "eligible_points": 30,
+      "classes": 10,
+      "point_coordinates_unchanged": true,
+      "points": [
+        {
+          "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__optimistic",
+          "rho_MB_per_s": 0.24623819341152528,
+          "tau_MB_per_s": 2.5612105643250644
+        },
+        {
+          "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__reference",
+          "rho_MB_per_s": 0.24623819341152528,
+          "tau_MB_per_s": 2.195677120867277
+        },
+        {
+          "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__pessimistic",
+          "rho_MB_per_s": 0.24623819341152528,
+          "tau_MB_per_s": 1.1357952613756677
+        },
+        {
+          "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__optimistic",
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 1.9045847670417564
+        },
+        {
+          "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__reference",
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 1.2902412902412903
+        },
+        {
+          "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__pessimistic",
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 0.7842836901160343
+        },
+        {
+          "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__optimistic",
+          "rho_MB_per_s": 0.18470418470418473,
+          "tau_MB_per_s": 0.07865177342083138
+        },
+        {
+          "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__reference",
+          "rho_MB_per_s": 0.18470418470418473,
+          "tau_MB_per_s": 0.07865177342083138
+        },
+        {
+          "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__pessimistic",
+          "rho_MB_per_s": 0.18470418470418473,
+          "tau_MB_per_s": 0.00912904831614793
+        },
+        {
+          "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__optimistic",
+          "rho_MB_per_s": 0.5360134003350084,
+          "tau_MB_per_s": 6.146458583433374
+        },
+        {
+          "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__reference",
+          "rho_MB_per_s": 0.5360134003350084,
+          "tau_MB_per_s": 6.146458583433374
+        },
+        {
+          "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__pessimistic",
+          "rho_MB_per_s": 0.5360134003350084,
+          "tau_MB_per_s": 6.146458583433374
+        },
+        {
+          "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__optimistic",
+          "rho_MB_per_s": 0.23897559415489839,
+          "tau_MB_per_s": 37.514654161781955
+        },
+        {
+          "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__reference",
+          "rho_MB_per_s": 0.2386334287623562,
+          "tau_MB_per_s": 36.994219653179194
+        },
+        {
+          "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__pessimistic",
+          "rho_MB_per_s": 0.23693719470712735,
+          "tau_MB_per_s": 34.5945945945946
+        },
+        {
+          "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__optimistic",
+          "rho_MB_per_s": 0.19912881144990666,
+          "tau_MB_per_s": 9.699634850211206
+        },
+        {
+          "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__reference",
+          "rho_MB_per_s": 0.19912881144990666,
+          "tau_MB_per_s": 8.238870016092028
+        },
+        {
+          "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__pessimistic",
+          "rho_MB_per_s": 0.19912881144990666,
+          "tau_MB_per_s": 7.526912315645556
+        },
+        {
+          "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__optimistic",
+          "rho_MB_per_s": 0.12166818487860909,
+          "tau_MB_per_s": 0.13552800001470575
+        },
+        {
+          "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+          "rho_MB_per_s": 0.12166818487860909,
+          "tau_MB_per_s": 0.13552800001470575
+        },
+        {
+          "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+          "rho_MB_per_s": 0.12166818487860909,
+          "tau_MB_per_s": 0.10881521082996296
+        },
+        {
+          "config_id": "ns_sram_acim__optimistic",
+          "rho_MB_per_s": 139.81311391362055,
+          "tau_MB_per_s": 3951.622783333659
+        },
+        {
+          "config_id": "ns_sram_acim__reference",
+          "rho_MB_per_s": 128.66895749371483,
+          "tau_MB_per_s": 3049.150293113601
+        },
+        {
+          "config_id": "ns_sram_acim__pessimistic",
+          "rho_MB_per_s": 117.67889500515555,
+          "tau_MB_per_s": 2391.6350202253566
+        },
+        {
+          "config_id": "ns_rram_1t1r__optimistic",
+          "rho_MB_per_s": 6.435904721587897,
+          "tau_MB_per_s": 18.26976917202817
+        },
+        {
+          "config_id": "ns_rram_1t1r__reference",
+          "rho_MB_per_s": 4.928285437581403,
+          "tau_MB_per_s": 14.588964391514335
+        },
+        {
+          "config_id": "ns_rram_1t1r__pessimistic",
+          "rho_MB_per_s": 3.85830582602623,
+          "tau_MB_per_s": 11.75783709372758
+        },
+        {
+          "config_id": "ns_sram_dcim__optimistic",
+          "rho_MB_per_s": 1731.135820671288,
+          "tau_MB_per_s": 2725.1864676973787
+        },
+        {
+          "config_id": "ns_sram_dcim__reference",
+          "rho_MB_per_s": 1347.6547318236153,
+          "tau_MB_per_s": 2121.503347362957
+        },
+        {
+          "config_id": "ns_sram_dcim__pessimistic",
+          "rho_MB_per_s": 1065.6435166378603,
+          "tau_MB_per_s": 1677.5560047072568
+        }
+      ],
+      "envelopes": [],
+      "labels": [
+        {
+          "implementation_id": "V4_ns_sram_dcim",
+          "label": "SRAM DCIM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "V4_ns_sram_acim",
+          "label": "SRAM ACIM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "V4_ns_rram_1t1r",
+          "label": "1T1R RRAM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1",
+          "label": "Vertical AND FeFET [all coincide]",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "mram_umem70nm_1t_binary65nm_k64n64_v1",
+          "label": "MRAM",
+          "offset_points": [
+            -12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+          "label": "PCM",
+          "offset_points": [
+            15,
+            -22
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1",
+          "label": "HZO FeRAM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1",
+          "label": "GC-04 (effective)",
+          "offset_points": [
+            12,
+            -26
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+          "label": "2D NOR [opt=ref]",
+          "offset_points": [
+            0,
+            -30
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1",
+          "label": "3D NAND [opt=ref]",
+          "offset_points": [
+            0,
+            -30
+          ],
+          "layout_penalty": 0
+        }
+      ],
+      "excluded": [],
+      "log10_limits": [
+        [
+          -2.5,
+          -1.5
+        ],
+        [
+          4.5,
+          4.0
+        ]
+      ],
+      "pixels_per_decade": [
+        88.4909090909091,
+        88.4909090909091
+      ],
+      "equal_log_scale": true,
+      "outputs": {
+        "png": "d71ff6a2235a54ac4ce245ea5efd061ef33ab13fa411e7c8d36c7f017268befa",
+        "svg": "b24937cfaae3237ba59949c55733785ab260e8059ba89be309b415fa3ba2a82f"
+      }
+    },
+    {
+      "stem": "ten_rho_tau_circles",
+      "eligible_points": 30,
+      "classes": 10,
+      "point_coordinates_unchanged": true,
+      "points": [
+        {
+          "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__optimistic",
+          "rho_MB_per_s": 0.24623819341152528,
+          "tau_MB_per_s": 2.5612105643250644
+        },
+        {
+          "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__reference",
+          "rho_MB_per_s": 0.24623819341152528,
+          "tau_MB_per_s": 2.195677120867277
+        },
+        {
+          "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__pessimistic",
+          "rho_MB_per_s": 0.24623819341152528,
+          "tau_MB_per_s": 1.1357952613756677
+        },
+        {
+          "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__optimistic",
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 1.9045847670417564
+        },
+        {
+          "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__reference",
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 1.2902412902412903
+        },
+        {
+          "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__pessimistic",
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 0.7842836901160343
+        },
+        {
+          "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__optimistic",
+          "rho_MB_per_s": 0.18470418470418473,
+          "tau_MB_per_s": 0.07865177342083138
+        },
+        {
+          "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__reference",
+          "rho_MB_per_s": 0.18470418470418473,
+          "tau_MB_per_s": 0.07865177342083138
+        },
+        {
+          "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__pessimistic",
+          "rho_MB_per_s": 0.18470418470418473,
+          "tau_MB_per_s": 0.00912904831614793
+        },
+        {
+          "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__optimistic",
+          "rho_MB_per_s": 0.5360134003350084,
+          "tau_MB_per_s": 6.146458583433374
+        },
+        {
+          "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__reference",
+          "rho_MB_per_s": 0.5360134003350084,
+          "tau_MB_per_s": 6.146458583433374
+        },
+        {
+          "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__pessimistic",
+          "rho_MB_per_s": 0.5360134003350084,
+          "tau_MB_per_s": 6.146458583433374
+        },
+        {
+          "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__optimistic",
+          "rho_MB_per_s": 0.23897559415489839,
+          "tau_MB_per_s": 37.514654161781955
+        },
+        {
+          "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__reference",
+          "rho_MB_per_s": 0.2386334287623562,
+          "tau_MB_per_s": 36.994219653179194
+        },
+        {
+          "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__pessimistic",
+          "rho_MB_per_s": 0.23693719470712735,
+          "tau_MB_per_s": 34.5945945945946
+        },
+        {
+          "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__optimistic",
+          "rho_MB_per_s": 0.19912881144990666,
+          "tau_MB_per_s": 9.699634850211206
+        },
+        {
+          "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__reference",
+          "rho_MB_per_s": 0.19912881144990666,
+          "tau_MB_per_s": 8.238870016092028
+        },
+        {
+          "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__pessimistic",
+          "rho_MB_per_s": 0.19912881144990666,
+          "tau_MB_per_s": 7.526912315645556
+        },
+        {
+          "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__optimistic",
+          "rho_MB_per_s": 0.12166818487860909,
+          "tau_MB_per_s": 0.13552800001470575
+        },
+        {
+          "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+          "rho_MB_per_s": 0.12166818487860909,
+          "tau_MB_per_s": 0.13552800001470575
+        },
+        {
+          "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+          "rho_MB_per_s": 0.12166818487860909,
+          "tau_MB_per_s": 0.10881521082996296
+        },
+        {
+          "config_id": "ns_sram_acim__optimistic",
+          "rho_MB_per_s": 139.81311391362055,
+          "tau_MB_per_s": 3951.622783333659
+        },
+        {
+          "config_id": "ns_sram_acim__reference",
+          "rho_MB_per_s": 128.66895749371483,
+          "tau_MB_per_s": 3049.150293113601
+        },
+        {
+          "config_id": "ns_sram_acim__pessimistic",
+          "rho_MB_per_s": 117.67889500515555,
+          "tau_MB_per_s": 2391.6350202253566
+        },
+        {
+          "config_id": "ns_rram_1t1r__optimistic",
+          "rho_MB_per_s": 6.435904721587897,
+          "tau_MB_per_s": 18.26976917202817
+        },
+        {
+          "config_id": "ns_rram_1t1r__reference",
+          "rho_MB_per_s": 4.928285437581403,
+          "tau_MB_per_s": 14.588964391514335
+        },
+        {
+          "config_id": "ns_rram_1t1r__pessimistic",
+          "rho_MB_per_s": 3.85830582602623,
+          "tau_MB_per_s": 11.75783709372758
+        },
+        {
+          "config_id": "ns_sram_dcim__optimistic",
+          "rho_MB_per_s": 1731.135820671288,
+          "tau_MB_per_s": 2725.1864676973787
+        },
+        {
+          "config_id": "ns_sram_dcim__reference",
+          "rho_MB_per_s": 1347.6547318236153,
+          "tau_MB_per_s": 2121.503347362957
+        },
+        {
+          "config_id": "ns_sram_dcim__pessimistic",
+          "rho_MB_per_s": 1065.6435166378603,
+          "tau_MB_per_s": 1677.5560047072568
+        }
+      ],
+      "envelopes": [
+        {
+          "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+          "case_id": "pcm",
+          "generation": "V5",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              0.23187266847438545,
+              -0.6086445838116699
+            ],
+            "radius_decades": 0.17657261603281962,
+            "reference_distance_decades": 0.10969580804350162
+          },
+          "center_log10": [
+            0.23187266847438545,
+            -0.6086445838116699
+          ],
+          "radius_decades": 0.17657261603281962,
+          "point_distances_decades": {
+            "optimistic": 0.17657261603281962,
+            "reference": 0.10969580804350162,
+            "pessimistic": 0.17657261603281962
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "mram_umem70nm_1t_binary65nm_k64n64_v1",
+          "case_id": "mram",
+          "generation": "V5",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              0.0871367450302159,
+              -0.399565566958775
+            ],
+            "radius_decades": 0.19266356147015462,
+            "reference_distance_decades": 0.023534191021858025
+          },
+          "center_log10": [
+            0.0871367450302159,
+            -0.399565566958775
+          ],
+          "radius_decades": 0.19266356147015462,
+          "point_distances_decades": {
+            "optimistic": 0.19266356147015462,
+            "reference": 0.023534191021858025,
+            "pessimistic": 0.19266356147015462
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+          "case_id": "nor2d",
+          "generation": "V5",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              -1.571932987473176,
+              -0.7335232649639383
+            ],
+            "radius_decades": 0.467641506907982,
+            "reference_distance_decades": 0.467641506907982
+          },
+          "center_log10": [
+            -1.571932987473176,
+            -0.7335232649639383
+          ],
+          "radius_decades": 0.467641506907982,
+          "point_distances_decades": {
+            "optimistic": 0.467641506907982,
+            "reference": 0.467641506907982,
+            "pessimistic": 0.4676415069079818
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1",
+          "case_id": "fenor3d",
+          "generation": "V5",
+          "rule": "minimum_enclosing_point",
+          "fallback_reason": "coincident_or_numerically_degenerate_endpoints",
+          "original": null,
+          "center_log10": [
+            0.7886249595690432,
+            -0.27082435280946304
+          ],
+          "radius_decades": 0.0,
+          "point_distances_decades": {
+            "optimistic": 0.0,
+            "reference": 0.0,
+            "pessimistic": 0.0
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1",
+          "case_id": "feram",
+          "generation": "V5",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              1.5566025998838606,
+              -0.623487717914149
+            ],
+            "radius_decades": 0.017694408560131616,
+            "reference_distance_decades": 0.011595523682474476
+          },
+          "center_log10": [
+            1.5566025998838606,
+            -0.623487717914149
+          ],
+          "radius_decades": 0.017694408560131616,
+          "point_distances_decades": {
+            "optimistic": 0.017694408560131616,
+            "reference": 0.011595523682474476,
+            "pessimistic": 0.017694408560131446
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1",
+          "case_id": "gc04",
+          "generation": "V5",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              0.9316861210085454,
+              -0.7008658984434386
+            ],
+            "radius_decades": 0.055069264234680726,
+            "reference_distance_decades": 0.01581846992161251
+          },
+          "center_log10": [
+            0.9316861210085454,
+            -0.7008658984434386
+          ],
+          "radius_decades": 0.055069264234680726,
+          "point_distances_decades": {
+            "optimistic": 0.055069264234680726,
+            "reference": 0.01581846992161251,
+            "pessimistic": 0.05506926423468084
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1",
+          "case_id": "nand3d",
+          "generation": "V5",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              -0.915640681331293,
+              -0.9148229709731455
+            ],
+            "radius_decades": 0.04766971082690219,
+            "reference_distance_decades": 0.04766971082690219
+          },
+          "center_log10": [
+            -0.915640681331293,
+            -0.9148229709731455
+          ],
+          "radius_decades": 0.04766971082690219,
+          "point_distances_decades": {
+            "optimistic": 0.04766971082690219,
+            "reference": 0.04766971082690219,
+            "pessimistic": 0.04766971082690219
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "V4_ns_sram_acim",
+          "case_id": "sram_acim",
+          "generation": "V4",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              3.4869457253249414,
+              2.1104234319057373
+            ],
+            "radius_decades": 0.1153096007276781,
+            "reference_distance_decades": 0.002925326796111144
+          },
+          "center_log10": [
+            3.4869457253249414,
+            2.1104234319057373
+          ],
+          "radius_decades": 0.1153096007276781,
+          "point_distances_decades": {
+            "optimistic": 0.1153096007276781,
+            "reference": 0.002925326796111144,
+            "pessimistic": 0.115309600727678
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "V4_ns_rram_1t1r",
+          "case_id": "rram",
+          "generation": "V4",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              1.1672559003541298,
+              0.6964473993195827
+            ],
+            "radius_decades": 0.14665024508969335,
+            "reference_distance_decades": 0.004951391273682315
+          },
+          "center_log10": [
+            1.1672559003541298,
+            0.6964473993195827
+          ],
+          "radius_decades": 0.14665024508969335,
+          "point_distances_decades": {
+            "optimistic": 0.14665024508969335,
+            "reference": 0.004951391273682315,
+            "pessimistic": 0.1466502450896935
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        },
+        {
+          "implementation_id": "V4_ns_sram_dcim",
+          "case_id": "sram_dcim",
+          "generation": "V4",
+          "rule": "reference_projection_onto_endpoint_perpendicular_bisector",
+          "fallback_reason": null,
+          "original": {
+            "center_log10": [
+              3.3300366257981686,
+              3.1329715449689086
+            ],
+            "radius_decades": 0.14900097230926335,
+            "reference_distance_decades": 0.004798291494549706
+          },
+          "center_log10": [
+            3.3300366257981686,
+            3.1329715449689086
+          ],
+          "radius_decades": 0.14900097230926335,
+          "point_distances_decades": {
+            "optimistic": 0.14900097230926335,
+            "reference": 0.004798291494549706,
+            "pessimistic": 0.1490009723092627
+          },
+          "all_points_inside": true,
+          "interpretation": "Finite paired samples only; not confidence or feasible-combination region"
+        }
+      ],
+      "labels": [
+        {
+          "implementation_id": "V4_ns_sram_dcim",
+          "label": "SRAM DCIM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "V4_ns_sram_acim",
+          "label": "SRAM ACIM",
+          "offset_points": [
+            -12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "V4_ns_rram_1t1r",
+          "label": "1T1R RRAM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1",
+          "label": "Vertical AND FeFET [all coincide]",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "mram_umem70nm_1t_binary65nm_k64n64_v1",
+          "label": "MRAM",
+          "offset_points": [
+            -12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+          "label": "PCM",
+          "offset_points": [
+            15,
+            -22
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1",
+          "label": "HZO FeRAM",
+          "offset_points": [
+            12,
+            12
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1",
+          "label": "GC-04 (effective)",
+          "offset_points": [
+            12,
+            -26
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+          "label": "2D NOR [opt=ref]",
+          "offset_points": [
+            0,
+            -30
+          ],
+          "layout_penalty": 0
+        },
+        {
+          "implementation_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1",
+          "label": "3D NAND [opt=ref]",
+          "offset_points": [
+            0,
+            -30
+          ],
+          "layout_penalty": 0
+        }
+      ],
+      "excluded": [],
+      "log10_limits": [
+        [
+          -2.5,
+          -2.0
+        ],
+        [
+          4.5,
+          4.0
+        ]
+      ],
+      "pixels_per_decade": [
+        86.80000000000001,
+        86.80000000000001
+      ],
+      "equal_log_scale": true,
+      "outputs": {
+        "png": "4a99d3c6bc55b106141c42d1341ba4a41a8aa4ded8f8f8501fb6a671383cb01a",
+        "svg": "583814f56378b163f4e5e24e4c6a8b613a70c8564f1693834cfc18977230d2ec"
+      }
+    }
+  ]
+}

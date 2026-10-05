@@ -1,0 +1,280 @@
+{
+  "review_status": "PASS_conditional_model_scope",
+  "case": "mram",
+  "phase": "P1",
+  "independence": {
+    "reviewer": "pcm_author",
+    "production_roles": "PCM/NOR2D/FeRAM author; prior P0 public-boundary reviewer",
+    "excluded": "Did not author MRAM or shared production implementation; reported R1/R2/R3 defects, repaired by MRAM author. No independent PASS granted to own PCM."
+  },
+  "reviewed_hashes": {
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "functional_probe.py": "e19099ac9debdfba9955d491af9342189ddb0cad136e066cbd4733e00bf933ff",
+    "INTERFACE.md": "7e68d94d0c1e26f0b24900ec438edb886f2c63c2207cabe7ee8f6280096a2859",
+    "PROBE_API.md": "cdf7340461b97d4a743842c0d6fbc53170db3ca43c53abd2ced3c311e4e0edff",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "src/native_binary_probe.cpp": "34b81af48cd208bc2bebf5db46f625f3db8baee474e6c94dfcd2fc1659ff7842",
+    "patches/mlp_binary_column_load.patch": "11924d79ef9039a24c8fc1b40af1f85e3a932fb1f22675d9ad876575369d323a",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "patches/mlp_single_row_mux_and_write_target.patch": "3edd90a4a6226100df7140ee33a5b431e0bb568d59f6cf0ce1bb62499f2e0aef",
+    "cases/mram/inputs.json": "6d09c0e49a17b7bae33e573c238a7e1ab32f45b432c84eb0a4b105e127b3a61c",
+    "cases/mram/case_adapter.py": "af62c5c70824db9227bf1fb30f66f8b26f5e05e5032ae09aa0f5a28bde62597a",
+    "cases/mram/umem_port.py": "52f940aa0f996274851cdcbbfbc0df2bc5cda51d61276de4e6aeb429da14aec4",
+    "cases/mram/LICENSE.umem.txt": "f32462e742e70fffebcabf8bb90ce10ffb71272e433d5ee5abcbb53feca69f65",
+    "cases/mram/model.lock.json": "542ee3f0d47a9eb4466e88b3a87a7ff8481161146e1c9ab7ba06759cad66182e"
+  },
+  "reviewed_computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+  "fresh_runs": [
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "rho_MB_per_s": 0.398505603985056,
+      "tau_MB_per_s": 1.9045847670417564,
+      "RI_star": 0.20923490037359896,
+      "U_star": 13.391033623910333,
+      "single_latency_s": 0.0001606,
+      "resident_s": 0.0021505999999999995,
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "native_source_manifest_sha256": "78b994f1b21da8d08bd728684977c56bfc1eff9f83e038c6b75b9be48cfdcc87",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-opt-20261005",
+      "native_run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-service-mram-reviewer-mram-final-opt-20261005"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "rho_MB_per_s": 0.398505603985056,
+      "tau_MB_per_s": 1.2902412902412903,
+      "RI_star": 0.308861301369863,
+      "U_star": 19.76712328767123,
+      "single_latency_s": 0.0001606,
+      "resident_s": 0.0031745999999999996,
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "native_source_manifest_sha256": "ec2b4d4592f2a24078ad88bb2262a9779dae9812017348146a47929c72355994",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-ref-20261005",
+      "native_run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-service-mram-reviewer-mram-final-ref-20261005"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "rho_MB_per_s": 0.398505603985056,
+      "tau_MB_per_s": 0.7842836901160343,
+      "RI_star": 0.508114103362391,
+      "U_star": 32.51930261519302,
+      "single_latency_s": 0.0001606,
+      "resident_s": 0.005222599999999999,
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "native_source_manifest_sha256": "3caddeaf2dc27f41bc77b91dc5e3e4bc331d011666241485f2ec470c1ab3d6fc",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-pess-20261005",
+      "native_run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-service-mram-reviewer-mram-final-pess-20261005"
+    }
+  ],
+  "upstream": {
+    "MLPInferenceV3.0": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "UMEM_repo": "3cd6275284951b8033c9637bd8094ec05b716a4b",
+    "UMEM_VA_sha256": "07cec8af359e97c37ee711177b2e5c4dc63baf8ce422c12571089947de363523"
+  },
+  "independent_evidence": {
+    "source_equations": "UMEM VA303-355 + smooth macros; independently rewritten equations, Brent KCL/shared-return roots, DOP853",
+    "program": {
+      "max_final_state_difference": 6.727951529228449e-14,
+      "max_crossing_time_difference_s": 4.3966040201658716e-11,
+      "shortest_raw_endpoint_plusminus1p001": "pass",
+      "convergence": "rtol2e-10 versus2e-12 independent solve"
+    },
+    "read": [
+      {
+        "time_s": 1.23e-09,
+        "P": [
+          0.06930090383357462,
+          1.0002162271755168
+        ],
+        "AP": [
+          0.09473505707344218,
+          -1.0003890283759418
+        ],
+        "ref_early_low_V": 0.07800412077566576,
+        "ref_late_high_V": 0.08767080252192844,
+        "P_margin_V": 0.008703216942091141,
+        "AP_margin_V": 0.007064254551513743,
+        "required_V": 0.007,
+        "passed": true,
+        "method": "Nonlinearinitialrefprechargeerror is integrated asinitialV, notscaledafterODE; Pmaxreturn/APzerodrop; Brent+DOP853",
+        "scenario": "optimistic"
+      },
+      {
+        "time_s": 1.23e-09,
+        "P": [
+          0.06930090383357462,
+          1.0002162271755168
+        ],
+        "AP": [
+          0.09473505707344218,
+          -1.0003890283759418
+        ],
+        "ref_early_low_V": 0.07800412077566576,
+        "ref_late_high_V": 0.08767080252192844,
+        "P_margin_V": 0.008703216942091141,
+        "AP_margin_V": 0.007064254551513743,
+        "required_V": 0.007,
+        "passed": true,
+        "method": "Nonlinearinitialrefprechargeerror is integrated asinitialV, notscaledafterODE; Pmaxreturn/APzerodrop; Brent+DOP853",
+        "scenario": "reference"
+      },
+      {
+        "time_s": 1.23e-09,
+        "P": [
+          0.06930090383357462,
+          1.0002162271755168
+        ],
+        "AP": [
+          0.09473505707344218,
+          -1.0003890283759418
+        ],
+        "ref_early_low_V": 0.07800412077566576,
+        "ref_late_high_V": 0.08767080252192844,
+        "P_margin_V": 0.008703216942091141,
+        "AP_margin_V": 0.007064254551513743,
+        "required_V": 0.007,
+        "passed": true,
+        "method": "Nonlinearinitialrefprechargeerror is integrated asinitialV, notscaledafterODE; Pmaxreturn/APzerodrop; Brent+DOP853",
+        "scenario": "pessimistic"
+      }
+    ],
+    "mapping_counts": {
+      "cells": 32768,
+      "program_batches": 1024,
+      "payload_Byte": 4096,
+      "stream_tiles": 128,
+      "updates": 1024,
+      "points": [
+        {
+          "scenario": "optimistic",
+          "stream_cycles": 1606,
+          "resident_cycles": 21506,
+          "delta_S_s": 0.0001606,
+          "T_R_s": 0.0021506,
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 1.904584767041756,
+          "RI_star": 0.20923490037359901,
+          "U_star": 13.391033623910337
+        },
+        {
+          "scenario": "reference",
+          "stream_cycles": 1606,
+          "resident_cycles": 31746,
+          "delta_S_s": 0.0001606,
+          "T_R_s": 0.0031745999999999996,
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 1.2902412902412903,
+          "RI_star": 0.308861301369863,
+          "U_star": 19.767123287671232
+        },
+        {
+          "scenario": "pessimistic",
+          "stream_cycles": 1606,
+          "resident_cycles": 52226,
+          "delta_S_s": 0.0001606,
+          "T_R_s": 0.0052226,
+          "rho_MB_per_s": 0.398505603985056,
+          "tau_MB_per_s": 0.7842836901160342,
+          "RI_star": 0.508114103362391,
+          "U_star": 32.51930261519303
+        }
+      ],
+      "derivation": "fulladdressenumeration;32lanesglobalwrite;8banksparallelread;4ingressbeats;fullcyclehold/clear/MAC/compare;roundedpulse0and1separately"
+    },
+    "failure_probe": {
+      "program_outcome": "failed",
+      "aggregate_status": "infeasible",
+      "critical_failures": [
+        "all_write_endpoints",
+        "actual_written_state_sense"
+      ],
+      "no_completed_rates": true,
+      "scope": "samefreshnativegeometry;onlypulsewidthcounterfactual;notformalpoint"
+    },
+    "vectors": {
+      "mixed": {
+        "passed": true,
+        "min": -110691,
+        "max": 114101
+      },
+      "zeros": {
+        "passed": true,
+        "min": 0,
+        "max": 0
+      },
+      "negative_extreme": {
+        "passed": true,
+        "min": 1048576,
+        "max": 1048576
+      },
+      "cancellation": {
+        "passed": true,
+        "min": 0,
+        "max": 0
+      },
+      "bank_and_group_boundary": {
+        "passed": true,
+        "min": -32,
+        "max": 31
+      }
+    },
+    "gate_lifecycle": {
+      "missing_zero_mask_detected": true,
+      "missing_group_hold_detected": true,
+      "missing_state_clear_detected": true
+    },
+    "return_and_edges": {
+      "Rmax_ohm": 951.0220873339449,
+      "connected_C_F": 1.5844233518368937e-13,
+      "minimum_slew_for_10mA_s": 3.964085140105983e-10,
+      "RC99p9_s": 1.924019638362504e-09,
+      "sufficient_slew_plus_settle_s": 2.320428152373102e-09,
+      "minimum_zero_bias_clock_wait_s": 9.615196072327499e-08,
+      "max_BL_after_zero_wait_V": 7.154624488879327e-151,
+      "read_rail_V": 0.15,
+      "scope": "Fixed0Vcommandduringclockalignment;chargedBLhasTG/wirereturnpath;nominalcompactmodelandstablelocalrailcondition;notSTAorPDNsignoff"
+    }
+  },
+  "closed_findings": [
+    {
+      "id": "R1",
+      "issue": "Source-drop change incorrectly renormalized access beta",
+      "resolution": "Final access/TG/reference use one native Ion/width/Vth saturation anchor; effective CACTI R only sizes native timing devices."
+    },
+    {
+      "id": "R2",
+      "issue": "Native constant TG timing resistance treated as DC over changing common-mode",
+      "resolution": "Actual complementary TG high/low-side Vgs/Vds network; real installed W/Ion and shared-source KCL."
+    },
+    {
+      "id": "R3",
+      "issue": "Maximum source IR conservative for P but optimistic for AP-reference margin",
+      "resolution": "P all64 physical-column maximum initial-current return bound; AP zero-return lower bound; same quiet reference circuit."
+    }
+  ],
+  "limitations": [
+    "Deterministic UMEM reference, not stochastic switching probability, measured macro or WER. Source electrode sign differs from Carboni displayed experimental polarity and remains disclosed.",
+    "Square-law access/TG extension anchored to native Ion/W/Vth; body effect and velocity saturation not independently calibrated. Effective Ron is not DC differential resistance.",
+    "5mV VSA threshold with2mV offset/noise budget, fixed12kohm/matchedC reference, independent±1% precharge and±100ps step-enable mismatch are design qualification conditions, not foundry comparator/STA certificates.",
+    "Independent exact nonlinear reference-initial error check supports fixed1.23ns decision. Producer post-integration scaling differs by about0.156uV here and must not be generalized beyond this finite domain.",
+    "Finite-slew and stable local supply are explicit port conditions. Independent sufficient slew-plus-settle2.321ns fits reserved100ns control alignment with >95ns slack; the reported1.924ns compact RC edge is not a measured edge waveform.",
+    "Binary exact signed arithmetic and finite success verification do not certify analog noise, process distribution or silicon yield.",
+    "Three points are same-hardware pulse-duration service policies500ns/1us/2us atroomtemperature, not optimistic/pessimistic statistical process corners."
+  ],
+  "open_blockers": [],
+  "review_runtime": "/Users/shine/neurosim/runs/step4-v5/p1/reviewer-mram-final-20261005",
+  "artifacts": {
+    "independent_audit.py": "851a5e56a46a629933100ed60a4ecdf4792a8cf0cae805d5791848209a04e91a",
+    "independent_audit.json": "9c313bbb4019a5e4bbb35ffe6f26ab627e25f96a47052c19a20163ec7005b180",
+    "verification_supplement.py": "e8c90ab4e8e1d5542ae053d0817852775e51526fee76abcffb4f5104ffd20e32",
+    "verification_supplement.json": "643fb50bfe685cd24b7e6b1128ee9a3e1bf7453b6a18e61d7416ddf042207dad"
+  },
+  "eligibility_recommendation": "May admit all3points as conditional model-reference service points with listed limitations; do not label measured/silicon-qualified."
+}

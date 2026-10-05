@@ -1,0 +1,297 @@
+{
+  "review_status": "PASS_conditional_model_scope",
+  "role_disclosure": "MRAM/GC04/FeNORauthor,earlyNANDresearcher;noFeRAMproductionedits.",
+  "scale": "Onefreshbuildperscenario+majorcharge/state/restore/write/resourcecounts;nofulltransistor/PVTresearch perD028/D032",
+  "source_check": "OriginalFERAM03PDFp2visuallyread:Fig8polarizationpaths,Fig9destruction/restore,Fig10VBL100ns/2.5V/1um2,Fig11completewritepassregion,Table1write14ns.",
+  "checks": [
+    {
+      "scenario": "optimistic",
+      "status": "PASS_conditional_model_scope",
+      "fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-optimistic-r1-20261005",
+      "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+      "computational_hashes": {
+        "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+        "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+        "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+        "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+        "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+        "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+        "cases/feram/inputs.json": "b7c3bbd7651500cb6283995a566dfa2620d0fb5d7da272da8292c2351e8ec6ba",
+        "cases/feram/case_adapter.py": "0beec6312f4b8d212e0dc7c61ce095274501316a6cb488ae2188b34cf6b949e0",
+        "cases/feram/model.py": "258b63db6b66315d8055ac4e9bb37dd1492005cca394a9b20bc90cc3fa9ac0c0",
+        "cases/feram/charge_probe.py": "84781944d31c455a70873394f715e90077ce2cb76e8a9400d5812261115e4069",
+        "cases/feram/hv_port_probe.py": "199ea55c20e6334d629d99566d9d8c620294b1be81f74a6fbcc94b010d05ec59",
+        "cases/feram/hv_data.json": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+        "cases/feram/hv_access_data.json": "48fd214eb8440190abca9007a84da19a458143d8c198c2e13cb70faa39a548b9",
+        "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+        "src/polarization_port_probe.cpp": "39fdbd36532b4d5f4d553b03984e8ce4d01bf4fb598af4fc2d5614671509377c",
+        "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+        "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+        "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+      },
+      "component_bindings": {
+        "frontend": {
+          "kind": "polarization",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-optimistic-r1-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-optimistic-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "feram-feram-independent-optimistic-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/polarization-feram-feram-independent-optimistic-r1-20261005-frontend",
+          "source_manifest_sha256": "d159152bb62784828aac8550613d5c5c982d9e12e9127a5aa7d63d2339229e2e",
+          "request_sha256": "ad90e118cb6db4a3ed7ff70f9b4c53ef65bb2345157936a7f842dbec75b6b461"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-optimistic-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-optimistic-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "feram-feram-independent-optimistic-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-feram-feram-independent-optimistic-r1-20261005-digital",
+          "source_manifest_sha256": "3bdfc0b4ee2b1d369edcd98de0bd8536b29814d0b9f41c9a221271f1cdbdb86b",
+          "request_sha256": "9371e9719d9e058b3f55fb7dcb59e498a7844a6dd13154e0aaec9a67d01bb179"
+        }
+      },
+      "independent_Q_check": {
+        "low_BL_V": 0.46579015918271793,
+        "high_BL_V": 1.029664755320782,
+        "reference_V": 0.7477098544474832,
+        "CBL_F": 2.5013842952507824e-13,
+        "dielectric_path_F": 5.72763028515241e-14,
+        "switching_path_extra_F": 1.178937651756868e-13,
+        "heldout_area0p6_predicted_margin_V": 0.43767463705022563,
+        "source_visual_other_area": "Fig12 around0.6um2 ~0.4..0.45V;order/trendcheckonly,notnewprecisioncalibration"
+      },
+      "independent_counts": {
+        "cells": 4096,
+        "destructive_bits_per_activation": 128,
+        "row_restore_batches": 32,
+        "total_restored_bits": 4096,
+        "write_batches": 32,
+        "write_lanes": 128,
+        "logical_weight_bytes": 512,
+        "MAC_updates": 512
+      },
+      "times_s": {
+        "stream": 0.00013390488728844146,
+        "resident": 1.3647999999999999e-05,
+        "complete_write": 1.4e-08,
+        "new_extra_dwell": 1e-07
+      },
+      "rates": {
+        "rho_MB_per_s": 0.23897559415489839,
+        "tau_MB_per_s": 37.514654161781955,
+        "RI_star": 0.00637019318169151,
+        "U_star": 0.10192309090706415
+      }
+    },
+    {
+      "scenario": "reference",
+      "status": "PASS_conditional_model_scope",
+      "fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-reference-r1-20261005",
+      "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+      "computational_hashes": {
+        "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+        "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+        "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+        "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+        "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+        "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+        "cases/feram/inputs.json": "b7c3bbd7651500cb6283995a566dfa2620d0fb5d7da272da8292c2351e8ec6ba",
+        "cases/feram/case_adapter.py": "0beec6312f4b8d212e0dc7c61ce095274501316a6cb488ae2188b34cf6b949e0",
+        "cases/feram/model.py": "258b63db6b66315d8055ac4e9bb37dd1492005cca394a9b20bc90cc3fa9ac0c0",
+        "cases/feram/charge_probe.py": "84781944d31c455a70873394f715e90077ce2cb76e8a9400d5812261115e4069",
+        "cases/feram/hv_port_probe.py": "199ea55c20e6334d629d99566d9d8c620294b1be81f74a6fbcc94b010d05ec59",
+        "cases/feram/hv_data.json": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+        "cases/feram/hv_access_data.json": "48fd214eb8440190abca9007a84da19a458143d8c198c2e13cb70faa39a548b9",
+        "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+        "src/polarization_port_probe.cpp": "39fdbd36532b4d5f4d553b03984e8ce4d01bf4fb598af4fc2d5614671509377c",
+        "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+        "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+        "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+      },
+      "component_bindings": {
+        "frontend": {
+          "kind": "polarization",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-reference-r1-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-reference-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "feram-feram-independent-reference-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/polarization-feram-feram-independent-reference-r1-20261005-frontend",
+          "source_manifest_sha256": "7c3a6072efeca569229bb432f41ee0141f7a878650bf8843a46ac5eaf0b79b68",
+          "request_sha256": "ad90e118cb6db4a3ed7ff70f9b4c53ef65bb2345157936a7f842dbec75b6b461"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-reference-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-reference-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "feram-feram-independent-reference-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-feram-feram-independent-reference-r1-20261005-digital",
+          "source_manifest_sha256": "f3fbcd796cf5dc1b94e1e1e598270a21f1f7b618639b6e4233d8fdbefda15042",
+          "request_sha256": "9371e9719d9e058b3f55fb7dcb59e498a7844a6dd13154e0aaec9a67d01bb179"
+        }
+      },
+      "independent_Q_check": {
+        "low_BL_V": 0.46579015918271793,
+        "high_BL_V": 1.029664755320782,
+        "reference_V": 0.7477098544474832,
+        "CBL_F": 2.5013842952507824e-13,
+        "dielectric_path_F": 5.72763028515241e-14,
+        "switching_path_extra_F": 1.178937651756868e-13,
+        "heldout_area0p6_predicted_margin_V": 0.43767463705022563,
+        "source_visual_other_area": "Fig12 around0.6um2 ~0.4..0.45V;order/trendcheckonly,notnewprecisioncalibration"
+      },
+      "independent_counts": {
+        "cells": 4096,
+        "destructive_bits_per_activation": 128,
+        "row_restore_batches": 32,
+        "total_restored_bits": 4096,
+        "write_batches": 32,
+        "write_lanes": 128,
+        "logical_weight_bytes": 512,
+        "MAC_updates": 512
+      },
+      "times_s": {
+        "stream": 0.00013409688728844145,
+        "resident": 1.384e-05,
+        "complete_write": 2e-08,
+        "new_extra_dwell": 1e-07
+      },
+      "rates": {
+        "rho_MB_per_s": 0.2386334287623562,
+        "tau_MB_per_s": 36.994219653179194,
+        "RI_star": 0.006450559871232441,
+        "U_star": 0.10320895793971906
+      }
+    },
+    {
+      "scenario": "pessimistic",
+      "status": "PASS_conditional_model_scope",
+      "fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-pessimistic-r1-20261005",
+      "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+      "computational_hashes": {
+        "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+        "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+        "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+        "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+        "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+        "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+        "cases/feram/inputs.json": "b7c3bbd7651500cb6283995a566dfa2620d0fb5d7da272da8292c2351e8ec6ba",
+        "cases/feram/case_adapter.py": "0beec6312f4b8d212e0dc7c61ce095274501316a6cb488ae2188b34cf6b949e0",
+        "cases/feram/model.py": "258b63db6b66315d8055ac4e9bb37dd1492005cca394a9b20bc90cc3fa9ac0c0",
+        "cases/feram/charge_probe.py": "84781944d31c455a70873394f715e90077ce2cb76e8a9400d5812261115e4069",
+        "cases/feram/hv_port_probe.py": "199ea55c20e6334d629d99566d9d8c620294b1be81f74a6fbcc94b010d05ec59",
+        "cases/feram/hv_data.json": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+        "cases/feram/hv_access_data.json": "48fd214eb8440190abca9007a84da19a458143d8c198c2e13cb70faa39a548b9",
+        "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+        "src/polarization_port_probe.cpp": "39fdbd36532b4d5f4d553b03984e8ce4d01bf4fb598af4fc2d5614671509377c",
+        "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+        "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+        "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+      },
+      "component_bindings": {
+        "frontend": {
+          "kind": "polarization",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-pessimistic-r1-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-pessimistic-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "feram-feram-independent-pessimistic-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/polarization-feram-feram-independent-pessimistic-r1-20261005-frontend",
+          "source_manifest_sha256": "22b6b3b203d485df0f2849ecbdb3b6fef9422296c181e9cd23adfeee2befdb4b",
+          "request_sha256": "ad90e118cb6db4a3ed7ff70f9b4c53ef65bb2345157936a7f842dbec75b6b461"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-pessimistic-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-pessimistic-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "feram-feram-independent-pessimistic-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-feram-feram-independent-pessimistic-r1-20261005-digital",
+          "source_manifest_sha256": "110e7cddeb9fbd864d327ca96d819cd80f1d90c39de0bc715a8232eb60ac10d5",
+          "request_sha256": "9371e9719d9e058b3f55fb7dcb59e498a7844a6dd13154e0aaec9a67d01bb179"
+        }
+      },
+      "independent_Q_check": {
+        "low_BL_V": 0.46579015918271793,
+        "high_BL_V": 1.029664755320782,
+        "reference_V": 0.7477098544474832,
+        "CBL_F": 2.5013842952507824e-13,
+        "dielectric_path_F": 5.72763028515241e-14,
+        "switching_path_extra_F": 1.178937651756868e-13,
+        "heldout_area0p6_predicted_margin_V": 0.43767463705022563,
+        "source_visual_other_area": "Fig12 around0.6um2 ~0.4..0.45V;order/trendcheckonly,notnewprecisioncalibration"
+      },
+      "independent_counts": {
+        "cells": 4096,
+        "destructive_bits_per_activation": 128,
+        "row_restore_batches": 32,
+        "total_restored_bits": 4096,
+        "write_batches": 32,
+        "write_lanes": 128,
+        "logical_weight_bytes": 512,
+        "MAC_updates": 512
+      },
+      "times_s": {
+        "stream": 0.00013505688728844147,
+        "resident": 1.4799999999999999e-05,
+        "complete_write": 5e-08,
+        "new_extra_dwell": 1e-07
+      },
+      "rates": {
+        "rho_MB_per_s": 0.23693719470712735,
+        "tau_MB_per_s": 34.5945945945946,
+        "RI_star": 0.0068489657845028995,
+        "U_star": 0.10958345255204638
+      }
+    }
+  ],
+  "conditions": [
+    "New100nsextradwellaftercomputedbiassettleisanexplicitconservativepolicy,notNeuroSimprediction/materialconstant.",
+    "QuasistaticQcalibrationdoesnotidentifyfastFEkineticsor14nsinternalpolarities;completewriteusedonce.",
+    "ActualHVaccess/BL/PLdriverresourcesandcurrentfloorexplicit;P7outputsusequalifiedVSG2VcontrolON.5V/OFF2.5V,notrounded2.5VSGpeak.",
+    "Binarysense/restoreconditionalonworkingQand100mVmargin;notarrayyield/noise/STAguarantee.",
+    "Old4096wayfreerestoreabsent:128actualsharedrestore/writepaths,32rowsserialized."
+  ]
+}

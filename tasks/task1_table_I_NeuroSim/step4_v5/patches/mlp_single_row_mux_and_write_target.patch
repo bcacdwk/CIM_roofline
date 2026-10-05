@@ -1,0 +1,62 @@
+--- a/SubArray.h
++++ b/SubArray.h
+@@ -83,6 +83,8 @@
+ 
+ 	/* Properties */
+ 	bool initialized;	// Initialization flag
++	double sequentialReadMuxFraction = 0.5; // V5 active-one-row resistance fraction
++	double writeColumnTargetResistance = 0; // V5 independent write route, 0 preserves upstream
+ 	int numRow;			// Number of rows
+ 	int numCol;			// Number of columns
+ 	int numColMuxed;	// How many columns share 1 read circuit (for neuro mode with analog RRAM) or 1 S/A (for memory mode or neuro mode with digital RRAM)
+--- a/SubArray.cpp
++++ b/SubArray.cpp
+@@ -208,7 +208,7 @@
+ 				// for traditional parallel pseudo-1T1R, need wlDecoder, colDecoder 
+                 // and colDecoderDriver, MUX and muxDecoder, and VSA, Adder, ShiftAdd and DFF
+ 				wlDecoder.Initialize(REGULAR_ROW, (int)ceil(log2(numRow)), false);           //initialize WL Decoder
+-				colDecoderDriver.Initialize(COL_MODE, numCol, 1);          //initialize column decoder dirver, only need to drive one row
++				colDecoderDriver.Initialize(COL_MODE, numCol, 1, writeColumnTargetResistance);          //initialize column decoder dirver, only need to drive one row
+ 				if (numWriteColMuxed > 1) {      //if more than one column share 1 writer driver
+ 					colDecoder.Initialize(REGULAR_COL, (int)ceil(log2(numWriteColMuxed)), false);     //initialize column decoder
+ 				}
+@@ -217,7 +217,7 @@
+ 				int numAdder = (int)ceil(((double)numCol/numCellPerSynapse)/numColMuxed);   // numCol is divisible by numCellPerSynapse
+ 				int numInput = numAdder * numCellPerSynapse;        //XXX input number of MUX, 
+ 
+-				double resTg = cell.resMemCellOn / numRow / 2;
++				double resTg = parallelRead ? cell.resMemCellOn / numRow / 2 : cell.resMemCellOn * sequentialReadMuxFraction;
+                 mux.Initialize(numInput, numColMuxed, resTg, false);
+ 				
+ 				if (numColMuxed > 1) {       //if more than one column share 1 S/A
+--- a/DecoderDriver.h
++++ b/DecoderDriver.h
+@@ -55,7 +55,7 @@
+ 
+ 	/* Functions */
+ 	void PrintProperty(const char* str);
+-	void Initialize(int _mode, int _numOutput, int numLoad);
++	void Initialize(int _mode, int _numOutput, int numLoad, double targetResistance = 0);
+ 	void CalculateArea(double _newHeight, double _newWidth, AreaModify _option);
+ 	void CalculateLatency(double _rampInput, double capLoad1, double capLoad2, double _resLoad, double numRead, double numWrite);
+ 	void CalculatePower(double numReadCellPerOp, double numWriteCellPerOp, double numRead, double numWrite);
+--- a/DecoderDriver.cpp
++++ b/DecoderDriver.cpp
+@@ -48,7 +48,7 @@
+ 	initialized = false;
+ }
+ 
+-void DecoderDriver::Initialize(int _mode, int _numOutput /* # of array rows/columns */, int numLoad) {
++void DecoderDriver::Initialize(int _mode, int _numOutput /* # of array rows/columns */, int numLoad, double targetResistance) {
+ 	if (initialized)
+ 		cout << "[Decoder Driver] Warning: Already initialized!" << endl;
+ 
+@@ -60,7 +60,7 @@
+ 	widthInvP = tech.pnSizeRatio * MIN_NMOS_SIZE * tech.featureSize;
+ 
+ 	// TG
+-	resTg = cell.resMemCellOn / numLoad * IR_DROP_TOLERANCE;
++	resTg = targetResistance > 0 ? targetResistance : cell.resMemCellOn / numLoad * IR_DROP_TOLERANCE;
+ 	widthTgN = CalculateOnResistance(tech.featureSize, NMOS, inputParameter.temperature, tech)
+ 				* tech.featureSize / (resTg*2);
+ 	widthTgP = CalculateOnResistance(tech.featureSize, PMOS, inputParameter.temperature, tech)

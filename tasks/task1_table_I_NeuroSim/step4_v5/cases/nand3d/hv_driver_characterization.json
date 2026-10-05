@@ -1,0 +1,127 @@
+{
+  "identity": "Separate SKY130 5V read-bias driver characterization; not SGVC cell or20VPEengine",
+  "source_data_sha256": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+  "sources": {
+    "raw_repo": "https://foss-eda-tools.googlesource.com/skywater-pdk/sky130-raw-data/",
+    "raw_sha": "5738bf8753688baf2111d8d1b6a3e51a38a0bbeb",
+    "raw_N_file": "sky130_fd_pr__nfet_g5v0d10v5_w20u_l0p5u_m1(8363_5_6_IDVD).mdm",
+    "raw_N_sha256": "7d4487d447c9899dd389417a258d7c7aac7f6939a7b4075a5e33259ce9ea109c",
+    "raw_P_file": "sky130_fd_pr__pfet_g5v0d10v5_w7u_l0p5u_m1(8395_8_7_IDVD).mdm",
+    "raw_P_sha256": "230e833d495e697525a037c15ff58e7163ab2226c8896cfa8ce5b7d7ce504f1a",
+    "model_repo": "https://github.com/google/skywater-pdk-libs-sky130_fd_pr",
+    "model_sha": "f62031a1be9aefe902d6d54cddd6f59b57627436",
+    "C_source": "sky130_fd_pr__nfet_g5v0d10v5__tt.pm3.spice bin7;scalarCparameterssameatadjacentboundarybin15",
+    "model_sha256": "4552045d9df048f36742b667c0672b5fd4417d5593f462178015f6646a6fef50",
+    "ratings": "https://skywater-pdk.readthedocs.io/en/main/rules/device-details.html#v-10-5v-nmos-fet",
+    "P_C_source": "sky130_fd_pr__pfet_g5v0d10v5__tt.pm3.spice bin31; samef62031a1lockedrepo",
+    "P_model_sha256": "c438f61902b269fea15355003564c83840661945ac5da8c9dd0d910d3223f21b"
+  },
+  "devices": {
+    "N": {
+      "gate_F": 4.0787104340275864e-14,
+      "drain_F": 2.75204634696e-14,
+      "I_at_50mV_A": 0.000370339,
+      "low_field_R_ohm": 135.01143546858418,
+      "W_m": 2e-05,
+      "L_m": 5e-07,
+      "channel_diffusion_area_m2": 5e-11,
+      "conservative_current_domain": "|VGS|>=4V,|VDS|50mV..4.5V; nominal measured monotone curve",
+      "curve": {
+        "gate": 4.0,
+        "body": -2.5,
+        "V": [
+          0.0,
+          0.05,
+          0.1,
+          0.15,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.75,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          4.0,
+          5.0
+        ],
+        "I": [
+          0.0,
+          0.000370339,
+          0.0007308989999999999,
+          0.001086479,
+          0.0014374589999999999,
+          0.002117059,
+          0.002762759,
+          0.0033716590000000004,
+          0.004697559,
+          0.005717059,
+          0.0069185589999999995,
+          0.007390059,
+          0.007593659,
+          0.007705659,
+          0.007834159,
+          0.007951459000000001
+        ]
+      }
+    },
+    "P": {
+      "gate_F": 1.3004322694827235e-14,
+      "drain_F": 9.837935447e-15,
+      "I_at_50mV_A": 4.52992e-05,
+      "low_field_R_ohm": 1103.7722520486013,
+      "W_m": 7e-06,
+      "L_m": 5e-07,
+      "channel_diffusion_area_m2": 1.7499999999999998e-11,
+      "conservative_current_domain": "|VGS|>=4V,|VDS|50mV..4.5V; nominal measured monotone curve",
+      "curve": {
+        "gate": 4.0,
+        "body": 0.0,
+        "V": [
+          0.0,
+          0.05,
+          0.1,
+          0.15,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.75,
+          1.0,
+          1.5,
+          2.0,
+          2.5,
+          3.0,
+          4.0,
+          5.0
+        ],
+        "I": [
+          0.0,
+          4.52992e-05,
+          8.99772e-05,
+          0.00013432420000000002,
+          0.00017852420000000001,
+          0.0002653742,
+          0.0003510142,
+          0.00043479419999999997,
+          0.0006333942,
+          0.0008136842,
+          0.0011134142,
+          0.0013392542,
+          0.0014787542,
+          0.0015650542,
+          0.0016642542,
+          0.0017348542
+        ]
+      }
+    }
+  },
+  "limits": [
+    "I-V are nominalrawmeasurements, not a simultaneousN/P siliconcorner or processdistribution.",
+    "C is separateTTBSIMparameter-derived geometricbound; it is not measuredCfromsameIVdevices.",
+    "ZeroVDSinstrumentcurrentoffsetsubtracted toenforceI(0)=0;offcurrentabsbound retained separately.",
+    "W/L areHV130geometry andnever scaledto45nm."
+  ]
+}

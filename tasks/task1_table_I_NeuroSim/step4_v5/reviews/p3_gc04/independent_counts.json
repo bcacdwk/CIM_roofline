@@ -1,0 +1,65 @@
+{
+  "status": "PASS_main_mechanism_counts",
+  "no_production_aggregator_or_scheduler_for_expected_values": true,
+  "resource_count": {
+    "physical_cells": 16384,
+    "physical_arrays": 16,
+    "SAR_single_ended": 256,
+    "pair_subtractors": 128,
+    "external_hold_F": 1.024e-09,
+    "analog_groups": 32,
+    "MAC_updates": 256,
+    "Xsum_updates": 64,
+    "refresh_groups": 64,
+    "input_beats": 4
+  },
+  "raw_stream_s": 0.0001164,
+  "raw_resident_s": 5.1399999999999996e-05,
+  "refresh_work_s": 0.0002048,
+  "scalar_encoding_cases": 65536,
+  "scalar_encoding_mismatches": 0,
+  "initial_phase": "Priorwritebacksare-(H-guard)+(group+1)*q,not allzeroage; refreshedinphysicalorder",
+  "points": [
+    {
+      "retention_ticks": 2000,
+      "stream_requests_per_refresh": 1,
+      "effective_stream_interval_s": 0.0003214,
+      "resident_interval_s": 0.00010557098445595855,
+      "first_resident_s": 5.1399999999999996e-05,
+      "max_group_age_s": 0.00039979999999999996,
+      "rho_MB_s": 0.19912881144990666,
+      "tau_MB_s": 9.69963485021006,
+      "repeat_elapsed_ticks": 101876,
+      "repeat_payloads": 193,
+      "scenario": "optimistic"
+    },
+    {
+      "retention_ticks": 1750,
+      "stream_requests_per_refresh": 1,
+      "effective_stream_interval_s": 0.0003214,
+      "resident_interval_s": 0.00012428888888888889,
+      "first_resident_s": 5.1399999999999996e-05,
+      "max_group_age_s": 0.0003498,
+      "rho_MB_s": 0.19912881144990666,
+      "tau_MB_s": 8.238870016091543,
+      "repeat_elapsed_ticks": 27965,
+      "repeat_payloads": 45,
+      "scenario": "reference"
+    },
+    {
+      "retention_ticks": 1650,
+      "stream_requests_per_refresh": 1,
+      "effective_stream_interval_s": 0.0003214,
+      "resident_interval_s": 0.00013604516129032257,
+      "first_resident_s": 5.1399999999999996e-05,
+      "max_group_age_s": 0.0003298,
+      "rho_MB_s": 0.19912881144990666,
+      "tau_MB_s": 7.526912315644711,
+      "repeat_elapsed_ticks": 105435,
+      "repeat_payloads": 155,
+      "scenario": "pessimistic"
+    }
+  ],
+  "300us_counterexample_positive_fraction_but_no_stream": true,
+  "qualification": "Conditional353Kretention/leakmodelandanalogQ4;notexactINT8orall-cellretentionguarantee;physicalsinglelatencydistinctfromlongterminterval"
+}

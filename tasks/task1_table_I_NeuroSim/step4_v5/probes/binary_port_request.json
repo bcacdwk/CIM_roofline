@@ -1,0 +1,37 @@
+{
+  "identity": "synthetic binary-port circuit probe; not PCM/MRAM or measured device",
+  "point_eligibility": "probe_only",
+  "parameters": {
+    "technology_nm": 45,
+    "device_node_nm": 40,
+    "temperature_K": 300,
+    "rows": 64,
+    "cols": 16,
+    "read_mux": 2,
+    "write_mux": 2,
+    "resistance_on_ohm": 10000.0,
+    "resistance_off_ohm": 100000.0,
+    "access_resistance_ohm": 2000.0,
+    "cell_pitch_x_m": 2.88e-06,
+    "cell_pitch_y_m": 7.2e-07,
+    "read_voltage_V": 0.5,
+    "access_voltage_V": 1.0,
+    "write_port_voltage_V": 1.0,
+    "wire_ohm_per_m": 10000000.0,
+    "clock_Hz": 100000000.0,
+    "extra_column_cap_F": 0.0,
+    "sense_threshold_V": 0.1,
+    "precharge_width_F": 8.0,
+    "precharge_error_fraction": 0.01,
+    "input_port_bits": 128,
+    "resident_port_bits": 16,
+    "read_mux_IR_fraction": 0.5,
+    "write_mux_target_ohm": 1000.0,
+    "write_current_A": 0.0001
+  },
+  "limitations": [
+    "All resistance/geometry values are synthetic engineering inputs only.",
+    "45nm LSTP is the peripheral model; device_node_nm is an identity marker, not material simulation.",
+    "No regulator/reference/clamp, complete signed schedule, program pulse or full service point is qualified."
+  ]
+}

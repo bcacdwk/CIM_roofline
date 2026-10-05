@@ -1,0 +1,470 @@
+{
+  "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+  "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+  "parameters": {
+    "technology_nm": 130,
+    "temperature_K": 300,
+    "clock_Hz": 2000000,
+    "lanes": 16,
+    "adc_count": 64,
+    "adc_bits": 10,
+    "adc_reference_V": 1.1,
+    "ADC_input_C_F": 1e-12,
+    "ADC_bank_width_m": 0.001,
+    "logical_K": 4608,
+    "logical_N": 240,
+    "rows_per_group": 1152,
+    "row_groups": 4,
+    "bitlines": 13824,
+    "ssl_count": 3,
+    "wordlines": 32,
+    "data_wordlines": 30,
+    "reference_wordlines": 2,
+    "blocks": 64,
+    "page_bits": 13824,
+    "amp_open_loop_gain": 2000.0,
+    "amp_GBW_Hz": 400000000.0,
+    "amp_offset_V": 0.0026,
+    "buffer_offset_V": -0.0026,
+    "feedback_R_ohm": 20000.0,
+    "feedback_C_F": 1e-12,
+    "SL_cap_F": 1.6e-11,
+    "amp_common_C_F": 4.5e-13,
+    "amp_differential_C_F": 1e-13,
+    "buffer_feedback_C_F": 1e-12,
+    "buffer_R_ohm": 10000.0,
+    "buffer_bias_V": 0.25,
+    "amp_slew_up_V_s": 200000000.0,
+    "amp_slew_down_V_s": 130000000.0,
+    "buffer_output_load_F": 1e-11,
+    "ode_step_s": 1e-10,
+    "ode_horizon_s": 1e-06,
+    "settle_ADC_fraction": 0.25,
+    "SL_settle_tolerance_V": 1e-06,
+    "amp_Iq_A": 0.023,
+    "dielectric_epsilon_r": 3.9,
+    "block_length_m": 0.000553,
+    "block_width_m": 2.25e-06,
+    "WL_spacing_m": 3e-08,
+    "channel_width_m": 4e-08,
+    "gate_height_m": 3e-08,
+    "gate_EOT_m": 8e-09,
+    "BL_length_m": 0.000144,
+    "wire_cap_F_m": 2e-10,
+    "terminal_drain_cap_F": 2e-16,
+    "WL_sheet_ohm_square": 1.0,
+    "metal_resistivity_ohm_m": 2.2e-08,
+    "BL_width_m": 2e-08,
+    "BL_thickness_m": 4e-08,
+    "bias_relative_error": 0.01,
+    "pass_voltage_V": 4.5,
+    "level_translate_s": 1e-08,
+    "HV_level_input_F": 6.53e-13,
+    "BL_switch_R_ohm": 2000.0,
+    "external_IO_load_F": 1e-14,
+    "input_port_bits": 128,
+    "resident_logical_port_bits": 128,
+    "page_bus_bits": 8,
+    "PE_min_bus_cycle_s": 2.5e-08,
+    "program_s": 0.0006,
+    "erase_s": 0.0035,
+    "engine_command_cycles": 8,
+    "calibration_samples_per_reference": 3,
+    "gain_fractional_bits": 16,
+    "offset_bits": 24,
+    "coefficient_bits": 24,
+    "output_fractional_bits": 4,
+    "accumulator_bits": 32
+  },
+  "logical": {
+    "K": 4608,
+    "N": 240,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "32bitQ4 approximate calibrated analog mapping;isolatedsingleunit quantizes0;nominaldense~3percent andpass-background extreme~+44/-22percent residual;not exactINT8 orENOB"
+  },
+  "identity": {
+    "material": "SLC SGVC NAND nominal16layer evidence extended to32layer series model",
+    "cell": "real EKV pass/storage/GSL/SSL chain, not parallelRRAM orTSV",
+    "organization": "64blocks x32WL x3SSL x13824BL,30data/2referenceWL;split-sign/base4/3x3unary",
+    "front_end": "64SL receivers,eachLTC6268TIA+invertingbiasedbuffer=128amplifiers;fixed20kOhm/1pF;native64SAR",
+    "power": "5V total supplies,128x16.5mA=10.56Wtypicalsteady AMP power,notintegratedlowpower originalmacro",
+    "precision": "nominal10bit ADC and Q4 approximate output;twoinputsignphases,actualcoarsecodes,no truth repair"
+  },
+  "native_resolved": {
+    "logic": {
+      "BL_mask_hold_bits": 13824.0,
+      "native_input_mask_format_s": 2.045150757273878e-07,
+      "input_hold_bits": 41472.0,
+      "resident_row_staging_bits": 41472.0,
+      "formatted_page_buffer_bits": 48.0,
+      "ADC_code_hold_bits": 640.0,
+      "corrected_channel_hold_bits": 2048.0,
+      "output_hold_bits": 7680.0,
+      "calibration_coefficient_bits": 12288.0,
+      "arithmetic_work_bits": 1680.0,
+      "control_bits": 64.0,
+      "native_Adder_lanes": 16.0,
+      "native_Adder_width": 35.0,
+      "native_Adder_s": 2.0928369429812627e-08,
+      "native_Subtractor_s": 5.394985960988643e-08,
+      "native_abs_s": 1.3705942947423866e-08,
+      "native_capture_s": 2.5e-07,
+      "native_ingress_comb_s": 1.1986305291262212e-07,
+      "native_format_comb_s": 9.86514584657728e-08,
+      "native_page_byte_select_s": 2.3146927157808897e-09,
+      "native_arithmetic_comb_s": 1.275679030578197e-07,
+      "native_WL_decode_s": 2.5161825481612667e-07,
+      "native_WL_LV_output_load_F": 4.1792e-11,
+      "native_BL_switch_s": 7.146316727001266e-10,
+      "native_BL_switch_actual_R_ohm": 2000.0,
+      "native_BL_switch_drain_F": 2.545377383276708e-15,
+      "native_BL_switch_gate_n_F": 5.296185806784172e-15,
+      "native_BL_switch_gate_p_F": 1.0567770883211683e-14,
+      "native_BL_switch_width_n_m": 1.6644496175590292e-06,
+      "native_BL_switch_width_p_m": 3.3211678832116796e-06,
+      "native_BL_mask_s": 1.231936103719592e-08,
+      "native_state_clear_s": 2.5995946727164403e-07,
+      "native_vdd_V": 1.3,
+      "native_vth_V": 0.4660949,
+      "digital_critical_comb_s": 2.045150757273878e-07,
+      "digital_halfcycle_min_period_s": 4.090301514547756e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_port_area_m2": 7.421007815341374e-06,
+      "component_only": 1.0
+    },
+    "sar": {
+      "native_ADC_s": 1.1000000000000001e-08,
+      "native_ADC_area_m2": 4.8702803968e-07,
+      "native_ADC_count": 64.0,
+      "native_ADC_Cin_provided": 0.0,
+      "explicit_ADC_input_C_F": 1e-12
+    }
+  },
+  "stream_stages": [
+    {
+      "id": "new_request_clear",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "output/work/controlholds",
+      "includes": "newrequest physicalclear",
+      "excludes": "residentpayload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "input_receive_abs_hold",
+      "duration_s": 5e-07,
+      "count": 288,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "128bitport,16abs lanes,41472bitinputhold",
+      "includes": "alllogicalinput once",
+      "excludes": "no preloadedwholevector",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "build_input_masks",
+      "duration_s": 5e-07,
+      "count": 9216,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "16laneinputselector/encoding,13824BLmaskhold",
+      "includes": "32actualmasks reusedacross30dataWL each",
+      "excludes": "notonefreeparallelmaskoperator",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "select_data_WL",
+      "duration_s": 1e-06,
+      "count": 960,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "nativeaddress+64parallelratedreadbiasports",
+      "includes": "inputmaskouterloop,30WLs;allpass/GSL/SSLloads",
+      "excludes": "notlegacy303ns"
+    },
+    {
+      "id": "read_settle_ADC_capture",
+      "duration_s": 1e-06,
+      "count": 960,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "64actualSLreceivers/64nativeSAR/codehold",
+      "includes": "BLRC,internalchannel differentialRC,finite2AMPKCL,ADC,capture",
+      "excludes": "no oldSLslot,noENOBclaim"
+    },
+    {
+      "id": "return_BL_before_digital",
+      "duration_s": 5e-07,
+      "count": 960,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "actualBLmask/gate",
+      "includes": "allBL0aftercapture whilemaskholdretained",
+      "excludes": "notfreeongoingpayload"
+    },
+    {
+      "id": "affine_fixed_point",
+      "duration_s": 5e-07,
+      "count": 53760,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "16x35bitAddSub+workhold/24bitcoefficients",
+      "includes": "clear+offset+11serialmult+round perbatch",
+      "excludes": "notCPUtruecountcorrection",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "base4_sign_accumulate",
+      "duration_s": 5e-07,
+      "count": 7680,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "8activeoutputlanes of16,240x32bithold",
+      "includes": "fourweightdigits,twoWsigns andtwoinputphases,wirepowers4",
+      "excludes": "notfree32parallelMAC",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "read_bias_release",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "HV"
+      ],
+      "resources": "2304readbiascontrols",
+      "includes": "readnormalbiasreturn",
+      "excludes": "PEinternalrecovery"
+    },
+    {
+      "id": "result_ready",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "outputhold",
+      "includes": "all240Q4outputsready",
+      "excludes": "noextratransferpayload"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "invalidate_and_clear",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "status/stagingcontrols",
+      "includes": "arbitraryoldmatrix invaliduntilfinish",
+      "excludes": "notfreepreerase",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "logical_weight_encode",
+      "duration_s": 5e-07,
+      "count": 69120,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "128bitport,16abslanes,one4608x9rowstaging",
+      "includes": "fulllogicalmatrixonce,rowretainedthrough24pages",
+      "excludes": "notwholematrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "format_all_data_and_reference",
+      "duration_s": 5e-07,
+      "count": 1769472,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "48bitphysicalformatterpacket",
+      "includes": "all5760data+384referencepages",
+      "excludes": "notduplicatelogicalpayload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "physical_page_data_input",
+      "duration_s": 5e-07,
+      "count": 10616832,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "one8bitPEengineport,itsfullpagebuffer",
+      "includes": "allencodedphysicalbytes,onebyteperlegalcontrollercycle>=25ns",
+      "excludes": "no P/E pulses here"
+    },
+    {
+      "id": "PE_commands_and_status",
+      "duration_s": 4e-06,
+      "count": 6208,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "oneengine/controlstate",
+      "includes": "finitecommand/address/statushandshake",
+      "excludes": "no internalverifyduplication"
+    },
+    {
+      "id": "complete_block_erase",
+      "duration_s": 0.0035,
+      "count": 64,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "oneconditionalfullP/Eengine",
+      "includes": "all64blocks erased,HV/pump/verify/recovery/readsafeisolationincluded",
+      "excludes": "no pre-erasedappend"
+    },
+    {
+      "id": "complete_page_program",
+      "duration_s": 0.0006,
+      "count": 6144,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "oneconditionalfullP/Eengine",
+      "includes": "all6144pages successinclinternalverify/biasrecovery",
+      "excludes": "no extra programloopguess"
+    },
+    {
+      "id": "calibration_reference_select",
+      "duration_s": 1e-06,
+      "count": 24,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "twoactualreferenceWLs/fourinputgroups",
+      "includes": "zero/half/fullmasks perreference",
+      "excludes": "notfreecalibration"
+    },
+    {
+      "id": "calibration_ADC_acquisition",
+      "duration_s": 1.5e-06,
+      "count": 24,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "64TIA/SARs andactualreferencecells",
+      "includes": "bothreferencepages,threefinitelevels,no inventednoiseaverage",
+      "excludes": "notpayload"
+    },
+    {
+      "id": "calibration_coefficient_arithmetic",
+      "duration_s": 5e-07,
+      "count": 560,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "16lane35bitrestoringdivider/AddSub,256x48bitcoefhold",
+      "includes": "32divisionsteps+offset/store/clear; Q8.16gain,integeroffset",
+      "excludes": "notfreehostdivision",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "publish_compute_ready",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "successstatus",
+      "includes": "onlyafterallcompletePEandcalibration",
+      "excludes": "failurehaszero completedpayload"
+    }
+  ],
+  "physical_check_outcomes": [
+    {
+      "id": "string_receiver_valid",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "payload_encoding_capacity",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_resources_present",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "read_bias_IR_domain",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "nominal_mapping",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "calibration_coefficient_range",
+      "passed": true,
+      "critical": true
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true
+    }
+  ],
+  "full_checks_local_source": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-final-seven-from-compute-package-20261005-pessimistic/case_model.json",
+  "maintenance_summary": null
+}

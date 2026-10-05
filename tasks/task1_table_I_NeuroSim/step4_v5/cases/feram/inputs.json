@@ -1,0 +1,469 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "feram",
+  "implementation_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1",
+  "identity": {
+    "material": "TiN/HZO11nm/TiN,1um2,sourceFERAM03",
+    "cell": "Destructive1T1C remanentpolarization;actualHV3um/.5access",
+    "array": "32x128bits/128SA/reference/128realrestoreandexternalwritepaths;globalPLwithunselectedfloatingcapload",
+    "periphery": "130nmLVvoltageSenseAmp/hold/digital behindratedHVports",
+    "precision": "NominalbinaryconditionedexactINT8arithmetic25bit,notENOBorsiliconprecision",
+    "read_policy": "100nsextradwellaftercalculatedstablebias;distinctfromsourcemeasuredfull100nsoperation"
+  },
+  "logical": {
+    "K": 32,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "25bitexactlocalarithmetic conditionalonbinarypolarizationsense;notmeasuredarrayaccuracy"
+  },
+  "base_parameters": {
+    "technology_nm": 130,
+    "temperature_K": 300,
+    "rows": 32,
+    "cols": 128,
+    "clock_Hz": 5000000.0,
+    "FE_area_um2": 1.0,
+    "plate_voltage_V": 2.5,
+    "HV_WL_voltage_V": 5.0,
+    "BL_wire_extra_cap_F": 1.0786e-13,
+    "reference_cap_F": 1.0673515981735165e-13,
+    "sense_threshold_V": 0.05,
+    "sense_error_V": 0.05,
+    "sense_pitch_m": 6e-06,
+    "pitch_x_m": 4e-06,
+    "pitch_y_m": 3e-06,
+    "wire_cap_F_per_m": 2e-10,
+    "plate_wire_cap_F": 1.024e-13,
+    "PL_driver_P7": 128,
+    "PL_driver_N20": 16,
+    "BL_driver_P7_each": 4,
+    "write_supply_limit_A": 0.25,
+    "settle_error_fraction": 0.01,
+    "local_waveform_control_guard_s": 1e-09,
+    "read_dwell_s": 1e-07,
+    "full_write_source_s": 2e-08,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "mac_lanes": 8,
+    "accumulator_bits": 25,
+    "restore_lanes": 128,
+    "external_write_lanes": 128,
+    "operand_route_cap_F": 1e-15,
+    "program_control_cap_F": 1e-15,
+    "control_quantum_s": 1e-08
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "rows": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "cols": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "FE_area_um2": {
+      "unit": "um2",
+      "source_ids": [
+        "FERAM-03"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "plate_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "FERAM-03"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "HV_WL_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "BL_wire_extra_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "reference_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "sense_threshold_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "sense_error_V": {
+      "unit": "V",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "sense_pitch_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "pitch_x_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "pitch_y_m": {
+      "unit": "m",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "wire_cap_F_per_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "plate_wire_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "PL_driver_P7": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "PL_driver_N20": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "BL_driver_P7_each": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "write_supply_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "settle_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "local_waveform_control_guard_s": {
+      "unit": "s",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "read_dwell_s": {
+      "unit": "s",
+      "source_ids": [
+        "FERAM-03",
+        "POLICY"
+      ],
+      "role": "operating_condition",
+      "applicability": "Additional100nsdwellafternewstablebiaschosenfromsource100nsobservationdomain;notmaterialconstantorreplayedfullaccess"
+    },
+    "full_write_source_s": {
+      "unit": "s",
+      "source_ids": [
+        "FERAM-03"
+      ],
+      "role": "external_primitive",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "mac_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "accumulator_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "restore_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "external_write_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "operand_route_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "program_control_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    },
+    "control_quantum_s": {
+      "unit": "s",
+      "source_ids": [
+        "HV",
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixednewmodelresourceorfinitequalifiedsourcepolicy;no fake measuredtypicalvalue"
+    }
+  },
+  "sources": {
+    "FERAM-03": {
+      "kind": "external_primitive",
+      "path": "tasks/task1_table_I_NVM/literature/08_feram_hfo2/FERAM-03_2020_SoC_1T1C_HZO.pdf",
+      "locator": "PDFpp1-2Fig8-12/Table1;14nscompletewrite,100nsFig10/12observation",
+      "evidence_type": "measured_with_sourceCBLmodel",
+      "applicability": "HZO11nm1um2/2.5V;sourcefullwritepassregion14..50ns; finitequasistaticchargecalibration",
+      "exclusions": "No14nsperpolaritymaterialpulse;no fastkineticsornewmacroguarantee",
+      "includes": [
+        "Completeoriginalwriteoperation/polarization/nativeinternalwaveform",
+        "100nscharacterizationdomainasbasisforseparateexplicitconservativedwellpolicy"
+      ],
+      "excludes": [
+        "Newlocalinput/armingguards",
+        "newnativecomputeservice",
+        "no duplicatedsplitinternalpulses"
+      ],
+      "domain": "SameHZOsource,state/caparea/bias; newHVdriverandCBL250fF loadmodel conditionaltransfer"
+    },
+    "HV": {
+      "kind": "adapter",
+      "path": "cases/feram/model.py",
+      "locator": "hv_data.json/hv_access_data.json,actual3um/.5Naccess/N20/P7driverIVandTTcap",
+      "evidence_type": "measured_IV_and_model_C",
+      "applicability": "RatedHVcellaccess/BL/PLandLVdecodergateway; fixedactualW/L",
+      "exclusions": "NotjointTiN/HZO/SKY130fabricatedmacro,notstatisticalPVT"
+    },
+    "QMODEL": {
+      "kind": "adapter",
+      "path": "cases/feram/charge_probe.py",
+      "locator": "Fig10pathchargecalibrationandFig12otherarea crosscheck",
+      "evidence_type": "source_calibrated_compact",
+      "applicability": "Twohysteresispaths withdielectric/polarizationcharge; actualCBL solvedafter nativeSA init",
+      "exclusions": "NotprogrammablenvCaporfastFEkineticssimulation"
+    },
+    "NATIVE": {
+      "kind": "native_circuit",
+      "path": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "locator": "SenseAmp/hold/LVRowDecoderandnative25bitoperators",
+      "evidence_type": "model",
+      "applicability": "130nm1.3VLSTP300K;actualHVloadports fed externally",
+      "exclusions": "No nativeLVaccess falselyusedat5V; no polarizationmodel inferredfromclassname"
+    },
+    "POLICY": {
+      "kind": "service_policy",
+      "path": "cases/feram/inputs.json",
+      "locator": "100nsdwellafteractualstableplate;all128bitrestore;guardedfullservice",
+      "evidence_type": "engineering",
+      "applicability": "NewK32N16macro,fixedhardware,explicitextraquietreadpolicy",
+      "exclusions": "DwellnotmaterialconstantnorNeuroSimprediction;notoriginaltotalaccessreplay"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "full_write_source_s": 1.4e-08
+      },
+      "meaning": "Source14nscompletewritepolicy,subjecttoactualHVportbudget;not14nsperpolarity",
+      "evidence": [
+        "FERAM-03Fig11/Table1"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "20nscompletewritepolicychoseninsourcepassregion;notmeasuredstatisticaltypical",
+      "evidence": [
+        "FERAM-03Fig11"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "full_write_source_s": 5e-08
+      },
+      "meaning": "50nscompletewritepolicyinsourcepassregion;fixedgeometry/dwell/temperature",
+      "evidence": [
+        "FERAM-03Fig11"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "ArbitraryvalidoldpolarizationmatrixatquiescentPL/BL0;no preloadedtargets",
+    "input_port": "128bitlocalportinto32Byteinputhold",
+    "write_port": "128bitrowtargethold and128physicalHVwritepaths,onefullrowperservice",
+    "output_endpoint": "All16signed25bitoutputsheldlocally",
+    "resident_endpoint": "All32rowsfullyoverwrittenfromanyoldstateandreturnedquiescent/readsafe",
+    "request_overlap": "serial_nonoverlap;rowholdsserve16bitserialMACupdatesafteractualrestore",
+    "arbitration": "Restoreandexternalwriteshare128drivers;nativeSA/holdsandarrayshared",
+    "retry": "Onequalifiedcompletewrite;failurecompletesnopayload;nostochasticprobability",
+    "maintenance": "Everyphysicaldestructivereadrestoresall128bitsfromrealhold;restorepayload0;no periodicrefresh",
+    "supply_startup": "Stable2.5V250mAlocalBL/PLdriverportand5Vcontrolrail;peakloadchecked;power-onexcluded"
+  },
+  "backend_plan": {
+    "branch": "MLPInferenceV3.0",
+    "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "entry": "run_components.py case_charge_ports+digital",
+    "qualification": "No syntheticnativechargepredictionorLV5Vaccess;caseownsHZOQ/HVservice"
+  },
+  "adapter_files": [
+    "model.py",
+    "charge_probe.py",
+    "hv_port_probe.py",
+    "hv_data.json",
+    "hv_access_data.json",
+    "LICENSE.sky130.txt"
+  ]
+}

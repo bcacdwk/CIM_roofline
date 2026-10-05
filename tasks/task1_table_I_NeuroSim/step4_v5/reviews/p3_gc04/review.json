@@ -1,0 +1,259 @@
+{
+  "review_status": "PASS_conditional_model_scope",
+  "case": "gc04",
+  "scope": "Onefresh3-pointreproductionanddominantmechanism/counts/maintenanceaudit perusersolidorder-of-magnitudepriority",
+  "independence": {
+    "reviewer": "pcm_author",
+    "own_production": "PCM,NOR2D,FeRAM; priorP0boundaryandMRAMreview",
+    "not_involved": "NoGC04productioncodeorcommonbackendimplementation; no changesmade toGC04"
+  },
+  "reviewed_computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+  "reviewed_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/gc04/inputs.json": "f157e60967acea51b0d73d58efe4250031ab99b4de717ab9023fdd2bae2f9ff6",
+    "cases/gc04/case_adapter.py": "0586c4d49cabf690eaef5829b7f1c0264fa9bb0266426d515c42e5fab684bf85",
+    "cases/gc04/gc_model.py": "339fd03a5c193dcd30c88dd3dd33a352724dbe9fd196ccc0076f0d4e68ab3277",
+    "cases/gc04/maintenance.py": "567524a06c43239c6fed26a980a2f74826b0f11120ddd97ba2bdaa1a4074ca52",
+    "cases/gc04/qualification.py": "baea2fb68c157037d2ef86f5519bb03eacfd297cb5abbf412d6a1141c47ba49a",
+    "cases/gc04/retention_probe.py": "44feaa33064bc3f01dbc7da4fa6e855bdf64c2fb729dc4498eaf9d08955ffab2",
+    "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+    "src/gc_current_probe.cpp": "c63c8d5602b59a5486b9f035650685bc357e9444d3d788943e3129385ac348fb",
+    "gc_digital.py": "fd4aff64aab5c0090d2a490ae131478dbfc59da26c834f14d104253c7244ed42",
+    "src/gc_digital_probe.cpp": "5639aa2610b5859c3b6315c37c9990939155764ecda579345f23235517384083",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed"
+  },
+  "fresh_runs": [
+    {
+      "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "rho_MB_per_s": 0.19912881144990666,
+      "tau_MB_per_s": 9.699634850211206,
+      "RI_star": 0.020529516267879987,
+      "U_star": 0.3284722602860798,
+      "delta_S_raw_s": 0.0001164,
+      "resident_raw_s": 5.1399999999999996e-05,
+      "single_latency_s": 0.0001164,
+      "single_resident_latency_s": 5.139999999999995e-05,
+      "component_bindings": {
+        "frontend": {
+          "kind": "gc_current",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-opt-final-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-opt-final-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "gc04-reviewer-gc04-opt-final-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/gc_current-gc04-reviewer-gc04-opt-final-20261005-frontend",
+          "source_manifest_sha256": "4668268749ee0065a5fb43922f74fb5bd88b81d4101b26b90dcda1629b0a025e",
+          "request_sha256": "63072dec6ba3201f0e319efce96c72745a3909c197abdb8312634a9d220f5350"
+        },
+        "digital": {
+          "kind": "gc_digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-opt-final-20261005/canonical/gc_digital.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-opt-final-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "gc04-reviewer-gc04-opt-final-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/gc-digital-gc04-reviewer-gc04-opt-final-20261005-digital",
+          "source_manifest_sha256": "ff80743b1f58b8cb06426677704f45672451263b8ab7839e6d841ff5cdf154f5",
+          "request_sha256": "55aaa499809bf2e8f163f280fc06202adadb6b7f61aefa40f0f0f3cb97e5d5d4"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-opt-final-20261005"
+    },
+    {
+      "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "rho_MB_per_s": 0.19912881144990666,
+      "tau_MB_per_s": 8.238870016092028,
+      "RI_star": 0.024169432344602046,
+      "U_star": 0.38671091751363273,
+      "delta_S_raw_s": 0.0001164,
+      "resident_raw_s": 5.1399999999999996e-05,
+      "single_latency_s": 0.0001164,
+      "single_resident_latency_s": 5.139999999999995e-05,
+      "component_bindings": {
+        "frontend": {
+          "kind": "gc_current",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-ref-final-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-ref-final-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "gc04-reviewer-gc04-ref-final-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/gc_current-gc04-reviewer-gc04-ref-final-20261005-frontend",
+          "source_manifest_sha256": "62bef8f58c0ce1045c86cbd1ae18ab10a28d720d4a675caece4567fcc8d16461",
+          "request_sha256": "63072dec6ba3201f0e319efce96c72745a3909c197abdb8312634a9d220f5350"
+        },
+        "digital": {
+          "kind": "gc_digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-ref-final-20261005/canonical/gc_digital.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-ref-final-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "gc04-reviewer-gc04-ref-final-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/gc-digital-gc04-reviewer-gc04-ref-final-20261005-digital",
+          "source_manifest_sha256": "7217047a2f27e99737c39ecf3f0d74a69c5e0b06cc2754b509583809ea7c29dc",
+          "request_sha256": "55aaa499809bf2e8f163f280fc06202adadb6b7f61aefa40f0f0f3cb97e5d5d4"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-ref-final-20261005"
+    },
+    {
+      "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "rho_MB_per_s": 0.19912881144990666,
+      "tau_MB_per_s": 7.526912315645556,
+      "RI_star": 0.026455577413329823,
+      "U_star": 0.42328923861327716,
+      "delta_S_raw_s": 0.0001164,
+      "resident_raw_s": 5.1399999999999996e-05,
+      "single_latency_s": 0.0001164,
+      "single_resident_latency_s": 5.139999999999995e-05,
+      "component_bindings": {
+        "frontend": {
+          "kind": "gc_current",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-pess-final-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-pess-final-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "gc04-reviewer-gc04-pess-final-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/gc_current-gc04-reviewer-gc04-pess-final-20261005-frontend",
+          "source_manifest_sha256": "ab403af04d83dbc288d6b9cba999b5b989aea3b1311a1c924df2d7f0f5f40853",
+          "request_sha256": "63072dec6ba3201f0e319efce96c72745a3909c197abdb8312634a9d220f5350"
+        },
+        "digital": {
+          "kind": "gc_digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-pess-final-20261005/canonical/gc_digital.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-pess-final-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "gc04-reviewer-gc04-pess-final-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/gc-digital-gc04-reviewer-gc04-pess-final-20261005-digital",
+          "source_manifest_sha256": "6092ad4bf3dfe17ae96219fb17b9a00bd2d8580c64c014b1e32749a718be29b9",
+          "request_sha256": "55aaa499809bf2e8f163f280fc06202adadb6b7f61aefa40f0f0f3cb97e5d5d4"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-pess-final-20261005"
+    }
+  ],
+  "source_verification": "OriginalGC04PDFpp6/7/9/10:FF80Cretention simulation;50fFload;5nscoarseplusfine;65nssettlement;400us99.7%pairmeasurement. Original180ns/4.16us aggregate notused. source_check.json recordslocalPDFSHA.",
+  "independent_checks": {
+    "status": "PASS_main_mechanism_counts",
+    "no_production_aggregator_or_scheduler_for_expected_values": true,
+    "resource_count": {
+      "physical_cells": 16384,
+      "physical_arrays": 16,
+      "SAR_single_ended": 256,
+      "pair_subtractors": 128,
+      "external_hold_F": 1.024e-09,
+      "analog_groups": 32,
+      "MAC_updates": 256,
+      "Xsum_updates": 64,
+      "refresh_groups": 64,
+      "input_beats": 4
+    },
+    "raw_stream_s": 0.0001164,
+    "raw_resident_s": 5.1399999999999996e-05,
+    "refresh_work_s": 0.0002048,
+    "scalar_encoding_cases": 65536,
+    "scalar_encoding_mismatches": 0,
+    "initial_phase": "Priorwritebacksare-(H-guard)+(group+1)*q,not allzeroage; refreshedinphysicalorder",
+    "points": [
+      {
+        "retention_ticks": 2000,
+        "stream_requests_per_refresh": 1,
+        "effective_stream_interval_s": 0.0003214,
+        "resident_interval_s": 0.00010557098445595855,
+        "first_resident_s": 5.1399999999999996e-05,
+        "max_group_age_s": 0.00039979999999999996,
+        "rho_MB_s": 0.19912881144990666,
+        "tau_MB_s": 9.69963485021006,
+        "repeat_elapsed_ticks": 101876,
+        "repeat_payloads": 193,
+        "scenario": "optimistic"
+      },
+      {
+        "retention_ticks": 1750,
+        "stream_requests_per_refresh": 1,
+        "effective_stream_interval_s": 0.0003214,
+        "resident_interval_s": 0.00012428888888888889,
+        "first_resident_s": 5.1399999999999996e-05,
+        "max_group_age_s": 0.0003498,
+        "rho_MB_s": 0.19912881144990666,
+        "tau_MB_s": 8.238870016091543,
+        "repeat_elapsed_ticks": 27965,
+        "repeat_payloads": 45,
+        "scenario": "reference"
+      },
+      {
+        "retention_ticks": 1650,
+        "stream_requests_per_refresh": 1,
+        "effective_stream_interval_s": 0.0003214,
+        "resident_interval_s": 0.00013604516129032257,
+        "first_resident_s": 5.1399999999999996e-05,
+        "max_group_age_s": 0.0003298,
+        "rho_MB_s": 0.19912881144990666,
+        "tau_MB_s": 7.526912315644711,
+        "repeat_elapsed_ticks": 105435,
+        "repeat_payloads": 155,
+        "scenario": "pessimistic"
+      }
+    ],
+    "300us_counterexample_positive_fraction_but_no_stream": true,
+    "qualification": "Conditional353Kretention/leakmodelandanalogQ4;notexactINT8orall-cellretentionguarantee;physicalsinglelatencydistinctfromlongterminterval"
+  },
+  "qualifications": [
+    "VolatileGC04silicon3T1C,notNVM;32-rowhalfarray/64logicalrows/16outputs/8planes/complementarypairidentitymustremainvisible.",
+    "256physicalsingle-ended11bitSAR and128difference operators;1.024nFexternalhold counted. Q4/32bitisformatandnominalanalogapproximation,notENOBorexactINT8.",
+    "Source65/75nscompletefeedbackwriteincludes5nscoarse/replica/fineunder50fF;actualnewprogramloadchecked<=50fF;353Ktransferconditionalnotmeasuredsametemperature.",
+    "RetentionmodelhasfiniteFF80Cfit/heldoutcheckandexplicitzero-statecontinuation. Source400usmeasurementdoesnotguaranteeallcells oralltemperatures.",
+    "Singleadmittedstream116.4us andresident51.4us(postrefreshphase) aredifferentfromlongterm321.4us stream/105.571..136.045usresidentintervals. Refreshpayloadiszero.",
+    "Initialmaintenancehistoryisstaggered,notfreeall-zeroage;progressretained acrossrefresh;no pendingtargetprefetchorfree matrixshadow."
+  ],
+  "open_blockers": [],
+  "recommendation": "Mayadmitall3conditionalmaintenance-inclusivepoints;rawandphase-conditionedlatenciesmustnotbemixedwithlongtermcapacities.",
+  "runtime": "/Users/shine/neurosim/runs/step4-v5/p3/reviewer-gc04-20261005"
+}

@@ -1,0 +1,181 @@
+{
+  "case_id": "mram",
+  "revision": "p0-route-20261005",
+  "status": "read_path_ready_write_evidence_pending",
+  "identity": "new ordinary 1T1MTJ binary read plus local exact digital arithmetic conditional on correct binary storage/sensing",
+  "run_dir": "/Users/shine/neurosim/runs/step4-v5/p0/mram-route-20261005",
+  "sources": [
+    {
+      "id": "MRAM-06",
+      "doi": "10.1038/s41928-025-01479-y",
+      "path": "tasks/task1_table_I_NVM/literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM.pdf",
+      "sha256": "970c5d694e51446846ae4da6160b86a924b33a53f5aa7a72ee8bf58053048eff",
+      "checked": "PDFKit text extraction pp8,9 and visual rendered p14",
+      "class": "physical_evidence",
+      "values": {
+        "diameter_nm": 78,
+        "fabrication_nm": 40,
+        "R_P_ohm": 3363.7,
+        "R_AP_ohm": 9199.2,
+        "sigma_R_P_ohm": 171.8,
+        "sigma_R_AP_ohm": 480.7,
+        "TMR_at_0p1V_percent_approx": 170,
+        "V_AP_to_P_quasistatic_mean_V": 0.461,
+        "V_P_to_AP_quasistatic_mean_V": -0.299,
+        "TMR_sigma_percentage_points": 3.9
+      },
+      "limits": [
+        "Only low-bias resistance evidence is reusable independent of complementary organization.",
+        "Quasi-static switching voltage is not a pulse condition.",
+        "No bidirectional ns pulse-current-time tuple located in inspected text/figure.",
+        "No probability model inferred from mean/sigma."
+      ]
+    },
+    {
+      "id": "MRAM-03",
+      "doi": "10.1109/jssc.2018.2872584",
+      "path": "tasks/task1_table_I_NVM/literature/06_mram/MRAM-03_2019_SelfWriteTermination.pdf",
+      "sha256": "2bf428be6500c2aa917c253bd15ee029dba1a3774ac8fe28932320eec20e32d3",
+      "class": "comparison_only",
+      "locator": "pp6–7 Figs17–22",
+      "values": {
+        "full_write_access_ns": [
+          20,
+          30
+        ],
+        "full_read_access_ns_25C": 2.8,
+        "read_supply_V": 1.2,
+        "read_current_fraction_of_write": 0.25,
+        "read_disturb_trials_without_observed_disturbance": 1000000
+      },
+      "limits": [
+        "28nm macro; full access contains offset cancellation and write control.",
+        "Not decomposed material pulse widths.",
+        "Neither timing nor error floor is portable to 40nm selected device."
+      ]
+    },
+    {
+      "id": "MRAM-06-SI",
+      "path": "tasks/task1_table_I_NVM/literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM_Supplement.pdf",
+      "sha256": "2d44a1c47166c532f492a046cb414238e5b13f091d90dc77fb83b7e0d9c27b82",
+      "class": "old_architecture_only",
+      "locator": "p4 Supplementary Fig2; pp7–8 variation notes",
+      "limits": [
+        "512Iw/256Iw refer to complementary two-step write; not new single-MTJ resource count."
+      ]
+    }
+  ],
+  "legacy_input_classification": {
+    "physical_evidence": [
+      "MRAM-06 p8/p14 MTJ resistance, bias, size and quasi-static switching distributions"
+    ],
+    "architecture_choice_excluded": [
+      "64 IBMD banks",
+      "2T2MTJ",
+      "4096 taps and hold bits",
+      "128 first-phase write paths",
+      "64 absolute branch verify lanes"
+    ],
+    "old_aggregate_slots_excluded": [
+      "3/5/10 ns read",
+      "20/30 ns full write access",
+      "polarity switch and digital ticks from old macro"
+    ],
+    "comparison_outputs_only": [
+      "data/results.json",
+      "MRAM-03 full access",
+      "MRAM-04 1.3ns complementary read"
+    ]
+  },
+  "upstream": {
+    "branch": "MLPInferenceV3.0",
+    "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "files": {
+      "Cell.cpp": "f2f5efd580740bd0161727e6f0a6028c95bec92e2de2903d914b161ce90192af",
+      "NeuroSim.cpp": "b6607fdf968538cf56d43f17ec2478de7c6550b2f6ddb972d78c68b351ac88e3",
+      "NeuroSim/SubArray.cpp": "f1bfe4b5e9a224721e16f1ced94f6a27a36cc848599e0353ab429b5317c21e35",
+      "NeuroSim/VoltageSenseAmp.cpp": "a35cafdd4b6c359d18de1dd5d7eb02d300df65a47bde3bf1baeaecd22885a3a9"
+    },
+    "required_path": [
+      "digitalModeNeuro=true",
+      "parallelRead=false",
+      "CMOS_access",
+      "RowDecoder",
+      "DecoderDriver",
+      "Mux",
+      "VoltageSenseAmp",
+      "Adder",
+      "DFF"
+    ],
+    "source_findings": [
+      "NeuroSim.cpp 169–216 uses Type::RRAM for generic eNVM; material identity requires separate label.",
+      "Hard-coded accessVoltage=1.1 and rms-like writeVoltage aggregation require explicit override or bypass.",
+      "VoltageSenseAmp default voltageSenseDiff=0.1V and 2/f are included internal stages.",
+      "DigitalNVM Write is ideal target-state mutation/energy bookkeeping, not stochastic switching prediction.",
+      "NeuroSim.cpp digital write selection/driver return does not establish physical complete write service."
+    ]
+  },
+  "candidate_mapping": {
+    "classification": "architecture_choice_not_measurement",
+    "K": 256,
+    "N": 32,
+    "weight_bits": 8,
+    "input_bits": 8,
+    "banks": 32,
+    "rows_per_bank": 256,
+    "data_cols_per_bank": 8,
+    "binary_sense_lanes": 256,
+    "write_lanes_candidate": 32,
+    "weight_hold_bits": 256,
+    "resource_policy": "single selected row per bank; shared read/write; no free extra port; exact final design depends on public interface"
+  },
+  "range_plan": {
+    "temperature": "fixed room temperature, no 300/350/400K extrapolation",
+    "read": "finite measured resistance-margin probes, without statistical yield claim",
+    "write": "requires same-source bidirectional pulses or coherent public compact model; finite accepted attempts with failed service distinct",
+    "formal_points_emitted": 0
+  },
+  "supplementary_leads": [
+    {
+      "doi": "10.1109/IEDM.2018.8614560",
+      "title": "STT-MRAM Design Technology Co-optimization for Hardware Neural Networks",
+      "primary_abstract": "https://experts.azregents.edu/en/publications/stt-mram-design-technology-co-optimization-for-hardware-ne/",
+      "status": "primary metadata checked, full main source not reviewed; secondary searchable text suggests 100ns/0.6V but not accepted input"
+    }
+  ],
+  "next_stop_conditions": [
+    "Do not publish three service points before bidirectional pulse evidence is closed.",
+    "Reject sense margin/swing or read-disturb violation rather than extending time to hide it.",
+    "Do not import old 20/30ns aggregate accesses as device pulses."
+  ],
+  "p1_model_reference": {
+    "status": "accepted_conditional_model_scope",
+    "identity": "UMEM1.0.1 same-parameter-package70nm-square pSTT +65nm1T binary macro K64N64",
+    "source_lock": "model.lock.json",
+    "mechanism": "UMEMnonlinearR/dSdt;nativeIon/actualwidth/Vth-anchoredaccess+TG+referenceN;Pmax/APminsourcebounds;realphysicalclear;fullclockservice",
+    "source_polarity_discrepancy": "UMEMsourcepositivecurrentdrivesAP whilemanual/CarbonipositivevoltageAPtoP;sourceconventionpreserved",
+    "supersedes_p0": "40nmMRAM06RvaluesnotusedinP1generation;old20/30nsaccessneverused",
+    "disclosed_failures": [
+      "native64Fcellwidth rejected74.885Faccess;fixed96Fpitch",
+      "160nsreverse source-degeneratedwritefailed",
+      "80ns clock rejected final connected MAC group path 42.519ns >40ns halfcycle; final design100ns",
+      "reference alwaysgrounded duringPRE invalid;realTGisolationrequired",
+      "sourcebounce incorrectlyrenormalizedbeta:fixednativecoefficient,smallVDScheckpassed"
+    ],
+    "actual_diagnostic_paths": [
+      "/Users/shine/neurosim/runs/step4-v5/p1/mram-model-20261005/fixed_beta_smallvds.json",
+      "/Users/shine/neurosim/runs/step4-v5/p1/mram-model-20261005/strap_fixed_beta_500ns_probe.json",
+      "/Users/shine/neurosim/runs/step4-v5/p1/mram-model-20261005/diagnostics.json"
+    ],
+    "formal_points": 3,
+    "final_report": "REPORT.zh.md",
+    "candidate_points": "candidate_points.json",
+    "final_runs": [
+      "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-mram-sidebound-final-opt-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-mram-sidebound-final-ref-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-mram-sidebound-final-pess-20261005"
+    ],
+    "independent_review": "../../reviews/p1_mram/review.json",
+    "current_diagnostic_path": "/Users/shine/neurosim/runs/step4-v5/p1/mram-model-20261005/sidebound_bias_diagnostics.json"
+  }
+}

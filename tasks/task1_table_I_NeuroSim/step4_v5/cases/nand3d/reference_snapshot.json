@@ -1,0 +1,662 @@
+{
+  "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+  "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+  "resources": {
+    "physical_cells": 84934656,
+    "reference_cells": 5308416,
+    "physical_data_cells": 79626240,
+    "cells_per_INT8_weight": 72,
+    "blocks": 64,
+    "logical_shape": [
+      4608,
+      240
+    ],
+    "native_ADC_count": 64,
+    "native_ADC_bits": 10,
+    "external_amplifiers": 128,
+    "external_amplifier_static_power_W": 10.56,
+    "external_AMP_total_supply_current_A": 2.112,
+    "page_programs": 6144,
+    "block_erases": 64,
+    "physical_page_bytes": 10616832,
+    "PE_engine_pagebuffer_source_Byte": 2112,
+    "local_formatter_packet_bits": 48.0,
+    "logical_input_hold_bits": 41472.0,
+    "resident_row_staging_bits": 41472.0,
+    "result_hold_bits": 7680.0,
+    "BL_mask_bits": 13824.0,
+    "coefficient_bits": 12288.0,
+    "native_arithmetic_lanes": 16,
+    "reconstruction_parallel_outputs": 8,
+    "controller_period_s": 5e-07,
+    "physical_byte_accept_period_s": 5e-07,
+    "front_end_topology": "128 externalAMPS,notintegratedlowpowerNANDmacro",
+    "geometry_and_HV": {
+      "WL_cap_F": 3.2939990544376218e-12,
+      "BL_cap_F": 6.720000000000001e-14,
+      "WL_wire_ohm": 245.77777777777777,
+      "BL_wire_ohm": 3959.9999999999995,
+      "read_bias_setup_s": 3.395310456498371e-07,
+      "read_bias_release_s": 5.007703845499011e-08,
+      "HV_control_channels": 2304,
+      "HV_read_driver_FETs": 4608,
+      "HV_driver_gate_load_F_each": 5.37914270351031e-14,
+      "HV_read_port_active_area_lower_m2": 1.5552e-07,
+      "native_LV_level_input_F": 6.53e-13,
+      "scope": "SKY130read-bias ports <=4.5V only. CompletePEengine separately owns HV isolation/pump/bias recovery; no20V claim for5Vswitches."
+    },
+    "internal_string_dynamics": {
+      "internal_node_cap_F": 1.0359399740976e-17,
+      "differential_RC_trace_max_s": 4.2272129547184225e-08,
+      "settle_allowance_s": 2.920055260333786e-07,
+      "method": "minimum(g_source,g_drain) of actualEKVoperatingnodes;grounded-endRCinverse trace;0.1percent finite allowance",
+      "scope": "explicitgeometry/local-linear surrogate;notlegacy total timing or all-nonlinear siliconbound",
+      "limiting_case": {
+        "selected": 0,
+        "pass_background": 1,
+        "state": 1,
+        "tau_trace_s": 4.2272129547184225e-08
+      }
+    },
+    "native_logic": {
+      "BL_mask_hold_bits": 13824.0,
+      "native_input_mask_format_s": 2.045150757273878e-07,
+      "input_hold_bits": 41472.0,
+      "resident_row_staging_bits": 41472.0,
+      "formatted_page_buffer_bits": 48.0,
+      "ADC_code_hold_bits": 640.0,
+      "corrected_channel_hold_bits": 2048.0,
+      "output_hold_bits": 7680.0,
+      "calibration_coefficient_bits": 12288.0,
+      "arithmetic_work_bits": 1680.0,
+      "control_bits": 64.0,
+      "native_Adder_lanes": 16.0,
+      "native_Adder_width": 35.0,
+      "native_Adder_s": 2.0928369429812627e-08,
+      "native_Subtractor_s": 5.394985960988643e-08,
+      "native_abs_s": 1.3705942947423866e-08,
+      "native_capture_s": 2.5e-07,
+      "native_ingress_comb_s": 1.1986305291262212e-07,
+      "native_format_comb_s": 9.86514584657728e-08,
+      "native_page_byte_select_s": 2.3146927157808897e-09,
+      "native_arithmetic_comb_s": 1.275679030578197e-07,
+      "native_WL_decode_s": 2.5161825481612667e-07,
+      "native_WL_LV_output_load_F": 4.1792e-11,
+      "native_BL_switch_s": 7.146316727001266e-10,
+      "native_BL_switch_actual_R_ohm": 2000.0,
+      "native_BL_switch_drain_F": 2.545377383276708e-15,
+      "native_BL_switch_gate_n_F": 5.296185806784172e-15,
+      "native_BL_switch_gate_p_F": 1.0567770883211683e-14,
+      "native_BL_switch_width_n_m": 1.6644496175590292e-06,
+      "native_BL_switch_width_p_m": 3.3211678832116796e-06,
+      "native_BL_mask_s": 1.231936103719592e-08,
+      "native_state_clear_s": 2.5995946727164403e-07,
+      "native_vdd_V": 1.3,
+      "native_vth_V": 0.4660949,
+      "digital_critical_comb_s": 2.045150757273878e-07,
+      "digital_halfcycle_min_period_s": 4.090301514547756e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_port_area_m2": 7.421007815341374e-06,
+      "component_only": 1.0
+    },
+    "native_SAR": {
+      "native_ADC_s": 1.1000000000000001e-08,
+      "native_ADC_area_m2": 4.8702803968e-07,
+      "native_ADC_count": 64.0,
+      "native_ADC_Cin_provided": 0.0,
+      "explicit_ADC_input_C_F": 1e-12
+    },
+    "shared_read_write": "mutuallyexclusive;P/Eengine includes ratedHV/read-safe isolation,readbiasports neversee20V"
+  },
+  "stream_stages": [
+    {
+      "id": "new_request_clear",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "output/work/controlholds",
+      "includes": "newrequest physicalclear",
+      "excludes": "residentpayload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "input_receive_abs_hold",
+      "duration_s": 5e-07,
+      "count": 288,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "128bitport,16abs lanes,41472bitinputhold",
+      "includes": "alllogicalinput once",
+      "excludes": "no preloadedwholevector",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "build_input_masks",
+      "duration_s": 5e-07,
+      "count": 9216,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "16laneinputselector/encoding,13824BLmaskhold",
+      "includes": "32actualmasks reusedacross30dataWL each",
+      "excludes": "notonefreeparallelmaskoperator",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "select_data_WL",
+      "duration_s": 1e-06,
+      "count": 960,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "nativeaddress+64parallelratedreadbiasports",
+      "includes": "inputmaskouterloop,30WLs;allpass/GSL/SSLloads",
+      "excludes": "notlegacy303ns"
+    },
+    {
+      "id": "read_settle_ADC_capture",
+      "duration_s": 1e-06,
+      "count": 960,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "64actualSLreceivers/64nativeSAR/codehold",
+      "includes": "BLRC,internalchannel differentialRC,finite2AMPKCL,ADC,capture",
+      "excludes": "no oldSLslot,noENOBclaim"
+    },
+    {
+      "id": "return_BL_before_digital",
+      "duration_s": 5e-07,
+      "count": 960,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "actualBLmask/gate",
+      "includes": "allBL0aftercapture whilemaskholdretained",
+      "excludes": "notfreeongoingpayload"
+    },
+    {
+      "id": "affine_fixed_point",
+      "duration_s": 5e-07,
+      "count": 53760,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "16x35bitAddSub+workhold/24bitcoefficients",
+      "includes": "clear+offset+11serialmult+round perbatch",
+      "excludes": "notCPUtruecountcorrection",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "base4_sign_accumulate",
+      "duration_s": 5e-07,
+      "count": 7680,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "8activeoutputlanes of16,240x32bithold",
+      "includes": "fourweightdigits,twoWsigns andtwoinputphases,wirepowers4",
+      "excludes": "notfree32parallelMAC",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "read_bias_release",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "HV"
+      ],
+      "resources": "2304readbiascontrols",
+      "includes": "readnormalbiasreturn",
+      "excludes": "PEinternalrecovery"
+    },
+    {
+      "id": "result_ready",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "outputhold",
+      "includes": "all240Q4outputsready",
+      "excludes": "noextratransferpayload"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "invalidate_and_clear",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "status/stagingcontrols",
+      "includes": "arbitraryoldmatrix invaliduntilfinish",
+      "excludes": "notfreepreerase",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "logical_weight_encode",
+      "duration_s": 5e-07,
+      "count": 69120,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "128bitport,16abslanes,one4608x9rowstaging",
+      "includes": "fulllogicalmatrixonce,rowretainedthrough24pages",
+      "excludes": "notwholematrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "format_all_data_and_reference",
+      "duration_s": 5e-07,
+      "count": 1769472,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "48bitphysicalformatterpacket",
+      "includes": "all5760data+384referencepages",
+      "excludes": "notduplicatelogicalpayload",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "physical_page_data_input",
+      "duration_s": 5e-07,
+      "count": 10616832,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "one8bitPEengineport,itsfullpagebuffer",
+      "includes": "allencodedphysicalbytes,onebyteperlegalcontrollercycle>=25ns",
+      "excludes": "no P/E pulses here"
+    },
+    {
+      "id": "PE_commands_and_status",
+      "duration_s": 4e-06,
+      "count": 6208,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "oneengine/controlstate",
+      "includes": "finitecommand/address/statushandshake",
+      "excludes": "no internalverifyduplication"
+    },
+    {
+      "id": "complete_block_erase",
+      "duration_s": 0.001,
+      "count": 64,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "oneconditionalfullP/Eengine",
+      "includes": "all64blocks erased,HV/pump/verify/recovery/readsafeisolationincluded",
+      "excludes": "no pre-erasedappend"
+    },
+    {
+      "id": "complete_page_program",
+      "duration_s": 0.0003,
+      "count": 6144,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PE"
+      ],
+      "resources": "oneconditionalfullP/Eengine",
+      "includes": "all6144pages successinclinternalverify/biasrecovery",
+      "excludes": "no extra programloopguess"
+    },
+    {
+      "id": "calibration_reference_select",
+      "duration_s": 1e-06,
+      "count": 24,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "twoactualreferenceWLs/fourinputgroups",
+      "includes": "zero/half/fullmasks perreference",
+      "excludes": "notfreecalibration"
+    },
+    {
+      "id": "calibration_ADC_acquisition",
+      "duration_s": 1.5e-06,
+      "count": 24,
+      "source_class": "adapter",
+      "source_ids": [
+        "EKV",
+        "LTC",
+        "DESIGN"
+      ],
+      "resources": "64TIA/SARs andactualreferencecells",
+      "includes": "bothreferencepages,threefinitelevels,no inventednoiseaverage",
+      "excludes": "notpayload"
+    },
+    {
+      "id": "calibration_coefficient_arithmetic",
+      "duration_s": 5e-07,
+      "count": 560,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "MLP"
+      ],
+      "resources": "16lane35bitrestoringdivider/AddSub,256x48bitcoefhold",
+      "includes": "32divisionsteps+offset/store/clear; Q8.16gain,integeroffset",
+      "excludes": "notfreehostdivision",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Native DFF capture halfcycle; completelegalcontrollercycles used without duplicate capture"
+    },
+    {
+      "id": "publish_compute_ready",
+      "duration_s": 5e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "successstatus",
+      "includes": "onlyafterallcompletePEandcalibration",
+      "excludes": "failurehaszero completedpayload"
+    }
+  ],
+  "counts": {
+    "logical_bytes": 1105920,
+    "physical_cells": 84934656,
+    "data_cells": 79626240,
+    "reference_cells": 5308416,
+    "data_pages": 5760,
+    "reference_pages": 384,
+    "page_programs": 6144,
+    "block_erases": 64,
+    "page_payload_bytes": 1728,
+    "physical_page_bytes": 10616832,
+    "stream_analog_reads": 960,
+    "calibration_analog_reads": 24,
+    "calibration_coefficients": 256,
+    "input_beats": 288,
+    "resident_encoding_beats": 69120,
+    "packet_bits": 48,
+    "packets_per_page": 288,
+    "calibrated_channels_per_read": 64,
+    "reconstruction_updates_per_read": 8
+  },
+  "receiver": {
+    "status": "finite_hybrid_receiver_model_reference",
+    "samples": [
+      {
+        "count": 10368,
+        "background": "nominal",
+        "active_slots": 10368,
+        "low_total": 41472,
+        "selected": "reference",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008218731051654416,
+        "TIA_steady_V": -0.21873105165441512,
+        "ADC_steady_V": 0.7169876541235904,
+        "ADC_code": 667,
+        "baseline_code": 459,
+        "delta_code": 208,
+        "settle_s": 1.1039999999999744e-07,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0036749346431469636,
+        "peak_amp_output_A": 8.8466781910168e-05,
+        "end_error_V": 4.773959005888173e-15,
+        "count_from_fixed_reference": 10368.0,
+        "count_error_for_diagnostic_only": 0.0
+      },
+      {
+        "count": 0,
+        "background": "nominal",
+        "active_slots": 10368,
+        "low_total": 0,
+        "selected": "reference",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0007999205085207394,
+        "TIA_steady_V": 0.0007949147926066078,
+        "ADC_steady_V": 0.49750558409057527,
+        "ADC_code": 463,
+        "baseline_code": 463,
+        "delta_code": 0,
+        "settle_s": 1e-10,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0007999976339243303,
+        "peak_amp_output_A": 2.4836693260542215e-05,
+        "end_error_V": 1.6653345369377348e-16,
+        "count_from_fixed_reference": 0.0,
+        "count_error_for_diagnostic_only": 0.0
+      },
+      {
+        "count": 5184,
+        "background": "nominal",
+        "active_slots": 5184,
+        "low_total": 41472,
+        "selected": "reference",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008106976305377862,
+        "TIA_steady_V": -0.10697630537786205,
+        "ADC_steady_V": 0.6052552543269967,
+        "ADC_code": 563,
+        "baseline_code": 459,
+        "delta_code": 104,
+        "settle_s": 1.0349999999999784e-07,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.002237060209504897,
+        "peak_amp_output_A": 5.6448341417360514e-05,
+        "end_error_V": 4.3298697960381105e-15,
+        "count_from_fixed_reference": 5184.0,
+        "count_error_for_diagnostic_only": 0.0
+      },
+      {
+        "count": 10368,
+        "background": "nominal",
+        "active_slots": 10368,
+        "low_total": 20736,
+        "selected": "data",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008226605893416337,
+        "TIA_steady_V": -0.2266058934163363,
+        "ADC_steady_V": 0.72486092123209,
+        "ADC_code": 675,
+        "baseline_code": 461,
+        "delta_code": 214,
+        "settle_s": 1.2769999999999758e-07,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.003835975495962499,
+        "peak_amp_output_A": 9.222477408533971e-05,
+        "end_error_V": -4.9960036108132044e-15,
+        "count_from_fixed_reference": 10667.076923076924,
+        "count_error_for_diagnostic_only": 299.0769230769238
+      },
+      {
+        "count": 1,
+        "background": "nominal",
+        "active_slots": 3,
+        "low_total": 3,
+        "selected": "data",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0007999221231843304,
+        "TIA_steady_V": 0.0007787681566967779,
+        "ADC_steady_V": 0.4975217274978037,
+        "ADC_code": 463,
+        "baseline_code": 463,
+        "delta_code": 0,
+        "settle_s": 1e-10,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0008002218510154782,
+        "peak_amp_output_A": 2.4841655201721005e-05,
+        "end_error_V": -3.83026943495679e-15,
+        "count_from_fixed_reference": 0.0,
+        "count_error_for_diagnostic_only": -1.0
+      },
+      {
+        "count": 1024,
+        "background": "nominal",
+        "active_slots": 10368,
+        "low_total": 20736,
+        "selected": "data",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008019839572832271,
+        "TIA_steady_V": -0.01983957283227078,
+        "ADC_steady_V": 0.5181359456431422,
+        "ADC_code": 482,
+        "baseline_code": 461,
+        "delta_code": 21,
+        "settle_s": 8.059999999999915e-08,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0010996535268522078,
+        "peak_amp_output_A": 3.1309593569672805e-05,
+        "end_error_V": -6.8833827526759706e-15,
+        "count_from_fixed_reference": 1046.7692307692307,
+        "count_error_for_diagnostic_only": 22.769230769230717
+      },
+      {
+        "count": 1024,
+        "background": "nominal",
+        "active_slots": 10368,
+        "low_total": 1024,
+        "selected": "data",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008021769844914501,
+        "TIA_steady_V": -0.021769844914500604,
+        "ADC_steady_V": 0.5200658317481509,
+        "ADC_code": 484,
+        "baseline_code": 463,
+        "delta_code": 21,
+        "settle_s": 9.729999999999819e-08,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0011086816554443826,
+        "peak_amp_output_A": 3.169758847019443e-05,
+        "end_error_V": 5.10702591327572e-15,
+        "count_from_fixed_reference": 1046.7692307692307,
+        "count_error_for_diagnostic_only": 22.769230769230717
+      },
+      {
+        "count": 10368,
+        "background": "low_pass",
+        "active_slots": 10368,
+        "low_total": 20736,
+        "selected": "data",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008319081189606448,
+        "TIA_steady_V": -0.3190811896064481,
+        "ADC_steady_V": 0.8173177260612359,
+        "ADC_code": 761,
+        "baseline_code": 461,
+        "delta_code": 300,
+        "settle_s": 1.2969999999999773e-07,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.005023112206005752,
+        "peak_amp_output_A": 0.00011858872870295136,
+        "end_error_V": -5.329070518200751e-15,
+        "count_from_fixed_reference": 14953.846153846154,
+        "count_error_for_diagnostic_only": 4585.846153846154
+      },
+      {
+        "count": 10368,
+        "background": "high_pass",
+        "active_slots": 10368,
+        "low_total": 20736,
+        "selected": "data",
+        "Cscale": 1.0,
+        "SL_steady_V": 0.0008173260696994265,
+        "TIA_steady_V": -0.17326069699426477,
+        "ADC_steady_V": 0.6715263917159217,
+        "ADC_code": 625,
+        "baseline_code": 462,
+        "delta_code": 163,
+        "settle_s": 1.2509999999999738e-07,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0031396073916340867,
+        "peak_amp_output_A": 7.676390658183454e-05,
+        "end_error_V": 2.220446049250313e-16,
+        "count_from_fixed_reference": 8124.923076923077,
+        "count_error_for_diagnostic_only": -2243.076923076923
+      },
+      {
+        "count": 10368,
+        "background": "nominal",
+        "active_slots": 10368,
+        "low_total": 20736,
+        "selected": "data",
+        "Cscale": 2.0,
+        "SL_steady_V": 0.0008226605893416337,
+        "TIA_steady_V": -0.2266058934163363,
+        "ADC_steady_V": 0.72486092123209,
+        "ADC_code": 675,
+        "baseline_code": 461,
+        "delta_code": 214,
+        "settle_s": 1.9630000000000273e-07,
+        "settled": true,
+        "rail_valid": true,
+        "ADC_range_valid": true,
+        "max_abs_SL_V": 0.0034633841151841256,
+        "peak_amp_output_A": 9.183202471731932e-05,
+        "end_error_V": 4.773959005888173e-15,
+        "count_from_fixed_reference": 10667.076923076924,
+        "count_error_for_diagnostic_only": 299.0769230769238
+      }
+    ],
+    "calibration_zero_code": 459,
+    "calibration_full_code": 667,
+    "gain_count_per_code": 49.84615384615385,
+    "maximum_settle_s": 1.2969999999999773e-07,
+    "double_C_settle_s": 1.9630000000000273e-07,
+    "valid": true,
+    "amplifiers": 128,
+    "static_power_typ_W": 10.56,
+    "precision": "10bit nominal code only; sparse counts may quantize to zero, pass-background gain residuals retained; not exactINT8/ENOB/noise distribution",
+    "independent_load_check": "2xSLcap point not used for DC calibration",
+    "equations": "actual all-string terminal I(VSL), Csl/Cin/Cf KCL, finiteA0/GBW/slew forTIA and explicit inverting offsetbuffer"
+  }
+}

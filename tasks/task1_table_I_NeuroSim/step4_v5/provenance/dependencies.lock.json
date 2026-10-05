@@ -1,0 +1,119 @@
+{
+  "schema_version": "5.0.0",
+  "baseline_repository_head": "216d3f8af6e58fc75632a526b73d017252b2e969",
+  "inherited_lock_sha256": "8fcf7bf9e046ad5e30fd07c94477c9459e0837ac8d7cc8110392805f7db3b184",
+  "upstream_policy": "locked original worktrees read-only; copy exact tracked sources into each local run; V5 patches applied only to copies",
+  "branches": [
+    {
+      "branch": "2DInferenceV1.4",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "expected_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "sha_matches": true,
+      "worktree_path": "/Users/shine/neurosim/worktrees/2DInferenceV1.4-8a88abf85844",
+      "worktree_clean": true,
+      "status": "",
+      "core_path": "Inference_pytorch/NeuroSIM",
+      "source_readiness": "C++ source ready"
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "expected_sha": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "sha_matches": true,
+      "worktree_path": "/Users/shine/neurosim/worktrees/2DInferenceDCIMV1.0-dev-38eedf926fc1",
+      "worktree_clean": true,
+      "status": "",
+      "core_path": "Inference_pytorch/NeuroSIM",
+      "source_readiness": "C++ source ready"
+    },
+    {
+      "branch": "2DInferenceV1.5-dev",
+      "sha": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+      "expected_sha": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+      "sha_matches": true,
+      "worktree_path": "/Users/shine/neurosim/worktrees/2DInferenceV1.5-dev-9825ef40bf14",
+      "worktree_clean": true,
+      "status": "",
+      "core_path": "NeuroSIM",
+      "source_readiness": "C++ source ready"
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "expected_sha": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "sha_matches": true,
+      "worktree_path": "/Users/shine/neurosim/worktrees/2DTrainingV2.1-f80a4345f70d",
+      "worktree_clean": true,
+      "status": "",
+      "core_path": "Training_pytorch/NeuroSIM",
+      "source_readiness": "C++ source ready"
+    },
+    {
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "expected_sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "sha_matches": true,
+      "worktree_path": "/Users/shine/neurosim/worktrees/MLPInferenceV3.0-6098feabaf17",
+      "worktree_clean": true,
+      "status": "",
+      "core_path": ".",
+      "source_readiness": "C++ source ready"
+    },
+    {
+      "branch": "3DInferenceV1.0",
+      "sha": "6d2ee9b9b5067c4c8660ad8cd0cbedcab477ba69",
+      "expected_sha": "6d2ee9b9b5067c4c8660ad8cd0cbedcab477ba69",
+      "sha_matches": true,
+      "worktree_path": "/Users/shine/neurosim/worktrees/3DInferenceV1.0-6d2ee9b9b506",
+      "worktree_clean": true,
+      "status": "",
+      "core_path": null,
+      "source_readiness": "README navigation only; NOT_RUN"
+    }
+  ],
+  "ports": [
+    {
+      "id": "mlp_binary_column_load_v1",
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "patch": "patches/mlp_binary_column_load.patch",
+      "patch_sha256": "11924d79ef9039a24c8fc1b40af1f85e3a932fb1f22675d9ad876575369d323a",
+      "source_class": "adapter",
+      "scope": "single-row CMOS-access binary read mapping with access transistor drains on sensed column; read-only VSA capacitance input correction",
+      "status": "implemented; formal service qualification pending"
+    },
+    {
+      "id": "mlp_decoder_consistency_v1",
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "patch": "patches/mlp_decoder_consistency.patch",
+      "patch_sha256": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+      "source_class": "adapter",
+      "scope": "actual 1bit complementary INV area/latency; NAND/NOR series counts and odd-address fanout/driver input loads; conservative timing envelope, not STA",
+      "status": "implemented; independent review pending"
+    },
+    {
+      "id": "mlp_single_row_mux_and_write_target_v1",
+      "branch": "MLPInferenceV3.0",
+      "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "patch": "patches/mlp_single_row_mux_and_write_target.patch",
+      "patch_sha256": "3edd90a4a6226100df7140ee33a5b431e0bb568d59f6cf0ce1bb62499f2e0aef",
+      "source_class": "adapter",
+      "scope": "CMOS digital sequential mode uses one active-row MUX load and explicit fixed IR fraction; independent write-column target resizes real TG; parallel mode default untouched",
+      "status": "implemented; new physical/clock checks and independent review required"
+    }
+  ],
+  "external_models": [
+    {
+      "model": "UMEM MRAM model reference",
+      "repo": "https://github.com/chientingtung/umem",
+      "sha": "3cd6275284951b8033c9637bd8094ec05b716a4b",
+      "version": "1.0.1",
+      "local_lock": "cases/mram/model.lock.json",
+      "local_lock_sha256": "542ee3f0d47a9eb4466e88b3a87a7ff8481161146e1c9ab7ba06759cad66182e",
+      "port": "cases/mram/umem_port.py",
+      "license_notice": "cases/mram/LICENSE.umem.txt",
+      "polarity_convention": "SourceODEpositivecurrentdrivesstate−1/AP;manualFig10.3/CarbonipositivebiasAPtoP.Originalcodeconventionpreserved,not silentlyreversed."
+    }
+  ]
+}

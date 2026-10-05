@@ -1,0 +1,80 @@
+{
+  "status": "probe_only",
+  "native_run": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-pcm-reference-probe-20261005b",
+  "reference_signal_bounds": [
+    {
+      "threshold_V": 0.1,
+      "time_at_full_separation_peak_s": 1.9693652511697433e-08,
+      "full_state_separation_V": 0.17840419625984838,
+      "best_middle_reference_margin_upper_bound_V": 0.08920209812992419,
+      "required_sense_difference_V": 0.1,
+      "single_cell_middle_reference_possible": false,
+      "qualification": "Necessary bound only; passing does not implement a reference, certify noise, read disturbance, or analog timing."
+    },
+    {
+      "threshold_V": 0.01,
+      "time_at_full_separation_peak_s": 1.9693652511697433e-08,
+      "full_state_separation_V": 0.17840419625984838,
+      "best_middle_reference_margin_upper_bound_V": 0.08920209812992419,
+      "required_sense_difference_V": 0.01,
+      "single_cell_middle_reference_possible": true,
+      "qualification": "Necessary bound only; passing does not implement a reference, certify noise, read disturbance, or analog timing."
+    }
+  ],
+  "counts": {
+    "logical_payload_bytes": 2048,
+    "physical_data_bits": 16384,
+    "physical_rows": 128,
+    "reset_batches": 1024,
+    "set_reserved_batches": 1024,
+    "verify_row_reads": 128,
+    "verify_sense_groups": 256,
+    "serial_add_groups": 2048,
+    "operand_hold_bits": 128,
+    "output_hold_bits": 400,
+    "scope": "RESET full row by actual write lanes; SET target-one mask in reserved equal slots; verify every physical bit before row commit. No data-equality skip."
+  },
+  "mapping_checks": [
+    {
+      "name": "zero",
+      "max_abs": 0,
+      "matches": true
+    },
+    {
+      "name": "max",
+      "max_abs": 2097152,
+      "matches": true
+    },
+    {
+      "name": "mixed",
+      "max_abs": 99840,
+      "matches": true
+    },
+    {
+      "name": "cancel",
+      "max_abs": 0,
+      "matches": true
+    },
+    {
+      "name": "last_group",
+      "max_abs": 128,
+      "matches": true
+    }
+  ],
+  "failed_verify_example": {
+    "status": "failed_attempt_budget",
+    "failed_bits": [
+      0
+    ],
+    "payload_committed": false,
+    "attempt_limit": 1,
+    "yield_claim": null
+  },
+  "kTC_rms_V": 9.769308503110572e-05,
+  "remaining": [
+    "real reference branch resistance/capacity and lowest accepted on/off state margins",
+    "source-backed or conditional offset/noise requirement for 10mV alternative",
+    "write waveform/return/recovery inclusion and actual access current check",
+    "25bit digital resource native components pending"
+  ]
+}

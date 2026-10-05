@@ -1,0 +1,1053 @@
+{
+  "status": "ready_for_review",
+  "source_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005",
+  "computational_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/pcm/inputs.json": "1264f1abc385cbb0d70714575506f191c0eb0c044ae17bb116dfc4782bf83a69",
+    "cases/pcm/case_adapter.py": "9b44b6c14445238f9c54070bccb7a6f280ff0cfb5f36df0262b1c39be39511fd",
+    "cases/pcm/hv_model.py": "79c5f8bbe8c330b68d1720511bc38b78f85e962e8ba98b3216542511917280be",
+    "cases/pcm/hv_port_probe.py": "199ea55c20e6334d629d99566d9d8c620294b1be81f74a6fbcc94b010d05ec59",
+    "cases/pcm/hv_array_probe.py": "ff29f58ccd405e01be17065dbe3f4847851f15d0c18be82c23e1af0d8597f187",
+    "cases/pcm/hv_data.json": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+    "cases/pcm/hv_access_data.json": "48fd214eb8440190abca9007a84da19a458143d8c198c2e13cb70faa39a548b9",
+    "cases/pcm/adapter.py": "e77c9dc1fc5662ac34ab1cb5d9f8608bc03045c67bb1c5452254b80cf89c4a09",
+    "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+    "src/polarization_port_probe.cpp": "39fdbd36532b4d5f4d553b03984e8ce4d01bf4fb598af4fc2d5614671509377c",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+    "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+  },
+  "result": {
+    "case_id": "pcm",
+    "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+    "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__reference",
+    "scenario": "reference",
+    "status": "conditional",
+    "review_state": "not_reviewed",
+    "K": 128,
+    "N": 16,
+    "B_S_Byte": 128,
+    "B_R_Byte": 2048,
+    "single_latency_s": 0.0005198218774537553,
+    "delta_S_raw_s": 0.0005198218774537553,
+    "resident_s": 0.0009327418774537552,
+    "rho_MB_per_s": 0.24623819341152528,
+    "tau_MB_per_s": 2.195677120867277,
+    "RI_star": 0.11214681387865577,
+    "U_star": 1.7943490220584921,
+    "range_meaning": "50nsRESET/200nsSETsourceplateau policy onnewHVhardware;notstatisticaltypical",
+    "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005",
+    "component_bindings": {
+      "frontend": {
+        "kind": "polarization",
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "-B",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/canonical/special_probe.py",
+          "--request",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/frontend-request.json",
+          "--root",
+          "/Users/shine/neurosim",
+          "--run-id",
+          "pcm-pcm-HV-reference-r1-20261005-frontend"
+        ],
+        "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/voltage_sense-pcm-pcm-HV-reference-r1-20261005-frontend",
+        "source_manifest_sha256": "13a8bfb39f53e482a3496c4ef0c4471571492f4b32a67132caa6b4cf44f417be",
+        "request_sha256": "d2012cf5a73568936a588fec1046455f26d5ba0f115fd01c0b86dea936622e9c"
+      },
+      "digital": {
+        "kind": "digital",
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "-B",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/canonical/digital_probe.py",
+          "--request",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/digital-request.json",
+          "--root",
+          "/Users/shine/neurosim",
+          "--run-id",
+          "pcm-pcm-HV-reference-r1-20261005-digital"
+        ],
+        "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-pcm-pcm-HV-reference-r1-20261005-digital",
+        "source_manifest_sha256": "a226e42e7997ddde67231ee6701b98307c585e60685ed29828199bf580c230cb",
+        "request_sha256": "4554f85238ddc3106db39b28337b982913ac90295031a8c9e0b02f44ac837317"
+      }
+    },
+    "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d"
+  },
+  "native_components": {
+    "frontend": {
+      "case_charge_ports": 1.0,
+      "external_HV_access_required": 1.0,
+      "synthetic_charge_solution_eligible": 0.0,
+      "native_access_diagnostic_drain_F": 1.9481405291966803e-16,
+      "native_decoder_load_F": 6.525936694444138e-13,
+      "native_decoder_area_m2": 5.59663104e-09,
+      "native_vdd_V": 1.3,
+      "native_SA_internal_cap_F": 7.137835867478258e-15,
+      "actual_access_drain_F": 5.405623746303999e-13,
+      "actual_BL_total_cap_F": 7.185945406726753e-13,
+      "native_voltage_sense_s": 2.0008052672380242e-07,
+      "native_sense_included_enable_s": 2e-07,
+      "native_SA_area_m2": 4.552704e-09,
+      "effective_access_R_ohm": 952.4348329800753,
+      "access_R_source_external": 1.0,
+      "native_access_R_ohm": 51213.83438643167,
+      "native_WL_gate_compatible": 0.0,
+      "native_WL_select_s": 2.2774401561991843e-08,
+      "native_LV_decoder_s": 2.2774401561991843e-08,
+      "physical_activation_domain_bits": 128.0,
+      "destructive_domain_bits": 0.0,
+      "actual_state_hold_bits": 128.0,
+      "native_state_capture_s": 1e-07,
+      "restore_batches": 0.0,
+      "restore_required": 0.0,
+      "native_hold_area_m2": 5.52394752e-09,
+      "native_periphery_area_m2": 1.567328256e-08,
+      "component_only": 1.0
+    },
+    "digital": {
+      "input_ingress_beats": 8.0,
+      "input_ingress_select_s": 8.174256533053315e-09,
+      "input_ingress_area_m2": 7.644640639999999e-09,
+      "target_ingress_beats": 1.0,
+      "target_ingress_select_s": 1.4674635179162552e-10,
+      "target_ingress_area_m2": 9.206579199999998e-10,
+      "weight_ingress_beats": 1.0,
+      "weight_ingress_select_s": 1.4674635179162552e-10,
+      "weight_ingress_area_m2": 9.206579199999998e-10,
+      "input_rows": 128.0,
+      "input_cols": 128.0,
+      "logical_K": 128.0,
+      "logical_N": 16.0,
+      "accumulator_bits": 25.0,
+      "extra_25bit_adder_lanes": 8.0,
+      "input_hold_bits": 1024.0,
+      "target_hold_bits": 128.0,
+      "weight_hold_bits": 128.0,
+      "weight_hold_rows": 1.0,
+      "weight_hold_outputs": 16.0,
+      "signed_output_hold_bits": 400.0,
+      "input_capture_s": 1e-07,
+      "target_hold_capture_s": 1e-07,
+      "weight_hold_capture_s": 1e-07,
+      "signed_capture_s": 1e-07,
+      "input_row_capture_s": 1e-07,
+      "input_row_select_s": 1.922230413171488e-08,
+      "input_bit_select_s": 4.0252909356031894e-08,
+      "weight_group_select_s": 7.945560410571192e-09,
+      "weight_row_select_s": 0.0,
+      "weight_keep_s": 1.4674635179162552e-10,
+      "extra_shifted_weight_mux_s": 3.0453358725317937e-10,
+      "extra_shift_select_s": 2.248612536625192e-08,
+      "group_select_s": 2.4756002089315267e-08,
+      "data_zero_mask_s": 1.88498777280063e-10,
+      "extra_accumulator_feedback_mux_s": 4.992068982235556e-10,
+      "extra_25bit_adder_s": 1.4871781033309138e-08,
+      "signed_correction_s": 3.807206374284407e-08,
+      "add_sub_result_select_s": 1.8363242730044785e-10,
+      "accumulator_keep_s": 3.86811914960238e-10,
+      "verify_target_select_s": 2.5060535676568446e-08,
+      "verify_data_select_s": 7.945560410571192e-09,
+      "verify_byte_compare_s": 1.287855496617176e-08,
+      "verify_fail_reduce_s": 1.0467493248735151e-09,
+      "verify_sticky_or_s": 2.1719800821490175e-10,
+      "verify_status_capture_s": 1e-07,
+      "program_target_select_s": 2.4656825653784093e-09,
+      "program_target_mask_logic_s": 9.400067051559365e-11,
+      "retry_increment_s": 1.2189698953399345e-09,
+      "retry_state_capture_s": 1e-07,
+      "state_clear_bits": 403.0,
+      "state_clear_s": 1.0213772648958701e-07,
+      "state_clear_comb_s": 2.1377264895870116e-09,
+      "state_clear_gates": 808.0,
+      "data_zero_mask_gates": 400.0,
+      "weight_sign_extension_max_fanout": 116.0,
+      "digital_mac_comb_s": 7.908391621841672e-08,
+      "digital_verify_comb_s": 3.920303797582863e-08,
+      "digital_critical_comb_s": 7.908391621841672e-08,
+      "digital_halfcycle_min_period_s": 1.5816783243683344e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_area_m2": 1.3871167128e-07,
+      "native_vdd_V": 1.3,
+      "native_vth_V": 0.4660949,
+      "component_only": 1.0
+    }
+  },
+  "resources": {
+    "physical_bits": 16384,
+    "HV_access_FETs": 16384,
+    "HV_access_geometry_m": [
+      3e-06,
+      5e-07
+    ],
+    "cell_pitch_m": [
+      4e-06,
+      3e-06
+    ],
+    "SAs": 128,
+    "reference_resistors": 128,
+    "reference_R_ohm": 40000.0,
+    "reference_match_C_each_F": 7.185945406726753e-13,
+    "reference_enable_matching_dummy_C_F": 1.024e-13,
+    "HV_read_isolators": 256,
+    "HV_reference_selectors": 128,
+    "HVreturn_clamps": 128,
+    "HV_low_parking_FETs": 128,
+    "HV_precharge_FETs": 256,
+    "HV_program_P7_outputs": 256,
+    "HV_WL_N20_drivers": 129,
+    "HV_WL_P7_drivers": 516,
+    "HV_levelshift_channels": 156,
+    "LV_row_enable_AND_INV_pairs": 129,
+    "pulse_controller_state_bits": 16,
+    "pulse_controller_timing_quantum_s": 1e-08,
+    "current_sources": 16,
+    "program_supply_limit_A": 0.02,
+    "return_limit_A": 0.04,
+    "precharge_group_limit_A": 0.01,
+    "input_hold_bits": 1024,
+    "target_hold_bits": 128,
+    "weight_hold_bits": 128,
+    "native_frontend_hold_bits": 128,
+    "output_hold_bits": 400,
+    "full_matrix_shadow_bits": 0,
+    "hardware_port_snapshot": {
+      "access_W_m": 3e-06,
+      "access_L_m": 5e-07,
+      "access_C": {
+        "gate_upper_F": 6.118065651041379e-15,
+        "drain_upper_F": 4.2231435517999995e-15,
+        "channel_and_diffusion_area_m2": 7.5e-12
+      },
+      "Poutput_C": {
+        "gate_upper_F": 1.4275486519096554e-14,
+        "drain_upper_F": 9.969242871e-15,
+        "channel_and_diffusion_area_m2": 1.7499999999999998e-11
+      },
+      "HV_read_access_R_bound_ohm": 952.4348329800753,
+      "BL_R_ohm": 16.896,
+      "local_source_R_ohm": 4.224,
+      "shared_source_R_ohm": 0.42239999999999994,
+      "wire_and_source_C_F": 1.2984012667379714e-13,
+      "BL_hot_total_C_F": 6.987872741497971e-13,
+      "BL_low_extra_C_F": 1.2669430655399999e-14,
+      "BL_wire_extra_for_native_F": 1.7089433017479714e-13,
+      "WL_C_F": 8.855124033332964e-13,
+      "LV_decoder_load_F": 6.525936694444138e-13,
+      "levelshift_loaded_s": 4.265837075710271e-09,
+      "levelshift_unloaded": {
+        "rail_V": 5.0,
+        "input_valid_V": 1.0,
+        "NMOS_parallel_per_side": 16,
+        "PMOS_per_side": 1,
+        "control_node_upper_C_F": 4.788476314227931e-13,
+        "input_gate_C_F_each": 6.525936694444138e-13,
+        "switch_after_valid_complementary_inputs_s": 3.541800000000719e-09,
+        "end_nodes_V": [
+          6.954778115395673e-08,
+          4.950001805361964
+        ],
+        "timestep_s": 2e-13,
+        "scope": "Nominalphysicalcross-coupledport withmeasuredgate-floorI-V; beginsafterLVinputsarevalid;LVinputdrivernotincludedinthisnumber",
+        "area_channel_plus_diffusion_m2": 1.635e-09
+      },
+      "HV_WL_rise_s": 1.1370538079509714e-09,
+      "HV_WL_fall_s": 7.100925208685735e-10,
+      "reference_enable_matching_dummy_C_F": 1.024e-13,
+      "HV_return_after_gate_s": 3.259825528926527e-09,
+      "HV_return_ground_upper_V": 0.021012870058751996,
+      "HV_return_peak_group_A": 0.03061315568,
+      "program_access_drop_V": 0.5033854535147393,
+      "material_terminal_compliance_V": 3.982675346485261,
+      "Poutput_current_capacity_A_each": 0.00110058712,
+      "off_current_absolute_instrument_bound_A": 2.3247e-09,
+      "array_area_m2": 1.96608e-07,
+      "raw_geometry_is_measured": true,
+      "scope": "NewfullHV3umaccessarray;actualmeasuredI-V+separateTTcap;notTiSbTe40nmoriginalmacroorPDKcorners"
+    },
+    "native_periphery_area_m2_partial": 1.5438495384e-07,
+    "area_qualification": "RealHVgeometry/passive/controlslisted;nativeareapartialisnotfullmacrolayout;nomatching/gatedriverSTAorPDNsignoff"
+  },
+  "stream_stages": [
+    {
+      "id": "input_accept",
+      "duration_s": 2e-07,
+      "count": 8,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Fullinputhold/local128bitport",
+      "includes": "EverylogicalinputByteonce",
+      "excludes": "Nooffmacrotransport",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "result_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "RealclearAND/control/outputregisters",
+      "includes": "Removesoldrequeststate",
+      "excludes": "Noimplicitzero",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "input_row_select",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Nativeinputrowselection",
+      "includes": "Oneinputbyteperrow",
+      "excludes": "Noextraoperandport",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "allcolumn_binary_read",
+      "duration_s": 4.4548341760746365e-07,
+      "count": 128,
+      "source_class": "adapter",
+      "source_ids": [
+        "READMODEL",
+        "HV",
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "128HVdata+128matchedreferences/128nativevoltageSA",
+      "includes": "HValloff/isolation/address;staggeredrealprecharge;matchedHVenable;coupledRCtimedaperture;nativeSA1/foutput;release",
+      "excludes": "Nooldwholeaccess;noferroelectricmodel;noRRAMprogramming"
+    },
+    {
+      "id": "weight_capture",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Full128bitrowhold",
+      "includes": "Captureall16weightsbefore16localupdates",
+      "excludes": "Nofullmatrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "signed_bitserial_MAC",
+      "duration_s": 2e-07,
+      "count": 2048,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "8native25bitlanes/shift/zero-mask/feedback/keep",
+      "includes": "2outputgroupsx8inputbits;holdrealrowthroughallupdates",
+      "excludes": "Noextra15bitSubArrayarithmetic",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "result_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "Countedstatus",
+      "includes": "Publishheldoutputs",
+      "excludes": "Noextrabytes"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "state_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Actualstatus/retryclear",
+      "includes": "Cleararbitrarypriorfailure",
+      "excludes": "Notcellreset",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "target_row_admission",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bitrowtargethold",
+      "includes": "All16targetweightBytesperrow",
+      "excludes": "Nopayloadduplication",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "program_batch_arming",
+      "duration_s": 2e-07,
+      "count": 2048,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "16bitmask/lanecontrol andHVrow/columnselectors",
+      "includes": "Onewholeclockpreparestabletargetmask/address/railsbeforeeachinclusivepulse;controlbudgetchecked",
+      "excludes": "Notthermalpulseorquench"
+    },
+    {
+      "id": "RESET_complete_waveform",
+      "duration_s": 5e-08,
+      "count": 1024,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "resources": "16source-equivalent0.5mAcurrentlanes",
+      "includes": "Completecharacterizedcurrentwaveformincludingend/quench;HVaccessisoffattheprimitiveendpoint",
+      "excludes": "Noextramaterialtailorfreeverify"
+    },
+    {
+      "id": "SET_complete_waveform",
+      "duration_s": 2e-07,
+      "count": 1024,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "resources": "16source-equivalent0.2mAcurrentlanes/targetmask",
+      "includes": "AllSETslotsreserved,onlytarget1enabled;inclusivewaveformendsatzerocellcurrent",
+      "excludes": "NoMLCiterationbudget"
+    },
+    {
+      "id": "HV_isolated_return",
+      "duration_s": 4e-08,
+      "count": 2048,
+      "source_class": "adapter",
+      "source_ids": [
+        "HV",
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "Actual128HVclamps/16parallel;activeLVpark",
+      "includes": "AftercellcurrentendedandHVaccessoff,drainstoredBLchargeoutsidePCM;all8groupsreturnedbeforerowverify",
+      "excludes": "NotanadditionalPCMtail;doesnotassumereadRathotstate"
+    },
+    {
+      "id": "fullrow_readback",
+      "duration_s": 4.4548341760746365e-07,
+      "count": 128,
+      "source_class": "adapter",
+      "source_ids": [
+        "READMODEL",
+        "HV",
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "Same128SA/references",
+      "includes": "All128physicalbitsofprogrammedrow",
+      "excludes": "Nopayload"
+    },
+    {
+      "id": "verify_capture",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Existing128bitweighthold",
+      "includes": "Holdallreadbackbits",
+      "excludes": "Nofreeverificationbuffer",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "verify_compare",
+      "duration_s": 2e-07,
+      "count": 256,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "8nativebytecomparators/failtree/sticky",
+      "includes": "All128bitscomparedagainstheldrowtargetintwogroups",
+      "excludes": "Noresistance-windowmeasurementorretryprobability",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "Fulllegalclockslotincludesnativecapture;explicitSAstagecontainsits1/fenablephase"
+    },
+    {
+      "id": "row_commit",
+      "duration_s": 2e-07,
+      "count": 128,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "Status/pulsecontroller",
+      "includes": "Onlyacceptedrowcommits;failedmatrixpayloadzero",
+      "excludes": "Noextraweightbytes"
+    }
+  ],
+  "physical_checks": [
+    {
+      "id": "newfullHVidentity",
+      "passed": true,
+      "critical": true,
+      "evidence": "All16384cellaccessesHV3um/.5um;voltage_sensealiasdoesnotcallpolarizationorLVaccessphysics"
+    },
+    {
+      "id": "mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": "Eightphysicalbits/signedweight;all128columnssensed;full128bitstate/weighthold"
+    },
+    {
+      "id": "actual_HV_C",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "C_each_F": 7.185945406726753e-13,
+        "HV_access_C_each_F": 4.2231435517999995e-15
+      }
+    },
+    {
+      "id": "HV_current_and_compliance",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "access_drop_V": 0.5033854535147393,
+        "material_compliance_V": 3.982675346485261,
+        "rated_port_A": 0.02,
+        "capacity_perlane_A": 0.00110058712,
+        "qualification": "Terminalwaveformdeliverywithinthiscomplianceisa finite-successexternalprimitivecondition;notreadRextrapolation"
+      }
+    },
+    {
+      "id": "rated_return",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "peak_A": 0.03061315568,
+        "ground_V": 0.021012870058751996,
+        "return_block_s": 4e-08,
+        "all_hot_accesses_rated": true
+      }
+    },
+    {
+      "id": "lowport_isolation",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "full_drain_coupling_upper_V": 0.9594532370809158,
+        "LVrail_V": 1.3,
+        "physical_low_parking_FETs": 128,
+        "scope": "HVreadisolationOFF+activeLVparkduringhotwrite;allBLclampedbeforeunpark/read;capacitiveupperboundnotfloatingnodeassumption"
+      }
+    },
+    {
+      "id": "read_precharge_budget",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "parallelpairs": 16,
+        "peak_A": 0.006658368959999999,
+        "rail_limit_A": 0.01,
+        "groups": 8,
+        "earlier_groups_remain_on": true,
+        "blank_droop_and_error_upper_V": 0.0026197952603942754,
+        "initial_error_qualified_V": 0.008
+      }
+    },
+    {
+      "id": "read_signal",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "feasible": true,
+        "capture": {
+          "time_s": 1.7220345134991802e-08,
+          "minimum_margin_V": 0.03501116378710728,
+          "contexts": [
+            {
+              "label": "on",
+              "other_R_ohm": 6925.989665960151,
+              "age_s": -1e-09,
+              "nodes_V": [
+                0.07006110134095639,
+                0.00661007009255695,
+                0.10507226512806367
+              ]
+            },
+            {
+              "label": "on",
+              "other_R_ohm": 6925.989665960151,
+              "age_s": 0.0,
+              "nodes_V": [
+                0.07006497770772595,
+                0.006615224941706909,
+                0.10861144702927768
+              ]
+            },
+            {
+              "label": "on",
+              "other_R_ohm": 6925.989665960151,
+              "age_s": 1e-09,
+              "nodes_V": [
+                0.06576642475331425,
+                0.005448255855798504,
+                0.10858186517824979
+              ]
+            },
+            {
+              "label": "on",
+              "other_R_ohm": 2001925.9896659602,
+              "age_s": -1e-09,
+              "nodes_V": [
+                0.06984744939886411,
+                0.19762244611996072,
+                0.10491138207364271
+              ]
+            },
+            {
+              "label": "on",
+              "other_R_ohm": 2001925.9896659602,
+              "age_s": 0.0,
+              "nodes_V": [
+                0.06985133023305097,
+                0.19762251921403556,
+                0.1084505678183751
+              ]
+            },
+            {
+              "label": "on",
+              "other_R_ohm": 2001925.9896659602,
+              "age_s": 1e-09,
+              "nodes_V": [
+                0.06556346834462226,
+                0.1974851991057727,
+                0.10845050429500794
+              ]
+            },
+            {
+              "label": "off",
+              "other_R_ohm": 6925.989665960151,
+              "age_s": -1e-09,
+              "nodes_V": [
+                0.1639119139084974,
+                0.006621416958262944,
+                0.11386167468594231
+              ]
+            },
+            {
+              "label": "off",
+              "other_R_ohm": 6925.989665960151,
+              "age_s": 0.0,
+              "nodes_V": [
+                0.16391265317160325,
+                0.00662699857339605,
+                0.11769384310453704
+              ]
+            },
+            {
+              "label": "off",
+              "other_R_ohm": 6925.989665960151,
+              "age_s": 1e-09,
+              "nodes_V": [
+                0.1623779403091312,
+                0.005460115862544263,
+                0.11766432057768778
+              ]
+            },
+            {
+              "label": "off",
+              "other_R_ohm": 2001925.9896659602,
+              "age_s": -1e-09,
+              "nodes_V": [
+                0.1638654874756258,
+                0.19762260262839196,
+                0.11370079947723763
+              ]
+            },
+            {
+              "label": "off",
+              "other_R_ohm": 2001925.9896659602,
+              "age_s": 0.0,
+              "nodes_V": [
+                0.16386622805019213,
+                0.1976226817741875,
+                0.1175329720575447
+              ]
+            },
+            {
+              "label": "off",
+              "other_R_ohm": 2001925.9896659602,
+              "age_s": 1e-09,
+              "nodes_V": [
+                0.1623315549297012,
+                0.19748536109963793,
+                0.11753296897418705
+              ]
+            }
+          ]
+        },
+        "required_V": 0.034999999999999996,
+        "best_margin_V": 0.03501116378710728,
+        "dt_s": 1.6589927875714434e-11,
+        "state_contexts": 12,
+        "total_C_each_F": 7.185945406726753e-13,
+        "reference_R_total_ohm": 41925.98966596015,
+        "all_columns_sensed": 128,
+        "unselected_row_leak_per_column_upper_A": 2.952369e-07,
+        "domain": "Sourceacceptedworkingcellwindows;small-readpassivenetwork/HVaccessRonbound;finiteenableandprechargeconditions;nostatisticalyield."
+      }
+    },
+    {
+      "id": "control_and_clock",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "HVcontrol_s": 2.8177292445653086e-08,
+        "arming_clock_s": 2e-07,
+        "digital_required_s": 1.5816783243683344e-07
+      }
+    },
+    {
+      "id": "sourcepulse_domain",
+      "passed": true,
+      "critical": true,
+      "evidence": "SameTiSbTesourceplateaupolicies;waveformsareinclusiveandtailisnotaddedagain"
+    },
+    {
+      "id": "fullcover_and_failed_payload",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "success": {
+          "status": "success",
+          "payload_Byte": 2048,
+          "verified_bits": 16384,
+          "reset_batches": 1024,
+          "set_reserved_batches": 1024,
+          "committed_rows": 128,
+          "max_row_target_hold_bits": 128,
+          "model_scope": "Nominal accepted-state transitions only; binary readback does not certify resistance windows"
+        },
+        "failure": {
+          "status": "failed_attempt_budget",
+          "payload_Byte": 0,
+          "failed_row": 64,
+          "failed_bits": [
+            7
+          ],
+          "verified_bits": 8320,
+          "reset_batches": 520,
+          "set_reserved_batches": 520,
+          "committed_rows_before_failure": 64,
+          "model_scope": "Nominal accepted-state transitions with explicit injected fault; no stochastic switching prediction"
+        }
+      }
+    },
+    {
+      "id": "signed_mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "outputs": [
+          24576,
+          -8000,
+          24704,
+          24640,
+          -8192,
+          -8256,
+          24448,
+          -8128,
+          -8192,
+          -8256,
+          -8320,
+          -40896,
+          24576,
+          -8000,
+          -8064,
+          -8128
+        ],
+        "qualification": "NominalbinaryINT8/25bit arithmetic, notanalogENOB"
+      }
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "required_s": 1.5816783243683344e-07
+      }
+    }
+  ],
+  "conditions": [
+    "ThisisnewallHV130access/128SAhardware;old45nmLVread-onlyidentityanditsresidentBLOCKEDreviewremainunchanged.",
+    "ActualSKY130N3/.5,P7/.5,N20/.5I-VandseparateTTgeometricC;no measuredjointprocesscornerorTiSbTe/HVsamechipreplica.",
+    "TiSbTecellsarequalifiedworkingendpointsON5..20k/OFF200k..2M;binaryverifydoesnotprovewindoworarrayyield.",
+    "Source-equivalent0.5mA/0.2mAinclusivewaveforms mustbedeliveredatthecellwithincomputed3.98Vcompliance;thermalquench/end-gateoffareincludedinthatexternalprimitivecondition,notpredictedfromcoldR.",
+    "SourcedHVdriver/return I/Cbudgetsandconservativeblockscloseratedhotpaths;fullswitchingcontrolSTAandcurrent-feedbacktransientsarenotclaimed.",
+    "Read0.2V/±8mVinitial/±1nsenable and35mVrequiredsignalarefiniteengineeringconditions;nativeSA30mVwith5mVremainingerrorbudgetisnotmeasurednoiseorENOB.",
+    "ExistingwaveformcontrollerissharedbyprogramandtimedreadSAenable;readisnotanalways-enabledlatchduringprecharge. 10nscontrolbudgetisattributedtothisexternalcontroller,not200nsdigitalMACclock.",
+    "Allreadcolumncapacitorsarechargedbeforecommonactivation;earlierprechargegroupsremainconnecteduntilrelease. HVaccessisoffbeforepostprogramclamps,preventingreheatthroughPCM.",
+    "Localpostprogramserviceonly;longtermdrift/recalibrationandstochasticyielduncharacterized."
+  ],
+  "diagnostics": {
+    "read_network": {
+      "feasible": true,
+      "capture": {
+        "time_s": 1.7220345134991802e-08,
+        "minimum_margin_V": 0.03501116378710728,
+        "contexts": [
+          {
+            "label": "on",
+            "other_R_ohm": 6925.989665960151,
+            "age_s": -1e-09,
+            "nodes_V": [
+              0.07006110134095639,
+              0.00661007009255695,
+              0.10507226512806367
+            ]
+          },
+          {
+            "label": "on",
+            "other_R_ohm": 6925.989665960151,
+            "age_s": 0.0,
+            "nodes_V": [
+              0.07006497770772595,
+              0.006615224941706909,
+              0.10861144702927768
+            ]
+          },
+          {
+            "label": "on",
+            "other_R_ohm": 6925.989665960151,
+            "age_s": 1e-09,
+            "nodes_V": [
+              0.06576642475331425,
+              0.005448255855798504,
+              0.10858186517824979
+            ]
+          },
+          {
+            "label": "on",
+            "other_R_ohm": 2001925.9896659602,
+            "age_s": -1e-09,
+            "nodes_V": [
+              0.06984744939886411,
+              0.19762244611996072,
+              0.10491138207364271
+            ]
+          },
+          {
+            "label": "on",
+            "other_R_ohm": 2001925.9896659602,
+            "age_s": 0.0,
+            "nodes_V": [
+              0.06985133023305097,
+              0.19762251921403556,
+              0.1084505678183751
+            ]
+          },
+          {
+            "label": "on",
+            "other_R_ohm": 2001925.9896659602,
+            "age_s": 1e-09,
+            "nodes_V": [
+              0.06556346834462226,
+              0.1974851991057727,
+              0.10845050429500794
+            ]
+          },
+          {
+            "label": "off",
+            "other_R_ohm": 6925.989665960151,
+            "age_s": -1e-09,
+            "nodes_V": [
+              0.1639119139084974,
+              0.006621416958262944,
+              0.11386167468594231
+            ]
+          },
+          {
+            "label": "off",
+            "other_R_ohm": 6925.989665960151,
+            "age_s": 0.0,
+            "nodes_V": [
+              0.16391265317160325,
+              0.00662699857339605,
+              0.11769384310453704
+            ]
+          },
+          {
+            "label": "off",
+            "other_R_ohm": 6925.989665960151,
+            "age_s": 1e-09,
+            "nodes_V": [
+              0.1623779403091312,
+              0.005460115862544263,
+              0.11766432057768778
+            ]
+          },
+          {
+            "label": "off",
+            "other_R_ohm": 2001925.9896659602,
+            "age_s": -1e-09,
+            "nodes_V": [
+              0.1638654874756258,
+              0.19762260262839196,
+              0.11370079947723763
+            ]
+          },
+          {
+            "label": "off",
+            "other_R_ohm": 2001925.9896659602,
+            "age_s": 0.0,
+            "nodes_V": [
+              0.16386622805019213,
+              0.1976226817741875,
+              0.1175329720575447
+            ]
+          },
+          {
+            "label": "off",
+            "other_R_ohm": 2001925.9896659602,
+            "age_s": 1e-09,
+            "nodes_V": [
+              0.1623315549297012,
+              0.19748536109963793,
+              0.11753296897418705
+            ]
+          }
+        ]
+      },
+      "required_V": 0.034999999999999996,
+      "best_margin_V": 0.03501116378710728,
+      "dt_s": 1.6589927875714434e-11,
+      "state_contexts": 12,
+      "total_C_each_F": 7.185945406726753e-13,
+      "reference_R_total_ohm": 41925.98966596015,
+      "all_columns_sensed": 128,
+      "unselected_row_leak_per_column_upper_A": 2.952369e-07,
+      "domain": "Sourceacceptedworkingcellwindows;small-readpassivenetwork/HVaccessRonbound;finiteenableandprechargeconditions;nostatisticalyield."
+    },
+    "hardware": {
+      "access_W_m": 3e-06,
+      "access_L_m": 5e-07,
+      "access_C": {
+        "gate_upper_F": 6.118065651041379e-15,
+        "drain_upper_F": 4.2231435517999995e-15,
+        "channel_and_diffusion_area_m2": 7.5e-12
+      },
+      "Poutput_C": {
+        "gate_upper_F": 1.4275486519096554e-14,
+        "drain_upper_F": 9.969242871e-15,
+        "channel_and_diffusion_area_m2": 1.7499999999999998e-11
+      },
+      "HV_read_access_R_bound_ohm": 952.4348329800753,
+      "BL_R_ohm": 16.896,
+      "local_source_R_ohm": 4.224,
+      "shared_source_R_ohm": 0.42239999999999994,
+      "wire_and_source_C_F": 1.2984012667379714e-13,
+      "BL_hot_total_C_F": 6.987872741497971e-13,
+      "BL_low_extra_C_F": 1.2669430655399999e-14,
+      "BL_wire_extra_for_native_F": 1.7089433017479714e-13,
+      "WL_C_F": 8.855124033332964e-13,
+      "LV_decoder_load_F": 6.525936694444138e-13,
+      "levelshift_loaded_s": 4.265837075710271e-09,
+      "levelshift_unloaded": {
+        "rail_V": 5.0,
+        "input_valid_V": 1.0,
+        "NMOS_parallel_per_side": 16,
+        "PMOS_per_side": 1,
+        "control_node_upper_C_F": 4.788476314227931e-13,
+        "input_gate_C_F_each": 6.525936694444138e-13,
+        "switch_after_valid_complementary_inputs_s": 3.541800000000719e-09,
+        "end_nodes_V": [
+          6.954778115395673e-08,
+          4.950001805361964
+        ],
+        "timestep_s": 2e-13,
+        "scope": "Nominalphysicalcross-coupledport withmeasuredgate-floorI-V; beginsafterLVinputsarevalid;LVinputdrivernotincludedinthisnumber",
+        "area_channel_plus_diffusion_m2": 1.635e-09
+      },
+      "HV_WL_rise_s": 1.1370538079509714e-09,
+      "HV_WL_fall_s": 7.100925208685735e-10,
+      "reference_enable_matching_dummy_C_F": 1.024e-13,
+      "HV_return_after_gate_s": 3.259825528926527e-09,
+      "HV_return_ground_upper_V": 0.021012870058751996,
+      "HV_return_peak_group_A": 0.03061315568,
+      "program_access_drop_V": 0.5033854535147393,
+      "material_terminal_compliance_V": 3.982675346485261,
+      "Poutput_current_capacity_A_each": 0.00110058712,
+      "off_current_absolute_instrument_bound_A": 2.3247e-09,
+      "array_area_m2": 1.96608e-07,
+      "raw_geometry_is_measured": true,
+      "scope": "NewfullHV3umaccessarray;actualmeasuredI-V+separateTTcap;notTiSbTe40nmoriginalmacroorPDKcorners"
+    },
+    "control_raw_s": 2.8177292445653086e-08,
+    "control_block_s": 3.0000000000000004e-08,
+    "return_raw_s": 3.143711797457961e-08,
+    "return_block_s": 4e-08,
+    "precharge_RC_s": 8.601052778864581e-09,
+    "precharge_group_s": 2e-08,
+    "precharge_total_s": 1.6e-07,
+    "read_blank_s": 5.402890883661242e-09,
+    "read_develop_counted_s": 2e-08,
+    "native_SA_s": 2.0008052672380242e-07,
+    "complete_read_s": 4.4548341760746365e-07,
+    "counts": {
+      "program_batches_per_direction": 1024,
+      "physical_binary_reads_stream": 128,
+      "physical_binary_reads_verify": 128,
+      "verify_comparison_groups": 256,
+      "MACupdates": 2048
+    },
+    "fullcover": {
+      "status": "success",
+      "payload_Byte": 2048,
+      "verified_bits": 16384,
+      "reset_batches": 1024,
+      "set_reserved_batches": 1024,
+      "committed_rows": 128,
+      "max_row_target_hold_bits": 128,
+      "model_scope": "Nominal accepted-state transitions only; binary readback does not certify resistance windows"
+    },
+    "failed_fullcover": {
+      "status": "failed_attempt_budget",
+      "payload_Byte": 0,
+      "failed_row": 64,
+      "failed_bits": [
+        7
+      ],
+      "verified_bits": 8320,
+      "reset_batches": 520,
+      "set_reserved_batches": 520,
+      "committed_rows_before_failure": 64,
+      "model_scope": "Nominal accepted-state transitions with explicit injected fault; no stochastic switching prediction"
+    }
+  }
+}

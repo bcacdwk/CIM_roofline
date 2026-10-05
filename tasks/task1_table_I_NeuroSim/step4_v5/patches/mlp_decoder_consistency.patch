@@ -1,0 +1,71 @@
+--- a/RowDecoder.cpp
++++ b/RowDecoder.cpp
+@@ -95,6 +95,15 @@
+ 		double hInv, wInv, hNand, wNand, hNor, wNor, hDriverInv, wDriverInv;
+ 		// INV
+ 		CalculateGateArea(INV, 1, widthInvN, widthInvP, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hInv, &wInv);
++        // V5 one-address selection uses an actual complementary two-inverter path.
++        // There is no NAND/NOR predecode or unmodelled enable chain in this case.
++        if (numAddrRow == 1) {
++            height = hInv; width = 2*wInv; area = height*width;
++            CalculateGateCapacitance(INV,1,widthInvN,widthInvP,hInv,tech,&capInvInput,&capInvOutput);
++            capNandInput=capNandOutput=capNorInput=capNorOutput=0;
++            capDriverInvInput=capInvInput;capDriverInvOutput=capInvOutput;
++            return;
++        }
+ 		// NAND2
+ 		CalculateGateArea(NAND, 2, widthNandN, widthNandP, tech.featureSize*MAX_TRANSISTOR_HEIGHT, tech, &hNand, &wNand);
+ 		// NOR (ceil(N/2) inputs)
+@@ -251,10 +260,19 @@
+ 		double rampNandOutput = 1e20;
+ 		double rampNorOutput = 1e20;
+ 		
++        if (numAddrRow == 1) {
++            double resistance = MAX(CalculateOnResistance(widthInvN,NMOS,inputParameter.temperature,tech),
++                                    CalculateOnResistance(widthInvP,PMOS,inputParameter.temperature,tech));
++            double first = horowitz(resistance*(capInvOutput+capInvInput+capLoad1),0,rampInput,&rampInvOutput);
++            double second = horowitz(resistance*(capInvOutput+capLoad2),0,rampInvOutput,&rampOutput);
++            readLatency=(first+second)*numRead;
++            writeLatency=(first+second)*numWrite;
++            return;
++        }
+ 		// INV
+ 		resPullDown = CalculateOnResistance(widthInvN, NMOS, inputParameter.temperature, tech);	// doesn't matter pullup/pulldown?
+ 		if (numNand)
+-			tr = resPullDown * (capInvOutput + capNandInput * 2);	// one address line connects to 2 NAND inputs
++			tr = resPullDown * (capInvOutput + MAX(capNandInput * 2, (numAddrRow%2 && numNor) ? capNorInput * numNor/2 : 0));	// one address line connects to 2 NAND inputs
+ 		else
+ 			tr = resPullDown * (capInvOutput + capLoad1);
+ 		gm = CalculateTransconductance(widthInvN, NMOS, tech);
+@@ -270,7 +288,7 @@
+ 			if (numNor)
+ 				tr = resPullDown * (capNandOutput + capNorInput * numNor/4);
+ 			else
+-				tr = resPullDown * (capNandOutput + capLoad1);
++				tr = resPullDown * (capNandOutput + (MUX ? capNandInput : capDriverInvInput));
+ 			gm = CalculateTransconductance(widthNandN, NMOS, tech);
+ 			beta = 1 / (resPullDown * gm);
+ 			readLatency += horowitz(tr, beta, rampInvOutput, &rampNandOutput);
+@@ -280,11 +298,11 @@
+ 		
+ 		// NOR (ceil(N/2) inputs)
+ 		if (numNor) {
+-			resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * 2;
++			resPullUp = CalculateOnResistance(widthNorP, PMOS, inputParameter.temperature, tech) * (int)ceil((double)numAddrRow/2);
+ 			if (MUX)
+ 				tr = resPullUp * (capNorOutput + capNandInput);
+ 			else
+-				tr = resPullUp * (capNorOutput + capInvInput);
++				tr = resPullUp * (capNorOutput + capDriverInvInput);
+ 			gm = CalculateTransconductance(widthNorP, PMOS, tech);
+ 			beta = 1 / (resPullUp * gm);
+ 			readLatency += horowitz(tr, beta, rampNandOutput, &rampNorOutput);
+@@ -293,7 +311,7 @@
+ 		// Output driver or Mux enable circuit
+ 		if (MUX) {	// Mux enable circuit (NAND + INV) + INV
+ 			// 1st NAND
+-			resPullDown = CalculateOnResistance(widthNandN, NMOS, inputParameter.temperature, tech);
++			resPullDown = CalculateOnResistance(widthNandN, NMOS, inputParameter.temperature, tech) * 2;
+ 			tr = resPullDown * (capNandOutput + capInvInput);
+ 			gm = CalculateTransconductance(widthNandN, NMOS, tech);
+ 			beta = 1 / (resPullDown * gm);

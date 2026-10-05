@@ -1,0 +1,916 @@
+{
+  "status": "ready_for_review",
+  "source_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005",
+  "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+  "computational_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/nor2d/inputs.json": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+    "cases/nor2d/case_adapter.py": "ed1bafbad889772e8c09ffb318283b2ed4d39a34273425ed170fc201fdb72bcb",
+    "cases/nor2d/threshold_model.py": "ebb03cb99b71bbeede5d2adffd6fc45ac5a8ab078e90c20b8b5681e5693ad0e5",
+    "cases/nor2d/read_network.py": "46049460b7392af3e518a9670a1340f501c3ca2cedd436579c3a5957a7c3d7ad",
+    "cases/nor2d/transfer_samples.json": "4bb058983b3c4473c61cacf455237a132b47d6d63b618cd6d18b4c32266e19aa",
+    "threshold_probe.py": "101c9797230b68cfbc28b697b07f82c671b1ff07612997f2064036667a1ba321",
+    "src/threshold_port_probe.cpp": "b42bc26267dcf4e2708779e77027a5a3c469d129c887865f6714d2d560856550",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+    "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+  },
+  "result": {
+    "case_id": "nor2d",
+    "implementation_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1",
+    "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__reference",
+    "scenario": "reference",
+    "status": "conditional",
+    "review_state": "not_reviewed",
+    "K": 256,
+    "N": 16,
+    "B_S_Byte": 256,
+    "B_R_Byte": 4096,
+    "single_latency_s": 0.0013859999999999999,
+    "delta_S_raw_s": 0.0013859999999999999,
+    "resident_s": 0.052077656,
+    "rho_MB_per_s": 0.18470418470418473,
+    "tau_MB_per_s": 0.07865177342083138,
+    "RI_star": 2.348379148629149,
+    "U_star": 37.574066378066384,
+    "range_meaning": "Fixedhardware1.2VreadgatewithtypPEpolicy;typisproductlabelnotmedianESF1",
+    "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005",
+    "component_bindings": {
+      "frontend": {
+        "kind": "threshold",
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "-B",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/canonical/threshold_probe.py",
+          "--request",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/frontend-request.json",
+          "--root",
+          "/Users/shine/neurosim",
+          "--run-id",
+          "nor2d-nor2d-final-reference-r2-20261005-frontend"
+        ],
+        "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-final-reference-r2-20261005-frontend",
+        "source_manifest_sha256": "017edbc35bae2d724a7b751c2567342c697304ef1306c07ab63eaf7a2261045f",
+        "request_sha256": "a66e39ef0861a3d4030b62ae6b631ea69976d7420658511411b638ccc76a88eb"
+      },
+      "digital": {
+        "kind": "digital",
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "-B",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/canonical/digital_probe.py",
+          "--request",
+          "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-final-reference-r2-20261005/digital-request.json",
+          "--root",
+          "/Users/shine/neurosim",
+          "--run-id",
+          "nor2d-nor2d-final-reference-r2-20261005-digital"
+        ],
+        "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-final-reference-r2-20261005-digital",
+        "source_manifest_sha256": "c2df2865676a79892cc6e18dc4851a5f05844f7354667e2196e05a8c84560b58",
+        "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+      }
+    },
+    "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8"
+  },
+  "native_components": {
+    "frontend": {
+      "actual_gate_load_F": 1.8160834201925222e-13,
+      "actual_BL_load_F": 4.178594993637709e-12,
+      "actual_SL_load_F": 1.2318584699928345e-11,
+      "active_layer_count": 1.0,
+      "layer_count": 1.0,
+      "capacity_cells": 32768.0,
+      "native_gate_driver_compatible": 1.0,
+      "actual_native_gate_rail_V": 1.3,
+      "requested_gate_rail_V": 1.2,
+      "native_select_s": 1.0689206328507207e-08,
+      "native_mux_select_s": 4.364475018935204e-08,
+      "native_mux_s": 1.933409422595005e-08,
+      "native_sense_endpoint_diagnostic_s": 4.1939511388859343e-07,
+      "native_sense_precharge_s": 8.561098493123669e-11,
+      "native_sense_control_s": 4e-07,
+      "native_sense_node_cap_F": 4.20720211731622e-12,
+      "native_sense_count": 64.0,
+      "native_hold_bits": 128.0,
+      "native_hold_s": 1e-07,
+      "actual_mux_target_ohm": 1000.0,
+      "actual_mux_width_n_m": 3.3288992351180585e-06,
+      "actual_mux_width_p_m": 6.642335766423359e-06,
+      "native_Ioff_N_A_per_m": 0.0001002,
+      "native_Ioff_P_A_per_m": 0.0001002,
+      "native_vth_V": 0.4660949,
+      "native_Ion_N_A_per_m": 300.7,
+      "native_Ion_P_A_per_m": 150.7,
+      "native_gate_address_s": 1.0689206328507207e-08,
+      "gate_enable_control_s": 1.6607036780444281e-09,
+      "gate_enable_NAND_s": 7.198091481909669e-10,
+      "gate_driver_width_n_m": 4.16e-06,
+      "gate_driver_width_p_m": 8.300676841406769e-06,
+      "gate_driver_input_cap_F": 3.9649178403588594e-14,
+      "gate_driver_output_cap_F": 3.7222243702549874e-15,
+      "gate_driver_R_n_ohm": 1600.4323245759897,
+      "gate_driver_R_p_bias_ohm": 1818.50307031355,
+      "gate_rise_tau_s": 3.370242040022681e-10,
+      "gate_fall_tau_s": 2.9660902918174383e-10,
+      "gate_enable_area_m2": 4.159144079999999e-09,
+      "gate_global_enable_load_F": 8.660016496112119e-13,
+      "reference_first_INV_input_F": 1.9824589201794297e-14,
+      "actual_mux_drain_F": 8.605011835349087e-15,
+      "actual_mux_gate_n_F": 1.0592371613568344e-14,
+      "actual_mux_gate_p_F": 2.1135541766423366e-14,
+      "precharge_PMOS_width_m": 2.08e-06,
+      "precharge_PMOS_R_bias_ohm": 9975.623425638261,
+      "precharge_PMOS_drain_F": 1.084372103336843e-15,
+      "precharge_PMOS_gate_F": 6.618443936000001e-15,
+      "precharge_control_s": 1.6431030124581885e-09,
+      "precharge_count": 128.0,
+      "precharge_voltage_V": 1.0,
+      "precharge_error_fraction": 0.002,
+      "precharge_data_lumped_RC_s": 2.869698831977266e-07,
+      "precharge_reference_lumped_RC_s": 2.608237708477542e-07,
+      "precharge_bias_compatible": 1.0,
+      "reference_TG_width_n_m": 3.3288992351180585e-06,
+      "reference_TG_width_p_m": 6.642335766423359e-06,
+      "reference_TG_nominal_R_ohm": 1000.0,
+      "reference_TG_R_n_native_ohm": 2000.0,
+      "reference_TG_R_p_native_ohm": 2000.0,
+      "reference_TG_drain_each_side_F": 8.605011835349087e-15,
+      "reference_TG_gate_n_F": 1.0592371613568344e-14,
+      "reference_TG_gate_p_F": 2.1135541766423366e-14,
+      "reference_TG_P_gate_fall_tau_s": 4.401558944746753e-09,
+      "reference_TG_N_gate_rise_tau_s": 2.1782784375216235e-09,
+      "reference_TG_N_gate_delay_s": 3.0370756718752594e-09,
+      "reference_TG_control_s": 4.54008779376518e-09,
+      "reference_TG_count": 64.0,
+      "reference_TG_area_m2": 7.032495476174668e-10,
+      "reference_capacitor_node_total_F": 4.20720211731622e-12,
+      "reference_internal_initial_V": 0.0,
+      "reference_match_cap_F": 4.195805017308408e-12,
+      "reference_match_feasible": 1.0,
+      "native_periphery_area_m2": 2.665122560285239e-08,
+      "sense_current_high_A": 4.3960406157691995e-06,
+      "sense_current_low_A": 3.8391288071298636e-08,
+      "probe_only": 1.0
+    },
+    "digital": {
+      "input_ingress_beats": 16.0,
+      "input_ingress_select_s": 8.109927701322309e-09,
+      "input_ingress_area_m2": 1.533168e-08,
+      "target_ingress_beats": 1.0,
+      "target_ingress_select_s": 1.4674635179162552e-10,
+      "target_ingress_area_m2": 9.206579199999998e-10,
+      "weight_ingress_beats": 2.0,
+      "weight_ingress_select_s": 3.6447658175122283e-09,
+      "weight_ingress_area_m2": 9.278505599999999e-10,
+      "input_rows": 256.0,
+      "input_cols": 128.0,
+      "logical_K": 256.0,
+      "logical_N": 16.0,
+      "accumulator_bits": 25.0,
+      "extra_25bit_adder_lanes": 8.0,
+      "input_hold_bits": 2048.0,
+      "target_hold_bits": 128.0,
+      "weight_hold_bits": 128.0,
+      "weight_hold_rows": 1.0,
+      "weight_hold_outputs": 16.0,
+      "signed_output_hold_bits": 400.0,
+      "input_capture_s": 1e-07,
+      "target_hold_capture_s": 1e-07,
+      "weight_hold_capture_s": 1e-07,
+      "signed_capture_s": 1e-07,
+      "input_row_capture_s": 1e-07,
+      "input_row_select_s": 1.1122572627882843e-08,
+      "input_bit_select_s": 4.0252909356031894e-08,
+      "weight_group_select_s": 7.945560410571192e-09,
+      "weight_row_select_s": 0.0,
+      "weight_keep_s": 1.4674635179162552e-10,
+      "extra_shifted_weight_mux_s": 3.0453358725317937e-10,
+      "extra_shift_select_s": 2.248612536625192e-08,
+      "group_select_s": 2.4756002089315267e-08,
+      "data_zero_mask_s": 1.88498777280063e-10,
+      "extra_accumulator_feedback_mux_s": 4.992068982235556e-10,
+      "extra_25bit_adder_s": 1.4871781033309138e-08,
+      "signed_correction_s": 3.807206374284407e-08,
+      "add_sub_result_select_s": 1.8363242730044785e-10,
+      "accumulator_keep_s": 3.86811914960238e-10,
+      "verify_target_select_s": 2.5060535676568446e-08,
+      "verify_data_select_s": 7.945560410571192e-09,
+      "verify_byte_compare_s": 1.287855496617176e-08,
+      "verify_fail_reduce_s": 1.0467493248735151e-09,
+      "verify_sticky_or_s": 2.1719800821490175e-10,
+      "verify_status_capture_s": 1e-07,
+      "program_target_select_s": 2.4656825653784093e-09,
+      "program_target_mask_logic_s": 9.400067051559365e-11,
+      "retry_increment_s": 1.2189698953399345e-09,
+      "retry_state_capture_s": 1e-07,
+      "state_clear_bits": 403.0,
+      "state_clear_s": 1.0213772648958701e-07,
+      "state_clear_comb_s": 2.1377264895870116e-09,
+      "state_clear_gates": 808.0,
+      "data_zero_mask_gates": 400.0,
+      "weight_sign_extension_max_fanout": 116.0,
+      "digital_mac_comb_s": 7.908391621841672e-08,
+      "digital_verify_comb_s": 3.920303797582863e-08,
+      "digital_critical_comb_s": 7.908391621841672e-08,
+      "digital_halfcycle_min_period_s": 1.5816783243683344e-07,
+      "digital_clock_budget_satisfied": 1.0,
+      "native_digital_area_m2": 2.0124561911999997e-07,
+      "native_vdd_V": 1.3,
+      "native_vth_V": 0.4660949,
+      "component_only": 1.0
+    }
+  },
+  "resources": {
+    "physical_data_bits": 32768,
+    "physical_shape": [
+      256,
+      128
+    ],
+    "logical_payload_Byte": 4096,
+    "SA_count": 64,
+    "reference_TGs": 64,
+    "reference_resistors": 64,
+    "reference_R_ohm": 600000.0,
+    "reference_match_C_each_F": 4.195805017308408e-12,
+    "reference_internal_C_each_F": 8.605011835349087e-15,
+    "reference_off_leak_A_each": 9.9911774715445e-10,
+    "reference_internal_initial_upper_V": 0.000599551677541278,
+    "data_extra_integration_cap_each_F": 4e-12,
+    "data_extra_integration_caps": 128,
+    "precharge_PMOS_count": 128,
+    "precharge_supply_limit_A": 0.02,
+    "all_WL_off_gate_rows": 256,
+    "native_gate_enable_area_m2": 4.159144079999999e-09,
+    "input_hold_bits": 2048,
+    "weight_hold_bits": 128,
+    "target_hold_bits": 128,
+    "signed_output_hold_bits": 400,
+    "MAC_lanes": 8,
+    "full_matrix_shadow_bits": 0,
+    "external_PE_page_buffer_bits": 2048,
+    "engine_physical_sector_Byte": 4096,
+    "resident_SPI_data_lanes": 1,
+    "resident_SPI_Hz": 50000000.0,
+    "geometry": {
+      "cell_gate_C_F": 1.118815172025408e-15,
+      "cell_drain_C_F": 3.7476149596949297e-16,
+      "cell_source_C_F": 3.7476149596949297e-16,
+      "junction_depletion_m": 9.514284128875668e-08,
+      "gate_load_F": 1.8160834201925222e-13,
+      "BL_load_F": 4.178594993637709e-12,
+      "SL_load_F": 1.2318584699928345e-11,
+      "BL_R_ohm": 3072.0,
+      "source_common_R_ohm": 1.056,
+      "source_column_R_ohm": 13.516799999999998,
+      "source_BL_coupling_F": 2.121605066951885e-14,
+      "array_width_m": 0.000192,
+      "array_height_m": 0.0003072,
+      "array_area_m2": 5.89824e-08,
+      "area_gate_plus_two_diffusion_m2": 6e-13,
+      "cell_pitch_area_m2": 1.8e-12,
+      "C_qualification": "Engineering parallel-plate/depletion/overlap/sidewall compact geometry. EOT/doping/pitch are not ESF1 extracted values or measured capacitances."
+    },
+    "native_frontend_unused_hold_bits": 128,
+    "native_frontend_hold_scope": "Allocatedbyperipheryprobeandarea-paid,butactualcompleteMACusesseparatedigitalweightHold;noextraunbilledstorage",
+    "native_frontend_area_m2": 2.665122560285239e-08,
+    "native_digital_area_m2": 2.0124561911999997e-07,
+    "area_qualification": "Nativepartialareaexcludesexplicitpassivecapacitor/resistorlayoutsandopaqueHVPEengine;notcompleteequalareamacrocomparison"
+  },
+  "stream_stages": [
+    {
+      "id": "input_admission",
+      "duration_s": 2e-07,
+      "count": 16,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "2048bitinputhold/128bitlocalport",
+      "includes": "All256logicalinputBytesacceptedinnativeingressclockslots",
+      "excludes": "NoexternalDRAM",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "OnefulllegalclockslotincludescorrespondingnativeDFFhalfcycle;notdoublebilled"
+    },
+    {
+      "id": "clear_output_status",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "RealclearAND/control400bitoutputs/status/retry",
+      "includes": "Clearoldrequestdatausingnativehardware",
+      "excludes": "Noimplicitzeroinitialstate",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "OnefulllegalclockslotincludescorrespondingnativeDFFhalfcycle;notdoublebilled"
+    },
+    {
+      "id": "input_row_selection",
+      "duration_s": 2e-07,
+      "count": 256,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Nativeinputrowselector/8bitrowhold",
+      "includes": "Onebyteheldperlogicalrow",
+      "excludes": "Not8independentinputports",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "OnefulllegalclockslotincludescorrespondingnativeDFFhalfcycle;notdoublebilled"
+    },
+    {
+      "id": "physical_binary_frontend",
+      "duration_s": 8e-07,
+      "count": 512,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "MODEL",
+        "DESIGN"
+      ],
+      "resources": "128physicalcolumns/64dataSA+64matchedreferencebranches",
+      "includes": "AllWL/refOFF,address/MUX,PMOSprecharge,realreferenceinternalreset,PMOSoff,finitegate/refdevelopment,thresholdlatch,nativeSAoutputphase,release,clockalignment",
+      "excludes": "NoRRAMreadfrontorold100/120/130ns;nativeclockprechargephasecountedonce"
+    },
+    {
+      "id": "weight_capture",
+      "duration_s": 2e-07,
+      "count": 512,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bitrowholdwithpartial64bitcapture/feedbackkeeps",
+      "includes": "Retainrealrowbitgroupsfor8input-bitMACupdates",
+      "excludes": "Nofullmatrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "OnefulllegalclockslotincludescorrespondingnativeDFFhalfcycle;notdoublebilled"
+    },
+    {
+      "id": "eight_input_bit_MAC",
+      "duration_s": 2e-07,
+      "count": 4096,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "8native25bitadd/sub/shift/zero-mask/groupkeep/16outputholds",
+      "includes": "Sevenpositiveandoneinput-signupdates;weightbit7signextends;fulllegalfeedbackclock",
+      "excludes": "NoextraunsignedSubArrayarithmetic",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "OnefulllegalclockslotincludescorrespondingnativeDFFhalfcycle;notdoublebilled"
+    },
+    {
+      "id": "result_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "existingstatusregister",
+      "includes": "Resultsalreadyheld;publishready",
+      "excludes": "Nooffdomaintransport"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "resident_state_clear",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "Actualstatus/retry/outputs",
+      "includes": "Clearsarbitrarypriorcontrolflagsbeforeadmission",
+      "excludes": "Doesnoterasecells",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "OnefulllegalclockslotincludescorrespondingnativeDFFhalfcycle;notdoublebilled"
+    },
+    {
+      "id": "SPI_data_reception",
+      "duration_s": 2e-08,
+      "count": 32768,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "NOR-02-IO"
+      ],
+      "resources": "Source3VsingleDI/CLK/CSportandactual256Bytepagebuffer",
+      "includes": "All4096logicalBytesclockedexactlyoncein16pagewindows",
+      "excludes": "Noencodingpayloadduplication"
+    },
+    {
+      "id": "SPI_commands_status",
+      "duration_s": 2e-08,
+      "count": 952,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "NOR-02-IO"
+      ],
+      "resources": "WREN/address/opcode/statuscommands",
+      "includes": "17WREN,one32bitsectorcommand,16page32bitheaders,17opcode+status16bitcompletions",
+      "excludes": "NotinternaltPP/tSE"
+    },
+    {
+      "id": "SPI_transaction_boundaries",
+      "duration_s": 5.6e-08,
+      "count": 51,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "NOR-02-IO"
+      ],
+      "resources": "ActualCSboundary",
+      "includes": "50nsdeselectplus3nssetup/3nsholdpertransaction",
+      "excludes": "Noarraypulse"
+    },
+    {
+      "id": "full_sector_erase",
+      "duration_s": 0.045,
+      "count": 1,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "NOR-02"
+      ],
+      "resources": "Onecompleteallocated4KiBsectorengine",
+      "includes": "Arbitraryoldstate-toerasedFF;selftimedHVengine/pulse/verify/recoveryuntilBUSY0",
+      "excludes": "SPIingressandcustomreadexcluded;notESF1guarantee"
+    },
+    {
+      "id": "full_page_program",
+      "duration_s": 0.0004,
+      "count": 16,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "NOR-02"
+      ],
+      "resources": "Onecomplete256Bytepageengine/realpagebuffer",
+      "includes": "All16completepagewritesincludinginternalprogram/verify/HVreturnuntilreadready;eachpagebufferreusedonlyaftercompletion",
+      "excludes": "Noadditionalpulse/verify/recoveryfee;noexpectedretry"
+    },
+    {
+      "id": "matrix_ready",
+      "duration_s": 2e-07,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "Existingmatrixstatus",
+      "includes": "Publishonlyafterall16pagesandBUSY0;newreadfrontendisincompatiblewithHVmodeandremainsoffuntilenginehandsbackreadsafeports",
+      "excludes": "Noextraweightpayload"
+    }
+  ],
+  "physical_checks": [
+    {
+      "id": "one_authority",
+      "passed": true,
+      "critical": true,
+      "evidence": "Oneauthoritativebias/errorinputfeedsnativeprechargeandcaseinitialstates"
+    },
+    {
+      "id": "geometryfits",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "cell_gate_C_F": 1.118815172025408e-15,
+        "cell_drain_C_F": 3.7476149596949297e-16,
+        "cell_source_C_F": 3.7476149596949297e-16,
+        "junction_depletion_m": 9.514284128875668e-08,
+        "gate_load_F": 1.8160834201925222e-13,
+        "BL_load_F": 4.178594993637709e-12,
+        "SL_load_F": 1.2318584699928345e-11,
+        "BL_R_ohm": 3072.0,
+        "source_common_R_ohm": 1.056,
+        "source_column_R_ohm": 13.516799999999998,
+        "source_BL_coupling_F": 2.121605066951885e-14,
+        "array_width_m": 0.000192,
+        "array_height_m": 0.0003072,
+        "array_area_m2": 5.89824e-08,
+        "area_gate_plus_two_diffusion_m2": 6e-13,
+        "cell_pitch_area_m2": 1.8e-12,
+        "C_qualification": "Engineering parallel-plate/depletion/overlap/sidewall compact geometry. EOT/doping/pitch are not ESF1 extracted values or measured capacitances."
+      }
+    },
+    {
+      "id": "threshold_separation",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "ON": {
+          "I_A": 4.3960406157691995e-06,
+          "drain_V": 0.982099322612588,
+          "source_V": 0.0006593311338881436,
+          "Vds_V": 0.9814399914786999,
+          "Vgs_V": 1.199340668866112
+        },
+        "OFF": {
+          "I_A": 3.8391288071298636e-08,
+          "drain_V": 0.9998436706749738,
+          "source_V": 0.0,
+          "Vds_V": 0.9998436706749738,
+          "Vgs_V": 1.2
+        }
+      }
+    },
+    {
+      "id": "native_lowrail_gate",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "rail": 1.2,
+        "nativeVdd": 1.3,
+        "actualwidthP": 8.300676841406769e-06,
+        "actualgateC": 1.8533056638950722e-13,
+        "finite_ramp": true
+      }
+    },
+    {
+      "id": "precharge_PMOS_and_supply",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "feasible": true,
+        "charge_after_control_valid_s": 9.114724490191531e-08,
+        "complete_precharge_s": 9.27903479143735e-08,
+        "worst_mux_bias_R_ohm": 944.3770357554205,
+        "actual_lumped_C_F": 4.20720211731622e-12,
+        "target_V": 0.998,
+        "target_drive_A": 6.612313326753651e-07,
+        "all256rowleak_upper_A": 3.8531802926480204e-08,
+        "each_branch_initial_peak_A": 0.00012849063228632788,
+        "branches": 128,
+        "source_current_upper_A": 0.01644680093264997,
+        "scope": "PMOSsourcerail1V,gate0/1.3;nativeIon/W/Vthcompact;allWL/refOFF;sourcefiguremonotoneleakbound;notNMOSpass1V"
+      }
+    },
+    {
+      "id": "reference_physical_match",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "match_C_each_F": 4.195805017308408e-12,
+        "TG_internal_node_C_F": 8.605011835349087e-15,
+        "separate_internal_node_notprematchedto1V": true
+      }
+    },
+    {
+      "id": "reference_initial_history",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "reset_phase_s": 2e-07,
+        "residual_internal_upper_V": 0.000599551677541278,
+        "initial_voltagemax": 1.3,
+        "off_TG_current_upper_A": 9.9911774715445e-10,
+        "meaning": "ActualR/CremovesprevioushistorybutnativeOFFleakageleavesafiniteupperinitialvoltage;ONuseslower0/OFFusesupperinitialtoavoidfavourableassumption"
+      }
+    },
+    {
+      "id": "dynamic_reference_and_false_latch",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "capture": {
+          "time_s": 1.003099999999885e-07,
+          "margin_V": 0.030002766308686146,
+          "gate_V": 1.1999999999999993,
+          "contexts": [
+            {
+              "BL": 0.8999415826232184,
+              "SA": 0.8999655121462904,
+              "ref": 0.953070256899354,
+              "x": 0.9519397382077628,
+              "offset": -1e-09,
+              "kind": "P",
+              "previous_gate_N": 1.3,
+              "previous_gate_P": 1.9151675804145677e-10,
+              "Vds": 0.8857776147176873,
+              "Vgs": 1.1993406688661112,
+              "current": 4.39604061576919e-06,
+              "context": "(0, 'P')"
+            },
+            {
+              "BL": 0.9970847477801574,
+              "SA": 0.9970849185441186,
+              "ref": 0.9663189162564373,
+              "x": 0.9652030561785309,
+              "offset": -1e-09,
+              "kind": "OFF",
+              "previous_gate_N": 1.3,
+              "previous_gate_P": 1.9151675804145677e-10,
+              "Vds": 0.9969668097432024,
+              "Vgs": 1.1999999999999993,
+              "current": 3.8391288071298636e-08,
+              "context": "(0, 'OFF')"
+            },
+            {
+              "BL": 0.8999415826232184,
+              "SA": 0.8999655121462904,
+              "ref": 0.953446616362384,
+              "x": 0.952316525100359,
+              "offset": 0.0,
+              "kind": "P",
+              "previous_gate_N": 1.3,
+              "previous_gate_P": 2.4036714996747194e-10,
+              "Vds": 0.8857776147176873,
+              "Vgs": 1.1993406688661112,
+              "current": 4.39604061576919e-06,
+              "context": "(1, 'P')"
+            },
+            {
+              "BL": 0.9970847477801574,
+              "SA": 0.9970849185441186,
+              "ref": 0.9667004528903987,
+              "x": 0.9655850034405907,
+              "offset": 0.0,
+              "kind": "OFF",
+              "previous_gate_N": 1.3,
+              "previous_gate_P": 2.4036714996747194e-10,
+              "Vds": 0.9969668097432024,
+              "Vgs": 1.1999999999999993,
+              "current": 3.8391288071298636e-08,
+              "context": "(1, 'OFF')"
+            },
+            {
+              "BL": 0.8999415826232184,
+              "SA": 0.8999655121462904,
+              "ref": 0.953823124793255,
+              "x": 0.9526934604686885,
+              "offset": 1e-09,
+              "kind": "P",
+              "previous_gate_N": 1.3,
+              "previous_gate_P": 3.016778655525192e-10,
+              "Vds": 0.8857776147176873,
+              "Vgs": 1.1993406688661112,
+              "current": 4.39604061576919e-06,
+              "context": "(2, 'P')"
+            },
+            {
+              "BL": 0.9970847477801574,
+              "SA": 0.9970849185441186,
+              "ref": 0.9670821522354325,
+              "x": 0.9659671129620521,
+              "offset": 1e-09,
+              "kind": "OFF",
+              "previous_gate_N": 1.3,
+              "previous_gate_P": 3.016778655525192e-10,
+              "Vds": 0.9969668097432024,
+              "Vgs": 1.1999999999999993,
+              "current": 3.8391288071298636e-08,
+              "context": "(2, 'OFF')"
+            }
+          ]
+        },
+        "required_V": 0.03,
+        "early_min_V": -0.007351864097420835,
+        "false_early_latch_excluded": true,
+        "gate_injection_upper": {
+          "P": 2.7476204296350378e-14,
+          "OFF": 1.3770083097638848e-14
+        }
+      }
+    },
+    {
+      "id": "native_clock_and_fullcycle",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "chosen_period_s": 2e-07,
+        "required_s": 1.5816783243683344e-07
+      }
+    },
+    {
+      "id": "complete_sector_mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": "All4096logicalBytesoccupyonephysical4KiBsector/16completepages;noerasedforeignpayload"
+    },
+    {
+      "id": "clock_phase_accounting",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "native_clocktotal_s": 4e-07,
+        "prechargeclock_s": 2e-07,
+        "outputphase_s": 2e-07,
+        "originalconstantDeltaIterm_excluded": true
+      }
+    },
+    {
+      "id": "state_full_cover",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "success": {
+          "physical_bytes_erased": 4096,
+          "physical_data_bits": 32768,
+          "pages_received_programmed": 16,
+          "unique_covered_bytes": 4096,
+          "peak_page_buffer_bits": 2048,
+          "successful": true,
+          "completed_payload_Byte": 4096,
+          "old_state_was_arbitrary": true,
+          "encoding": "rowmajor16signedINT8two-complementbytes;erasedconductive=1/programmedlowcurrent=0;noextraencodedpayload"
+        },
+        "failure": {
+          "physical_bytes_erased": 4096,
+          "physical_data_bits": 32768,
+          "pages_received_programmed": 16,
+          "unique_covered_bytes": 4096,
+          "peak_page_buffer_bits": 2048,
+          "successful": false,
+          "completed_payload_Byte": 0,
+          "old_state_was_arbitrary": true,
+          "encoding": "rowmajor16signedINT8two-complementbytes;erasedconductive=1/programmedlowcurrent=0;noextraencodedpayload"
+        }
+      }
+    },
+    {
+      "id": "signed_local_mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": [
+        {
+          "name": "zero",
+          "passed": true,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "name": "negative_extreme",
+          "passed": true,
+          "min": 4194304,
+          "max": 4194304
+        },
+        {
+          "name": "cancel",
+          "passed": true,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "name": "mixed",
+          "passed": true,
+          "min": -53632,
+          "max": 59648
+        },
+        {
+          "name": "group_boundary",
+          "passed": true,
+          "min": -8,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "id": "native_digital_clock",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "required_s": 1.5816783243683344e-07
+      }
+    }
+  ],
+  "conditions": [
+    "ESF1 measured-figureendpointI-V plusnewengineeredEOT/depletion/pitch/C;notoriginalanalogclassifierorfabricatedsamechip.",
+    "130nmLSTPperipherywithreal1.1/1.2/1.3Vlowerrailgatebufferand1VPMOSprecharge;Ion/W/VthMOSextensionisnominal,noindependentbodyeffect/velocitysaturationcalibration.",
+    "ReferenceR600k/matchedC,SA20mV+atmost10mVtotalremainingoffset/noise,andindependent±0.2%precharge/±1nscontrolshiftareexplicitdesignconditions.",
+    "FullunfavourableN/Pgatechargecouplingisboundedwithoutassumingcancellation;fixed4pFadditionalBLintegrationCpreventsfalseearlythresholdlatchinthemodel.",
+    "NativeVSAdecisionisabstractthresholdlatchwithfalseearlysigncheck;following1/fisoutput-readyphase,notsustainedpassivedevelopmentorSTA/comparatornoisevalidation.",
+    "Local1Vprechargerailmustprovide20mA;actualinitialparallelcurrentchecked;notglobalPDNsignoff.",
+    "CompleteW25Q-likepage/sectorengineincludesitsHVrouting/isolation/internalverify/returnandactualpagebuffer;transfertoESF1readstatesandreadsafeportsisexplicitlyconditional,notguaranteedbyproductspecfornewarray.",
+    "Inputweightdataareavailableatlocal3VSPIpins;inputvectoratnative128bitport;offchipDRAM/interconnect/powerupareexcluded.",
+    "NoWER/yield/retentiondistributionclaimed;thethreefinitegate/PEpackagesarenotstatisticalprocesscorners;typisproductspeclabelnotmedian."
+  ],
+  "dynamic_summary": {
+    "feasible": true,
+    "wrong_polarity_extreme_V": -0.007351864097420835,
+    "unfavourable_gate_injection_bound_C": {
+      "P": 2.7476204296350378e-14,
+      "OFF": 1.3770083097638848e-14
+    },
+    "false_early_latch_excluded": true,
+    "best_margin_V": 0.06009805041780247,
+    "best_time_s": 1.824100000000566e-07,
+    "required_V": 0.03,
+    "step_s": 1e-11,
+    "data_total_C_F": 4.20720211731622e-12,
+    "reference_main_C_F": 4.20720211731622e-12,
+    "reference_internal_C_F": 8.605011835349087e-15,
+    "reference_R_including_returns_ohm": 600081.1008,
+    "source_upper_V": 0.0006593311338881436,
+    "gate_feedthrough_charge_upper_C": 4.97251187566848e-17,
+    "model": "two-capsaturationdataRC+finiteWLPMOSramp+nonlinearcomplementaryreferenceTGandinternalnode;independentprecharge±error,enable±skew; nooldaccess"
+  },
+  "capture": {
+    "time_s": 1.003099999999885e-07,
+    "margin_V": 0.030002766308686146,
+    "gate_V": 1.1999999999999993,
+    "contexts": [
+      {
+        "BL": 0.8999415826232184,
+        "SA": 0.8999655121462904,
+        "ref": 0.953070256899354,
+        "x": 0.9519397382077628,
+        "offset": -1e-09,
+        "kind": "P",
+        "previous_gate_N": 1.3,
+        "previous_gate_P": 1.9151675804145677e-10,
+        "Vds": 0.8857776147176873,
+        "Vgs": 1.1993406688661112,
+        "current": 4.39604061576919e-06,
+        "context": "(0, 'P')"
+      },
+      {
+        "BL": 0.9970847477801574,
+        "SA": 0.9970849185441186,
+        "ref": 0.9663189162564373,
+        "x": 0.9652030561785309,
+        "offset": -1e-09,
+        "kind": "OFF",
+        "previous_gate_N": 1.3,
+        "previous_gate_P": 1.9151675804145677e-10,
+        "Vds": 0.9969668097432024,
+        "Vgs": 1.1999999999999993,
+        "current": 3.8391288071298636e-08,
+        "context": "(0, 'OFF')"
+      },
+      {
+        "BL": 0.8999415826232184,
+        "SA": 0.8999655121462904,
+        "ref": 0.953446616362384,
+        "x": 0.952316525100359,
+        "offset": 0.0,
+        "kind": "P",
+        "previous_gate_N": 1.3,
+        "previous_gate_P": 2.4036714996747194e-10,
+        "Vds": 0.8857776147176873,
+        "Vgs": 1.1993406688661112,
+        "current": 4.39604061576919e-06,
+        "context": "(1, 'P')"
+      },
+      {
+        "BL": 0.9970847477801574,
+        "SA": 0.9970849185441186,
+        "ref": 0.9667004528903987,
+        "x": 0.9655850034405907,
+        "offset": 0.0,
+        "kind": "OFF",
+        "previous_gate_N": 1.3,
+        "previous_gate_P": 2.4036714996747194e-10,
+        "Vds": 0.9969668097432024,
+        "Vgs": 1.1999999999999993,
+        "current": 3.8391288071298636e-08,
+        "context": "(1, 'OFF')"
+      },
+      {
+        "BL": 0.8999415826232184,
+        "SA": 0.8999655121462904,
+        "ref": 0.953823124793255,
+        "x": 0.9526934604686885,
+        "offset": 1e-09,
+        "kind": "P",
+        "previous_gate_N": 1.3,
+        "previous_gate_P": 3.016778655525192e-10,
+        "Vds": 0.8857776147176873,
+        "Vgs": 1.1993406688661112,
+        "current": 4.39604061576919e-06,
+        "context": "(2, 'P')"
+      },
+      {
+        "BL": 0.9970847477801574,
+        "SA": 0.9970849185441186,
+        "ref": 0.9670821522354325,
+        "x": 0.9659671129620521,
+        "offset": 1e-09,
+        "kind": "OFF",
+        "previous_gate_N": 1.3,
+        "previous_gate_P": 3.016778655525192e-10,
+        "Vds": 0.9969668097432024,
+        "Vgs": 1.1999999999999993,
+        "current": 3.8391288071298636e-08,
+        "context": "(2, 'OFF')"
+      }
+    ]
+  },
+  "read_phases": {
+    "all_off": 3.2051743213625497e-08,
+    "address_and_mux": 6.29788444153021e-08,
+    "precharge": 2e-07,
+    "precharge_release": 1.473170716717856e-08,
+    "enable_and_develop": 1.003099999999885e-07,
+    "native_output_phase": 2e-07,
+    "final_release": 3.2051743213625497e-08,
+    "raw": 6.421240380097201e-07,
+    "clock_ready": 8e-07,
+    "alignment": 1.5787596199027982e-07
+  }
+}

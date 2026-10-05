@@ -1,0 +1,85 @@
+{
+  "case_id": "gc04",
+  "revision": "p0-20261005",
+  "status": "ready_for_independent_review",
+  "formal_points": 0,
+  "source": {
+    "path": "tasks/task1_table_I_NVM/literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",
+    "sha256": "d4c926b1f4d3fdae724fffaab9b13e1845424ae23ab6b6cfd297925bfd355194",
+    "doi": "10.1109/JSSC.2023.3339887",
+    "kind": "published JSSC2024",
+    "numeric": {
+      "process_nm": 65,
+      "C_SN_fF": 10,
+      "program_BL_load_fF": 50,
+      "I_endpoint_nA": 700,
+      "cell_area_um2": 6,
+      "V_precharge_V": 0.9,
+      "V_digital_V": 1.0,
+      "V_original_ADC_V": 0.7,
+      "program_complete_ns": [
+        65,
+        75
+      ],
+      "coarse_included_ns": 5,
+      "coarse_at100nA_V": 0.52,
+      "retention_measurement_us": 400,
+      "measured_cells_below1_originalLSB_percent": 99.7,
+      "FF80C_sim700nA_drift_percent_at400us": 3.3
+    },
+    "unresolved": [
+      "measured retention temperature unspecified",
+      "storage transfer gm/output conductance and transistor sizes",
+      "write-isolation parasitics within50fF",
+      "same-hardware repeated-refresh margin not measured",
+      "0 endpoint leakage for binary sign refresh"
+    ],
+    "ranges": "fixed nominal temperature model,65/75ns full feedbackwrite and100/200/400us finite refresh policies; not thermal/cellprobability envelope",
+    "excluded_legacy": [
+      "36/86/136ns complete read overhead",
+      "180ns complete compute as input",
+      "4.16us original maintenance total"
+    ],
+    "upstream": "MLP6098 Cell.cpp784–950 _3T1C is incompatible directconductance hybridcell model; constructor100fF/6.67uA/500ps;Write875 stray semicolon and uninitialized charge state; do not import model"
+  },
+  "old_input_reference": {
+    "path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/inputs.json",
+    "sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+    "use": "source/mapping only; old times and performance not generation inputs"
+  },
+  "run_dir": "/Users/shine/neurosim/runs/step4-v5/p0/gc04-route-20261005",
+  "review": "text extracted withPDFKit; critical original pages rendered/visuallychecked; no production reviewer involved",
+  "p3_progress": {
+    "status": "native_current_components_and_state_scheduler_probes_running",
+    "state_script": "gc_model.py",
+    "schedule_script": "maintenance.py",
+    "electrical_output": "/Users/shine/neurosim/runs/step4-v5/p3/gc04-electrical-20261005/electrical_diagnostic_r2.json",
+    "maintenance_output": "/Users/shine/neurosim/runs/step4-v5/p3/gc04-electrical-20261005/maintenance_diagnostic.json",
+    "native_candidates": [
+      "/Users/shine/neurosim/runs/step4-v5/components/current_sampling-gc04-64x16-physical-r1-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/components/current_sampling-gc04-32x16-physical-r2-20261005"
+    ],
+    "source_corrections": [
+      "Fig7 current-flat region1.2to0.9V; lowerBL is compact model extension, not measured domain",
+      "Fig9 400nA drift is+1.5percent notnegative",
+      "binarycomplementary±7pair remains mapping; actualXsum subtraction/divide required;16bitXsum container",
+      "64row200ohmisolation failed50fFwrite load(57.07fF);32rowhalf400ohm candidate38.64fF leaves11.36fF forbankMUX andmatchcap",
+      "range periods selected only after actual atomic scheduling, not fixed old100/200/400us"
+    ],
+    "geometry": "K=N64,8bitplanes,2rowhalves x4outputgroups perplane,32x16pairsubarray,65536cell;128ADCs shared8banks;capacityunchanged",
+    "retention_model_scope": "FF80C simulation-based finite charge/leak continuation; n=1.5 andzero-node leak continuation engineering; paired400usmeasurement99.7percent notall-bit guarantee; source completewrite temperature not specified"
+  },
+  "p3_final": {
+    "implementation_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1",
+    "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+    "paths": [
+      "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-gc04-final-optimistic-r2-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-gc04-final-reference-r2-20261005",
+      "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-gc04-final-pessimistic-r2-20261005"
+    ],
+    "scope": "conditionalmodelreference;Q4analogapprox;explicitvolatilemaintenance",
+    "report": "REPORT.zh.md",
+    "points": "candidate_points.json",
+    "retention_alternative_probe": "/Users/shine/neurosim/runs/step4-v5/p3/gc04-electrical-20261005/state_dependent_retention.json"
+  }
+}

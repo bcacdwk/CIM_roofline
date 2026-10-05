@@ -1,0 +1,128 @@
+{
+  "case_id": "nor2d",
+  "status": "route_ready_for_port_probe_not_service_qualified",
+  "identity": "binary threshold-state NOR plus local signed exact digital arithmetic; custom bank and conditionally transferred commodity P/E engine",
+  "run_root": "/Users/shine/neurosim/runs/step4-v5/p0/nor2d-route-20261005",
+  "sources": [
+    {
+      "id": "NOR-04",
+      "path": "tasks/task1_table_I_NVM/literature/03_nor_2d/NOR-04_2017_EmbeddedNOR_Classifier.pdf",
+      "sha256": "987806007d2283dc8b8acc8282a15ccbdd1e7e48a73d0729dcfa3cd17fec03b6",
+      "locator": "PDF pp1-3, Figs2-6; p3 rendered and inspected",
+      "kind": "physical_evidence",
+      "values": {
+        "cell_technology_nm": 180,
+        "state_transfer_VDS_V": 1.0,
+        "gate_read_sweep_V": [
+          0,
+          5
+        ],
+        "higher_gate_operating_range_V": [
+          1.1,
+          2.7
+        ],
+        "program_source_threshold_approx_V": [
+          5,
+          8
+        ],
+        "erase_gate_threshold_approx_V": [
+          6,
+          9
+        ]
+      },
+      "limits": [
+        "ESF1 split-gate supercell and gate/drain/source topology must remain explicit.",
+        "I-V curves are measured; gate/drain capacitance and exact geometry not tabulated.",
+        "Input text4.2V and Fig6 label2.7V differ; neither is automatically chosen.",
+        "Original analog network timing and accuracy are not new binary service input."
+      ]
+    },
+    {
+      "id": "NOR-02",
+      "path": "tasks/task1_table_I_NVM/literature/03_nor_2d/NOR-02_2019_W25Q128JV_RevG.pdf",
+      "sha256": "5e2f6a77e0225a5c61b8f4b5b9680b57e0e1fe68cfc011465e30f665fe282057",
+      "locator": "PDF pp37-39 and66; program/erase/BUSY and AC table",
+      "kind": "external_primitive",
+      "values": {
+        "page_bytes": 256,
+        "sector_bytes": 4096,
+        "page_program_typ_s": 0.0004,
+        "page_program_max_s": 0.003,
+        "sector_erase_typ_s": 0.045,
+        "sector_erase_max_s": 0.4
+      },
+      "limits": [
+        "Complete self-timed P/E includes internal pulses/verify/recovery; excludes external page data transfer.",
+        "Commodity W25Q128JV engine is not measured on the ESF1 read bank; conditional cross-implementation transfer.",
+        "No source minimum P/E latency or distribution.",
+        "No internal program concurrency inferred from external SPI or local bus width."
+      ]
+    }
+  ],
+  "proposed_mapping": {
+    "K": 128,
+    "N": 16,
+    "physical_bits": 16384,
+    "sense_lanes": 128,
+    "weight_hold_bits": 128,
+    "page_buffer_bytes": 256,
+    "erase_domains": 1,
+    "dedicated_sector_bytes": 4096,
+    "data_pages": 8,
+    "classification": "unfrozen architecture candidate; no unrelated live payload in erased spare half-sector"
+  },
+  "read_model": {
+    "type": "selected threshold-state I_D(V_G,V_D) table/compact subthreshold network plus port capacitance; low-bias equivalent resistance valid only at stated read point",
+    "native_candidates": [
+      "MLP SubArray digital sequential RowDecoder/Mux/VoltageSenseAmp",
+      "Training peripheral decoder/driver plus explicit external biased current port",
+      "Adder/DFF local signed arithmetic"
+    ],
+    "upstream_sha": [
+      "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a"
+    ],
+    "no_RRAM_programming": true
+  },
+  "external_program_coverage": {
+    "includes": [
+      "internal voltage pump/pulse sequence",
+      "program verify",
+      "erase and native recovery until BUSY=0"
+    ],
+    "excludes": [
+      "local page buffer input",
+      "local command/completion boundary",
+      "any additional custom-bank selector delay not included in blackbox and independently modeled"
+    ],
+    "full_write": "erase the dedicated whole sector from arbitrary old state, load all eight payload pages, no preerase credit"
+  },
+  "old_inputs": {
+    "retain_physical": [
+      "page/sector/BUSY meaning",
+      "NOR-04 threshold-state transfer"
+    ],
+    "replace_architecture": [
+      "32 read slices",
+      "4096 SA/holding",
+      "old128x128 matrix"
+    ],
+    "exclude_aggregate": [
+      "100/120/130ns full read access",
+      "legacy digital ticks",
+      "old rho/tau"
+    ]
+  },
+  "range_plan": {
+    "read_family": "fixed hardware measured gate-bias range with selected endpoint states and actual capacitance/sense qualification; no arbitrary latency scale",
+    "write_family": "typical/maximum complete P/E scenario only; missing minima cannot be invented; third pair may require bias policy variation or be degenerate",
+    "temperature": "fixed; no generic MOS-temperature extrapolation into retention"
+  },
+  "p1_needs": [
+    "gate/drain/source geometry and capacitance values with explicit evidence/engineering labels",
+    "extract same-state read transfer at operating bias and check unselected leakage/available current",
+    "close native sensing/reference/bias compatibility",
+    "conditional P/E transfer must remain visible in result identity",
+    "no formal three points until reference and source-compatible policies pass"
+  ]
+}

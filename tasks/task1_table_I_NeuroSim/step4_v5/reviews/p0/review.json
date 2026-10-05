@@ -1,0 +1,134 @@
+{
+  "review_id": "p0-boundary-20261005-v1",
+  "status": "PASS_P0_boundary_only",
+  "scope": "P0 public contract/input gate/environment and MRAM route; not production services or full seven-case P0 exit",
+  "independence": "Reviewer previously authored PCM P0 route/evidence. PCM excluded from independent approval. No public/MRAM production code authored; review uses copied fresh MLP source/build and independent tiny probe.",
+  "reviewed_sha256": {
+    "INTERFACE.md": "f1810befb2aa080877b7bd4cd64ccdfe753020b0dbab37afb662d5adbe851607",
+    "P0_ENV.zh.md": "bd9b928dedd17a6ec8d5f45cde108f9f0e9311c5275e145a21a5d3819501ef84",
+    "provenance/dependencies.lock.json": "ed2c18e7b724f054f4e2bdd66e3fe8b2a0dfc9cd8272c6f35c3a4c38fbb46fd2",
+    "provenance/environment.initial.json": "e561b830ebbe4c87035278c9fcc9b9fa719cdfe2ed9ad517ea2afb3debeafcfe",
+    "provenance/toolchain_smoke.json": "e5897c3ed21d2ede1d12371f95826d0b0b9f345af7d9f3929149063403444583",
+    "cases/mram/ROUTE.zh.md": "90407d759a85224fb218f99fdb89864b16e5d2134a057332994f5bcd7f221ab5",
+    "cases/mram/evidence.json": "7213391ea30c3ebc189808d174a16d1a59ae06da27224e467fc823c1ba056228",
+    "run.py": "e0627f6bc764c594a9bdc92a52c9f6c0ae750b39087c6a2bbdf11933310c71c0"
+  },
+  "upstream_checks": [
+    {
+      "branch": "2DInferenceV1.4",
+      "actual_head": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "matches": true,
+      "clean": true
+    },
+    {
+      "branch": "2DInferenceDCIMV1.0-dev",
+      "actual_head": "38eedf926fc1a712df3627f36bb82b097ba6b9cb",
+      "matches": true,
+      "clean": true
+    },
+    {
+      "branch": "2DInferenceV1.5-dev",
+      "actual_head": "9825ef40bf14d12a72c99d8e32ff8c499aeddf24",
+      "matches": true,
+      "clean": true
+    },
+    {
+      "branch": "2DTrainingV2.1",
+      "actual_head": "f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a",
+      "matches": true,
+      "clean": true
+    },
+    {
+      "branch": "MLPInferenceV3.0",
+      "actual_head": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+      "matches": true,
+      "clean": true
+    },
+    {
+      "branch": "3DInferenceV1.0",
+      "actual_head": "6d2ee9b9b5067c4c8660ad8cd0cbedcab477ba69",
+      "matches": true,
+      "clean": true
+    }
+  ],
+  "source_hash_checks": [
+    {
+      "id": "MRAM-06",
+      "matches": true
+    },
+    {
+      "id": "MRAM-03",
+      "matches": true
+    },
+    {
+      "id": "MRAM-06-SI",
+      "matches": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "must_fix_before_P1_input_freeze",
+      "target": "run.py resolve_input",
+      "issue": "Accepts missing source locator/evidence/applicability, metadata role/applicability, empty service/identity/backend objects and missing precision/scenario semantics despite contract.",
+      "requested": "Enforce minimal structural fields and types for current contract, including explicit external primitive includes/excludes/domain. Keep input_checked_only status; this is no physical certification.",
+      "resolution": "closed_in_recheck_v2"
+    },
+    {
+      "id": "R2",
+      "severity": "must_fix",
+      "target": "run.py logical payload validation",
+      "issue": "bytes_per_input=true is accepted as one byte.",
+      "requested": "Reject bool and nonnumeric payload, require finite positive numeric Byte values.",
+      "resolution": "closed_in_recheck_v2"
+    },
+    {
+      "id": "R3",
+      "severity": "must_fix_isolation",
+      "target": "run.py output directory resolution",
+      "issue": "root is resolved but existing root/runs symlink is followed; standalone local probe demonstrated redirected writes.",
+      "requested": "Reject symlink path components of actual output path and confirm final target is under resolved allowed root and outside sync before creation/copy.",
+      "resolution": "closed_in_recheck_v2"
+    },
+    {
+      "id": "R4",
+      "severity": "P1_contract_clarification",
+      "target": "INTERFACE.md native stage provenance",
+      "issue": "Stages are seconds but native return units/conversion clock and internal clock phases should be retained explicitly to prevent later double conversion or double counting.",
+      "requested": "Record native return unit, conversion clock when needed, and included internal clock stages; prohibit treating failed/zero/inf native return as valid physical service.",
+      "resolution": "closed_in_recheck_v2"
+    }
+  ],
+  "passed": [
+    "No legacy results/replay dependency in examined input entry.",
+    "Fresh run-id enforces no overwrite; top-level sync paths rejected.",
+    "Exact six worktree HEADs independently match lock and remain clean.",
+    "P0 environment labels smoke as toolchain-only and flags unsupported 40nm.",
+    "Service contract separates logical payload, complete resident boundary, single latency/interval, GC raw/effective and failed/blocked eligibility.",
+    "MRAM physical numbers independently match PDF p8 and rendered p14; source hashes match.",
+    "MRAM route honestly retains missing bidirectional pulse conditions and does not relabel old aggregate writes."
+  ],
+  "native_probe": {
+    "branch": "MLPInferenceV3.0",
+    "sha": "6098feabaf17b8209a8edbef4a9c963b5f015132",
+    "fresh_build": true,
+    "normal_latency_s": 2.0187615292251508e-08,
+    "included_clock_s": 2e-08,
+    "half_read_bias_latency_s": 2.0343429494298616e-08,
+    "double_load_latency_s": 2.0340151489800988e-08,
+    "equal_states_returns": "inf",
+    "unsupported_40nm_exit": 255,
+    "qualification": "Module/cause/units check only. 1000ohm access/20fF load are synthetic probe conditions, not accepted MRAM design. No hardware swing or disturb certification."
+  },
+  "mram_route_verdict": "PASS for proceeding to P1 read/port probes; formal reference and three points blocked until same-source pulse and sense bias/reflect/reference conditions close.",
+  "pcm_verdict": "not_independently_reviewed_author_participation",
+  "local_evidence": "/Users/shine/neurosim/runs/step4-v5/p0/reviewer-boundary-20261005",
+  "formal_service_points_reviewed": 0,
+  "recheck": {
+    "status": "PASS",
+    "run_sha256": "84c9553abaa8dcc41652a5d1df34ede097a390c9430db5b7f6e6cc2c66ded070",
+    "interface_sha256": "7e68d94d0c1e26f0b24900ec438edb886f2c63c2207cabe7ee8f6280096a2859",
+    "evidence": "/Users/shine/neurosim/runs/step4-v5/p0/reviewer-boundary-20261005/schema_recheck_v2.json",
+    "result": "Complete minimal structure succeeds; missing locator/domain/parameter role/policy, bool Byte, unknown override, and runtime parent symlink are rejected. R4 units/clock/native-error clauses added and text checked. No production native_probe.py or service numbers reviewed."
+  }
+}

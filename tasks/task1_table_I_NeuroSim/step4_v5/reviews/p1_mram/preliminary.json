@@ -1,0 +1,24 @@
+{
+  "status": "preliminary_changes_requested_not_final_review",
+  "reviewer_roles": "Previously authorPCM/NOR/FeRAM; no MRAM/public production edits. P0publicboundary review is separate.",
+  "inspected_sha256": {
+    "cases/mram/umem_port.py": "903d85792633a6bc1c6e34e1e5da82c725efb7addf86470d1ef2933e18df0f01"
+  },
+  "findings": [
+    {
+      "id": "MRAM-R1",
+      "severity": "physical_bug",
+      "location": "umem_port.py mos_circuit shared_return recursion",
+      "issue": "actual_gate=vdd-drop is passed as vdd and reused to normalize beta through raccess*(vdd-vth), partly cancelling source-degeneration at lowVDS.",
+      "expected": "Fixed native beta=1/(Rnative*(VDDnative-Vth)); actual gate is independent variable.",
+      "owner_reply": "Author confirmed bug and will repair beforefinalfreeze; oldstrapprobe retained.",
+      "status": "changes_requested"
+    }
+  ],
+  "final_review_requirements": [
+    "new source/build/run for3finalpoints",
+    "independent UMEM equation/source polarity/resistance audit",
+    "independent numericalconvergence/state/forcefullwrite counts",
+    "all finalpublic andinput hashes fixed; no inheritedPASS"
+  ]
+}

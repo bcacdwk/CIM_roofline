@@ -1,0 +1,601 @@
+{
+  "status": "ready_for_review",
+  "reference_run": "/Users/shine/neurosim/runs/step4-v5/p1/case-pcm-pcm-author-final-ref-20261005",
+  "native_raw": {
+    "actual_access_width_m": 7.077169132347062e-06,
+    "actual_access_Ion_at_native_bias_A": 0.00354,
+    "actual_mux_res_ohm": 5250.0,
+    "write_column_TG_ohm": 100.0,
+    "array_BL_cap_F": 3.228330845944265e-13,
+    "sa_effective_node_cap_F": 3.808772552164249e-13,
+    "write_off_drain_added_to_read_F": 1.3007999717567683e-14,
+    "digital_halfcycle_min_period_s": 4.852539680559662e-08,
+    "reference_enable_matching_cap_F": 1.688103154093791e-12,
+    "WL_enable_edge_only_s": 3.447564132706495e-08,
+    "reference_isolation_edge_s": 3.447564132706495e-08
+  },
+  "counts": {
+    "logical_payload_bytes": 2048,
+    "physical_data_bits": 16384,
+    "physical_rows": 128,
+    "reset_batches": 1024,
+    "set_reserved_batches": 1024,
+    "verify_row_reads": 128,
+    "verify_sense_groups": 256,
+    "serial_add_groups": 2048,
+    "operand_hold_bits": 128,
+    "output_hold_bits": 400,
+    "scope": "RESET full row by actual write lanes; SET target-one mask in reserved equal slots; verify every physical bit before row commit. No data-equality skip."
+  },
+  "reference_network": {
+    "feasible": true,
+    "develop_s": 3.969581664014945e-09,
+    "integration_dt_s": 1.145622413857234e-12,
+    "min_margin_V": 0.015000344676339705,
+    "context_margins_V": [
+      0.015000344676339705,
+      0.023759718316760103,
+      0.036312281901883126,
+      0.015066715117289298,
+      0.023826085102956973,
+      0.03641496614870393,
+      0.038958550559687916,
+      0.030196124163260507,
+      0.02782612958636524,
+      0.03904526326767163,
+      0.030282832042378527,
+      0.027886311298794236
+    ],
+    "max_shared_source_drop_V": 0.00111709051713676,
+    "data_pre_discharge_ages_s": [
+      -1e-09,
+      0.0,
+      1e-09
+    ],
+    "reference_enable_policy": "PhysicalnativeWLmatchingreplica;finitepositive/zero/negative residualskew casesexplicitlyexercised;notSTA",
+    "source_drop_kind": "allnodes-at-readrail conservativecurrentupperbound",
+    "reference_resistance_total_ohm": 46531.408,
+    "data_total_cap_F": 3.808772552164249e-13,
+    "reference_total_cap_F": 3.808772552164249e-13,
+    "model": "CoupledpassiveRC withstate-dependentreturncurrent;fourendpointloadcontexts times3knowncontrol-delaycontexts;samplingatthefirstcommonqualifiedtimeafterreferenceenable"
+  },
+  "read_phases_s": {
+    "address": 5.281487722256562e-09,
+    "column_selection": 1.3142606109740517e-08,
+    "precharge": 8.00318010902044e-08,
+    "WL_enable_setup": 3.447564132706495e-08,
+    "reference_isolation_edge": 3.447564132706495e-08,
+    "precharge_release": 3.615699667278084e-10,
+    "develop": 3.969581664014945e-09,
+    "sense_enable": 8e-08,
+    "WL_release": 3.447564132706495e-08,
+    "one_group_total": 2.517383292070741e-07
+  },
+  "checks": [
+    {
+      "id": "reference_matched_control",
+      "passed": true,
+      "critical": true,
+      "evidence": "Actualreplica/NAND/INV/controlmatchingcap instantiated; finite residualskew propagated"
+    },
+    {
+      "id": "finite_attempt_policy",
+      "passed": true,
+      "critical": true,
+      "evidence": "Thisadapterimplementsonecompleteattempt;noimplicitretryorprobability"
+    },
+    {
+      "id": "write_switch_drop",
+      "passed": true,
+      "critical": true,
+      "evidence": "DeclaredCMOSwritepath must supportprogramcurrent;thermalvoltageisnotR_read*I"
+    },
+    {
+      "id": "reference_precharge_isolation",
+      "passed": true,
+      "critical": true,
+      "evidence": "RealreferenceTGandcontrolrequired;oldpointsareunqualified"
+    },
+    {
+      "id": "program_access_source_IR",
+      "passed": true,
+      "critical": true,
+      "evidence": "Sourcebounce-correctednativeaccessIon;nohotPCMreadRextrapolation"
+    },
+    {
+      "id": "shared_source_topology",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "local_source_R_ohm": 1.408,
+        "shared_source_R_ohm": 0.8447999999999999,
+        "source_BL_coupling_F": 4.328004222459904e-14,
+        "source_column_count": 192,
+        "source_column_length_m": 0.000128,
+        "source_bus_length_m": 0.001536,
+        "write_peak_A": 0.008,
+        "write_source_drop_V": 0.007462399999999999,
+        "rejected_native_thin_row_drop_V": 81.92,
+        "metal_area_m2": 7.987200000000002e-08,
+        "geometry_scope": "Readsourcegroundgrid shared acrossdataandreference;sourceBLcoupling parallelplate+fringe estimate, not a fittedreadlatency"
+      }
+    },
+    {
+      "id": "mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": "K rows and8physicalbinarycells/weight; no payload duplicates"
+    },
+    {
+      "id": "reference_aperture",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "feasible": true,
+        "develop_s": 3.969581664014945e-09,
+        "integration_dt_s": 1.145622413857234e-12,
+        "min_margin_V": 0.015000344676339705,
+        "context_margins_V": [
+          0.015000344676339705,
+          0.023759718316760103,
+          0.036312281901883126,
+          0.015066715117289298,
+          0.023826085102956973,
+          0.03641496614870393,
+          0.038958550559687916,
+          0.030196124163260507,
+          0.02782612958636524,
+          0.03904526326767163,
+          0.030282832042378527,
+          0.027886311298794236
+        ],
+        "max_shared_source_drop_V": 0.00111709051713676,
+        "data_pre_discharge_ages_s": [
+          -1e-09,
+          0.0,
+          1e-09
+        ],
+        "reference_enable_policy": "PhysicalnativeWLmatchingreplica;finitepositive/zero/negative residualskew casesexplicitlyexercised;notSTA",
+        "source_drop_kind": "allnodes-at-readrail conservativecurrentupperbound",
+        "reference_resistance_total_ohm": 46531.408,
+        "data_total_cap_F": 3.808772552164249e-13,
+        "reference_total_cap_F": 3.808772552164249e-13,
+        "model": "CoupledpassiveRC withstate-dependentreturncurrent;fourendpointloadcontexts times3knowncontrol-delaycontexts;samplingatthefirstcommonqualifiedtimeafterreferenceenable"
+      }
+    },
+    {
+      "id": "precharge_headroom",
+      "passed": true,
+      "critical": true,
+      "evidence": "nativeVdd-readV-Vth=0.33562820000000004"
+    },
+    {
+      "id": "clock",
+      "passed": true,
+      "critical": true,
+      "evidence": "period=8e-08; minimum=4.852539680559662e-08"
+    },
+    {
+      "id": "access_current",
+      "passed": true,
+      "critical": true,
+      "evidence": "Native-biased access current capability only: 0.00354A. Not PCM hot-state I-V or complete write compliance."
+    },
+    {
+      "id": "shared_return",
+      "passed": true,
+      "critical": true,
+      "evidence": "Actual16laneRESET requires8mA; rated supply is explicit fixed architecture condition."
+    },
+    {
+      "id": "native_write_route_nonzero",
+      "passed": true,
+      "critical": true,
+      "evidence": "Physical route edge must be derived from transistor RC, never zero native pulse-return."
+    },
+    {
+      "id": "endpoint_windows",
+      "passed": true,
+      "critical": true,
+      "evidence": "Nominal selected working endpoints lie inside assumed characterized windows; no population guarantee."
+    },
+    {
+      "id": "pulse_domain",
+      "passed": true,
+      "critical": true,
+      "evidence": "Source Figs3/5 same-material pulse-duration plateau; finite policies not PVT."
+    },
+    {
+      "id": "case_connected_MAC_halfcycle",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "case_combinational_s": 3.737471612980311e-08,
+        "halfcycle_s": 4e-08,
+        "group_decode_is_in_series": true
+      }
+    },
+    {
+      "id": "signed_mapping",
+      "passed": true,
+      "critical": true,
+      "evidence": [
+        {
+          "name": "zero",
+          "matches": true,
+          "max_abs": 0
+        },
+        {
+          "name": "extreme",
+          "matches": true,
+          "max_abs": 2097152
+        },
+        {
+          "name": "mixed",
+          "matches": true,
+          "max_abs": 41984
+        },
+        {
+          "name": "cancel",
+          "matches": true,
+          "max_abs": 0
+        }
+      ]
+    },
+    {
+      "id": "full_cover_lifecycle",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "accepted": {
+          "status": "success",
+          "payload_Byte": 2048,
+          "verified_bits": 16384,
+          "reset_batches": 1024,
+          "set_reserved_batches": 1024,
+          "committed_rows": 128,
+          "max_row_target_hold_bits": 128,
+          "model_scope": "Nominal accepted-state transitions only; binary readback does not certify resistance windows"
+        },
+        "failed": {
+          "status": "failed_attempt_budget",
+          "payload_Byte": 0,
+          "failed_row": 64,
+          "failed_bits": [
+            7
+          ],
+          "verified_bits": 8320,
+          "reset_batches": 520,
+          "set_reserved_batches": 520,
+          "committed_rows_before_failure": 64,
+          "model_scope": "Nominal accepted-state transitions with explicit injected fault; no stochastic switching prediction"
+        }
+      }
+    },
+    {
+      "id": "failed_verify_no_payload",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "status": "failed_attempt_budget",
+        "failed_bits": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46,
+          48,
+          50,
+          52,
+          54,
+          56,
+          58,
+          60,
+          62,
+          64,
+          66,
+          68,
+          70,
+          72,
+          74,
+          76,
+          78,
+          80,
+          82,
+          84,
+          86,
+          88,
+          90,
+          92,
+          94,
+          96,
+          98,
+          100,
+          102,
+          104,
+          106,
+          108,
+          110,
+          112,
+          114,
+          116,
+          118,
+          120,
+          122,
+          124,
+          126
+        ],
+        "payload_committed": false,
+        "attempt_limit": 1,
+        "measures_resistance_acceptance_window": false
+      }
+    },
+    {
+      "id": "common_digital_clock_budget_satisfied",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field digital_clock_budget_satisfied"
+    },
+    {
+      "id": "common_precharge_bias_feasible",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field precharge_bias_feasible"
+    },
+    {
+      "id": "common_write_mux_current_compliance",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field write_mux_current_compliance"
+    },
+    {
+      "id": "common_reference_enable_load_match_feasible",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field reference_enable_load_match_feasible"
+    }
+  ],
+  "stream_stages": [
+    {
+      "id": "input_admission",
+      "duration_s": 8e-08,
+      "count": 8,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN",
+        "NATIVE"
+      ],
+      "resources": "128bit localport/full inputregister",
+      "includes": "Localportbeats including physicalDFFcapture",
+      "excludes": "no offmacrotransport"
+    },
+    {
+      "id": "result_clear",
+      "duration_s": 8e-08,
+      "count": 1,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "400bit resultregister",
+      "includes": "Synchronouszero init of all16outputs",
+      "excludes": "no phantomresultpayload"
+    },
+    {
+      "id": "input_row_select",
+      "duration_s": 8e-08,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "inputrowmux/decoder/8bitrowregister",
+      "includes": "Select/capture onebyte perrow",
+      "excludes": "not8freeinputports",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "onefullclockslotincludingnativeDFFcapture"
+    },
+    {
+      "id": "binary_row_read_groups",
+      "duration_s": 2.517383292070741e-07,
+      "count": 256,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "RCMODEL"
+      ],
+      "resources": "arrayWL/MUX/64SAs/64references/128prechargebranches",
+      "includes": "AllWL/refOFF,addressandcolumnselect/precharge;matcheddata/refenablewithfiniteskew;coupledRC;nativeSAlatchthenbothrelease",
+      "excludes": "excludesidle15bitnativearithmetic; originalconstantDeltaItiming replaced"
+    },
+    {
+      "id": "weight_capture",
+      "duration_s": 8e-08,
+      "count": 256,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "128bitweighthold, selected64bits/group",
+      "includes": "Holdcomplete row through8inputbits",
+      "excludes": "no matrixshadow",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "onefullclockslotincludingnativeDFFcapture"
+    },
+    {
+      "id": "positive_bit_add",
+      "duration_s": 8e-08,
+      "count": 1792,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "8parallel25bitadder+shift/feedbackMUX+16outputholds",
+      "includes": "Sevenpositiveinputbits;inputbitselect/zero-mask,signextension,shiftMUX,adder,result/holdMUX,captureeachgroup inonelegalclockslot",
+      "excludes": "native15bitadder/subtractoridle"
+    },
+    {
+      "id": "sign_bit_subtract",
+      "duration_s": 8e-08,
+      "count": 256,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "8parallel25bitsubtract+shift/feedbackMUX+16outputholds",
+      "includes": "Inputbitselect/zero-mask;inputsignbit subtract weight<<7,result/holdMUX,captureinonelegalclockslot",
+      "excludes": "no additionalmultiplyunit"
+    }
+  ],
+  "resident_stages": [
+    {
+      "id": "target_admission",
+      "duration_s": 8e-08,
+      "count": 128,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN",
+        "NATIVE"
+      ],
+      "resources": "128bittargetbuffer/localport",
+      "includes": "Allrowtargets held throughRESET/SET/readback",
+      "excludes": "no same-dataskip"
+    },
+    {
+      "id": "write_WL_select",
+      "duration_s": 3.975712904932151e-08,
+      "count": 128,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "selectedphysicalWL",
+      "includes": "OneWLselection held throughoutrowprogram",
+      "excludes": "excludescolumnbatches",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "none; native circuit delay"
+    },
+    {
+      "id": "program_engine_mask_admission",
+      "duration_s": 8e-08,
+      "count": 2048,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "resources": "16bitcurrent-engine enablemask/128pertarget gates",
+      "includes": "Selectstabletargetmask and latchbeforeeachRESET/SETslot; fixedsource-interfaceoneclockcontract",
+      "excludes": "notmaterialpulse; analogcurrentdriverreadiness remainscondition"
+    },
+    {
+      "id": "write_column_select",
+      "duration_s": 1.8878148443557842e-08,
+      "count": 2048,
+      "source_class": "native_circuit",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "16lanes/column decoder",
+      "includes": "Onecolumn batch select perRESETorSETreservedslot",
+      "excludes": "nativewriteMuxmultiplicity already divided",
+      "native_return_unit": "seconds",
+      "included_internal_clock_phases": "none; native circuit delay"
+    },
+    {
+      "id": "write_route_setup_release",
+      "duration_s": 2.2573536325625477e-09,
+      "count": 4096,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "DESIGN"
+      ],
+      "resources": "Native-compatible selectedrouteTG load",
+      "includes": "Setup and release for each of two direction waveforms;4edges perphysicalbatch",
+      "excludes": "notPCMcurrentwaveform/tail; no nativezero-writepulse used"
+    },
+    {
+      "id": "RESET_waveform",
+      "duration_s": 2e-08,
+      "count": 1024,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "resources": "16externallyrated.5mAcurrentlanes/8mAreturn",
+      "includes": "FullsourcecharacterizedRESETcurrentwaveform service underdeclarededge/quenchcondition",
+      "excludes": "selection andfinalreadback excluded"
+    },
+    {
+      "id": "SET_waveform_reserved",
+      "duration_s": 2e-07,
+      "count": 1024,
+      "source_class": "external_primitive",
+      "source_ids": [
+        "PCM-V5-01"
+      ],
+      "resources": "16externallyrated.2mAcurrentlanes,targetbitmask",
+      "includes": "Maskedtarget-oneSET;allbatchslots reserved fordata-independentcompletecoverboundary",
+      "excludes": "no inventedretryoradditionalSETtail"
+    },
+    {
+      "id": "verify_read_groups",
+      "duration_s": 2.517383292070741e-07,
+      "count": 256,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE",
+        "RCMODEL"
+      ],
+      "resources": "Samearray/64SAs/referencebranches",
+      "includes": "Finalbinaryreadbackofeverybitafterbothdirections",
+      "excludes": "notperpulseverifyorresistancewindowmeasurement"
+    },
+    {
+      "id": "verify_target_compare",
+      "duration_s": 8e-08,
+      "count": 256,
+      "source_class": "adapter",
+      "source_ids": [
+        "NATIVE"
+      ],
+      "resources": "8bytecomparators/failtree/stickyDFF",
+      "includes": "All64bitspergroupcomparetarget and retainrowfailure",
+      "excludes": "failure commitsnopayload"
+    },
+    {
+      "id": "row_commit_status",
+      "duration_s": 8e-08,
+      "count": 128,
+      "source_class": "service_policy",
+      "source_ids": [
+        "DESIGN",
+        "NATIVE"
+      ],
+      "resources": "sticky/status/retrystate registers",
+      "includes": "Successfulrowcommit or terminateone-attemptservice;statusclearedfornextrow",
+      "excludes": "no successprobability or secondpayload"
+    }
+  ]
+}

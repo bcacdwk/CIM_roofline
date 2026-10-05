@@ -159,3 +159,9 @@ python3 -B tasks/task1_table_I_NeuroSim/step4_v3/run.py --run-id new-v3-run --di
 ```sh
 python3 -B tasks/task1_table_I_NeuroSim/step4_v4/run.py --run-id new-v4-run --diagnostics --plots --no-export
 ```
+
+## 2026-10-05 追加：Step4 V5 七例与十类总览
+
+[V5入口](step4_v5/README.md) · [最终报告](step4_v5/REPORT.zh.md) · [21点CSV](step4_v5/results/final-reviewed-20261005/points.csv) · [10类30点圆图](step4_v5/results/final-reviewed-20261005/figures/ten/ten_rho_tau_circles.png) · [独立21点绑定](step4_v5/results/final_review_bindings.json)。
+
+PCM、MRAM、2D NOR、垂直AND FeFET、HZO FeRAM、GC-04及3D NAND的21个有限成对配置已完成实际构建和独立复核；V4九点只读纳入。GC为易失存储，主图使用长期维护口径；全部为有明确来源/精度/资源条件的参考，不是硅签核或等面积排名。最终计算不依赖旧性能/replay，旧阶段及Table II未改，无暂存/提交/推送。停止V5，等待用户和外部ChatGPT审阅。

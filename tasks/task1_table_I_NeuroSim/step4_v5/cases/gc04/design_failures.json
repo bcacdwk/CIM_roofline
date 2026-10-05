@@ -1,0 +1,30 @@
+{
+  "K64N64_200ns": {
+    "run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-gc04-k64n64-schedule-failure-r2-20261005",
+    "computational_hash": "427a2bf5afc3b1bb684d0d917e446754ab44e6b4c76963d6207fe5859cb50b62",
+    "raw_stream_s": 0.0002962,
+    "maintenance": {
+      "basis": "actual_event_schedule",
+      "feasible": false,
+      "schedule_policy": "workconservingfixedgrouporder;whole streamatomic,residentcommitbatchatomic",
+      "event_summary": {
+        "feasible": false,
+        "reason": "no_atomic_service_before_retention_deadline",
+        "retention_limit_s": 0.0004,
+        "refresh_s": 0.0003584,
+        "stream_atoms_fit": 0,
+        "resident_atoms_fit": 68,
+        "positive_idle_fraction": 0.10350000000000009
+      },
+      "raw_stream_s": 0.0002962,
+      "raw_resident_s": 0.0001538,
+      "retention_limit_s": 0.0004,
+      "long_term_stream_interval_s": null,
+      "long_term_resident_interval_s": null,
+      "single_admitted_stream_latency_s": null,
+      "single_resident_post_refresh_latency_s": null,
+      "max_group_writeback_gap_s": null
+    },
+    "scope": "stage/resource scheduling lower-bound failure;finalelectricalgatealsounclosed,noeffectivepoint"
+  }
+}

@@ -1,0 +1,1 @@
+旧45nm访问管实现的只读合格/热写阻断身份，精确源码和结果快照保留。其独立审查在reviews/p1_pcm，不被新的全HV-access实现替代或追溯通过。新实现有独立implementation_id并从主cases/pcm入口运行。

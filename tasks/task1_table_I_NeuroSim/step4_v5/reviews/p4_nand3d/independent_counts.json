@@ -1,0 +1,114 @@
+{
+  "status": "PASS_dominant_counts_and_precision_scope",
+  "counts": {
+    "logical_shape": [
+      4608,
+      240
+    ],
+    "logical_matrix_bytes": 1105920,
+    "blocks": 64,
+    "physical_cells": 84934656,
+    "data_cells": 79626240,
+    "reference_cells": 5308416,
+    "cells_per_INT8_weight": 72,
+    "data_pages": 5760,
+    "reference_pages": 384,
+    "all_pages": 6144,
+    "page_Byte": 1728,
+    "physical_page_bytes": 10616832,
+    "packets_per_page": 288,
+    "formatter_packet_bits": 48,
+    "input_masks": 32,
+    "stream_reads": 960,
+    "calibration_reads": 24,
+    "gain_offset_pairs": 256,
+    "stream_500ns_cycles": 75747,
+    "resident_nonPE_500ns_cycles": 12505770,
+    "stream_s": 0.0378735,
+    "scalar_encoding_cases": 65536,
+    "encoding_errors": 0,
+    "rawcode_integer_arithmetic_cases_per_scenario": 1024
+  },
+  "points": [
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "single_latency_s": 0.03787349999999999,
+      "resident_s": 8.160084999999999,
+      "rho_MB_per_s": 0.12166818487860909,
+      "tau_MB_per_s": 0.13552800001470575,
+      "RI_star": 0.897734673760457,
+      "U_star": 215.45632170250968,
+      "component_bindings": {
+        "logic": {
+          "kind": "nand_logic",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-opt-final-20261005-logic",
+          "source_manifest_sha256": "7d832b39228e8e89ab5aaeb31ff675881d677b97be36529b803dc882c6c2c116",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        },
+        "sar": {
+          "kind": "nand_sar",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-opt-final-20261005-sar",
+          "source_manifest_sha256": "398ee3b746d48ce021f4ed7eb578ed6a8c1e7e305b63c23f23627ad6082a4d0b",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-opt-final-20261005"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "single_latency_s": 0.03787349999999999,
+      "resident_s": 8.160084999999999,
+      "rho_MB_per_s": 0.12166818487860909,
+      "tau_MB_per_s": 0.13552800001470575,
+      "RI_star": 0.897734673760457,
+      "U_star": 215.45632170250968,
+      "component_bindings": {
+        "logic": {
+          "kind": "nand_logic",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-ref-final-20261005-logic",
+          "source_manifest_sha256": "d98f7d0a18ba3dbcefcf52a48bad4eefb91d70fc85118912e08e52e673eb149d",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        },
+        "sar": {
+          "kind": "nand_sar",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-ref-final-20261005-sar",
+          "source_manifest_sha256": "0eb1a732f4f73682d1925d7888154356ec9a43235dc0cd3e537228726479ff0b",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-ref-final-20261005"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "single_latency_s": 0.03787349999999999,
+      "resident_s": 10.163284999999998,
+      "rho_MB_per_s": 0.12166818487860909,
+      "tau_MB_per_s": 0.10881521082996296,
+      "RI_star": 1.1181174391945117,
+      "U_star": 268.3481854066828,
+      "component_bindings": {
+        "logic": {
+          "kind": "nand_logic",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-pess-final-20261005-logic",
+          "source_manifest_sha256": "4fb87cc453e5ae399ab362337f0aa9c0ad8a52e2a43160b4306234acd77fbb01",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        },
+        "sar": {
+          "kind": "nand_sar",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-pess-final-20261005-sar",
+          "source_manifest_sha256": "9839bc78127df8571ceba8fab0f27cd65fc650a943e2a3a12c89386c7ed45470",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-pess-final-20261005"
+    }
+  ],
+  "reviewed_computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+  "operating_scope": "BoundedcalibratedanalogQ4,notexactINT8/ENOB. Isolatedstringcodezeroandbackgroundgainerrorsremainvisible;no payloadtruthfix in the actualcodepath."
+}

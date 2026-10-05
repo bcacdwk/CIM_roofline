@@ -1,0 +1,175 @@
+{
+  "review_status": "PASS_conditional_model_scope",
+  "case": "nand3d",
+  "precision_scope": "FinitecalibratedapproximateanalogQ4only;NOTexactINT8,ENOB,siliconaccuracyorwholemacroreplication",
+  "reviewed_computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+  "reviewed_hashes": {
+    "cases/nand3d/case_adapter.py": "6fc6781de8ae18df5746a9e708221eccb521e7c965554182f695080257c5c60c",
+    "cases/nand3d/mapping_probe.py": "09e62f567ead499e76cf160a4daabee9dbb71469b54aa58006f780dfacff1274",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "src/nand_sar_probe.cpp": "7ea512f8118a781d6e261e02a61e4eb249598e37d636ff59a829fb0d2522189c",
+    "cases/nand3d/string_probe.py": "8db8e3e78a620ca7da83dbdba5145d245f98e4c307fa11fe1f601b8ec9de5eae",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "src/nand_logic_probe.cpp": "0cbe1e52ab868df213e03f968d1aa8ddcf8e3c53b91e5dee7ec05fc350ac102b",
+    "cases/nand3d/device_model.py": "b1cf0a9f4dc050b9a22b17a5a62dc54ab2488f0a7fed3fb61c611ec8639ca7d1",
+    "cases/nand3d/tia_model.py": "1b6f5019a5b95bb7162772c41cdd1c1735c866be3f6d8118354b0787948308e0",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/nand3d/identifiability_probe.py": "2226e6adf4f6b92dde478c64baeef09bf11ec7caf82fc2a62b9ae7e3a45ffaa1",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "nand_native.py": "4375a541647ad9ff1746c380a4f67e39411d5a42c639cdb1d830b114203fdc4d",
+    "cases/nand3d/inputs.json": "6f4978e79958c97eb07a6bb7f53909a276ec0e225c5f4ecbb4d6fd559d01f489",
+    "cases/nand3d/string_ports.json": "2b7f11fe1041ca35e5f02a94452b571b8921c94829e2c5ec18427f71f481a945",
+    "cases/nand3d/hv_driver_characterization.json": "cbfe27af58fb95f03893fdc9938e782d1278373c47436b353df583ea27d947a5",
+    "run_nand.py": "72173f2f94f0b141c8ad49a0a3cea2b6a1de4f413279cb484992ed377024a8f7"
+  },
+  "fresh_runs": [
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "single_latency_s": 0.03787349999999999,
+      "resident_s": 8.160084999999999,
+      "rho_MB_per_s": 0.12166818487860909,
+      "tau_MB_per_s": 0.13552800001470575,
+      "RI_star": 0.897734673760457,
+      "U_star": 215.45632170250968,
+      "component_bindings": {
+        "logic": {
+          "kind": "nand_logic",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-opt-final-20261005-logic",
+          "source_manifest_sha256": "7d832b39228e8e89ab5aaeb31ff675881d677b97be36529b803dc882c6c2c116",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        },
+        "sar": {
+          "kind": "nand_sar",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-opt-final-20261005-sar",
+          "source_manifest_sha256": "398ee3b746d48ce021f4ed7eb578ed6a8c1e7e305b63c23f23627ad6082a4d0b",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-opt-final-20261005"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "single_latency_s": 0.03787349999999999,
+      "resident_s": 8.160084999999999,
+      "rho_MB_per_s": 0.12166818487860909,
+      "tau_MB_per_s": 0.13552800001470575,
+      "RI_star": 0.897734673760457,
+      "U_star": 215.45632170250968,
+      "component_bindings": {
+        "logic": {
+          "kind": "nand_logic",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-ref-final-20261005-logic",
+          "source_manifest_sha256": "d98f7d0a18ba3dbcefcf52a48bad4eefb91d70fc85118912e08e52e673eb149d",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        },
+        "sar": {
+          "kind": "nand_sar",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-ref-final-20261005-sar",
+          "source_manifest_sha256": "0eb1a732f4f73682d1925d7888154356ec9a43235dc0cd3e537228726479ff0b",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-ref-final-20261005"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "single_latency_s": 0.03787349999999999,
+      "resident_s": 10.163284999999998,
+      "rho_MB_per_s": 0.12166818487860909,
+      "tau_MB_per_s": 0.10881521082996296,
+      "RI_star": 1.1181174391945117,
+      "U_star": 268.3481854066828,
+      "component_bindings": {
+        "logic": {
+          "kind": "nand_logic",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-pess-final-20261005-logic",
+          "source_manifest_sha256": "4fb87cc453e5ae399ab362337f0aa9c0ad8a52e2a43160b4306234acd77fbb01",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        },
+        "sar": {
+          "kind": "nand_sar",
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/native-reviewer-nand-pess-final-20261005-sar",
+          "source_manifest_sha256": "9839bc78127df8571ceba8fab0f27cd65fc650a943e2a3a12c89386c7ed45470",
+          "request_sha256": "fb6151bf6e1a12ac34ea0f164e4cd12138e75bee9b933800cdf949fd71491203"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-pess-final-20261005"
+    }
+  ],
+  "independence": {
+    "reviewer": "pcm_author",
+    "own_production": "PCM/NOR/FeRAM; providedpublicSKY130sourceentrance/tables",
+    "not_involved": "NoNANDstring/TIA/mapping/runner/native-productionimplementation; no NANDproductionchangesinreview"
+  },
+  "independent_main_counts": {
+    "logical_shape": [
+      4608,
+      240
+    ],
+    "logical_matrix_bytes": 1105920,
+    "blocks": 64,
+    "physical_cells": 84934656,
+    "data_cells": 79626240,
+    "reference_cells": 5308416,
+    "cells_per_INT8_weight": 72,
+    "data_pages": 5760,
+    "reference_pages": 384,
+    "all_pages": 6144,
+    "page_Byte": 1728,
+    "physical_page_bytes": 10616832,
+    "packets_per_page": 288,
+    "formatter_packet_bits": 48,
+    "input_masks": 32,
+    "stream_reads": 960,
+    "calibration_reads": 24,
+    "gain_offset_pairs": 256,
+    "stream_500ns_cycles": 75747,
+    "resident_nonPE_500ns_cycles": 12505770,
+    "stream_s": 0.0378735,
+    "scalar_encoding_cases": 65536,
+    "encoding_errors": 0,
+    "rawcode_integer_arithmetic_cases_per_scenario": 1024
+  },
+  "precision_evidence": {
+    "nominal_dense_fraction": 0.028846153846153914,
+    "isolated_unit_delta_code": 0,
+    "low_pass_fraction": 0.44230769230769235,
+    "high_pass_fraction": -0.21634615384615383,
+    "reference_ADC_gain_from_known_pages": 49.84615384615385,
+    "actual_code_perturbation_changes_output": true,
+    "no_dot_product_truth_repair": "Inspectedreceiver/formatterfixedpointpath;knownreferencecountssetgain/offset,actualADCcodesfeed11signedserialsteps;truthappearsasofflineencoding/errorcheckonly. Bothinputsignphasesexecutesobaselinecancellationisrealpolicy."
+  },
+  "physical_scope_checks": [
+    "Actualselected/pass/GSL/SSLseriesnetworkandinternalnodes,16layerDCnormalizationnotrenormalizedfor32layerextension.",
+    "Stringdifferentialconductance+explicitnodeC localsettling surrogate,notV/I-transientorsource303/530-750nsslotreuse.",
+    "FiniteA0/GBW/slew/offset,Cin/Cf/Rf and2AMPLTCreceiver before64native10bitSAR;2xSLload independentlocalcheckretained.",
+    "ActualMLP35bit/16lanecontrolminimumperiod~409ns versusselected500ns;256gain/offsetpairholds and48bitformatterpacket counted.",
+    "Complete6144pageprograms/64erases,allencodedbytesandreferencepages/calibration;singlePEenginefullinternalverify/recovery/readsafeisolation notdoublecounted.",
+    "Rowstaging4608x9bitsheldthrough24pages,48bitformatterserialbyteport;stage-typeaggregationdoesnotpreloadentirematrix."
+  ],
+  "source_checks": {
+    "PE": "OriginalMacronixPDFpages25/31/58checked:2112Bsourcepage,300/600usprogram,1/3.5mserase;conditionaltarget1728B/96pageblocktransferexplicit",
+    "LTC_url": "https://www.analog.com/media/en/technical-documentation/data-sheets/62689f.pdf",
+    "LTC_locator": "pp1/4 supplycurrentperamplifier16.5mAtyp/23mAfullrange;split-supplyexample and5Vtotal",
+    "external_amp_count": 128,
+    "static_typ_power_W": 10.56,
+    "pessimistic_power_W": 14.72
+  },
+  "limitations": [
+    "LogicalINT8encodingdoesnotgiveequalprecisionwithbinarydigitalcases;isolatedstringquantizeszero,nominaldenseabout3percentandextremepassbackgroundabout+44/-22percentresidualremainvisible.",
+    "32layerorganizationextends16layersourceelectricalfit;threshold/slope/capvaluesarenotuniquelyextractedTCAD.",
+    "128externalAMPsareahighpowerhybridfrontend,notoriginalintegratedlowpowerNANDmacro;noequalarea/energyclaim.",
+    "20VcompleteP/E/readsafeisolationbelongsconditionalFlashengine,not5VSKYreadswitch;SLCorganizationtransferisnotaguaranteefortarget3DNAND.",
+    "Receiver/ADCmodeldoesnotcertifyPCBstability/noise/ENOB,longtermdrift/enduranceorallpayloadaccuracy."
+  ],
+  "open_blockers": [],
+  "recommendation": "Admit3conditionalapproximate-Q4servicepointswithprominentprecision/power/identitylimits;opt/refcoincidentratesarevalid.",
+  "runtime": "/Users/shine/neurosim/runs/step4-v5/p4/reviewer-nand3d-20261005"
+}

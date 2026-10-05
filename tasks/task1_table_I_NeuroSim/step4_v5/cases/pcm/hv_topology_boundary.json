@@ -1,0 +1,45 @@
+{
+  "status": "known_low_voltage_access_exposure",
+  "tested_topology": "Add128columnHVread-isolators+128clamps+128HVprogramoutputs while retaining original45nmaccess devices",
+  "hot_column_upper_V": 4.5,
+  "native_access_rail_V": 1.0,
+  "unselected_access_gate_V": 0.0,
+  "unselected_PCM_finite_resistance_domain_ohm": [
+    5000.0,
+    2000000.0
+  ],
+  "counterexample": "ForanunselectedrowonhotBL,finitePCMconnectshotBLtoOFFaccessdrain. AtlongenoughholditsdrainapproacheshotBL. Columnreadisolationdoesnotprotectthisdevice;allselectedcellresultsareirrelevanttounselectedstress.",
+  "all128rows_share_hot_BL": true,
+  "original_topology_qualified": false,
+  "source_pulse_terminal_voltage_evidence_available": false,
+  "source_pulse_gate_access_voltage_evidence_available": false,
+  "alternative_all_HV_access": {
+    "status": "identifiedrequiredredesign,notyetqualified",
+    "HVaccess_count": 16384,
+    "fixed_model_geometry_m": [
+      2e-05,
+      5e-07
+    ],
+    "access_cap_bound_each_F": {
+      "gate_upper_F": 4.0787104340275864e-14,
+      "drain_upper_F": 2.75204634696e-14,
+      "channel_and_diffusion_area_m2": 5e-11
+    },
+    "minimum_activeplusdiffusion_area_m2": 8.192e-07,
+    "WL_cell_gate_load_F": 5.220749355555311e-12,
+    "BL_cell_drain_load_F": 3.5226193241088e-12,
+    "nominal5V_WL_charge_C": 2.6103746777776552e-11,
+    "capacitive_BL_charge_0_to4p5V_C": 1.5851786958489598e-11,
+    "chargingtime_ifall0p5mAavailable_s": 3.17035739169792e-08,
+    "chargingtime_ifall0p2mAavailable_s": 7.9258934792448e-08,
+    "additional_requirements": [
+      "128real5VWLdriversandcontrolgate-loadtiming",
+      "newHVaccessarea/pitch/BL/WLcapinsteadnative45nmaccess",
+      "pulsecurrentatPCMterminalnotcurrentchargingsharedBL",
+      "source-equivalentRESETtail/quenchonnewC",
+      "qualifiedstate/currentvoltagejointdomain"
+    ],
+    "not_replaced_by_native45nm": true
+  },
+  "resolution": "KeepfullresidentblockedunlesscompleteHVaccess+loadeddriver+terminalcurrentdeliveryisqualified;read-onlyexistingmodeldoesnotclaimsurvivalunderthishotwrite."
+}

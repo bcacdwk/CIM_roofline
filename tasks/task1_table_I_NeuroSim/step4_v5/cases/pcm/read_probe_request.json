@@ -1,0 +1,30 @@
+{
+  "identity": "PCM TiSbTe candidate read port, binary single-row, engineering layout/low-bias state assumptions; not service-qualified",
+  "point_eligibility": "probe_only",
+  "parameters": {
+    "technology_nm": 45,
+    "device_node_nm": 40,
+    "temperature_K": 300,
+    "rows": 128,
+    "cols": 128,
+    "read_mux": 2,
+    "write_mux": 8,
+    "resistance_on_ohm": 10000.0,
+    "resistance_off_ohm": 500000.0,
+    "access_resistance_ohm": 500.0,
+    "cell_pitch_x_m": 8e-06,
+    "cell_pitch_y_m": 1e-06,
+    "read_voltage_V": 0.2,
+    "access_voltage_V": 1.1,
+    "write_port_voltage_V": 1.1,
+    "wire_ohm_per_m": 10000000.0,
+    "clock_Hz": 100000000.0,
+    "extra_column_cap_F": 0.0
+  },
+  "limitations": [
+    "40nm material vs45nm LSTP modeled peripheral; redesigned layout",
+    "Read0.2V and ohmic endpoint states are explicit engineering conditional port; source does not publish read voltage",
+    "Program pulse/.5mA current source not modeled by this read probe",
+    "No material statistical yield or write completion qualification"
+  ]
+}

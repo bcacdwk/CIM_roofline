@@ -1,0 +1,205 @@
+{
+  "case_status": "ready_for_review",
+  "formal_eligibility": false,
+  "model_revision": "newallHV3umaccessvoltageport+128SA;sourceI/C/current/compliance/returnblocks;inclusivePCMsourcepulses",
+  "paired_points": [
+    {
+      "case_id": "pcm",
+      "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+      "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "review_state": "not_reviewed",
+      "K": 128,
+      "N": 16,
+      "B_S_Byte": 128,
+      "B_R_Byte": 2048,
+      "single_latency_s": 0.0005198218774537553,
+      "delta_S_raw_s": 0.0005198218774537553,
+      "resident_s": 0.0007996218774537552,
+      "rho_MB_per_s": 0.24623819341152528,
+      "tau_MB_per_s": 2.5612105643250644,
+      "RI_star": 0.09614133130690662,
+      "U_star": 1.5382613009105057,
+      "range_meaning": "Shortsourceplateau policycompatiblewithconservativeHVportbudget;fixedhardware;notarrayyield",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-optimistic-r1-20261005",
+      "component_bindings": {
+        "frontend": {
+          "kind": "polarization",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-optimistic-r1-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-optimistic-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "pcm-pcm-HV-optimistic-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/voltage_sense-pcm-pcm-HV-optimistic-r1-20261005-frontend",
+          "source_manifest_sha256": "3d907b30b0ac1efcadbec698c1e2a1e6e4c2ca55f6398d883029190b0af42757",
+          "request_sha256": "d2012cf5a73568936a588fec1046455f26d5ba0f115fd01c0b86dea936622e9c"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-optimistic-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-optimistic-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "pcm-pcm-HV-optimistic-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-pcm-pcm-HV-optimistic-r1-20261005-digital",
+          "source_manifest_sha256": "8d87edb1265c9b43a6df2c28801c33a0b3e287475a7d8c5385fb4f5905de4995",
+          "request_sha256": "4554f85238ddc3106db39b28337b982913ac90295031a8c9e0b02f44ac837317"
+        }
+      },
+      "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d"
+    },
+    {
+      "case_id": "pcm",
+      "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+      "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "review_state": "not_reviewed",
+      "K": 128,
+      "N": 16,
+      "B_S_Byte": 128,
+      "B_R_Byte": 2048,
+      "single_latency_s": 0.0005198218774537553,
+      "delta_S_raw_s": 0.0005198218774537553,
+      "resident_s": 0.0009327418774537552,
+      "rho_MB_per_s": 0.24623819341152528,
+      "tau_MB_per_s": 2.195677120867277,
+      "RI_star": 0.11214681387865577,
+      "U_star": 1.7943490220584921,
+      "range_meaning": "50nsRESET/200nsSETsourceplateau policy onnewHVhardware;notstatisticaltypical",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005",
+      "component_bindings": {
+        "frontend": {
+          "kind": "polarization",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "pcm-pcm-HV-reference-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/voltage_sense-pcm-pcm-HV-reference-r1-20261005-frontend",
+          "source_manifest_sha256": "13a8bfb39f53e482a3496c4ef0c4471571492f4b32a67132caa6b4cf44f417be",
+          "request_sha256": "d2012cf5a73568936a588fec1046455f26d5ba0f115fd01c0b86dea936622e9c"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-reference-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "pcm-pcm-HV-reference-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-pcm-pcm-HV-reference-r1-20261005-digital",
+          "source_manifest_sha256": "a226e42e7997ddde67231ee6701b98307c585e60685ed29828199bf580c230cb",
+          "request_sha256": "4554f85238ddc3106db39b28337b982913ac90295031a8c9e0b02f44ac837317"
+        }
+      },
+      "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d"
+    },
+    {
+      "case_id": "pcm",
+      "implementation_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2",
+      "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "review_state": "not_reviewed",
+      "K": 128,
+      "N": 16,
+      "B_S_Byte": 128,
+      "B_R_Byte": 2048,
+      "single_latency_s": 0.0005198218774537553,
+      "delta_S_raw_s": 0.0005198218774537553,
+      "resident_s": 0.0018031418774537551,
+      "rho_MB_per_s": 0.24623819341152528,
+      "tau_MB_per_s": 1.1357952613756677,
+      "RI_star": 0.216798046078554,
+      "U_star": 3.468768737256864,
+      "range_meaning": "Longersame-sourcepulsepolicy;no inventedprobability/PVT",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-pessimistic-r1-20261005",
+      "component_bindings": {
+        "frontend": {
+          "kind": "polarization",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-pessimistic-r1-20261005/canonical/special_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-pessimistic-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "pcm-pcm-HV-pessimistic-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/voltage_sense-pcm-pcm-HV-pessimistic-r1-20261005-frontend",
+          "source_manifest_sha256": "dc8724bef5eca7b049bda6c09ddc8c9e0a07394887aede23e7bc9b78a52300e9",
+          "request_sha256": "d2012cf5a73568936a588fec1046455f26d5ba0f115fd01c0b86dea936622e9c"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-pessimistic-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-HV-pessimistic-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "pcm-pcm-HV-pessimistic-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-pcm-pcm-HV-pessimistic-r1-20261005-digital",
+          "source_manifest_sha256": "4dd7083cdef71651896912cac0c0978e455c8141257f0397d24e4d1920ade291",
+          "request_sha256": "4554f85238ddc3106db39b28337b982913ac90295031a8c9e0b02f44ac837317"
+        }
+      },
+      "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d"
+    }
+  ],
+  "computational_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/pcm/inputs.json": "1264f1abc385cbb0d70714575506f191c0eb0c044ae17bb116dfc4782bf83a69",
+    "cases/pcm/case_adapter.py": "9b44b6c14445238f9c54070bccb7a6f280ff0cfb5f36df0262b1c39be39511fd",
+    "cases/pcm/hv_model.py": "79c5f8bbe8c330b68d1720511bc38b78f85e962e8ba98b3216542511917280be",
+    "cases/pcm/hv_port_probe.py": "199ea55c20e6334d629d99566d9d8c620294b1be81f74a6fbcc94b010d05ec59",
+    "cases/pcm/hv_array_probe.py": "ff29f58ccd405e01be17065dbe3f4847851f15d0c18be82c23e1af0d8597f187",
+    "cases/pcm/hv_data.json": "3726a6d177449f1168ba0b8e0a679d1f29d37dbda541c540e71a975e1fd65e92",
+    "cases/pcm/hv_access_data.json": "48fd214eb8440190abca9007a84da19a458143d8c198c2e13cb70faa39a548b9",
+    "cases/pcm/adapter.py": "e77c9dc1fc5662ac34ab1cb5d9f8608bc03045c67bb1c5452254b80cf89c4a09",
+    "special_probe.py": "4c6a791e498ed16396dd2be1a015444bf9514512ad49e170d29ff7e15fb51631",
+    "src/polarization_port_probe.cpp": "39fdbd36532b4d5f4d553b03984e8ce4d01bf4fb598af4fc2d5614671509377c",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+    "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+  },
+  "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+  "historical_lv_scope": "lv_readonly/ and reviews/p1_pcm preserveold45nmread-onlyPASS/residentBLOCKED; neverupgradedretroactively",
+  "scope": "Newconditionalreference,boundedHVportservice,currentpulseworkingendpointcondition;no fullswitchingSTAorallcell-yieldclaim"
+}

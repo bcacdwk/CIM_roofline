@@ -1,0 +1,101 @@
+{
+  "identity": "four-layer AND threshold port with EKV source-derived current shape; engineering .1V domain",
+  "point_eligibility": "probe_only",
+  "front_end": "case_terminal_ports",
+  "frontend_identity": "one selected layer, three unselected shared BL/SL branches; EKV continuous finite-bias FET current",
+  "source_ids": [
+    "FENOR-02_Figs3_5_9_11",
+    "EKV1995_EQ28_30_31",
+    "P2_ENGINEERING_WITNESS"
+  ],
+  "applicability": "finite compact-model candidate only; Vds=.1V/n1.5/epsilon25 explicit engineering assumptions; no negative gate-driver qualification",
+  "parameters": {
+    "technology_nm": 65,
+    "temperature_K": 300,
+    "rows": 1,
+    "cols": 16,
+    "layers": 4,
+    "read_mux": 2,
+    "selected_gate_V": -0.5,
+    "unselected_gate_V": -1.1,
+    "drain_rail_V": 0.1,
+    "source_rail_V": 0.0,
+    "row_pitch_m": 1.2e-07,
+    "column_pitch_m": 1.7e-07,
+    "layer_pitch_m": 4e-08,
+    "wire_cap_F_per_m": 2e-10,
+    "wire_res_ohm_per_m": 10000000.0,
+    "mux_target_ohm": 10000.0,
+    "sense_threshold_V": 0.01,
+    "clock_Hz": 10000000.0
+  },
+  "terminal_ports": {
+    "actual_gate_load_F": 1.1342791875200001e-15,
+    "actual_BL_load_F": 7.075697968800001e-17,
+    "actual_SL_load_F": 7.80111675008e-16,
+    "sense_current_high_A": 1.7864543612739475e-07,
+    "sense_current_low_A": 1.2682538965114436e-08
+  },
+  "operating_states": [
+    {
+      "selected": 0,
+      "min_A": 9.26734028034922e-11,
+      "max_A": 1.2682538965114436e-08,
+      "min_pattern": [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        0.05
+      ],
+      "max_pattern": [
+        [
+          0,
+          1,
+          1,
+          1
+        ],
+        -0.05
+      ]
+    },
+    {
+      "selected": 1,
+      "min_A": 1.7864543612739475e-07,
+      "max_A": 2.329869000821205e-07,
+      "min_pattern": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        0.05
+      ],
+      "max_pattern": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        -0.05
+      ]
+    }
+  ],
+  "geometry_parameters": {
+    "cell_gate_area_m2": 9.999999999999999e-16,
+    "ferroelectric_thickness_m": 6e-09,
+    "epsilon_r_provisional": 25,
+    "drain_source_gate_cap_fraction_provisional": 0.1,
+    "parallel_lateral_lanes_for_future_formal_identity": 32,
+    "layers_active_at_once": 1
+  },
+  "limitations": [
+    "Negative gate driver and body/well/level shift not yet closed.",
+    "No unique extraction of slope or drain I-V from original source.",
+    "Port C is geometric engineering background, not measured nonlinear FE switching charge.",
+    "This native component is not a complete service point."
+  ]
+}

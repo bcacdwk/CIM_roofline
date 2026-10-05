@@ -1,0 +1,195 @@
+{
+  "status": "COMPLETE_21_CONDITIONAL_POINTS",
+  "package_path": "/Users/shine/neurosim/runs/step4-v5/packages/final-compute-seven-r2-20261005",
+  "package_manifest_sha256": "cf1481413e9fba9a4e22c518c54ff95d8d10d46e53224b78c79746d74846da52",
+  "source_batches": [
+    "/Users/shine/neurosim/runs/step4-v5/integration/final-seven-from-compute-package-20261005",
+    "/Users/shine/neurosim/runs/step4-v5/integration/final-mram-package-completion-20261005"
+  ],
+  "case_computational_hashes": {
+    "pcm": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+    "mram": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+    "nor2d": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+    "fenor3d": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+    "feram": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+    "gc04": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+    "nand3d": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d"
+  },
+  "all_source_hashes_match": true,
+  "summary_sha256": "5ff22535cbb67e2b841f8310e0831966282c74b16e74a1195e423531e61381db",
+  "point_runs": [
+    {
+      "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-final-seven-from-compute-package-20261005-optimistic",
+      "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-hv-independent-optimistic-r1-20261005",
+      "independent_review": "reviews/p1_pcm_hv/review.json",
+      "review_sha256": "bb8850544b0e43def4e2b686250fc524d217393e36b1dc1233edabb19890d14a"
+    },
+    {
+      "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-final-seven-from-compute-package-20261005-reference",
+      "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-hv-independent-reference-r1-20261005",
+      "independent_review": "reviews/p1_pcm_hv/review.json",
+      "review_sha256": "bb8850544b0e43def4e2b686250fc524d217393e36b1dc1233edabb19890d14a"
+    },
+    {
+      "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-final-seven-from-compute-package-20261005-pessimistic",
+      "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-pcm-pcm-hv-independent-pessimistic-r1-20261005",
+      "independent_review": "reviews/p1_pcm_hv/review.json",
+      "review_sha256": "bb8850544b0e43def4e2b686250fc524d217393e36b1dc1233edabb19890d14a"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-final-mram-package-completion-20261005-optimistic",
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-opt-20261005",
+      "independent_review": "reviews/p1_mram/review.json",
+      "review_sha256": "cfdf0ccd037ea7ee4ff9f436defc7a49045622db2ad9cdf1c81f06486b1c3a02"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-final-mram-package-completion-20261005-reference",
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-ref-20261005",
+      "independent_review": "reviews/p1_mram/review.json",
+      "review_sha256": "cfdf0ccd037ea7ee4ff9f436defc7a49045622db2ad9cdf1c81f06486b1c3a02"
+    },
+    {
+      "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-final-mram-package-completion-20261005-pessimistic",
+      "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-reviewer-mram-final-pess-20261005",
+      "independent_review": "reviews/p1_mram/review.json",
+      "review_sha256": "cfdf0ccd037ea7ee4ff9f436defc7a49045622db2ad9cdf1c81f06486b1c3a02"
+    },
+    {
+      "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-final-seven-from-compute-package-20261005-optimistic",
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-optimistic-r1-20261005",
+      "independent_review": "reviews/p2_nor2d/review.json",
+      "review_sha256": "468abdd33cc3f4ed5304cd74a95b03137b8aae894b2ffa8d05529230797dafa5"
+    },
+    {
+      "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-final-seven-from-compute-package-20261005-reference",
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-reference-r1-20261005",
+      "independent_review": "reviews/p2_nor2d/review.json",
+      "review_sha256": "468abdd33cc3f4ed5304cd74a95b03137b8aae894b2ffa8d05529230797dafa5"
+    },
+    {
+      "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-final-seven-from-compute-package-20261005-pessimistic",
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-pessimistic-r1-20261005",
+      "independent_review": "reviews/p2_nor2d/review.json",
+      "review_sha256": "468abdd33cc3f4ed5304cd74a95b03137b8aae894b2ffa8d05529230797dafa5"
+    },
+    {
+      "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-final-seven-from-compute-package-20261005-optimistic",
+      "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-opt-r2-20261005",
+      "independent_review": "reviews/p2_fenor3d/review.json",
+      "review_sha256": "cbabf7209e07057ebb92634aa5ba1f5790da8731a0b902685575fdf495e493e6"
+    },
+    {
+      "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-final-seven-from-compute-package-20261005-reference",
+      "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-ref-r2-20261005",
+      "independent_review": "reviews/p2_fenor3d/review.json",
+      "review_sha256": "cbabf7209e07057ebb92634aa5ba1f5790da8731a0b902685575fdf495e493e6"
+    },
+    {
+      "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-final-seven-from-compute-package-20261005-pessimistic",
+      "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-pess-r2-20261005",
+      "independent_review": "reviews/p2_fenor3d/review.json",
+      "review_sha256": "cbabf7209e07057ebb92634aa5ba1f5790da8731a0b902685575fdf495e493e6"
+    },
+    {
+      "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-final-seven-from-compute-package-20261005-optimistic",
+      "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-optimistic-r1-20261005",
+      "independent_review": "reviews/p3_feram/review.json",
+      "review_sha256": "b7860f4ce8af649d4b2e103b46fcb15a7ee028f773040d98a3b458a5c25fc17a"
+    },
+    {
+      "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-final-seven-from-compute-package-20261005-reference",
+      "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-reference-r1-20261005",
+      "independent_review": "reviews/p3_feram/review.json",
+      "review_sha256": "b7860f4ce8af649d4b2e103b46fcb15a7ee028f773040d98a3b458a5c25fc17a"
+    },
+    {
+      "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-final-seven-from-compute-package-20261005-pessimistic",
+      "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-feram-feram-independent-pessimistic-r1-20261005",
+      "independent_review": "reviews/p3_feram/review.json",
+      "review_sha256": "b7860f4ce8af649d4b2e103b46fcb15a7ee028f773040d98a3b458a5c25fc17a"
+    },
+    {
+      "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-final-seven-from-compute-package-20261005-optimistic",
+      "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-opt-final-20261005",
+      "independent_review": "reviews/p3_gc04/review.json",
+      "review_sha256": "f3f907a3c1535b7547b3bf5aa39936360bc5f2f56e02c4d15e366f322a6c061d"
+    },
+    {
+      "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-final-seven-from-compute-package-20261005-reference",
+      "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-ref-final-20261005",
+      "independent_review": "reviews/p3_gc04/review.json",
+      "review_sha256": "f3f907a3c1535b7547b3bf5aa39936360bc5f2f56e02c4d15e366f322a6c061d"
+    },
+    {
+      "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-final-seven-from-compute-package-20261005-pessimistic",
+      "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-gc04-reviewer-gc04-pess-final-20261005",
+      "independent_review": "reviews/p3_gc04/review.json",
+      "review_sha256": "f3f907a3c1535b7547b3bf5aa39936360bc5f2f56e02c4d15e366f322a6c061d"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__optimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-final-seven-from-compute-package-20261005-optimistic",
+      "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-opt-final-20261005",
+      "independent_review": "reviews/p4_nand3d/review.json",
+      "review_sha256": "0eccfffa5d8b71e4a5ffae4cd44cfb825795af37c00b7491f2068b8f519e19a0"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-final-seven-from-compute-package-20261005-reference",
+      "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-ref-final-20261005",
+      "independent_review": "reviews/p4_nand3d/review.json",
+      "review_sha256": "0eccfffa5d8b71e4a5ffae4cd44cfb825795af37c00b7491f2068b8f519e19a0"
+    },
+    {
+      "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-final-seven-from-compute-package-20261005-pessimistic",
+      "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+      "independent_fresh_run": "/Users/shine/neurosim/runs/step4-v5/p4/case-nand3d-reviewer-nand-pess-final-20261005",
+      "independent_review": "reviews/p4_nand3d/review.json",
+      "review_sha256": "0eccfffa5d8b71e4a5ffae4cd44cfb825795af37c00b7491f2068b8f519e19a0"
+    }
+  ],
+  "initial_packaging_fix": "INTERFACE/PROBE_API normative docs added;models unchanged;18successfulnative runs retained;onlyMRAM3performedcompletion",
+  "formal_accepted_points": 21,
+  "independent_binding_sha256": "74a43626bbd8a4f13b161c7b3cfa5fbc192a5e75074c9f0066160a6ecf7be6c4",
+  "overview_review_path": "reviews/p5_overview/review.json",
+  "overview_review_sha256": "6eb5b44f95a2dca468ec9bc4d750d80196af7a751aab1e2f925ea4543599a688"
+}

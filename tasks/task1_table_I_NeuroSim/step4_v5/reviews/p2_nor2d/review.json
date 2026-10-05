@@ -1,0 +1,293 @@
+{
+  "review_status": "PASS_conditional_model_scope",
+  "role_disclosure": "Reviewer authored MRAM/GC04/FeNOR/NAND but did not edit NOR production; read-only sharedinterfacefeedback.",
+  "checks": [
+    {
+      "scenario": "optimistic",
+      "fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-optimistic-r1-20261005",
+      "input_sha256": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+      "computational_hashes": {
+        "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+        "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+        "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+        "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+        "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+        "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+        "cases/nor2d/inputs.json": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+        "cases/nor2d/case_adapter.py": "ed1bafbad889772e8c09ffb318283b2ed4d39a34273425ed170fc201fdb72bcb",
+        "cases/nor2d/threshold_model.py": "ebb03cb99b71bbeede5d2adffd6fc45ac5a8ab078e90c20b8b5681e5693ad0e5",
+        "cases/nor2d/read_network.py": "46049460b7392af3e518a9670a1340f501c3ca2cedd436579c3a5957a7c3d7ad",
+        "cases/nor2d/transfer_samples.json": "4bb058983b3c4473c61cacf455237a132b47d6d63b618cd6d18b4c32266e19aa",
+        "threshold_probe.py": "101c9797230b68cfbc28b697b07f82c671b1ff07612997f2064036667a1ba321",
+        "src/threshold_port_probe.cpp": "b42bc26267dcf4e2708779e77027a5a3c469d129c887865f6714d2d560856550",
+        "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+        "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+        "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+      },
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-optimistic-r1-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-optimistic-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-independent-optimistic-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-independent-optimistic-r1-20261005-frontend",
+          "source_manifest_sha256": "efde4b06df0170e6083fdad100785dc6c73ed326bed82da1eaf8481185fd3271",
+          "request_sha256": "d803806a63e060f14919fa8877690073d9ec1807005bc8db6521dcffc6f6c4c5"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-optimistic-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-optimistic-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-independent-optimistic-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-independent-optimistic-r1-20261005-digital",
+          "source_manifest_sha256": "1d311f9b98100a5e1daf8047512d14bc71b5eaf077bdc1e7aa06c5fcdf99dcab",
+          "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+        }
+      },
+      "status": "PASS_conditional_model_scope",
+      "independent_counts": {
+        "logical_bytes": 4096,
+        "physical_bits": 32768,
+        "pages": 16,
+        "sectors": 1,
+        "SPI_bits": 33720,
+        "transactions": 51,
+        "input_beats": 16,
+        "physical_read_groups": 512,
+        "MAC_updates": 4096,
+        "stream_cycles": 6930
+      },
+      "independent_times_s": {
+        "stream": 0.0013859999999999999,
+        "SPI": 0.000677256,
+        "resident": 0.052077656
+      },
+      "rates": {
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.07865177342083138,
+        "RI_star": 2.348379148629149,
+        "U_star": 37.574066378066384
+      },
+      "major_physics_gates": {
+        "native_bias_compatible": true,
+        "false_early_latch_excluded": true,
+        "reference_separate_internal_node": true,
+        "physical_state_and_full_cover": true,
+        "no_duplicated_native2_over_f": true,
+        "explicit_read_extra_C_F": 4e-12
+      },
+      "precision_scope": "conditionalbinarythresholdthenexactINT8arithmetic;notnoise/BERorsiliconguarantee"
+    },
+    {
+      "scenario": "reference",
+      "fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-reference-r1-20261005",
+      "input_sha256": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+      "computational_hashes": {
+        "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+        "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+        "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+        "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+        "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+        "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+        "cases/nor2d/inputs.json": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+        "cases/nor2d/case_adapter.py": "ed1bafbad889772e8c09ffb318283b2ed4d39a34273425ed170fc201fdb72bcb",
+        "cases/nor2d/threshold_model.py": "ebb03cb99b71bbeede5d2adffd6fc45ac5a8ab078e90c20b8b5681e5693ad0e5",
+        "cases/nor2d/read_network.py": "46049460b7392af3e518a9670a1340f501c3ca2cedd436579c3a5957a7c3d7ad",
+        "cases/nor2d/transfer_samples.json": "4bb058983b3c4473c61cacf455237a132b47d6d63b618cd6d18b4c32266e19aa",
+        "threshold_probe.py": "101c9797230b68cfbc28b697b07f82c671b1ff07612997f2064036667a1ba321",
+        "src/threshold_port_probe.cpp": "b42bc26267dcf4e2708779e77027a5a3c469d129c887865f6714d2d560856550",
+        "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+        "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+        "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+      },
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-reference-r1-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-reference-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-independent-reference-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-independent-reference-r1-20261005-frontend",
+          "source_manifest_sha256": "c62425d6f389aea0183d6626705021a016d224675f08b9588cd60841d6662ac8",
+          "request_sha256": "a66e39ef0861a3d4030b62ae6b631ea69976d7420658511411b638ccc76a88eb"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-reference-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-reference-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-independent-reference-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-independent-reference-r1-20261005-digital",
+          "source_manifest_sha256": "51156a3f87a76935c3533232dec2dc8d766d5ee1493c7d7d0edc08cba3a80ce1",
+          "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+        }
+      },
+      "status": "PASS_conditional_model_scope",
+      "independent_counts": {
+        "logical_bytes": 4096,
+        "physical_bits": 32768,
+        "pages": 16,
+        "sectors": 1,
+        "SPI_bits": 33720,
+        "transactions": 51,
+        "input_beats": 16,
+        "physical_read_groups": 512,
+        "MAC_updates": 4096,
+        "stream_cycles": 6930
+      },
+      "independent_times_s": {
+        "stream": 0.0013859999999999999,
+        "SPI": 0.000677256,
+        "resident": 0.052077656
+      },
+      "rates": {
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.07865177342083138,
+        "RI_star": 2.348379148629149,
+        "U_star": 37.574066378066384
+      },
+      "major_physics_gates": {
+        "native_bias_compatible": true,
+        "false_early_latch_excluded": true,
+        "reference_separate_internal_node": true,
+        "physical_state_and_full_cover": true,
+        "no_duplicated_native2_over_f": true,
+        "explicit_read_extra_C_F": 4e-12
+      },
+      "precision_scope": "conditionalbinarythresholdthenexactINT8arithmetic;notnoise/BERorsiliconguarantee"
+    },
+    {
+      "scenario": "pessimistic",
+      "fresh_run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-pessimistic-r1-20261005",
+      "input_sha256": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+      "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+      "computational_hashes": {
+        "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+        "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+        "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+        "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+        "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+        "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+        "cases/nor2d/inputs.json": "9038d6880edbe4e9d99c931e27532157c71f8742f2cacfb79652bd1d2f787aad",
+        "cases/nor2d/case_adapter.py": "ed1bafbad889772e8c09ffb318283b2ed4d39a34273425ed170fc201fdb72bcb",
+        "cases/nor2d/threshold_model.py": "ebb03cb99b71bbeede5d2adffd6fc45ac5a8ab078e90c20b8b5681e5693ad0e5",
+        "cases/nor2d/read_network.py": "46049460b7392af3e518a9670a1340f501c3ca2cedd436579c3a5957a7c3d7ad",
+        "cases/nor2d/transfer_samples.json": "4bb058983b3c4473c61cacf455237a132b47d6d63b618cd6d18b4c32266e19aa",
+        "threshold_probe.py": "101c9797230b68cfbc28b697b07f82c671b1ff07612997f2064036667a1ba321",
+        "src/threshold_port_probe.cpp": "b42bc26267dcf4e2708779e77027a5a3c469d129c887865f6714d2d560856550",
+        "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+        "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+        "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+      },
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-pessimistic-r1-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-pessimistic-r1-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-independent-pessimistic-r1-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-nor2d-nor2d-independent-pessimistic-r1-20261005-frontend",
+          "source_manifest_sha256": "48c966ad30f9e23739fc7d64fc86c78845be052c75e4bc56649a695c1dda2875",
+          "request_sha256": "4873f3245fff9585bffcaee74ad999e09a362a38ed47d727073c871f8b6d53d8"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-pessimistic-r1-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-independent-pessimistic-r1-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "nor2d-nor2d-independent-pessimistic-r1-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-nor2d-nor2d-independent-pessimistic-r1-20261005-digital",
+          "source_manifest_sha256": "f5b773ad072de1f92053596b03c74f3478fdfa32404d3a1196e4ffc7f62ea35e",
+          "request_sha256": "d37a00d4da398b26ee3c983d96b6f0c25fb41a6e1b71779c20a83ddffc5d77d9"
+        }
+      },
+      "status": "PASS_conditional_model_scope",
+      "independent_counts": {
+        "logical_bytes": 4096,
+        "physical_bits": 32768,
+        "pages": 16,
+        "sectors": 1,
+        "SPI_bits": 33720,
+        "transactions": 51,
+        "input_beats": 16,
+        "physical_read_groups": 512,
+        "MAC_updates": 4096,
+        "stream_cycles": 6930
+      },
+      "independent_times_s": {
+        "stream": 0.0013859999999999999,
+        "SPI": 0.000677256,
+        "resident": 0.44867765600000004
+      },
+      "rates": {
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.00912904831614793,
+        "RI_star": 20.232578282828285,
+        "U_star": 323.72125252525257
+      },
+      "major_physics_gates": {
+        "native_bias_compatible": true,
+        "false_early_latch_excluded": true,
+        "reference_separate_internal_node": true,
+        "physical_state_and_full_cover": true,
+        "no_duplicated_native2_over_f": true,
+        "explicit_read_extra_C_F": 4e-12
+      },
+      "precision_scope": "conditionalbinarythresholdthenexactINT8arithmetic;notnoise/BERorsiliconguarantee"
+    }
+  ],
+  "review_scale": "newsource/newbuild criticalmechanism/resources/completeP&E/counts;notrepeattransistor-levelaudit",
+  "source_check": "OriginalW25Q128JVRevG PDFp66 visuallyread: tPPtyp0.4ms/max3ms,tSE4KiBtyp45ms/max400ms;SPI/sequentialpagecoverageindependentlycounted",
+  "limitations": [
+    "ProductP/Eengine transferredconditionallytoESF1-derivedreadstates/readsafeports;notESF1productguarantee.",
+    "NativeSAR/VSAlabels andregisterformats donotprovideENOB/BER/STA.",
+    "Extra4pF/readbranch andopaqueP/E resourcesarevisible; nativepartialarea notanequal-areafullmacrocomparison.",
+    "Opt/referenceidenticalratesaretrueclock/PEcoincidence,notmissingdata."
+  ]
+}

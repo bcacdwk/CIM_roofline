@@ -1,0 +1,76 @@
+{
+  "status": "probe_only",
+  "formal_points": 0,
+  "runs": [
+    {
+      "run": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-threshold-synthetic-20261005",
+      "mode": "synthetic",
+      "layers": 4.0,
+      "active_layers": 1.0,
+      "capacity_cells": 512.0,
+      "gate_F": 2.9439999999999997e-15,
+      "BL_F": 1.184e-15,
+      "SL_F": 1.5904e-14,
+      "I_high_A": 3.400412166400076e-05,
+      "I_low_A": 7.341887423006647e-06,
+      "native_select_s": 1.2539398628984228e-09,
+      "native_periphery_area_m2": 5.219419777305079e-10,
+      "native_gate_driver_compatible": true
+    },
+    {
+      "run": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-threshold-one-layer-20261005",
+      "mode": "synthetic",
+      "layers": 1.0,
+      "active_layers": 1.0,
+      "capacity_cells": 128.0,
+      "gate_F": 2.9439999999999997e-15,
+      "BL_F": 4.4e-16,
+      "SL_F": 4.384e-15,
+      "I_high_A": 3.4017147818945116e-05,
+      "I_low_A": 7.342322059148695e-06,
+      "native_select_s": 3.7295127531206395e-10,
+      "native_periphery_area_m2": 4.098120577305078e-10,
+      "native_gate_driver_compatible": true
+    },
+    {
+      "run": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-threshold-source100-20261005",
+      "mode": "synthetic",
+      "layers": 4.0,
+      "active_layers": 1.0,
+      "capacity_cells": 512.0,
+      "gate_F": 2.9439999999999997e-15,
+      "BL_F": 1.184e-15,
+      "SL_F": 1.5904e-14,
+      "I_high_A": 2.2528320142816826e-05,
+      "I_low_A": 6.457461187314856e-06,
+      "native_select_s": 1.2539398628984228e-09,
+      "native_periphery_area_m2": 5.219419777305079e-10,
+      "native_gate_driver_compatible": true
+    },
+    {
+      "run": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-threshold-terminal-api-20261005",
+      "mode": "case_terminal_ports",
+      "layers": 4.0,
+      "active_layers": 1.0,
+      "capacity_cells": 512.0,
+      "gate_F": 2.9439999999999997e-15,
+      "BL_F": 1.184e-15,
+      "SL_F": 1.5904e-14,
+      "I_high_A": 3.400412166400076e-05,
+      "I_low_A": 7.341887423006647e-06,
+      "native_select_s": 1.2539398628984228e-09,
+      "native_periphery_area_m2": 5.219419777305079e-10,
+      "native_gate_driver_compatible": true
+    }
+  ],
+  "causal_findings": [
+    "1-to-4 layers changes capacity/BL-SL load/leakage, not four active layers or fourfold current",
+    "Shared-source resistance10-to100ohm decreases selected-state current through coupled KCL",
+    "Case-terminal plumbing reproduces identical periphery for identical physical ports without requiring unused synthetic material coefficients"
+  ],
+  "limitations": [
+    "No NOR/FeNOR material validation or full service",
+    "Negative/HV gate is explicitly native-incompatible until external driver exists",
+    "P1 kernel/runner/patches remain frozen; P2 is separate entry"
+  ]
+}

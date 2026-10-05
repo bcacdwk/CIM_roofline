@@ -1,0 +1,712 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "gc04",
+  "implementation_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1",
+  "identity": {
+    "material": "volatile silicon CMOS current-programmed dynamic-cascode gain-cellGC04",
+    "cell": "10fF MOM3T1C,HVTmain/LVTcascode,pseudo-differentialpair",
+    "organization": "8planes×2rowhalf×1outputbank×32rows×16pairs=16384cells;128pairports shared2banks;256single-ended11bitSAR",
+    "read": "pairbranch currentintegration;two actualADCcodes subtracted;nativearray/ADC isolation withCDACconnected duringintegration",
+    "write": "128pair independent replicated full current-feedback engines,50fF qualifiedcolumn;newselector/route separatelycounted",
+    "process": "65nmperipheralmodel353K;sourceFF80C retentioncompactcondition;feedbackwrite measurementtemperatureunspecified",
+    "encoding": "complementarybits(2b−1),two’scomplementweightplanes;real16bitXsumandfinalcorrection;nofreezero-statehold"
+  },
+  "logical": {
+    "K": 64,
+    "N": 16,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "nominal analogapproximate signedINT8mapping,Q4 in32bitcontainer;not exactINT8or measuredENOB; final arithmeticshift truncates atmost1/32 outputunit"
+  },
+  "base_parameters": {
+    "technology_nm": 65,
+    "temperature_K": 353,
+    "cell_temperature_K": 353.15,
+    "clock_Hz": 5000000,
+    "physical_rows": 32,
+    "outputs_per_subarray": 16,
+    "row_halves": 2,
+    "output_groups": 1,
+    "weight_planes": 8,
+    "adc_pair_lanes": 128,
+    "adc_bits": 11,
+    "adc_reference_V": 1.0,
+    "adc_input_cap_F": 2e-14,
+    "integration_cap_F": 2e-13,
+    "array_intrinsic_column_cap_F": 2.5e-14,
+    "source_original_column_cap_F": 5e-14,
+    "write_qualified_cap_F": 5e-14,
+    "array_width_m": 9.6e-05,
+    "array_isolation_target_ohm": 400.0,
+    "sample_switch_target_ohm": 1000.0,
+    "precharge_voltage_V": 0.9,
+    "current_valid_min_V": 0.65,
+    "current_valid_max_V": 0.95,
+    "rwl_target_ohm": 50.0,
+    "rwl_wire_ohm": 10.56,
+    "rwl_load_F": 5e-14,
+    "rwl_voltage_V": 1.0,
+    "cell_current_A": 7e-07,
+    "state_reference_current_A": 1e-07,
+    "state_reference_voltage_V": 0.52,
+    "storage_MOM_cap_F": 1e-14,
+    "storage_RWL_coupling_F": 2e-16,
+    "state_slope_factor": 1.5,
+    "cascode_internal_drop_V": 0.2,
+    "output_lambda_per_V": 0.06666666666666674,
+    "retention_calibration_s": 0.0004,
+    "high_endpoint_drift_fraction": -0.033,
+    "low_anchor_drift_fraction": 0.204,
+    "retention_limit_s": 0.00035,
+    "feedback_write_s": 7.5e-08,
+    "coarse_included_s": 5e-09,
+    "program_shared_supply_current_limit_A": 0.005,
+    "precharge_width_F": 32.0,
+    "adc_reset_width_F": 8.0,
+    "precharge_error_fraction": 0.001,
+    "sampling_error_fraction": 0.0001220703125,
+    "mac_lanes": 16,
+    "accumulator_bits": 32,
+    "xsum_bits": 16,
+    "input_port_bits": 128,
+    "resident_port_bits": 128,
+    "active_rows": 16,
+    "q_fractional_bits": 4,
+    "maintenance_guard_cycles": 1,
+    "pulse_short_s": 4.8055948618169476e-08,
+    "program_control_cap_F": 1e-14,
+    "wwl_gate_load_F": 3e-14,
+    "wwl_wire_ohm": 10.56,
+    "wwl_driver_target_ohm": 500.0,
+    "wwl_active_voltage_V": 1.0,
+    "external_hold_cap_F": 4e-12
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "cell_temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "COMPACT"
+      ],
+      "role": "operating_condition",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "physical_rows": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "outputs_per_subarray": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "row_halves": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "output_groups": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "weight_planes": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "adc_pair_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "adc_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "adc_reference_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "adc_input_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "integration_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "array_intrinsic_column_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "source_original_column_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "write_qualified_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "array_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "array_isolation_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "sample_switch_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "precharge_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "current_valid_min_V": {
+      "unit": "V",
+      "source_ids": [
+        "COMPACT"
+      ],
+      "role": "operating_condition",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches"
+    },
+    "current_valid_max_V": {
+      "unit": "V",
+      "source_ids": [
+        "COMPACT"
+      ],
+      "role": "operating_condition",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches"
+    },
+    "rwl_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "rwl_wire_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "rwl_load_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "rwl_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "cell_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "state_reference_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "state_reference_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "storage_MOM_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "storage_RWL_coupling_F": {
+      "unit": "F",
+      "source_ids": [
+        "COMPACT"
+      ],
+      "role": "operating_condition",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches"
+    },
+    "state_slope_factor": {
+      "unit": "1",
+      "source_ids": [
+        "COMPACT"
+      ],
+      "role": "operating_condition",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches"
+    },
+    "cascode_internal_drop_V": {
+      "unit": "V",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "output_lambda_per_V": {
+      "unit": "V^-1",
+      "source_ids": [
+        "COMPACT"
+      ],
+      "role": "operating_condition",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches"
+    },
+    "retention_calibration_s": {
+      "unit": "s",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "high_endpoint_drift_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "low_anchor_drift_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "retention_limit_s": {
+      "unit": "s",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "feedback_write_s": {
+      "unit": "s",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "external_primitive",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "coarse_included_s": {
+      "unit": "s",
+      "source_ids": [
+        "GC04"
+      ],
+      "role": "external_primitive",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified"
+    },
+    "program_shared_supply_current_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "precharge_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "adc_reset_width_F": {
+      "unit": "feature_size",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "precharge_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "sampling_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "mac_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "accumulator_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "xsum_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "active_rows": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "q_fractional_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "maintenance_guard_cycles": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "K64N64/8planes/64subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16"
+    },
+    "pulse_short_s": {
+      "unit": "s",
+      "role": "architecture_choice",
+      "source_ids": [
+        "POLICY"
+      ],
+      "applicability": "OneglobaldesignpulsefromactualnativeN16totalC and700nA nominal target125mV/16rows;delaylinetwo-tap tuningqualified,notper-vectorcorrection"
+    },
+    "program_control_cap_F": {
+      "unit": "F",
+      "role": "architecture_choice",
+      "source_ids": [
+        "POLICY"
+      ],
+      "applicability": "Explicitnewperipheraldesign/portload;notclaimedGC04measurement"
+    },
+    "wwl_gate_load_F": {
+      "unit": "F",
+      "role": "architecture_choice",
+      "source_ids": [
+        "POLICY"
+      ],
+      "applicability": "Explicitnewperipheraldesign/portload;notclaimedGC04measurement"
+    },
+    "wwl_wire_ohm": {
+      "unit": "ohm",
+      "role": "architecture_choice",
+      "source_ids": [
+        "POLICY"
+      ],
+      "applicability": "Explicitnewperipheraldesign/portload;notclaimedGC04measurement"
+    },
+    "wwl_driver_target_ohm": {
+      "unit": "ohm",
+      "role": "architecture_choice",
+      "source_ids": [
+        "POLICY"
+      ],
+      "applicability": "Explicitnewperipheraldesign/portload;notclaimedGC04measurement"
+    },
+    "wwl_active_voltage_V": {
+      "unit": "V",
+      "role": "architecture_choice",
+      "source_ids": [
+        "POLICY"
+      ],
+      "applicability": "Explicitnewperipheraldesign/portload;notclaimedGC04measurement"
+    },
+    "external_hold_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Explicit4pFbranchholdto boundfullsampleTGgatecharge;countedphysicalF,notzeroCinornativeADCENOBclaim"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "feedback_write_s": 6.5e-08,
+        "retention_limit_s": 0.0004
+      },
+      "meaning": "samehardware65nsqualifiedfeedbackwrite and400usmaxretentiondeadline;finitepolicy,not materialfastcorner",
+      "evidence": [
+        "GC04",
+        "SCHEDULER"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "samehardware75nsfeedbackwrite,350usdeadline;fixed353Kfinitecompactmodelconditions",
+      "evidence": [
+        "GC04",
+        "COMPACT",
+        "SCHEDULER"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "retention_limit_s": 0.00033
+      },
+      "meaning": "samehardware75nsfeedbackwrite,330usdeadline;shortestselectedfeasiblepolicyafter300usrejected,notstatisticalslowcorner",
+      "evidence": [
+        "GC04",
+        "SCHEDULER"
+      ]
+    }
+  },
+  "sources": {
+    "GC04": {
+      "kind": "external_primitive",
+      "path": "tasks/task1_table_I_NVM/literature/09_gain_cell_edram/GC-04_2024_DynamicCascoded_MLC.pdf",
+      "locator": "Eq5,8-10; Figs7-12,16-18; DOI10.1109/JSSC.2023.3339887",
+      "evidence_type": "measured + simulated, explicitly separated",
+      "applicability": "65nm silicon current-programmed3T1C,10fF MOM,0/700nA branch pair; full65/75ns feedback write at50fF BL load; FF80C finite retention simulation; measured400us temperature unspecified",
+      "exclusions": [
+        "noIGZO/noordinary1T1C",
+        "noall-cellretentionguarantee",
+        "no180nsreador4.16usrefreshaggregate"
+      ],
+      "includes": [
+        "fullfeedbackwrite:coarse5ns,currentfine,replicastartup,settle",
+        "originalaccess/writecellinternalportundercharacterizedload"
+      ],
+      "excludes": [
+        "newbankMUX/isolation/control/ADC",
+        "newarrayglobalingress",
+        "newperiodicrefreshschedule"
+      ],
+      "domain": "50fF BL+originalcell;65nm,source measuredwrite temperature unspecified.353K use is conditional model transfer, not measured same-temperature timing."
+    },
+    "TRAINING": {
+      "kind": "native_circuit",
+      "path": "provenance/dependencies.lock.json",
+      "locator": "2DTrainingV2.1 f80a4345f70dcb1ddfd003d3ddcfbd067b55a79a;SarADC,Mux,SwitchMatrix,DFF,formula",
+      "evidence_type": "upstream circuit model",
+      "applicability": "actual CMOSperiphery sizes,C,delays; explicitADC Cin andreferencevoltage external",
+      "exclusions": [
+        "noGCstorage/retention/feedbackstate",
+        "noADCENOB"
+      ]
+    },
+    "MLP": {
+      "kind": "native_circuit",
+      "path": "provenance/dependencies.lock.json",
+      "locator": "MLPInferenceV3.0 6098feabaf17b8209a8edbef4a9c963b5f015132;Adder,DFF,Mux,Decoder,formula",
+      "evidence_type": "upstream circuit model",
+      "applicability": "GC-specific connected digital gates/operators;actual input/DAC code/difference/Xsum/progress resources",
+      "exclusions": [
+        "noHybridCell _3T1C state import",
+        "nofreebinary→analogcode reinterpretation"
+      ]
+    },
+    "COMPACT": {
+      "kind": "adapter",
+      "path": "cases/gc04/gc_model.py",
+      "locator": "Cell retained/current/integrate;Q=CtotVsn−CcVrwl;sourceEq5/8,finiteVDS saturation andmeasuredoutput-slopecalibration; state-dependent affine-V netleak fitted100/700nA with400nAheldout,alternativeweak-injectionrouteassensitivity",
+      "evidence_type": "source-informed engineering compact model",
+      "applicability": "finite0..400us at353.15K model;lowerBL domainextension subjecttocascodeheadroom;coupledRWL andbothBL branches",
+      "exclusions": [
+        "notuniquelyextractedfoundrymodel",
+        "notstatisticaltail/noise/ENOBprediction"
+      ]
+    },
+    "POLICY": {
+      "kind": "service_policy",
+      "path": "cases/gc04/P3_MODEL.zh.md",
+      "locator": "fixed architecture,mapping,ports,clock,Q4,timingpolicy",
+      "evidence_type": "engineering design choice",
+      "applicability": "K64N16/8planes/16subarrays/256single-endedSAR/128pairsubtractor/16MAC/Xsum16;newmacroafterK64N64schedulerejection",
+      "exclusions": [
+        "notequalarea/capacitytotheoldmacro",
+        "nofreewholematrixshadow",
+        "notclaimedmeasuredsilicon"
+      ]
+    },
+    "SCHEDULER": {
+      "kind": "service_policy",
+      "path": "cases/gc04/maintenance.py",
+      "locator": "work_conserving_schedule andschedule;actualgroupwritebackeventtrace",
+      "evidence_type": "explicit deterministic resource schedule",
+      "applicability": "whole stream request nonpreemptible;residentatomic16weightbatches;refreshseparatecodehold/progress",
+      "exclusions": [
+        "noavailabilitydivisionassinglelatency",
+        "noofflineoracleasruntimedetection"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "arbitrary valid retainedoldmatrix;postrefresh admission phase;fullcoverwrite no value-skips",
+    "input_port": "128bit ingress,64Binputheldonce;64clockXsum explicitlycomputed",
+    "write_port": "128bit target per16weights/128pairs;no nexttargetintakeuntil nextbatchcancommit beforemaintenance",
+    "output_endpoint": "16 outputs Q4 inrealregisters afterADCpartialsum/signedreconstruction/Xsumcorrection",
+    "resident_endpoint": "all64logical16weightbatchescompletefeedbackwritten andretentionqualified;partialmatrixnotpayload",
+    "request_overlap": "serial nonoverlap,full stream request atomic;residentpreemptiononlyatcommittedgroupboundary",
+    "arbitration": "ADC/write/RWL resources shared;refresh useszero payload andseparatecodehold;residentprogresssurvives",
+    "retry": "one qualifiedfeedbacksettle perwrite;noinventedWER;knownfailedstate suppressespayload;offlinechecksnotruntimesensor",
+    "maintenance": "fixedorder64groups;workconservingrefreshwhen nextatomicservicecannotmeet pergroup400usdeadline;actualtrace andmaxgap required",
+    "supply_startup": "stable1.1Vperipheral/1.0Vrowcontrol/0.9Vprecharge/1.0VADC reference;startup excluded;localwrite currentcapacityexplicit,notchipPDNsignoff"
+  },
+  "backend_plan": {
+    "native": "Training current_sampling +MLP gc_digital, separate real builds",
+    "adapter": "GC compactstate/integration andactualeventscheduler;nativeperipheryconsumed",
+    "external": "GC04 completefeedbackwrite only;old36/86/136ns and4.16us excluded"
+  },
+  "adapter_files": [
+    "gc_model.py",
+    "maintenance.py",
+    "qualification.py",
+    "retention_probe.py"
+  ]
+}

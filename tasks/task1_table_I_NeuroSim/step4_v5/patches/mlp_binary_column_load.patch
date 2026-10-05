@@ -1,0 +1,12 @@
+--- a/SubArray.cpp
++++ b/SubArray.cpp
+@@ -716,7 +716,8 @@
+ 					int numAdder = (int)ceil((numCol/numCellPerSynapse)/numColMuxed);   // numCol is divisible by numCellPerSynapse
+ 					int numInput = numAdder * numCellPerSynapse;
+ 					muxDecoder.CalculateLatency(1e20, mux.capTgGateN*numInput, mux.capTgGateP*numInput, 1, 1);
+-					double capInputLoad = capBL + mux.capTgDrain * (2 + numColMuxed - 1);
++					// V5 single-row CMOS-access port: the sensed column includes access-drain load.
++					double capInputLoad = capCol + mux.capTgDrain * (2 + numColMuxed - 1);
+ 					voltageSenseAmp.CalculateLatency(capInputLoad, numColMuxed*numRow*numReadPulse*activityRowRead);
+ 					adder.CalculateLatency(1e20, dff.capTgDrain, numColMuxed*numRow*numReadPulse*activityRowRead);
+ 					dff.CalculateLatency(1e20, numColMuxed*numRow*numReadPulse*activityRowRead);

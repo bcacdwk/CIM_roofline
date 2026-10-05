@@ -1,0 +1,114 @@
+{
+  "case_id": "feram",
+  "status": "route_ready_for_charge_probe_not_service_qualified",
+  "identity": "HZO 1T1C remanent-polarization binary memory; destructive read/restore with local signed integer arithmetic",
+  "run_root": "/Users/shine/neurosim/runs/step4-v5/p0/feram-route-20261005",
+  "sources": [
+    {
+      "id": "FERAM-03",
+      "path": "tasks/task1_table_I_NVM/literature/08_feram_hfo2/FERAM-03_2020_SoC_1T1C_HZO.pdf",
+      "sha256": "3baca7408c4bb97570f0a03e4e8d4c206013a3b3793313c283b36d5efa97afe2",
+      "locator": "PDF pp1-2; p2 Figs2,8-12/Table1 rendered and inspected",
+      "kind": "physical_evidence",
+      "values": {
+        "stack": "TiN/Hf0.5Zr0.5O2/TiN",
+        "HZO_thickness_nm": 11,
+        "electrode_thickness_nm": 10,
+        "two_Pr_uC_cm2_lower_bound": 40,
+        "measured_cap_area_um2_range": [
+          0.4,
+          1.0
+        ],
+        "native_VPL_V": 2.5,
+        "reference_CBL_F": 2.5e-13,
+        "reference_logic_technology_nm": 130,
+        "array_bits": 65536,
+        "write_full_s": 1.4e-08,
+        "sense_observed_s": 8e-09,
+        "measured_read_margin_4sigma_lower_bound_V": 0.48,
+        "margin_measurement_operation_s": 1e-07,
+        "margin_measurement_area_um2": 1.0
+      },
+      "limits": [
+        "14ns is complete write operation, not a per-polarity material pulse.",
+        "8ns sense excludes required destructive-read restoration.",
+        "250fF is reported load model for130nm;120fF40nm is a scaling comparison, not same-chip PVT.",
+        "2Pr>40 from large capacitor does not directly fix integrated-cell effective dynamic charge.",
+        "Figure3 experimental cycling reaches1e9; high-frequency1e11 is a projection, not measured endurance."
+      ]
+    },
+    {
+      "id": "FERAM-04",
+      "path": "tasks/task1_table_I_NVM/literature/08_feram_hfo2/FERAM-04_2023_NVDRAM_32Gb.pdf",
+      "sha256": "5498a6eda09eb2e32ca98e699da8ea9a750894b57c4ef8ed46f33987aefd1028",
+      "locator": "PDF p4 Fig13",
+      "kind": "comparison_only",
+      "values": {
+        "tRC_s": 1.85e-07,
+        "tRP_s": 8e-08,
+        "tWR_s": 1e-08
+      },
+      "limits": [
+        "Different stacked HZO implementation; only lifecycle/scale check.",
+        "Writeback overlaps precharge; no addition of tRC+tRP+tWR."
+      ]
+    }
+  ],
+  "proposed_mapping": {
+    "K": 128,
+    "N": 16,
+    "rows": 128,
+    "row_bits": 128,
+    "sense_lanes": 128,
+    "restore_lanes": 128,
+    "external_write_lanes": 128,
+    "capture_bits": 128,
+    "reference_cells": 128,
+    "classification": "unfrozen reduced single-bank design avoiding free4096-wayrestore; exact size after source load check"
+  },
+  "compact_model": {
+    "state": "two remanent polarization branches P_s(VFE); include dielectric charge and actual BL/PL routing",
+    "charge_balance": "Q_FE_s(VPL-VBL)-Q_FE_s(initial)=CBL*(VBL-Vpre); state update follows destructive path and full restore",
+    "paper_equivalent": "VBL=CFE_s/(CFE_s+CBL)*VPL, where CFE_s is transient branch response, not a programmable nonvolatile capacitance",
+    "calibration": "may infer branch response from Fig8/10 at1um2 then independently check Fig12 at another area; do not claim same fit-point validation",
+    "native_candidates": [
+      "precharge/selection/reference/sensing/register peripheral primitives",
+      "DFF/Adder local reduction",
+      "driver load calculations only in a rated voltage/geometry domain"
+    ],
+    "explicit_rejection": "V1.5 Cap branch SubArray.cpp338-377/1293-1368 uses R states and chargeDelay/128*numRowParallel; not HZO polarization or restore"
+  },
+  "write_restore_route": {
+    "preferred": "source-compatible full polarization/write service invoked once per actual selected row; preserve source inclusive boundaries if14ns cannot be decomposed",
+    "no_double_billing": "cannot invent2x14ns per polarity; do not add included source BL/PL transitions again",
+    "restore_scope": "all128 activated row bits held before sense reset; restore every destructive activation even for externally unused bits",
+    "needs": "pin down which source full-write stages include WL/BL/PL and confirm same row loading/drive; until then14ns is evidence/comparison, not qualified universal primitive"
+  },
+  "old_inputs": {
+    "retained": [
+      "binary1T1C polarization identity",
+      "destructive read/full domain restore",
+      "source P-E and CBL evidence"
+    ],
+    "excluded_aggregate": [
+      "8/20/50ns full sense budgets used without circuit derivation",
+      "14/50/100ns per-polarity holds",
+      "20/40/80ns open-close budgets",
+      "old rho/tau"
+    ]
+  },
+  "range_plan": {
+    "families": [
+      "source2.5-3.5V shmoo with fixed capacitor/BL geometry and rated HV ports",
+      "source14-50ns write-policy plateau only after complete service scope closes"
+    ],
+    "fixed": "material and one read/restore/write resource count; temperature fixed",
+    "excluded": "40nm scaledCBL as hidden fast corner; unrelated doped-film switching or NVDRAMtWR as own pulse"
+  },
+  "p1_needs": [
+    "dynamic branch charge/CBL check",
+    "2.5V memory ports/PL switched-charge/current capability independent of low-voltage logic tables",
+    "source complete write inclusion scope",
+    "read-disturb lifecycle and128bit saved-state restoration"
+  ]
+}

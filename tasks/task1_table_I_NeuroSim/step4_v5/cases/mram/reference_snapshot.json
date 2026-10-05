@@ -1,0 +1,882 @@
+{
+  "native_resolved": {
+    "input_rows": 64.0,
+    "input_cols": 64.0,
+    "input_temperature_K": 300.0,
+    "input_technology_nm": 65.0,
+    "input_device_node_nm": 70.0,
+    "input_read_voltage_V": 0.15,
+    "input_Ron_ohm": 6869.023980913754,
+    "input_Roff_ohm": 14361.511918905111,
+    "input_access_ohm": 1000.0,
+    "input_pitch_x_m": 6.24e-06,
+    "input_pitch_y_m": 1.04e-06,
+    "input_wire_ohm_per_m": 10000000.0,
+    "input_read_mux": 2.0,
+    "input_write_mux": 2.0,
+    "input_clock_Hz": 10000000.0,
+    "input_extra_column_cap_F": 2.2505621956791503e-14,
+    "input_write_port_voltage_V": 0.6,
+    "input_access_voltage_V": 1.1,
+    "actual_tech_vdd_V": 1.1,
+    "actual_tech_vth_V": 0.5016636,
+    "actual_tech_Ion_N_A_per_m": 400.0,
+    "actual_access_Ion_at_native_bias_A": 0.0019470000000000004,
+    "actual_access_bias_matches_native": 1.0,
+    "actual_access_width_F": 74.8846153846154,
+    "actual_access_width_m": 4.867500000000001e-06,
+    "actual_Ron_total_ohm": 7869.023980913754,
+    "actual_Roff_total_ohm": 15361.511918905111,
+    "array_row_m": 0.00039935999999999997,
+    "array_col_m": 6.656e-05,
+    "array_WL_cap_F": 8.254228473600001e-13,
+    "array_BL_cap_F": 1.2762723194722591e-13,
+    "array_row_res_ohm": 3993.6,
+    "array_col_res_ohm": 665.6,
+    "actual_mux_n_m": 6.185646417911647e-07,
+    "actual_mux_p_m": 1.03655574661276e-06,
+    "actual_mux_res_ohm": 3934.511990456877,
+    "input_read_mux_IR_fraction": 0.5,
+    "input_write_mux_target_ohm": 500.0,
+    "input_write_current_A": 0.0001,
+    "upstream_oversized_read_mux_target_diagnostic_ohm": 61.4767498508887,
+    "write_mux_width_N_m": 4.867500000000001e-06,
+    "write_mux_width_P_m": 8.15668202764977e-06,
+    "write_mux_native_Ion_A": 0.0038940000000000003,
+    "write_mux_voltage_drop_V": 0.05,
+    "write_mux_current_compliance": 1.0,
+    "write_mux_area_m2": 1.9299162868202765e-09,
+    "native_area_m2": 5.484545845793854e-08,
+    "native_used_area_m2": 5.112706012682027e-08,
+    "native_sa_count": 32.0,
+    "native_adder_count": 4.0,
+    "native_adder_bits": 14.0,
+    "native_accumulator_bits": 60.0,
+    "native_WL_s": 1.715008601660626e-08,
+    "native_mux_decoder_s": 4.090540679147492e-09,
+    "native_mux_s": 6.203216717590221e-11,
+    "native_SA_s": 4.0024147784134914e-07,
+    "native_adder_s": 8.522996488254477e-09,
+    "native_capture_s": 1e-07,
+    "native_subtract_s": 2.2022844448043515e-08,
+    "native_shiftadd_s": 0.0,
+    "native_read_aggregate_s": 5.479374047942534e-07,
+    "native_write_selection_s": 7.375704028545872e-08,
+    "write_WL_decoder_without_enable_s": 8.57504300830313e-09,
+    "write_column_decoder_one_batch_s": 3.687852014272936e-08,
+    "write_column_driver_native_pulse_proxy_s": 0.0,
+    "write_column_driver_base_edge_diagnostic_s": 2.6686562143924563e-10,
+    "write_column_TG_ohm": 500.0,
+    "actual_mux_decoder_area_m2": 1.7981599999999997e-12,
+    "native_col_delay_diagnostic_s": 1.723030518801965e-12,
+    "write_off_drain_added_to_read_F": 6.609357985594882e-15,
+    "write_column_driver_one_edge_s": 2.9252979649887514e-10,
+    "write_external_column_cap_F": 1.518329771980945e-13,
+    "write_total_connected_cap_F": 1.5844233518368937e-13,
+    "upstream_unpatched_SA_diagnostic_s": 4.0011852413596515e-07,
+    "upstream_wire_only_sa_input_cap_F": 1.7652561850716403e-14,
+    "native_sa_input_cap_F": 1.3196779379794233e-13,
+    "adapted_sa_input_cap_F": 1.6133604308416697e-13,
+    "adapted_SA_s": 4.00273065364804e-07,
+    "adapted_read_aggregate_s": 5.479689923177082e-07,
+    "sense_threshold_V": 0.005,
+    "sa_precharge_per_group_s": 4.9398077898894555e-11,
+    "sa_control_per_group_s": 2e-07,
+    "sa_effective_node_cap_F": 1.6202541425323124e-13,
+    "sa_native_linear_develop_per_group_s": 8.713460450310652e-11,
+    "port_I_lowR_A": 1.2029702807347903e-05,
+    "port_I_highR_A": 7.51441870065742e-06,
+    "port_delta_I_A": 4.515284106690484e-06,
+    "passive_peak_signal_V": 0.025728981670324412,
+    "passive_peak_time_s": 2.53279392110818e-09,
+    "passive_threshold_reachable": 1.0,
+    "unregulated_linear_ramp_time_s": 1.7941884765695193e-10,
+    "input_hold_bits": 512.0,
+    "target_hold_bits": 64.0,
+    "target_hold_capture_s": 5e-08,
+    "target_hold_input_cap_F": 2.62488980759366e-16,
+    "signed_output_hold_bits": 200.0,
+    "input_capture_s": 5e-08,
+    "signed_correction_s_pre_connection_diagnostic": 1.9663253971467424e-08,
+    "signed_capture_s": 5e-08,
+    "additional_storage_area_m2": 8.37223296e-09,
+    "additional_correction_area_m2": 1.5733899999999999e-09,
+    "extra_25bit_adder_s_pre_connection_diagnostic": 7.660904110283295e-09,
+    "extra_25bit_adder_area_m2": 1.2137579999999997e-09,
+    "extra_25bit_adder_lanes": 4.0,
+    "extra_25bit_adder_input_cap_F": 1.1436151429241724e-15,
+    "extra_25bit_register_input_cap_F": 2.62488980759366e-16,
+    "extra_shifted_weight_mux_s_pre_connection_diagnostic": 1.5693581325056972e-10,
+    "extra_shift_select_s_pre_connection_diagnostic": 3.2624068298076762e-09,
+    "extra_accumulator_feedback_mux_s_pre_connection_diagnostic": 1.5693581325056972e-10,
+    "extra_datapath_mux_area_m2": 9.689243199999998e-10,
+    "input_row_select_s": 1.6944129064244865e-09,
+    "input_row_capture_s": 5e-08,
+    "input_bit_select_s_pre_connection_diagnostic": 3.3396474041895624e-09,
+    "weight_hold_bits": 64.0,
+    "weight_hold_capture_s": 5e-08,
+    "verify_byte_compare_s": 6.603820266587281e-09,
+    "verify_fail_reduce_s": 4.4944591502086675e-10,
+    "verify_status_capture_s": 5e-08,
+    "verify_sticky_or_s_pre_clear_diagnostic": 7.490765250347779e-11,
+    "retry_increment_s_pre_clear_diagnostic": 5.530554810479024e-10,
+    "retry_state_capture_s": 5e-08,
+    "verify_compare_lanes": 4.0,
+    "verify_fail_bits": 36.0,
+    "verify_reduce_gates": 70.0,
+    "input_selection_area_m2": 1.3383988799999998e-09,
+    "weight_hold_area_m2": 6.9049344e-10,
+    "verify_control_area_m2": 6.410440399999999e-10,
+    "write_WL_select_one_s": 1.3899604830051444e-08,
+    "WL_enable_setup_s": 1.3899604830051444e-08,
+    "WL_release_s": 1.2484208898650129e-08,
+    "WL_enable_gate_area_m2": 1.4699957999999997e-10,
+    "WL_enable_fanout_cap_F": 1.4866996858014241e-13,
+    "WL_address_setup_s": 1.4153959314013144e-09,
+    "WL_enable_edge_only_s": 1.2484208898650129e-08,
+    "input_precharge_width_F": 8.0,
+    "input_precharge_error_fraction": 0.01,
+    "precharge_headroom_V": 0.4483364000000001,
+    "precharge_bias_feasible": 1.0,
+    "precharge_branch_R_ohm": 12492.347036905601,
+    "precharge_added_drain_cap_F": 2.5326934383828117e-16,
+    "precharge_branches": 64.0,
+    "precharge_external_RC_s": 9.321222294971094e-09,
+    "precharge_control_s": 4.3224978653250067e-10,
+    "precharge_external_area_m2": 6.023835999999999e-11,
+    "native_sa_resPrecharge_ohm": 37442.3076923077,
+    "digital_critical_comb_s_pre_connection_diagnostic": 1.9663253971467424e-08,
+    "digital_halfcycle_min_period_s_pre_connection_diagnostic": 3.932650794293485e-08,
+    "digital_clock_budget_satisfied_pre_connection_diagnostic": 1.0,
+    "read_frontend_one_group_s": 2.1403613751245344e-07,
+    "input_ingress_select_s": 3.731789378548491e-09,
+    "input_ingress_area_m2": 9.4583216e-10,
+    "input_ingress_beats": 4.0,
+    "target_ingress_select_s": 9.80567392383383e-10,
+    "target_ingress_area_m2": 1.1688039999999999e-10,
+    "target_ingress_beats": 2.0,
+    "reference_isolation_count": 32.0,
+    "reference_switch_R_ohm": 3934.5119904568764,
+    "reference_switch_gate_N_F": 2.960781926260514e-15,
+    "reference_switch_gate_P_F": 2.4807556985844267e-15,
+    "reference_switch_drain_F": 1.2100174950242472e-15,
+    "reference_switch_area_m2": 4.3237804957323966e-11,
+    "reference_enable_matching_cap_F": 6.508058257196637e-13,
+    "reference_enable_load_match_feasible": 1.0,
+    "reference_switch_active_N_only": 1.0,
+    "reference_PMOS_gate_static_V": 1.1,
+    "reference_switch_RC_diagnostic_s": 2.991123880584037e-09,
+    "reference_unmatched_control_diagnostic_s": 4.704403027806319e-10,
+    "reference_enable_control_s": 1.2484208898650129e-08,
+    "reference_isolation_edge_s": 1.2484208898650129e-08,
+    "reference_control_area_m2": 2.2476999999999994e-12,
+    "reference_control_gate_load_F": 9.474502164033645e-14,
+    "state_clear_bits": 203.0,
+    "state_clear_gates": 408.0,
+    "state_clear_control_load_F": 2.32153874013607e-13,
+    "state_clear_control_s": 7.307226467563121e-10,
+    "state_clear_data_gate_s": 4.478486243756532e-11,
+    "state_clear_comb_s": 7.755075091938775e-10,
+    "state_clear_s": 5.077550750919387e-08,
+    "state_clear_area_m2": 4.5987941999999986e-10,
+    "verify_sticky_or_s": 1.196925149410431e-10,
+    "retry_increment_s": 6.321107565351957e-10,
+    "extra_25bit_adder_s": 7.660904110283295e-09,
+    "signed_correction_s": 1.9663253971467424e-08,
+    "extra_shifted_weight_mux_s": 1.5693581325056972e-10,
+    "extra_shift_select_s": 5.917123222107135e-09,
+    "extra_accumulator_feedback_mux_s": 2.554208703953531e-10,
+    "input_bit_select_s": 1.0508829760967903e-08,
+    "data_zero_mask_s": 9.73330342922026e-11,
+    "data_zero_mask_gates": 200.0,
+    "data_zero_mask_area_m2": 2.2476999999999994e-10,
+    "add_sub_result_select_s": 1.0366044474957539e-10,
+    "add_sub_result_select_area_m2": 1.7981599999999997e-10,
+    "accumulator_keep_s": 2.0172067568813503e-10,
+    "accumulator_keep_area_m2": 3.5963199999999994e-10,
+    "weight_group_select_s": 2.3928951068094273e-10,
+    "weight_group_select_area_m2": 5.754111999999999e-11,
+    "weight_keep_s": 8.105560042768082e-11,
+    "weight_keep_area_m2": 1.1508223999999998e-10,
+    "verify_target_select_s": 1.5693581325056972e-10,
+    "verify_target_select_area_m2": 5.754111999999999e-11,
+    "program_target_select_s": 1.7504116966435308e-10,
+    "program_target_select_area_m2": 5.754111999999999e-11,
+    "program_target_mask_logic_s": 7.490765250347779e-11,
+    "program_target_mask_area_m2": 7.19264e-11,
+    "group_select_s": 1.194435124061608e-08,
+    "group_select_load_N_F": 1.3946546346016824e-13,
+    "group_select_load_P_F": 2.337083593802567e-13,
+    "input_port_bits": 128.0,
+    "resident_port_bits": 32.0,
+    "digital_critical_comb_s": 3.057479788716524e-08,
+    "digital_halfcycle_min_period_s": 6.114959577433048e-08,
+    "digital_clock_budget_satisfied": 1.0,
+    "read_frontend_one_group_with_control_s": 2.1403613751245344e-07,
+    "probe_only": 1.0
+  },
+  "mos_calibration": {
+    "vdd": 1.1,
+    "vth": 0.5016636,
+    "beta_access": 0.010876899079571565,
+    "ion_n_per_m": 400.0,
+    "ion_p_per_m": 238.69999999999996,
+    "beta_read_n": 0.0013822424618292416,
+    "beta_read_p": 0.001382242461829241,
+    "beta_write_n": 0.010876899079571567,
+    "beta_write_p": 0.010876899079571562,
+    "beta_reference_n": 0.0027644849236584832,
+    "native_effective_R_multiplier": 1.77
+  },
+  "read_reference": {
+    "capture": {
+      "V_P_V": 0.06930090383590595,
+      "V_AP_V": 0.09473505707451246,
+      "V_ref_V": 0.08270050208248589,
+      "state_P": 1.0002162271755792,
+      "state_AP": -1.000389028376003,
+      "P_worst_margin_V": 0.008703373272874584,
+      "AP_worst_margin_V": 0.00706441064398311
+    },
+    "cap_each_F": 1.6202541425323124e-13,
+    "threshold_plus_offset_V": 0.007,
+    "develop_s": 1.2299999999999999e-09,
+    "max_worst_margin_V": 0.010504196966926171,
+    "max_margin_time_s": 1.96e-09,
+    "final_states": [
+      1.0005569481457788,
+      -1.0006673451921548
+    ],
+    "matched_reference_branches_per_bank": 32,
+    "reference_resistor_only_ohm": 12000.73216,
+    "reference_switch": "actualN-onlyIon/width/Vthbranch;notconstantnativeRon",
+    "data_switch": "actualcomplementaryTGwithVGS/VDS;notconstantnativeRon",
+    "precharge_error_fraction": 0.01,
+    "step_enable_skew_bound_s": 1e-10,
+    "max_shared_source_drop_V": 0.005332323016370056,
+    "source_contexts": {
+      "P": "all64physicaldata columns heldatmaximuminitialVread*(1+prechargeerror),strongestON,includingunsensedwithoutreadMUX;constantIRupperbounddoesnotshrinkwithvictimVP",
+      "AP": "zero-return-dropconservativelowerboundmaximizesAPdischarge;notadifferenthardware",
+      "reference": "samephysicalquietreturn32referencebranchesandmatchedCforbothstates"
+    }
+  },
+  "program_pulses": [
+    {
+      "initial_state": -1,
+      "final_state": -1.000343873040963,
+      "port_voltage_V": 0.6,
+      "plateau_s": 1e-06,
+      "edge_each_s": 1.9240196383625035e-09,
+      "waveform_s": 1.003848039276725e-06,
+      "crossing_s": null,
+      "max_current_A": 4.539008670230691e-05,
+      "max_MTJ_voltage_V": 0.5092493251897394,
+      "driver_energy_J": 2.7232785269974505e-11,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+      "target_state": -1
+    },
+    {
+      "initial_state": 1,
+      "final_state": -1.000343873040963,
+      "port_voltage_V": 0.6,
+      "plateau_s": 1e-06,
+      "edge_each_s": 1.9240196383625035e-09,
+      "waveform_s": 1.003848039276725e-06,
+      "crossing_s": 7.079999999999999e-08,
+      "max_current_A": 7.268325099458732e-05,
+      "max_MTJ_voltage_V": 0.5092493251897394,
+      "driver_energy_J": 2.8375005717861982e-11,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+      "target_state": -1
+    },
+    {
+      "initial_state": -1,
+      "final_state": 1.0001954215669033,
+      "port_voltage_V": -0.6,
+      "plateau_s": 1e-06,
+      "edge_each_s": 1.9240196383625035e-09,
+      "waveform_s": 1.003848039276725e-06,
+      "crossing_s": 1.0169999999999999e-07,
+      "max_current_A": 6.557378674330684e-05,
+      "max_MTJ_voltage_V": 0.47954586250707504,
+      "driver_energy_J": 3.782653700242838e-11,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+      "target_state": 1
+    },
+    {
+      "initial_state": 1,
+      "final_state": 1.0001954215669033,
+      "port_voltage_V": -0.6,
+      "plateau_s": 1e-06,
+      "edge_each_s": 1.9240196383625035e-09,
+      "waveform_s": 1.003848039276725e-06,
+      "crossing_s": null,
+      "max_current_A": 6.55737867423301e-05,
+      "max_MTJ_voltage_V": 0.4344161714427173,
+      "driver_energy_J": 3.934427025143476e-11,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+      "target_state": 1
+    }
+  ],
+  "full_read_stress": [
+    {
+      "initial_state": 1.0001954215669033,
+      "final_state": 1.0002128728739106,
+      "port_voltage_V": 0.15,
+      "plateau_s": 1.2619841779730026e-07,
+      "edge_each_s": 0,
+      "waveform_s": 1.2619841779730026e-07,
+      "crossing_s": null,
+      "max_current_A": 1.5564598069270596e-05,
+      "max_MTJ_voltage_V": 0.10742920346092431,
+      "driver_energy_J": 2.9463409164193245e-13,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "source_context": "maximum_return"
+    },
+    {
+      "initial_state": -1.000343873040963,
+      "final_state": -1.0007795684587848,
+      "port_voltage_V": 0.15,
+      "plateau_s": 1.2619841779730026e-07,
+      "edge_each_s": 0,
+      "waveform_s": 1.2619841779730026e-07,
+      "crossing_s": null,
+      "max_current_A": 8.559983139529984e-06,
+      "max_MTJ_voltage_V": 0.12402993540745229,
+      "driver_energy_J": 1.620305551315711e-13,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "source_context": "maximum_return"
+    },
+    {
+      "initial_state": 1.0001954215669033,
+      "final_state": 1.0001772810890592,
+      "port_voltage_V": 0.15,
+      "plateau_s": 1.2619841779730026e-07,
+      "edge_each_s": 0,
+      "waveform_s": 1.2619841779730026e-07,
+      "crossing_s": null,
+      "max_current_A": 1.6147929683217478e-05,
+      "max_MTJ_voltage_V": 0.1114126958185807,
+      "driver_energy_J": 3.0567609587579554e-13,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "source_context": "zero_drop_lower_bound"
+    },
+    {
+      "initial_state": -1.000343873040963,
+      "final_state": -1.0007707950670597,
+      "port_voltage_V": 0.15,
+      "plateau_s": 1.2619841779730026e-07,
+      "edge_each_s": 0,
+      "waveform_s": 1.2619841779730026e-07,
+      "crossing_s": null,
+      "max_current_A": 8.887579260721913e-06,
+      "max_MTJ_voltage_V": 0.1285926344571635,
+      "driver_energy_J": 1.682317050199707e-13,
+      "access_ohm": 1000.0,
+      "trace_columns": [
+        "t_s",
+        "s",
+        "I_A",
+        "V_MTJ_V",
+        "V_access_V"
+      ],
+      "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+      "source_context": "zero_drop_lower_bound"
+    }
+  ],
+  "stage_counts": {
+    "stream_tiles": 128,
+    "input_bit_updates": 1024,
+    "write_batches": 1024,
+    "two_polarities_per_batch": 2,
+    "verify_clocks_per_batch": 1
+  },
+  "physical_checks": [
+    {
+      "id": "one_authority_dimensions",
+      "passed": true,
+      "critical": true,
+      "evidence": "K rows; eight binary cells per signed weight; banks disjoint output groups"
+    },
+    {
+      "id": "reference_isolation_and_matching",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "TG_count_per_bank": 32.0,
+        "TG_R_ohm": 3934.5119904568764,
+        "matching_cap_F_each": 1.5987275624530445e-13,
+        "lifecycle": "OFFduringprecharge;ONonlyduringdevelopment;nativeSAcapturesbeforedata/referenceOFF"
+      }
+    },
+    {
+      "id": "matched_reference_enable",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "matched_cap_F": 6.508058257196637e-13,
+        "scope": "step-port nominalmatcheddata/referenceedge;no arbitrarilydifferentenabletimes"
+      }
+    },
+    {
+      "id": "write_route_compliance",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "actual_R_ohm": 500.0,
+        "rated_A": 0.0001,
+        "native_Ion_A": 0.0038940000000000003
+      }
+    },
+    {
+      "id": "native_gate_bias",
+      "passed": true,
+      "critical": true,
+      "evidence": "Native gate bias equals requested access voltage"
+    },
+    {
+      "id": "native_digital_timing",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "period_s": 1e-07,
+        "required_s": 6.114959577433048e-08
+      }
+    },
+    {
+      "id": "case_connected_MAC_halfcycle",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "combinational_s": 4.2519149127781315e-08,
+        "halfcycle_s": 5e-08,
+        "groupdecoder_in_series": true
+      }
+    },
+    {
+      "id": "reference_reachable",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "max_margin_V": 0.010503348501429671,
+        "required_V": 0.007
+      }
+    },
+    {
+      "id": "read_state_lifecycle",
+      "passed": true,
+      "critical": true,
+      "evidence": [
+        1.000450324058172,
+        -1.0004926424692144
+      ]
+    },
+    {
+      "id": "physical_state_clear",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "native_clear_s": 5.077550750919387e-08,
+        "scheduled_s": 1e-07,
+        "physical_bits_per_bank": 203.0
+      }
+    },
+    {
+      "id": "low_rail_precharge",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "headroom_V": 0.4483364000000001
+      }
+    },
+    {
+      "id": "all_write_endpoints",
+      "passed": true,
+      "critical": true,
+      "evidence": [
+        {
+          "initial_state": -1,
+          "final_state": -1.000343873040963,
+          "port_voltage_V": 0.6,
+          "plateau_s": 1e-06,
+          "edge_each_s": 1.9240196383625035e-09,
+          "waveform_s": 1.003848039276725e-06,
+          "crossing_s": null,
+          "max_current_A": 4.539008670230691e-05,
+          "max_MTJ_voltage_V": 0.5092493251897394,
+          "driver_energy_J": 2.7232785269974505e-11,
+          "access_ohm": 1000.0,
+          "trace_columns": [
+            "t_s",
+            "s",
+            "I_A",
+            "V_MTJ_V",
+            "V_access_V"
+          ],
+          "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+          "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+          "target_state": -1
+        },
+        {
+          "initial_state": 1,
+          "final_state": -1.000343873040963,
+          "port_voltage_V": 0.6,
+          "plateau_s": 1e-06,
+          "edge_each_s": 1.9240196383625035e-09,
+          "waveform_s": 1.003848039276725e-06,
+          "crossing_s": 7.079999999999999e-08,
+          "max_current_A": 7.268325099458732e-05,
+          "max_MTJ_voltage_V": 0.5092493251897394,
+          "driver_energy_J": 2.8375005717861982e-11,
+          "access_ohm": 1000.0,
+          "trace_columns": [
+            "t_s",
+            "s",
+            "I_A",
+            "V_MTJ_V",
+            "V_access_V"
+          ],
+          "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+          "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+          "target_state": -1
+        },
+        {
+          "initial_state": -1,
+          "final_state": 1.0001954215669033,
+          "port_voltage_V": -0.6,
+          "plateau_s": 1e-06,
+          "edge_each_s": 1.9240196383625035e-09,
+          "waveform_s": 1.003848039276725e-06,
+          "crossing_s": 1.0169999999999999e-07,
+          "max_current_A": 6.557378674330684e-05,
+          "max_MTJ_voltage_V": 0.47954586250707504,
+          "driver_energy_J": 3.782653700242838e-11,
+          "access_ohm": 1000.0,
+          "trace_columns": [
+            "t_s",
+            "s",
+            "I_A",
+            "V_MTJ_V",
+            "V_access_V"
+          ],
+          "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+          "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+          "target_state": 1
+        },
+        {
+          "initial_state": 1,
+          "final_state": 1.0001954215669033,
+          "port_voltage_V": -0.6,
+          "plateau_s": 1e-06,
+          "edge_each_s": 1.9240196383625035e-09,
+          "waveform_s": 1.003848039276725e-06,
+          "crossing_s": null,
+          "max_current_A": 6.55737867423301e-05,
+          "max_MTJ_voltage_V": 0.4344161714427173,
+          "driver_energy_J": 3.934427025143476e-11,
+          "access_ohm": 1000.0,
+          "trace_columns": [
+            "t_s",
+            "s",
+            "I_A",
+            "V_MTJ_V",
+            "V_access_V"
+          ],
+          "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+          "state_integration_scope": "Conservativeplateau-onlyafterelectricalsettling;edgecurrentnotusedtoforceearliersuccess",
+          "target_state": 1
+        }
+      ]
+    },
+    {
+      "id": "actual_written_state_sense",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "worst_final_states": [
+          1.0001954215669033,
+          -1.000343873040963
+        ],
+        "max_margin_V": 0.010504196966926171,
+        "required_V": 0.007
+      }
+    },
+    {
+      "id": "edge_current_and_settling",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "dc_peak_perlane_A": 7.268325099458732e-05,
+        "capacitive_ramp_budget_perlane_A": 4.940978730919918e-05,
+        "shared_required_A": 0.003906977225721168,
+        "shared_rated_A": 0.01,
+        "RC99p9_settle_s": 1.9240196383625035e-09,
+        "counted_each_edge_s": 1.9240196383625035e-09,
+        "TG_max_differential_R_ohm": 951.0220873339449,
+        "meaning": "Boundedfinite-slewlocalpulseportcondition;notinstantaneousunlimitedrail"
+      }
+    },
+    {
+      "id": "finite_opposite_edge_no_state_loss",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "opposite_fullbias_s": 3.848039276725007e-09,
+        "cases": [
+          {
+            "initial_state": -1,
+            "final_state": -0.9994992094798738,
+            "port_voltage_V": -0.6,
+            "plateau_s": 3.848039276725007e-09,
+            "edge_each_s": 0,
+            "waveform_s": 3.848039276725007e-09,
+            "crossing_s": null,
+            "max_current_A": 3.993298921748784e-05,
+            "max_MTJ_voltage_V": 0.47954586250707504,
+            "driver_energy_J": 9.219323679248231e-14,
+            "access_ohm": 1000.0,
+            "trace_columns": [
+              "t_s",
+              "s",
+              "I_A",
+              "V_MTJ_V",
+              "V_access_V"
+            ],
+            "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER"
+          },
+          {
+            "initial_state": 1,
+            "final_state": 0.9993033959333703,
+            "port_voltage_V": 0.6,
+            "plateau_s": 3.848039276725007e-09,
+            "edge_each_s": 0,
+            "waveform_s": 3.848039276725007e-09,
+            "crossing_s": null,
+            "max_current_A": 7.268325099458732e-05,
+            "max_MTJ_voltage_V": 0.4607776346616448,
+            "driver_energy_J": 1.6780668467495985e-13,
+            "access_ohm": 1000.0,
+            "trace_columns": [
+              "t_s",
+              "s",
+              "I_A",
+              "V_MTJ_V",
+              "V_access_V"
+            ],
+            "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER"
+          }
+        ],
+        "domain": "Finiteedgealignmentcondition;notarbitraryhalfselectduration"
+      }
+    },
+    {
+      "id": "write_driver_current",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "per_path_A": 7.268325099458732e-05,
+        "plateau_current_kind": "actualbias-resolvedMTJcurrent;100uAfieldisDCsizingconditionnotedgecurrentlimit",
+        "native_access_Ion_A": 0.0019470000000000004,
+        "active_lanes": 32,
+        "shared_limit_A": 0.01,
+        "source_degenerated_MOS_adapter": true,
+        "source_strap_R_ohm": 4.3929599999999995,
+        "conservative_shared_drop_upper_V": 0.010217427657253832
+      }
+    },
+    {
+      "id": "full_WL_window_read_stability",
+      "passed": true,
+      "critical": true,
+      "evidence": {
+        "window_s": 1.2619841779730026e-07,
+        "conservative_constant_read_bias": "ActualpassiveBLdischarges;holdingfullbiasthroughentireWLenable/develop/SAoutput/releasewindowisstrongerreadstress",
+        "pulses": [
+          {
+            "initial_state": 1.0001954215669033,
+            "final_state": 1.0002128728739106,
+            "port_voltage_V": 0.15,
+            "plateau_s": 1.2619841779730026e-07,
+            "edge_each_s": 0,
+            "waveform_s": 1.2619841779730026e-07,
+            "crossing_s": null,
+            "max_current_A": 1.5564598069270596e-05,
+            "max_MTJ_voltage_V": 0.10742920346092431,
+            "driver_energy_J": 2.9463409164193245e-13,
+            "access_ohm": 1000.0,
+            "trace_columns": [
+              "t_s",
+              "s",
+              "I_A",
+              "V_MTJ_V",
+              "V_access_V"
+            ],
+            "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+            "source_context": "maximum_return"
+          },
+          {
+            "initial_state": -1.000343873040963,
+            "final_state": -1.0007795684587848,
+            "port_voltage_V": 0.15,
+            "plateau_s": 1.2619841779730026e-07,
+            "edge_each_s": 0,
+            "waveform_s": 1.2619841779730026e-07,
+            "crossing_s": null,
+            "max_current_A": 8.559983139529984e-06,
+            "max_MTJ_voltage_V": 0.12402993540745229,
+            "driver_energy_J": 1.620305551315711e-13,
+            "access_ohm": 1000.0,
+            "trace_columns": [
+              "t_s",
+              "s",
+              "I_A",
+              "V_MTJ_V",
+              "V_access_V"
+            ],
+            "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+            "source_context": "maximum_return"
+          },
+          {
+            "initial_state": 1.0001954215669033,
+            "final_state": 1.0001772810890592,
+            "port_voltage_V": 0.15,
+            "plateau_s": 1.2619841779730026e-07,
+            "edge_each_s": 0,
+            "waveform_s": 1.2619841779730026e-07,
+            "crossing_s": null,
+            "max_current_A": 1.6147929683217478e-05,
+            "max_MTJ_voltage_V": 0.1114126958185807,
+            "driver_energy_J": 3.0567609587579554e-13,
+            "access_ohm": 1000.0,
+            "trace_columns": [
+              "t_s",
+              "s",
+              "I_A",
+              "V_MTJ_V",
+              "V_access_V"
+            ],
+            "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+            "source_context": "zero_drop_lower_bound"
+          },
+          {
+            "initial_state": -1.000343873040963,
+            "final_state": -1.0007707950670597,
+            "port_voltage_V": 0.15,
+            "plateau_s": 1.2619841779730026e-07,
+            "edge_each_s": 0,
+            "waveform_s": 1.2619841779730026e-07,
+            "crossing_s": null,
+            "max_current_A": 8.887579260721913e-06,
+            "max_MTJ_voltage_V": 0.1285926344571635,
+            "driver_energy_J": 1.682317050199707e-13,
+            "access_ohm": 1000.0,
+            "trace_columns": [
+              "t_s",
+              "s",
+              "I_A",
+              "V_MTJ_V",
+              "V_access_V"
+            ],
+            "model": "UMEM1.0.1 deterministic,no stochastic/thermal BER",
+            "source_context": "zero_drop_lower_bound"
+          }
+        ]
+      }
+    },
+    {
+      "id": "common_digital_clock_budget_satisfied",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field digital_clock_budget_satisfied"
+    },
+    {
+      "id": "common_precharge_bias_feasible",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field precharge_bias_feasible"
+    },
+    {
+      "id": "common_write_mux_current_compliance",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field write_mux_current_compliance"
+    },
+    {
+      "id": "common_reference_enable_load_match_feasible",
+      "passed": true,
+      "critical": true,
+      "evidence": "native resolved field reference_enable_load_match_feasible"
+    }
+  ],
+  "event_templates": {
+    "stream": "admitfull64Bytevector;foreachrow:pickinput;foreachof2colgroups:read,capture,eightbitupdateswithwiredsignextension;thenpublish",
+    "resident": "foreachbank,row,colgroup:load4targetBytes,captureinwholeingressclock,select;mask0,pulse0+return+clockalign;mask1,pulse1+return+clockalign;readverify,capturefullclock,comparestatus;onlythenreusecurrenttargetgroup;publishafterallgroups",
+    "stage_ledger_semantics": "countsmeasuretheseinterleavedperrequesttemplates;notalltargetloadsbeforeservice;noextrashadow"
+  },
+  "program_phase_timing_s": {
+    "one_physical_waveform": 1.003848039276725e-06,
+    "one_clock_ready_waveform": 1.1e-06,
+    "physical_select": 3.687852014272936e-08,
+    "clock_ready_select": 1e-07
+  }
+}

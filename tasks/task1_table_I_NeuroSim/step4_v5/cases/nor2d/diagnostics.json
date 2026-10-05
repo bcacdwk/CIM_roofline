@@ -1,0 +1,75 @@
+{
+  "status": "PASS_author_diagnostics_not_independent_review",
+  "convergence_and_gate_causality": [
+    {
+      "scenario": "optimistic",
+      "capture10ps_s": 1.003099999999885e-07,
+      "capture5ps_s": 1.0030500000003862e-07,
+      "difference_s": -4.999999949885142e-12,
+      "early_margin10ps_V": -0.006295814877556594,
+      "early_margin5ps_V": -0.006298139385485291,
+      "rates": {
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.07865177342083138,
+        "RI_star": 2.348379148629149,
+        "U_star": 37.574066378066384
+      },
+      "read_current_A": 5.904295474960178e-06,
+      "read_port_total_C_F": 4.20720211731622e-12,
+      "clock_ready_front_s": 8e-07
+    },
+    {
+      "scenario": "reference",
+      "capture10ps_s": 1.003099999999885e-07,
+      "capture5ps_s": 1.0030500000003862e-07,
+      "difference_s": -4.999999949885142e-12,
+      "early_margin10ps_V": -0.007351864097420835,
+      "early_margin5ps_V": -0.007353905962973695,
+      "rates": {
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.07865177342083138,
+        "RI_star": 2.348379148629149,
+        "U_star": 37.574066378066384
+      },
+      "read_current_A": 4.3960406157691995e-06,
+      "read_port_total_C_F": 4.20720211731622e-12,
+      "clock_ready_front_s": 8e-07
+    },
+    {
+      "scenario": "pessimistic",
+      "capture10ps_s": 1.1907999999998494e-07,
+      "capture5ps_s": 1.190700000000599e-07,
+      "difference_s": -9.999999925048923e-12,
+      "early_margin10ps_V": -0.008449978016453086,
+      "early_margin5ps_V": -0.008450285446168215,
+      "rates": {
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.00912904831614793,
+        "RI_star": 20.232578282828285,
+        "U_star": 323.72125252525257
+      },
+      "read_current_A": 3.108460725834637e-06,
+      "read_port_total_C_F": 4.20720211731622e-12,
+      "clock_ready_front_s": 8e-07
+    }
+  ],
+  "full_native_lowcap_counterfactual": {
+    "run": "/Users/shine/neurosim/runs/step4-v5/component-services/case-nor2d-nor2d-diagnostic-lowcap-r2-20261005",
+    "status": "infeasible",
+    "critical_failures": [
+      "dynamic_reference_and_false_latch"
+    ],
+    "false_latch_margin_V": -0.0228251230423836,
+    "actual_sensed_cap_F": 7.072021173162192e-13,
+    "no_completed_rates": true
+  },
+  "independent_enumeration": {
+    "unique_bits": 32768,
+    "SPI_bits_including_commands": 33720,
+    "SPI_IO_s": 0.000677256,
+    "reference_TR_s": 0.052077656,
+    "stream_cycles": 6930,
+    "stream_s": 0.0013859999999999999
+  },
+  "range_note": "Gate currentanddevelopmentchangebutbothceil/frontendanddigitalclockhidefinalreadratechange. Opt/refhaveproducttypPE;maxPEpesschangesresident. Threeparameterpacketsaretruepairedpackages,tworatesmaycoincide."
+}

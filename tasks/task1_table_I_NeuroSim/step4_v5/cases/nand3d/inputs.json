@@ -1,0 +1,836 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "nand3d",
+  "implementation_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1",
+  "identity": {
+    "material": "SLC SGVC NAND nominal16layer evidence extended to32layer series model",
+    "cell": "real EKV pass/storage/GSL/SSL chain, not parallelRRAM orTSV",
+    "organization": "64blocks x32WL x3SSL x13824BL,30data/2referenceWL;split-sign/base4/3x3unary",
+    "front_end": "64SL receivers,eachLTC6268TIA+invertingbiasedbuffer=128amplifiers;fixed20kOhm/1pF;native64SAR",
+    "power": "5V total supplies,128x16.5mA=10.56Wtypicalsteady AMP power,notintegratedlowpower originalmacro",
+    "precision": "nominal10bit ADC and Q4 approximate output;twoinputsignphases,actualcoarsecodes,no truth repair"
+  },
+  "logical": {
+    "K": 4608,
+    "N": 240,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "32bitQ4 approximate calibrated analog mapping;isolatedsingleunit quantizes0;nominaldense~3percent andpass-background extreme~+44/-22percent residual;not exactINT8 orENOB"
+  },
+  "base_parameters": {
+    "technology_nm": 130,
+    "temperature_K": 300,
+    "clock_Hz": 2000000,
+    "lanes": 16,
+    "adc_count": 64,
+    "adc_bits": 10,
+    "adc_reference_V": 1.1,
+    "ADC_input_C_F": 1e-12,
+    "ADC_bank_width_m": 0.001,
+    "logical_K": 4608,
+    "logical_N": 240,
+    "rows_per_group": 1152,
+    "row_groups": 4,
+    "bitlines": 13824,
+    "ssl_count": 3,
+    "wordlines": 32,
+    "data_wordlines": 30,
+    "reference_wordlines": 2,
+    "blocks": 64,
+    "page_bits": 13824,
+    "amp_open_loop_gain": 10000.0,
+    "amp_GBW_Hz": 400000000.0,
+    "amp_offset_V": 0.0008,
+    "buffer_offset_V": -0.0008,
+    "feedback_R_ohm": 20000.0,
+    "feedback_C_F": 1e-12,
+    "SL_cap_F": 1.6e-11,
+    "amp_common_C_F": 4.5e-13,
+    "amp_differential_C_F": 1e-13,
+    "buffer_feedback_C_F": 1e-12,
+    "buffer_R_ohm": 10000.0,
+    "buffer_bias_V": 0.25,
+    "amp_slew_up_V_s": 300000000.0,
+    "amp_slew_down_V_s": 180000000.0,
+    "buffer_output_load_F": 1e-11,
+    "ode_step_s": 1e-10,
+    "ode_horizon_s": 1e-06,
+    "settle_ADC_fraction": 0.25,
+    "SL_settle_tolerance_V": 1e-06,
+    "amp_Iq_A": 0.0165,
+    "dielectric_epsilon_r": 3.9,
+    "block_length_m": 0.000553,
+    "block_width_m": 2.25e-06,
+    "WL_spacing_m": 3e-08,
+    "channel_width_m": 4e-08,
+    "gate_height_m": 3e-08,
+    "gate_EOT_m": 8e-09,
+    "BL_length_m": 0.000144,
+    "wire_cap_F_m": 2e-10,
+    "terminal_drain_cap_F": 2e-16,
+    "WL_sheet_ohm_square": 1.0,
+    "metal_resistivity_ohm_m": 2.2e-08,
+    "BL_width_m": 2e-08,
+    "BL_thickness_m": 4e-08,
+    "bias_relative_error": 0.01,
+    "pass_voltage_V": 4.5,
+    "level_translate_s": 1e-08,
+    "HV_level_input_F": 6.53e-13,
+    "BL_switch_R_ohm": 2000.0,
+    "external_IO_load_F": 1e-14,
+    "input_port_bits": 128,
+    "resident_logical_port_bits": 128,
+    "page_bus_bits": 8,
+    "PE_min_bus_cycle_s": 2.5e-08,
+    "program_s": 0.0003,
+    "erase_s": 0.001,
+    "engine_command_cycles": 8,
+    "calibration_samples_per_reference": 3,
+    "gain_fractional_bits": 16,
+    "offset_bits": 24,
+    "coefficient_bits": 24,
+    "output_fractional_bits": 4,
+    "accumulator_bits": 32
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "lanes": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "adc_count": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "adc_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "adc_reference_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "ADC_input_C_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "ADC_bank_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "logical_K": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "logical_N": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "rows_per_group": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "row_groups": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "bitlines": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "ssl_count": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "wordlines": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "data_wordlines": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "reference_wordlines": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "blocks": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "page_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "amp_open_loop_gain": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "amp_GBW_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "amp_offset_V": {
+      "unit": "V",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "buffer_offset_V": {
+      "unit": "V",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "feedback_R_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "feedback_C_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "SL_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "NAND04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "64 blocks x32WL x3SSL x13824BL,144umBL,16pFSL"
+    },
+    "amp_common_C_F": {
+      "unit": "F",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "amp_differential_C_F": {
+      "unit": "F",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "buffer_feedback_C_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "buffer_R_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "buffer_bias_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "amp_slew_up_V_s": {
+      "unit": "V/s",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "amp_slew_down_V_s": {
+      "unit": "V/s",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "buffer_output_load_F": {
+      "unit": "F",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "ode_step_s": {
+      "unit": "s",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "ode_horizon_s": {
+      "unit": "s",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "settle_ADC_fraction": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "SL_settle_tolerance_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "amp_Iq_A": {
+      "unit": "A",
+      "source_ids": [
+        "LTC"
+      ],
+      "role": "external_primitive",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew"
+    },
+    "dielectric_epsilon_r": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "block_length_m": {
+      "unit": "m",
+      "source_ids": [
+        "NAND04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "64 blocks x32WL x3SSL x13824BL,144umBL,16pFSL"
+    },
+    "block_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "NAND04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "64 blocks x32WL x3SSL x13824BL,144umBL,16pFSL"
+    },
+    "WL_spacing_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "channel_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "gate_height_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "gate_EOT_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "BL_length_m": {
+      "unit": "m",
+      "source_ids": [
+        "NAND04"
+      ],
+      "role": "physical_evidence",
+      "applicability": "64 blocks x32WL x3SSL x13824BL,144umBL,16pFSL"
+    },
+    "wire_cap_F_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "terminal_drain_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "WL_sheet_ohm_square": {
+      "unit": "ohm/square",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "metal_resistivity_ohm_m": {
+      "unit": "ohm*m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "BL_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "BL_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "bias_relative_error": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "pass_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "level_translate_s": {
+      "unit": "s",
+      "source_ids": [
+        "HV"
+      ],
+      "role": "external_primitive",
+      "applicability": "readbias0..4.5V only;simpleC/I conservative drive budgets"
+    },
+    "HV_level_input_F": {
+      "unit": "F",
+      "source_ids": [
+        "HV"
+      ],
+      "role": "external_primitive",
+      "applicability": "readbias0..4.5V only;simpleC/I conservative drive budgets"
+    },
+    "BL_switch_R_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "external_IO_load_F": {
+      "unit": "F",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "input_port_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "resident_logical_port_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "page_bus_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "PE_min_bus_cycle_s": {
+      "unit": "s",
+      "source_ids": [
+        "PE"
+      ],
+      "role": "external_primitive",
+      "applicability": "same-addressfullcover,onePEengine,1728B/96page target compared with2048+64B/64page source"
+    },
+    "program_s": {
+      "unit": "s",
+      "source_ids": [
+        "PE"
+      ],
+      "role": "external_primitive",
+      "applicability": "same-addressfullcover,onePEengine,1728B/96page target compared with2048+64B/64page source"
+    },
+    "erase_s": {
+      "unit": "s",
+      "source_ids": [
+        "PE"
+      ],
+      "role": "external_primitive",
+      "applicability": "same-addressfullcover,onePEengine,1728B/96page target compared with2048+64B/64page source"
+    },
+    "engine_command_cycles": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "calibration_samples_per_reference": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "gain_fractional_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "offset_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "coefficient_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "output_fractional_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    },
+    "accumulator_bits": {
+      "unit": "dimensionless",
+      "source_ids": [
+        "DESIGN"
+      ],
+      "role": "architecture_choice",
+      "applicability": "fixedK4608N240hybridservice;serialrequests"
+    }
+  },
+  "sources": {
+    "NAND04": {
+      "kind": "external_primitive",
+      "path": "../../../task1_table_I_NVM/literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
+      "locator": "pp2-3 Fig3/Table1 geometry; old whole WL/SL delays excluded",
+      "evidence_type": "published architectural/circuit-model input",
+      "applicability": "64 blocks x32WL x3SSL x13824BL,144umBL,16pFSL",
+      "exclusions": "No use of303nsWL or530-750nsSL as timing inputs",
+      "includes": "physical organization and SL load only",
+      "excludes": "full read timing",
+      "domain": "published32layer model, not the measured16layer device"
+    },
+    "NAND05": {
+      "kind": "external_primitive",
+      "path": "../../../task1_table_I_NVM/literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
+      "locator": "Fig6 and reference WL calibration discussion",
+      "evidence_type": "measured device and proposed architecture",
+      "applicability": "16layerSGVC,Vg1,VBL.2,Vpass4.5,2nA mean;32layer is extension",
+      "exclusions": "no full chip accuracy or transient calibration",
+      "includes": "DC normalization/shape and reference mechanism",
+      "excludes": "complete access timing",
+      "domain": "room-temperature nominal compact model"
+    },
+    "EKV": {
+      "kind": "adapter",
+      "url": "https://doi.org/10.1007/BF01239381",
+      "locator": "EKV1995 Eq28/30/31; string_probe.py and electrical string_ports.json",
+      "evidence_type": "sourced compact equation, engineering threshold/slope parameters",
+      "applicability": "selected/pass/GSL/SSL actual series current with all internal nodes",
+      "exclusions": "not uniquely extracted SGVC compact model or TCAD"
+    },
+    "LTC": {
+      "kind": "external_primitive",
+      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/62689f.pdf",
+      "locator": "pp3-4 5V DC/AC table; page1 TIA example; web PDF inspected2026-10-05",
+      "evidence_type": "manufacturer op-amp data",
+      "applicability": "5V total supply,2500mVmid common-mode,at most10mA output;finiteA0/GBW/slew",
+      "exclusions": "not transistor-level amplifier model or measured whole NAND macro",
+      "includes": "Cin,finiteDCgain/GBW/slew/offset/Iq used in explicit two-amplifier receiver",
+      "excludes": "string network/ADC/native digital/complete P&E",
+      "domain": "room-temperature reference; pessimistic component datasheet bounds, not whole-devicePVT"
+    },
+    "HV": {
+      "kind": "external_primitive",
+      "path": "hv_driver_characterization.json",
+      "url": "https://foss-eda-tools.googlesource.com/skywater-pdk/sky130-raw-data/",
+      "locator": "locked sourceSHAs in characterization;N20um/P7um5V rated curves andTTcaps",
+      "evidence_type": "nominal measuredI plus separateTT capacitance",
+      "applicability": "readbias0..4.5V only;simpleC/I conservative drive budgets",
+      "exclusions": "not20Vprogram/erase device;not fullSTA",
+      "includes": "read-bias drive,finite local translation component budget and explicit loads",
+      "excludes": "completeP/E high-voltage engine",
+      "domain": "5Vgate,up to4.5Vnormalreadports"
+    },
+    "PE": {
+      "kind": "external_primitive",
+      "path": "../../../task1_table_I_NVM/literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
+      "locator": "pp25,31,58 complete program/erase;300/600us,1/3.5ms;byteinput tWC25ns",
+      "evidence_type": "manufacturer SLC specification; conditional cross-implementation transfer",
+      "applicability": "same-addressfullcover,onePEengine,1728B/96page target compared with2048+64B/64page source",
+      "exclusions": "no SGVC guarantee;no time scaling by bytes/layers",
+      "includes": "completeinternalpulse/verify/pump/recovery and HV/read-port isolation toread-ready;source pagebuffer",
+      "excludes": "explicitexternaldataformat/input,calibration",
+      "domain": "successfulengine status plus modeledstates;failure giveszero completedpayload"
+    },
+    "MLP": {
+      "kind": "native_circuit",
+      "url": "https://github.com/neurosim/MLP_NeuroSim_V3.0",
+      "locator": "locked6098feab:Adder/Subtractor/DFF/Mux/RowDecoder/formula",
+      "evidence_type": "native circuit model",
+      "applicability": "130nm300K local logic and loaded low-voltage ports",
+      "exclusions": "not storage-string orHVdevice model"
+    },
+    "TRAINING": {
+      "kind": "native_circuit",
+      "url": "https://github.com/neurosim/DNN_NeuroSim_V2.1",
+      "locator": "lockedf80a4345:SarADC",
+      "evidence_type": "native ADC timing/area model",
+      "applicability": "64 nominal10bit SARs;explicitCin1pF isengineering input",
+      "exclusions": "no ENOB/noise/sampling-C prediction"
+    },
+    "DESIGN": {
+      "kind": "service_policy",
+      "path": "inputs.json",
+      "locator": "base_parameters/scenarios/identity and case_adapter stage accounting",
+      "evidence_type": "explicit architecture,geometry and scheduling choices",
+      "applicability": "fixedK4608N240hybridservice;serialrequests",
+      "exclusions": "not measured distribution/equalarea/poweroptimized design"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "meaning": "Samehardware,typicalLTCreceiverparameters andtypicalcompleteSLC P/E service;finitepackage notstatisticalfastcorner",
+      "evidence": "LTC5Vtable typical andNAND06 typP/E",
+      "overrides": {
+        "amp_open_loop_gain": 21000.0,
+        "amp_GBW_Hz": 500000000.0,
+        "amp_offset_V": 0.00025,
+        "buffer_offset_V": -0.00025,
+        "amp_slew_up_V_s": 400000000.0,
+        "amp_slew_down_V_s": 260000000.0
+      }
+    },
+    "reference": {
+      "meaning": "Fixed500nscontroller;conservative room-temperature amplifierbound withtypicalconditionalP/E service",
+      "evidence": "LTCminimumgainat100ohmload/GBW400MHz and25degCoffset+CMRRallowance;NAND06typP/E",
+      "overrides": {}
+    },
+    "pessimistic": {
+      "meaning": "Samehardware,conservative full-spec amplifierbounds plus productmax P/E;not targetSGVCguarantee orwholechipPVT",
+      "evidence": "LTCovertemperaturegain/slew/offset/Iq bounds,devicekeptnominal300K;NAND06maxP/E",
+      "overrides": {
+        "amp_open_loop_gain": 2000.0,
+        "amp_offset_V": 0.0026,
+        "buffer_offset_V": -0.0026,
+        "amp_slew_up_V_s": 200000000.0,
+        "amp_slew_down_V_s": 130000000.0,
+        "amp_Iq_A": 0.023,
+        "program_s": 0.0006,
+        "erase_s": 0.0035
+      }
+    }
+  },
+  "service_policy": {
+    "initial_state": "arbitraryoldmatrix;all64blocks erased;full6144pages covered",
+    "input_port": "128bitlogicalport,16signed-to-magnitude lanes;fullinputheldin4608x9register",
+    "write_port": "one8bitcompletePEengine pageport;48bitformatterpacket,onebyteperlegalcontrollercycle>=source25ns;no whole-matrixshadow",
+    "output_endpoint": "all240Q4outputsheldaftertwoinputsignphases/calibration/reconstruction",
+    "resident_endpoint": "allpages/data/reference ready,calibrationcomplete andsuccessstatus;failurezero payload",
+    "request_overlap": "serial_nonoverlap",
+    "arbitration": "stream/residentexclusive;128AMPsteadybias",
+    "retry": "no invented retrydistribution;onecomplete sourceengine successservice",
+    "maintenance": "no periodicrefresh;long-windowdrift/endurance/read-disturb excludedfromlocalwindow",
+    "supply_startup": "stable1.3Vlogic,0.2VBL,1/4.5Vreadbias andAMP +/-2.5V;startup excluded,capacitivebiasedges charged"
+  },
+  "backend_plan": {
+    "string": "caseEKVports+finiteall-stringSLKCL",
+    "receiver": "externalLTCcompactfiniteA0/GBW/C/slew/offset",
+    "native_logic": "MLP6098feab130nmactualports/holding/35bit16lane",
+    "native_ADC": "Trainingf80a4345SAR64x10bit",
+    "PE": "NAND06completeopaqueengine conditionaltransfer"
+  },
+  "adapter_files": [
+    "string_probe.py",
+    "string_ports.json",
+    "tia_model.py",
+    "device_model.py",
+    "hv_driver_characterization.json",
+    "LICENSE.sky130.txt",
+    "mapping_probe.py",
+    "identifiability_probe.py"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "checkpoint_id": "p1-api-v1-clear-fixed-20261005",
+  "computational_hashes": {
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "functional_probe.py": "e19099ac9debdfba9955d491af9342189ddb0cad136e066cbd4733e00bf933ff",
+    "src/native_binary_probe.cpp": "34b81af48cd208bc2bebf5db46f625f3db8baee474e6c94dfcd2fc1659ff7842",
+    "patches/mlp_binary_column_load.patch": "11924d79ef9039a24c8fc1b40af1f85e3a932fb1f22675d9ad876575369d323a",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "patches/mlp_single_row_mux_and_write_target.patch": "3edd90a4a6226100df7140ee33a5b431e0bb568d59f6cf0ce1bb62499f2e0aef",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f"
+  },
+  "successful_native_build": "/Users/shine/neurosim/runs/step4-v5/p1/integrator-binary-api1-reviewed-clear-20261005",
+  "source_manifest_sha256": "9e8434dca11560f78999929aa8678f4b21e16f1b328bb8fbc4846c4cfec8aac1",
+  "functional_evidence_sha256": "55864569f1d1d9b97382b7a170678dae1a8e11836208c01ce6a833c98ecd3f94",
+  "functional_status": "PASS",
+  "review_state": "independent clear re-review and full case review pending",
+  "affected_cases": [
+    "pcm",
+    "mram"
+  ],
+  "supersedes": "P1 route-closed case candidates missing real clear; preserved locally",
+  "scope": "computational set excludes docs/governance/other cases; selected case files added by service snapshots"
+}

@@ -1,0 +1,352 @@
+{
+  "execution": {
+    "status": "PASS_final_execution_snapshot_only",
+    "formal_table_and_visual_review": "pendingfinalexport",
+    "point_count": 21,
+    "cases": 7,
+    "one_each_scenario_per_case": true,
+    "unique_actual_native_build_directories": 39,
+    "file_hash_comparisons_unique_paths": 487,
+    "exact_management_package_runtime_hash_binding": true,
+    "old_results_or_replay_in_compute_package": false,
+    "final_execution_failures": 0,
+    "initial_packaging_failures_retained": [
+      {
+        "case_id": "mram",
+        "scenario": "optimistic",
+        "exit_code": 1,
+        "run_path": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-final-seven-from-compute-package-20261005-optimistic"
+      },
+      {
+        "case_id": "mram",
+        "scenario": "reference",
+        "exit_code": 1,
+        "run_path": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-final-seven-from-compute-package-20261005-reference"
+      },
+      {
+        "case_id": "mram",
+        "scenario": "pessimistic",
+        "exit_code": 1,
+        "run_path": "/Users/shine/neurosim/runs/step4-v5/p1/case-mram-final-seven-from-compute-package-20261005-pessimistic"
+      }
+    ],
+    "allrates_decimal_MB_s": true,
+    "rho_tau_RI_U_independently_recomputed": true,
+    "GC_effective_not_single_latency": true,
+    "points": [
+      {
+        "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__optimistic",
+        "case_id": "pcm",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+        "rho_MB_per_s": 0.24623819341152528,
+        "tau_MB_per_s": 2.5612105643250644,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__reference",
+        "case_id": "pcm",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+        "rho_MB_per_s": 0.24623819341152528,
+        "tau_MB_per_s": 2.195677120867277,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "pcm_tst_fullHV130_3um_1t1r_binary128sa_k128n16_v2__pessimistic",
+        "case_id": "pcm",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "6ff0664ad5deb7a7a3f432420a003251b4b2417a6399925d6f8d7286c03ffb2d",
+        "rho_MB_per_s": 0.24623819341152528,
+        "tau_MB_per_s": 1.1357952613756677,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__optimistic",
+        "case_id": "mram",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+        "rho_MB_per_s": 0.398505603985056,
+        "tau_MB_per_s": 1.9045847670417564,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__reference",
+        "case_id": "mram",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+        "rho_MB_per_s": 0.398505603985056,
+        "tau_MB_per_s": 1.2902412902412903,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "mram_umem70nm_1t_binary65nm_k64n64_v1__pessimistic",
+        "case_id": "mram",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "1fdcd2fa8eda7c9ea8b38bf422cc4efab2e58db8125f4edc82b18686d740c744",
+        "rho_MB_per_s": 0.398505603985056,
+        "tau_MB_per_s": 0.7842836901160343,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__optimistic",
+        "case_id": "nor2d",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.07865177342083138,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__reference",
+        "case_id": "nor2d",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.07865177342083138,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "nor2d_esf1_binary_equiv130nm_k256n16_v1__pessimistic",
+        "case_id": "nor2d",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "f08958add106ed192955b380b84e0693ea17d085739b6c368d7892cff3010fc8",
+        "rho_MB_per_s": 0.18470418470418473,
+        "tau_MB_per_s": 0.00912904831614793,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__optimistic",
+        "case_id": "fenor3d",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+        "rho_MB_per_s": 0.5360134003350084,
+        "tau_MB_per_s": 6.146458583433374,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__reference",
+        "case_id": "fenor3d",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+        "rho_MB_per_s": 0.5360134003350084,
+        "tau_MB_per_s": 6.146458583433374,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__pessimistic",
+        "case_id": "fenor3d",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+        "rho_MB_per_s": 0.5360134003350084,
+        "tau_MB_per_s": 6.146458583433374,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__optimistic",
+        "case_id": "feram",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+        "rho_MB_per_s": 0.23897559415489839,
+        "tau_MB_per_s": 37.514654161781955,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__reference",
+        "case_id": "feram",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+        "rho_MB_per_s": 0.2386334287623562,
+        "tau_MB_per_s": 36.994219653179194,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "feram_hzo1t1c_HV130_k32n16_128restore_dwell100_v1__pessimistic",
+        "case_id": "feram",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "090bd4723ad86566350ac6dc4e9721a5d85af76b7fc4d052748c0e50bcd445fb",
+        "rho_MB_per_s": 0.23693719470712735,
+        "tau_MB_per_s": 34.5945945945946,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__optimistic",
+        "case_id": "gc04",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+        "rho_MB_per_s": 0.19912881144990666,
+        "tau_MB_per_s": 9.699634850211206,
+        "rate_basis": "effectiveactualschedule"
+      },
+      {
+        "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__reference",
+        "case_id": "gc04",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+        "rho_MB_per_s": 0.19912881144990666,
+        "tau_MB_per_s": 8.238870016092028,
+        "rate_basis": "effectiveactualschedule"
+      },
+      {
+        "config_id": "gc04_silicon65_3t1c_complementary_k64n16_q4_v1__pessimistic",
+        "case_id": "gc04",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "095f2d8a8fe534039a0fe5fb26b003def10e1c62ef10ff16162cfb9203fb6fd0",
+        "rho_MB_per_s": 0.19912881144990666,
+        "tau_MB_per_s": 7.526912315645556,
+        "rate_basis": "effectiveactualschedule"
+      },
+      {
+        "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__optimistic",
+        "case_id": "nand3d",
+        "scenario": "optimistic",
+        "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+        "rho_MB_per_s": 0.12166818487860909,
+        "tau_MB_per_s": 0.13552800001470575,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__reference",
+        "case_id": "nand3d",
+        "scenario": "reference",
+        "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+        "rho_MB_per_s": 0.12166818487860909,
+        "tau_MB_per_s": 0.13552800001470575,
+        "rate_basis": "serialnonoverlap"
+      },
+      {
+        "config_id": "nand3d_sgvc32_ekv_hybrid64tia_k4608n240_v1__pessimistic",
+        "case_id": "nand3d",
+        "scenario": "pessimistic",
+        "computational_snapshot_sha256": "f7b131fd97fbcc77a5d835066421d2f589f50d2007df661ec0b830ae9999080d",
+        "rho_MB_per_s": 0.12166818487860909,
+        "tau_MB_per_s": 0.10881521082996296,
+        "rate_basis": "serialnonoverlap"
+      }
+    ],
+    "manifest_sha256": "6f8ff75529fb38cd7c13d9aed14de11085e8da51e87758a5b5d1fdf4bfa4e319",
+    "summary_sha256": "5ff22535cbb67e2b841f8310e0831966282c74b16e74a1195e423531e61381db"
+  },
+  "tables": {
+    "status": "PASS_table_units_identity_pairing",
+    "V5_configs": 21,
+    "combined_configs": 30,
+    "classes": 10,
+    "V4_exact_original_values": true,
+    "V5_review_hash_bound": true,
+    "GC_effective_basis_separate_from_latency": true,
+    "CSV_JSON_consistent": true,
+    "V4_V5_range_semantics_explicit": true,
+    "source_hashes": {
+      "points": "21e05a6b993655cf7d2a18fcd77758ac342609fa22e4af8ad322cf6698749a9b",
+      "combined": "f89d7e3a3bf755db5aa658e3a739e2094237b47273ec55e092f806224cda93a9",
+      "V4_summary": "dabf1a78f35edb3ce17af8bcdd6cc4c75bf57a17e72fc05e9dc4d1cede912150"
+    }
+  },
+  "geometry": [
+    {
+      "status": "PASS_independent_geometry_SVG_checks",
+      "figures": [
+        {
+          "figure": "v5_rho_tau_pairs",
+          "point_coordinates_exact": true,
+          "points": 21,
+          "all_reference_and_endpoint_centres_enclosed": true,
+          "full_circle_boundaries_within_axes": true,
+          "label_layout_penalties": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "SVG_major_grid_points_per_decade": [
+            135.45600000000002,
+            135.456
+          ],
+          "independent_equal_log_decades": true
+        },
+        {
+          "figure": "v5_rho_tau_circles",
+          "point_coordinates_exact": true,
+          "points": 21,
+          "all_reference_and_endpoint_centres_enclosed": true,
+          "full_circle_boundaries_within_axes": true,
+          "label_layout_penalties": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "SVG_major_grid_points_per_decade": [
+            124.992,
+            124.99199999999999
+          ],
+          "independent_equal_log_decades": true
+        }
+      ],
+      "geometry_sha256": "66ed8328aad7e50910ae2f5b86cd97bac69caaf10f764a354b0d547b94498c8c",
+      "visual_PNG_review": "pendinghuman-modelview"
+    },
+    {
+      "status": "PASS_independent_geometry_SVG_checks",
+      "figures": [
+        {
+          "figure": "ten_rho_tau_pairs",
+          "point_coordinates_exact": true,
+          "points": 30,
+          "all_reference_and_endpoint_centres_enclosed": true,
+          "full_circle_boundaries_within_axes": true,
+          "label_layout_penalties": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "SVG_major_grid_points_per_decade": [
+            63.71345466666668,
+            63.7134546
+          ],
+          "independent_equal_log_decades": true
+        },
+        {
+          "figure": "ten_rho_tau_circles",
+          "point_coordinates_exact": true,
+          "points": 30,
+          "all_reference_and_endpoint_centres_enclosed": true,
+          "full_circle_boundaries_within_axes": true,
+          "label_layout_penalties": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "SVG_major_grid_points_per_decade": [
+            62.496,
+            62.49600000000001
+          ],
+          "independent_equal_log_decades": true
+        }
+      ],
+      "geometry_sha256": "1e1c5d7e0691b5b4c1eee862da74df84a351f396d8e56f5123bb1cecff34959c",
+      "visual_PNG_review": "pendinghuman-modelview"
+    }
+  ]
+}

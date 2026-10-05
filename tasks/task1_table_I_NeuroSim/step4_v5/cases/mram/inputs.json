@@ -1,0 +1,692 @@
+{
+  "schema_version": "5.0.0",
+  "case_id": "mram",
+  "implementation_id": "mram_umem70nm_1t_binary65nm_k64n64_v1",
+  "identity": {
+    "material": "CoFeB/MgO p-STT model-reference,UMEM1.0.1 parameterpackage",
+    "cell": "1T1MTJ;fixedresistorreference perSA;ordinarybinarysense+localdigital",
+    "process": "70nmsquareMTJ evidence/model;65nmLSTPCM OSreferenceperiphery;not same fabricatedmacro",
+    "physical_organization": "8data banks64x64=32768MTJ;8bits/signedweight;2muxgroups;256binarySA/referencebranches",
+    "rails": "gate1.1Vnative;read0.15Vatbankentry;writeBL/SL0or0.6Vatbankentry,current/IRcomputed;stablelocalrails",
+    "power_return": "Eachbank:2umx1umuppermetalreturncolumns plusactualrowlengthcommonstrap,rho2.2e-8Ωm;independent quietreference return;parallelplate/fringe coupling entersnativeC;notchipPDNsignoff",
+    "read": "PerSA12kohm passiveR +nativeTGisolation+matchedC;data/refbothOFFduringlow-railprecharge;nativeVSAdecisionlatch"
+  },
+  "logical": {
+    "K": 64,
+    "N": 64,
+    "input_bits": 8,
+    "weight_bits": 8,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "signed": true,
+    "output_qualification": "binaryconditioned exactsignedINT8localarithmetic into25bitcontainer;deterministicanalogmodel,not siliconprecision/WER"
+  },
+  "base_parameters": {
+    "technology_nm": 65,
+    "device_node_nm": 70,
+    "temperature_K": 300,
+    "rows": 64,
+    "cols": 64,
+    "read_mux": 2,
+    "write_mux": 2,
+    "banks": 8,
+    "access_resistance_ohm": 1000.0,
+    "cell_pitch_x_m": 6.24e-06,
+    "cell_pitch_y_m": 1.04e-06,
+    "read_voltage_V": 0.15,
+    "access_voltage_V": 1.1,
+    "write_port_voltage_V": 0.6,
+    "wire_ohm_per_m": 10000000.0,
+    "clock_Hz": 10000000.0,
+    "extra_column_cap_F": 0.0,
+    "sense_threshold_V": 0.005,
+    "precharge_width_F": 8.0,
+    "precharge_error_fraction": 0.01,
+    "reference_resistance_ohm": 12000.0,
+    "sense_offset_budget_V": 0.002,
+    "read_integrator_step_s": 1e-11,
+    "write_integrator_step_s": 1e-10,
+    "program_plateau_s": 1e-06,
+    "minimum_edge_s": 1e-09,
+    "accepted_state_magnitude": 0.98,
+    "write_lanes": 32,
+    "shared_write_current_limit_A": 0.01,
+    "input_port_bytes": 16,
+    "umem_tm_m": 1e-09,
+    "umem_area_m2": 4.9e-15,
+    "umem_areanom_m2": 4.9e-15,
+    "umem_tf_m": 5e-09,
+    "umem_tfnom_m": 5e-09,
+    "umem_rhot_ohm_m": 0.0046,
+    "umem_rhot_r_ohm_m": 0.0046,
+    "umem_x0_m": 5e-10,
+    "umem_x0_r_m": 5e-10,
+    "umem_ic0_A": 3.8e-05,
+    "umem_ic0_r_A": 2.6e-05,
+    "umem_v0_V": 1.5,
+    "umem_v0_r_V": 2.0,
+    "umem_tmr0": 1.13,
+    "umem_vr0_V": 0.8,
+    "umem_tau0_s": 1.8e-08,
+    "umem_rs_ohm": 0.1,
+    "umem_rs_r_ohm": 0.1,
+    "umem_vs0_V": 0.5,
+    "umem_minr_ohm": 0.001,
+    "source_strap_width_m": 2e-06,
+    "source_strap_thickness_m": 1e-06,
+    "source_strap_resistivity_ohm_m": 2.2e-08,
+    "input_port_bits": 128,
+    "resident_port_bits": 32,
+    "source_BL_spacing_m": 5e-07,
+    "source_dielectric_relative_permittivity": 3.9,
+    "source_fringe_F_per_m": 2e-10,
+    "read_mux_IR_fraction": 0.5,
+    "write_mux_target_ohm": 500.0,
+    "write_current_A": 0.0001,
+    "reference_enable_skew_bound_s": 1e-10
+  },
+  "parameter_metadata": {
+    "technology_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "device_node_nm": {
+      "unit": "nm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "temperature_K": {
+      "unit": "K",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "rows": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "cols": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "read_mux": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "write_mux": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "banks": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "access_resistance_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "cell_pitch_x_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "cell_pitch_y_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "read_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "access_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "write_port_voltage_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "wire_ohm_per_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "clock_Hz": {
+      "unit": "Hz",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "extra_column_cap_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "sense_threshold_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "precharge_width_F": {
+      "unit": "F",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "precharge_error_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "reference_resistance_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "sense_offset_budget_V": {
+      "unit": "V",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "read_integrator_step_s": {
+      "unit": "s",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "write_integrator_step_s": {
+      "unit": "s",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "program_plateau_s": {
+      "unit": "s",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "minimum_edge_s": {
+      "unit": "s",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "accepted_state_magnitude": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "write_lanes": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "shared_write_current_limit_A": {
+      "unit": "A",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "input_port_bytes": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedreferencearchitecture/finitepolicy;not claimedmeasurement"
+    },
+    "umem_tm_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_area_m2": {
+      "unit": "m^2",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_areanom_m2": {
+      "unit": "m^2",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_tf_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_tfnom_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_rhot_ohm_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_rhot_r_ohm_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_x0_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_x0_r_m": {
+      "unit": "m",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_ic0_A": {
+      "unit": "A",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_ic0_r_A": {
+      "unit": "A",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_v0_V": {
+      "unit": "V",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_v0_r_V": {
+      "unit": "V",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_tmr0": {
+      "unit": "1",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_vr0_V": {
+      "unit": "V",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_tau0_s": {
+      "unit": "s",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_rs_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_rs_r_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_vs0_V": {
+      "unit": "V",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "umem_minr_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "U-MRAM"
+      ],
+      "role": "external_primitive",
+      "applicability": "Authoritative declarednominal modelparameter"
+    },
+    "source_strap_width_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedlocalpower-returngeometry/conductivityorportresource;notclaimed originalmacro;geometry-to-R explicitly computed"
+    },
+    "source_strap_thickness_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedlocalpower-returngeometry/conductivityorportresource;notclaimed originalmacro;geometry-to-R explicitly computed"
+    },
+    "source_strap_resistivity_ohm_m": {
+      "unit": "ohm*m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedlocalpower-returngeometry/conductivityorportresource;notclaimed originalmacro;geometry-to-R explicitly computed"
+    },
+    "input_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedlocalpower-returngeometry/conductivityorportresource;notclaimed originalmacro;geometry-to-R explicitly computed"
+    },
+    "resident_port_bits": {
+      "unit": "bit",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Fixedlocalpower-returngeometry/conductivityorportresource;notclaimed originalmacro;geometry-to-R explicitly computed"
+    },
+    "source_BL_spacing_m": {
+      "unit": "m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Upper-metal source-return coupling estimate from declaredgeometry,not fittedreadlatency;effectiveSiO2permittivity andfringe engineeringmodel"
+    },
+    "source_dielectric_relative_permittivity": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Upper-metal source-return coupling estimate from declaredgeometry,not fittedreadlatency;effectiveSiO2permittivity andfringe engineeringmodel"
+    },
+    "source_fringe_F_per_m": {
+      "unit": "F/m",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Upper-metal source-return coupling estimate from declaredgeometry,not fittedreadlatency;effectiveSiO2permittivity andfringe engineeringmodel"
+    },
+    "read_mux_IR_fraction": {
+      "unit": "1",
+      "source_ids": [
+        "POLICY",
+        "MLP"
+      ],
+      "role": "architecture_choice",
+      "applicability": "Single-selected-cell Ron/2 native routing target;no numRows parallelcurrent for a sequentialread"
+    },
+    "write_mux_target_ohm": {
+      "unit": "ohm",
+      "source_ids": [
+        "POLICY",
+        "MLP"
+      ],
+      "role": "architecture_choice",
+      "applicability": "IndependentprogramTG target;100uA ratedpath keepsnominalroutingdrop<=50mV;actualnativeR entersUMEM"
+    },
+    "write_current_A": {
+      "unit": "A",
+      "source_ids": [
+        "POLICY",
+        "MLP"
+      ],
+      "role": "architecture_choice",
+      "applicability": "DC write-route sizing/check current only, not a hard current limit; finite-slew capacitive current checked separately against actual native device capability and shared rail rating"
+    },
+    "reference_enable_skew_bound_s": {
+      "unit": "s",
+      "source_ids": [
+        "POLICY"
+      ],
+      "role": "operating_condition",
+      "applicability": "Finite±100ps residualstep-enable skew budget checkedbycasephysics;native matchedload givesnominalalignmentonly;notmeasuredsiliconskew"
+    }
+  },
+  "sources": {
+    "U-MRAM": {
+      "kind": "external_primitive",
+      "url": "https://github.com/chientingtung/umem/tree/3cd6275284951b8033c9637bd8094ec05b716a4b/1.0.1",
+      "locator": "umem.va303–355;technical manual§6/7/10.1 Fig10.3",
+      "evidence_type": "published deterministic compact model fitted toCarboni2019R-V/time traces",
+      "applicability": "one coherent MRAM parameter set;70nm-square,room-temperature nominal model;electrode convention follows sourcecode",
+      "exclusions": "no stochastic WER or fitted1T access;no validation offixed-positive readpolarity",
+      "includes": "nonlinear tunnelingR(V,state),asymmetric currentdriven state evolution",
+      "excludes": "selection,accessMOS,writepulsegeneration,reference,readperiphery,verification",
+      "domain": "portedMRAMbranch,selfheatingoff,0.15Vpositivebank-entryread and0.6Ventrywrite;actualMTJbias solved,40ns–10uspulsepolicies"
+    },
+    "CARBONI": {
+      "kind": "external_primitive",
+      "url": "https://re.public.polimi.it/bitstream/11311/1111811/1/ted_sttram.pdf",
+      "locator": "pp2–3 Figs1–3;roomtemperature70nmx70nm;40ns–10us;read±.15Vlast-writepolarity",
+      "evidence_type": "measured device;UMEMfit underlying source checked",
+      "applicability": "material/context anddifferentreadpolicy comparison only",
+      "exclusions": "UMEMdoesnotreproduce thepublishedstochasticWERmodel",
+      "includes": "experimental state/switchingcontext",
+      "excludes": "not numericgenerationofaccess/SA/schedule",
+      "domain": "same cited70nm-squaredevice,room-temperatureexperiments"
+    },
+    "MLP": {
+      "kind": "native_circuit",
+      "path": "provenance/dependencies.lock.json",
+      "locator": "MLPInferenceV3.0 6098feabaf17b8209a8edbef4a9c963b5f015132;SubArray/VoltageSenseAmp/Adder/DFF/Mux/RowDecoder",
+      "evidence_type": "locked nativecircuitmodels withV5columnload correction",
+      "applicability": "65nmLSTP native sizing/RC/selection/lowrailprecharge/digital timing;scopedadapter",
+      "exclusions": "no material prediction/offsetmismatch/completechipSTA"
+    },
+    "POLICY": {
+      "kind": "service_policy",
+      "path": "cases/mram/case_adapter.py",
+      "locator": "prepare/evaluate/transient_reference andinputsbaseparameters",
+      "evidence_type": "explicitreferencearchitecture anddeterministicacceptedservicepolicy",
+      "applicability": "8banks64x64binary,12kohmreference/matchedC,finitepulsepair+verify,resourcecounts;5mVresolution+2mVerrorbudget",
+      "exclusions": "not measuredmacro/PVT/statisticalrange"
+    },
+    "MOS": {
+      "kind": "adapter",
+      "path": "cases/mram/umem_port.py",
+      "locator": "umem_port.py BiasPort +case_adapter.py native_mos:actualnativewidth/Ion/Vth saturationanchors;BL TG high-sidepositive/low-sidenegative;separatesCACTIR_eff",
+      "evidence_type": "minimum consistent saturation-anchor DC extension,not foundry BSIM",
+      "applicability": "gate1.1V,BL/SL0..0.6V;actualaccess/readTG/writeTG/refN widths;bias-specificVGS/VDS andsourceIR;plateauafterRCsettling",
+      "exclusions": "CACTI timingRon is not differentialDCresistance; bodyeffect/velocitysaturation not independently calibrated; oldR-matchedmodel retained only as sensitivity"
+    }
+  },
+  "scenarios": {
+    "optimistic": {
+      "overrides": {
+        "program_plateau_s": 5e-07
+      },
+      "meaning": "samehardware0.6V,500nsfullpolarityplateaus,oneacceptedattempt",
+      "evidence": [
+        "U-MRAM",
+        "CARBONI",
+        "POLICY"
+      ]
+    },
+    "reference": {
+      "overrides": {},
+      "meaning": "samehardware0.6V,1usfullpolarityplateaus,oneacceptedattempt;modelreference,nottypicalmeasurement",
+      "evidence": [
+        "U-MRAM",
+        "CARBONI",
+        "POLICY"
+      ]
+    },
+    "pessimistic": {
+      "overrides": {
+        "program_plateau_s": 2e-06
+      },
+      "meaning": "samehardware0.6V,2usfullpolarityplateaus,oneacceptedattempt;finiteprogrammingpolicyrangeonly",
+      "evidence": [
+        "U-MRAM",
+        "CARBONI",
+        "POLICY"
+      ]
+    }
+  },
+  "service_policy": {
+    "initial_state": "arbitraryoppositeormatchingbinary states;alwaysforcefullcoverbothtargetpolarities",
+    "input_port": "16logicalBytes/clockinputacceptedintoregister;noexternaltransfer",
+    "write_port": "4logicalByte=32bitgroups;onephysicalrow/group/onebankatime;32globallyactivewritepaths10mAsharedrating;nativebankdriversinstalled;localSLstrapIRfeedsUMEM/accesssolve",
+    "output_endpoint": "all64 signed25bitoutputregisters captured",
+    "resident_endpoint": "all32768bitsprogrammed andphysicallyread/compared;matrixpublishlast",
+    "request_overlap": "serial_nonoverlap;heldweightsreusedthrough8inputbits",
+    "arbitration": "read/writeexclusive;sameSAandweightholdusedforverify",
+    "retry": "onefullattempt;failureinvalidatesmatrixandpayload;nostochasticretryprobability",
+    "maintenance": "nonvolatilelocalwindow;noincludedrefresh;endurance/retentionoutsideboundedmodelclaims",
+    "supply_startup": "stable0.1/0.6/1.1Vlocalrails;startupoffboundary;per-pulsecurrent/edgeaccounted"
+  },
+  "backend_plan": {
+    "native": "MLP6098single-rowdigitalpathperbank+explicit25bitandhold/verifyperiphery",
+    "adapter": "UMEMport+source-degenerated1T+nonlinearpassivereferenceCdevelopment;externalprecharge",
+    "counting": "caseexplicitstages;nativeunsignedaggregateexcluded"
+  },
+  "adapter_files": [
+    "umem_port.py",
+    "LICENSE.umem.txt",
+    "model.lock.json"
+  ]
+}

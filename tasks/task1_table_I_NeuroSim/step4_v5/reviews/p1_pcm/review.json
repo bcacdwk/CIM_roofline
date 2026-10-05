@@ -1,0 +1,96 @@
+{
+  "review_status": "PASS_partial_read_ONLY_resident_BLOCKED",
+  "scope": "Independent read/control/counting review only; no complete PCM rho/tau service pair and no foundry validation.",
+  "role_disclosure": "MRAM, FeNOR, GC04, NAND author; no PCM production edits. Shared interface findings raised by this reviewer, implementation owned by integrator.",
+  "fresh_run": "/Users/shine/neurosim/runs/step4-v5/p1/case-pcm-pcm-independent-read-ref-r2-20261005",
+  "input_sha256": "30db884d1155e5b2d0df4d325357fd1bcca0e0ea556da4ab14864febc5c0557c",
+  "computational_manifest": {
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "functional_probe.py": "e19099ac9debdfba9955d491af9342189ddb0cad136e066cbd4733e00bf933ff",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "src/native_binary_probe.cpp": "34b81af48cd208bc2bebf5db46f625f3db8baee474e6c94dfcd2fc1659ff7842",
+    "patches/mlp_binary_column_load.patch": "11924d79ef9039a24c8fc1b40af1f85e3a932fb1f22675d9ad876575369d323a",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "patches/mlp_single_row_mux_and_write_target.patch": "3edd90a4a6226100df7140ee33a5b431e0bb568d59f6cf0ce1bb62499f2e0aef",
+    "cases/pcm/inputs.json": "30db884d1155e5b2d0df4d325357fd1bcca0e0ea556da4ab14864febc5c0557c",
+    "cases/pcm/case_adapter.py": "29838ff8e82eab87d1375191e8936893de88aed4b5db74eccdca95bc21f6897b",
+    "cases/pcm/adapter.py": "e77c9dc1fc5662ac34ab1cb5d9f8608bc03045c67bb1c5452254b80cf89c4a09"
+  },
+  "checks": [
+    {
+      "id": "independent_mapping_counts",
+      "passed": true,
+      "evidence": {
+        "logical_bytes": 2048,
+        "physical_bits": 16384,
+        "RESET_batches": 1024,
+        "SET_slots": 1024,
+        "read_groups": 256,
+        "positive_updates": 1792,
+        "sign_updates": 256
+      }
+    },
+    {
+      "id": "independent_matrix_exponential_RC",
+      "passed": true,
+      "evidence": {
+        "contexts": 48,
+        "minimum_margin_V": 0.015000097365662324,
+        "goal_V": 0.015,
+        "producer_minimum_V": 0.01500009736566335,
+        "time_s": 3.98843741672382e-09,
+        "method": "Reducednodalconductancematrix,scaling/squaringexponential;noimportofRK4producer"
+      }
+    },
+    {
+      "id": "charge_power_KCL",
+      "passed": true,
+      "evidence": {
+        "max_KCL_A": 2.168404344971009e-19,
+        "max_energy_error_W": 2.710505431213761e-20
+      }
+    },
+    {
+      "id": "independent_complete_read_count",
+      "passed": true,
+      "evidence": {
+        "independent_delta_s": 0.0002597298393497045,
+        "reported_delta_s": 0.0002597298393497045,
+        "conditional_read_rho_MB_s": 0.49281977119178333
+      }
+    },
+    {
+      "id": "physical_clear_and_hold",
+      "passed": true,
+      "evidence": {
+        "clear_bits": 403.0,
+        "clear_gates": 808.0,
+        "MACfullperiod_s": 8e-08
+      }
+    },
+    {
+      "id": "resident_block_correctly_suppressed",
+      "passed": true,
+      "evidence": {
+        "blocked_stage": "post_program_HV_return_and_read_isolation",
+        "no_rho_tau_pair": true
+      }
+    }
+  ],
+  "conditions": [
+    "Selected working PCM cells reach Ron<=20kohm orRoff>=200kohm after specified pulses; this is prior characterization/service condition, not an online resistance-window measurement or population yield.",
+    "Native VSA adapted to10mV design target; combined input-referred offset/noise/reference error must stay within5mV. NeuroSim does not predict this budget or statistical BER.",
+    "Fixed40kohmreference/matchedtotalC andactualWLmatched-enablereplica are real resources;referenceTGisOFFduringprecharge.Threefinite residualenable-skews(-1/0/+1ns) timesfourloadcontexts are explicitlyexercised.±1ns is adesignqualification, notmeasuredjitterorcompleteSTA.",
+    "0.2V read is a declared nondestructive low-bias engineering condition; source does not establish this exact bias or a long-term read-disturb limit.",
+    "External16lane current-waveform engine must deliver source-equivalent .5mARESET/.2mASET with sufficient compliance and source-equivalent quench/terminal recovery. Published pulse widths are retained as indivisible characterized waveform service; separate edge/cooling detail is not available. New routing setup/release is charged separately, and native write RC is not claimed to generate thermal-write waveforms.",
+    "Allcolumns,includingnot-sensedcolumns,mustbeinthe0..0.2Vread-safeinitialdomainbeforeevaluation/verify;theirnonzerohistoryandallWLactivecellsareexplicitlyintheKCL. Programengine returntothisdomain remainsanexternalportcondition. Finitepostprogramstatewindowonly;no long-term driftrecalibrationguarantee.",
+    "Nominal register timing atchosenclock is constrained by native models; not transistor-level STA or silicon signoff."
+  ],
+  "exact_missing_resident_port": "post_program_HV_return_and_read_isolation",
+  "script_sha256": "afd5801080d0f398ad6ed392f025290a75a138b6db4817151d966bc07cdb89d4",
+  "detailed_audit": "/Users/shine/neurosim/runs/step4-v5/p1/pcm-independent-prereview-20261005/read_audit_final.json",
+  "independent_script_sha256": "afd5801080d0f398ad6ed392f025290a75a138b6db4817151d966bc07cdb89d4",
+  "formal_complete_service_eligible": false
+}

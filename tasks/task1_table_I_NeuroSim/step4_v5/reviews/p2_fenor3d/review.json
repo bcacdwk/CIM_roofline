@@ -1,0 +1,214 @@
+{
+  "review_status": "PASS_conditional_model_scope",
+  "case": "fenor3d",
+  "reviewed_computational_snapshot_sha256": "81880c5e60e9cb036319b4643cf859694da84f3d04d0f621fd3e2e51758038fc",
+  "reviewed_hashes": {
+    "run_components.py": "7a92cada2319a7940afc8167ec397a7700adcdabccec6afc49cf7e1e586c9ec7",
+    "component_aggregate.py": "30118fed04c38a097842f1f182e45b9c4db7a63ba9597584edccf0b0f98222ba",
+    "run.py": "d21cfbd8b763e7be91276ea2bb1935624165cb5a0a9bb991fd4f6a35eca7d493",
+    "service.py": "a2caf6eb0fcd4d17e5c08861422dd5b39633c68836cf024a95781155fbd306ba",
+    "native_probe.py": "e5791499424ac4c49f76a3fa718a0a3f38762c66f9f9ac01b56b727e227c74d7",
+    "provenance/dependencies.lock.json": "240ef5e8fb0accd53c82abd9c5bf185d2558b3a77c19e1533337c2821dd3941f",
+    "cases/fenor3d/inputs.json": "ca3262c40efd8e8661ccdbe09489c2c153df662d6671bb5892b2235bf2ae738c",
+    "cases/fenor3d/case_adapter.py": "63dc2a71c3f07c3968c4c45426771580570e65ae244205365b0801db78052980",
+    "cases/fenor3d/fenor_model.py": "15b17b26aecfad0968e4e37e3a17915c77104661609972db8b2cd3e0690c0862",
+    "cases/fenor3d/ekv_port.py": "366c3678c34c5c2d8596b9a373cf933ce91883045b00a53fde2a11c99db99464",
+    "cases/fenor3d/hv_table.json": "40c10522d79fa71e01027d8acbc42d91bc3e3041b3045518a3d785f2c2e63dea",
+    "threshold_probe.py": "101c9797230b68cfbc28b697b07f82c671b1ff07612997f2064036667a1ba321",
+    "src/threshold_port_probe.cpp": "b42bc26267dcf4e2708779e77027a5a3c469d129c887865f6714d2d560856550",
+    "patches/mlp_decoder_consistency.patch": "e0fe753644e1f38f890de907ceb01779770df79ddcc748de6380355c835bd9ed",
+    "digital_probe.py": "17b16e9ef554d7c98bc1e5b857f5354580ee732aa71531a44a6465f580772f73",
+    "src/digital_service_probe.cpp": "e25e5efc8973edf7929b75408e140a41cacdf36a7607ea0a63ba3d38c599ccae"
+  },
+  "fresh_runs": [
+    {
+      "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__optimistic",
+      "scenario": "optimistic",
+      "status": "conditional",
+      "single_latency_s": 0.0002388,
+      "resident_s": 0.00033319999999999997,
+      "rho_MB_per_s": 0.5360134003350084,
+      "tau_MB_per_s": 6.146458583433374,
+      "RI_star": 0.08720686767169179,
+      "U_star": 1.3953098827470685,
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-opt-r2-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-opt-r2-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "fenor3d-reviewer-fenor-opt-r2-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-fenor3d-reviewer-fenor-opt-r2-20261005-frontend",
+          "source_manifest_sha256": "ca8183b9fe57b0e025fb389e18e7f5da9dff87bbc2930b64abceff165633b7c4",
+          "request_sha256": "ed5651ecd6a0d357964c624fedf0d231db5b38f7ddc6980ae2d0270c6dee19b4"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-opt-r2-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-opt-r2-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "fenor3d-reviewer-fenor-opt-r2-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-fenor3d-reviewer-fenor-opt-r2-20261005-digital",
+          "source_manifest_sha256": "a32cb60ce435928c34933aec3f5d0d58c78b2d0e226a31fb43506b03c5e4fcc0",
+          "request_sha256": "c145278c4739a4810341514587efbdee582fa59f599c862ede3fd4be86a444cf"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-opt-r2-20261005"
+    },
+    {
+      "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__reference",
+      "scenario": "reference",
+      "status": "conditional",
+      "single_latency_s": 0.0002388,
+      "resident_s": 0.00033319999999999997,
+      "rho_MB_per_s": 0.5360134003350084,
+      "tau_MB_per_s": 6.146458583433374,
+      "RI_star": 0.08720686767169179,
+      "U_star": 1.3953098827470685,
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-ref-r2-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-ref-r2-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "fenor3d-reviewer-fenor-ref-r2-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-fenor3d-reviewer-fenor-ref-r2-20261005-frontend",
+          "source_manifest_sha256": "a738b015ce648e3d52d3ec0a0a7d365d8908667e9e7821f80f272ab5f1ddd9db",
+          "request_sha256": "fbe708223370f72a183d601f3bf50b4d3011670d3a976e27dcf1d6c4ac29a1a6"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-ref-r2-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-ref-r2-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "fenor3d-reviewer-fenor-ref-r2-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-fenor3d-reviewer-fenor-ref-r2-20261005-digital",
+          "source_manifest_sha256": "64cd3b0cb9a470fe1fc91961885a8334008a191d9a89d2800461cf1a0e1035b1",
+          "request_sha256": "c145278c4739a4810341514587efbdee582fa59f599c862ede3fd4be86a444cf"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-ref-r2-20261005"
+    },
+    {
+      "config_id": "fenor3d_fourlayer_32lane_k128n16_active_mux2_v1__pessimistic",
+      "scenario": "pessimistic",
+      "status": "conditional",
+      "single_latency_s": 0.0002388,
+      "resident_s": 0.00033319999999999997,
+      "rho_MB_per_s": 0.5360134003350084,
+      "tau_MB_per_s": 6.146458583433374,
+      "RI_star": 0.08720686767169179,
+      "U_star": 1.3953098827470685,
+      "component_bindings": {
+        "frontend": {
+          "kind": "threshold",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-pess-r2-20261005/canonical/threshold_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-pess-r2-20261005/frontend-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "fenor3d-reviewer-fenor-pess-r2-20261005-frontend"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/p2/integrator-fenor3d-reviewer-fenor-pess-r2-20261005-frontend",
+          "source_manifest_sha256": "cf35d16e735356c8d0899406dd2346bbc0a09bec1683396b1c302aaa5a662552",
+          "request_sha256": "5ffc7a3c89575143e09aa530bdbdaf426a1aad2dec83a1e02835d4984a1a7d33"
+        },
+        "digital": {
+          "kind": "digital",
+          "argv": [
+            "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+            "-B",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-pess-r2-20261005/canonical/digital_probe.py",
+            "--request",
+            "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-pess-r2-20261005/digital-request.json",
+            "--root",
+            "/Users/shine/neurosim",
+            "--run-id",
+            "fenor3d-reviewer-fenor-pess-r2-20261005-digital"
+          ],
+          "run_directory": "/Users/shine/neurosim/runs/step4-v5/components/digital-fenor3d-reviewer-fenor-pess-r2-20261005-digital",
+          "source_manifest_sha256": "056a2715e9a7e7e6df63cef7aca67e72836e638da48b73beddd8944564599e7d",
+          "request_sha256": "c145278c4739a4810341514587efbdee582fa59f599c862ede3fd4be86a444cf"
+        }
+      },
+      "run_directory": "/Users/shine/neurosim/runs/step4-v5/component-services/case-fenor3d-reviewer-fenor-pess-r2-20261005"
+    }
+  ],
+  "independence": {
+    "reviewer": "pcm_author",
+    "own_production": "PCM/NOR/FeRAM; suppliedpublicSKY130sourceentrance/smalltables",
+    "not_authored": "FeNORphysicalmodel/mapping/caseadapter/publicbackend; issueR1repairedbyBauthoronly"
+  },
+  "closed_findings": [
+    {
+      "id": "FENOR-R1",
+      "issue": "program_lanes16bytes-versusbitsmistake didnotrepresent128bitrowprogram",
+      "resolution": "Physicalprogram_lanes128;native128bittargetregisterdriveswholewordwithno8-waytargetMUX;fresh3rebuilt;clock/latencyunchangedbutresourceidentitycorrected",
+      "old_computational_sha256": "0c37bc03c77e61fa44f84e3d3d36ef0e744fef6aeb10669dd8c018a0a2e16e21"
+    }
+  ],
+  "independent_main_counts": {
+    "logical_K": 128,
+    "logical_N": 16,
+    "physical_cells": 16384,
+    "active_layers": 1,
+    "parallel_lateral_lanes": 32,
+    "data_SA": 2048,
+    "reference_branches": 2048,
+    "tile_hold_bits": 4096,
+    "full_matrix_shadow": false,
+    "full_row_program_bits": 128,
+    "RESET_pulses": 128,
+    "masked_PROGRAM_pulses": 128,
+    "stream_layer_half_reads": 8,
+    "stream_MAC_updates": 1024,
+    "verify_layer_half_reads": 256,
+    "verify_physical_bit_reads": 524288,
+    "target_byte_compares": 2048,
+    "stream_controller_cycles": 1194,
+    "resident_controller_cycles": 1666,
+    "source_pulse_s": 2e-08
+  },
+  "limitations": [
+    "True4-layerverticalANDwithoneactivelayer;32lateralreadpathsnot32-inputfreereduction.",
+    "FiniteEKV/current/source-followermodelwithsourcegate/stateordercheck,notuniqueextractedVDSmodelorTCAD.",
+    "NegativeHVbias/isolatedwell/8nscontrolareexplicitqualifiedcompactports;sourcedI/C/rateddomainsdonotconstitutefullnegativelevelshifterimplementation.",
+    "5mVSA+2mVerror,readfield/exposureandhalfselectboundsarefiniteconditions;noENOB/BER/longtermnondisturbguarantee.",
+    "±50mVthresholdpackagesareengineeringfinitecasesnotstatisticalPVT;threecoincidentservicepointsarerealclock/pulsebottleneckresults."
+  ],
+  "open_blockers": [],
+  "recommendation": "Admit3conditionalmodel-referencepointsaftercorrectedphysicalprogramwidth;do not reuseoldr1reviewasPASS.",
+  "runtime": "/Users/shine/neurosim/runs/step4-v5/p2/reviewer-fenor3d-r2-20261005"
+}
