@@ -1,0 +1,744 @@
+{
+  "status": "pass",
+  "independence": "No shared/interface.py or candidate build module imported; expectations use original Task I mapping-interface T_R and delta_S plus original Task II model inputs/components.",
+  "B": {
+    "workload_points": 8,
+    "rays": 6,
+    "cross_plane_checks": [
+      {
+        "workload": "qwen35_2b/qkv_projection/1",
+        "hardware": "01_sram_acim",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2048,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 2054400,
+        "T_R_ns": 3276800.0,
+        "effective_ray_slope": 0.00031152647975077883,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2048,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 1747200,
+        "T_R_ns": 173670400.0,
+        "effective_ray_slope": 0.019413919413919414,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1",
+        "hardware": "03_nor_2d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2048,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 3385600,
+        "T_R_ns": 131587712000.0,
+        "effective_ray_slope": 7.591187677221171,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1024",
+        "hardware": "01_sram_acim",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2097152,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 2103705600,
+        "T_R_ns": 3276800.0,
+        "effective_ray_slope": 0.00031152647975077883,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1024",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2097152,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 1789132800,
+        "T_R_ns": 173670400.0,
+        "effective_ray_slope": 0.019413919413919414,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1024",
+        "hardware": "03_nor_2d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2097152,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 3466854400,
+        "T_R_ns": 131587712000.0,
+        "effective_ray_slope": 7.591187677221171,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/131072",
+        "hardware": "01_sram_acim",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 268435456,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 269274316800,
+        "T_R_ns": 3276800.0,
+        "effective_ray_slope": 0.00031152647975077883,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/131072",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 268435456,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 229008998400,
+        "T_R_ns": 173670400.0,
+        "effective_ray_slope": 0.019413919413919414,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/131072",
+        "hardware": "03_nor_2d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 268435456,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 443757363200,
+        "T_R_ns": 131587712000.0,
+        "effective_ray_slope": 7.591187677221171,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1048576",
+        "hardware": "01_sram_acim",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2147483648,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 2154194534400,
+        "T_R_ns": 3276800.0,
+        "effective_ray_slope": 0.00031152647975077883,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1048576",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2147483648,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 1832071987200,
+        "T_R_ns": 173670400.0,
+        "effective_ray_slope": 0.019413919413919414,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "qwen35_2b/qkv_projection/1048576",
+        "hardware": "03_nor_2d",
+        "native_tiles": 640,
+        "logical_Q_S_Byte": 2147483648,
+        "logical_Q_R_Byte": 10485760,
+        "native_input_replay": 40,
+        "T_S_ns": 3550058905600,
+        "T_R_ns": 131587712000.0,
+        "effective_ray_slope": 7.591187677221171,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1",
+        "hardware": "01_sram_acim",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6144,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 32664960,
+        "T_R_ns": 52101120.0,
+        "effective_ray_slope": 5.87785810850526e-05,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6144,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 27780480,
+        "T_R_ns": 2761359360.0,
+        "effective_ray_slope": 0.003663003663003663,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1",
+        "hardware": "03_nor_2d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6144,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 53831040,
+        "T_R_ns": 2092244620800.0,
+        "effective_ray_slope": 1.4322995617398437,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1024",
+        "hardware": "01_sram_acim",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6291456,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 33448919040,
+        "T_R_ns": 52101120.0,
+        "effective_ray_slope": 5.87785810850526e-05,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1024",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6291456,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 28447211520,
+        "T_R_ns": 2761359360.0,
+        "effective_ray_slope": 0.003663003663003663,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1024",
+        "hardware": "03_nor_2d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6291456,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 55122984960,
+        "T_R_ns": 2092244620800.0,
+        "effective_ray_slope": 1.4322995617398437,
+        "classification": "resident-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/131072",
+        "hardware": "01_sram_acim",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 805306368,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 4281461637120,
+        "T_R_ns": 52101120.0,
+        "effective_ray_slope": 5.87785810850526e-05,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/131072",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 805306368,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 3641243074560,
+        "T_R_ns": 2761359360.0,
+        "effective_ray_slope": 0.003663003663003663,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/131072",
+        "hardware": "03_nor_2d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 805306368,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 7055742074880,
+        "T_R_ns": 2092244620800.0,
+        "effective_ray_slope": 1.4322995617398437,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1048576",
+        "hardware": "01_sram_acim",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6442450944,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 34251693096960,
+        "T_R_ns": 52101120.0,
+        "effective_ray_slope": 5.87785810850526e-05,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1048576",
+        "hardware": "10_fenor_3d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6442450944,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 29129944596480,
+        "T_R_ns": 2761359360.0,
+        "effective_ray_slope": 0.003663003663003663,
+        "classification": "streaming-bound"
+      },
+      {
+        "workload": "mimo_v25_pro/qkv_projection/1048576",
+        "hardware": "03_nor_2d",
+        "native_tiles": 10176,
+        "logical_Q_S_Byte": 6442450944,
+        "logical_Q_R_Byte": 166723584,
+        "native_input_replay": 212,
+        "T_S_ns": 56445936599040,
+        "T_R_ns": 2092244620800.0,
+        "effective_ray_slope": 1.4322995617398437,
+        "classification": "streaming-bound"
+      }
+    ],
+    "threshold_neighborhood": [
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "01_sram_acim",
+        "threshold_multiplier": 0.999,
+        "classification": "resident-bound",
+        "demand_above_ray_factor": 0.9990000000000001
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "01_sram_acim",
+        "threshold_multiplier": 1,
+        "classification": "balanced",
+        "demand_above_ray_factor": 1.0000000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "01_sram_acim",
+        "threshold_multiplier": 1.001,
+        "classification": "streaming-bound",
+        "demand_above_ray_factor": 1.0010000000000001
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "10_fenor_3d",
+        "threshold_multiplier": 0.999,
+        "classification": "resident-bound",
+        "demand_above_ray_factor": 0.9990000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "10_fenor_3d",
+        "threshold_multiplier": 1,
+        "classification": "balanced",
+        "demand_above_ray_factor": 1.0000000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "10_fenor_3d",
+        "threshold_multiplier": 1.001,
+        "classification": "streaming-bound",
+        "demand_above_ray_factor": 1.001
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "03_nor_2d",
+        "threshold_multiplier": 0.999,
+        "classification": "resident-bound",
+        "demand_above_ray_factor": 0.9990000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "03_nor_2d",
+        "threshold_multiplier": 1,
+        "classification": "balanced",
+        "demand_above_ray_factor": 1.0000000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "qwen35_2b",
+        "hardware": "03_nor_2d",
+        "threshold_multiplier": 1.001,
+        "classification": "streaming-bound",
+        "demand_above_ray_factor": 1.0010000000000001
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "01_sram_acim",
+        "threshold_multiplier": 0.999,
+        "classification": "resident-bound",
+        "demand_above_ray_factor": 0.9990000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "01_sram_acim",
+        "threshold_multiplier": 1,
+        "classification": "balanced",
+        "demand_above_ray_factor": 1.0000000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "01_sram_acim",
+        "threshold_multiplier": 1.001,
+        "classification": "streaming-bound",
+        "demand_above_ray_factor": 1.0010000000000001
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "10_fenor_3d",
+        "threshold_multiplier": 0.999,
+        "classification": "resident-bound",
+        "demand_above_ray_factor": 0.9990000000000001
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "10_fenor_3d",
+        "threshold_multiplier": 1,
+        "classification": "balanced",
+        "demand_above_ray_factor": 1.0000000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "10_fenor_3d",
+        "threshold_multiplier": 1.001,
+        "classification": "streaming-bound",
+        "demand_above_ray_factor": 1.0010000000000001
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "03_nor_2d",
+        "threshold_multiplier": 0.999,
+        "classification": "resident-bound",
+        "demand_above_ray_factor": 0.999
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "03_nor_2d",
+        "threshold_multiplier": 1,
+        "classification": "balanced",
+        "demand_above_ray_factor": 1.0000000000000002
+      },
+      {
+        "candidate": "B",
+        "model": "mimo_v25_pro",
+        "hardware": "03_nor_2d",
+        "threshold_multiplier": 1.001,
+        "classification": "streaming-bound",
+        "demand_above_ray_factor": 1.001
+      }
+    ],
+    "logical_resident_load_ratio_MiMo_over_Qwen": 15.9,
+    "logical_streaming_demand_ratio_at_equal_U": 3.0,
+    "ray_slope_ratio_Qwen_over_MiMo": 5.3
+  },
+  "E": {
+    "cases": [
+      {
+        "hardware": "05_rram",
+        "U": 128,
+        "K": 128,
+        "N": 64,
+        "U_star": 372.6627680311891,
+        "T_S_ns": 656640,
+        "T_R_ns": 1911760.0,
+        "baseline_bound_MB_per_s": 8.57011340335607,
+        "classification": "resident-bound",
+        "streaming_gain_at_2x": 1.0,
+        "resident_gain_at_2x": 2.0,
+        "bottleneck_gain_cap": 2.911427875243665
+      },
+      {
+        "hardware": "06_mram",
+        "U": 128,
+        "K": 256,
+        "N": 32,
+        "U_star": 132.74074074074073,
+        "T_S_ns": 103680,
+        "T_R_ns": 107520.0,
+        "baseline_bound_MB_per_s": 304.7619047619048,
+        "classification": "resident-bound",
+        "streaming_gain_at_2x": 1.0,
+        "resident_gain_at_2x": 1.037037037037037,
+        "bottleneck_gain_cap": 1.037037037037037
+      },
+      {
+        "hardware": "06_mram",
+        "U": 1024,
+        "K": 256,
+        "N": 32,
+        "U_star": 132.74074074074073,
+        "T_S_ns": 829440,
+        "T_R_ns": 107520.0,
+        "baseline_bound_MB_per_s": 316.04938271604937,
+        "classification": "streaming-bound",
+        "streaming_gain_at_2x": 2.0,
+        "resident_gain_at_2x": 1.0,
+        "bottleneck_gain_cap": 7.714285714285714
+      }
+    ],
+    "analytic_curve_values_checked": 1548,
+    "threshold_neighborhood": [
+      {
+        "hardware": "05_rram",
+        "threshold_multiplier": 0.999,
+        "normalized_bound": 0.9990000000000001,
+        "classification": "resident-bound",
+        "streaming_gain_at_2x": 1.0,
+        "resident_gain_at_2x": 1.001001001001001
+      },
+      {
+        "hardware": "05_rram",
+        "threshold_multiplier": 1,
+        "normalized_bound": 1.0000000000000002,
+        "classification": "balanced",
+        "streaming_gain_at_2x": 1.0,
+        "resident_gain_at_2x": 1.0
+      },
+      {
+        "hardware": "05_rram",
+        "threshold_multiplier": 1.001,
+        "normalized_bound": 1.0000000000000002,
+        "classification": "streaming-bound",
+        "streaming_gain_at_2x": 1.001,
+        "resident_gain_at_2x": 1.0
+      },
+      {
+        "hardware": "06_mram",
+        "threshold_multiplier": 0.999,
+        "normalized_bound": 0.9990000000000001,
+        "classification": "resident-bound",
+        "streaming_gain_at_2x": 1.0,
+        "resident_gain_at_2x": 1.0010010010010009
+      },
+      {
+        "hardware": "06_mram",
+        "threshold_multiplier": 1,
+        "normalized_bound": 1.0,
+        "classification": "balanced",
+        "streaming_gain_at_2x": 1.0,
+        "resident_gain_at_2x": 1.0
+      },
+      {
+        "hardware": "06_mram",
+        "threshold_multiplier": 1.001,
+        "normalized_bound": 1.0,
+        "classification": "streaming-bound",
+        "streaming_gain_at_2x": 1.001,
+        "resident_gain_at_2x": 1.0
+      }
+    ]
+  },
+  "cross_candidate_export_checks": [
+    {
+      "hardware": "01_sram_acim",
+      "U": 1,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "10_fenor_3d",
+      "U": 1,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 1,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "hardware": "01_sram_acim",
+      "U": 1024,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "10_fenor_3d",
+      "U": 1024,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 1024,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "hardware": "01_sram_acim",
+      "U": 131072,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "10_fenor_3d",
+      "U": 131072,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 131072,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 1048576,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "D"
+      ]
+    },
+    {
+      "hardware": "01_sram_acim",
+      "U": 1,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "10_fenor_3d",
+      "U": 1,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 1,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "hardware": "01_sram_acim",
+      "U": 1024,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "10_fenor_3d",
+      "U": 1024,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 1024,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "hardware": "01_sram_acim",
+      "U": 131072,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "10_fenor_3d",
+      "U": 131072,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 131072,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "hardware": "03_nor_2d",
+      "U": 1048576,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "D"
+      ]
+    },
+    {
+      "hardware": "05_rram",
+      "U": 128,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C",
+        "A"
+      ]
+    },
+    {
+      "hardware": "06_mram",
+      "U": 128,
+      "classification": "resident-bound",
+      "agree_with": [
+        "C",
+        "D",
+        "A"
+      ]
+    },
+    {
+      "hardware": "06_mram",
+      "U": 1024,
+      "classification": "streaming-bound",
+      "agree_with": [
+        "C",
+        "D"
+      ]
+    }
+  ],
+  "visual_review": {
+    "B": "PASS: final merged-PDF 144 dpi render viewed; last 1 GiB tick is inside page, logical byte positions/model-specific rays/side labels consistent; caption read.",
+    "E": "PASS: final 7.16 x 4.15 in PNG viewed; bottom legend/xlabel and note/footer collisions resolved; gain-cap wording and caption consistent."
+  }
+}

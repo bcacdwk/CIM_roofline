@@ -1,0 +1,65 @@
+{
+  "interface": "../shared/data.json",
+  "formula": "min(1, U/U_star)",
+  "figure_inches": [
+    7.16,
+    2.6
+  ],
+  "native_service_scope": "Each hardware record retains its full native matrix and complete vector service. A/C/D/E compare a required reuse count against that native service; only equal-shape cases establish direct Table II(a) demand matching.",
+  "scan_values": [
+    1,
+    128,
+    1024,
+    16384,
+    131072,
+    1048576
+  ],
+  "selected_hardware": [
+    "06_mram",
+    "04_nand_3d",
+    "03_nor_2d"
+  ],
+  "threshold_checks": [
+    {
+      "case_id": "06_mram",
+      "U_star": 132.74074074074073,
+      "at_0.999_Ustar": 0.9990000000000001,
+      "at_Ustar": 1.0,
+      "at_1.001_Ustar": 1.0,
+      "classifications": [
+        "resident-bound",
+        "balanced",
+        "streaming-bound"
+      ]
+    },
+    {
+      "case_id": "04_nand_3d",
+      "U_star": 2839.2847701745545,
+      "at_0.999_Ustar": 0.9990000000000001,
+      "at_Ustar": 1.0,
+      "at_1.001_Ustar": 1.0,
+      "classifications": [
+        "resident-bound",
+        "balanced",
+        "streaming-bound"
+      ]
+    },
+    {
+      "case_id": "03_nor_2d",
+      "U_star": 38866.880907372404,
+      "at_0.999_Ustar": 0.999,
+      "at_Ustar": 1.0,
+      "at_1.001_Ustar": 1.0,
+      "classifications": [
+        "resident-bound",
+        "balanced",
+        "streaming-bound"
+      ]
+    }
+  ],
+  "pdf_page_inches": [
+    7.160000271267361,
+    2.5999999576144748
+  ],
+  "visual_review": "PNG visually inspected; C bottom-label overlap and D curve-label collision corrected. D filled/open marker legend revised after supervisor review."
+}

@@ -1,0 +1,53 @@
+{
+  "shared_interface": "../shared/data.json",
+  "formula": "U_star = T_R / delta_S = N * rho / tau",
+  "reference_U": [
+    1,
+    128,
+    1024,
+    131072
+  ],
+  "same_native_shape_scope": "Each hardware record retains its full native matrix and complete vector service. A/C/D/E compare a required reuse count against that native service; only equal-shape cases establish direct Table II(a) demand matching.",
+  "MRAM_U128": [
+    {
+      "profile": "short",
+      "U_star": 180.7058823529412,
+      "U_over_U_star": 0.7083333333333333,
+      "classification": "resident-bound"
+    },
+    {
+      "profile": "reference",
+      "U_star": 132.74074074074073,
+      "U_over_U_star": 0.9642857142857143,
+      "classification": "resident-bound"
+    },
+    {
+      "profile": "long",
+      "U_star": 94.81481481481481,
+      "U_over_U_star": 1.35,
+      "classification": "streaming-bound"
+    }
+  ],
+  "max_formula_relative_error": 1.6614253009355337e-16,
+  "figure_inches": [
+    7.16,
+    4.05
+  ],
+  "threshold_row_order": [
+    "01_sram_acim",
+    "02_sram_dcim",
+    "09_gain_cell_edram",
+    "08_feram_hfo2",
+    "07_pcm",
+    "10_fenor_3d",
+    "06_mram",
+    "05_rram",
+    "04_nand_3d",
+    "03_nor_2d"
+  ],
+  "pdf_page_inches": [
+    7.160000271267361,
+    4.0500000847710504
+  ],
+  "visual_review": "PNG visually inspected; C bottom-label overlap and D curve-label collision corrected. D filled/open marker legend revised after supervisor review."
+}

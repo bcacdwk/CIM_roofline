@@ -1,0 +1,75 @@
+{
+  "status": "pass",
+  "analytic_curve_values_checked": 1548,
+  "baseline_value_checks": 6,
+  "cases": [
+    {
+      "hardware_case_id": "05_rram",
+      "profile": "reference",
+      "U": 128,
+      "native_demand": {
+        "Q_S_Byte": 16384,
+        "Q_R_Byte": 8192,
+        "RI": 2.0,
+        "U": 128,
+        "N": 64,
+        "K": 128
+      },
+      "baseline_bound_MB_per_s": 8.57011340335607,
+      "baseline_bottleneck": "resident-bound",
+      "bottleneck_route_capability_multiplier_at_balance": 2.911427875243665,
+      "gain_ceiling_for_improving_bottleneck_route": 2.911427875243665,
+      "gain_at_2x": {
+        "streaming_only": 1.0,
+        "resident_only": 2.0
+      }
+    },
+    {
+      "hardware_case_id": "06_mram",
+      "profile": "reference",
+      "U": 128,
+      "native_demand": {
+        "Q_S_Byte": 32768,
+        "Q_R_Byte": 8192,
+        "RI": 4.0,
+        "U": 128,
+        "N": 32,
+        "K": 256
+      },
+      "baseline_bound_MB_per_s": 304.76190476190476,
+      "baseline_bottleneck": "resident-bound",
+      "bottleneck_route_capability_multiplier_at_balance": 1.037037037037037,
+      "gain_ceiling_for_improving_bottleneck_route": 1.037037037037037,
+      "gain_at_2x": {
+        "streaming_only": 1.0,
+        "resident_only": 1.037037037037037
+      }
+    },
+    {
+      "hardware_case_id": "06_mram",
+      "profile": "reference",
+      "U": 1024,
+      "native_demand": {
+        "Q_S_Byte": 262144,
+        "Q_R_Byte": 8192,
+        "RI": 32.0,
+        "U": 1024,
+        "N": 32,
+        "K": 256
+      },
+      "baseline_bound_MB_per_s": 316.04938271604937,
+      "baseline_bottleneck": "streaming-bound",
+      "bottleneck_route_capability_multiplier_at_balance": 7.714285714285714,
+      "gain_ceiling_for_improving_bottleneck_route": 7.714285714285714,
+      "gain_at_2x": {
+        "streaming_only": 2.0,
+        "resident_only": 1.0
+      }
+    }
+  ],
+  "visual_review": "supervisor_reviewed",
+  "figure_size_in": [
+    7.16,
+    4.15
+  ]
+}

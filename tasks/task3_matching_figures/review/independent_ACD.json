@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "reviewer_role": "B/E author independently reviews interface and A/C/D; no claim of independent self-review",
+  "independent_expectations": "Original Task I native mapping JSON + accepted Task I points CSV; original Task II JSON; no author/shared computational functions imported",
+  "counts": {
+    "native_scenarios": 30,
+    "source_hashes": 9,
+    "shared_tableIIa_cases": 30,
+    "shared_qkv_workload_states": 8,
+    "shared_qkv_mapped_scenarios": 24,
+    "A_points": 30,
+    "A_circles": 10,
+    "C_thresholds": 30,
+    "AC_classifications": 120,
+    "D_scan_points": 18,
+    "D_curve_points": 1068,
+    "threshold_neighbors": 90
+  },
+  "pdf_size_in": {
+    "A": [
+      7.160000271267361,
+      4.350000169542101
+    ],
+    "C": [
+      7.160000271267361,
+      4.0500000847710504
+    ],
+    "D": [
+      7.160000271267361,
+      2.5999999576144748
+    ]
+  },
+  "focused_cases": {
+    "MRAM_U128_typical_ratio": 0.9642857142857143,
+    "MRAM_U128_profiles": {
+      "short": "resident-bound",
+      "reference": "resident-bound",
+      "long": "streaming-bound"
+    },
+    "NOR_U128K_profiles": {
+      "short": "streaming-bound",
+      "reference": "streaming-bound",
+      "long": "resident-bound"
+    }
+  },
+  "visual_review": {
+    "A": "actual PNG viewed: native sigma axis, paired circles and four U lines, readable labels",
+    "C": "actual PNG viewed: categorical marker offsets only; no Ustar shift; paired crossing clear",
+    "D": "actual PNG viewed: all six finite U states; near-threshold MRAM is explained in caption; normalized label clear"
+  },
+  "findings": [],
+  "scope": "Native full-load reference; only 128x128 shapes are direct II(a) matches. QKV serial complete-tile resource mapping verified separately; no append/FFN inference."
+}

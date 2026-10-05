@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "hardware_rows_checked": 30,
+  "table_IIa_finite_checked": 30,
+  "qkv_finite_checked": 24,
+  "source_paths_and_native_pointers_checked": true,
+  "qkv_mapping_models": 2,
+  "qkv_mapping_cases": 8,
+  "qkv_mapping_hardware_scenarios": 12,
+  "qkv_native_and_effective_route_times_agree": true,
+  "identities": [
+    "rho=1000*K/delta_S",
+    "tau=1000*K*N/T_R",
+    "U*=N*rho/tau=T_R/delta_S"
+  ],
+  "cross_figure_spot_checks": [
+    {
+      "case_id": "06_mram",
+      "profile": "reference",
+      "U": 128,
+      "U_star": 132.74074074074073,
+      "U_over_U_star": 0.9642857142857143,
+      "normalized_bound": 0.9642857142857143,
+      "bottleneck": "resident-bound"
+    },
+    {
+      "case_id": "05_rram",
+      "profile": "reference",
+      "U": 1024,
+      "U_star": 372.6627680311891,
+      "U_over_U_star": 2.74779260995104,
+      "normalized_bound": 1,
+      "bottleneck": "streaming-bound"
+    },
+    {
+      "case_id": "03_nor_2d",
+      "profile": "reference",
+      "U": 131072,
+      "U_star": 38866.880907372404,
+      "U_over_U_star": 3.372331325283625,
+      "normalized_bound": 1,
+      "bottleneck": "streaming-bound"
+    }
+  ]
+}

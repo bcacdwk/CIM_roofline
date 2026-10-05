@@ -1,0 +1,125 @@
+{
+  "status": "pass",
+  "workload_points": 8,
+  "mapped_hardware_rays": 6,
+  "cross_plane_and_component_time_checks": 24,
+  "threshold_neighborhood_checks": [
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "01_sram_acim",
+      "threshold_multiplier": 0.99999999,
+      "classification": "resident-bound"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "01_sram_acim",
+      "threshold_multiplier": 1,
+      "classification": "balanced"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "01_sram_acim",
+      "threshold_multiplier": 1.00000001,
+      "classification": "streaming-bound"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "10_fenor_3d",
+      "threshold_multiplier": 0.99999999,
+      "classification": "resident-bound"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "10_fenor_3d",
+      "threshold_multiplier": 1,
+      "classification": "balanced"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "10_fenor_3d",
+      "threshold_multiplier": 1.00000001,
+      "classification": "streaming-bound"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "03_nor_2d",
+      "threshold_multiplier": 0.99999999,
+      "classification": "resident-bound"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "03_nor_2d",
+      "threshold_multiplier": 1,
+      "classification": "balanced"
+    },
+    {
+      "model_id": "qwen35_2b",
+      "hardware": "03_nor_2d",
+      "threshold_multiplier": 1.00000001,
+      "classification": "streaming-bound"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "01_sram_acim",
+      "threshold_multiplier": 0.99999999,
+      "classification": "resident-bound"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "01_sram_acim",
+      "threshold_multiplier": 1,
+      "classification": "balanced"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "01_sram_acim",
+      "threshold_multiplier": 1.00000001,
+      "classification": "streaming-bound"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "10_fenor_3d",
+      "threshold_multiplier": 0.99999999,
+      "classification": "resident-bound"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "10_fenor_3d",
+      "threshold_multiplier": 1,
+      "classification": "balanced"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "10_fenor_3d",
+      "threshold_multiplier": 1.00000001,
+      "classification": "streaming-bound"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "03_nor_2d",
+      "threshold_multiplier": 0.99999999,
+      "classification": "resident-bound"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "03_nor_2d",
+      "threshold_multiplier": 1,
+      "classification": "balanced"
+    },
+    {
+      "model_id": "mimo_v25_pro",
+      "hardware": "03_nor_2d",
+      "threshold_multiplier": 1.00000001,
+      "classification": "streaming-bound"
+    }
+  ],
+  "model_Q_R_ratio": 15.9,
+  "model_Q_S_ratio_at_same_U": 3.0,
+  "effective_ray_slope_ratio_Qwen_over_MiMo": 5.3,
+  "x_tick_bboxes_inside_figure": true,
+  "visual_review": "supervisor_reviewed",
+  "figure_size_in": [
+    7.16,
+    4.3
+  ]
+}
