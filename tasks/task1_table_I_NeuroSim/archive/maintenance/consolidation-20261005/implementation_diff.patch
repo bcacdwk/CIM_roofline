@@ -1,0 +1,294 @@
+--- pilots/backend.py
++++ array_backend/backend.py
+@@ -7,7 +7,8 @@
+ def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+ def dump(p,x): Path(p).write_text(json.dumps(x,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
+ 
+-def build(case,root,out,cxx,own,revision="v2"):
++def build(case,root,out,cxx,own):
++    revision="v2"  # Selected source interface; historical alternatives are not installed.
+     out.mkdir(parents=True); src=out/'src';src.mkdir();(out/'tmp').mkdir()
+     tree=Path(json.loads((root/'worktrees.json').read_text())['2DInferenceV1.4'])
+     assert subprocess.check_output(['git','-C',str(tree),'rev-parse','HEAD'],text=True).strip()==SHA
+@@ -29,7 +30,7 @@
+     dims={'ACTIVE_TERMS':case['resources']['active']['streaming']['input_terms_per_group'],'ADC_COUNT':adc,'INPUT_BITS':case['resources']['installed']['input_register_bits'],'OUTPUT_BITS':case['resources']['installed']['output_register_bits'],'IS_RRAM':int(rram),'NATIVE_NODE':0,'NATIVE_READ_V':0,'NATIVE_RON':0,'NATIVE_ROFF':0,'NATIVE_READ_NS':0}
+     # Native electrical fields are unused by these primitives; unknown is null in the resolved snapshot, never inferred from Param defaults.
+     (src/'request.h').write_text('\n'.join('#define %s %s'%x for x in dims.items())+'\n')
+-    adapter_source=own/('backend_v1.cpp' if revision=='v1' else 'backend.cpp')
++    adapter_source=own/'backend.cpp'
+     shutil.copy2(adapter_source,src/'pilot.cpp')
+     for header in own.glob('*.h'):shutil.copy2(header,src/header.name)
+     cmds=[]
+--- step4_v2/adapters/native.py
++++ peripheral_backend/adapters/native.py
+@@ -259,152 +259,3 @@
+     return dict(**streams, snapshot=snapshot, checks=checks)
+ 
+ 
+-def _vectors(k, rows):
+-    """Deterministic integer tests, independently instantiated from the contract."""
+-    yield 'zero', [0]*k, [0]*k
+-    yield 'zero_input', [0]*k, [(73*i)%256-128 for i in range(k)]
+-    yield 'zero_weight', [i%256-128 for i in range(k)], [0]*k
+-    yield 'unit_positive', [1]*k, [1]*k
+-    yield 'unit_negative', [-1]*k, [1]*k
+-    yield 'alternating_cancel', [(-1)**i for i in range(k)], [1]*k
+-    x = [(-1)**i for i in range(k)]; x[-1] = 0
+-    yield 'near_cancel_unit', x, [1]*k
+-    yield 'small_ramp', [i%7-3 for i in range(k)], [i%5-2 for i in range(k)]
+-    yield 'large_positive', [127]*k, [127]*k
+-    yield 'large_negative', [-128]*k, [127]*k
+-    yield 'large_cancel', [127*(-1)**i for i in range(k)], [127]*k
+-    yield 'wide_ramp', [i%256-128 for i in range(k)], [(73*i)%256-128 for i in range(k)]
+-    x = [0]*k; w = [0]*k; x[k//2] = w[k//2] = 1
+-    yield 'isolated_unit', x, w
+-    left, right = (rows-1, rows) if rows < k else (0, k-1)
+-    for name, values in [('group_boundary_cancel', (127, -127, 127, 127)),
+-                         ('group_boundary_small', (1, -1, 1, -1))]:
+-        x = [0]*k; w = [0]*k
+-        x[left], x[right], w[left], w[right] = values
+-        yield name, x, w
+-
+-
+-def _signed(value, bits):
+-    code = value & ((1 << bits)-1)
+-    return code - (1 << bits) if code & (1 << (bits-1)) else code
+-
+-
+-def numerical_checks(case, repo):
+-    """Recompute encoding and finite reconstruction; never read saved totals.
+-
+-    These are code-level checks, not simulations of uncertain native analog
+-    transfer, switching probability, disturbance, or retention distributions.
+-    """
+-    cid = case['case_id']
+-    if cid not in CASES:
+-        raise ValueError(cid)
+-    source = case['provenance']['sources']['inputs']
+-    path = repo/source['path']; raw = path.read_bytes(); inp = json.loads(raw)
+-    assert hashlib.sha256(raw).hexdigest() == source['sha256']
+-    k, n, width = (case['logical'][key] for key in ('K', 'N', 'output_bits'))
+-    rows = case['resources']['active']['streaming']['input_terms_per_group']
+-    coeff = [1, 2, 4, 8, 16, 32, 64, -128]
+-    checks = dict(input_sha256_matches=True,
+-                  signed_INT8_encoding=all(sum(c*((v & 255)>>j & 1) for j, c in enumerate(coeff)) == v for v in range(-128, 128)),
+-                  no_output_overflow_for_INT8_extremes=(k*16384 < 2**(width-1)))
+-    model = inp.get('nominal_diagnostic_model')
+-    def gc_decode(q, activity):
+-        d = 2*q-activity
+-        scale = model['endpoint_current_nA']*model['mac_pulse_ns']/model['integration_capacitance_fF']
+-        lo, hi = model['adc_range_mV']; step = (hi-lo)/2**model['adc_nominal_bits']
+-        voltage = d*scale; raw_code = math.floor(voltage/step+.5)
+-        lower = -2**(model['adc_nominal_bits']-1); upper = -lower-1
+-        code = max(lower, min(upper, raw_code))
+-        affine = (code*step/scale+activity)/2
+-        decoded = math.floor(affine+.5)
+-        return decoded, affine, int(code != raw_code), int(voltage < lo or voltage > hi)
+-    if cid == '09_gain_cell_edram':
+-        assert model['partial_sum_rounding'] == 'nearest_integer_half_up_before_bit_weighting'
+-        checks['all_activity_and_partial_levels_decode'] = all(gc_decode(q, a)[0] == q
+-            for a in range(rows+1) for q in range(a+1))
+-        checks['positive_full_scale_code_saturation_retained'] = gc_decode(rows, rows)[2] == 1
+-    records = []
+-    for name, x, w in _vectors(k, rows):
+-        total = 0; before = 0.; saturations = 0; clipping = 0; overflow = False
+-        for start in range(0, k, rows):
+-            gx, gw = x[start:start+rows], w[start:start+rows]
+-            for bit, c_input in enumerate(coeff):
+-                active = [(xx & 255)>>bit & 1 for xx in gx]
+-                if cid in BINARY:
+-                    # Five width-growing levels, then signed input-bit weighting
+-                    # and finite accumulator. No truncation at an 8-bit leaf.
+-                    level = [ww if aa else 0 for aa, ww in zip(active, gw)]
+-                    bits = 8
+-                    while len(level) > 1:
+-                        bits += 1
+-                        level = [_signed(sum(level[j:j+2]), bits) for j in range(0, len(level), 2)]
+-                    delta = level[0]*c_input
+-                    before += delta
+-                else:
+-                    delta = 0; affine_delta = 0
+-                    for wb, c_weight in enumerate(coeff):
+-                        q = sum(aa*((ww & 255)>>wb & 1) for aa, ww in zip(active, gw))
+-                        decoded, affine, sat, clip = gc_decode(q, sum(active)) if cid == '09_gain_cell_edram' else (q, q, 0, 0)
+-                        # PCM decoded q is the declared calibrated class, not a
+-                        # fabricated ADC voltage threshold or transfer curve.
+-                        delta += c_input*c_weight*decoded
+-                        affine_delta += c_input*c_weight*affine
+-                        saturations += sat; clipping += clip
+-                    before += affine_delta
+-                unlimited = total+delta
+-                total = _signed(unlimited, width)
+-                overflow |= total != unlimited
+-        truth = sum(a*b for a, b in zip(x, w))
+-        records.append(dict(id=name, truth=truth, reconstructed=total,
+-                            absolute_residual=abs(total-truth), before_partial_rounding=before,
+-                            pre_rounding_residual=before-truth, code_saturated_partials=saturations,
+-                            analog_clipped_partials=clipping, output_overflow=overflow))
+-    checks['15_deterministic_finite_reconstructions'] = all(z['truth'] == z['reconstructed'] and not z['output_overflow'] for z in records)
+-    if cid == '06_mram':
+-        m = inp['mapping']
+-        addresses = {(2*o+bit//4, i, bit%4, branch) for o in range(n) for i in range(k)
+-                     for bit in range(8) for branch in range(2)}
+-        checks['complementary_MTJ_capacity'] = len(addresses) == case['physical']['physical_MTJs']
+-        checks['both_absolute_branches_verified'] = m['verify_branch_batches']*m['verify_single_ended_sense_lanes'] == 2*m['selected_pairs_per_write_group']
+-        checks['phase_resources_not_port_width'] = (m['first_phase_active_MTJs'], m['second_phase_active_MTJs'], m['selected_pairs_per_write_group']) == (128, 64, 64)
+-    elif cid == '08_feram_hfo2':
+-        m = inp['mapping']
+-        addresses = {(i%32, 8*(i//32)+o//16, 8*(o%16)+bit)
+-                     for i in range(k) for o in range(n) for bit in range(8)}
+-        checks['unique_1T1C_data_capacity'] = len(addresses) == m['physical_data_cells']
+-        checks['existing_capture_and_restore_not_repeated'] = m['additional_weight_latch_bits'] == 0 and inp['stage_coverage']['destructive_restore_counted_in_media_read']
+-    elif cid == '10_fenor_3d':
+-        addresses = {(i%32, i//32, (o//16)*8+bit, o%16)
+-                     for i in range(k) for o in range(n) for bit in range(8)}
+-        checks['unique_strip_layer_data_capacity'] = len(addresses) == case['physical']['physical_cells']
+-        checks['bias_nodes_not_selected_cells'] = inp['engineering_driver_budget']['installed_nodes'] == 288 and inp['resident']['parallel_cells'] == 128
+-    elif cid == '03_nor_2d':
+-        m = inp['mapping']; payload = k*n
+-        checks['native_page_sector_capacity'] = payload//m['page_Byte'] == 64 and payload//m['sector_Byte'] == 4
+-        checks['read_slices_not_program_heads'] = m['read_slices']*m['sense_amplifiers_per_slice'] == 4096
+-    elif cid == '07_pcm':
+-        m = inp['mapping']; heads = m['writeheads']; stripe = n//heads
+-        targets = {(row, stripe*head+slot) for row in range(k) for slot in range(stripe) for head in range(heads)}
+-        checks['all_32cell_striped_transactions_unique'] = len(targets) == k*n
+-        checks['two_fresh_16lane_verify_passes'] = all(len({(stripe*h)//m['verify_adc_group_width'] for h in range(parity, heads, 2)}) == 16 for parity in (0, 1))
+-        checks['calibration_thresholds_remain_uninstantiated'] = model['calibration_code_table'] is None and model['physical_transfer_instantiated'] is False
+-    else:
+-        m = inp['mapping']
+-        checks['silicon_3T1C_pseudodifferential_capacity'] = case['physical']['data_storage_sites'] == k*n*16
+-        # Refresh sign recovery from the longer, single-pair physical mode;
+-        # do not equate nominal sign recovery with retention validation.
+-        refresh_scale = model['endpoint_current_nA']*model['single_pair_refresh_ns']/model['integration_capacitance_fF']
+-        step = (model['adc_range_mV'][1]-model['adc_range_mV'][0])/2**model['adc_nominal_bits']
+-        limit = 2**(model['adc_nominal_bits']-1)
+-        refresh_codes = {sign: max(-limit, min(limit-1, math.floor(sign*refresh_scale/step+.5)))
+-                         for sign in (-1, 1)}
+-        checks['refresh_endpoint_sign_decode'] = all((1 if code >= 0 else -1) == sign
+-                                                     for sign, code in refresh_codes.items())
+-    level = ('exact_signed_integer_conditional_on_correct_binary_storage_and_sensing' if cid in BINARY else model['level'])
+-    return dict(status='PASS' if all(checks.values()) else 'FAIL', checks=checks, level=level,
+-                source=dict(path=source['path'], sha256=source['sha256']), records=records,
+-                analog_accuracy_validated=False,
+-                quantization_induced_bias_assessed=(cid == '09_gain_cell_edram'),
+-                limitation=('GC nominal ideal integration preserves finite integer results; positive endpoint saturation and pre-rounding residual remain; no drift/repeated-refresh validation.' if cid == '09_gain_cell_edram' else
+-                            'PCM calibrated nine-class reconstruction only; physical voltage-to-SAR-code transfer and column thresholds are not supplied.' if cid == '07_pcm' else
+-                            'Integer data path verified conditional on native binary read/write correctness; no device-error probability is inferred.'))
+--- step4_v2/adapters/nand.py
++++ peripheral_backend/adapters/nand.py
+@@ -272,115 +272,3 @@
+                     numerical_contract='Approximate signed INT8 partial sums; nominal quantization and weak-signal loss retained; no analog accuracy or full timing closure claim'))
+ 
+ 
+-def _half_up(numerator, denominator):
+-    return (2*numerator+denominator)//(2*denominator)
+-
+-
+-def _nominal(x, w, rows_per_group=1152, current=Fraction(2)):
+-    """Independent integer implementation of the frozen physical nominal chain."""
+-    full_count = rows_per_group*9
+-    def adc(count):
+-        q=Fraction(count)*current*1024/25000
+-        return max(0,min(1023,_half_up(q.numerator,q.denominator)))
+-    full_code=adc(full_count)
+-    gain=_half_up(full_count*65536,full_code)
+-    ideal=actual=clipped=weak=0
+-    max_count=max_decoded=max_merge=max_difference=max_accumulator=0
+-    for start in range(0,len(x),rows_per_group):
+-        xx=x[start:start+rows_per_group];ww=w[start:start+rows_per_group]
+-        for sx in (1,-1):
+-            for a in range(4):
+-                merge=[]
+-                for sw in (1,-1):
+-                    value=0
+-                    for digit in range(4):
+-                        count=sum(((max(sx*xi,0)>>(2*a))&3)*((max(sw*wi,0)>>(2*digit))&3) for xi,wi in zip(xx,ww))
+-                        code=adc(count)
+-                        decoded=_half_up(code*gain,65536)
+-                        value += decoded*4**digit
+-                        ideal += sx*sw*count*4**(a+digit)
+-                        clipped += count*current >= 25000
+-                        weak += 0 < count*current < Fraction(25000,2048)
+-                        max_count=max(max_count,count);max_decoded=max(max_decoded,decoded)
+-                    merge.append(value);max_merge=max(max_merge,value)
+-                difference=merge[0]-merge[1]
+-                actual += sx*difference*4**a
+-                max_difference=max(max_difference,abs(difference))
+-                max_accumulator=max(max_accumulator,abs(actual))
+-    half_residual=Fraction(adc(full_count//2))-Fraction(full_code,2)
+-    truth=sum(xi*wi for xi,wi in zip(x,w))
+-    return dict(truth=truth,ideal=ideal,reconstructed=actual,residual=actual-truth,
+-                clipped_partials=clipped,weak_partials=weak,
+-                zero_or_cancellation_output=truth==0,
+-                relative_error_nonzero_truth=abs(actual-truth)/abs(truth) if truth else None,
+-                max_count=max_count,max_decoded=max_decoded,max_merge=max_merge,
+-                max_difference=max_difference,max_accumulator=max_accumulator,
+-                calibration=dict(full_code=full_code,gain_Q8_16_integer=gain,
+-                    half_input_residual_nominal_codes=float(half_residual),
+-                    finite_calibration_pass=abs(half_residual)<=4 and full_count*current<25000))
+-
+-
+-def numerical_checks(case, repo):
+-    """Input-only numerical chain; saved diagnostics are comparison-only."""
+-    assert case['case_id']=='04_nand_3d'
+-    input_path=repo/case['provenance']['sources']['inputs']['path']
+-    d=json.loads(input_path.read_text())
+-    k=case['logical']['K']; assert k==d['mapping']['K']==4608
+-    assert d['design_choices']['quantization_diagnostic']['nominal_ADC_bits']==10
+-    vectors=[
+-        ('zero',[0]*k,[0]*k),
+-        ('unit_positive',[1]*k,[1]*k),
+-        ('unit_negative',[-1]*k,[1]*k),
+-        ('alternating_cancel',[1,-1]*(k//2),[1]*k),
+-        ('large_cancel',[127,-127]*(k//2),[127]*k),
+-        ('large_positive',[127]*k,[127]*k),
+-        ('large_negative',[-128]*k,[127]*k),
+-        ('small_ramp',[i%7-3 for i in range(k)],[i%5-2 for i in range(k)]),
+-        ('wide_ramp',[i%256-128 for i in range(k)],[(73*i)%256-128 for i in range(k)]),
+-        ('isolated_unit',[1]+[0]*(k-1),[1]+[0]*(k-1)),
+-        ('group_edges',[(-128 if i in (0,1151,1152,2303,2304,3455,3456,4607) else 0) for i in range(k)],
+-                       [(127 if i in (0,1151,1152,2303,2304,3455,3456,4607) else 0) for i in range(k)]),
+-    ]
+-    rows=[dict(id=name,**_nominal(x,w)) for name,x,w in vectors]
+-    index={q['id']:q for q in rows}
+-    # Enumerate physical 3x3 bit replicas for each digit pair once, then prove
+-    # every signed scalar pair using these physical, not ideal ADC, counts.
+-    replica=[[digit&1,(digit>>1)&1,(digit>>1)&1] for digit in range(4)]
+-    physical_product=[[sum(a*b for a in replica[x] for b in replica[w]) for w in range(4)] for x in range(4)]
+-    exact_pairs=0
+-    for x in range(-128,128):
+-        for w in range(-128,128):
+-            z=sum(physical_product[(abs(x)>>(2*a))&3][(abs(w)>>(2*b))&3]*4**(a+b) for a in range(4) for b in range(4))
+-            z*=(-1 if x<0 else 1)*(-1 if w<0 else 1)
+-            exact_pairs+=z==x*w
+-    pressure=_nominal([127]*k,[127]*k,current=Fraction(5,2))
+-    # Only now consult prior diagnostics for an independent regression target.
+-    diag_path=input_path.parent/'quantization_diagnostics.json'
+-    prior=json.loads(diag_path.read_text())
+-    comparisons={q['id']: all(index[q['id']][key]==q[key] for key in ('truth','ideal','reconstructed','clipped_partials')) for q in prior['cases']}
+-    hashes={key:hashlib.sha256((repo/value['path']).read_bytes()).hexdigest()==value['sha256'] for key,value in case['provenance']['sources'].items() if key in ('inputs','calculator','shared','shared_calculator')}
+-    checks={
+-        'all_65536_signed_scalar_pairs_physical_encoding':exact_pairs==65536,
+-        'fixed_digit_replication':physical_product==[[x*w for w in range(4)] for x in range(4)],
+-        'ideal_encoding_is_exact_separately_from_ADC':all(q['truth']==q['ideal'] for q in rows),
+-        'nominal_reconstruction_matches_saved_v3_diagnostics':all(comparisons.values()),
+-        'small_signal_limitation_preserved':index['isolated_unit']['truth']==1 and index['isolated_unit']['reconstructed']==0 and index['small_ramp']['truth']==2 and index['small_ramp']['reconstructed']==24,
+-        'dense_unit_quantization_loss_preserved':index['unit_positive']['reconstructed']==4592 and index['unit_negative']['reconstructed']==-4592,
+-        'zero_and_symmetric_cancel_remain_zero':all(index[name]['reconstructed']==0 for name in ('zero','alternating_cancel','large_cancel')),
+-        'all_nominal_calibration_pass_without_clipping':all(q['calibration']['finite_calibration_pass'] and q['clipped_partials']==0 for q in rows),
+-        'pressure_rejects_reference_clipping':not pressure['calibration']['finite_calibration_pass'],
+-        '14_20_21_29bit_stage_bounds':all(q['max_decoded']<2**14 and q['max_merge']<2**20 and q['max_difference']<2**20 and q['max_accumulator']<2**28 for q in rows),
+-        'frozen_input_source_hashes':all(hashes.values()),
+-        'calibration_sample_storage_capacity_witness':3*10<=48,
+-    }
+-    assert all(checks.values()),{key:value for key,value in checks.items() if not value}
+-    return dict(status='PASS', checks=checks, fixtures=rows, source_hash_checks=hashes,
+-                comparison_only_after_calculation=dict(path=str(diag_path),checks=comparisons),
+-                pressure_diagnostic=pressure,
+-                nominal_ADC_bits=10, ENOB_scale_only=8, output_container_bits=29,
+-                nominal_LSB_nA=25000/1024, nominal_LSB_unit_counts=25000/1024/2,
+-                physical_scalar_pairs=65536, full_matrix_allocated=False,
+-                level='Independent ideal-current/nominal-ADC/fixed-point chain with original sign/digit/group order',
+-                analog_accuracy_verified=False, application_accuracy_verified=False,
+-                arithmetic_circuit_timing_verified=False,
+-                limitations=d['numerical_service_qualification']['limitations'])

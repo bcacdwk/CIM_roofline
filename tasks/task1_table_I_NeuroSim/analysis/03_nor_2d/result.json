@@ -1,0 +1,977 @@
+{
+  "contract_version": "3.0.0",
+  "case_id": "03_nor_2d",
+  "status": "OK",
+  "mode": "neurosim_device_service_reference",
+  "identity": {
+    "backend_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+    "input_sha256": "e1e8582bc576c4b15bbc2b2fdf4247239110f03b6ce483df31c845006d9c0eca",
+    "driver_sha256": "d1aa57e06e9e0b8de2c26e33aa16ad2f6e17de39f8629ca68a1640303c818eb7"
+  },
+  "effective_config": {
+    "resolved_snapshot": "resolved.json",
+    "resolved_sha256": "0679ee52ef653d2008bd5a18ac9d84b186068a6a83316a718340b00ec68bda3b"
+  },
+  "derived_snapshot": {
+    "actual_period_ns": 8.5,
+    "module_returns": {
+      "input_DFF_bits": 1024.0,
+      "input_DFF_cycles": 1.0,
+      "output_DFF_bits": 2944.0,
+      "output_DFF_cycles": 1.0,
+      "operand_hold_DFF_bits": 4096.0,
+      "operand_hold_DFF_cycles": 1.0,
+      "declared_extra_DFF_bits": 368.0,
+      "declared_extra_DFF_cycles": 1.0,
+      "controller_DFF_bits": 28.0,
+      "controller_DFF_cycles": 1.0,
+      "boundary_setup_s": 1.8111108587456434e-10,
+      "clock_q_s": 1.8652101553965415e-10,
+      "dff_data_cap_F": 3.8157973166759144e-16,
+      "wire_cap_F": 2e-15,
+      "wire_resistance_ohm": 97.69736843647854,
+      "controller_path_s": 2.4867314230360497e-09,
+      "io_path_s": 1.6148335503714541e-09,
+      "accumulator_clear_path_s": 2.2153827539923325e-09,
+      "mac_level0_adder_bits": 9.0,
+      "mac_level0_adder_count": 256.0,
+      "mac_level0_module_diagnostic_s": 6.992183924927691e-10,
+      "mac_level1_adder_bits": 10.0,
+      "mac_level1_adder_count": 128.0,
+      "mac_level1_module_diagnostic_s": 7.705332548950214e-10,
+      "mac_level2_adder_bits": 11.0,
+      "mac_level2_adder_count": 64.0,
+      "mac_level2_module_diagnostic_s": 8.418481172972737e-10,
+      "mac_level3_adder_bits": 12.0,
+      "mac_level3_adder_count": 32.0,
+      "mac_level3_module_diagnostic_s": 9.13162979699526e-10,
+      "mac_level4_adder_bits": 13.0,
+      "mac_level4_adder_count": 16.0,
+      "mac_level4_module_diagnostic_s": 9.844778421017785e-10,
+      "mac_acc_adder_bits": 23.0,
+      "mac_acc_adder_count": 16.0,
+      "mac_acc_module_diagnostic_s": 1.6976264661243017e-09,
+      "digital_mac_source_ibit_full_s": 8.380406816741893e-09,
+      "digital_mac_source_ibit_pin_s": 1.1451113575385364e-09,
+      "digital_mac_source_acc_data_full_s": 5.187720663463888e-09,
+      "digital_mac_source_acc_data_pin_s": 1.1834338062116593e-09,
+      "digital_mac_source_output_group_select_full_s": 6.878003559072232e-09,
+      "digital_mac_source_output_group_select_pin_s": 2.8736924736270024e-09,
+      "digital_mac_source_input_data_full_s": 8.268722323905555e-09,
+      "digital_mac_source_input_data_pin_s": 1.1335846173916016e-09,
+      "digital_mac_source_input_group_select_full_s": 9.700951561350758e-09,
+      "digital_mac_source_input_group_select_pin_s": 2.5657555929481532e-09,
+      "digital_mac_source_weight_full_s": 6.8960928363841315e-09,
+      "digital_mac_source_weight_pin_s": 1.8752045701021102e-10,
+      "digital_mac_conservative_all_sources_s": 9.700951561350758e-09,
+      "digital_mac_classes_recombine_to_full": 1.0,
+      "digital_mac_path_s": 8.380406816741893e-09,
+      "digital_mac_nodes": 5078.0,
+      "digital_mac_max_source_load_F": 1.2162307739999985e-13,
+      "mac_terms": 32.0,
+      "mac_signed_partial_bits": 13.0,
+      "mac_output_bits": 23.0,
+      "same_graph_arithmetic_fixtures": 256.0,
+      "DAG_nodes_total": 5078.0,
+      "partial_initialized_module_area_m2": 1.7761419244800007e-08,
+      "clkFreq_hz": 117647058.8235294,
+      "technode_nm": 22.0,
+      "temperature_K": 300.0,
+      "vdd_V": 0.85,
+      "dff_cycle": 1.0,
+      "native_memcell_fields_read": 0.0
+    },
+    "module_inventory": {
+      "input_DFF": 1024,
+      "output_DFF": 2944,
+      "operand_hold_DFF": 4096,
+      "resident_staging_DFF": 0,
+      "mask_DFF": 0,
+      "declared_extra_DFF": {
+        "partial_sum_register_bits": 368
+      },
+      "controller_address_state_DFF": 28,
+      "longest_increment_counter_bits": 6,
+      "controller_state_allocation": "separate concurrent row/group/digit/page/phase/counter state; only the longest increment counter is on the controller critical path",
+      "controller_counter_cardinalities": {
+        "concurrent_state_bits": {
+          "input_row_group": 2,
+          "output_group": 3,
+          "input_bit_or_digit": 3,
+          "resident_transaction": 0,
+          "operation_phase": 4,
+          "completion_flags": 4,
+          "native_page": 6,
+          "native_sector": 2,
+          "page_load_beat": 4
+        },
+        "counter_cardinalities": {
+          "input_row_group": 4,
+          "output_group": 8,
+          "input_bit_or_digit": 8,
+          "resident_transaction": 1,
+          "operation_phase": 16,
+          "completion_flags": 16,
+          "native_page": 64,
+          "native_sector": 4,
+          "page_load_beat": 16
+        }
+      },
+      "SAR": 0,
+      "arithmetic_lanes": 16,
+      "output_bits": 23,
+      "active_terms": 32,
+      "output_bank_mux_fanin": 8,
+      "input_row_group_mux_fanin": 4,
+      "input_row_group_mux_organization": "Kx8 input register -> 32x8 selected combinational bytes -> 16 lane fanout; no shadow bank",
+      "added_payload_or_code_banks": 0,
+      "native_page_buffers_or_native_capture": "owned by retained native full service; not modeled a second time",
+      "actual_Adder_modules": {
+        "mac_level0": {
+          "bits": 9,
+          "count": 256
+        },
+        "mac_level1": {
+          "bits": 10,
+          "count": 128
+        },
+        "mac_level2": {
+          "bits": 11,
+          "count": 64
+        },
+        "mac_level3": {
+          "bits": 12,
+          "count": 32
+        },
+        "mac_level4": {
+          "bits": 13,
+          "count": 16
+        },
+        "mac_acc": {
+          "bits": 23,
+          "count": 16
+        }
+      }
+    },
+    "partial_area_scope": "initialized DFF/SAR/Adder only, excludes formula mux/control and all native arrays/frontends/drivers; not macro PPA",
+    "coverage": {
+      "case_id": "03_nor_2d",
+      "route": "public_module_plus_native_service",
+      "SubArray_used": false,
+      "array_or_device_material_simulated": false,
+      "MemCell_context": {
+        "type": "SRAM",
+        "purpose": "mandatory constructor context only",
+        "field_reads_in_called_modules": [],
+        "electrical_fields": "zero/unused; native service fields are bound by the case adapter"
+      },
+      "digital_scope": "declared gate topology and electrical load envelope; no sensitized STA or extracted wiring",
+      "aggregate_write_return": null,
+      "native_frontend_loads_validated": false,
+      "whole_macro_timing_validated": false,
+      "full_arithmetic_paths": true,
+      "conditional_paths": [],
+      "retained_unverified_arithmetic": [],
+      "SAR_scope": "not instantiated"
+    }
+  },
+  "clocks": [
+    {
+      "clock_id": "lv_core",
+      "target_period_ns": 5.0,
+      "combinational_limit_ns": 8.380406816741893,
+      "timing_min_period_ns": 8.380406816741893,
+      "actual_period_ns": 8.5,
+      "selection_policy": "target_5ns_else_upward_0.5ns_grid",
+      "closure_status": "declared_launch_capture_windows_with_native_service_and_calibration_qualifications",
+      "constraining_paths": [
+        {
+          "id": "controller_path",
+          "delay_ns": 2.4867314230360495,
+          "start_register": "declared_data_or_controller_register",
+          "end_register": "declared_data_or_controller_register",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "complete_serial_path": true,
+          "stable_sources": [],
+          "path_class": "single_cycle_control_or_data",
+          "required_period_ns": 2.4867314230360495,
+          "actual_load": {
+            "wire_per_logic_segment_um": 10.0,
+            "wire_cap_F": 2e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+            "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+          },
+          "path_status": "formula_based_bit_arrival_envelope",
+          "eligibility_limit": null
+        },
+        {
+          "id": "io_path",
+          "delay_ns": 1.6148335503714542,
+          "start_register": "declared_data_or_controller_register",
+          "end_register": "declared_data_or_controller_register",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "complete_serial_path": true,
+          "stable_sources": [],
+          "path_class": "single_cycle_control_or_data",
+          "required_period_ns": 1.6148335503714542,
+          "actual_load": {
+            "wire_per_logic_segment_um": 10.0,
+            "wire_cap_F": 2e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+            "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+          },
+          "path_status": "formula_based_bit_arrival_envelope",
+          "eligibility_limit": null
+        },
+        {
+          "id": "accumulator_clear_path",
+          "delay_ns": 2.2153827539923325,
+          "start_register": "declared_data_or_controller_register",
+          "end_register": "declared_data_or_controller_register",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "complete_serial_path": true,
+          "stable_sources": [],
+          "path_class": "single_cycle_control_or_data",
+          "required_period_ns": 2.2153827539923325,
+          "actual_load": {
+            "wire_per_logic_segment_um": 10.0,
+            "wire_cap_F": 2e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+            "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+          },
+          "path_status": "formula_based_bit_arrival_envelope",
+          "eligibility_limit": null
+        },
+        {
+          "id": "digital_mac_path",
+          "delay_ns": 8.380406816741893,
+          "start_register": "changing_ibit_or_accumulator_and_first_weight_capture_with_frame_stable_input_and_group",
+          "end_register": "existing_selected_output_or_partial_sum_register",
+          "constraint_clock_id": "lv_core",
+          "single_cycle": true,
+          "launch_edge": 0,
+          "capture_edge": 1,
+          "available_cycles": 1,
+          "complete_serial_path": true,
+          "stable_sources": [],
+          "path_class": "single_cycle_dynamic_MAC_sources",
+          "required_period_ns": 8.380406816741893,
+          "actual_load": {
+            "wire_per_logic_segment_um": 10.0,
+            "wire_cap_F": 2e-15,
+            "destination_DFF_data_cap_F": 3.8157973166759144e-16,
+            "fanout": "actual declared DAG pins; shared inputs distributed at fanout <=4; bank mux pad-to-power-of-two"
+          },
+          "path_status": "formula_based_bit_arrival_envelope",
+          "eligibility_limit": null,
+          "stable_preselected_signals": [
+            "input_data",
+            "input_group_select",
+            "output_group_select"
+          ],
+          "source_decomposition": {
+            "early_sources": [
+              "input_data",
+              "input_group_select",
+              "output_group_select"
+            ],
+            "settle_to_existing_combinational_pins_ns": 2.873692473627002,
+            "available_native_lead_ns": 120.00000000000001,
+            "lead_source_parameter": "nor_read",
+            "source_pin_settle_ns": {
+              "input_data": 1.1335846173916015,
+              "input_group_select": 2.565755592948153,
+              "output_group_select": 2.873692473627002
+            },
+            "full_source_to_capture_delay_ns": {
+              "digital_mac_source_ibit_full_s": 8.380406816741893,
+              "digital_mac_source_acc_data_full_s": 5.187720663463888,
+              "digital_mac_source_output_group_select_full_s": 6.878003559072233,
+              "digital_mac_source_input_data_full_s": 8.268722323905555,
+              "digital_mac_source_input_group_select_full_s": 9.700951561350758,
+              "digital_mac_source_weight_full_s": 6.896092836384131
+            },
+            "V1_all_sources_relaunched_delay_ns": 9.700951561350758,
+            "dynamic_complete_path_delay_ns": 8.380406816741893,
+            "per_cycle_sources": [
+              "input_bit_index",
+              "selected_accumulator_feedback"
+            ],
+            "first_bit_source": "new weight hold output at operand capture; conservatively one full MAC period even for native early capture",
+            "lifecycle": "input vector and group selection stable from native-read launch through all eight bit MACs; selected input combinational nodes already settled before first MAC launch",
+            "weight_lifecycle": "first MAC launches from completed operand capture; same weight hold persists through remaining seven bits",
+            "no_preselected_cache_or_pipeline": true,
+            "first_capture_qualification": "each early full source-to-capture delay must fit native lead plus first MAC period, checked in engine",
+            "clock_dependency": "native lead is a qualification check, not a per-cycle clock bound; no analog-time subtraction from MAC delay"
+          }
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "input_capture",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 8.5,
+      "count": 1,
+      "resource_occupancy_ns": 8.5,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "input_register_bits"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/input_capture_ticks"
+        }
+      ],
+      "operation_semantics": "cycle",
+      "setup_owner": "destination_path",
+      "source_category": "neurosim_gate_composition",
+      "service_time_total_ns": 8.5,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "binary_read",
+      "provider": "v3_native_service",
+      "raw_returns": [
+        {
+          "value": 120.00000000000001,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 120.00000000000001,
+      "count": 32,
+      "resource_occupancy_ns": 3840.0000000000005,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "coverage_status": "native_budget_retained",
+      "resources": [
+        "native_declared",
+        "operand_hold_bits"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/read_full"
+        }
+      ],
+      "operation_semantics": "native_service",
+      "setup_owner": "retained_complete_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "service_time_total_ns": 3840.0000000000005,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "operand_capture",
+      "provider": "explicit_capture_boundary",
+      "raw_returns": [
+        {
+          "value": 0.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 0.0,
+      "count": 32,
+      "resource_occupancy_ns": 240.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 240.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "operand_hold_bits"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/read_full"
+        }
+      ],
+      "operation_semantics": "capture_only",
+      "setup_owner": "this_boundary",
+      "source_category": "interface_and_schedule",
+      "service_time_total_ns": 0.0,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "digital_mac",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 8.5,
+      "count": 256,
+      "resource_occupancy_ns": 2176.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "digital_output_channels",
+        "operand_hold_bits"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/reference_instance/dcim"
+        }
+      ],
+      "operation_semantics": "cycle",
+      "setup_owner": "destination_path",
+      "source_category": "neurosim_gate_composition",
+      "service_time_total_ns": 2176.0,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "output_commit",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 8.5,
+      "count": 1,
+      "resource_occupancy_ns": 8.5,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "output_register_bits"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "shared",
+          "json_pointer": "/resource_policy/output_commit_ticks"
+        }
+      ],
+      "operation_semantics": "cycle",
+      "setup_owner": "destination_path",
+      "source_category": "neurosim_gate_composition",
+      "service_time_total_ns": 8.5,
+      "service_kind": "streaming"
+    },
+    {
+      "stage_id": "sector_erase.command",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 8.5,
+      "count": 4,
+      "resource_occupancy_ns": 34.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "external_update_domains"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/erase_full"
+        }
+      ],
+      "operation_semantics": "cycle",
+      "setup_owner": "destination_path",
+      "source_category": "neurosim_gate_composition",
+      "service_time_total_ns": 34.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "sector_erase.complete_cycle",
+      "provider": "v3_native_service",
+      "raw_returns": [
+        {
+          "value": 45000000.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 45000000.0,
+      "count": 4,
+      "resource_occupancy_ns": 180000000.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "coverage_status": "native_budget_retained",
+      "resources": [
+        "external_update_domains"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/erase_full"
+        }
+      ],
+      "operation_semantics": "native_service",
+      "setup_owner": "retained_complete_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "service_time_total_ns": 180000000.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "sector_erase.completion",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 1,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 8.5,
+      "count": 4,
+      "resource_occupancy_ns": 46.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 12.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "external_update_domains"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/erase_full"
+        }
+      ],
+      "operation_semantics": "cycle",
+      "setup_owner": "destination_path",
+      "source_category": "neurosim_gate_composition",
+      "service_time_total_ns": 34.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "page_load",
+      "provider": "neurosim_composed",
+      "raw_returns": [
+        {
+          "value": 18,
+          "unit": "cycles",
+          "scope": "per event",
+          "clock_id": "lv_core",
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 153.0,
+      "count": 64,
+      "resource_occupancy_ns": 9792.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": "lv_core",
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "digital_step",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "native_declared.page_buffer_bits",
+        "encoded_interface_bits"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/write_front"
+        }
+      ],
+      "operation_semantics": "cycle",
+      "setup_owner": "destination_path",
+      "source_category": "neurosim_gate_composition",
+      "service_time_total_ns": 9792.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "page_program",
+      "provider": "v3_native_service",
+      "raw_returns": [
+        {
+          "value": 400000.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 400000.0,
+      "count": 64,
+      "resource_occupancy_ns": 25600000.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "native_budget_retained",
+      "coverage_status": "native_budget_retained",
+      "resources": [
+        "native_declared.physical_write_parallelism"
+      ],
+      "mode": null,
+      "source_refs": [
+        {
+          "source_id": "inputs",
+          "json_pointer": "/stage_coverage/program_full"
+        }
+      ],
+      "operation_semantics": "native_service",
+      "setup_owner": "retained_complete_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "service_time_total_ns": 25600000.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "page_program.transaction_ready",
+      "provider": "explicit_ready_handshake",
+      "raw_returns": [
+        {
+          "value": 0.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 0.0,
+      "count": 64,
+      "resource_occupancy_ns": 96.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 96.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "lv_core_control"
+      ],
+      "mode": null,
+      "source_refs": [],
+      "operation_semantics": "capture_only",
+      "setup_owner": "this_boundary",
+      "source_category": "interface_and_schedule",
+      "service_time_total_ns": 0.0,
+      "service_kind": "resident"
+    },
+    {
+      "stage_id": "matrix_ready",
+      "provider": "explicit_ready_handshake",
+      "raw_returns": [
+        {
+          "value": 0.0,
+          "unit": "ns",
+          "scope": "per event",
+          "clock_id": null,
+          "status": "OK",
+          "reason": null
+        }
+      ],
+      "latency_once_ns": 0.0,
+      "count": 1,
+      "resource_occupancy_ns": 0.0,
+      "initiation_interval_ns": null,
+      "initiation_interval_proof": null,
+      "clock_id": null,
+      "included_substages": [],
+      "included_repetition_dimensions": [],
+      "external_repetition_dimensions": [
+        "ordered case templates"
+      ],
+      "conversion_count": 1,
+      "status": "OK",
+      "reason": null,
+      "timing_kind": "service_duration",
+      "constraint_clock_id": null,
+      "boundary_wait_ns": 0.0,
+      "case_path_status": "actual_case_path_instantiated",
+      "coverage_status": "actual_case_path_instantiated",
+      "resources": [
+        "lv_core_control"
+      ],
+      "mode": null,
+      "source_refs": [],
+      "operation_semantics": "capture_only",
+      "setup_owner": "this_boundary",
+      "source_category": "interface_and_schedule",
+      "service_time_total_ns": 0.0,
+      "service_kind": "resident"
+    }
+  ],
+  "streaming": {
+    "latency_ns": 6273.0,
+    "delta_S_ns": 6273.0,
+    "initiation_interval_ns": 6273.0,
+    "effective_service_cost_ns": 6273.0,
+    "latency_context": "raw physical service without maintenance interruption; arrival-dependent maintenance waiting is not raw/availability",
+    "proof": "strict serial; two complete consecutive vectors; no overlap"
+  },
+  "resident_load": {
+    "transaction_latency_ns": 205609968.0,
+    "T_R_ns": 205609968.0,
+    "transaction_service_interval_ns": 205609968.0,
+    "matrix_service_interval_ns": 205609968.0,
+    "payload_Byte": 16384,
+    "transaction_payload_Byte": 16384,
+    "effective_service_cost_ns": 205609968.0,
+    "coverage_status": "complete_hybrid_conditional_native_services",
+    "normalized_missing_backend_write": {
+      "value": null,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "no compatible aggregate write model; complete native service plus explicit public control retained"
+    }
+  },
+  "maintenance": {
+    "raw_stage_metrics": {
+      "rho_Byte_per_s": 20404909.931452256,
+      "tau_Byte_per_s": 79684.85263321474,
+      "RI_star": 256.0701219512195,
+      "U_star": 32776.9756097561,
+      "status": "OK"
+    },
+    "effective_stage_metrics": {
+      "rho_Byte_per_s": 20404909.931452256,
+      "tau_Byte_per_s": 79684.85263321474,
+      "RI_star": 256.0701219512195,
+      "U_star": 32776.9756097561,
+      "status": "OK"
+    },
+    "workload_write_Byte": 0,
+    "recompute_required": true,
+    "applicable": false,
+    "availability": 1.0,
+    "feasible": true
+  },
+  "derived_metrics": {
+    "rho_Byte_per_s": 20404909.931452256,
+    "tau_Byte_per_s": 79684.85263321474,
+    "RI_star": 256.0701219512195,
+    "U_star": 32776.9756097561,
+    "status": "OK"
+  },
+  "checks": {
+    "cycle_setup_only_at_destination": true,
+    "capture_only_has_no_extra_cycle": true,
+    "explicit_case_dispatch": true,
+    "native_topology_preserved": true,
+    "scheduled_counts_match_frozen_case": true,
+    "logical_payload_is_not_physical_bits": true,
+    "output_width_from_case": true,
+    "native_complete_cycles_not_split_or_double_counted": true,
+    "no_hidden_full_matrix_shadow": true,
+    "binary_cases_have_no_SAR": true
+  },
+  "coverage": {
+    "case_id": "03_nor_2d",
+    "route": "public_module_plus_native_service",
+    "SubArray_used": false,
+    "array_or_device_material_simulated": false,
+    "MemCell_context": {
+      "type": "SRAM",
+      "purpose": "mandatory constructor context only",
+      "field_reads_in_called_modules": [],
+      "electrical_fields": "zero/unused; native service fields are bound by the case adapter"
+    },
+    "digital_scope": "declared gate topology and electrical load envelope; no sensitized STA or extracted wiring",
+    "aggregate_write_return": null,
+    "native_frontend_loads_validated": false,
+    "whole_macro_timing_validated": false,
+    "full_arithmetic_paths": true,
+    "conditional_paths": [],
+    "retained_unverified_arithmetic": [],
+    "SAR_scope": "not instantiated"
+  }
+}

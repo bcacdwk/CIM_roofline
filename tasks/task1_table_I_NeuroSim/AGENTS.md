@@ -1,67 +1,11 @@
-# Step4 V2 当前约定
+# 本任务区工作约定
 
-在 `0fac5278fe6477144f6ad74a7747d950b3fc3517` 上统一十例时序/边界与证据口径已完成并独立复核，停止Step4 V2。以下保留分工；不改器件参数、不进入Step5。
+当前任务是十个参考配置的 NeuroSim 与器件估计结合的 CIM 评估。当前入口为 `analysis/shared/run_evaluation.py`；表图入口为 `analysis/11_summary_figures/build_figures.py`。先阅读 README 和 METHOD，保护用户已有修改。
 
-- supervisor 是生产代码唯一维护者，写 `step4_v2/`、`scripts/run_step4_v2.py`、V2 contracts/reports/results/provenance 及当前导航。
-- 两个分析agent只写本地 `runs/step4-v2/timing-analysis-*`、`boundary-analysis-*`，提供时序来源和边界语义分析/实际探针。
-- 本轮独立reviewer不写实现，从新本地目录复跑并审真实生命周期/边界，不只对比数字。
-- 既有 `step4/`、`scripts/run_step4.py`、V1结果/报告/审计、pilots、原NVM、TableII、论文和锁定上游保持只读。V1入口可继续复跑。任何确需pilot实质修订必须单独说明；不得为保持旧结果规避真实问题。
-- 本地构建/源码/完整trace/失败现场留 `/Users/shine/neurosim`；不暂存、提交、推送，保留用户 `.DS_Store` 修改。
-- 完成后停止Step4 V2，不自动扫描三情景或workload。
-
----
-
-# Step 4 当前工作约定
-
-Step4 十例 reference 实际运行、分析与独立复核已完成并停止。以下保留本轮分工和写入边界；不自动进入Step5。历史Step3停止指令曾由本轮用户授权扩展。
-
-- supervisor：唯一维护统一入口、调度器、接口、集成、报告及正式导出。
-- backend 作者：唯一维护 `step4/backend.py`、`step4/backend.cpp`、`step4/*.h`，负责公共数字/SAR 实际构建与完整路径模型；不修改 pilots。
-- native 作者：只写 `step4/adapters/native.py`、`step4/adapters/native.zh.md`，负责 NOR/MRAM/PCM/FeRAM/GC/FeNOR 原生流程适配、维护和数值检查。
-- NAND 作者：只写 `step4/adapters/nand.py`、`step4/adapters/nand.zh.md`，负责 NAND 模板计数、算术边界、校准与数值检查。
-- 独立 reviewer 不参与实现；从新本地目录构建运行并审查来源、类型适配、计数、时钟和数值。
-- 作者本地目录分别为 `/Users/shine/neurosim/runs/step4/{backend,native,nand}-*`。源码副本、构建、完整trace和失败现场留本地。
-- `pilots/`、Step2 配置、历史验收结果、兄弟 NVM/TableII/论文、锁定上游只读。不暂存、提交或推送，保留用户 `.DS_Store` 修改。
-- 接入路线和新增接口见 `reports/step4_model_routes.zh.md` 与 `step4/INTERFACE.md`。
-
----
-
-# Step 3 V2 当前工作约定
-
-基于 `88448197c570b113f6002524aaacd1bd8865ca86` 的三pilot V2收敛已完成并独立验收，当前停止。保留V1证据；不扩展其余案例或重新估计器件参数。
-
-- supervisor唯一维护公共实现、案例集成、报告与导出。两位分析agent分别提供数字路径/生命周期与调度/选频建议，只写各自本地 `runs/step3-v2/`。
-- 独立reviewer不参与实现，最终在新本地目录构建复跑，重点审查单/多周期归属、合法选频、资源保持和完整依赖传播。
-- Step2输入、V1结果/报告/审计记录、兄弟NVM、TableII、论文、锁定上游均只读；当前文档只增加V2入口，不改历史验收。
-- 本地源码、构建、完整日志及过程数据保留本地运行根。管理区仅规范代码、关键快照/输出/版本证据及报告。禁止暂存/提交/推送。
-
-以下为历史工作约定，原文保留：
-
-# Step 3 当前工作约定
-
-用户已授权的三个 reference pilot（01 SRAM ACIM、02 SRAM DCIM、05 RRAM）已完成并独立验收。当前停止在 Step 3，不扩展其余案例、不改历史验收。
-
-- supervisor 唯一维护公共 `pilots/backend*`、`pilots/schedule.py`、`scripts/run_step3.py`、公共报告和导出；案例 agent 只写分配的 `pilots/adapters/<case>.py` 与 `<case>.zh.md`。
-- 每 agent 本地使用独立 `runs/step3/<role>-<id>`，共享锁定 worktree、兄弟 NVM、Table II、论文只读。所有构建、完整日志与大 trace 留本地。
-- Step 2 配置和证据不改；生效值另存 Step 3 快照。采用接口 3.0.0 与已有路径/环境变量。
-- reviewer 不修改实现，在新的本地目录实际编译复跑，再核对调用、数值、来源与计量；supervisor 白名单导出审查结论。
-- 不暂存、提交或推送；保留用户 `.DS_Store` 修改。
-
-以下为历史 Step 2 工作约定（原文保留，不限制已授权 Step 3）：
-
-# Step 2 工作约定
-
-- 本轮仅做 Step 2：源码覆盖、十例典型输入接口及机制探针。Step 1 已归档；不生成十例新性能表，不进入 Step 3。
-- 当前轮为 `faf8a421…` 上的 Step 2 收敛修订：数字时钟/原生服务边界、物理与能力依赖、数字覆盖状态、资源量纲及旧时间回放。既有结果证据保留，新修订使用独立运行目录。
-- 仓库内只写本目录。兄弟 NVM、Table II、论文及用户原有修改保持只读；不暂存、提交或推送。保留用户提供的 README。
-- supervisor 为唯一集成写入者，负责 contracts、scripts/check_step2.py、公共报告、provenance/step2*、results/step2、AGENTS/STATUS。需要补取锁定源码也仅由 supervisor 操作 Git/worktree；不安装工具链，不修改共享源码树。
-- 子任务 A 只写 probes/read_timing；B 只写 probes/write_update；C 只写 probes/special；D 只写 configs/cases 和 probes/encoding_resources。各自本地运行目录为 runs/step2/<role>-<id>，构建副本独立。不得共改 Param.cpp，不得覆盖 Step 1 证据。
-- 本轮两组只写 `probes/interface_revision/` 中各自的 clock_dependency 或 digital_resources 文件/注释/必要小探针；不直接修改公共文件。supervisor 作为唯一集成者更新生成器、配置、schema、公共脚本与报告，并实现独立旧时间回放。
-- 独立 reviewer 在集成后只读复核，使用新的本地目录运行最终统一入口；证据先保存在本地，再由 supervisor 白名单导出。
-- 运行根默认 `$HOME/neurosim`，先解析真实路径并验证不在云盘；源码、构建、完整日志、缓存和临时文件全部留在运行根。云端仅保存小型规范脚本/配置、版本证据、必要数值输出与报告，不建立本地树符号链接。
-- 稀疏检出按实际文件清单；MLP 根目录数据包不得获取。锁定完整 SHA，不静默跟随远程更新。
-- 上游公式保持原样；必要移植改动单列补丁。探针只验证机制和接口，不生成正式 rho/tau。完整原生周期保持 opaque block，不推测拆除外围后再次计费。
-- 入口从任意 cwd 可用，路径完整引用；可重入并产生新运行目录。标准库优先。文件只按白名单导出。
-- 探针 runner 统一 CLI：`python3 run.py --root <local_root> --out <new_local_dir> --cxx <compiler>`；输出 summary.json、命令/退出码、原始输出及断言。后端由根目录 worktrees.json 定位；stdout 简短。规范脚本先复制本地并记录哈希，禁止在云端产生 pycache。
-- 十例采用 INT8 的 Byte/element 计量；GC-04 保持硅 CMOS gain-cell，NAND 保持 split-sign/base-4。工艺、原生器件负载、枚举身份与阶段计数分开记录。
-- 本轮收敛修订验收后停止；仅在用户启动 Step 3 时实施 01 SRAM ACIM/05 RRAM 两个 pilot。使用 contracts 3.0.0、集中初始化和显式计数，完整原生写周期不拆除再叠加驱动。秒返回无换算 clock_id；constraint_clock_id 只标路径归属，完整且已实例化的单周期寄存路径才能约束数字时钟，独立模拟/器件服务不行。旧probe说明记录当时机制，当前公共政策以 parameter_policy.json 为准。
+- 当前业务名称不使用项目版本号、final 或 latest；真实 NeuroSim 分支、SHA、接口版本与上游版权必须保留。
+- 计算只读取当前公共代码、小型服务输入和各例 input.json；归档与历史比较只能用于审计，不作为生成新结果的模型输入。主表图只读取 analysis/data/ten_case_results.json。
+- 保持所选器件身份、逻辑精度、资源、调度、维护和预算。任何新模型研究都需用户明确新任务；不要在维护中自动引入历史替代分支。
+- 构建、源码副本、完整 trace、日志、临时文件、PDF 渲染与失败现场全部留在非同步本地区，默认 $NEUROSIM_ROOT 或 $HOME/neurosim；禁止先在 OneDrive 生成再删除，也不建立通往运行树的 symlink。
+- 当前目录仅保留规范代码、输入、必要结果、正式图表与简短来源/验证说明。过程记录放 archive/maintenance 或本地区。archive/history 原始文件按哈希保全，不重写历史报告。
+- 兄弟 NVM 任务、Table II、论文及其他任务区只读。本轮用户未授权 git add、commit、push 或清理无关修改。
+- 多人协作时仅指定的集成维护者执行实际移动/安装；其余候选在各自本地目录，独立审查使用新构建，不复用生产二进制。

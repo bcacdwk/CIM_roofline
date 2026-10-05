@@ -1,0 +1,163 @@
+{
+  "status": "PASS",
+  "checks": {
+    "01_sram_acim.table": true,
+    "02_sram_dcim.table": true,
+    "03_nor_2d.table": true,
+    "04_nand_3d.table": true,
+    "05_rram.table": true,
+    "06_mram.table": true,
+    "07_pcm.table": true,
+    "08_feram_hfo2.table": true,
+    "09_gain_cell_edram.table": true,
+    "10_fenor_3d.table": true,
+    "01_sram_acim.point": true,
+    "02_sram_dcim.point": true,
+    "03_nor_2d.point": true,
+    "04_nand_3d.point": true,
+    "05_rram.point": true,
+    "06_mram.point": true,
+    "07_pcm.point": true,
+    "08_feram_hfo2.point": true,
+    "09_gain_cell_edram.point": true,
+    "10_fenor_3d.point": true,
+    "all_fonts_embedded": true
+  },
+  "fonts": [
+    {
+      "pdf": "table_I",
+      "page": 1,
+      "font": "F1",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I",
+      "page": 1,
+      "font": "F2",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I",
+      "page": 1,
+      "font": "F3",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I",
+      "page": 2,
+      "font": "F1",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I",
+      "page": 2,
+      "font": "F2",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I",
+      "page": 2,
+      "font": "F3",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I_typical",
+      "page": 1,
+      "font": "F1",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I_typical",
+      "page": 1,
+      "font": "F2",
+      "embedded": true
+    },
+    {
+      "pdf": "table_I_typical",
+      "page": 1,
+      "font": "F3",
+      "embedded": true
+    },
+    {
+      "pdf": "rho_tau_loglog",
+      "page": 1,
+      "font": "F3",
+      "embedded": true
+    },
+    {
+      "pdf": "rho_tau_loglog",
+      "page": 1,
+      "font": "F2",
+      "embedded": true
+    },
+    {
+      "pdf": "rho_tau_loglog",
+      "page": 1,
+      "font": "F1",
+      "embedded": true
+    }
+  ],
+  "rendering_engine": "pypdfium2/PDFium (existing toolchain; Poppler unavailable)",
+  "pdf_records": [
+    {
+      "file": "/Users/shine/neurosim/runs/consolidation-20261005/docs_figures/analysis/11_summary_figures/output/table_I.pdf",
+      "sha256": "976244ac71d29136dfa9db367435dc5b6aed27a84c07cc9abc05948e69282ffb",
+      "pages": 2,
+      "renders": [
+        "/Users/shine/neurosim/runs/consolidation-20261005/reviewer/pdf_render/table_I-1.png",
+        "/Users/shine/neurosim/runs/consolidation-20261005/reviewer/pdf_render/table_I-2.png"
+      ],
+      "text_character_counts": [
+        1211,
+        464
+      ],
+      "fonts": [
+        "BMQQDV+DejaVuSans",
+        "EVICAO+DejaVuSans-Bold",
+        "GCWXDV+DejaVuSans-Oblique"
+      ]
+    },
+    {
+      "file": "/Users/shine/neurosim/runs/consolidation-20261005/docs_figures/analysis/11_summary_figures/output/table_I_typical.pdf",
+      "sha256": "cec86ce6ab24b2cadedc21d51cdf5d64d5fe0882e6ee4e59f496e9fb68e3f014",
+      "pages": 1,
+      "renders": [
+        "/Users/shine/neurosim/runs/consolidation-20261005/reviewer/pdf_render/table_I_typical-1.png"
+      ],
+      "text_character_counts": [
+        1211
+      ],
+      "fonts": [
+        "BMQQDV+DejaVuSans",
+        "EVICAO+DejaVuSans-Bold",
+        "GCWXDV+DejaVuSans-Oblique"
+      ]
+    },
+    {
+      "file": "/Users/shine/neurosim/runs/consolidation-20261005/docs_figures/analysis/11_summary_figures/output/rho_tau_loglog.pdf",
+      "sha256": "0ac5c7c4cb7b04f72e4d21dee983f707723402b7ec22c22464d91ed744e36620",
+      "pages": 1,
+      "renders": [
+        "/Users/shine/neurosim/runs/consolidation-20261005/reviewer/pdf_render/rho_tau_loglog-1.png"
+      ],
+      "text_character_counts": [
+        464
+      ],
+      "fonts": [
+        "BMQQDV+DejaVuSans",
+        "EVICAO+DejaVuSans-Bold",
+        "GCWXDV+DejaVuSans-Oblique"
+      ]
+    }
+  ],
+  "visual_review": {
+    "four_rendered_pages_inspected": true,
+    "clipping_or_missing_glyphs": false,
+    "overlapping_labels": false,
+    "all_ten_points_visible": true,
+    "rho_tau_axes_and_reference_line": true,
+    "scope_and_maintenance_notes_visible": true
+  },
+  "style_review": "COLORS, LABELS, DejaVu typography, fmt two-digit rule, table stripes/highlight, equal-log aspect and marker/line/label rules directly retained from NVM template",
+  "conditions_review": "METHOD keeps native budget sources, public-module/SubArray distinction, volatile GC, selected identities, and NAND/PCM/FeRAM/GC limitations."
+}
