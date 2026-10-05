@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "case_id": "09_gain_cell_edram",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/09_gain_cell_edram/data/inputs.json",
+    "sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "8cd5b2717f9c55478d7400b3d7ffe417865c5a275ed8a9392cbf31b08c187e94",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。"
+  ],
+  "parameters": [
+    {
+      "parameter": "common_read_overhead",
+      "target": "/device/primitives[id=common_read_overhead]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 36,
+          "unit": "ns",
+          "source_pointer": "/service_parameters/profile_common_overhead_ns/short"
+        },
+        "reference": {
+          "value": 86,
+          "unit": "ns",
+          "source_pointer": "/service_parameters/profile_common_overhead_ns/reference"
+        },
+        "pessimistic": {
+          "value": 136,
+          "unit": "ns",
+          "source_pointer": "/service_parameters/profile_common_overhead_ns/long"
+        }
+      },
+      "reference_runtime_value_ns": 86.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_common_phase_budget_not_measured_decomposition",
+      "consumers": [
+        "streaming:analog_front",
+        "maintenance:refresh_read.front",
+        "maintenance:guard_and_availability"
+      ]
+    },
+    {
+      "parameter": "program_complete",
+      "target": "/device/primitives[id=program_complete]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 65,
+          "unit": "ns",
+          "source_pointer": "/profiles/0/program_complete_ns"
+        },
+        "reference": {
+          "value": 65,
+          "unit": "ns",
+          "source_pointer": "/profiles/1/program_complete_ns"
+        },
+        "pessimistic": {
+          "value": 75,
+          "unit": "ns",
+          "source_pointer": "/profiles/2/program_complete_ns"
+        }
+      },
+      "reference_runtime_value_ns": 65.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "measured_settling_anchor_plus_conditional_complete_program_budget",
+      "consumers": [
+        "resident:current_program",
+        "maintenance:refresh_decode_load_rewrite.current_program",
+        "maintenance:guard_and_availability"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/frontend_selection",
+      "value": {
+        "kind": "reference_choice",
+        "anchor": "GC-04 PDF pp6-7 Fig10: measured 180 ns whole compute includes precharge, DTC/MAC and 5b SAR. This anchors only the overall scale; it does not identify individual stages in the adapted frontend.",
+        "conditions": "Retain native 64-cell bitline load, 700 nA endpoint, 200 fF effective integration capacitance per branch and +/-224 mV differential range. Main early_release uses 1 ns MAC and 64 ns single-pair refresh integration. Existing CCTRL/PRE/SAMP and tunable RWL separate precharge, integration and sampled SAR; binary-input rounds have no outstanding longer RWL pulse. The entire 36/86/136 ns common precharge/select/reconnect-settle/isolate-sample/recovery allowance remains, with shared TI/TA/TD separately charged. No additional ADC, hold bank, driver or shadow is needed to advance the existing sampling boundary; no 63 ns mandatory device settling was identified. Phase allowances are engineering references, not measured stage times. Writing isolates added integration/SAR capacitance and retains approximately original 50 fF program load.",
+        "phase_evidence": {
+          "source_pages": [
+            6,
+            7,
+            10
+          ],
+          "figures": [
+            "10",
+            "16",
+            "17",
+            "18"
+          ],
+          "confirmed": "Distinct precharge, variable-RWL MAC and sampled SAR phases; single-row retention reads tune RWL pulse to ADC range. The source reports no separated adapted 1/64 ns phase budget.",
+          "common_physical_conditions": "Same selected 64-cell local bitline, effective integration load, endpoint current, full-scale range and ADC; different number of active rows and RWL width. Equal worst-case integrated charge does not prove equal settling/noise.",
+          "assumed_common_stages": "Aggregate precharge, selection, load reconnect/settle, sample and recovery; no unsupported numerical subdivision of the 36/86/136 ns allowance.",
+          "qualification": "Mode-specific scheduling uses existing CCTRL, PRE/SAMP switching, tunable pulse generation and independent SAR start. The 1 ns pulse is followed by all allocated settling/isolation/sample operations; early release does not mean zero post-pulse settling. Fixed 64 ns control reservation is a conservative comparison. The 180 ns source full cycle is only a scale anchor, not a measured decomposition or measured speedup.",
+          "control_dependency": "GC-04 PDF p.6 III.B and p.7 Fig.10 expose independent PRE/SAMP and variable RWL control. p.10 retention read tunes RWL for a single active row. With one-bit inputs all active RWLs finish at 1 ns in the reference MAC, so no 64 ns refresh pulse or unfinished input phase shares that evaluation. Common residual, TI, TA and two digital reconstruction ticks remain mandatory.",
+          "clock_qualification": "TD budgets digital reconstruction/control; analog pulse and phase edges use the already tunable delay/phase control. No evidence requires every analog phase to occupy an integer TD count. Short/reference/long retain full 36/86/136 ns common overhead with no fabricated internal ns split; timing closure remains a reference-design condition."
+        }
+      }
+    },
+    {
+      "json_pointer": "/write/load_isolation",
+      "value": "Disconnect added integration/SAR sampling capacitance during programming using local switches; source 65 ns write anchor assumes approximately original 50 fF BL load including switch parasitics. Reconnect/settle is included in dedicated read slot; if write load increases, 65 ns must be revalidated/rebudgeted."
+    },
+    {
+      "json_pointer": "/refresh/reliability",
+      "value": "0.4 ms source: 99.7% tested +/-7 cells drift <1 source ADC LSB, not all-bit-error-free. Binary endpoint threshold at zero gives materially wider margin than MLC nearest-level rounding; tail, noise, repeated-refresh stability remain validation conditions."
+    },
+    {
+      "json_pointer": "/reported_evidence",
+      "value": [
+        {
+          "id": "GC4-current",
+          "source_id": "GC-04",
+          "pdf_pages": [
+            6
+          ],
+          "figure": "8",
+          "kind": "reported",
+          "value": [
+            0,
+            700
+          ],
+          "unit": "nA",
+          "condition": "65 nm 3T1C eight levels per cell; pseudodifferential 15 signed levels per pair",
+          "use": "Binary +/-700nA endpoint subset"
+        },
+        {
+          "id": "GC4-compute",
+          "source_id": "GC-04",
+          "pdf_pages": [
+            6,
+            7
+          ],
+          "figure": "10",
+          "kind": "reported",
+          "value": 180,
+          "unit": "ns",
+          "condition": "64x64 pair 4b input, 5b SAR; complete precharge/DTC/MAC/ADC",
+          "use": "Scale anchor only; shared TI/10b-SAR TA are independently propagated"
+        },
+        {
+          "id": "GC4-write-simulation",
+          "source_id": "GC-04",
+          "pdf_pages": [
+            7,
+            8
+          ],
+          "figure": "11,12",
+          "kind": "simulation",
+          "value": 60,
+          "unit": "ns",
+          "condition": "Voltage-current two-step; voltage coarse 5 ns; 50 fF BL parasitics context",
+          "use": "Never called a measured complete service"
+        },
+        {
+          "id": "GC4-write-measured",
+          "source_id": "GC-04",
+          "pdf_pages": [
+            9,
+            10
+          ],
+          "figure": "16",
+          "kind": "reported_measured",
+          "value": [
+            65,
+            75
+          ],
+          "unit": "ns",
+          "condition": "Complete voltage-current programming; fixed 5 ns coarse and 60/70 ns fine; transfer-function settling",
+          "use": "65 ns short/reference and 75 ns long full physical update; no repeated coarse phase"
+        },
+        {
+          "id": "GC4-retention",
+          "source_id": "GC-04",
+          "pdf_pages": [
+            9,
+            10
+          ],
+          "figure": "17,18",
+          "kind": "reported_measured",
+          "value": 400000,
+          "unit": "ns",
+          "condition": "All +/-7 endpoint weights; adjusted RWL pulse single-row ADC read; 99.7% tested cells drift <1 original ADC LSB",
+          "use": "Conditional binary endpoint refresh; not universal error-free or 100 nA-LSB guarantee"
+        },
+        {
+          "id": "GC4-refresh-source",
+          "source_id": "GC-04",
+          "pdf_pages": [
+            10,
+            11
+          ],
+          "figure": "20",
+          "kind": "reported",
+          "value": 4160,
+          "unit": "ns",
+          "condition": "Original 64 rows times 65 ns rewrite; overhead expression4.16/(400-4.16)us",
+          "use": "Not reused as this capacity/ADC organization refresh cost"
+        },
+        {
+          "id": "GC2-retention",
+          "source_id": "GC-02",
+          "pdf_pages": [
+            8,
+            9
+          ],
+          "figure": "11,13",
+          "kind": "reported_measured",
+          "value": 5000,
+          "unit": "ns",
+          "condition": "800 MHz 128x32 28nm 4T; 99% bit yield; around93% native availability",
+          "use": "Incompatible with an all-bit-error-free interpretation"
+        },
+        {
+          "id": "GC5-stationary",
+          "source_id": "GC-05",
+          "pdf_pages": [
+            6,
+            7
+          ],
+          "figure": "13,14,15",
+          "kind": "reported_architecture",
+          "condition": "16nm 4T storage +7T STU, separate stationary update and local SRU read/rewrite self-refresh",
+          "use": "Resource-dependent overlap mechanism; storage write alone is not resident completion"
+        }
+      ]
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

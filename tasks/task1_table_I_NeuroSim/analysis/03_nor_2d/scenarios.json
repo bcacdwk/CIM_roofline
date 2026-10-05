@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "case_id": "03_nor_2d",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/03_nor_2d/data/inputs.json",
+    "sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "e1e8582bc576c4b15bbc2b2fdf4247239110f03b6ce483df31c845006d9c0eca",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。"
+  ],
+  "parameters": [
+    {
+      "parameter": "nor_read",
+      "target": "/device/primitives[id=nor_read]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 100,
+          "unit": "ns",
+          "source_pointer": "/scenarios/0/read_full_ns"
+        },
+        "reference": {
+          "value": 120,
+          "unit": "ns",
+          "source_pointer": "/scenarios/1/read_full_ns"
+        },
+        "pessimistic": {
+          "value": 130,
+          "unit": "ns",
+          "source_pointer": "/scenarios/2/read_full_ns"
+        }
+      },
+      "reference_runtime_value_ns": 120.00000000000001,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "datasheet_read_grade_engineering_transfer",
+      "consumers": [
+        "streaming:binary_read",
+        "backend:MAC_preselection_native_lead"
+      ]
+    },
+    {
+      "parameter": "page_program",
+      "target": "/device/primitives[id=page_program]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 0.4,
+          "unit": "ms",
+          "source_pointer": "/scenarios/0/page_program_ms"
+        },
+        "reference": {
+          "value": 0.4,
+          "unit": "ms",
+          "source_pointer": "/scenarios/1/page_program_ms"
+        },
+        "pessimistic": {
+          "value": 3,
+          "unit": "ms",
+          "source_pointer": "/scenarios/2/page_program_ms"
+        }
+      },
+      "reference_runtime_value_ns": 400000.0,
+      "conversion": "source value * 0.001 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "datasheet_complete_typical_maximum",
+      "consumers": [
+        "resident:page_program"
+      ]
+    },
+    {
+      "parameter": "sector_erase",
+      "target": "/device/primitives[id=sector_erase]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 45,
+          "unit": "ms",
+          "source_pointer": "/scenarios/0/sector_erase_ms"
+        },
+        "reference": {
+          "value": 45,
+          "unit": "ms",
+          "source_pointer": "/scenarios/1/sector_erase_ms"
+        },
+        "pessimistic": {
+          "value": 400,
+          "unit": "ms",
+          "source_pointer": "/scenarios/2/sector_erase_ms"
+        }
+      },
+      "reference_runtime_value_ns": 45000000.0,
+      "conversion": "source value * 0.001 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "datasheet_complete_typical_maximum",
+      "consumers": [
+        "resident:sector_erase.complete_cycle"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/reported_evidence",
+      "value": [
+        {
+          "id": "read100",
+          "kind": "datasheet_specification",
+          "source_id": "NOR-01",
+          "pdf_page": 85,
+          "locator": "Table57",
+          "read_cycle_min_ns": 100,
+          "random_access_max_ns": 100,
+          "condition": "512 Mb, speed100, VIO=VCC=2.7--3.6V, -55 to +105 C"
+        },
+        {
+          "id": "read120",
+          "kind": "datasheet_specification",
+          "source_id": "NOR-01",
+          "pdf_page": 85,
+          "locator": "Table58",
+          "read_cycle_min_ns": 120,
+          "random_access_max_ns": 120,
+          "condition": "128/256/512 Mb/1 Gb, speed120, VIO=VCC=2.7--3.6V, -55 to +125 C"
+        },
+        {
+          "id": "read130",
+          "kind": "datasheet_specification",
+          "source_id": "NOR-01",
+          "pdf_page": 86,
+          "locator": "Table59",
+          "read_cycle_min_ns": 130,
+          "random_access_max_ns": 130,
+          "condition": "speed130, VIO=1.65V to VCC, VCC=2.7--3.6V, -55 to +125 C"
+        },
+        {
+          "id": "native_page_sector",
+          "kind": "datasheet_specification",
+          "source_id": "NOR-02",
+          "pdf_pages": [
+            5,
+            14,
+            37,
+            38,
+            39,
+            66
+          ],
+          "locator": "Sections1/7.1.1/8.2.13/8.2.14/8.2.15; AC table",
+          "page_Byte": 256,
+          "sector_Byte": 4096,
+          "page_program_typ_ms": 0.4,
+          "page_program_max_ms": 3,
+          "sector_erase_typ_ms": 45,
+          "sector_erase_max_ms": 400,
+          "condition": "W25Q128JV Rev.G binary storage; 2.7--3.6V; typ/max retained as labelled, not a measured distribution or analog tuning time"
+        },
+        {
+          "id": "buffer_crosscheck",
+          "kind": "datasheet_specification_not_used_in_main_budget",
+          "source_id": "NOR-01",
+          "pdf_page": 45,
+          "locator": "Table16 notes29--34",
+          "buffer_Byte": 512,
+          "buffer_typ_us": 420,
+          "buffer_max_us": 1050,
+          "sector_Byte": 131072,
+          "erase_typ_ms": 410,
+          "erase_max_ms": 1100,
+          "condition": "typ25C/3.0V/10000cycles/random pattern; max105C/2.70V/100000cycles/random pattern; erase includes all-word preprogram"
+        },
+        {
+          "id": "analog_vmm",
+          "kind": "measured_prototype",
+          "source_id": "NOR-04",
+          "pdf_pages": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "locator": "SectionsII--III; Figures1/2/6/9/14",
+          "process_nm": 180,
+          "cells": 101780,
+          "input_shift_register_bits": 785,
+          "chosen_cell_tuning_target_percent": 5,
+          "classification_delay_upper_us": 1,
+          "condition": "modified ESF1 analog floating-gate differential weights, 784-64-10 network; not INT8 binary weights or a complete host-input service"
+        },
+        {
+          "id": "analog_tuning",
+          "kind": "measured_small_array",
+          "source_id": "NOR-05",
+          "pdf_pages": [
+            1,
+            2
+          ],
+          "locator": "abstract and Figures2/3/5/6",
+          "cells": 100,
+          "average_pulses_at_3percent": 10,
+          "average_pulses_at_0p3percent": 35,
+          "program_characterization_pulse_us": 100,
+          "erase_characterization_pulse_ms": 2.5,
+          "condition": "180nm modified ESF1; runtime read/model update/alternating pulses; characterization widths are not complete tuning latency"
+        }
+      ]
+    },
+    {
+      "json_pointer": "/assumptions",
+      "value": [
+        "The 32 local read slices and sector-sharing HV isolation are a custom reference layout, not a claim about W25Q128JV internal architecture.",
+        "Read timing is transferred from NOR-01 complete binary random access to the specified locally widened slices, with explicit 4096 SA resources; no analog current matching is assumed.",
+        "Each local 256-Byte page retains the NOR-02 complete binary program service and each 4KB sector retains its complete erase service after partitioning. This transfer requires physical implementation validation.",
+        "The source media voltages, high-voltage circuitry and original processes are retained as media constraints; only common digital periphery uses the 28nm reference.",
+        "Three paired scenarios combine compatible binary state budgets, not the fastest claims of one measured chip or statistically correlated PVT corners.",
+        "No independent read or write replicas, spare-matrix swapping, read/write overlap, native block erase substitution, or wear-leveling speedup is assumed.",
+        "All main scenarios retain the same installed SA, 4096-bit tile register, digital channels and native page engine; read and complete program/erase service budgets vary without adding resources."
+      ]
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

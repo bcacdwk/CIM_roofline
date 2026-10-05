@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "case_id": "04_nand_3d",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/04_nand_3d/data/inputs.json",
+    "sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "cb5361613c1e5ad9662873975726a2b14c21ca6a729a9e6f1b577775e2998e66",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。"
+  ],
+  "parameters": [
+    {
+      "parameter": "sl_setup",
+      "target": "/device/primitives[id=sl_setup]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 530,
+          "unit": "ns",
+          "source_pointer": "/design_choices/sl_setup_budget_ns_by_profile/short"
+        },
+        "reference": {
+          "value": 640,
+          "unit": "ns",
+          "source_pointer": "/design_choices/sl_setup_budget_ns_by_profile/reference"
+        },
+        "pessimistic": {
+          "value": 750,
+          "unit": "ns",
+          "source_pointer": "/design_choices/sl_setup_budget_ns_by_profile/long"
+        }
+      },
+      "reference_runtime_value_ns": 640.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "source_model_range_and_midpoint",
+      "consumers": [
+        "streaming:native_bl_sl",
+        "resident:calibration_bl_sl"
+      ]
+    },
+    {
+      "parameter": "page_program",
+      "target": "/device/primitives[id=page_program]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 300,
+          "unit": "us",
+          "source_pointer": "/design_choices/program_full_budget_us_by_profile/short"
+        },
+        "reference": {
+          "value": 300,
+          "unit": "us",
+          "source_pointer": "/design_choices/program_full_budget_us_by_profile/reference"
+        },
+        "pessimistic": {
+          "value": 600,
+          "unit": "us",
+          "source_pointer": "/design_choices/program_full_budget_us_by_profile/long"
+        }
+      },
+      "reference_runtime_value_ns": 300000.0,
+      "conversion": "source value * 1e-06 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "datasheet_complete_typical_maximum",
+      "consumers": [
+        "resident:page_program_data",
+        "resident:page_program_reference"
+      ]
+    },
+    {
+      "parameter": "block_erase",
+      "target": "/device/primitives[id=block_erase]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 1,
+          "unit": "ms",
+          "source_pointer": "/design_choices/erase_full_budget_ms_by_profile/short"
+        },
+        "reference": {
+          "value": 1,
+          "unit": "ms",
+          "source_pointer": "/design_choices/erase_full_budget_ms_by_profile/reference"
+        },
+        "pessimistic": {
+          "value": 3.5,
+          "unit": "ms",
+          "source_pointer": "/design_choices/erase_full_budget_ms_by_profile/long"
+        }
+      },
+      "reference_runtime_value_ns": 1000000.0,
+      "conversion": "source value * 0.001 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "datasheet_complete_typical_maximum",
+      "consumers": [
+        "resident:block_erase"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/reported_numeric",
+      "value": {
+        "cell_on_current_nA": 2,
+        "cell_on_sigma_nA": 0.3,
+        "cell_off_current_upper_pA": 0.5,
+        "native_sl_capacitance_pF": 16,
+        "wl_setup_ns": 303,
+        "bl_setup_ns": 12,
+        "sl_setup_model_range_ns": [
+          530,
+          750
+        ],
+        "sl_multibit_read_design_us": 1,
+        "reported_application_max_current_uA": 25,
+        "SLC_program_typ_max_us": [
+          300,
+          600
+        ],
+        "SLC_erase_typ_max_ms": [
+          1,
+          3.5
+        ]
+      }
+    },
+    {
+      "json_pointer": "/raw_evidence",
+      "value": [
+        {
+          "id": "E01",
+          "source": "NAND-04",
+          "locator": "PDF pp.2–3, II-A–C, Fig.3",
+          "raw": "13824 BL ×32 WL ×3 SSL/block;64 blocks/subarray;144 um BL length;4 blocks per 8-bit output",
+          "adopted": "One64block subarray;30data+2referenceWL;K4608,N240;two magnitude polarities x4base4 blocks/output;original3BL copies x3SSL cells/digit retained",
+          "kind": "reported_model_to_mapping"
+        },
+        {
+          "id": "E02",
+          "source": "NAND-05",
+          "locator": "PDF pp.1–3, Fig.6",
+          "raw": "16-layer64Gb SGVC SLC;mean ON2nA,sigma0.3nA,OFF<0.5pA;VG1V,VBL0.2V,Vpass4.5V",
+          "adopted": "Retain original device/bias and saturated ON platform;NAND-04 p.2 explicitly requires two-state write-verify Vt control;no evidence for extra per-cell analog-current fine tuning or a numerical timing multiplier",
+          "kind": "measured_device"
+        },
+        {
+          "id": "E03",
+          "source": "NAND-04",
+          "locator": "PDF p.3, Table1",
+          "raw": "WL303ns;BL12ns@50% sparsity;SL530–750ns@max-bit input;native SL capacitance about16pF",
+          "adopted": "Keep native load/bias and budgets530/640/750ns;active BL grouping/mapping and25uA frontend differ from original max-bit case;BL12ns source is50% sparsity;not a measured group deadline or I/C rescaling",
+          "kind": "reported_RC_model_to_budget"
+        },
+        {
+          "id": "E04",
+          "source": "NAND-05",
+          "locator": "PDF pp.1–2, II(a),(g);Fig.14",
+          "raw": "SL multi-bit sense about1us;VGG7 current average7uA,max25uA;forecast/readout design rather than measured complete CIM chip",
+          "adopted": "25uA fixed current-sense full-scale design target;four row groups of1152 constrain nominal dense maximum20.736uA;530–750ns SL establishment +ADC is a conditional local-read budget, not a measured deadline",
+          "kind": "reported_design_to_explicit_frontend_choice"
+        },
+        {
+          "id": "E05",
+          "source": "NAND-04 / NAND-05",
+          "locator": "04 p.3;05 p.2 Fig.13",
+          "raw": "7-bit SAR in NAND-04;7–8-bit SA in algorithm study of NAND-05",
+          "adopted": "Nominal10bit/~8ENOB ADC unchanged;0-25uA range;29bit signed output container;approximate integer-count reconstruction",
+          "kind": "quantization_contract"
+        },
+        {
+          "id": "E06",
+          "source": "NAND-06",
+          "locator": "PDF pp.5,25,31,43,58 Table14",
+          "raw": "SLC2KB+64B page,64pages/block;tPROG typ/max300/600us;tERASE typ/max1/3.5ms;busy/status for complete program/erase",
+          "adopted": "Complete SLC internal program/verify and erase status budget;cross-implementation timing only,not proof of SGVC ON-current distribution;no extra loop count without evidence",
+          "kind": "manufacturer_datasheet_cross_implementation"
+        },
+        {
+          "id": "E07",
+          "source": "NAND-05",
+          "locator": "PDF p.2 II(e),p.4 Fig.12",
+          "raw": "one or two known-code WLs;calibration divider/register and inference multiplier",
+          "adopted": "2referenceWL ×3SSL/block;3samples for each of4 row groups;256 gain/offset pairs,24bit each,16 calibration arithmetic channels;finite residual/clipping check",
+          "kind": "reported_mechanism_to_finite_schedule"
+        },
+        {
+          "id": "E08",
+          "source": "NAND-04 Fig.3 BL switch matrix and independent block SL;explicit signed mapping",
+          "locator": "PDF pp.2–3;native BL/SSL/WL and digital adder/shifter path",
+          "raw": "Nonnegative BL input and separate block SL/ADC results;no native negative current",
+          "adopted": "Store w+=max(w,0) and w-=max(-w,0) in separate4block groups;apply abs(x) under two input-sign BL masks;digital polarity subtraction and signed accumulation;41,472bit resident row staging and16lane encoding charged",
+          "kind": "supported_native_path_reference_mapping"
+        },
+        {
+          "id": "E09",
+          "source": "NAND-02",
+          "locator": "PDF pp.1–3, Figs.15.1.2/5",
+          "raw": "verify sensing and pump transitions;SLC burst pump skip saves about11%",
+          "adopted": "Keep full program/erase budget;no extra duplicate verify and no unqualified11% discount",
+          "kind": "operation_coverage"
+        }
+      ]
+    },
+    {
+      "json_pointer": "/sources",
+      "value": {
+        "NAND-01": {
+          "title": "Micron 3D NAND Flash Memory Technology",
+          "year": 2016,
+          "pdf": {
+            "path": "literature/04_nand_3d/NAND-01_2016_Micron_3DNAND.pdf",
+            "pages": 2,
+            "bytes": 249609,
+            "sha256": "2e982c8755b6e2ef3ddef4362d76cdb2e3006264b869740b06d5be94d9b5bfd2"
+          },
+          "actual_sha256": "2e982c8755b6e2ef3ddef4362d76cdb2e3006264b869740b06d5be94d9b5bfd2"
+        },
+        "NAND-02": {
+          "title": "A 2Tb 4b/Cell 6-Plane 3D-Flash Memory with 37.6Gb/mm^2 Bit Density and >85MB/s Write Throughput",
+          "year": 2026,
+          "pdf": {
+            "path": "literature/04_nand_3d/NAND-02_2026_Sandisk_KIOXIA_6Plane_QLC.pdf",
+            "pages": 3,
+            "bytes": 1564139,
+            "sha256": "a0e53038d67b516bb11a5b6efbe9e1983422d1c2d368e6fd6d5358fd6bb38e93"
+          },
+          "actual_sha256": "a0e53038d67b516bb11a5b6efbe9e1983422d1c2d368e6fd6d5358fd6bb38e93"
+        },
+        "NAND-03": {
+          "title": "A 321-Layer 2Tb 4b/cell 3D-NAND-Flash Memory with a 75MB/s Program Throughput",
+          "year": 2025,
+          "pdf": {
+            "path": "literature/04_nand_3d/NAND-03_2025_SKhynix_321Layer_QLC.pdf",
+            "pages": 3,
+            "bytes": 424718,
+            "sha256": "c021e8c4d41cc9d8830d30afb38afaa64590978129bac2030a684adbbc4b4da1"
+          },
+          "actual_sha256": "c021e8c4d41cc9d8830d30afb38afaa64590978129bac2030a684adbbc4b4da1"
+        },
+        "NAND-04": {
+          "title": "System-Technology Codesign of 3-D NAND Flash-Based Compute-in-Memory Inference Engine",
+          "year": 2021,
+          "pdf": {
+            "path": "literature/04_nand_3d/NAND-04_2021_NAND_Codesign.pdf",
+            "pages": 9,
+            "bytes": 6526810,
+            "sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5"
+          },
+          "actual_sha256": "6a121029ddc6939934b02582e432f9444484f9a87f8a34db2eaee682be5e96a5"
+        },
+        "NAND-05": {
+          "title": "Optimal Design Methods to Transform 3D NAND Flash into a High-Density, High-Bandwidth and Low-Power Nonvolatile Computing in Memory (nvCIM) Accelerator for Deep-Learning Neural Networks (DNN)",
+          "year": 2019,
+          "pdf": {
+            "path": "literature/04_nand_3d/NAND-05_2019_3DNAND_nvCIM.pdf",
+            "pages": 4,
+            "bytes": 898744,
+            "sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833"
+          },
+          "actual_sha256": "61536f260f9b8411da6e230ba47d8f6006ac191dac65b7aaa8058d96ddf3a833"
+        },
+        "NAND-06": {
+          "title": "MX30LF1G18AC: 3V, 1Gb NAND Flash Memory",
+          "year": 2016,
+          "revision": "PM2133, Rev.1.2, May 27, 2016",
+          "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8458/MX30LF1G18AC%2C%203V%2C%201Gb%2C%20v1.2.pdf",
+          "pdf": {
+            "path": "literature/04_nand_3d/NAND-06_2016_Macronix_SLC_MX30LF1G18AC.pdf",
+            "pages": 73,
+            "bytes": 976793,
+            "sha256": "8f7cb36dbd90d3592f13cee5b57404e1def5caf64296537b59d40385aff86f24"
+          }
+        }
+      }
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

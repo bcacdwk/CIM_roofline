@@ -44,7 +44,15 @@ def build(case,root,out,cxx,own):
     cpp=[str(p) for p in sorted(src.glob('*.cpp')) if p.name!='main.cpp']
     command([cxx,'-std=c++11','-O2','-fopenmp','-w','-I',str(src),*cpp,'-o',str(exe)],'build')
     dump(out/'source_manifest.json',{'backend_sha':SHA,'upstream_files':hashes,'constructor_inputs':primaries,'constructor_patch_sha256':sha(out/'constructor.patch'),'request_header_sha256':sha(src/'request.h'),'adapter_file':adapter_source.name,'adapter_sha256':sha(adapter_source),'adapter_headers':{h.name:sha(h) for h in own.glob('*.h')}})
-    def execute(label,wire_um=10.,bits=10,operating_period_ns=None,policy="nominal_target"):
+    def execute(label,wire_um=10.,bits=10,operating_period_ns=None,policy="nominal_target", scenario_case=None):
+        active_case = case if scenario_case is None else scenario_case
+        # Native service budgets do not alter the compiled topology.  Every
+        # execution explicitly binds its own primitive values for qualification.
+        assert active_case['case_id'] == case['case_id']
+        for key in ('logical', 'physical', 'resources', 'services', 'service_schedules'):
+            assert active_case[key] == case[key], ('scenario changed compiled organization', key)
+        assert active_case['device']['identity'] == case['device']['identity']
+
         def run(hz,suffix):
             result={}
             for line in command([str(exe),str(hz),str(wire_um),str(bits)],label+suffix).splitlines():
@@ -84,7 +92,7 @@ def build(case,root,out,cxx,own):
             'sar_ns':final.get('sar_s',0)*1e9 if adc else None,**clock,
             'boundary_setup_ns':final['setup_s']*1e9,'dff_cycle':final['dff_cycle'],'paths':paths,
             'reconstruction_window':window,'raw_module_returns':final,'adc_bits':bits,'wire_um':wire_um,
-            'constructor_inputs':primaries,'native_electrical_fields_used_by_primitives':False,'native_device':case['device'],
+            'constructor_inputs':primaries,'native_electrical_fields_used_by_primitives':False,'native_device':active_case['device'],
             'module_inventory':{'input_DFF':dims['INPUT_BITS'],'output_DFF':dims['OUTPUT_BITS'],'controller_state_DFF':32,
                 'encoded_DFF':128 if rram else 0,'mask_DFF':128 if rram else 0,'SAR':adc,'arithmetic_lanes':16 if adc else 0,
                 'extra_payload_or_code_registers':0,'weighted_tree_installed_bits':[9,9,9,9,11,11,15] if revision=='v2' and adc else None,

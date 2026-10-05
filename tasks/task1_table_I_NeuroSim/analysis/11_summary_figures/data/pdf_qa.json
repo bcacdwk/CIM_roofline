@@ -1,121 +1,34 @@
 {
   "renderer": "pypdfium2 (existing environment; no Poppler used)",
-  "text_inspector": "pdfplumber/pdfminer",
-  "page_render_scale": 1.4,
+  "all_fonts_embedded": true,
+  "all_text_within_page": true,
+  "page_count_verified": true,
   "artifacts": [
     {
-      "path": "output/table_I_typical.pdf",
-      "sha256": "cec86ce6ab24b2cadedc21d51cdf5d64d5fe0882e6ee4e59f496e9fb68e3f014",
-      "page_count": 1,
-      "pages": [
-        {
-          "page": 1,
-          "width_pt": 1020.744,
-          "height_pt": 593.07,
-          "all_text_within_page": true,
-          "characters": 1211,
-          "fonts": [
-            {
-              "font": "/'EVICAO+DejaVuSans-Bold'",
-              "embedded": true
-            },
-            {
-              "font": "/'GCWXDV+DejaVuSans-Oblique'",
-              "embedded": true
-            },
-            {
-              "font": "/'BMQQDV+DejaVuSans'",
-              "embedded": true
-            }
-          ]
-        }
-      ]
+      "path": "output/table_I_three_scenarios.pdf",
+      "sha256": "80383bac2a107b769bed11e4393717cc62cebd0e5e4ca66720c533d30d2c6755",
+      "page_count": 1
     },
     {
       "path": "output/rho_tau_loglog.pdf",
-      "sha256": "0ac5c7c4cb7b04f72e4d21dee983f707723402b7ec22c22464d91ed744e36620",
-      "page_count": 1,
-      "pages": [
-        {
-          "page": 1,
-          "width_pt": 1166.06,
-          "height_pt": 773.31,
-          "all_text_within_page": true,
-          "characters": 464,
-          "fonts": [
-            {
-              "font": "/'EVICAO+DejaVuSans-Bold'",
-              "embedded": true
-            },
-            {
-              "font": "/'GCWXDV+DejaVuSans-Oblique'",
-              "embedded": true
-            },
-            {
-              "font": "/'BMQQDV+DejaVuSans'",
-              "embedded": true
-            }
-          ]
-        }
-      ]
+      "sha256": "553a010661a84fb48ec12d3ed31ecd4666d7456af2b091fae1870ced0f6f0377",
+      "page_count": 1
+    },
+    {
+      "path": "output/rho_tau_loglog_circles.pdf",
+      "sha256": "c4d5759a18316e728ed76789b05c7666e6fbb0223c623e8680be73d43305eae9",
+      "page_count": 1
     },
     {
       "path": "output/table_I.pdf",
-      "sha256": "976244ac71d29136dfa9db367435dc5b6aed27a84c07cc9abc05948e69282ffb",
-      "page_count": 2,
-      "pages": [
-        {
-          "page": 1,
-          "width_pt": 1020.744,
-          "height_pt": 593.07,
-          "all_text_within_page": true,
-          "characters": 1211,
-          "fonts": [
-            {
-              "font": "/'EVICAO+DejaVuSans-Bold'",
-              "embedded": true
-            },
-            {
-              "font": "/'GCWXDV+DejaVuSans-Oblique'",
-              "embedded": true
-            },
-            {
-              "font": "/'BMQQDV+DejaVuSans'",
-              "embedded": true
-            }
-          ]
-        },
-        {
-          "page": 2,
-          "width_pt": 1168.94,
-          "height_pt": 776.19,
-          "all_text_within_page": true,
-          "characters": 464,
-          "fonts": [
-            {
-              "font": "/'EVICAO+DejaVuSans-Bold'",
-              "embedded": true
-            },
-            {
-              "font": "/'GCWXDV+DejaVuSans-Oblique'",
-              "embedded": true
-            },
-            {
-              "font": "/'BMQQDV+DejaVuSans'",
-              "embedded": true
-            }
-          ]
-        }
-      ]
+      "sha256": "68629f0536309510fe5b85568d42190e7ec93b2e0f2910c34e85ede586466725",
+      "page_count": 3
     }
   ],
   "visual_review": {
-    "all_rendered_pages_inspected": true,
-    "no_clipped_text": true,
-    "no_missing_glyphs": true,
-    "no_label_collisions": true,
-    "table_legible": true,
-    "two_page_combined_document_matches_single_page_artifacts": true
+    "all_six_rendered_pages_inspected": true,
+    "no_clipping_missing_glyphs_or_label_collisions": true,
+    "table_legible": true
   },
   "all_passed": true
 }

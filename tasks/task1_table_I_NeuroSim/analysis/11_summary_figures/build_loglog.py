@@ -28,9 +28,8 @@ def limits_for(groups, circles=None):
     return tuple(10.**np.array([low[0],high[0]])),tuple(10.**np.array([low[1],high[1]]))
 
 
-def render_plot(rows, source_report, *, circle_specs=None, output_stem=STEM,
+def render_plot(groups, source_report, *, circle_specs=None, output_stem=STEM,
                  xlimits=None, ylimits=None):
-    groups=[{"reference":r} for r in rows]
     OUT.mkdir(exist_ok=True);DATA.mkdir(exist_ok=True)
     auto_x,auto_y=limits_for(groups,circle_specs)
     xlimits=xlimits or auto_x;ylimits=ylimits or auto_y
@@ -65,7 +64,7 @@ def render_plot(rows, source_report, *, circle_specs=None, output_stem=STEM,
     dots=[];connectors=[]
     if circle_specs:
         for i,g in enumerate(groups):
-            for p in ("short","long"):
+            for p in ("optimistic","pessimistic"):
                 r=g[p];ref=g["reference"]
                 line,=ax.plot([ref["tau"],r["tau"]],[ref["rho"],r["rho"]],color=COLORS[i],lw=.9,alpha=.65,zorder=4)
                 marker=ax.scatter(r["tau"],r["rho"],s=EXTREME_MARKER_AREA,c=COLORS[i],edgecolors="white",linewidths=.75,zorder=7)
@@ -77,10 +76,10 @@ def render_plot(rows, source_report, *, circle_specs=None, output_stem=STEM,
     fig.text(left/fw,(bottom+height+.48)/fh,title,fontsize=22,weight="bold")
     fig.text(left/fw,(bottom+height+.18)/fh,
         "Selected reference INT8 payloads  ·  RI* = ρ/τ" if not circle_specs else
-        "Large dots: typical  ·  Small dots: fast / slow  ·  Lines join paired scenarios  ·  RI* = ρ/τ",fontsize=12,color=MUTED)
+        "Large dots: typical  ·  Small dots: optimistic / pessimistic  ·  Paired scenarios  ·  RI* = ρ/τ",fontsize=12,color=MUTED)
     fig.text(left/fw,.13/fh,"Native sizes and resources differ; these capacities do not rank equal-area or equal-work implementations.",fontsize=9.8,color=MUTED)
     if circle_specs:
-        fig.text(left/fw,.35/fh,"Circles summarize finite sustainable scenarios; they are not confidence intervals or envelopes of feasible combinations.",fontsize=9.8,color=MUTED)
+        fig.text(left/fw,.35/fh,"Finite paired engineering scenarios; not confidence intervals, same-chip PVT guarantees or strict implementation bounds. Interiors may be infeasible.",fontsize=9.8,color=MUTED)
     fig.canvas.draw();renderer=fig.canvas.get_renderer();bounds=ax.get_window_extent()
     dot_geometry=[(ax.transData.transform((r["tau"],r["rho"])),(math.sqrt(area)+stroke)/2*fig.dpi/72) for _,r,area,stroke in dots]
     occupied=[];annotations=[];placements={}
@@ -158,18 +157,18 @@ def render_plot(rows, source_report, *, circle_specs=None, output_stem=STEM,
         c=np.array(s["center_log10"]);rad=s["radius_decades"]
         display=ax.transData.transform(10**(c+rad*np.array([[1,0],[0,1],[-1,0],[0,-1]])))
         radii=np.linalg.norm(display-ax.transData.transform(10**c),axis=1)
-        np.testing.assert_allclose(radii,radii[0],rtol=1e-12)
+        np.testing.assert_allclose(radii,radii[0],rtol=1e-10,atol=1e-10)
         assert all(bounds.contains(*p) for p in display),s["case_id"]
     for ext in ("png","pdf","svg"):
         fig.savefig(OUT/f"{output_stem}.{ext}",dpi=220,bbox_inches="tight",pad_inches=.14)
         if ext == "svg": normalize_svg(OUT/f"{output_stem}.{ext}")
-    exported=[{"profile":p,**g[p]} for g in groups for p in ("short","reference","long")] if circle_specs else [{"profile":"reference",**r} for r in rows]
+    exported=[{"profile":p,**g[p]} for g in groups for p in ("optimistic","reference","pessimistic")] if circle_specs else [{"profile":"reference",**r} for r in rows]
     fields=["profile","case_id","technology","K","N","rho","tau","RI_star","U_star","raw_delta_S_ns","raw_T_R_ns",
             "effective_delta_S_ns","effective_T_R_ns","availability","result_path","input_path"]
     with (DATA/f"{output_stem}_points.csv").open("w",encoding="utf-8-sig",newline="") as f:
         w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");w.writeheader();w.writerows({k:r[k] for k in fields} for r in exported)
     report={"all_passed":True,"point_count":len(dots),"reference_point_count":10,
-        "selection":"three sustainable fixed-resource paired scenarios" if circle_specs else "selected typical reference points",
+        "selection":"three finite fixed-resource paired engineering scenarios" if circle_specs else "selected typical reference points",
         "x":{"metric":"tau","scale":"log10","limits":xlimits},"y":{"metric":"rho","scale":"log10","limits":ylimits},
         "dynamic_limits_from_data":True,"title":title,"plot_width_over_height":sx/sy,
         "inches_per_decade":INCHES_PER_DECADE,"equality_line_angle_degrees":angle,"same_scale_per_decade_verified":True,
@@ -177,16 +176,17 @@ def render_plot(rows, source_report, *, circle_specs=None, output_stem=STEM,
         "label_content":"Technology and RI_star = rho/tau; never workload RI", "label_offsets":placements,
         "no_label_leaders_verified":True,"no_overlapping_labels_or_label_dot_collisions":True,
         "guide_labels_included_in_collision_checks":True,"all_four_spines_visible":True,
+        "coincident_points_are_not_jittered":True,
         "marker_area_points_squared":MARKER_AREA,"source_checks_passed":source_report["all_passed"],
-        "source_sha256":source_report["sha256"]["data/ten_case_results.json"],
+        "source_sha256":source_report["sha256"]["data/paired_scenario_results.json" if circle_specs else "data/ten_case_results.json"],
         "native_configuration_note":"Selected different native sizes and resources; not equal-area or equal-work ranking"}
     if circle_specs:
         report.update({"extreme_point_count":20,"extreme_marker_area_points_squared":EXTREME_MARKER_AREA,
             "connector_count":len(connectors),"connector_origin":"typical point, not geometric center",
             "scenario_circles":circle_specs,
-            "circle_geometry":"Projection of typical onto the perpendicular bisector of fast/slow in log10 space",
+            "circle_geometry":"Projection of typical onto the perpendicular bisector of optimistic/pessimistic in log10 space; equal endpoints use typical as center, and fully coincident points retain zero radius",
             "circle_display_checks":"All cardinal radii equal; entire circles and typical points contained",
-            "circle_meaning":"Finite sustainable paired scenarios; not confidence intervals or a feasible-combination envelope"})
+            "circle_meaning":"Finite paired engineering scenarios; not statistical confidence intervals, same-chip PVT guarantees, strict implementation bounds or feasible-combination envelopes"})
     (DATA/f"{output_stem}_validation.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(f"PASS: {output_stem}; {len(dots)} unchanged points; equal log scale; all labels and dots collision-free.")
     return fig

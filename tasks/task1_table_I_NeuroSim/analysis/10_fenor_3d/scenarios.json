@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "case_id": "10_fenor_3d",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/10_fenor_3d/data/inputs.json",
+    "sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "dfde3be81dc884e5f994f6aaaf5567c122d2a3184a2eb8f7f3d63cdfa7e06abd",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。"
+  ],
+  "parameters": [
+    {
+      "parameter": "binary_read",
+      "target": "/device/primitives[id=binary_read]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/profiles/0/complete_binary_read_ns"
+        },
+        "reference": {
+          "value": 40,
+          "unit": "ns",
+          "source_pointer": "/profiles/1/complete_binary_read_ns"
+        },
+        "pessimistic": {
+          "value": 80,
+          "unit": "ns",
+          "source_pointer": "/profiles/2/complete_binary_read_ns"
+        }
+      },
+      "reference_runtime_value_ns": 40.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+      "consumers": [
+        "streaming:binary_read",
+        "resident:terminal_verify.binary_read",
+        "backend:MAC_preselection_native_lead"
+      ]
+    },
+    {
+      "parameter": "bias_transition",
+      "target": "/device/primitives[id=bias_transition]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 5,
+          "unit": "ns",
+          "source_pointer": "/profiles/0/bias_transition_ns"
+        },
+        "reference": {
+          "value": 10,
+          "unit": "ns",
+          "source_pointer": "/profiles/1/bias_transition_ns"
+        },
+        "pessimistic": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/profiles/2/bias_transition_ns"
+        }
+      },
+      "reference_runtime_value_ns": 10.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+      "consumers": [
+        "resident:two_phase_write",
+        "resident:post_pulse_guard"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/engineering_read_budget",
+      "value": {
+        "kind": "reference_choice",
+        "includes": [
+          "local row/layer and output selection",
+          "read bias establishment and local RC",
+          "binary sensing and recovery"
+        ],
+        "excludes": [
+          "digital multiplication/reduction tick",
+          "input capture and output commit",
+          "one TD capture into single digital tile bank, including terminal verify"
+        ],
+        "anchors": [
+          "FENOR-02 p.2 Fig.5(c): -0.5 V, 20 ns read endurance stress pulse; not full read-cycle measurement",
+          "FENOR-02 p.3 Fig.11(d): TCAD-extracted RC/SPICE read latency over layer count; not measured macro",
+          "FENOR-02 p.3 Fig.10: array binary threshold states"
+        ],
+        "meaning": "20/40/80 ns are complete local binary-read engineering allowances for the stated lateral resources, not extracted confidence bounds; no ADC is used."
+      }
+    },
+    {
+      "json_pointer": "/engineering_driver_budget",
+      "value": {
+        "kind": "conditional_circuit_budget",
+        "maximum_effective_capacitance_per_driven_node_fF": 100,
+        "worst_swing_V": 2.6666666666666665,
+        "driven_nodes_per_strip": 36,
+        "node_count_definition": "16 independently controlled BLs + 16 SLs + 4 layer WL segments",
+        "scope": "Local level-shifted rail drivers and isolation, not a measured FeFET driver macro; C and current are explicit design limits that support 5/10/20 ns transitions. Supply rails are already available locally. No off-boundary rail startup is claimed.",
+        "source_bridge": "FENOR-02 p.3 Fig.9 supplies voltage selection; Fig.11 supplies RC scale. Neither supplies measured bias-driver settling.",
+        "installed_slew_current_uA_per_node": 60,
+        "installed_supply_current_mA": 17.28,
+        "installed_nodes": 288,
+        "fixed_resource_rule": "Counts and current ratings are identical in all main scenarios; actual 5/10/20 ns edge requirements are checked against the fixed 60 uA/node and 17.28 mA supply ratings. Reference 7.68 mA is the 10 ns edge demand, not the installed supply ceiling."
+      }
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

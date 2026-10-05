@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "case_id": "05_rram",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/05_rram/data/inputs.json",
+    "sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "9b543dfabdf94ce046efe1ed030fb549ec1c784a6b75d8b218418f2d3e8e12fc",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。",
+    "RESET/SET固定2/1次、每次1us、原偏压/窗/rail边界不变；只改变同一实际128驱动的局部建立/恢复时间，不引入更多尝试或更高编程电压。"
+  ],
+  "parameters": [
+    {
+      "parameter": "local_setup",
+      "target": "/device/primitives[id=local_setup]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/short"
+        },
+        "reference": {
+          "value": 100,
+          "unit": "ns",
+          "source_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/reference"
+        },
+        "pessimistic": {
+          "value": 250,
+          "unit": "ns",
+          "source_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/long"
+        }
+      },
+      "reference_runtime_value_ns": 100.00000000000001,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "fixed_driver_load_engineering_allowance",
+      "consumers": [
+        "resident:local_setup"
+      ]
+    },
+    {
+      "parameter": "local_return",
+      "target": "/device/primitives[id=local_return]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/short"
+        },
+        "reference": {
+          "value": 100,
+          "unit": "ns",
+          "source_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/reference"
+        },
+        "pessimistic": {
+          "value": 250,
+          "unit": "ns",
+          "source_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/long"
+        }
+      },
+      "reference_runtime_value_ns": 100.00000000000001,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "fixed_driver_load_engineering_allowance",
+      "consumers": [
+        "resident:local_return"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt",
+      "value": {
+        "by_profile": {
+          "short": 50,
+          "reference": 100,
+          "long": 250
+        },
+        "kind": "local_bias_transition_budget",
+        "derivation": "Fixed128drivers300uA each and<=1pF switched load/lane;at1.8V and8kOhm end-state,225uA static load leaves75uA headroom,1.8pC/75uA=24ns;short50ns gives two charge-equivalent windows.100/250ns are finite switch/settle margins;this charge check is a resource qualification,not measured switching timing."
+      }
+    },
+    {
+      "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt",
+      "value": {
+        "by_profile": {
+          "short": 50,
+          "reference": 100,
+          "long": 250
+        },
+        "kind": "local_isolate_return_to_verify_budget",
+        "derivation": "Nonzero local isolation/return/settle budget at every attempt,with rail retained;shared sense then starts fresh.50/100/250ns are paired with same fixeddrivers/load rating."
+      }
+    },
+    {
+      "json_pointer": "/reported_evidence/10",
+      "value": {
+        "id": "E11",
+        "source_id": "本文选择",
+        "locator": "adopted_inputs与configuration.write_resources",
+        "original": "128drivers,256binarycomparators;300uA/lane,total38.4mA;<=1pF switchedload/lane;railboundary1us+1us",
+        "condition": "Dedicatedvoltage-ratedIO and regulatedsupply;eachlocalbiastransition50/100/250ns beforeprogram/afterprogram",
+        "adoption": "Separatefull-loadrail lifecycle from eachattemptlocal switching;1.8V/8kOhm225uA and1pFload yield24ns charge/headroom check,not measuredprogramcurrent or timing;16driver version is resource comparison",
+        "kind": "reference_design_choice_and_derivation"
+      }
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

@@ -1,0 +1,441 @@
+{
+  "all_passed": true,
+  "point_count": 30,
+  "reference_point_count": 10,
+  "selection": "three finite fixed-resource paired engineering scenarios",
+  "x": {
+    "metric": "tau",
+    "scale": "log10",
+    "limits": [
+      0.0017782794100389228,
+      17782.794100389227
+    ]
+  },
+  "y": {
+    "metric": "rho",
+    "scale": "log10",
+    "limits": [
+      0.31622776601683794,
+      1778.2794100389228
+    ]
+  },
+  "dynamic_limits_from_data": true,
+  "title": "Paired streaming and resident capacity",
+  "plot_width_over_height": 1.8666666666666667,
+  "inches_per_decade": 2.6,
+  "equality_line_angle_degrees": 45.000000000000014,
+  "same_scale_per_decade_verified": true,
+  "all_points_and_labels_contained": true,
+  "unmodified_coordinates_verified": true,
+  "label_content": "Technology and RI_star = rho/tau; never workload RI",
+  "label_offsets": {
+    "10_fenor_3d": {
+      "offset_points": [
+        20,
+        0
+      ],
+      "horizontal_alignment": "left",
+      "vertical_alignment": "center"
+    },
+    "08_feram_hfo2": {
+      "offset_points": [
+        0,
+        64
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "bottom"
+    },
+    "09_gain_cell_edram": {
+      "offset_points": [
+        20,
+        0
+      ],
+      "horizontal_alignment": "left",
+      "vertical_alignment": "center"
+    },
+    "06_mram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "01_sram_acim": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "02_sram_dcim": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "03_nor_2d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "04_nand_3d": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "05_rram": {
+      "offset_points": [
+        0,
+        -18
+      ],
+      "horizontal_alignment": "center",
+      "vertical_alignment": "top"
+    },
+    "07_pcm": {
+      "offset_points": [
+        20,
+        0
+      ],
+      "horizontal_alignment": "left",
+      "vertical_alignment": "center"
+    }
+  },
+  "no_label_leaders_verified": true,
+  "no_overlapping_labels_or_label_dot_collisions": true,
+  "guide_labels_included_in_collision_checks": true,
+  "all_four_spines_visible": true,
+  "coincident_points_are_not_jittered": true,
+  "marker_area_points_squared": 320,
+  "source_checks_passed": true,
+  "source_sha256": "269c8f816e16714b73cb9c80a7ace67c73b1325e9b3ccb958d9d63a224a43921",
+  "native_configuration_note": "Selected different native sizes and resources; not equal-area or equal-work ranking",
+  "extreme_point_count": 20,
+  "extreme_marker_area_points_squared": 56,
+  "connector_count": 20,
+  "connector_origin": "typical point, not geometric center",
+  "scenario_circles": [
+    {
+      "case_id": "01_sram_acim",
+      "center_log10": [
+        3.408764554001208,
+        1.5406629170268287
+      ],
+      "radius_decades": 0.23503681344982102,
+      "reference_center_distance_decades": 0.14301015896112712,
+      "reference_offset_over_radius": 0.6084585510756976,
+      "optimistic_log10": [
+        3.505149978319906,
+        1.7550274515365059
+      ],
+      "pessimistic_log10": [
+        3.2041199826559246,
+        1.4250648932740366
+      ],
+      "reference_log10": [
+        3.505149978319906,
+        1.6463121268913206
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/01_sram_acim/scenarios/optimistic/result.json",
+        "reference": "analysis/01_sram_acim/scenarios/reference/result.json",
+        "pessimistic": "analysis/01_sram_acim/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "center_log10": [
+        3.382371102274916,
+        2.445733924986508
+      ],
+      "radius_decades": 0.23389467951538567,
+      "reference_center_distance_decades": 0.18844844336579597,
+      "reference_offset_over_radius": 0.8056978626288067,
+      "optimistic_log10": [
+        3.505149978319906,
+        2.6448119717489122
+      ],
+      "pessimistic_log10": [
+        3.2041199826559246,
+        2.2942966130050126
+      ],
+      "reference_log10": [
+        3.505149978319906,
+        2.588696029769981
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/02_sram_dcim/scenarios/optimistic/result.json",
+        "reference": "analysis/02_sram_dcim/scenarios/reference/result.json",
+        "pessimistic": "analysis/02_sram_dcim/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "03_nor_2d",
+      "center_log10": [
+        -1.5637260648457918,
+        1.2706805687850717
+      ],
+      "radius_decades": 0.47564166131381924,
+      "reference_center_distance_decades": 0.4667386250182169,
+      "reference_offset_over_radius": 0.9812820511327575,
+      "optimistic_log10": [
+        -1.0986242261950963,
+        1.3702560158647223
+      ],
+      "pessimistic_log10": [
+        -2.03892056806347,
+        1.2913003187610936
+      ],
+      "reference_log10": [
+        -1.0986242261950963,
+        1.309734682110534
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/03_nor_2d/scenarios/optimistic/result.json",
+        "reference": "analysis/03_nor_2d/scenarios/reference/result.json",
+        "pessimistic": "analysis/03_nor_2d/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "04_nand_3d",
+      "center_log10": [
+        -0.369587684382141,
+        0.772177234313293
+      ],
+      "radius_decades": 0.1807888385980619,
+      "reference_center_distance_decades": 0.14055814140320141,
+      "reference_offset_over_radius": 0.7774713444323671,
+      "optimistic_log10": [
+        -0.24031972235722962,
+        0.898567100028714
+      ],
+      "pessimistic_log10": [
+        -0.5502783749203101,
+        0.766220849967424
+      ],
+      "reference_log10": [
+        -0.24032001500534528,
+        0.8273719874028195
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/04_nand_3d/scenarios/optimistic/result.json",
+        "reference": "analysis/04_nand_3d/scenarios/reference/result.json",
+        "pessimistic": "analysis/04_nand_3d/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "05_rram",
+      "center_log10": [
+        0.6032510687978625,
+        1.4549636286445453
+      ],
+      "radius_decades": 0.06507924458140346,
+      "reference_center_distance_decades": 0.028704368418762116,
+      "reference_offset_over_radius": 0.44106794114454817,
+      "optimistic_log10": [
+        0.668330313379266,
+        1.4549636286445453
+      ],
+      "pessimistic_log10": [
+        0.5381718242164589,
+        1.4549636286445453
+      ],
+      "reference_log10": [
+        0.6319554372166246,
+        1.4549636286445453
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/05_rram/scenarios/optimistic/result.json",
+        "reference": "analysis/05_rram/scenarios/reference/result.json",
+        "pessimistic": "analysis/05_rram/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "06_mram",
+      "center_log10": [
+        1.800715512464642,
+        2.24382635411295
+      ],
+      "radius_decades": 0.06895384040514202,
+      "reference_center_distance_decades": 0.0021085975233440307,
+      "reference_offset_over_radius": 0.030579841687639903,
+      "optimistic_log10": [
+        1.869666231504994,
+        2.2444824413298936
+      ],
+      "pessimistic_log10": [
+        1.744727494896694,
+        2.2035774535636308
+      ],
+      "reference_log10": [
+        1.8027194418743806,
+        2.2444824413298936
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/06_mram/scenarios/optimistic/result.json",
+        "reference": "analysis/06_mram/scenarios/reference/result.json",
+        "pessimistic": "analysis/06_mram/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "07_pcm",
+      "center_log10": [
+        0.8197383040106765,
+        0.38487751406054904
+      ],
+      "radius_decades": 0.17995817587685872,
+      "reference_center_distance_decades": 0.06387705952391531,
+      "reference_offset_over_radius": 0.3549550289264153,
+      "optimistic_log10": [
+        0.8844934985002851,
+        0.5527813849258134
+      ],
+      "pessimistic_log10": [
+        0.7435979897557241,
+        0.22182047615637415
+      ],
+      "reference_log10": [
+        0.8447588799174389,
+        0.4436503778219463
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/07_pcm/scenarios/optimistic/result.json",
+        "reference": "analysis/07_pcm/scenarios/reference/result.json",
+        "pessimistic": "analysis/07_pcm/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "center_log10": [
+        2.0273087298184285,
+        1.3707094956830648
+      ],
+      "radius_decades": 0.39128617343726757,
+      "reference_center_distance_decades": 0.03806776340839136,
+      "reference_offset_over_radius": 0.0972888029085815,
+      "optimistic_log10": [
+        2.3716110699496884,
+        1.5566147621585404
+      ],
+      "pessimistic_log10": [
+        1.7306330125913565,
+        1.115585235113863
+      ],
+      "reference_log10": [
+        1.995947455988803,
+        1.349131147398256
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/08_feram_hfo2/scenarios/optimistic/result.json",
+        "reference": "analysis/08_feram_hfo2/scenarios/reference/result.json",
+        "pessimistic": "analysis/08_feram_hfo2/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "center_log10": [
+        2.2160997961640656,
+        1.1923076977197253
+      ],
+      "radius_decades": 0.22464127163193257,
+      "reference_center_distance_decades": 0.034585605711487485,
+      "reference_offset_over_radius": 0.15395926785953598,
+      "optimistic_log10": [
+        2.225200599313605,
+        1.4167645450254938
+      ],
+      "pessimistic_log10": [
+        2.1339085545287317,
+        0.9832423951971551
+      ],
+      "reference_log10": [
+        2.2089729881075812,
+        1.158464341955905
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/09_gain_cell_edram/scenarios/optimistic/result.json",
+        "reference": "analysis/09_gain_cell_edram/scenarios/reference/result.json",
+        "pessimistic": "analysis/09_gain_cell_edram/scenarios/pessimistic/result.json"
+      }
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "center_log10": [
+        1.709146586150856,
+        1.5244207399185592
+      ],
+      "radius_decades": 0.12805095706826589,
+      "reference_center_distance_decades": 0.03870557568582916,
+      "reference_offset_over_radius": 0.3022669769285257,
+      "optimistic_log10": [
+        1.7833393631073593,
+        1.6287877819077878
+      ],
+      "pessimistic_log10": [
+        1.6412326013620455,
+        1.4158632055130465
+      ],
+      "reference_log10": [
+        1.7306330125913565,
+        1.5566147621585404
+      ],
+      "geometry_case": "distinct_endpoints",
+      "degenerate_rule": null,
+      "extreme_points_on_circumference": true,
+      "reference_inside": true,
+      "sources": {
+        "optimistic": "analysis/10_fenor_3d/scenarios/optimistic/result.json",
+        "reference": "analysis/10_fenor_3d/scenarios/reference/result.json",
+        "pessimistic": "analysis/10_fenor_3d/scenarios/pessimistic/result.json"
+      }
+    }
+  ],
+  "circle_geometry": "Projection of typical onto the perpendicular bisector of optimistic/pessimistic in log10 space; equal endpoints use typical as center, and fully coincident points retain zero radius",
+  "circle_display_checks": "All cardinal radii equal; entire circles and typical points contained",
+  "circle_meaning": "Finite paired engineering scenarios; not statistical confidence intervals, same-chip PVT guarantees, strict implementation bounds or feasible-combination envelopes"
+}

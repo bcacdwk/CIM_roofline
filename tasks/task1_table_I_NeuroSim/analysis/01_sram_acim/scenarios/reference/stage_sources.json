@@ -1,0 +1,77 @@
+{
+  "category_policy": "source/operation classification; no stage-count coverage percentage",
+  "stages": [
+    {
+      "stage_id": "input_capture",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 5.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "charge_front",
+      "service_kind": "streaming",
+      "provider": "retained_native_complete_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 1280.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "sar",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "source_category": "direct_neurosim_module",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 704.0000000000001,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "reconstruct",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 640.0,
+      "interface_edge_wait_ns": 256.0
+    },
+    {
+      "stage_id": "output_commit",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 5.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "native_write_accept",
+      "service_kind": "resident",
+      "provider": "explicit_public_port_acceptance",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_or_included_native_boundary",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "sram_write",
+      "service_kind": "resident",
+      "provider": "retained_native_complete_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 5120.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "matrix_ready",
+      "service_kind": "resident",
+      "provider": "explicit_public_compute_ready_acceptance",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_or_included_native_boundary",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 0.0
+    }
+  ]
+}

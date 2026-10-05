@@ -181,7 +181,16 @@ def build(case, root: Path, out: Path, cxx: str, own: Path):
                 'MemCell_use_audit': fields_audit}
     dump(out / 'source_manifest.json', manifest)
 
-    def execute(label, wire_um=10., bits=10, operating_period_ns=None):
+    def execute(label, wire_um=10., bits=10, operating_period_ns=None, scenario_case=None):
+        active_case = case if scenario_case is None else scenario_case
+        # Native service budgets do not alter the compiled topology.  Every
+        # execution explicitly binds its own primitive values for qualification.
+        assert active_case['case_id'] == case['case_id']
+        for key in ('logical', 'physical', 'resources', 'services', 'service_schedules'):
+            assert active_case[key] == case[key], ('scenario changed compiled organization', key)
+        assert active_case['device']['identity'] == case['device']['identity']
+        assert dimensions(active_case) == (dims, extras, counters), 'scenario changed compiled dimensions'
+
         if not math.isfinite(wire_um) or wire_um < 0:
             raise ValueError('wire_um must be finite and nonnegative')
         if not isinstance(bits, int) or not 7 <= bits <= 16:
@@ -302,7 +311,7 @@ def build(case, root: Path, out: Path, cxx: str, own: Path):
             settle = max(final[prefix + name + '_pin_s'] * 1e9 for name in early)
             key = {'03_nor_2d': 'nor_read', '06_mram': 'ibmd_read',
                    '08_feram_hfo2': 'feram_sense', '10_fenor_3d': 'binary_read'}[cid]
-            available = next(x['normalized']['value'] * 1e9 for x in case['device']['primitives'] if x['id'] == key)
+            available = next(x['normalized']['value'] * 1e9 for x in active_case['device']['primitives'] if x['id'] == key)
             assert settle <= available + 1e-10, 'preselection not established during native read; cannot use this frame qualification'
             preselection = {'early_sources': early, 'settle_to_existing_combinational_pins_ns': settle,
                 'available_native_lead_ns': available, 'lead_source_parameter': key,

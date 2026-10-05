@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "case_id": "06_mram",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/06_mram/data/inputs.json",
+    "sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "f44c496a59c621e29043b42ed6a3f4eb050609dd7d9c2442e341ad07f944dbf3",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。",
+    "optimistic重新组成为合法5ns读+20ns写；它不是继承原NVM short整对。5ns读为reference已接受预算，20ns写来自原short完整方向写槽；两者共同适用性仍是工程条件。"
+  ],
+  "parameters": [
+    {
+      "parameter": "ibmd_read",
+      "target": "/device/primitives[id=ibmd_read]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 5,
+          "unit": "ns",
+          "source_pointer": "/scenarios/1/read_response_ns"
+        },
+        "reference": {
+          "value": 5,
+          "unit": "ns",
+          "source_pointer": "/scenarios/1/read_response_ns"
+        },
+        "pessimistic": {
+          "value": 10,
+          "unit": "ns",
+          "source_pointer": "/scenarios/2/read_response_ns"
+        }
+      },
+      "reference_runtime_value_ns": 5.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_sense_budget_with_illegal_short_excluded",
+      "consumers": [
+        "streaming:binary_read",
+        "resident:terminal_verify.absolute_branch_read",
+        "backend:MAC_preselection_native_lead"
+      ]
+    },
+    {
+      "parameter": "direction_write_slot",
+      "target": "/device/primitives[id=direction_write_slot]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/scenarios/0/write_access_slot_ns"
+        },
+        "reference": {
+          "value": 30,
+          "unit": "ns",
+          "source_pointer": "/scenarios/1/write_access_slot_ns"
+        },
+        "pessimistic": {
+          "value": 30,
+          "unit": "ns",
+          "source_pointer": "/scenarios/2/write_access_slot_ns"
+        }
+      },
+      "reference_runtime_value_ns": 30.000000000000004,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "complete_directional_write_budget",
+      "consumers": [
+        "resident:direction_write"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/reported_evidence",
+      "value": [
+        {
+          "source_id": "MRAM-06",
+          "locator": "p.5 Fig.3 and macro text",
+          "kind": "measured_macro_organization",
+          "banks": 64,
+          "rows": 256,
+          "weight_bits_per_row": 4,
+          "adopted": "native weight banks; original full 256-term digital organization replaced by declared common 32-term/16-output periphery"
+        },
+        {
+          "source_id": "MRAM-06",
+          "locator": "p.2/p.4 Fig.2a,c; p.5 read mode",
+          "kind": "original_mechanism",
+          "original": "OUT=IN AND W; read mode IN=1 makes OUT=W; original macro reads selected-row result through adder tree",
+          "adopted": "4096 pre-adder taps plus tile capture, then separate AND; no inference that existing latch is input-independent W memory"
+        },
+        {
+          "source_id": "MRAM-03",
+          "locator": "pp.6-7 Figs.17/19/21",
+          "kind": "measured_full_memory_access_anchor",
+          "read_access_ns": 2.8,
+          "read_condition": "1.2 V, 25 C; finite error conditions retained",
+          "write_access_ns": [
+            20,
+            30
+          ],
+          "adopted_write_slot_ns": [
+            20,
+            30,
+            30
+          ],
+          "limit": "1T1MTJ evidence; finite zero-error floor not transplanted as new implementation probability"
+        },
+        {
+          "source_id": "MRAM-04",
+          "locator": "pp.1-2 Fig.30.3.6",
+          "kind": "measured_complementary_read_anchor",
+          "read_access_ns": 1.3,
+          "BL_read_V": 0.3,
+          "adopted_read_slot_ns": [
+            3,
+            5,
+            10
+          ],
+          "limit": "complete widened sense/tap/selection service is engineering budget, not original CIM timing"
+        }
+      ]
+    },
+    {
+      "json_pointer": "/sources",
+      "value": {
+        "MRAM-01": {
+          "title": "A crossbar array of magnetoresistive memory devices for in-memory computing",
+          "doi": "10.1038/s41586-021-04196-6",
+          "pdf": {
+            "path": "literature/06_mram/MRAM-01_2022_ResistanceSum_Crossbar.pdf",
+            "pages": 17,
+            "bytes": 4214474,
+            "sha256": "8ae3c42c9e811194bc3ae2af456144e7fa475c798040bec1bdeb3a6986fd38a5"
+          },
+          "supplements": []
+        },
+        "MRAM-03": {
+          "title": "A 1-Mb 28-nm 1T1MTJ STT-MRAM With Single-Cap Offset-Cancelled Sense Amplifier and In Situ Self-Write-Termination",
+          "doi": "10.1109/jssc.2018.2872584",
+          "pdf": {
+            "path": "literature/06_mram/MRAM-03_2019_SelfWriteTermination.pdf",
+            "pages": 9,
+            "bytes": 3268187,
+            "sha256": "2bf428be6500c2aa917c253bd15ee029dba1a3774ac8fe28932320eec20e32d3"
+          },
+          "supplements": []
+        },
+        "MRAM-04": {
+          "title": "A 28nm 32Kb embedded 2T2MTJ STT-MRAM macro with 1.3ns read-access time for fast and reliable read applications",
+          "doi": "10.1109/isscc.2018.8310394",
+          "pdf": {
+            "path": "literature/06_mram/MRAM-04_2018_2T2MTJ_ReadMacro.pdf",
+            "pages": 3,
+            "bytes": 840630,
+            "sha256": "655d6de6b37e688f24aae81b3451bc98aa47f64069b9ffc131e9fdf9f6f55bfc"
+          },
+          "supplements": []
+        },
+        "MRAM-05": {
+          "title": "EMxxxLX/B/HR — Expanded Serial Peripheral Interface (xSPI) Industrial STT-MRAM Persistent Memory",
+          "doi": null,
+          "pdf": {
+            "path": "literature/06_mram/MRAM-05_2026_EMxxxLX_B_HR_v3p7.pdf",
+            "pages": 82,
+            "bytes": 3758533,
+            "sha256": "3ab6e4c97bf3e5abe4352eca5ac730318b967e452bd0e3f6c42097f546b57e83"
+          },
+          "supplements": []
+        },
+        "MRAM-06": {
+          "title": "A lossless and fully parallel spintronic compute-in-memory macro for artificial intelligence chips",
+          "doi": "10.1038/s41928-025-01479-y",
+          "pdf": {
+            "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM.pdf",
+            "pages": 24,
+            "bytes": 14152374,
+            "sha256": "970c5d694e51446846ae4da6160b86a924b33a53f5aa7a72ee8bf58053048eff"
+          },
+          "supplements": [
+            {
+              "path": "literature/06_mram/MRAM-06_2025_LosslessParallelSpintronicCIM_Supplement.pdf",
+              "pages": 15,
+              "bytes": 807278,
+              "sha256": "2d44a1c47166c532f492a046cb414238e5b13f091d90dc77fb83b7e0d9c27b82"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "excluded_candidates": [
+    {
+      "parameter": "ibmd_read",
+      "value": 3,
+      "unit": "ns",
+      "source_pointer": "/scenarios/0/read_response_ns",
+      "reason": "candidate must fail the current fixed-topology early-source pin-settling check; no timing-check bypass or new read budget"
+    }
+  ],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

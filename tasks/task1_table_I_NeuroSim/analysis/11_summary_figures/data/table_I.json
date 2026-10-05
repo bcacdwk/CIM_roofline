@@ -1,15 +1,68 @@
 [
   {
     "case_id": "01_sram_acim",
-    "technology": "SRAM ACIM",
     "K": 128,
     "N": 128,
     "B_S_Byte": 128,
     "B_R_Byte": 16384,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 5.0,
     "timing_min_period_ns": 3.2788670599417897,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 2250.0,
+    "raw_T_R_ns": 5120.0,
+    "effective_delta_S_ns": 2250.0,
+    "effective_T_R_ns": 5120.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 56888888.88888889,
+    "tau_Byte_per_s": 3200000000.0,
+    "RI_star": 0.017777777777777778,
+    "U_star": 2.2755555555555556,
+    "rho_MBps": 56.888888888888886,
+    "tau_MBps": 3200.0,
+    "result_path": "analysis/01_sram_acim/scenarios/optimistic/result.json",
+    "input_path": "analysis/01_sram_acim/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "charge_front": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/0/frontend_complete_ns",
+        "source_file_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+        "evidence_kind": "conditional_adapted_frontend_budget",
+        "consumers": [
+          "streaming:charge_front"
+        ]
+      },
+      "sram_write_cycle": {
+        "value_ns": 2.2,
+        "source_value": 2.2,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/0/complete_memory_cycle_ns",
+        "source_file_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+        "evidence_kind": "cross_macro_complete_cycle_budget",
+        "consumers": [
+          "resident:sram_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/01_sram_acim/scenarios.json",
+    "technology": "SRAM ACIM",
+    "rho": 56.888888888888886,
+    "tau": 3200.0
+  },
+  {
+    "case_id": "01_sram_acim",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 3.2788670599417897,
+    "actual_period_ns": 5.0,
     "raw_delta_S_ns": 2890.0,
     "raw_T_R_ns": 5120.0,
     "effective_delta_S_ns": 2890.0,
@@ -17,24 +70,161 @@
     "availability": 1.0,
     "rho_Byte_per_s": 44290657.43944637,
     "tau_Byte_per_s": 3200000000.0,
-    "rho_MBps": 44.29065743944637,
-    "tau_MBps": 3200.0,
     "RI_star": 0.01384083044982699,
     "U_star": 1.7716262975778547,
-    "result_path": "analysis/01_sram_acim/result.json",
-    "input_path": "analysis/01_sram_acim/input.json"
+    "rho_MBps": 44.29065743944637,
+    "tau_MBps": 3200.0,
+    "result_path": "analysis/01_sram_acim/scenarios/reference/result.json",
+    "input_path": "analysis/01_sram_acim/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "charge_front": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/frontend_complete_ns",
+        "source_file_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+        "evidence_kind": "conditional_adapted_frontend_budget",
+        "consumers": [
+          "streaming:charge_front"
+        ]
+      },
+      "sram_write_cycle": {
+        "value_ns": 5.0,
+        "source_value": 5,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/complete_memory_cycle_ns",
+        "source_file_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+        "evidence_kind": "cross_macro_complete_cycle_budget",
+        "consumers": [
+          "resident:sram_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/01_sram_acim/scenarios.json",
+    "technology": "SRAM ACIM",
+    "rho": 44.29065743944637,
+    "tau": 3200.0
+  },
+  {
+    "case_id": "01_sram_acim",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 3.2788670599417897,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 4810.0,
+    "raw_T_R_ns": 10240.0,
+    "effective_delta_S_ns": 4810.0,
+    "effective_T_R_ns": 10240.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 26611226.61122661,
+    "tau_Byte_per_s": 1600000000.0,
+    "RI_star": 0.016632016632016633,
+    "U_star": 2.128898128898129,
+    "rho_MBps": 26.61122661122661,
+    "tau_MBps": 1600.0,
+    "result_path": "analysis/01_sram_acim/scenarios/pessimistic/result.json",
+    "input_path": "analysis/01_sram_acim/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "charge_front": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/frontend_complete_ns",
+        "source_file_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+        "evidence_kind": "conditional_adapted_frontend_budget",
+        "consumers": [
+          "streaming:charge_front"
+        ]
+      },
+      "sram_write_cycle": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/complete_memory_cycle_ns",
+        "source_file_sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+        "evidence_kind": "cross_macro_complete_cycle_budget",
+        "consumers": [
+          "resident:sram_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/01_sram_acim/scenarios.json",
+    "technology": "SRAM ACIM",
+    "rho": 26.61122661122661,
+    "tau": 1600.0
   },
   {
     "case_id": "02_sram_dcim",
-    "technology": "SRAM DCIM",
     "K": 128,
     "N": 16,
     "B_S_Byte": 128,
     "B_R_Byte": 2048,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 5.0,
     "timing_min_period_ns": 2.6160692818051587,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 290.0,
+    "raw_T_R_ns": 640.0,
+    "effective_delta_S_ns": 290.0,
+    "effective_T_R_ns": 640.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 441379310.3448276,
+    "tau_Byte_per_s": 3200000000.0,
+    "RI_star": 0.13793103448275862,
+    "U_star": 2.206896551724138,
+    "rho_MBps": 441.3793103448276,
+    "tau_MBps": 3200.0,
+    "result_path": "analysis/02_sram_dcim/scenarios/optimistic/result.json",
+    "input_path": "analysis/02_sram_dcim/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "native_mac_cycle": {
+        "value_ns": 4.300000000000001,
+        "source_value": 4.3,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/0/complete_compute_round_ns",
+        "source_file_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+        "evidence_kind": "measured_anchor_plus_engineering_windows",
+        "consumers": [
+          "streaming:native_mac"
+        ]
+      },
+      "sram_write_cycle": {
+        "value_ns": 2.2,
+        "source_value": 2.2,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/0/complete_memory_cycle_ns",
+        "source_file_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+        "evidence_kind": "cross_macro_complete_cycle_budget",
+        "consumers": [
+          "resident:sram_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/02_sram_dcim/scenarios.json",
+    "technology": "SRAM DCIM",
+    "rho": 441.3793103448276,
+    "tau": 3200.0
+  },
+  {
+    "case_id": "02_sram_dcim",
+    "K": 128,
+    "N": 16,
+    "B_S_Byte": 128,
+    "B_R_Byte": 2048,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 2.6160692818051587,
+    "actual_period_ns": 5.0,
     "raw_delta_S_ns": 330.0,
     "raw_T_R_ns": 640.0,
     "effective_delta_S_ns": 330.0,
@@ -42,24 +232,173 @@
     "availability": 1.0,
     "rho_Byte_per_s": 387878787.8787879,
     "tau_Byte_per_s": 3200000000.0,
-    "rho_MBps": 387.8787878787879,
-    "tau_MBps": 3200.0,
     "RI_star": 0.12121212121212122,
     "U_star": 1.9393939393939394,
-    "result_path": "analysis/02_sram_dcim/result.json",
-    "input_path": "analysis/02_sram_dcim/input.json"
+    "rho_MBps": 387.8787878787879,
+    "tau_MBps": 3200.0,
+    "result_path": "analysis/02_sram_dcim/scenarios/reference/result.json",
+    "input_path": "analysis/02_sram_dcim/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "native_mac_cycle": {
+        "value_ns": 5.0,
+        "source_value": 5,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/complete_compute_round_ns",
+        "source_file_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+        "evidence_kind": "measured_anchor_plus_engineering_windows",
+        "consumers": [
+          "streaming:native_mac"
+        ]
+      },
+      "sram_write_cycle": {
+        "value_ns": 5.0,
+        "source_value": 5,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/complete_memory_cycle_ns",
+        "source_file_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+        "evidence_kind": "cross_macro_complete_cycle_budget",
+        "consumers": [
+          "resident:sram_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/02_sram_dcim/scenarios.json",
+    "technology": "SRAM DCIM",
+    "rho": 387.8787878787879,
+    "tau": 3200.0
+  },
+  {
+    "case_id": "02_sram_dcim",
+    "K": 128,
+    "N": 16,
+    "B_S_Byte": 128,
+    "B_R_Byte": 2048,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 2.6160692818051587,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 650.0,
+    "raw_T_R_ns": 1280.0,
+    "effective_delta_S_ns": 650.0,
+    "effective_T_R_ns": 1280.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 196923076.92307693,
+    "tau_Byte_per_s": 1600000000.0,
+    "RI_star": 0.12307692307692308,
+    "U_star": 1.9692307692307693,
+    "rho_MBps": 196.92307692307693,
+    "tau_MBps": 1600.0,
+    "result_path": "analysis/02_sram_dcim/scenarios/pessimistic/result.json",
+    "input_path": "analysis/02_sram_dcim/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "native_mac_cycle": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/complete_compute_round_ns",
+        "source_file_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+        "evidence_kind": "measured_anchor_plus_engineering_windows",
+        "consumers": [
+          "streaming:native_mac"
+        ]
+      },
+      "sram_write_cycle": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/complete_memory_cycle_ns",
+        "source_file_sha256": "6ed6cce0aad59067d6ba4f7b7211c1a20f81de0fbcce6d7da07b97a2aea93400",
+        "evidence_kind": "cross_macro_complete_cycle_budget",
+        "consumers": [
+          "resident:sram_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/02_sram_dcim/scenarios.json",
+    "technology": "SRAM DCIM",
+    "rho": 196.92307692307693,
+    "tau": 1600.0
   },
   {
     "case_id": "03_nor_2d",
-    "technology": "2D NOR",
     "K": 128,
     "N": 128,
     "B_S_Byte": 128,
     "B_R_Byte": 16384,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 8.5,
     "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
+    "raw_delta_S_ns": 5457.0,
+    "raw_T_R_ns": 205609968.0,
+    "effective_delta_S_ns": 5457.0,
+    "effective_T_R_ns": 205609968.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 23456111.416529227,
+    "tau_Byte_per_s": 79684.85263321474,
+    "RI_star": 294.3609813084112,
+    "U_star": 37678.20560747664,
+    "rho_MBps": 23.45611141652923,
+    "tau_MBps": 0.07968485263321474,
+    "result_path": "analysis/03_nor_2d/scenarios/optimistic/result.json",
+    "input_path": "analysis/03_nor_2d/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "nor_read": {
+        "value_ns": 100.00000000000001,
+        "source_value": 100,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/0/read_full_ns",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_read_grade_engineering_transfer",
+        "consumers": [
+          "streaming:binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "page_program": {
+        "value_ns": 400000.0,
+        "source_value": 0.4,
+        "source_unit": "ms",
+        "json_pointer": "/scenarios/0/page_program_ms",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:page_program"
+        ]
+      },
+      "sector_erase": {
+        "value_ns": 45000000.0,
+        "source_value": 45,
+        "source_unit": "ms",
+        "json_pointer": "/scenarios/0/sector_erase_ms",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:sector_erase.complete_cycle"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/03_nor_2d/scenarios.json",
+    "technology": "2D NOR",
+    "rho": 23.45611141652923,
+    "tau": 0.07968485263321474
+  },
+  {
+    "case_id": "03_nor_2d",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
     "raw_delta_S_ns": 6273.0,
     "raw_T_R_ns": 205609968.0,
     "effective_delta_S_ns": 6273.0,
@@ -67,24 +406,198 @@
     "availability": 1.0,
     "rho_Byte_per_s": 20404909.931452256,
     "tau_Byte_per_s": 79684.85263321474,
-    "rho_MBps": 20.404909931452256,
-    "tau_MBps": 0.07968485263321474,
     "RI_star": 256.0701219512195,
     "U_star": 32776.9756097561,
-    "result_path": "analysis/03_nor_2d/result.json",
-    "input_path": "analysis/03_nor_2d/input.json"
+    "rho_MBps": 20.404909931452256,
+    "tau_MBps": 0.07968485263321474,
+    "result_path": "analysis/03_nor_2d/scenarios/reference/result.json",
+    "input_path": "analysis/03_nor_2d/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "nor_read": {
+        "value_ns": 120.00000000000001,
+        "source_value": 120,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/read_full_ns",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_read_grade_engineering_transfer",
+        "consumers": [
+          "streaming:binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "page_program": {
+        "value_ns": 400000.0,
+        "source_value": 0.4,
+        "source_unit": "ms",
+        "json_pointer": "/scenarios/1/page_program_ms",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:page_program"
+        ]
+      },
+      "sector_erase": {
+        "value_ns": 45000000.0,
+        "source_value": 45,
+        "source_unit": "ms",
+        "json_pointer": "/scenarios/1/sector_erase_ms",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:sector_erase.complete_cycle"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/03_nor_2d/scenarios.json",
+    "technology": "2D NOR",
+    "rho": 20.404909931452256,
+    "tau": 0.07968485263321474
+  },
+  {
+    "case_id": "03_nor_2d",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
+    "raw_delta_S_ns": 6545.0,
+    "raw_T_R_ns": 1792010324.0,
+    "effective_delta_S_ns": 6545.0,
+    "effective_T_R_ns": 1792010324.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 19556913.674560733,
+    "tau_Byte_per_s": 9142.804469691213,
+    "RI_star": 2139.0497564935067,
+    "U_star": 273798.36883116886,
+    "rho_MBps": 19.556913674560732,
+    "tau_MBps": 0.009142804469691212,
+    "result_path": "analysis/03_nor_2d/scenarios/pessimistic/result.json",
+    "input_path": "analysis/03_nor_2d/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "nor_read": {
+        "value_ns": 130.0,
+        "source_value": 130,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/read_full_ns",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_read_grade_engineering_transfer",
+        "consumers": [
+          "streaming:binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "page_program": {
+        "value_ns": 3000000.0,
+        "source_value": 3,
+        "source_unit": "ms",
+        "json_pointer": "/scenarios/2/page_program_ms",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:page_program"
+        ]
+      },
+      "sector_erase": {
+        "value_ns": 400000000.0,
+        "source_value": 400,
+        "source_unit": "ms",
+        "json_pointer": "/scenarios/2/sector_erase_ms",
+        "source_file_sha256": "d68f26feb5854343be77fb478da27aa63fbfef09a7ad866c4142473a0492db0f",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:sector_erase.complete_cycle"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/03_nor_2d/scenarios.json",
+    "technology": "2D NOR",
+    "rho": 19.556913674560732,
+    "tau": 0.009142804469691212
   },
   {
     "case_id": "04_nand_3d",
-    "technology": "3D NAND",
     "K": 4608,
     "N": 240,
     "B_S_Byte": 4608,
     "B_R_Byte": 1105920,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 9.0,
     "timing_min_period_ns": 8.858794040111784,
+    "actual_period_ns": 9.0,
+    "raw_delta_S_ns": 582030.0,
+    "raw_T_R_ns": 1923284070.0,
+    "effective_delta_S_ns": 582030.0,
+    "effective_T_R_ns": 1923284070.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 7917117.674346684,
+    "tau_Byte_per_s": 575016.4612968484,
+    "RI_star": 13.768506133704449,
+    "U_star": 3304.4414720890677,
+    "rho_MBps": 7.917117674346684,
+    "tau_MBps": 0.5750164612968484,
+    "result_path": "analysis/04_nand_3d/scenarios/optimistic/result.json",
+    "input_path": "analysis/04_nand_3d/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "sl_setup": {
+        "value_ns": 530.0,
+        "source_value": 530,
+        "source_unit": "ns",
+        "json_pointer": "/design_choices/sl_setup_budget_ns_by_profile/short",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "source_model_range_and_midpoint",
+        "consumers": [
+          "streaming:native_bl_sl",
+          "resident:calibration_bl_sl"
+        ]
+      },
+      "page_program": {
+        "value_ns": 300000.0,
+        "source_value": 300,
+        "source_unit": "us",
+        "json_pointer": "/design_choices/program_full_budget_us_by_profile/short",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:page_program_data",
+          "resident:page_program_reference"
+        ]
+      },
+      "block_erase": {
+        "value_ns": 1000000.0,
+        "source_value": 1,
+        "source_unit": "ms",
+        "json_pointer": "/design_choices/erase_full_budget_ms_by_profile/short",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:block_erase"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/04_nand_3d/scenarios.json",
+    "technology": "3D NAND",
+    "rho": 7.917117674346684,
+    "tau": 0.5750164612968484
+  },
+  {
+    "case_id": "04_nand_3d",
+    "K": 4608,
+    "N": 240,
+    "B_S_Byte": 4608,
+    "B_R_Byte": 1105920,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.858794040111784,
+    "actual_period_ns": 9.0,
     "raw_delta_S_ns": 685710.0,
     "raw_T_R_ns": 1923285366.0,
     "effective_delta_S_ns": 685710.0,
@@ -92,24 +605,187 @@
     "availability": 1.0,
     "rho_Byte_per_s": 6720042.000262502,
     "tau_Byte_per_s": 575016.073823753,
-    "rho_MBps": 6.720042000262501,
-    "tau_MBps": 0.5750160738237531,
     "RI_star": 11.686702870017939,
     "U_star": 2804.808688804305,
-    "result_path": "analysis/04_nand_3d/result.json",
-    "input_path": "analysis/04_nand_3d/input.json"
+    "rho_MBps": 6.720042000262501,
+    "tau_MBps": 0.5750160738237531,
+    "result_path": "analysis/04_nand_3d/scenarios/reference/result.json",
+    "input_path": "analysis/04_nand_3d/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "sl_setup": {
+        "value_ns": 640.0,
+        "source_value": 640,
+        "source_unit": "ns",
+        "json_pointer": "/design_choices/sl_setup_budget_ns_by_profile/reference",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "source_model_range_and_midpoint",
+        "consumers": [
+          "streaming:native_bl_sl",
+          "resident:calibration_bl_sl"
+        ]
+      },
+      "page_program": {
+        "value_ns": 300000.0,
+        "source_value": 300,
+        "source_unit": "us",
+        "json_pointer": "/design_choices/program_full_budget_us_by_profile/reference",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:page_program_data",
+          "resident:page_program_reference"
+        ]
+      },
+      "block_erase": {
+        "value_ns": 1000000.0,
+        "source_value": 1,
+        "source_unit": "ms",
+        "json_pointer": "/design_choices/erase_full_budget_ms_by_profile/reference",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:block_erase"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/04_nand_3d/scenarios.json",
+    "technology": "3D NAND",
+    "rho": 6.720042000262501,
+    "tau": 0.5750160738237531
+  },
+  {
+    "case_id": "04_nand_3d",
+    "K": 4608,
+    "N": 240,
+    "B_S_Byte": 4608,
+    "B_R_Byte": 1105920,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.858794040111784,
+    "actual_period_ns": 9.0,
+    "raw_delta_S_ns": 789390.0,
+    "raw_T_R_ns": 3926468223.0,
+    "effective_delta_S_ns": 789390.0,
+    "effective_T_R_ns": 3926468223.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 5837418.766389238,
+    "tau_Byte_per_s": 281657.6977554213,
+    "RI_star": 20.725223606202256,
+    "U_star": 4974.053665488542,
+    "rho_MBps": 5.837418766389238,
+    "tau_MBps": 0.28165769775542127,
+    "result_path": "analysis/04_nand_3d/scenarios/pessimistic/result.json",
+    "input_path": "analysis/04_nand_3d/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "sl_setup": {
+        "value_ns": 750.0,
+        "source_value": 750,
+        "source_unit": "ns",
+        "json_pointer": "/design_choices/sl_setup_budget_ns_by_profile/long",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "source_model_range_and_midpoint",
+        "consumers": [
+          "streaming:native_bl_sl",
+          "resident:calibration_bl_sl"
+        ]
+      },
+      "page_program": {
+        "value_ns": 600000.0,
+        "source_value": 600,
+        "source_unit": "us",
+        "json_pointer": "/design_choices/program_full_budget_us_by_profile/long",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:page_program_data",
+          "resident:page_program_reference"
+        ]
+      },
+      "block_erase": {
+        "value_ns": 3500000.0,
+        "source_value": 3.5,
+        "source_unit": "ms",
+        "json_pointer": "/design_choices/erase_full_budget_ms_by_profile/long",
+        "source_file_sha256": "4b700c15f2568eb117f43ce762eb523bfff3eab77c519a3a581cb67f4c75f773",
+        "evidence_kind": "datasheet_complete_typical_maximum",
+        "consumers": [
+          "resident:block_erase"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/04_nand_3d/scenarios.json",
+    "technology": "3D NAND",
+    "rho": 5.837418766389238,
+    "tau": 0.28165769775542127
   },
   {
     "case_id": "05_rram",
-    "technology": "RRAM",
     "K": 128,
     "N": 64,
     "B_S_Byte": 128,
     "B_R_Byte": 8192,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 5.0,
     "timing_min_period_ns": 3.2164836619843276,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 4490.0,
+    "raw_T_R_ns": 1758165.0,
+    "effective_delta_S_ns": 4490.0,
+    "effective_T_R_ns": 1758165.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 28507795.100222718,
+    "tau_Byte_per_s": 4659403.412080209,
+    "RI_star": 6.118335885300668,
+    "U_star": 391.5734966592428,
+    "rho_MBps": 28.50779510022272,
+    "tau_MBps": 4.659403412080208,
+    "result_path": "analysis/05_rram/scenarios/optimistic/result.json",
+    "input_path": "analysis/05_rram/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "local_setup": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/short",
+        "source_file_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "evidence_kind": "fixed_driver_load_engineering_allowance",
+        "consumers": [
+          "resident:local_setup"
+        ]
+      },
+      "local_return": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/short",
+        "source_file_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "evidence_kind": "fixed_driver_load_engineering_allowance",
+        "consumers": [
+          "resident:local_return"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/05_rram/scenarios.json",
+    "technology": "RRAM",
+    "rho": 28.50779510022272,
+    "tau": 4.659403412080208
+  },
+  {
+    "case_id": "05_rram",
+    "K": 128,
+    "N": 64,
+    "B_S_Byte": 128,
+    "B_R_Byte": 8192,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 3.2164836619843276,
+    "actual_period_ns": 5.0,
     "raw_delta_S_ns": 4490.0,
     "raw_T_R_ns": 1911765.0,
     "effective_delta_S_ns": 4490.0,
@@ -117,24 +793,163 @@
     "availability": 1.0,
     "rho_Byte_per_s": 28507795.100222718,
     "tau_Byte_per_s": 4285045.4946083855,
-    "rho_MBps": 28.50779510022272,
-    "tau_MBps": 4.285045494608386,
     "RI_star": 6.652857043429845,
     "U_star": 425.78285077951,
-    "result_path": "analysis/05_rram/result.json",
-    "input_path": "analysis/05_rram/input.json"
+    "rho_MBps": 28.50779510022272,
+    "tau_MBps": 4.285045494608386,
+    "result_path": "analysis/05_rram/scenarios/reference/result.json",
+    "input_path": "analysis/05_rram/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "local_setup": {
+        "value_ns": 100.00000000000001,
+        "source_value": 100,
+        "source_unit": "ns",
+        "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/reference",
+        "source_file_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "evidence_kind": "fixed_driver_load_engineering_allowance",
+        "consumers": [
+          "resident:local_setup"
+        ]
+      },
+      "local_return": {
+        "value_ns": 100.00000000000001,
+        "source_value": 100,
+        "source_unit": "ns",
+        "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/reference",
+        "source_file_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "evidence_kind": "fixed_driver_load_engineering_allowance",
+        "consumers": [
+          "resident:local_return"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/05_rram/scenarios.json",
+    "technology": "RRAM",
+    "rho": 28.50779510022272,
+    "tau": 4.285045494608386
+  },
+  {
+    "case_id": "05_rram",
+    "K": 128,
+    "N": 64,
+    "B_S_Byte": 128,
+    "B_R_Byte": 8192,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 3.2164836619843276,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 4490.0,
+    "raw_T_R_ns": 2372565.0,
+    "effective_delta_S_ns": 4490.0,
+    "effective_T_R_ns": 2372565.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 28507795.100222718,
+    "tau_Byte_per_s": 3452803.189796697,
+    "RI_star": 8.256420517817372,
+    "U_star": 528.4109131403118,
+    "rho_MBps": 28.50779510022272,
+    "tau_MBps": 3.452803189796697,
+    "result_path": "analysis/05_rram/scenarios/pessimistic/result.json",
+    "input_path": "analysis/05_rram/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "local_setup": {
+        "value_ns": 250.00000000000003,
+        "source_value": 250,
+        "source_unit": "ns",
+        "json_pointer": "/adopted_inputs/high_voltage_setup_ns_per_attempt/by_profile/long",
+        "source_file_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "evidence_kind": "fixed_driver_load_engineering_allowance",
+        "consumers": [
+          "resident:local_setup"
+        ]
+      },
+      "local_return": {
+        "value_ns": 250.00000000000003,
+        "source_value": 250,
+        "source_unit": "ns",
+        "json_pointer": "/adopted_inputs/high_voltage_return_recover_ns_per_attempt/by_profile/long",
+        "source_file_sha256": "a3fb0ac21803296874d7e805860eed52e136dd66f552f50b5c0973bc380be2c2",
+        "evidence_kind": "fixed_driver_load_engineering_allowance",
+        "consumers": [
+          "resident:local_return"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/05_rram/scenarios.json",
+    "technology": "RRAM",
+    "rho": 28.50779510022272,
+    "tau": 3.452803189796697
   },
   {
     "case_id": "06_mram",
-    "technology": "MRAM",
     "K": 256,
     "N": 32,
     "B_S_Byte": 256,
     "B_R_Byte": 8192,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 9.0,
     "timing_min_period_ns": 8.53994110234947,
+    "actual_period_ns": 9.0,
+    "raw_delta_S_ns": 1458.0,
+    "raw_T_R_ns": 110592.0,
+    "effective_delta_S_ns": 1458.0,
+    "effective_T_R_ns": 110592.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 175582990.3978052,
+    "tau_Byte_per_s": 74074074.07407407,
+    "RI_star": 2.3703703703703702,
+    "U_star": 75.85185185185185,
+    "rho_MBps": 175.58299039780522,
+    "tau_MBps": 74.07407407407408,
+    "result_path": "analysis/06_mram/scenarios/optimistic/result.json",
+    "input_path": "analysis/06_mram/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "ibmd_read": {
+        "value_ns": 5.0,
+        "source_value": 5,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/read_response_ns",
+        "source_file_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+        "evidence_kind": "conditional_sense_budget_with_illegal_short_excluded",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:terminal_verify.absolute_branch_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "direction_write_slot": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/0/write_access_slot_ns",
+        "source_file_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+        "evidence_kind": "complete_directional_write_budget",
+        "consumers": [
+          "resident:direction_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/06_mram/scenarios.json",
+    "technology": "MRAM",
+    "rho": 175.58299039780522,
+    "tau": 74.07407407407408
+  },
+  {
+    "case_id": "06_mram",
+    "K": 256,
+    "N": 32,
+    "B_S_Byte": 256,
+    "B_R_Byte": 8192,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.53994110234947,
+    "actual_period_ns": 9.0,
     "raw_delta_S_ns": 1458.0,
     "raw_T_R_ns": 129024.0,
     "effective_delta_S_ns": 1458.0,
@@ -142,24 +957,166 @@
     "availability": 1.0,
     "rho_Byte_per_s": 175582990.3978052,
     "tau_Byte_per_s": 63492063.49206349,
-    "rho_MBps": 175.58299039780522,
-    "tau_MBps": 63.492063492063494,
     "RI_star": 2.765432098765432,
     "U_star": 88.49382716049382,
-    "result_path": "analysis/06_mram/result.json",
-    "input_path": "analysis/06_mram/input.json"
+    "rho_MBps": 175.58299039780522,
+    "tau_MBps": 63.492063492063494,
+    "result_path": "analysis/06_mram/scenarios/reference/result.json",
+    "input_path": "analysis/06_mram/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "ibmd_read": {
+        "value_ns": 5.0,
+        "source_value": 5,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/read_response_ns",
+        "source_file_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+        "evidence_kind": "conditional_sense_budget_with_illegal_short_excluded",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:terminal_verify.absolute_branch_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "direction_write_slot": {
+        "value_ns": 30.000000000000004,
+        "source_value": 30,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/1/write_access_slot_ns",
+        "source_file_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+        "evidence_kind": "complete_directional_write_budget",
+        "consumers": [
+          "resident:direction_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/06_mram/scenarios.json",
+    "technology": "MRAM",
+    "rho": 175.58299039780522,
+    "tau": 63.492063492063494
+  },
+  {
+    "case_id": "06_mram",
+    "K": 256,
+    "N": 32,
+    "B_S_Byte": 256,
+    "B_R_Byte": 8192,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.53994110234947,
+    "actual_period_ns": 9.0,
+    "raw_delta_S_ns": 1602.0,
+    "raw_T_R_ns": 147456.0,
+    "effective_delta_S_ns": 1602.0,
+    "effective_T_R_ns": 147456.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 159800249.68789014,
+    "tau_Byte_per_s": 55555555.55555555,
+    "RI_star": 2.876404494382023,
+    "U_star": 92.04494382022472,
+    "rho_MBps": 159.80024968789013,
+    "tau_MBps": 55.55555555555555,
+    "result_path": "analysis/06_mram/scenarios/pessimistic/result.json",
+    "input_path": "analysis/06_mram/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "ibmd_read": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/read_response_ns",
+        "source_file_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+        "evidence_kind": "conditional_sense_budget_with_illegal_short_excluded",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:terminal_verify.absolute_branch_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "direction_write_slot": {
+        "value_ns": 30.000000000000004,
+        "source_value": 30,
+        "source_unit": "ns",
+        "json_pointer": "/scenarios/2/write_access_slot_ns",
+        "source_file_sha256": "626c6e66fbb31ddc60c51ddaa0de551347bd649ceea1c46df274f11538b6aa13",
+        "evidence_kind": "complete_directional_write_budget",
+        "consumers": [
+          "resident:direction_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/06_mram/scenarios.json",
+    "technology": "MRAM",
+    "rho": 159.80024968789013,
+    "tau": 55.55555555555555
   },
   {
     "case_id": "07_pcm",
-    "technology": "PCM",
     "K": 256,
     "N": 128,
     "B_S_Byte": 256,
     "B_R_Byte": 32768,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 5.0,
     "timing_min_period_ns": 4.703620186444548,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 71690.0,
+    "raw_T_R_ns": 4275200.0,
+    "effective_delta_S_ns": 71690.0,
+    "effective_T_R_ns": 4275200.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 3570930.394755196,
+    "tau_Byte_per_s": 7664670.658682635,
+    "RI_star": 0.46589482494071693,
+    "U_star": 59.634537592411775,
+    "rho_MBps": 3.570930394755196,
+    "tau_MBps": 7.664670658682635,
+    "result_path": "analysis/07_pcm/scenarios/optimistic/result.json",
+    "input_path": "analysis/07_pcm/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "shared_voltage_front": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/short/read_front_including_TI_ns",
+        "source_file_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+        "evidence_kind": "conditional_frontend_or_driver_budget",
+        "consumers": [
+          "streaming:analog_front",
+          "resident:endpoint_verify.voltage_front"
+        ]
+      },
+      "drive_transition": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/short/drive_transition_ns",
+        "source_file_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+        "evidence_kind": "conditional_frontend_or_driver_budget",
+        "consumers": [
+          "resident:program_reset_set.reset_set_complete"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/07_pcm/scenarios.json",
+    "technology": "PCM",
+    "rho": 3.570930394755196,
+    "tau": 7.664670658682635
+  },
+  {
+    "case_id": "07_pcm",
+    "K": 256,
+    "N": 128,
+    "B_S_Byte": 256,
+    "B_R_Byte": 32768,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 4.703620186444548,
+    "actual_period_ns": 5.0,
     "raw_delta_S_ns": 92170.0,
     "raw_T_R_ns": 4684800.0,
     "effective_delta_S_ns": 92170.0,
@@ -167,24 +1124,177 @@
     "availability": 1.0,
     "rho_Byte_per_s": 2777476.4023000975,
     "tau_Byte_per_s": 6994535.519125683,
-    "rho_MBps": 2.7774764023000977,
-    "tau_MBps": 6.994535519125683,
     "RI_star": 0.39709232939134204,
     "U_star": 50.82781816209179,
-    "result_path": "analysis/07_pcm/result.json",
-    "input_path": "analysis/07_pcm/input.json"
+    "rho_MBps": 2.7774764023000977,
+    "tau_MBps": 6.994535519125683,
+    "result_path": "analysis/07_pcm/scenarios/reference/result.json",
+    "input_path": "analysis/07_pcm/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "shared_voltage_front": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/reference/read_front_including_TI_ns",
+        "source_file_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+        "evidence_kind": "conditional_frontend_or_driver_budget",
+        "consumers": [
+          "streaming:analog_front",
+          "resident:endpoint_verify.voltage_front"
+        ]
+      },
+      "drive_transition": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/reference/drive_transition_ns",
+        "source_file_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+        "evidence_kind": "conditional_frontend_or_driver_budget",
+        "consumers": [
+          "resident:program_reset_set.reset_set_complete"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/07_pcm/scenarios.json",
+    "technology": "PCM",
+    "rho": 2.7774764023000977,
+    "tau": 6.994535519125683
+  },
+  {
+    "case_id": "07_pcm",
+    "K": 256,
+    "N": 128,
+    "B_S_Byte": 256,
+    "B_R_Byte": 32768,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 4.703620186444548,
+    "actual_period_ns": 5.0,
+    "raw_delta_S_ns": 153610.0,
+    "raw_T_R_ns": 5913600.0,
+    "effective_delta_S_ns": 153610.0,
+    "effective_T_R_ns": 5913600.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 1666558.1667860164,
+    "tau_Byte_per_s": 5541125.541125542,
+    "RI_star": 0.3007616691621639,
+    "U_star": 38.49749365275698,
+    "rho_MBps": 1.6665581667860165,
+    "tau_MBps": 5.541125541125542,
+    "result_path": "analysis/07_pcm/scenarios/pessimistic/result.json",
+    "input_path": "analysis/07_pcm/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "shared_voltage_front": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/long/read_front_including_TI_ns",
+        "source_file_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+        "evidence_kind": "conditional_frontend_or_driver_budget",
+        "consumers": [
+          "streaming:analog_front",
+          "resident:endpoint_verify.voltage_front"
+        ]
+      },
+      "drive_transition": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/long/drive_transition_ns",
+        "source_file_sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+        "evidence_kind": "conditional_frontend_or_driver_budget",
+        "consumers": [
+          "resident:program_reset_set.reset_set_complete"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/07_pcm/scenarios.json",
+    "technology": "PCM",
+    "rho": 1.6665581667860165,
+    "tau": 5.541125541125542
   },
   {
     "case_id": "08_feram_hfo2",
-    "technology": "HfO2 FeRAM",
     "K": 128,
     "N": 128,
     "B_S_Byte": 128,
     "B_R_Byte": 16384,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 8.5,
     "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
+    "raw_delta_S_ns": 3553.0,
+    "raw_T_R_ns": 69632.0,
+    "effective_delta_S_ns": 3553.0,
+    "effective_T_R_ns": 69632.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 36025893.61103293,
+    "tau_Byte_per_s": 235294117.6470588,
+    "RI_star": 0.15311004784688997,
+    "U_star": 19.598086124401913,
+    "rho_MBps": 36.025893611032934,
+    "tau_MBps": 235.2941176470588,
+    "result_path": "analysis/08_feram_hfo2/scenarios/optimistic/result.json",
+    "input_path": "analysis/08_feram_hfo2/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "feram_sense": {
+        "value_ns": 8.0,
+        "source_value": 8,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/short/sense",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "polarization_hold": {
+        "value_ns": 14.000000000000002,
+        "source_value": 14,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/short/polarization_hold_per_phase",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read.destructive_restore",
+          "resident:external_polarization_write"
+        ]
+      },
+      "open_close": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/short/open_close_bias_total",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:external_polarization_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/08_feram_hfo2/scenarios.json",
+    "technology": "HfO2 FeRAM",
+    "rho": 36.025893611032934,
+    "tau": 235.2941176470588
+  },
+  {
+    "case_id": "08_feram_hfo2",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
     "raw_delta_S_ns": 5729.0,
     "raw_T_R_ns": 165376.0,
     "effective_delta_S_ns": 5729.0,
@@ -192,24 +1302,193 @@
     "availability": 1.0,
     "rho_Byte_per_s": 22342468.14452784,
     "tau_Byte_per_s": 99071207.43034056,
-    "rho_MBps": 22.342468144527842,
-    "tau_MBps": 99.07120743034056,
     "RI_star": 0.2255192878338279,
     "U_star": 28.86646884272997,
-    "result_path": "analysis/08_feram_hfo2/result.json",
-    "input_path": "analysis/08_feram_hfo2/input.json"
+    "rho_MBps": 22.342468144527842,
+    "tau_MBps": 99.07120743034056,
+    "result_path": "analysis/08_feram_hfo2/scenarios/reference/result.json",
+    "input_path": "analysis/08_feram_hfo2/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "feram_sense": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/reference/sense",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "polarization_hold": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/reference/polarization_hold_per_phase",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read.destructive_restore",
+          "resident:external_polarization_write"
+        ]
+      },
+      "open_close": {
+        "value_ns": 40.0,
+        "source_value": 40,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/reference/open_close_bias_total",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:external_polarization_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/08_feram_hfo2/scenarios.json",
+    "technology": "HfO2 FeRAM",
+    "rho": 22.342468144527842,
+    "tau": 99.07120743034056
+  },
+  {
+    "case_id": "08_feram_hfo2",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
+    "raw_delta_S_ns": 9809.0,
+    "raw_T_R_ns": 304640.0,
+    "effective_delta_S_ns": 9809.0,
+    "effective_T_R_ns": 304640.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 13049240.493424406,
+    "tau_Byte_per_s": 53781512.60504202,
+    "RI_star": 0.24263431542461006,
+    "U_star": 31.057192374350088,
+    "rho_MBps": 13.049240493424406,
+    "tau_MBps": 53.78151260504202,
+    "result_path": "analysis/08_feram_hfo2/scenarios/pessimistic/result.json",
+    "input_path": "analysis/08_feram_hfo2/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "feram_sense": {
+        "value_ns": 50.00000000000001,
+        "source_value": 50,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/long/sense",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "polarization_hold": {
+        "value_ns": 100.00000000000001,
+        "source_value": 100,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/long/polarization_hold_per_phase",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read.destructive_restore",
+          "resident:external_polarization_write"
+        ]
+      },
+      "open_close": {
+        "value_ns": 80.0,
+        "source_value": 80,
+        "source_unit": "ns",
+        "json_pointer": "/paired_media_budgets_ns/long/open_close_bias_total",
+        "source_file_sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+        "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:external_polarization_write"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/08_feram_hfo2/scenarios.json",
+    "technology": "HfO2 FeRAM",
+    "rho": 13.049240493424406,
+    "tau": 53.78151260504202
   },
   {
     "case_id": "09_gain_cell_edram",
-    "technology": "Gain-cell eDRAM",
     "K": 64,
     "N": 64,
     "B_S_Byte": 64,
     "B_R_Byte": 4096,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 5.5,
     "timing_min_period_ns": 5.250207367512116,
+    "actual_period_ns": 5.5,
+    "raw_delta_S_ns": 2123.0,
+    "raw_T_R_ns": 21120.0,
+    "effective_delta_S_ns": 2451.407039883145,
+    "effective_T_R_ns": 24387.054490029215,
+    "availability": 0.8660332476246786,
+    "rho_Byte_per_s": 26107455.415911175,
+    "tau_Byte_per_s": 167957963.17569524,
+    "RI_star": 0.15544041450777202,
+    "U_star": 9.94818652849741,
+    "rho_MBps": 26.107455415911176,
+    "tau_MBps": 167.95796317569523,
+    "result_path": "analysis/09_gain_cell_edram/scenarios/optimistic/result.json",
+    "input_path": "analysis/09_gain_cell_edram/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "common_read_overhead": {
+        "value_ns": 36.00000000000001,
+        "source_value": 36,
+        "source_unit": "ns",
+        "json_pointer": "/service_parameters/profile_common_overhead_ns/short",
+        "source_file_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "evidence_kind": "conditional_common_phase_budget_not_measured_decomposition",
+        "consumers": [
+          "streaming:analog_front",
+          "maintenance:refresh_read.front",
+          "maintenance:guard_and_availability"
+        ]
+      },
+      "program_complete": {
+        "value_ns": 65.0,
+        "source_value": 65,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/0/program_complete_ns",
+        "source_file_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "evidence_kind": "measured_settling_anchor_plus_conditional_complete_program_budget",
+        "consumers": [
+          "resident:current_program",
+          "maintenance:refresh_decode_load_rewrite.current_program",
+          "maintenance:guard_and_availability"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/09_gain_cell_edram/scenarios.json",
+    "technology": "Gain-cell eDRAM",
+    "rho": 26.107455415911176,
+    "tau": 167.95796317569523
+  },
+  {
+    "case_id": "09_gain_cell_edram",
+    "K": 64,
+    "N": 64,
+    "B_S_Byte": 64,
+    "B_R_Byte": 4096,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 5.250207367512116,
+    "actual_period_ns": 5.5,
     "raw_delta_S_ns": 3707.0,
     "raw_T_R_ns": 21120.0,
     "effective_delta_S_ns": 4443.402264561427,
@@ -217,24 +1496,172 @@
     "availability": 0.8342706285148569,
     "rho_Byte_per_s": 14403377.454801952,
     "tau_Byte_per_s": 161797940.0756086,
-    "rho_MBps": 14.403377454801953,
-    "tau_MBps": 161.7979400756086,
     "RI_star": 0.08902077151335312,
     "U_star": 5.6973293768546,
-    "result_path": "analysis/09_gain_cell_edram/result.json",
-    "input_path": "analysis/09_gain_cell_edram/input.json"
+    "rho_MBps": 14.403377454801953,
+    "tau_MBps": 161.7979400756086,
+    "result_path": "analysis/09_gain_cell_edram/scenarios/reference/result.json",
+    "input_path": "analysis/09_gain_cell_edram/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "common_read_overhead": {
+        "value_ns": 86.0,
+        "source_value": 86,
+        "source_unit": "ns",
+        "json_pointer": "/service_parameters/profile_common_overhead_ns/reference",
+        "source_file_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "evidence_kind": "conditional_common_phase_budget_not_measured_decomposition",
+        "consumers": [
+          "streaming:analog_front",
+          "maintenance:refresh_read.front",
+          "maintenance:guard_and_availability"
+        ]
+      },
+      "program_complete": {
+        "value_ns": 65.0,
+        "source_value": 65,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/1/program_complete_ns",
+        "source_file_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "evidence_kind": "measured_settling_anchor_plus_conditional_complete_program_budget",
+        "consumers": [
+          "resident:current_program",
+          "maintenance:refresh_decode_load_rewrite.current_program",
+          "maintenance:guard_and_availability"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/09_gain_cell_edram/scenarios.json",
+    "technology": "Gain-cell eDRAM",
+    "rho": 14.403377454801953,
+    "tau": 161.7979400756086
+  },
+  {
+    "case_id": "09_gain_cell_edram",
+    "K": 64,
+    "N": 64,
+    "B_S_Byte": 64,
+    "B_R_Byte": 4096,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 5.250207367512116,
+    "actual_period_ns": 5.5,
+    "raw_delta_S_ns": 5291.0,
+    "raw_T_R_ns": 23936.0,
+    "effective_delta_S_ns": 6651.775432591747,
+    "effective_T_R_ns": 30092.023578627115,
+    "availability": 0.7954267328502482,
+    "rho_Byte_per_s": 9621491.382047985,
+    "tau_Byte_per_s": 136115804.55191416,
+    "RI_star": 0.07068607068607069,
+    "U_star": 4.523908523908524,
+    "rho_MBps": 9.621491382047985,
+    "tau_MBps": 136.11580455191415,
+    "result_path": "analysis/09_gain_cell_edram/scenarios/pessimistic/result.json",
+    "input_path": "analysis/09_gain_cell_edram/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "common_read_overhead": {
+        "value_ns": 136.0,
+        "source_value": 136,
+        "source_unit": "ns",
+        "json_pointer": "/service_parameters/profile_common_overhead_ns/long",
+        "source_file_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "evidence_kind": "conditional_common_phase_budget_not_measured_decomposition",
+        "consumers": [
+          "streaming:analog_front",
+          "maintenance:refresh_read.front",
+          "maintenance:guard_and_availability"
+        ]
+      },
+      "program_complete": {
+        "value_ns": 75.00000000000001,
+        "source_value": 75,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/2/program_complete_ns",
+        "source_file_sha256": "fe13a8f5502dd76faf2bac673cf67356ae7def52904c6cf7334b72640b5d3bc0",
+        "evidence_kind": "measured_settling_anchor_plus_conditional_complete_program_budget",
+        "consumers": [
+          "resident:current_program",
+          "maintenance:refresh_decode_load_rewrite.current_program",
+          "maintenance:guard_and_availability"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/09_gain_cell_edram/scenarios.json",
+    "technology": "Gain-cell eDRAM",
+    "rho": 9.621491382047985,
+    "tau": 136.11580455191415
   },
   {
     "case_id": "10_fenor_3d",
-    "technology": "3D FeFET",
     "K": 128,
     "N": 128,
     "B_S_Byte": 128,
     "B_R_Byte": 16384,
     "bytes_per_input": 1,
     "bytes_per_weight": 1,
-    "actual_period_ns": 8.5,
     "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
+    "raw_delta_S_ns": 3009.0,
+    "raw_T_R_ns": 269824.0,
+    "effective_delta_S_ns": 3009.0,
+    "effective_T_R_ns": 269824.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 42539049.51811233,
+    "tau_Byte_per_s": 60721062.61859582,
+    "RI_star": 0.7005649717514125,
+    "U_star": 89.67231638418079,
+    "rho_MBps": 42.53904951811233,
+    "tau_MBps": 60.72106261859582,
+    "result_path": "analysis/10_fenor_3d/scenarios/optimistic/result.json",
+    "input_path": "analysis/10_fenor_3d/input.json",
+    "scenario": "optimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "binary_read": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/0/complete_binary_read_ns",
+        "source_file_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+        "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:terminal_verify.binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "bias_transition": {
+        "value_ns": 5.0,
+        "source_value": 5,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/0/bias_transition_ns",
+        "source_file_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+        "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+        "consumers": [
+          "resident:two_phase_write",
+          "resident:post_pulse_guard"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/10_fenor_3d/scenarios.json",
+    "technology": "3D FeFET",
+    "rho": 42.53904951811233,
+    "tau": 60.72106261859582
+  },
+  {
+    "case_id": "10_fenor_3d",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
     "raw_delta_S_ns": 3553.0,
     "raw_T_R_ns": 304640.0,
     "effective_delta_S_ns": 3553.0,
@@ -242,11 +1669,101 @@
     "availability": 1.0,
     "rho_Byte_per_s": 36025893.61103293,
     "tau_Byte_per_s": 53781512.60504202,
-    "rho_MBps": 36.025893611032934,
-    "tau_MBps": 53.78151260504202,
     "RI_star": 0.6698564593301436,
     "U_star": 85.74162679425838,
-    "result_path": "analysis/10_fenor_3d/result.json",
-    "input_path": "analysis/10_fenor_3d/input.json"
+    "rho_MBps": 36.025893611032934,
+    "tau_MBps": 53.78151260504202,
+    "result_path": "analysis/10_fenor_3d/scenarios/reference/result.json",
+    "input_path": "analysis/10_fenor_3d/input.json",
+    "scenario": "reference",
+    "feasible": true,
+    "scenario_parameters": {
+      "binary_read": {
+        "value_ns": 40.0,
+        "source_value": 40,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/1/complete_binary_read_ns",
+        "source_file_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+        "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:terminal_verify.binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "bias_transition": {
+        "value_ns": 10.0,
+        "source_value": 10,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/1/bias_transition_ns",
+        "source_file_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+        "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+        "consumers": [
+          "resident:two_phase_write",
+          "resident:post_pulse_guard"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/10_fenor_3d/scenarios.json",
+    "technology": "3D FeFET",
+    "rho": 36.025893611032934,
+    "tau": 53.78151260504202
+  },
+  {
+    "case_id": "10_fenor_3d",
+    "K": 128,
+    "N": 128,
+    "B_S_Byte": 128,
+    "B_R_Byte": 16384,
+    "bytes_per_input": 1,
+    "bytes_per_weight": 1,
+    "timing_min_period_ns": 8.380406816741893,
+    "actual_period_ns": 8.5,
+    "raw_delta_S_ns": 4913.0,
+    "raw_T_R_ns": 374272.0,
+    "effective_delta_S_ns": 4913.0,
+    "effective_T_R_ns": 374272.0,
+    "availability": 1.0,
+    "rho_Byte_per_s": 26053327.905556686,
+    "tau_Byte_per_s": 43775649.794801645,
+    "RI_star": 0.5951557093425605,
+    "U_star": 76.17993079584775,
+    "rho_MBps": 26.053327905556685,
+    "tau_MBps": 43.775649794801645,
+    "result_path": "analysis/10_fenor_3d/scenarios/pessimistic/result.json",
+    "input_path": "analysis/10_fenor_3d/input.json",
+    "scenario": "pessimistic",
+    "feasible": true,
+    "scenario_parameters": {
+      "binary_read": {
+        "value_ns": 80.0,
+        "source_value": 80,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/2/complete_binary_read_ns",
+        "source_file_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+        "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+        "consumers": [
+          "streaming:binary_read",
+          "resident:terminal_verify.binary_read",
+          "backend:MAC_preselection_native_lead"
+        ]
+      },
+      "bias_transition": {
+        "value_ns": 20.0,
+        "source_value": 20,
+        "source_unit": "ns",
+        "json_pointer": "/profiles/2/bias_transition_ns",
+        "source_file_sha256": "b812581921e61cfa86b36ee6344365a0f8b81639fd56c295a9898516589db6c8",
+        "evidence_kind": "conditional_native_read_or_fixed_driver_budget",
+        "consumers": [
+          "resident:two_phase_write",
+          "resident:post_pulse_guard"
+        ]
+      }
+    },
+    "scenario_input_path": "analysis/10_fenor_3d/scenarios.json",
+    "technology": "3D FeFET",
+    "rho": 26.053327905556685,
+    "tau": 43.775649794801645
   }
 ]

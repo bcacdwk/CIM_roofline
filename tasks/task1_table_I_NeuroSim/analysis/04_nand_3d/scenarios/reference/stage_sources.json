@@ -1,0 +1,248 @@
+{
+  "category_policy": "source/operation classification; no stage-count coverage percentage",
+  "stages": [
+    {
+      "stage_id": "input_capture",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 9.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "input_magnitude_sign",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 2592.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "native_wl",
+      "service_kind": "streaming",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 9090.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "native_bl_sl",
+      "service_kind": "streaming",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 625920.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "sar",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "source_category": "direct_neurosim_module",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 10560.000000000002,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "affine_calibration_budget",
+      "service_kind": "streaming",
+      "provider": "retained_arithmetic_budget",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 8640.0,
+      "interface_edge_wait_ns": 2970.0
+    },
+    {
+      "stage_id": "base4_merge",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 8640.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "weight_polarity_difference",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 8640.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "signed_input_accumulate",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 8640.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "output_commit",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 9.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "block_erase",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 64000000.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "erase_set_ready_capture",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 8.0
+    },
+    {
+      "stage_id": "resident_encode",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 622080.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "page_load_data",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 15033600.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "page_program_data",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 1728000000.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "page_ready_capture_data",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 34560.0
+    },
+    {
+      "stage_id": "page_load_reference",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 380160.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "page_program_reference",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 115200000.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "page_ready_capture_reference",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 2304.0
+    },
+    {
+      "stage_id": "calibration_wl_zero",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 303.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "calibration_bl_sl",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 7824.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "calibration_sar",
+      "service_kind": "resident",
+      "provider": "neurosim_native",
+      "source_category": "direct_neurosim_module",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 132.00000000000003,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "calibration_sample_capture",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 42.0
+    },
+    {
+      "stage_id": "calibration_wl_full",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 303.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "calibration_division_budget",
+      "service_kind": "resident",
+      "provider": "retained_arithmetic_budget",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 3456.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "calibration_round_residual_store_budget",
+      "service_kind": "resident",
+      "provider": "retained_arithmetic_budget",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 576.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "calibration_accept_publish_budget",
+      "service_kind": "resident",
+      "provider": "retained_arithmetic_budget",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 18.0,
+      "interface_edge_wait_ns": 0.0
+    }
+  ]
+}

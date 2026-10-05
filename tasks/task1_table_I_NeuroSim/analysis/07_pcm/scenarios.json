@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "case_id": "07_pcm",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/07_pcm/data/inputs.json",
+    "sha256": "733bdbd138b2b0faca258ed35152395f31208aff3269d53dbccb3e85c8d4ec3e",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "62a46ed7033eb293ea7bfe985314802df348abfef8467d5782e746efe969e638",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。"
+  ],
+  "parameters": [
+    {
+      "parameter": "shared_voltage_front",
+      "target": "/device/primitives[id=shared_voltage_front]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 10,
+          "unit": "ns",
+          "source_pointer": "/profiles/short/read_front_including_TI_ns"
+        },
+        "reference": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/profiles/reference/read_front_including_TI_ns"
+        },
+        "pessimistic": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/profiles/long/read_front_including_TI_ns"
+        }
+      },
+      "reference_runtime_value_ns": 20.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_frontend_or_driver_budget",
+      "consumers": [
+        "streaming:analog_front",
+        "resident:endpoint_verify.voltage_front"
+      ]
+    },
+    {
+      "parameter": "drive_transition",
+      "target": "/device/primitives[id=drive_transition]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 10,
+          "unit": "ns",
+          "source_pointer": "/profiles/short/drive_transition_ns"
+        },
+        "reference": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/profiles/reference/drive_transition_ns"
+        },
+        "pessimistic": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/profiles/long/drive_transition_ns"
+        }
+      },
+      "reference_runtime_value_ns": 20.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_frontend_or_driver_budget",
+      "consumers": [
+        "resident:program_reset_set.reset_set_complete"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/sources",
+      "value": [
+        "PCM-01",
+        "PCM-03",
+        "PCM-05",
+        "PCM-06"
+      ]
+    },
+    {
+      "json_pointer": "/profiles",
+      "value": {
+        "short": {
+          "read_front_including_TI_ns": 10,
+          "drive_transition_ns": 10
+        },
+        "reference": {
+          "read_front_including_TI_ns": 20,
+          "drive_transition_ns": 20
+        },
+        "long": {
+          "read_front_including_TI_ns": 50,
+          "drive_transition_ns": 50
+        }
+      }
+    },
+    {
+      "json_pointer": "/scenario_interpretation",
+      "value": {
+        "recommended": "reference",
+        "main_range": "conditional paired short/reference/long engineering scenarios, not a physical uncertainty envelope",
+        "linked": "TI is included in full F_A; fixed-total TI changes repartition F_A-TI, not total F_A. TA and TD propagate through all consumers. shared_front_ns affects evaluation and endpoint verify; a distinct long_observation_ns applies only to the explicitly different observation protocol. The long-observation mode retains the shared frontend dependency; its actual front is max(shared_front_ns,long_observation_ns).",
+        "rate_display": "decimal MB/s = 1e6 Byte/s",
+        "maintenance_scope": "No periodic maintenance in the modeled local service window; raw occupancy equals effective interval for the stated accepted service scenario."
+      }
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

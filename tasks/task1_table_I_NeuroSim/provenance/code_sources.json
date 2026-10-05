@@ -6,7 +6,7 @@
       "original_path": "pilots/backend.py",
       "current_path": "analysis/shared/array_backend/backend.py",
       "original_sha256": "7216e9d45c3c49da029624e78553deb236ed5fdbe2f9d32752a0a267001a99db",
-      "current_sha256": "65abedebd2d3548d2815906c96617f5f5885cd8bfdc994979a889c21f522af57"
+      "current_sha256": "f163dea9d3dba6abd627e0ad5c7e1970bb583150f717bd9b7e2c693de189c945"
     },
     {
       "original_path": "pilots/backend.cpp",
@@ -60,7 +60,7 @@
       "original_path": "step4_v2/backend.py",
       "current_path": "analysis/shared/peripheral_backend/backend.py",
       "original_sha256": "93987c567f90840925ba84cd47e1918802db717485a0548cc8d925ce688ce8c4",
-      "current_sha256": "93987c567f90840925ba84cd47e1918802db717485a0548cc8d925ce688ce8c4"
+      "current_sha256": "dff08f22ed2141b4a0d9f6928edceec81cbefa8a4a7282de00d99f0b609ed474"
     },
     {
       "original_path": "step4_v2/backend.cpp",
@@ -102,7 +102,7 @@
   "changes": "Path packaging, selected backend entry point, and removal of non-runtime historical numerical-comparison functions. Computation adapters, scheduler and timing arithmetic retained.",
   "entrypoint": {
     "path": "analysis/shared/run_evaluation.py",
-    "sha256": "d1aa57e06e9e0b8de2c26e33aa16ad2f6e17de39f8629ca68a1640303c818eb7",
+    "sha256": "8f347983d612be0e5faec56cf65cbf74fba23de73aa129ba8cdc31e1c1c3d91c",
     "source_functions": [
       "scripts/run_step4_v2.py::worker (selected computation only)",
       "scripts/run_step3.py::main (selected computation only)",
@@ -113,6 +113,23 @@
       "historical sensitivity and synthetic diagnostics",
       "old performance tables",
       "sibling task execution artifacts"
+    ]
+  },
+  "scenario_extension": {
+    "module": "analysis/shared/scenarios.py",
+    "sha256": "b84d5be7153db859e0aa096f84ec059e72a6437704adfae641ca9e9c0bde5938",
+    "change": "Apply sourced primitive service budgets to an unchanged case topology; explicitly pass same scenario case to backend qualification and schedule adapter. One fresh binary per case, independent execute per scenario; baseline arithmetic and scheduler unchanged.",
+    "input_files": [
+      "analysis/01_sram_acim/scenarios.json",
+      "analysis/02_sram_dcim/scenarios.json",
+      "analysis/03_nor_2d/scenarios.json",
+      "analysis/04_nand_3d/scenarios.json",
+      "analysis/05_rram/scenarios.json",
+      "analysis/06_mram/scenarios.json",
+      "analysis/07_pcm/scenarios.json",
+      "analysis/08_feram_hfo2/scenarios.json",
+      "analysis/09_gain_cell_edram/scenarios.json",
+      "analysis/10_fenor_3d/scenarios.json"
     ]
   }
 }

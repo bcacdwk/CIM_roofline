@@ -1,0 +1,158 @@
+{
+  "category_policy": "source/operation classification; no stage-count coverage percentage",
+  "stages": [
+    {
+      "stage_id": "input_capture",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 5.5,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "analog_front",
+      "service_kind": "streaming",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 4544.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "sar",
+      "service_kind": "streaming",
+      "provider": "neurosim_native",
+      "source_category": "direct_neurosim_module",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 352.00000000000006,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "digital_reconstruct.phase1",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 176.0,
+      "interface_edge_wait_ns": 32.0
+    },
+    {
+      "stage_id": "digital_reconstruct.phase2",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 176.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "output_commit",
+      "service_kind": "streaming",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 5.5,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "resident_load",
+      "service_kind": "resident",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 4224.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "current_program",
+      "service_kind": "resident",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 19200.000000000004,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "current_program.transaction_ready",
+      "service_kind": "resident",
+      "provider": "explicit_ready_handshake",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 512.0
+    },
+    {
+      "stage_id": "matrix_ready",
+      "service_kind": "resident",
+      "provider": "explicit_ready_handshake",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "refresh_read.front",
+      "service_kind": "maintenance",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 52480.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "refresh_read.sar",
+      "service_kind": "maintenance",
+      "provider": "neurosim_native",
+      "source_category": "direct_neurosim_module",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 2816.0000000000005,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "refresh_decode_load_rewrite.sign_decode",
+      "service_kind": "maintenance",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 1408.0,
+      "interface_edge_wait_ns": 1024.0
+    },
+    {
+      "stage_id": "refresh_decode_load_rewrite.encoded_load",
+      "service_kind": "maintenance",
+      "provider": "neurosim_composed",
+      "source_category": "neurosim_gate_composition",
+      "operation_semantics": "cycle",
+      "raw_service_total_ns": 4224.0,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "refresh_decode_load_rewrite.current_program",
+      "service_kind": "maintenance",
+      "provider": "v3_native_service",
+      "source_category": "retained_native_or_arithmetic_service",
+      "operation_semantics": "native_service",
+      "raw_service_total_ns": 19200.000000000004,
+      "interface_edge_wait_ns": 0.0
+    },
+    {
+      "stage_id": "refresh_decode_load_rewrite.group_ready",
+      "service_kind": "maintenance",
+      "provider": "explicit_ready_handshake",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 512.0
+    },
+    {
+      "stage_id": "refresh_ready",
+      "service_kind": "maintenance",
+      "provider": "explicit_ready_handshake",
+      "source_category": "interface_and_schedule",
+      "operation_semantics": "capture_only",
+      "raw_service_total_ns": 0.0,
+      "interface_edge_wait_ns": 0.0
+    }
+  ]
+}

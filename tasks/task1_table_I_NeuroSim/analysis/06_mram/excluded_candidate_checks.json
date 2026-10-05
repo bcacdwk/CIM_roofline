@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "candidates": [
+    {
+      "candidate": {
+        "parameter": "ibmd_read",
+        "value": 3,
+        "unit": "ns",
+        "source_pointer": "/scenarios/0/read_response_ns",
+        "reason": "candidate must fail the current fixed-topology early-source pin-settling check; no timing-check bypass or new read budget"
+      },
+      "status": "REJECTED_BY_UNCHANGED_BACKEND_QUALIFICATION",
+      "reason": "preselection not established during native read; cannot use this frame qualification",
+      "actual_pin_settle_ns": 3.36230030248378,
+      "same_binary_sha256": "b00965cdcb689b15cab6a07b393ff8edf5085f889585f1682591e40ac244df3f"
+    }
+  ]
+}

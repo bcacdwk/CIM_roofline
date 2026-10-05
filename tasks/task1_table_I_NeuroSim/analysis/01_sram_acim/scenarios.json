@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "case_id": "01_sram_acim",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/01_sram_acim/data/inputs.json",
+    "sha256": "20e0696dde1a60ef2289f7ee9b8c1796235830b17694fc8700f8bca4f1502bd2",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "2616652e69486f3911e33de10b3337525488301eb7c02c809894a5832548cb75",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。",
+    "原生 SRAM 写锚点来自 1.05 V eFlash/48-bit 8T 宏，计算锚点有各自原文偏置；跨组织转移为本参考实现的条件服务预算。当前公共数字模型仍固定 0.85 V，并未切换器件偏置，也不声称同偏置实测配对。"
+  ],
+  "parameters": [
+    {
+      "parameter": "charge_front",
+      "target": "/device/primitives[id=charge_front]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 10,
+          "unit": "ns",
+          "source_pointer": "/scenarios/0/frontend_complete_ns"
+        },
+        "reference": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/scenarios/1/frontend_complete_ns"
+        },
+        "pessimistic": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/scenarios/2/frontend_complete_ns"
+        }
+      },
+      "reference_runtime_value_ns": 20.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "conditional_adapted_frontend_budget",
+      "consumers": [
+        "streaming:charge_front"
+      ]
+    },
+    {
+      "parameter": "sram_write_cycle",
+      "target": "/device/primitives[id=sram_write_cycle]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 2.2,
+          "unit": "ns",
+          "source_pointer": "/scenarios/0/complete_memory_cycle_ns"
+        },
+        "reference": {
+          "value": 5,
+          "unit": "ns",
+          "source_pointer": "/scenarios/1/complete_memory_cycle_ns"
+        },
+        "pessimistic": {
+          "value": 10,
+          "unit": "ns",
+          "source_pointer": "/scenarios/2/complete_memory_cycle_ns"
+        }
+      },
+      "reference_runtime_value_ns": 5.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "cross_macro_complete_cycle_budget",
+      "consumers": [
+        "resident:sram_write"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/raw_evidence/1",
+      "value": {
+        "id": "E02",
+        "source_id": "SACIM-03",
+        "kind": "reported_timing_and_measured_frequency",
+        "locator": "PDF p.2 Fig.3; p.3 Fig.5/III; p.5 Table II/Conclusion",
+        "parameter": "宏完整周期与电压文内差异",
+        "original_value": "100MHz=10ns；III与Table II给0.9V；Conclusion写1.2V",
+        "unit": "MHz / ns / V",
+        "conditions": "28nm实测宏；reset、evaluation、ADC readout分相；4b输出；温度未明确",
+        "adopted": "前端reset/input/array整体T_F=10/20/50ns，替代T_I+t_m；ADC另用新SAR时隙",
+        "conversion_reason": "10ns只锚定量级，不从总周期拆出测得cell延迟；参考2倍与长5倍为高精度建立/适配工程余量，非原周期加原ADC"
+      }
+    },
+    {
+      "json_pointer": "/raw_evidence/6",
+      "value": {
+        "id": "E07",
+        "source_id": "CMOS-07",
+        "kind": "measured_and_cycle_definition",
+        "locator": "PDF p.1 synchronous ports; p.2 Fig.2; p.9 Tables II/III",
+        "parameter": "普通完整同步周期锚点",
+        "original_value": "455MHz；48bit×1k word；2RW 8T；typical1.05V；25°C读写功耗测试",
+        "unit": "MHz / bit / V / °C",
+        "conditions": "28nm eFlash高阈值工艺；CLK上升沿捕获命令/地址/数据；可连续写读；非单独write-min测试",
+        "adopted": "2.2ns=1000/455向上取0.1ns；参考/长5/10ns；移植为128bit 6T存储端口完整周期",
+        "conversion_reason": "跨48→128bit和8T→9T1C内的6T是设计预算；必须配置128真实写驱动；与DCIM同锚点标准"
+      }
+    },
+    {
+      "json_pointer": "/frontend_budget_selection",
+      "value": {
+        "anchor": "E02: complete 4b 128-row macro 10ns",
+        "short": "10ns conditional adapted front; 128 selected physical columns, binary excitation, isolated inactive columns and adequate local buffers",
+        "reference": "20ns=2×10ns; more precise settling plus reference/mux/driver adaptation; single-pole half-LSB 4→8-bit settling ratio9/5=1.8 is rationale, not a characterization",
+        "long": "50ns=5×10ns explicit loose engineering budget; not a statistical bound",
+        "precision_limit": "extra settling cannot guarantee removal of static nonlinearity/mismatch; approximate calibrated partial sums only"
+      }
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

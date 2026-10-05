@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "case_id": "08_feram_hfo2",
+  "scenario_order": [
+    "optimistic",
+    "reference",
+    "pessimistic"
+  ],
+  "source": {
+    "original_path": "tasks/task1_table_I_NVM/analysis/08_feram_hfo2/data/inputs.json",
+    "sha256": "684a3b6b2c70f9bfa0d67abf2f0194cd7d2c18650c0a62d0d2cbce6b460b670f",
+    "runtime_dependency": false
+  },
+  "reference_input_sha256": "f18011b05d46badeb89c62f07649661aacbf40a91a19bd64f268ab72119a5c9b",
+  "conditions": [
+    "同一器件身份、逻辑尺寸/精度、物理映射、安装/活动资源、控制周期数、原生偏置及读取模式；情景只改变以下服务预算。",
+    "公共 NeuroSim 工艺/负载、SAR nominal bits、自动选频规则不变；不使用原 NVM 的 TA/TD 或性能列。",
+    "这些是同时应用的一组条件工程预算，不是实测成对芯片、PVT corner、统计区间或材料快慢保证界。"
+  ],
+  "parameters": [
+    {
+      "parameter": "feram_sense",
+      "target": "/device/primitives[id=feram_sense]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 8,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/short/sense"
+        },
+        "reference": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/reference/sense"
+        },
+        "pessimistic": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/long/sense"
+        }
+      },
+      "reference_runtime_value_ns": 20.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+      "consumers": [
+        "streaming:binary_read",
+        "backend:MAC_preselection_native_lead"
+      ]
+    },
+    {
+      "parameter": "polarization_hold",
+      "target": "/device/primitives[id=polarization_hold]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 14,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/short/polarization_hold_per_phase"
+        },
+        "reference": {
+          "value": 50,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/reference/polarization_hold_per_phase"
+        },
+        "pessimistic": {
+          "value": 100,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/long/polarization_hold_per_phase"
+        }
+      },
+      "reference_runtime_value_ns": 50.00000000000001,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+      "consumers": [
+        "streaming:binary_read.destructive_restore",
+        "resident:external_polarization_write"
+      ]
+    },
+    {
+      "parameter": "open_close",
+      "target": "/device/primitives[id=open_close]/normalized",
+      "values": {
+        "optimistic": {
+          "value": 20,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/short/open_close_bias_total"
+        },
+        "reference": {
+          "value": 40,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/reference/open_close_bias_total"
+        },
+        "pessimistic": {
+          "value": 80,
+          "unit": "ns",
+          "source_pointer": "/paired_media_budgets_ns/long/open_close_bias_total"
+        }
+      },
+      "reference_runtime_value_ns": 40.0,
+      "conversion": "source value * 1e-09 -> seconds; parameters() converts seconds to ns",
+      "evidence_kind": "measured_anchor_plus_conditional_per_phase_budget",
+      "consumers": [
+        "streaming:binary_read",
+        "resident:external_polarization_write"
+      ]
+    }
+  ],
+  "source_excerpts": [
+    {
+      "json_pointer": "/budget_rationale",
+      "value": {
+        "sense": "8 ns sense demonstrated at 2.5 V in FERAM-03 p1/Fig11; 20/50 ns are longer design windows within its 1-50 ns sweep, not measured complete read periods",
+        "polarization": "FERAM-03 reports 14 ns write latency, not a proven isolated single polarity pulse. Model deliberately reserves 14/50/100 ns for EACH target-polarity phase in selected two-phase PL implementation. 50 ns is within Fig11 sweep; 100 ns characterization is in Figs10/12. No claim that original 14 ns measurement required two times 14 ns.",
+        "dedicated_open_close": "20/40/80 ns total allocation for BL precharge/reference, WL/PL bias establishment, pulse edges, SA reset and return to reusable state excluding polarization holds. Short=10+10 ns open/close (round above 8 ns observed sense); reference=20+20; long=40+40. FERAM-03 Fig9 establishes required stages; FERAM-04 Fig13 tRP=80 ns and complete tRC=185 ns cross-check scale, NOT a disjoint timing block to add. No PVT guarantee or measured per-stage split. Fixed80uA/BL driver rating coversshort62.5uA/BL capacitive edge demand at250fF and2.5V; PL switched-charge lower bound is accounted separately, not treated as a full rating.",
+        "voltage": "Measured anchor FERAM-03: 11 nm TiN/HZO/TiN, 2.5 V, 1 um2 capacitor tested. Memory voltage domain and compatible access/level-shift circuitry retained as a design requirement; shared 28 nm 0.9 V applies to digital periphery only, with no geometric speed scaling.",
+        "write_parallelism": "128 target BL drivers and one selected local plate driver provisioned for a whole128bit row, independently of 128bit input interface; 32 read SA banks support parallel restore from their own latches. Updating externally is serialized by choice to one target-data/decoder domain. 4096 restore BLs demand128mA capacitive edge current atreference20ns, compared with4mA for128 external targetBLs;32 PL domains add polarization/dielectric demand.",
+        "endpoint": "Open-loop binary write, no analog verify or unspecified retries. Conditional capacity is for cells passing binary-state read/write qualification under stated window; failure beyond budget is failed service, not extra successful payload."
+      }
+    },
+    {
+      "json_pointer": "/drive_resources",
+      "value": {
+        "evidence": "FERAM-03 p2 Fig12 CBL250fF for130nm load model, p1/p2Fig2 2Pr>40uC/cm2; transplanted load is declared engineering condition",
+        "memory_voltage_V": 2.5,
+        "BL_capacitance_fF": 250,
+        "FeCAP_area_um2": 1,
+        "two_Pr_lower_bound_uC_per_cm2": 40,
+        "BL_installed_rating_uA": 80,
+        "BL_rating_kind": "fixed engineering driver provision, not a reported device current",
+        "external_BL_drivers": 128,
+        "restore_BL_drivers": 4096,
+        "parallel_restore_PL": 32,
+        "cells_per_PL": 128,
+        "edge_each_ns": {
+          "short": 10,
+          "reference": 20,
+          "long": 40
+        },
+        "PL_rating": "must support actual switched charge plus dielectric and routing capacitance within stated hold/edge windows; 2Pr lower bound is not a sufficient rating",
+        "scenario_fixed": "same driver counts and80uA/BL rating in all profiles; actual demanded edge currents vary; no driver enlargement in short profile",
+        "supply_condition": "supply/level shift distribution must support4096 concurrent restoration BLs and32 PL domains; external128BL is a different loading case",
+        "qualification_gap": "PL total capacitance and full simultaneous restoration power delivery not reported for this constructed organization; results conditional on sizing/qualification at stated load"
+      }
+    }
+  ],
+  "excluded_candidates": [],
+  "fixed_parameters": "all primitive IDs not listed above retain exactly input.json normalized values; schedules/resources and unclosed budgets remain unchanged"
+}

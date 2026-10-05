@@ -1,14 +1,17 @@
 {
   "all_passed": true,
   "cases": 10,
+  "paired_scenario_points": 30,
   "checks": [
-    "Exactly ten reference configurations",
-    "Logical payload identities and Byte/s to decimal MB/s conversion",
+    "Exactly three feasible paired scenarios for each of ten reference configurations",
+    "Typical values exactly equal the current reference authority",
+    "Logical payload unchanged across paired scenarios",
     "Raw and effective intervals distinguished through availability",
     "Full-precision rho, tau, RI_star and U_star identities"
   ],
   "sha256": {
-    "data/ten_case_results.json": "2ae8f342b777798d2f3c6ff3266462acc33ad34686fea1f097362f6b3ee4ed24"
+    "data/ten_case_results.json": "2ae8f342b777798d2f3c6ff3266462acc33ad34686fea1f097362f6b3ee4ed24",
+    "data/paired_scenario_results.json": "269c8f816e16714b73cb9c80a7ace67c73b1325e9b3ccb958d9d63a224a43921"
   },
   "display": {
     "rate_unit": "MB/s = 10^6 Byte/s",
@@ -16,5 +19,13 @@
     "scatter_uses_unrounded_values": true,
     "axis_scales": "equal log10 scales"
   },
-  "circle_status": "Not generated: no compatible traceable paired ranges in this reference evaluation."
+  "scenario_semantics": "conditional paired native-service budgets at fixed hardware, not statistical/PVT bounds; SAR and digital timing are recomputed by the selected unchanged model",
+  "range_interpretation": "Finite paired engineering scenarios; not confidence intervals, same-chip PVT guarantees or strict bounds for all implementations.",
+  "circles": {
+    "count": 10,
+    "degenerate_case_ids": [],
+    "zero_radius_case_ids": []
+  },
+  "typical_png_matches_preserved_reference_bytes": true,
+  "typical_png_sha256": "cec6b98ba7f68c57daa848ec44e0737143b2848f3c537128e8ee32a166175244"
 }

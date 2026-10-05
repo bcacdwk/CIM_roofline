@@ -19,7 +19,7 @@ U* = T_R / Δ_S = N × bytes_per_weight / bytes_per_input × RI*
 
 表图使用十进制 MB/s = 10⁶ Byte/s。`RI*` 是硬件两路服务比；`U*` 是匹配完整矩阵与完整输入向量时的服务交叉点，不是工作负载实际复用次数。扩大到算子或实际应用时，还需确认输入共享、重放、映射与资源分时。
 
-`raw_delta_S_ns` 与 `raw_T_R_ns` 保留单次物理服务时间；有效能力使用长期服务间隔 `effective_delta_S_ns` 与 `effective_T_R_ns`。对可用率 `a`，有效间隔为 raw/a。GC-04 为易失性 gain-cell eDRAM：保持限 400000 ns，5.5 ns 时钟下采用 399998.5 ns 整数拍刷新帧，包含 66176 ns 刷新 busy 与 115.5 ns guard，可用率约 0.8342706285。其 raw 时间为 3707/21120 ns，有效服务间隔约 4443.4023/25315.5263 ns；后两者是长期服务成本，不能解释为单次请求延迟。图表中的 GC 两率均计入维护。
+`raw_delta_S_ns` 与 `raw_T_R_ns` 保留单次物理服务时间；有效能力使用长期服务间隔 `effective_delta_S_ns` 与 `effective_T_R_ns`。对可用率 `a`，有效间隔为 raw/a。GC-04 为易失性 gain-cell eDRAM。典型情景的保持限 400000 ns，5.5 ns 时钟下采用 399998.5 ns 整数拍刷新帧，包含 66176 ns 刷新 busy 与 115.5 ns guard，可用率约 0.8342706285。其 raw 时间为 3707/21120 ns，有效服务间隔约 4443.4023/25315.5263 ns；后两者是长期服务成本，不能解释为单次请求延迟。图表中的 GC 两率均计入维护。
 
 ## 模型、资源与时序
 
@@ -52,8 +52,35 @@ U* = T_R / Δ_S = N × bytes_per_weight / bytes_per_input × RI*
 
 NAND 的 Q8.16 仿射乘法、舍入和校准除法沿用非零算术周期预算，完整门级时序尚未闭合；9 ns 周期只认证已实例化路径。PCM 的阈值条件、FeRAM 的 PL 负载及 GC 的重复刷新误差也不能由公共后端计时替代验证。电气时序是声明拓扑与负载下的结构包络，不是提取后 STA、实物精度、完整阵列 PPA 或 workload 准确率认证；未知聚合写参数仍保留未知值。
 
+## 成对工程情景与范围来源
+
+每例提供 optimistic / reference / pessimistic 三组同时应用的服务预算，并在同一器件身份、逻辑精度、映射、资源、偏置假设和调度规则下分别执行完整 streaming、resident 及维护过程。reference 保持原参考数据逐值不变。每个情景中的两率来自同一次参数组合，不把独立读写极值任意拼成一点，也不按既有性能比例缩放。情景标签不保证 RI* 或 U* 单调；它们仍由同点两路服务计算。
+
+下表按“乐观 / 典型 / 悲观”列出实际变动的输入服务预算。每例 [scenarios.json](01_sram_acim/scenarios.json) 结构均保存具体 source pointer、原文件 SHA-256、单位换算、证据类别、消费阶段与保留条件；表内链接分别指向各例完整范围来源。
+
+| 参考实现及来源 | 实际变化的服务预算，乐观 / 典型 / 悲观 | 来源与应用边界 |
+|---|---|---|
+| [SRAM ACIM](01_sram_acim/scenarios.json) | charge front：10 / 20 / 50 ns；完整 memory cycle：2.2 / 5 / 10 ns | 10 ns 完整宏量级锚及精度适配工程余量；写周期为跨宏完整同步周期预算。 |
+| [SRAM DCIM](02_sram_dcim/scenarios.json) | native MAC round：4.3 / 5 / 10 ns；完整 memory cycle：2.2 / 5 / 10 ns | 4.3 ns 计算锚及工程窗口；写周期同源跨宏移植，公共低压时钟仍由当前后端计算。 |
+| [2D NOR](03_nor_2d/scenarios.json) | 完整读：100 / 120 / 130 ns；page program：0.4 / 0.4 / 3 ms；sector erase：45 / 45 / 400 ms | 数据手册读等级的工程转移、完整编程与擦除典型/最大预算；正常读与 MAC 早稳资格共用读预算。 |
+| [3D NAND](04_nand_3d/scenarios.json) | SL setup：530 / 640 / 750 ns；page program：300 / 300 / 600 μs；block erase：1 / 1 / 3.5 ms | 来源模型范围与中点、完整编程/擦除预算；SL 服务同时进入正常计算与校准。 |
+| [WH-2T1R RRAM](05_rram/scenarios.json) | 局部高压建立、恢复各为：50 / 100 / 250 ns | 相同 128 驱动及负载下的工程余量；RESET/SET 固定 2/1 次、每次 1 μs，偏压、判定窗及 rail 不变。 |
+| [MRAM](06_mram/scenarios.json) | IBMD read：5 / 5 / 10 ns；完整方向写槽：20 / 30 / 30 ns | 读预算用于计算、绝对状态终验及早稳资格；写槽保留完整方向写语义。5 ns 读与 20 ns 写为条件工程重组。 |
+| [PCM](07_pcm/scenarios.json) | 共享电压前端：10 / 20 / 50 ns；drive transition：10 / 20 / 50 ns | 同一前端/驱动的条件预算；共享前端用于正常计算与端点终验，驱动切换进入完整 RESET/SET 服务。 |
+| [HZO FeRAM](08_feram_hfo2/scenarios.json) | sense：8 / 20 / 50 ns；每相极化保持：14 / 50 / 100 ns；open/close 总开销：20 / 40 / 80 ns | 实测锚及条件性相位预算；极化和开闭成本同时传递到破坏性读恢复与外部写入。 |
+| [GC-04 eDRAM](09_gain_cell_edram/scenarios.json) | 公共读相位开销：36 / 86 / 136 ns；完整编程：65 / 65 / 75 ns | 工程公共相位预算，非测得的阶段分解；完整编程含实测建立量级锚。正常读、刷新读与重写、guard 和可用率共同重算。 |
+| [垂直 AND FeFET](10_fenor_3d/scenarios.json) | 完整 binary read：20 / 40 / 80 ns；bias transition：5 / 10 / 20 ns | 同一原生读和固定驱动的条件预算；读同时进入正常求值、终验及早稳资格，bias 同时进入写与释放。 |
+
+SRAM 的 2.2 ns 写锚来自 28 nm eFlash 工艺、48-bit 2RW 8T 宏的 455 MHz/typical 1.05 V 完整同步周期；将其移植到选定 128-bit 存储接口是设计预算。DCIM 的 4.3 ns 锚来自另一 28 nm D6CIM 的 233 MHz/0.9 V 计算时钟，5/10 ns 为工程窗口。它们不是同芯片、同偏置的实测成对结果，公共数字后端仍为 0.85 V。DCIM 的 4.3/5/10 ns 是既定自主完整 `native_d6cim_mac` 轮次预算，不替代 NeuroSim 数字路径；其公共 `lv_core` 仍选 5 ns。两类 SRAM 的 2.2 ns 写服务受公共接纳边沿约束，因此乐观与典型的 τ 相同。
+
+MRAM 来源中的 3 ns 读候选已实际执行并被现行固定拓扑的早稳检查拒绝；所需源 pin 建立约 3.3623 ns，故未进入普通情景（[排除检查](06_mram/excluded_candidate_checks.json)）。乐观改为已接受的 5 ns 读加来源完整 20 ns 方向写槽；两者共同适用仍是工程条件，不是沿用来源整对或同偏置实测保证。RRAM 只改变 resident 的局部建立/恢复，streaming 的三点 ρ 相同；NOR 乐观与典型的完整装载预算相同，τ 也重合。MRAM 乐观与典型的 ρ 相同。这样的单轴重合保留真实坐标，不能为获得视觉范围而拉开；实际十组三点无整点全重合。
+
+未列入上表的参数、操作次数、bank/ADC/保持资源、公共工艺与连线、SAR nominal bits、数字选频规则、原生偏置和逻辑映射保持不变。公共后端和共享消费者仍实际执行；GC 的维护能力按各情景重新计算。NAND 未闭合算术、PCM 阈值/校准、FeRAM PL 负载及 GC 重复刷新误差没有凭这些情景获得额外认证。情景未覆盖的非理想性、负载和模型误差不能解释为零不确定性。
+
+三点只是有限成对工程条件，不是统计置信区间、同一芯片 PVT 保证，也不是所有实现的严格快慢边界。圆沿用 log 空间中“两端等距且圆心距典型最近”的几何规则；完整规则与重合点处理见[表图说明](11_summary_figures/README.zh.md)。圆内任意读写组合未必可实现，圆大小不代表实测误差分布。
+
 ## 数据与使用
 
-[统一完整精度数据](data/ten_case_results.json) 是表图的唯一权威入口；逐例输入、资源和来源保留在各案例目录。完整复算使用 [计算入口](shared/run_evaluation.py)，只重绘使用 [绘图入口](11_summary_figures/build_figures.py)，命令和正式文件见 [任务说明](../README.md) 与 [表图说明](11_summary_figures/README.zh.md)。复算不读取历史结果作答案，重绘不编译 NeuroSim。
+[典型完整精度数据](data/ten_case_results.json) 保留十例 reference；[三情景完整精度数据](data/paired_scenario_results.json) 保存成对情景，每个 reference 与典型数据逐值一致。表图均由这些机器数据派生；逐例输入、资源和来源保留在各案例目录。完整复算使用 [计算入口](shared/run_evaluation.py)，只重绘使用 [绘图入口](11_summary_figures/build_figures.py)，命令和正式文件见 [任务说明](../README.md) 与 [表图说明](11_summary_figures/README.zh.md)。复算不读取历史结果作答案，重绘不编译 NeuroSim。
 
-本评估只提供十例典型点，缺少与这些配置相容且完整可追溯的成对范围，因此不生成三情景圆图。表图显示约两位有效数字，CSV/JSON 和绘制坐标保留机器结果完整精度。
+三情景表、典型点图及成对圆图显示约两位有效数字；CSV/JSON 和绘制坐标保留机器结果完整精度。
