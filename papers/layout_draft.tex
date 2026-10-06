@@ -26,6 +26,10 @@
   \iflayoutdraft\par\noindent\begin{minipage}{\textwidth}\def\@captype{figure}\centering
   \else\begin{figure*}[!t]\centering\fi
 }{\iflayoutdraft\end{minipage}\par\else\end{figure*}\fi}
+\newenvironment{papertable}{%
+  \iflayoutdraft\par\noindent\begin{minipage}{\columnwidth}\def\@captype{table}\centering
+  \else\begin{table}[!t]\centering\fi
+}{\iflayoutdraft\end{minipage}\par\medskip\else\end{table}\fi}
 \newenvironment{paperwidetable}{%
   \iflayoutdraft\par\noindent\begin{minipage}{\textwidth}\def\@captype{table}\centering
   \else\begin{table*}[!t]\centering\fi

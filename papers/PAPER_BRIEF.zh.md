@@ -215,14 +215,17 @@ N_proj 包括 Q、可选 G、K、V 的真实输出宽度。FFN 的 gate/up 共�
 
 最新图标签约定：eDRAM、FeRAM、3D FeNOR、STT-MRAM；论文图文统一用名，文献原题和原始来源文件名保持出版信息。Fig.4 行名采用 6.5 pt，收窄左侧标签区以扩大数据绘图区。
 
-**目标为 4 幅图＋1 张紧凑表。** Task 名称中的 Table I/II/III 是研究阶段标识，不强制继承为论文编号。当前正文只有一张正式表时，按 IEEE 自动编号为 Table I。
+Fig.2 最新状态：已使用原生 TikZ 在单栏内左右并列绘制 a/b，由同一宏保证几何对齐，DejaVu Sans 字体与 Python 图保持同族，直接随论文编译。
+
+**当前目标为 4 幅图＋2 张表。** 正文编号直接为 Table I（单栏基础复用表）和 Table II（通栏真实模型表），不使用 a/b；Task 中的研究阶段编号保留为来源入口。
 
 | 编号／label                       | 任务                                                                          | 位置与宽度建议                              | 当前状态                                                |
 | --------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------- |
 | Fig. 1`fig:operand-roles`       | 存算分离与存算耦合中的 resident/streaming 路径；说明为何换分解方式            | 第1页，单栏，优先放在引言后部邻近位置       | 未绘制。本轮只用明确占位框，用户之后单独讨论            |
 | Fig. 2`fig:roofline-comparison` | 经典 Roofline 与 resident-streaming Roofline 并列；附极简的量、单位、分区对应 | 第2页，简单示意优先单栏；太拥挤时改为浅通栏 | 本轮保留面板与对应信息占位，不展开制图任务              |
 | Fig. 3`fig:hardware-capacities` | Task I 原始 rho–tau 能力图，十个原生配置与成对情景                           | 第3页，跨双栏                               | 已有矢量图，保留原始坐标，不换成 Task III A 的 N*rho 轴 |
-| Table I`tab:workload-intensity` | 4类推理矩阵工况 × 6模型的精简 RI 概览                                        | 第3页紧凑通栏；必要时靠近第3/4页交界        | 从现有 Task II 数据选取，不照搬90个工况                 |
+| Table I `tab:reuse-intensity` | 五种逻辑矩阵 × 五档有限 U 及 U→∞ 的 RI | 第2页 II-C 后，单栏 | 选取现有 Task II(a) 数据 |
+| Table II `tab:workload-intensity` | 六模型 × 十二个 RI 列 | 第3页，跨双栏 | 选取现有 Task II(b) 数据；QKV 不含 O |
 | Fig. 4`fig:critical-reuse`      | Task III 的 C：完整装载临界复用 U*                                            | 第4页，单栏（右栏顶部）                               | 已有矢量图，作为主要设计解释图                          |
 
 ### 5.1 已采用的图
@@ -247,30 +250,20 @@ C 图原版为 7.16×4.05 in，不可不加判断地直接缩成单栏。 用户
 
 两张主分析图保持一致的介质颜色和简称。优先使用矢量 PDF；不要用整个研究报告页的截图替代图。
 
-### 5.2 工作负载表的首选压缩方案
+### 5.2 当前两表方案（用户最新确认）
 
-模型六列固定为：Qwen3.5-2B、Ministral 3 8B、Qwen3.6-35B-A3B、Hy3、Ling-1T、MiMo-V2.5-Pro。
+**Table I：单栏基础复用表。** 五行逻辑形状为 128×128、1024×1024、4096×4096、1024×4096、4096×1024，形状不使用 1K/4K 缩写。U 列为 128、1K、16K、128K、1M，最右另加 U→∞ 极限列。该极限下 Q_R=NK 仍是一次有限写入，不改成零。采用现行一次完整装载口径，格内显示 RI；Q_S=UK、Q_R=NK、RI=U/N 集中放表注。端点区别已在模型章节的三个窗口算例中说明，不恢复历史 B 记号或旧两端点表。
 
-四行保持 QKV Projection、FFN/Expert、Attention Prefill、Attention Decode。首轮版面原型建议：
+**Table II：跨双栏模型表。** 六个模型作行：Qwen3.5-2B、Ministral 3 8B、Qwen3.6-35B-A3B、Hy3 (295B)、Ling-1T (1000B)、MiMo-V2.5-Pro (1020B)。三层表头如下：
 
-- QKV 与 FFN 各选现行扫描中的 U=1K，同一复用参考方便读图。
-- Attention 两行各展示 L=1K 与 64K 两点，格内用统一顺序表达。
-- 行标题／表注说明窗口，单元格以 RI 为主；Q_S、Q_R 的通式放正文，不把三种量和全部扫描重复塞入每个格子。
+- Weight projections：QKV（U=1K/128K/1M）、FFN/MoE（U=16/1K/16K）。
+- Attention：Prefill、Decode（各 L=1K/8K/64K）。
 
-这是正文展示选择，不改变完整研究扫描或原始结果。若布局不合适，可以在简短说明后调整所展示的现有采样点，不重新计算新情景。
+用户已明确选择沿用现有 QKV（含适用额外 gate，不含 O）；不将原 QKV 数值改名为 QKVO。每格仅列一个 RI，共 72 个现有有限工况。FFN/MoE 仍是一个 dense FFN 或一个 routed expert，Attention 保持原生 GQA 和现行 KV 窗口。
 
-现行 Task II 全扫描仍为：
+两表均采用 8 pt 正常表格字号，矩阵形状写全，U/L 使用 1K=1024、1M=1024² 的后缀。显示规则沿用 Task II，不将显示小数回写精确值。源数据为 `table_IIa/data/results.json` 与 `table_IIb/04_crosscheck/data/results.json`；只选取和重排数据，不重启 Task 分析。
 
-- II(a)：U=1、128、1K、16K、128K、1M、∞。
-- QKV：U=1、1K、128K、1M、∞。
-- FFN：U=1、16、128、1K、16K。
-- Attention：L=1K、8K、64K。
-
-数据入口：
-`tasks/task2_table_II_workloads/table_IIb/04_crosscheck/data/results.json`
-`tasks/task2_table_II_workloads/table_IIb/04_crosscheck/PREVIEW.zh.md`
-
-通用 II(a) 的核心关系已经进入 II-C，不再保留一整张五形状、多U表占正文空间。硬件详细表不与 Fig. 3 重复展示，完整结果仍在研究材料中；主文可用少量文字／图注交代原生配置与来源。
+当前入口为 `papers/tables/reuse_intensity.tex`、`workload_intensity.tex`；`prepare_tables.py` 负责只读选数与输出，两份 selected CSV 保留完整精度与来源 case_id。
 
 ### 5.3 不进入本轮主文的内容
 
@@ -283,8 +276,8 @@ Task III A、B、D、E 不作为额外图；B 的同边界映射推导可进入 
 | 物理页 | 主要内容                                                 | 图表安排                                                                              |
 | ------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | 1      | 标题、Abstract、Index Terms；Introduction；开始 II-A     | Fig. 1 单栏。不要用通栏大示意图挤掉首屏动机                                           |
-| 2      | II-A/B/C：定义、上界、两个短例、U与U*；必要时衔接III开头 | Fig. 2 单栏优先；若需通栏，控制为浅图，不重复另放对偶表                               |
-| 3      | III-A/B：硬件估算方式、能力分布、真实推理矩阵需求        | Fig. 3 通栏为主视觉；workload表紧凑通栏。安排两者与双栏文字的先后，不能让整页只剩图表 |
+| 2      | II-A/B/C：定义、上界、两个短例、U与U*；必要时衔接III开头 | Fig. 2 单栏；II-C 后放单栏 Table I                               |
+| 3      | III-A/B：硬件估算方式、能力分布、真实推理矩阵需求        | Fig. 3 通栏为主视觉；Table II 紧凑通栏。安排两者与双栏文字的先后，不能让整页只剩图表 |
 | 4      | IV-A/B：同边界连接、C图、两三条定量设计认识；V结论       | Fig. 4 单栏；余下为双栏解释与结论。若工作负载表漂移至本页，必须重新核对整体空间       |
 | 5      | References                                               | 仅参考文献，无正文、图、表或附录                                                      |
 

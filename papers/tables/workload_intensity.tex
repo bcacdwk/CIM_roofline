@@ -1,16 +1,23 @@
+% Selected from Task II(b) 04_crosscheck/data/results.json; no O-projection values are implied.
 \begin{paperwidetable}
-\caption{Representative resident intensities at matrix-stage entry}
+\caption{Resident intensities of representative inference matrix stages}
 \label{tab:workload-intensity}
-\footnotesize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
-\begin{tabularx}{\textwidth}{@{}l*{6}{>{\centering\arraybackslash}X}@{}}
+\footnotesize\setlength{\tabcolsep}{1.6pt}\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}*{12}{>{\centering\arraybackslash}X}@{}}
 \toprule
-Matrix stage & \shortstack{Qwen3.5\\2B} & \shortstack{Ministral 3\\8B} & \shortstack{Qwen3.6\\35B-A3B} & Hy3 & Ling-1T & \shortstack{MiMo\\V2.5-Pro} \\
+& \multicolumn{6}{c}{\textbf{Weight projections}} & \multicolumn{6}{c}{\textbf{Attention}} \\
+\cmidrule(lr){2-7}\cmidrule(l){8-13}
+& \multicolumn{3}{c}{QKV ($U$)} & \multicolumn{3}{c}{FFN/MoE ($U$)} & \multicolumn{3}{c}{Prefill ($L$)} & \multicolumn{3}{c}{Decode ($L$)} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}\cmidrule(l){11-13}
+Model & $1\Kilo$ & $128\Kilo$ & $1\mathrm{M}$ & $16$ & $1\Kilo$ & $16\Kilo$ & $1\Kilo$ & $8\Kilo$ & $64\Kilo$ & $1\Kilo$ & $8\Kilo$ & $64\Kilo$ \\
 \midrule
-QKV, $U=1\Kilo$ & 0.200 & 0.167 & 0.111 & 0.100 & 0.100 & 0.0377 \\
-FFN/expert, $U=1\Kilo$ & 0.222 & 0.107 & 0.833 & 0.306 & 0.208 & 0.222 \\
-Attention prefill & 6.0 / 258.0 & 10.0 / 514.0 & 12.0 / 516.0 & 20.0 / 1028.0 & 20.0 / 1028.0 & 35.2 / 1648.0 \\
-Attention decode & 10.0 / 514.0 & 18.0 / 1026.0 & 20.0 / 1028.0 & 36.0 / 2052.0 & 36.0 / 2052.0 & 60.8 / 3286.4 \\
+Qwen3.5-2B & 0.200 & 25.6 & 204.8 & 0.00347 & 0.222 & 3.6 & 6.0 & 34.0 & 258.0 & 10.0 & 66.0 & 514.0 \\
+Ministral 3 8B & 0.167 & 21.3 & 170.7 & 0.00167 & 0.107 & 1.7 & 10.0 & 66.0 & 514.0 & 18.0 & 130.0 & 1026.0 \\
+Qwen3.6-35B-A3B & 0.111 & 14.2 & 113.8 & 0.0130 & 0.833 & 13.3 & 12.0 & 68.0 & 516.0 & 20.0 & 132.0 & 1028.0 \\
+Hy3 (295B) & 0.100 & 12.8 & 102.4 & 0.00477 & 0.306 & 4.9 & 20.0 & 132.0 & 1028.0 & 36.0 & 260.0 & 2052.0 \\
+Ling-1T (1000B) & 0.100 & 12.8 & 102.4 & 0.00326 & 0.208 & 3.3 & 20.0 & 132.0 & 1028.0 & 36.0 & 260.0 & 2052.0 \\
+MiMo-V2.5-Pro (1020B) & 0.0377 & 4.8 & 38.6 & 0.00347 & 0.222 & 3.6 & 35.2 & 214.4 & 1648.0 & 60.8 & 419.2 & 3286.4 \\
 \bottomrule\end{tabularx}
 \par\smallskip\raggedright
-Attention entries are $L=1\Kilo$ / $64\Kilo$; $1\Kilo=1024$. All roles use one byte per element. QKV includes any extra gate; FFN is one dense block or one routed expert. Ling-1T at $64\Kilo$ uses the fixed extended-context configuration.
+Entries are $\RI$; all roles use one byte/element. QKV includes any gate, excluding O. FFN/MoE counts one dense FFN or one routed expert. Prefill builds KV from empty; decode appends one token to a visible length $L$. $1\Kilo=1024$, $1\mathrm{M}=1024^2$. Ling-1T at $64\Kilo$ uses the fixed extension.
 \end{paperwidetable}

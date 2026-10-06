@@ -1,0 +1,20 @@
+% Selected from Task II(a) data/results.json; exact values in selected_reuse.csv.
+\begin{papertable}
+\caption{Resident intensity after one complete weight load}
+\label{tab:reuse-intensity}
+\footnotesize\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\columnwidth}{@{}l*{6}{>{\centering\arraybackslash}X}@{}}
+\toprule
+Weight shape & \multicolumn{6}{c}{Reuse count $U$} \\
+\cmidrule(l){2-7}
+$N\times K$ & $128$ & $1\Kilo$ & $16\Kilo$ & $128\Kilo$ & $1\mathrm{M}$ & $\to\infty$ \\
+\midrule
+$128\times128$ & 1.0 & 8.0 & 128.0 & 1024.0 & 8192.0 & $\infty$ \\
+$1024\times1024$ & 0.125 & 1.0 & 16.0 & 128.0 & 1024.0 & $\infty$ \\
+$4096\times4096$ & 0.0313 & 0.250 & 4.0 & 32.0 & 256.0 & $\infty$ \\
+$1024\times4096$ & 0.125 & 1.0 & 16.0 & 128.0 & 1024.0 & $\infty$ \\
+$4096\times1024$ & 0.0313 & 0.250 & 4.0 & 32.0 & 256.0 & $\infty$ \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright
+One byte/element: $Q_S=UK$, $Q_R=NK$, $\RI=U/N$. As $U\to\infty$, the single load $Q_R=NK$ stays finite. Shapes are logical matrices, not hardware tiles. $1\Kilo=1024$, $1\mathrm{M}=1024^2$.
+\end{papertable}

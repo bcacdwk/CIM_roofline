@@ -42,7 +42,7 @@ For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-
 \draftcolumnbreak
 \input{figures/roofline_comparison}
 \subsection{From Resident Intensity to Reuse}
-\outline{Define $U$ as all input vectors served after one complete load, including the first use and allowing accumulation across requests. For $W[N,K]$, use the payload relations below to translate the ridge into the critical reuse shown in Fig.~\ref{fig:critical-reuse}, preserving each native matrix and its service boundary. Distinguish unbounded reuse of a finite initial load from a finite, already-resident window with no writes.}
+\outline{Define $U$ as all input vectors served after one complete load, including the first use and allowing accumulation across requests. Use Table~\ref{tab:reuse-intensity} and the payload relations below to connect logical matrix shape and reuse, then translate the ridge into Fig.~\ref{fig:critical-reuse} at each native service boundary. Distinguish unbounded reuse of a finite initial load from a finite, already-resident window with no writes.}
 \begin{align}
   Q_S&=UKb_S,& Q_R&=NKb_R,\label{eq:matrix-demand}\\
   \RI&=\frac{Ub_S}{Nb_R},&
@@ -52,4 +52,4 @@ For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-
   \label{eq:critical-reuse}
 \end{align}
 The precisions $b_S,b_R$ are bytes per element; $\Delta_S$ is a complete-vector service interval and $T_R$ a full-matrix load service time. At equal byte widths, $\RI=U/N$ and $U^*=N\RI^*$.
-\draftreserve{1.65in}{Reuse interpretation and the transition to native reference services.}
+\input{tables/reuse_intensity}
