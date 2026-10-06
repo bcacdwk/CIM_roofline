@@ -1,0 +1,41 @@
+% Draft-only fixed page composition; no font, margin, or page-number changes.
+\definecolor{draftink}{gray}{0.32}
+\definecolor{draftline}{gray}{0.73}
+\newcommand{\outline}[1]{\par\noindent\textbf{Outline.} #1\par}
+\newcommand{\draftreserve}[2]{%
+  \iflayoutdraft
+    \par\medskip\noindent
+    {\setlength{\fboxsep}{7pt}\color{draftline}%
+    \fbox{\begin{minipage}[t][#1][t]{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}
+      \color{draftink}\footnotesize\textbf{BODY TEXT RESERVED}\par\smallskip
+      #2\par\smallskip\textit{Writing round 1: prose not yet drafted.}
+    \end{minipage}}}\par
+  \fi}
+\newcommand{\draftcolumnbreak}{\iflayoutdraft\newpage\fi}
+\newcommand{\draftpagebreak}{\iflayoutdraft\clearpage\fi}
+\newcommand{\draftspread}[1]{%
+  \iflayoutdraft\twocolumn[{#1\par\medskip}]\else#1\fi}
+\makeatletter
+% In draft mode these minipages prevent floats from drifting between reserved
+% pages. In natural-flow mode they become ordinary IEEE figures/tables.
+\newenvironment{paperfigure}{%
+  \iflayoutdraft\par\noindent\begin{minipage}{\columnwidth}\def\@captype{figure}\centering
+  \else\begin{figure}[!t]\centering\fi
+}{\iflayoutdraft\end{minipage}\par\medskip\else\end{figure}\fi}
+\newenvironment{paperwidefigure}{%
+  \iflayoutdraft\par\noindent\begin{minipage}{\textwidth}\def\@captype{figure}\centering
+  \else\begin{figure*}[!t]\centering\fi
+}{\iflayoutdraft\end{minipage}\par\else\end{figure*}\fi}
+\newenvironment{paperwidetable}{%
+  \iflayoutdraft\par\noindent\begin{minipage}{\textwidth}\def\@captype{table}\centering
+  \else\begin{table*}[!t]\centering\fi
+}{\iflayoutdraft\end{minipage}\par\else\end{table*}\fi}
+\makeatother
+\newcommand{\figurepending}[2]{%
+  \iflayoutdraft
+  {\setlength{\fboxsep}{8pt}\color{draftline}%
+  \fbox{\begin{minipage}[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \centering\color{draftink}\small\textbf{CONCEPT FIGURE PENDING}\par\medskip
+    #2
+  \end{minipage}}}
+  \fi}

@@ -1,0 +1,16 @@
+\begin{paperwidetable}
+\caption{Representative resident intensities at matrix-stage entry}
+\label{tab:workload-intensity}
+\footnotesize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
+\begin{tabularx}{\textwidth}{@{}l*{6}{>{\centering\arraybackslash}X}@{}}
+\toprule
+Matrix stage & \shortstack{Qwen3.5\\2B} & \shortstack{Ministral 3\\8B} & \shortstack{Qwen3.6\\35B-A3B} & Hy3 & Ling-1T & \shortstack{MiMo\\V2.5-Pro} \\
+\midrule
+QKV, $U=1\Kilo$ & 0.200 & 0.167 & 0.111 & 0.100 & 0.100 & 0.0377 \\
+FFN/expert, $U=1\Kilo$ & 0.222 & 0.107 & 0.833 & 0.306 & 0.208 & 0.222 \\
+Attention prefill & 6.0 / 258.0 & 10.0 / 514.0 & 12.0 / 516.0 & 20.0 / 1028.0 & 20.0 / 1028.0 & 35.2 / 1648.0 \\
+Attention decode & 10.0 / 514.0 & 18.0 / 1026.0 & 20.0 / 1028.0 & 36.0 / 2052.0 & 36.0 / 2052.0 & 60.8 / 3286.4 \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright
+Attention entries are $L=1\Kilo$ / $64\Kilo$; $1\Kilo=1024$. All roles use one byte per element. QKV includes any extra gate; FFN is one dense block or one routed expert. Ling-1T at $64\Kilo$ uses the fixed extended-context configuration.
+\end{paperwidetable}

@@ -1,0 +1,40 @@
+\documentclass[conference]{IEEEtran}
+% IEEEtran.cls is an unchanged copy of the supplied conference template.
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs,array,tabularx}
+\usepackage{url}
+% Keep f-ligatures off. Normal hyphenation and microtypography keep narrow
+% justified columns evenly spaced; ligatures and hyphenation are independent.
+\usepackage[protrusion=true,expansion=true]{microtype}
+\DisableLigatures[f]{encoding=*,family=*}
+
+\newif\iflayoutdraft
+\layoutdrafttrue % Set false for natural flow; removes reservations and page staging.
+\input{layout_draft}
+\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\Byte}{\mathrm{Byte}}
+\newcommand{\Kilo}{\mathrm{K}}
+
+% Largest tenth-point size that fits this title within the 516 pt text width.
+\title{\fontsize{19.6}{23.5}\selectfont A Resident-Streaming Roofline Model for Compute-in-Memory}
+\author{} % Authors, affiliations, and funding intentionally await the author.
+
+\begin{document}
+\maketitle
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/model}
+\input{sections/characterization}
+\input{sections/implications}
+\input{sections/conclusion}
+
+% Flush every body float before the real, fifth physical page.
+\clearpage
+\iflayoutdraft\IEEEtriggeratref{12}\fi
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

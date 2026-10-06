@@ -72,7 +72,7 @@ sh tasks/task1_table_I_NVM/analysis/scripts/build_ten_cases.sh
 /opt/anaconda3/bin/python tasks/task1_table_I_NVM/analysis/11_summary_figures/build_figures.py
 ```
 
-[统一JSON](data/ten_case_results.json)、[CSV](data/ten_case_results.csv)、[独立检查记录](data/ten_case_validation.json)、[正式表图](11_summary_figures/README.zh.md)及下表PDF链接为交付入口。原始来源未增加，仍优先本地页图。未进行NeuroSim、SPICE、EDA或完整网络实验。
+[统一JSON](data/ten_case_results.json)、[CSV](data/ten_case_results.csv)、[独立检查记录](data/ten_case_validation.json)、[正式表图](11_summary_figures/README.zh.md)及下表PDF链接为交付入口。原始来源未增加，仍优先本地页图。
 
 本轮参考实现选择已完成，无需为保留旧点追加用户许可。具体workload若要求稀疏/近抵消输出的误差保证，仍需给出应用所需误差要求；未以本轮名义检查替用户设定该门槛。
 
