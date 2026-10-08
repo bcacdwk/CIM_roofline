@@ -38,7 +38,7 @@ For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-
 \end{array}
 \label{eq:windows}
 \end{equation}
-\draftreserve{1.45in}{Derivation and the two short examples above.}
+\input{tables/reuse_intensity}
 \draftcolumnbreak
 \input{figures/roofline_comparison}
 \subsection{From Resident Intensity to Reuse}
@@ -52,4 +52,4 @@ For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-
   \label{eq:critical-reuse}
 \end{align}
 The precisions $b_S,b_R$ are bytes per element; $\Delta_S$ is a complete-vector service interval and $T_R$ a full-matrix load service time. At equal byte widths, $\RI=U/N$ and $U^*=N\RI^*$.
-\input{tables/reuse_intensity}
+\draftreserve{0.65in}{Reuse interpretation and the transition to native reference services.}

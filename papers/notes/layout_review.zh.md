@@ -7,7 +7,7 @@
 | 物理页 | 已查看的实际内容与位置 |
 |---|---|
 | 1 | 标题 19.6 pt、居中单行；左栏 Abstract、Index Terms、I Introduction；右栏上部 Fig.1 用户原图（等比例撑满单栏），下部 II-A 定义及式(1)。正文预留区均有灰框标记。 |
-| 2 | 左栏 II-B、核心上界与两个计数算例；右栏上部 Fig.2 TikZ 双子图，下部 II-C、复用阈值公式及单栏 Table I（五矩阵 × 五档 U）。 |
+| 2 | 左栏 II-B、核心上界、两个计数算例与单栏 Table I（五矩阵 × 五档有限 U 及 U→∞）；右栏上部 Fig.2 对称双子图及英文计量对应表，下部 II-C 与复用阈值公式。 |
 | 3 | Fig.3 通栏在上，Table II 通栏紧随其后；底部左栏 III-A，右栏 III-B。表转置为六模型行、十二个 RI 列，采用三层表头。 |
 | 4 | 左栏从 IV-A 与完整 tile 映射关系开始；Fig.4 重画为单栏，置右栏顶部，下接 IV-B、装载时间预算与 V Conclusion。 |
 | 5 | **只有 References**，共 21 条，左右栏分别从 [1]、[12] 开始；下部留白供后续扩充。没有正文、占位块、图或表。 |
@@ -85,3 +85,17 @@ Table II 位于第三页 Fig.3 下方，跨双栏。第一层为 Weight projecti
 ## Table I 增补无界复用列
 
 最右侧加入 U→∞，五种矩阵的 RI 均为 ∞；25 个有限值与字号（8 pt）保持原样，新增五格直接来自原始结果的 limit 记录。表注说明 Q_R=NK 仍有限，未与零写入窗口混同。单栏内正常放下，无缩放、无新增越栏提示；重新编译并查看第二页，全文仍为五页。
+
+## 2026-10-07：Fig.2 合并英文计量对应表
+
+依据中文稿的“Roofline 计量对应”表，在 Fig.2 的 a/b 曲线下方增加单栏英文对应表，与曲线共享一个 Figure 编号。新增 Decomposition 一行：GPU 为 Hardware resources，CIM 为 Data roles。Workload 行采用 OP, Byte 与 Q_S, Q_R；相应 AI 与纵轴表达式也改用 OP/Byte、OP/T。图注说明 OP 和 Byte 分别表示操作次数和搬运字节数。
+
+保留 Service rates、Intensity、Vertical axis、Upper bound、Left regime、Right regime、Ridge 各行。服务率明确列 π [OP/s]、β [Byte/s]，以及 ρ,τ [Byte/s]；其他表格行不另列单位，AI/RI 仅给定义式。表中文字为 DejaVu Sans 7.2 pt，沿用同文件的希腊字母字体；并未栅格化或整体缩小。
+
+为保留清晰字号，Table I 移到第二页左栏原正文预留区；Fig.2 组合图仍位于第二页右栏顶部，II-C 接在其后。两张正式数值表仍编号 Table I、Table II，没有新增 Table III。已查看第二页整页及组合图放大图，无表格换行溢出或元素重叠；全文五页，参考文献页保持纯参考文献，无新增编译警告。
+
+## Fig.2 上方曲线进一步压缩
+
+四个 bound 标签已移入各自图内：Memory/Resident-bound 位于左侧三角形内，Compute/Streaming-bound 位于右侧水平上限下方。两边共用相同几何，略加宽三角形以容纳原 6.5 pt 标签，未缩小文字。横轴删除全称，AI、RI 及单位置于右端下方，与 ridge 标注同一水平行；ridge 比值与单位均使用上下分式。
+
+曲线部分由 252×157 pt 缩为 252×129 pt，节省 28 pt（约 9.8 mm）高度；下方计量对应表保持原样。重新编译并查看第二页整页及放大图，标签均在图内，没有压线、重叠或裁切；全文仍为五页，无新增编译警告。

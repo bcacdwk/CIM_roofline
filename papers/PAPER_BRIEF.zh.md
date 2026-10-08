@@ -215,7 +215,7 @@ N_proj 包括 Q、可选 G、K、V 的真实输出宽度。FFN 的 gate/up 共�
 
 最新图标签约定：eDRAM、FeRAM、3D FeNOR、STT-MRAM；论文图文统一用名，文献原题和原始来源文件名保持出版信息。Fig.4 行名采用 6.5 pt，收窄左侧标签区以扩大数据绘图区。
 
-Fig.2 最新状态：已使用原生 TikZ 在单栏内左右并列绘制 a/b，由同一宏保证几何对齐，DejaVu Sans 字体与 Python 图保持同族，直接随论文编译。
+Fig.2 最新状态：单栏组合图，上方为共用宏的左右 a/b TikZ 曲线，下方为精简英文计量对应表；统一 DejaVu Sans 字体。对应表新增 Hardware resources / Data roles 分解原则；任务量采用 OP, Byte / Q_S, Q_R；服务率保留单位，AI/RI 等其余行不另列单位。不新增 Table 编号。
 
 **当前目标为 4 幅图＋2 张表。** 正文编号直接为 Table I（单栏基础复用表）和 Table II（通栏真实模型表），不使用 a/b；Task 中的研究阶段编号保留为来源入口。
 
@@ -224,7 +224,7 @@ Fig.2 最新状态：已使用原生 TikZ 在单栏内左右并列绘制 a/b，�
 | Fig. 1`fig:operand-roles`       | 存算分离与存算耦合中的 resident/streaming 路径；说明为何换分解方式            | 第1页，单栏，优先放在引言后部邻近位置       | 未绘制。本轮只用明确占位框，用户之后单独讨论            |
 | Fig. 2`fig:roofline-comparison` | 经典 Roofline 与 resident-streaming Roofline 并列；附极简的量、单位、分区对应 | 第2页，简单示意优先单栏；太拥挤时改为浅通栏 | 本轮保留面板与对应信息占位，不展开制图任务              |
 | Fig. 3`fig:hardware-capacities` | Task I 原始 rho–tau 能力图，十个原生配置与成对情景                           | 第3页，跨双栏                               | 已有矢量图，保留原始坐标，不换成 Task III A 的 N*rho 轴 |
-| Table I `tab:reuse-intensity` | 五种逻辑矩阵 × 五档有限 U 及 U→∞ 的 RI | 第2页 II-C 后，单栏 | 选取现有 Task II(a) 数据 |
+| Table I `tab:reuse-intensity` | 五种逻辑矩阵 × 五档有限 U 及 U→∞ 的 RI | 第2页左栏下方，单栏 | 选取现有 Task II(a) 数据 |
 | Table II `tab:workload-intensity` | 六模型 × 十二个 RI 列 | 第3页，跨双栏 | 选取现有 Task II(b) 数据；QKV 不含 O |
 | Fig. 4`fig:critical-reuse`      | Task III 的 C：完整装载临界复用 U*                                            | 第4页，单栏（右栏顶部）                               | 已有矢量图，作为主要设计解释图                          |
 
@@ -276,7 +276,7 @@ Task III A、B、D、E 不作为额外图；B 的同边界映射推导可进入 
 | 物理页 | 主要内容                                                 | 图表安排                                                                              |
 | ------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | 1      | 标题、Abstract、Index Terms；Introduction；开始 II-A     | Fig. 1 单栏。不要用通栏大示意图挤掉首屏动机                                           |
-| 2      | II-A/B/C：定义、上界、两个短例、U与U*；必要时衔接III开头 | Fig. 2 单栏；II-C 后放单栏 Table I                               |
+| 2      | II-A/B/C：定义、上界、两个短例、U与U*；必要时衔接III开头 | Fig. 2 曲线＋对应表单栏组合；Table I 放在同页左栏下方                               |
 | 3      | III-A/B：硬件估算方式、能力分布、真实推理矩阵需求        | Fig. 3 通栏为主视觉；Table II 紧凑通栏。安排两者与双栏文字的先后，不能让整页只剩图表 |
 | 4      | IV-A/B：同边界连接、C图、两三条定量设计认识；V结论       | Fig. 4 单栏；余下为双栏解释与结论。若工作负载表漂移至本页，必须重新核对整体空间       |
 | 5      | References                                               | 仅参考文献，无正文、图、表或附录                                                      |

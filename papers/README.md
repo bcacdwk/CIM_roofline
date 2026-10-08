@@ -21,7 +21,7 @@ make
 - `sections/abstract.tex`：唯一主摘要与 Index Terms。
 - `sections/`：正文按 section 分为 `introduction.tex`、`model.tex`、`characterization.tex`、`implications.tex`、`conclusion.tex`；每个 section 内直接包含其 subsection、相关图表入口及草稿版面预留，不再按 subsection 拆文件。
 - `figures/*.tex`：四幅图的独立版面入口与图注。
-- `tables/reuse_intensity.tex`：Table I，单栏五种逻辑矩阵 × 五档有限 U 及 U→∞；`selected_reuse.csv` 保存 25 个有限工况和 5 个极限格。
+- `tables/reuse_intensity.tex`：Table I，位于第二页左栏下方，单栏五种逻辑矩阵 × 五档有限 U 及 U→∞；`selected_reuse.csv` 保存 25 个有限工况和 5 个极限格。
 - `tables/workload_intensity.tex`：Table II，通栏六模型 × 十二列 RI，按 Weight projections / Attention 分组；`selected_workloads.csv` 保存 72 个现有采样点。两份 CSV 都保留精确分数、字节量和显示值。
 - `tables/prepare_tables.py`：从现行 Task II 结果中选择并排版上述数据；不生成新工况。
 - `references.bib`：21 个明确选择并在骨架中引用的条目，无全库导入或 `\nocite{*}`。
@@ -33,7 +33,7 @@ make
 | 稿件入口 | 来源与处理 |
 |---|---|
 | Fig.1 | 用户提供的 `figures/Fig1.png`（3198 × 1697，透明背景），按 `\linewidth` 等比例撑满第一页右栏，替换原占位框。 |
-| Fig.2 | `figures/roofline_comparison_diagram.tex`：单个 TikZ 矢量绘图，a/b 由同一宏生成并左右并列，直接随正文编译；使用局部 DejaVu Sans 字体，希腊字母也使用该字体家族。 |
+| Fig.2 | `figures/roofline_comparison_diagram.tex`：单栏组合图：上方为共用同一宏的对称 a/b TikZ 曲线（bound 标签在图内；横轴短标题和 ridge 同行，均采用紧凑分式），下方为英文计量对应表（不另编号）；字体统一为局部 DejaVu Sans，希腊字母也使用该字体家族。 |
 | `figures/hardware_capacities.pdf` | Task I `analysis/11_summary_figures/output/rho_tau_loglog_circles.pdf` 的原样矢量副本。 |
 | `figures/hardware_capacities_paper.pdf` | Fig.3 实际采用的投稿排版版。`prepare_hardware_layout.py` 只读取 Task I 的 `rho_tau_loglog_circles_points.csv` 与 `rho_tau_loglog_circles_validation.json`；保留全部 30 个点、十个圆的已保存几何、等尺度对数轴、配色及情景配对。按用户审阅收紧视窗：横轴为 10^-2.15 至 10^4.15（两侧各留 0.15 decade），纵轴为 1 至 1000；并调整字号、标注位置、留白与线/点显示尺寸。原研究图标题和脚注并入论文图注。 |
 | `figures/critical_reuse.pdf` | Task III `03_reuse_threshold/output/figure.pdf` 的原样矢量副本，保留作来源对照。 |
