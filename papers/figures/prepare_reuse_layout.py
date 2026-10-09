@@ -103,7 +103,7 @@ ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(-.015, 1.015),
           borderaxespad=0, handlelength=.8)
 ax.set_xlabel(r"Critical reuse $U^*$ [vectors/load]", fontsize=7.5, labelpad=4)
 ax.text(.985, .96,
-        r"Native $W[N,K]$" + "\n" + r"$U^*=N\,\mathrm{RI}^*$" + "\n"
+        r"Native $W[N,K]$" + "\n" + r"$U^*=N\,\mathrm{SI}^*$" + "\n"
         + r"$U=128$: example",
         transform=ax.transAxes, ha="right", va="top", fontsize=6.5,
         linespacing=1.25, color=style.MUTED,

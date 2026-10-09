@@ -67,9 +67,9 @@
     {Memory}{Compute}
   \rooflinepanel{128pt}{(b) Resident-streaming}
     {\textit{P} [Byte/s]}
-    {RI \(\left[\dfrac{\text{Byte}}{\text{Byte}}\right]\)}
+    {SI \(\left[\dfrac{\text{Byte}}{\text{Byte}}\right]\)}
     {\rfRho}{\rfTau}
-    {RI\textsuperscript{*} = \rfFraction{\rfRho}{\rfTau}}
+    {SI\textsuperscript{*} = \rfFraction{\rfRho}{\rfTau}}
     {Resident}{Streaming}
 \end{tikzpicture}
 \par\smallskip
@@ -83,12 +83,12 @@
 Decomposition & Hardware resources & Data roles \\
 Workload & OP, Byte & \textit{Q}\textsubscript{S}, \textit{Q}\textsubscript{R} \\
 Service rates & \mbox{\rfPi\ [OP/s], \rfBeta\ [Byte/s]} & \rfRho, \rfTau\ [Byte/s] \\
-Intensity & AI = OP/Byte & RI = \textit{Q}\textsubscript{S}/\textit{Q}\textsubscript{R} \\
+Intensity & AI = OP/Byte & SI = \textit{Q}\textsubscript{S}/\textit{Q}\textsubscript{R} \\
 Vertical axis & \textit{P}\textsubscript{OP} = OP/\textit{T} & \textit{P} = \textit{Q}\textsubscript{S}/\textit{T} \\
-Upper bound & \textit{P}\textsubscript{OP} \(\leq\) min(\rfPi, \rfBeta\,AI) & \textit{P} \(\leq\) min(\rfRho, \rfTau\,RI) \\
+Upper bound & \textit{P}\textsubscript{OP} \(\leq\) min(\rfPi, \rfBeta\,AI) & \textit{P} \(\leq\) min(\rfRho, \rfTau\,SI) \\
 Left regime & Memory-bound & Resident-bound \\
 Right regime & Compute-bound & Streaming-bound \\
-Ridge & AI\textsuperscript{*} = \rfPi/\rfBeta & RI\textsuperscript{*} = \rfRho/\rfTau \\
+Ridge & AI\textsuperscript{*} = \rfPi/\rfBeta & SI\textsuperscript{*} = \rfRho/\rfTau \\
 \bottomrule
 \end{tabularx}\par}
 \endgroup

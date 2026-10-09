@@ -10,7 +10,7 @@ For native $128\times128$ tiles, let $m_K=D/128$, $m_N=N_{\mathrm{proj}}/128$, a
  T_{R,\mathrm{comp}}&=MT_R,\label{eq:tile-times}\\
  \rho_{\mathrm{eff}}&=\rho/m_N,&
  \tau_{\mathrm{eff}}&=\tau,\label{eq:effective-capacity}\\
- \RI^*_{\mathrm{eff}}&=\frac{\RI^*}{m_N}=\frac{U^*}{N_{\mathrm{proj}}}.
+ \SI^*_{\mathrm{eff}}&=\frac{\SI^*}{m_N}=\frac{U^*}{N_{\mathrm{proj}}}.
  \label{eq:effective-ridge}
 \end{align}
 The factor $M$ cancels at service balance. This reference uses one engine, full tiles without padding, and equal $U$ per tile; input replay is included in $T_{S,\mathrm{comp}}$.
@@ -18,7 +18,7 @@ The factor $M$ cancels at service balance. This reference uses one engine, full 
 \draftcolumnbreak
 \input{figures/critical_reuse}
 \subsection{Design Implications}
-\outline{Turn a target reuse count into an allowable full-load service time using \eqref{eq:load-budget}, making Fig.~\ref{fig:critical-reuse} a design requirement rather than a ranking. Revisit Fig.~\ref{fig:hardware-capacities} to explain why a lower threshold alone does not imply higher performance: streaming capacity still sets the upper plateau. Contrast weight residency with growing attention state in Table~\ref{tab:workload-intensity}; KV append requires its own update-service boundary before applying any full-load threshold.}
+\outline{Turn a target reuse count into an allowable full-load service time using \eqref{eq:load-budget}, making Fig.~\ref{fig:critical-reuse} a design requirement rather than a ranking. Revisit Fig.~\ref{fig:hardware-capacities} to explain why a lower threshold alone does not imply higher performance: streaming throughput still sets the upper plateau. Contrast weight residency with growing attention state in Table~\ref{tab:workload-intensity}; KV append requires its own update-service boundary before applying any full-load threshold.}
 \begin{equation}
   T_R\leq U_{\mathrm{target}}\Delta_S
   \quad\Longleftrightarrow\quad U_{\mathrm{target}}\geq U^*.

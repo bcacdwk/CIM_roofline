@@ -51,7 +51,7 @@ def make_reuse_table():
     lines = [
         "% Selected from Task II(a) data/results.json; exact values in selected_reuse.csv.",
         r"\begin{papertable}",
-        r"\caption{Resident intensity after one complete weight load}",
+        r"\caption{Streaming intensity after one complete weight load}",
         r"\label{tab:reuse-intensity}",
         r"\footnotesize\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.15}",
         r"\begin{tabularx}{\columnwidth}{@{}l*{6}{>{\centering\arraybackslash}X}@{}}",
@@ -73,7 +73,7 @@ def make_reuse_table():
     lines += [
         r"\bottomrule\end{tabularx}",
         r"\par\smallskip\raggedright",
-        r"One byte/element: $Q_S=UK$, $Q_R=NK$, $\RI=U/N$. As $U\to\infty$, the single load $Q_R=NK$ stays finite. Shapes are logical matrices, not hardware tiles. $1\Kilo=1024$, $1\mathrm{M}=1024^2$.",
+        r"One byte/element: $Q_S=UK$, $Q_R=NK$, $\SI=U/N$. As $U\to\infty$, the single load $Q_R=NK$ stays finite. Shapes are logical matrices, not hardware tiles. $1\Kilo=1024$, $1\mathrm{M}=1024^2$.",
         r"\end{papertable}",
     ]
     (HERE / "reuse_intensity.tex").write_text("\n".join(lines) + "\n")
@@ -103,7 +103,7 @@ def make_workload_table():
     lines = [
         "% Selected from Task II(b) 04_crosscheck/data/results.json; no O-projection values are implied.",
         r"\begin{paperwidetable}",
-        r"\caption{Resident intensities of representative inference matrix stages}",
+        r"\caption{Streaming intensities of representative inference matrix stages}",
         r"\label{tab:workload-intensity}",
         r"\footnotesize\setlength{\tabcolsep}{1.6pt}\renewcommand{\arraystretch}{1.25}",
         r"\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}*{12}{>{\centering\arraybackslash}X}@{}}",
@@ -128,7 +128,7 @@ def make_workload_table():
     lines += [
         r"\bottomrule\end{tabularx}",
         r"\par\smallskip\raggedright",
-        r"Entries are $\RI$; all roles use one byte/element. QKV includes any gate, excluding O. FFN/MoE counts one dense FFN or one routed expert. Prefill builds KV from empty; decode appends one token to a visible length $L$. $1\Kilo=1024$, $1\mathrm{M}=1024^2$. Ling-1T at $64\Kilo$ uses the fixed extension.",
+        r"Entries are $\SI$; all roles use one byte/element. QKV includes any gate, excluding O. FFN/MoE counts one dense FFN or one routed expert. Prefill builds KV from empty; decode appends one token to a visible length $L$. $1\Kilo=1024$, $1\mathrm{M}=1024^2$. Ling-1T at $64\Kilo$ uses the fixed extension.",
         r"\end{paperwidetable}",
     ]
     (HERE / "workload_intensity.tex").write_text("\n".join(lines) + "\n")

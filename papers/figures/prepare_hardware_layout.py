@@ -42,8 +42,8 @@ fig = plt.figure(figsize=(fw, fh))
 ax = fig.add_axes([left/fw, bottom/fh, aw/fw, ah/fh])
 ax.set(xscale="log", yscale="log", xlim=xlim, ylim=ylim)
 ax.set_aspect("equal", adjustable="box")
-ax.set_xlabel(r"Resident update capacity $\tau$ [MB/s]", fontsize=8.5, labelpad=3)
-ax.set_ylabel(r"Streaming input capacity $\rho$ [MB/s]", fontsize=8.5, labelpad=3)
+ax.set_xlabel(r"Resident throughput $\tau$ [MB/s]", fontsize=8.5, labelpad=3)
+ax.set_ylabel(r"Streaming throughput $\rho$ [MB/s]", fontsize=8.5, labelpad=3)
 for axis in (ax.xaxis, ax.yaxis):
     axis.set_major_locator(LogLocator(base=10, numticks=12))
     axis.set_major_formatter(LogFormatterMathtext(base=10))
@@ -101,7 +101,7 @@ def free(box):
 for i in [9, 7, 8, 5, 0, 1, 2, 3, 4, 6]:
     row = next(r for r in rows if r["case_id"] == ids[i] and r["profile"] == "reference")
     value = format(float(format(float(row["RI_star"]), ".2g")), "g")
-    label = labels[i] + "\n" + r"$\mathrm{RI}^{*}=" + value + "$"
+    label = labels[i] + "\n" + r"$\mathrm{SI}^{*}=" + value + "$"
     a = ax.annotate(label, (float(row["tau"]), float(row["rho"])), xytext=(0, 0), textcoords="offset points",
                     fontsize=7.5, color=colors[i], weight="medium", linespacing=1.05,
                     bbox=dict(facecolor="white", edgecolor="none", alpha=.94, pad=.45), zorder=8)
@@ -119,7 +119,7 @@ for i in [9, 7, 8, 5, 0, 1, 2, 3, 4, 6]:
     else:
         raise RuntimeError("No label placement: " + row["case_id"])
 for ratio in (1, 100, .01):
-    text = r"$\rho=\tau\ (\mathrm{RI}^{*}=1)$" if ratio == 1 else r"$\mathrm{RI}^{*}=10^{"+str(int(math.log10(ratio)))+"}$"
+    text = r"$\rho=\tau\ (\mathrm{SI}^{*}=1)$" if ratio == 1 else r"$\mathrm{SI}^{*}=10^{"+str(int(math.log10(ratio)))+"}$"
     a = ax.text(1, 1, text, fontsize=7.5, color="#637b8d", rotation=45,
                 rotation_mode="anchor", bbox=dict(facecolor="white", edgecolor="none", alpha=.92, pad=.4), zorder=5)
     lo = max(math.log10(xlim[0]), math.log10(ylim[0]/ratio)) + .05

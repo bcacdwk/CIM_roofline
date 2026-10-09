@@ -1,5 +1,9 @@
-\begin{paperfigure}
-\includegraphics[width=\linewidth]{figures/Fig1.png}
+% A true float in both modes: it must reach the top of the column beside the drafted Introduction.
+\begin{figure}[!t]
+\centering
+% Fig1_cropped.png is generated from Fig1.png by crop_fig1.py.
+\includegraphics[width=\linewidth]{figures/Fig1_cropped.png}
 \caption{Operand roles in (a) separate memory and compute units and (b) a CIM array. Streaming inputs $A$ are evaluated against resident weights $W$, with a distinct path for loading or updating $W$.}
 \label{fig:operand-roles}
-\end{paperfigure}
+\vspace{-20pt}
+\end{figure}

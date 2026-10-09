@@ -1,5 +1,6 @@
 \documentclass[conference]{IEEEtran}
 % IEEEtran.cls is an unchanged copy of the supplied conference template.
+\IEEEoverridecommandlockouts
 \usepackage{cite}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
@@ -20,15 +21,29 @@
 \newif\iflayoutdraft
 \layoutdrafttrue % Set false for natural flow; removes reservations and page staging.
 \input{layout_draft}
-\newcommand{\RI}{\mathrm{RI}}
+\newcommand{\AI}{\mathrm{AI}}
+\newcommand{\SI}{\mathrm{SI}}
 \newcommand{\Byte}{\mathrm{Byte}}
 \newcommand{\Kilo}{\mathrm{K}}
 
 % Largest tenth-point size that fits this title within the 516 pt text width.
 \title{\fontsize{19.6}{23.5}\selectfont A Resident-Streaming Roofline Model for Compute-in-Memory}
-\author{} % Authors, affiliations, and funding intentionally await the author.
+\author{%
+\IEEEauthorblockN{\normalsize Hanyong Shao\textsuperscript{1,2}, Kechao Tang\textsuperscript{$\dagger$1,3}, and Ru Huang\textsuperscript{$\dagger$1,3}}
+% Wrapped lines keep the 2.75ex pitch and strut depth of IEEE affiliation rows.
+\IEEEauthorblockA{\small\parbox[t]{\textwidth}{\centering\baselineskip=2.75ex\relax
+\textsuperscript{1}School of Integrated Circuits \& \textsuperscript{2}Academy for Advanced Interdisciplinary Studies, Peking University, Beijing~100871, China\quad
+\textsuperscript{3}Beijing Advanced Innovation Center for Integrated Circuits, Beijing~100871, China\quad
+\textsuperscript{$\dagger$}Corresponding authors\quad Email:~\{tkch,~ruhuang\}@pku.edu.cn\rule[-0.825ex]{0pt}{2.75ex}}}}
+% The author block adds quantized title lines; removing them keeps the body
+% exactly where it was without authors. Re-tune if the author block changes.
+\makeatletter
+\def\@IEEEauthorblockconfadjspace{-1.25em}
+\makeatother
+\IEEEaftertitletext{\vspace{-1\baselineskip}}
 
 \begin{document}
+\bstctlcite{IEEEexample:BSTcontrol}
 \maketitle
 \input{sections/abstract}
 \input{sections/introduction}
@@ -39,7 +54,11 @@
 
 % Flush every body float before the real, fifth physical page.
 \clearpage
-\iflayoutdraft\IEEEtriggeratref{12}\fi
+\iflayoutdraft\IEEEtriggeratref{27}\fi
 \bibliographystyle{IEEEtran}
+% IEEEtran sets the list in \footnotesize; 7.5/8.5 pt fills exactly one page.
+\begingroup
+\renewcommand{\footnotesize}{\fontsize{7.5}{8.5}\selectfont}
 \bibliography{references}
+\endgroup
 \end{document}

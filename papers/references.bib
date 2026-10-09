@@ -1,13 +1,171 @@
 % Selected local sources only; absent metadata is not guessed.
 
+% Reference-list controls for IEEEtran.bst (activated by \bstctlcite in main.tex):
+% first author + et al. for every multi-author entry, no URL field, and repeated
+% authors printed in full instead of a dash.
+@IEEEtranBSTCTL{IEEEexample:BSTcontrol,
+ CTLuse_forced_etal={yes},
+ CTLmax_names_forced_etal={1},
+ CTLnames_show_etal={1},
+ CTLuse_url={no},
+ CTLdash_repeated_names={no}
+}
+
+
 @article{williams2009roofline,
  author={S. Williams and A. Waterman and D. Patterson},
  title={{Roofline: An Insightful Visual Performance Model for Multicore Architectures}},
- journal={Communications of the ACM},
+ journal={Commun. ACM},
  volume={52},
  number={4},
  pages={65--76},
- year={2009}
+ year={2009},
+ doi={10.1145/1498765.1498785}
+}
+
+% Roofline and CIM-evaluation literature from the CIM_Roofline_Paper survey;
+% metadata checked against Crossref (NSF PAR 10526902 for meng2024cimdla).
+@article{verhelst2025roofline,
+ author={Marian Verhelst and Luca Benini and Naveen Verma},
+ title={{How to Keep Pushing ML Accelerator Performance? Know Your Rooflines!}},
+ journal={IEEE J. Solid-State Circuits},
+ volume={60},
+ number={6},
+ pages={1888--1905},
+ year={2025},
+ doi={10.1109/JSSC.2025.3553765}
+}
+
+@inproceedings{gerogiannis2025deca,
+ author={Gerasimos Gerogiannis and Stijn Eyerman and Evangelos Georganas and Wim Heirman and Josep Torrellas},
+ title={{DECA: A Near-Core LLM Decompression Accelerator Grounded on a 3D Roofline Model}},
+ booktitle={Proc. IEEE/ACM Int. Symp. Microarchitecture (MICRO)},
+ pages={184--200},
+ year={2025},
+ doi={10.1145/3725843.3756073}
+}
+
+@inproceedings{rheindt2020xcentric,
+ author={Sven Rheindt and Temur Sabirov and Oliver Lenke and Thomas Wild and Andreas Herkersdorf},
+ title={{X-Centric: A Survey on Compute-, Memory- and Application-Centric Computer Architectures}},
+ booktitle={Proc. Int. Symp. Memory Syst. (MEMSYS)},
+ pages={178--193},
+ year={2020},
+ doi={10.1145/3422575.3422792}
+}
+
+@article{sun2023fullspectrumcomputinginmemory,
+ author={Zhong Sun and Shahar Kvatinsky and Xin Si and Adnan Mehonic and Yimao Cai and Ru Huang},
+ title={{A Full Spectrum of Computing-in-Memory Technologies}},
+ journal={Nature Electron.},
+ volume={6},
+ number={11},
+ pages={823--835},
+ year={2023},
+ doi={10.1038/s41928-023-01053-4}
+}
+
+@article{verma2019imc,
+ author={Naveen Verma and Hongyang Jia and Hossein Valavi and others},
+ title={{In-Memory Computing: Advances and Prospects}},
+ journal={IEEE Solid-State Circuits Mag.},
+ volume={11},
+ number={3},
+ pages={43--55},
+ year={2019},
+ doi={10.1109/MSSC.2019.2922889}
+}
+
+@article{garofalo2022imc_cluster,
+ author={Angelo Garofalo and Gianmarco Ottavi and Francesco Conti and others},
+ title={{A Heterogeneous In-Memory Computing Cluster for Flexible End-to-End Inference of Real-World Deep Neural Networks}},
+ journal={IEEE J. Emerg. Sel. Topics Circuits Syst.},
+ volume={12},
+ number={2},
+ pages={422--435},
+ year={2022},
+ doi={10.1109/JETCAS.2022.3170152}
+}
+
+@inproceedings{sun2023imc_benchmark,
+ author={Jiacong Sun and Pouya Houshmand and Marian Verhelst},
+ title={{Analog or Digital In-Memory Computing? Benchmarking Through Quantitative Modeling}},
+ booktitle={Proc. IEEE/ACM Int. Conf. Comput.-Aided Des. (ICCAD)},
+ pages={1--9},
+ year={2023},
+ doi={10.1109/ICCAD57390.2023.10323763}
+}
+
+@article{sharma2025wwwtocim,
+ author={Tanvi Sharma and Mustafa Ali and Indranil Chakraborty and Kaushik Roy},
+ title={{What, When, Where to Compute-in-Memory for Efficient Matrix Multiplication During Machine Learning Inference}},
+ journal={IEEE Trans. Emerg. Topics Comput.},
+ volume={13},
+ number={3},
+ pages={1215--1229},
+ year={2025},
+ doi={10.1109/TETC.2025.3574508}
+}
+
+@inproceedings{zhou2025imcsim,
+ author={Kaining Zhou and Jian Huang and Nam Sung Kim and Naresh Shanbhag},
+ title={{A Full-System, Programmable, and Extensible In-Memory Computing Simulation Framework for Deep Learning}},
+ booktitle={Proc. ACM/IEEE Design Autom. Conf. (DAC)},
+ pages={1--7},
+ year={2025},
+ doi={10.1109/DAC63849.2025.11132463}
+}
+
+@inproceedings{krishnan2021imc_limits,
+ author={Gokul Krishnan and Jubin Hazra and Maximilian Liehr and others},
+ title={{Design Limits of In-Memory Computing: Beyond the Crossbar}},
+ booktitle={Proc. IEEE Electron Devices Technol. Manuf. Conf. (EDTM)},
+ pages={1--3},
+ year={2021},
+ doi={10.1109/EDTM50988.2021.9421057}
+}
+
+@article{meng2024cimdla,
+ author={Fan-Hsuan Meng and Wei D. Lu},
+ title={{Compute-In-Memory Technologies for Deep Learning Acceleration}},
+ journal={IEEE Nanotechnol. Mag.},
+ volume={18},
+ number={1},
+ pages={44--52},
+ year={2024},
+ doi={10.1109/MNANO.2023.3340321}
+}
+
+@article{liu2025ar_llm,
+ author={Huichu Liu and Tony F. Wu and Pouya Houshmand and others},
+ title={{Harnessing Memory Technology Innovations for On-Device Large Language Models in Augmented Reality SoCs: Cooptimizing System Architecture with Model Characteristics}},
+ journal={IEEE Solid-State Circuits Mag.},
+ volume={17},
+ number={4},
+ pages={39--46},
+ year={2025},
+ doi={10.1109/MSSC.2025.3596910}
+}
+
+% NeuroSim 2DInferenceV1.4: both references are required by the upstream license notice.
+@article{lee2024neurosim,
+ author={Junmo Lee and Anni Lu and Wantong Li and Shimeng Yu},
+ title={{NeuroSim V1.4: Extending Technology Support for Digital Compute-in-Memory Toward 1nm Node}},
+ journal={IEEE Trans. Circuits Syst. I, Reg. Papers},
+ volume={71},
+ number={4},
+ pages={1733--1744},
+ year={2024},
+ doi={10.1109/TCSI.2024.3362822}
+}
+
+@inproceedings{peng2019dnnneurosim,
+ author={Xiaochen Peng and Shanshi Huang and Yandong Luo and Xiaoyu Sun and Shimeng Yu},
+ title={{DNN+NeuroSim: An End-to-End Benchmarking Framework for Compute-in-Memory Accelerators with Versatile Device Technologies}},
+ booktitle={Proc. IEEE Int. Electron Devices Meeting (IEDM)},
+ pages={32.5.1--32.5.4},
+ year={2019},
+ doi={10.1109/IEDM19573.2019.8993491}
 }
 
 % Local source: literature/01_sram_acim/SACIM-01_2022_Scalable_IMC.pdf
@@ -15,7 +173,7 @@
  author={Hongyang Jia and Murat Ozatay and Yinqi Tang and others},
  title={{Scalable and Programmable Neural Network Inference Accelerator Based on In-Memory Computing}},
  year={2022},
- journal={IEEE Journal of Solid-State Circuits},
+ journal={IEEE J. Solid-State Circuits},
  volume={57},
  number={1},
  pages={198--211},
@@ -26,8 +184,11 @@
 @article{SACIM-03,
  author={Kanglin Xiao and Xiaoxin Cui and Xin Qiao and others},
  title={{A 28nm 32Kb SRAM Computing-in-Memory Macro With Hierarchical Capacity Attenuator and Input Sparsity-Optimized ADC for 4b Mac Operation}},
+ volume={70},
+ number={6},
+ pages={1816--1820},
  year={2023},
- journal={IEEE Transactions on Circuits and Systems II: Express Briefs},
+ journal={IEEE Trans. Circuits Syst. II, Exp. Briefs},
  doi={10.1109/tcsii.2023.3234620}
 }
 
@@ -54,7 +215,7 @@
  author={Hang-Ting Lue and Po-Kai Hsu and Ming-Liang Wei and others},
  title={{Optimal Design Methods to Transform 3D NAND Flash into a High-Density, High-Bandwidth and Low-Power Nonvolatile Computing in Memory (nvCIM) Accelerator for Deep-Learning Neural Networks (DNN)}},
  year={2019},
- booktitle={Proc. IEEE International Electron Devices Meeting (IEDM)},
+ booktitle={Proc. IEEE Int. Electron Devices Meeting (IEDM)},
  pages={38.1.1--38.1.4},
  doi={10.1109/iedm19573.2019.8993652}
 }
@@ -66,6 +227,7 @@
  year={2022},
  journal={Nature},
  volume={608},
+ number={7923},
  pages={504--512},
  doi={10.1038/s41586-022-04992-8}
 }
@@ -76,8 +238,9 @@
  author={Humiao Li and Zheng Chai and Weirong Dong and others},
  title={{A lossless and fully parallel spintronic compute-in-memory macro for artificial intelligence chips}},
  year={2025},
- journal={Nature Electronics},
+ journal={Nature Electron.},
  volume={8},
+ number={11},
  pages={1046--1058},
  doi={10.1038/s41928-025-01479-y}
 }
@@ -87,8 +250,9 @@
  author={Manuel {Le Gallo} and Riduan Khaddam-Aljameh and Milos Stanisavljevic and others},
  title={{A 64-core mixed-signal in-memory compute chip based on phase-change memory for deep neural network inference}},
  year={2023},
- journal={Nature Electronics},
+ journal={Nature Electron.},
  volume={6},
+ number={9},
  pages={680--693},
  doi={10.1038/s41928-023-01010-1}
 }
@@ -98,7 +262,7 @@
  author={Xiaoyang Ma and Shan Deng and Juejian Wu and others},
  title={{A 2-Transistor-2-Capacitor Ferroelectric Edge Compute-in-Memory Scheme with Disturb-Free Inference and High Endurance}},
  year={2023},
- journal={IEEE Electron Device Letters},
+ journal={IEEE Electron Device Lett.},
  volume={44},
  number={7},
  pages={1088--1091},
@@ -109,8 +273,11 @@
 @article{GC-04,
  author={Jiahao Song and Xiyuan Tang and Haoyang Luo and others},
  title={{A 4-bit Calibration-Free Computing-In-Memory Macro With 3T1C Current-Programed Dynamic-Cascode Multi-Level-Cell eDRAM}},
+ volume={59},
+ number={3},
+ pages={842--854},
  year={2024},
- journal={IEEE Journal of Solid-State Circuits},
+ journal={IEEE J. Solid-State Circuits},
  doi={10.1109/jssc.2023.3339887}
 }
 
@@ -118,16 +285,227 @@
 @inproceedings{FENOR-02,
  author={Yuejia Zhou and Yuancheng Yang and Liang Chen and others},
  title={{3D Vertical FeFET Array with Record Endurance ($>10^{12}$), Fast Writing ($\pm$2V, 20 ns), Disturb Immunity, and Kb-scale Verification for High Density 1T RAM}},
+ pages={1--3},
  year={2026},
- booktitle={Proc. Symposium on VLSI Technology and Circuits},
+ booktitle={Proc. Symp. VLSI Technol. Circuits},
  note={Paper T11.1},
  doi={10.1109/vlsitechnologyandcir65830.2026.11577291}
+}
+
+% Further Task I sources (tasks/task1_table_I_NVM/source_manifest.json): three per technology,
+% primary parameter sources first, then the strongest cross-checks; volume/pages from Crossref.
+
+% SRAM DCIM
+@inproceedings{SDCIM-03,
+ author={Bonan Yan and Jeng-Long Hsu and Pang-Cheng Yu and others},
+ title={{A 1.041-Mb/mm$^2$ 27.38-TOPS/W Signed-INT8 Dynamic-Logic-Based ADC-less SRAM Compute-in-Memory Macro in 28nm with Reconfigurable Bitwise Operation for AI and Embedded Applications}},
+ booktitle={Proc. IEEE Int. Solid-State Circuits Conf. (ISSCC)},
+ pages={188--190},
+ year={2022},
+ doi={10.1109/isscc42614.2022.9731545}
+}
+
+@article{SDCIM-05,
+ author={Yiyang Yuan and Bingxin Zhang and Yiming Yang and others},
+ title={{A 28-nm Digital Transpose SRAM Compute-in-Memory Macro With Accurate/Approximate Dual Mode for Floating-Point Edge Training and Inference}},
+ journal={IEEE J. Solid-State Circuits},
+ volume={61},
+ number={9},
+ pages={5098--5110},
+ year={2026},
+ doi={10.1109/jssc.2026.3679560}
+}
+
+% SRAM ACIM
+@article{SACIM-05,
+ author={Jian-Wei Su and Pei-Jung Lu and Ping-Chun Wu and others},
+ title={{8-Bit Precision 6T SRAM Compute-in-Memory Macro Using Global Bitline-Combining Scheme for Edge AI Chips}},
+ journal={IEEE Trans. Circuits Syst. II, Exp. Briefs},
+ volume={71},
+ number={4},
+ pages={2304--2308},
+ year={2024},
+ doi={10.1109/tcsii.2023.3331375}
+}
+
+% 2D NOR
+@manual{NOR-02,
+ author={{Winbond Electronics}},
+ title={{W25Q128JV --- 3V 128M-Bit Serial Flash Memory with Dual/Quad SPI}},
+ year={2019},
+ note={Datasheet Rev. G}
+}
+
+@inproceedings{NOR-04,
+ author={Xinjie Guo and Farnood Merrikh Bayat and Mohammad Bavandpour and others},
+ title={{Fast, Energy-Efficient, Robust, and Reproducible Mixed-Signal Neuromorphic Classifier Based on Embedded NOR Flash Memory Technology}},
+ booktitle={Proc. IEEE Int. Electron Devices Meeting (IEDM)},
+ pages={6.5.1--6.5.4},
+ year={2017},
+ doi={10.1109/iedm.2017.8268341}
+}
+
+% 3D NAND
+@article{NAND-04,
+ author={Wonbo Shim and Shimeng Yu},
+ title={{System-Technology Codesign of 3-D NAND Flash-Based Compute-in-Memory Inference Engine}},
+ journal={IEEE J. Explor. Solid-State Comput. Devices Circuits},
+ volume={7},
+ number={1},
+ pages={61--69},
+ year={2021},
+ doi={10.1109/jxcdc.2021.3093772}
+}
+
+@manual{NAND-06,
+ author={{Macronix International Co., Ltd.}},
+ title={{MX30LF1G18AC: 3V, 1G-bit NAND Flash Memory}},
+ year={2016},
+ note={Datasheet PM2133 Rev. 1.2}
+}
+
+% RRAM
+@article{RRAM-05,
+ author={Wang Ye and Linfang Wang and Zhidao Zhou and others},
+ title={{A 28-nm RRAM Computing-in-Memory Macro Using Weighted Hybrid 2T1R Cell Array and Reference Subtracting Sense Amplifier for AI Edge Inference}},
+ journal={IEEE J. Solid-State Circuits},
+ volume={58},
+ number={10},
+ pages={2839--2850},
+ year={2023},
+ doi={10.1109/jssc.2023.3280357}
+}
+
+@inproceedings{RRAM-06,
+ author={Yen-Cheng Chiu and Han-Wen Hu and Li-Ya Lai and others},
+ title={{A 40nm 2Mb ReRAM Macro with 85\% Reduction in FORMING Time and 99\% Reduction in Page-Write Time Using Auto-FORMING and Auto-Write Schemes}},
+ booktitle={Proc. Symp. VLSI Technol.},
+ pages={T232--T233},
+ year={2019},
+ doi={10.23919/vlsit.2019.8776540}
+}
+
+% MRAM
+@article{MRAM-03,
+ author={Qing Dong and Zhehong Wang and Jongyup Lim and others},
+ title={{A 1-Mb 28-nm 1T1MTJ STT-MRAM With Single-Cap Offset-Cancelled Sense Amplifier and In Situ Self-Write-Termination}},
+ journal={IEEE J. Solid-State Circuits},
+ volume={54},
+ number={1},
+ pages={231--239},
+ year={2019},
+ doi={10.1109/jssc.2018.2872584}
+}
+
+@inproceedings{MRAM-04,
+ author={Tzu-Hsien Yang and Kai-Xiang Li and Yen-Ning Chiang and Wei-Yu Lin and Huan-Ting Lin and Meng-Fan Chang},
+ title={{A 28nm 32Kb Embedded 2T2MTJ STT-MRAM Macro with 1.3ns Read-Access Time for Fast and Reliable Read Applications}},
+ booktitle={Proc. IEEE Int. Solid-State Circuits Conf. (ISSCC)},
+ pages={482--484},
+ year={2018},
+ doi={10.1109/isscc.2018.8310394}
+}
+
+% PCM
+@inproceedings{PCM-03,
+ author={Win-San Khwa and Yen-Cheng Chiu and Chuan-Jia Jhang and others},
+ title={{A 40-nm, 2M-Cell, 8b-Precision, Hybrid SLC-MLC PCM Computing-in-Memory Macro with 20.5--65.0TOPS/W for Tiny-AI Edge Devices}},
+ booktitle={Proc. IEEE Int. Solid-State Circuits Conf. (ISSCC)},
+ pages={1--3},
+ year={2022},
+ doi={10.1109/isscc42614.2022.9731670}
+}
+
+@article{PCM-06,
+ author={P. Narayanan and S. Ambrogio and A. Okazaki and others},
+ title={{Fully On-Chip MAC at 14 nm Enabled by Accurate Row-Wise Programming of PCM-Based Weights and Parallel Vector-Transport in Duration-Format}},
+ journal={IEEE Trans. Electron Devices},
+ volume={68},
+ number={12},
+ pages={6629--6636},
+ year={2021},
+ doi={10.1109/ted.2021.3115993}
+}
+
+% HfO2 FeRAM
+@inproceedings{FERAM-02,
+ author={Minchul Sung and Kwangmyoung Rho and Jayong Kim and others},
+ title={{Low Voltage and High Speed 1Xnm 1T1C FE-RAM with Ultra-Thin 5nm HZO}},
+ booktitle={Proc. IEEE Int. Electron Devices Meeting (IEDM)},
+ pages={33.3.1--33.3.4},
+ year={2021},
+ doi={10.1109/iedm19574.2021.9720545}
+}
+
+@inproceedings{FERAM-03,
+ author={Jun Okuno and Takafumi Kunihiro and Kenta Konishi and others},
+ title={{SoC Compatible 1T1C FeRAM Memory Array Based on Ferroelectric Hf$_{0.5}$Zr$_{0.5}$O$_2$}},
+ booktitle={Proc. Symp. VLSI Technol.},
+ pages={1--2},
+ year={2020},
+ doi={10.1109/vlsitechnology18217.2020.9265063}
+}
+
+@inproceedings{FERAM-04,
+ author={N. Ramaswamy and A. Calderoni and J. Zahurak and others},
+ title={{NVDRAM: A 32Gb Dual Layer 3D Stacked Non-volatile Ferroelectric Memory with Near-DRAM Performance for Demanding AI Workloads}},
+ booktitle={Proc. IEEE Int. Electron Devices Meeting (IEDM)},
+ pages={1--4},
+ year={2023},
+ doi={10.1109/iedm45741.2023.10413848}
+}
+
+% Gain-cell eDRAM
+@article{GC-02,
+ author={Robert Giterman and Alexander Fish and Narkis Geuli and Elad Mentovich and Andreas Burg and Adam Teman},
+ title={{An 800-MHz Mixed-$V_{\mathrm{T}}$ 4T IFGC Embedded DRAM in 28-nm CMOS Bulk Process for Approximate Storage Applications}},
+ journal={IEEE J. Solid-State Circuits},
+ volume={53},
+ number={7},
+ pages={2136--2148},
+ year={2018},
+ doi={10.1109/jssc.2018.2820145}
+}
+
+@article{GC-05,
+ author={Ping-Chun Wu and Win-San Khwa and Jui-Jen Wu and others},
+ title={{An Integer-Floating-Point Dual-Mode Gain-Cell Computing-in-Memory Macro for Advanced AI Edge Chips}},
+ journal={IEEE J. Solid-State Circuits},
+ volume={60},
+ number={1},
+ pages={158--170},
+ year={2025},
+ doi={10.1109/jssc.2024.3470215}
+}
+
+% 3D FeNOR
+@inproceedings{FENOR-01,
+ author={Yuejia Zhou and Runteng Zhu and Wenpu Luo and others},
+ title={{3D NOR-Type FeFETs with Record Endurance of $10^{11}$, Fast Erase of 50 ns, and Immediate Read-After-Write for In-Memory Learning}},
+ booktitle={Proc. Symp. VLSI Technol. Circuits},
+ pages={1--3},
+ year={2025},
+ doi={10.23919/vlsitechnologyandcir65189.2025.11074820}
+}
+
+@article{FENOR-04,
+ author={Yang Feng and Dong Zhang and Chen Sun and others},
+ title={{Efficient Large Scale Neural Network Acceleration With 3-D FeNOR-Based Computing-in-Memory Design}},
+ journal={IEEE Trans. Electron Devices},
+ volume={72},
+ number={5},
+ pages={2319--2326},
+ year={2025},
+ doi={10.1109/ted.2025.3554164}
 }
 
 % Local source: literature/00_cmos_periphery/CMOS-02_2021_AsynchronousSAR.pdf
 @article{CMOS-02,
  author={Fang Tang and Qiyun Ma and Zhou Shu and Yuanjin Zheng and Amine Bermak},
  title={{A 28 nm CMOS 10 bit 100 MS/s Asynchronous SAR ADC with Low-Power Switching Procedure and Timing-Protection Scheme}},
+ volume={10},
+ number={22},
+ pages={2856},
  year={2021},
  journal={Electronics},
  doi={10.3390/electronics10222856}
@@ -137,8 +515,11 @@
 @article{CMOS-03,
  author={Brian Zimmer and Seng Oon Toh and Huy Vo and others},
  title={{SRAM Assist Techniques for Operation in a Wide Voltage Range in 28-nm CMOS}},
+ volume={59},
+ number={12},
+ pages={853--857},
  year={2012},
- journal={IEEE Transactions on Circuits and Systems II: Express Briefs},
+ journal={IEEE Trans. Circuits Syst. II, Exp. Briefs},
  doi={10.1109/tcsii.2012.2231015}
 }
 
@@ -146,61 +527,67 @@
 @article{CMOS-07,
  author={Yoshisato Yokoyama and Koji Nii and Yuichiro Ishii and Shinji Tanaka and Kazutoshi Kobayashi},
  title={{Disturbance Aware Dynamic Power Reduction in Synchronous 2RW Dual-Port 8T SRAM by Self-Adjusting Wordline Pulse Timing}},
+ volume={58},
+ number={7},
+ pages={2098--2108},
  year={2023},
- journal={IEEE Journal of Solid-State Circuits},
+ journal={IEEE J. Solid-State Circuits},
  doi={10.1109/jssc.2022.3229828}
 }
 
-% Local source: literature/01_qwen35_2b/raw/config.json
+% LLM references: the citation each vendor recommends in its model card (arXiv report
+% where one exists). Workload dimensions come from the pinned config.json snapshots in
+% tasks/task2_table_II_workloads/literature/*/raw/config.json; revisions noted per entry.
+
+% Qwen/Qwen3.5-2B rev. 15852e8c; citation from that model card.
 @misc{qwen35,
- author={{Qwen}},
- title={{Qwen3.5-2B}: model configuration},
- year={2026},
- note={Fixed repository snapshot, rev. 15852e8c. Accessed: Sep. 23, 2026},
- url={https://huggingface.co/Qwen/Qwen3.5-2B/resolve/15852e8c16360a2fea060d615a32b45270f8a8fc/config.json}
+ author={{Qwen Team}},
+ title={{Qwen3.5: Towards Native Multimodal Agents}},
+ howpublished={Qwen blog},
+ month=feb,
+ year={2026}
 }
 
-% Local source: literature/02_ministral3_8b/raw/config.json
+% mistralai/Ministral-3-8B-Base-2512 rev. d4883f9b; model card links arXiv:2601.08584.
 @misc{ministral3,
- author={{Mistral AI}},
- title={{Ministral 3 8B (2512)}: model configuration},
- year={2026},
- note={Fixed repository snapshot, rev. d4883f9b. Accessed: Sep. 23, 2026},
- url={https://huggingface.co/mistralai/Ministral-3-8B-Base-2512/resolve/d4883f9b36aa2e5d775730d3fdba3d30de51a8ef/config.json}
+ author={Alexander H. Liu and others},
+ title={{Ministral 3}},
+ howpublished={arXiv:2601.08584},
+ month=jan,
+ year={2026}
 }
 
-% Local source: literature/03_qwen36_35b_a3b/raw/config.json
+% Qwen/Qwen3.6-35B-A3B rev. 995ad96e; citation from that model card.
 @misc{qwen36,
- author={{Qwen}},
- title={{Qwen3.6-35B-A3B}: model configuration},
- year={2026},
- note={Fixed repository snapshot, rev. 995ad96e. Accessed: Sep. 23, 2026},
- url={https://huggingface.co/Qwen/Qwen3.6-35B-A3B/resolve/995ad96eacd98c81ed38be0c5b274b04031597b0/config.json}
+ author={{Qwen Team}},
+ title={{Qwen3.6-35B-A3B: Agentic Coding Power, Now Open to All}},
+ howpublished={Qwen blog},
+ month=apr,
+ year={2026}
 }
 
-% Local source: literature/04_hy3_295b/raw/config.json
+% tencent/Hy3 rev. a960ebc3; no report or citation block, so the official release page.
 @misc{hy3,
- author={{Tencent}},
- title={{Tencent Hy3 (295B)}: model configuration},
- year={2026},
- note={Fixed repository snapshot, rev. a960ebc3. Accessed: Sep. 23, 2026},
- url={https://huggingface.co/tencent/Hy3/resolve/a960ebc3da325ba167f069f76c41eb62c9280d22/config.json}
+ author={{Tencent Hy Team}},
+ title={{Introducing Hy3}},
+ howpublished={Tencent Hy research blog},
+ month=jul,
+ year={2026}
 }
 
-% Local source: literature/05_ling_1t/raw/config.json
+% inclusionAI/Ling-1T rev. 268f2aa7; Ling 2.0 technical report cited by that model card.
 @misc{ling,
- author={{inclusionAI}},
- title={{Ling-1T}: model configuration},
- year={2026},
- note={Fixed repository snapshot, rev. 268f2aa7. Accessed: Sep. 23, 2026},
- url={https://huggingface.co/inclusionAI/Ling-1T/resolve/268f2aa76aa8cf5b36ca33805481cea91133327e/config.json}
+ author={{Ling Team} and others},
+ title={{Every Activation Boosted: Scaling General Reasoner to 1 Trillion Open Language Foundation}},
+ howpublished={arXiv:2510.22115},
+ month=oct,
+ year={2025}
 }
 
-% Local source: literature/06_mimo_v25_pro/raw/config.json
+% XiaomiMiMo/MiMo-V2.5-Pro rev. 21d1ecfe; citation from that model card.
 @misc{mimo,
- author={{Xiaomi MiMo}},
- title={{MiMo-V2.5-Pro}: model configuration},
- year={2026},
- note={Fixed repository snapshot, rev. 21d1ecfe. Accessed: Sep. 23, 2026},
- url={https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro/resolve/21d1ecfecd7bd70f31be25ca49d7edd21f003659/config.json}
+ author={{Xiaomi MiMo Team}},
+ title={{MiMo-V2.5-Pro}},
+ howpublished={Model card, Hugging Face},
+ year={2026}
 }

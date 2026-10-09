@@ -1,5 +1,8 @@
-.PHONY: all
+.PHONY: all clean
 all:
 	mkdir -p build output
-	latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build -jobname=manuscript_skeleton main.tex
-	cp build/manuscript_skeleton.pdf output/manuscript_skeleton.pdf
+	latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build -jobname=paper_1167 main.tex
+	cp build/paper_1167.pdf output/paper_1167.pdf
+
+clean:
+	rm -rf build

@@ -45,7 +45,7 @@ CIM 把一类操作数保存为计算状态，另一类操作数流过该状态�
 
 ### 摘要：由 Agent 写成一段完整英文，建议 160–190 词
 
-2026-10-06 用户审阅更新：摘要改为从 Roofline 出发，不再从 CIM 的物理特点起笔。现行顺序为：Roofline 是分析 CPU/GPU 的标准工具→CIM 违背了经典 Roofline 的存算分离假设→开门见山提出模型：streaming 与 resident-write 吞吐分别取代计算吞吐与访存带宽→原因是观察到的对称性（分离架构是异质硬件处理同质数据，CIM 是同质硬件处理驻留与流式两类异质数据）→NeuroSim 仿真结合文献提取参数，把十种 CIM 技术放上该 Roofline，并分析主流 LLM 各计算阶段的需求（不写“六个模型”）→结论用成对的 GPU 概念迁移表达：写入速度对应带宽，复用低于临界值时限制吞吐（临界复用跨四个以上数量级）；激活流过整个阵列的速度对应计算吞吐，代表 CIM 真正的计算性能。不加额外收尾句。“单纯提高流式吞吐使转折点右移”放在 IV-B，不进摘要。硬件来源以 Task I README 的 NeuroSim 说明为准；配置含 SRAM 与 gain-cell，不以 NVM 统称。下列 1–6 条中的边界与定量锚点仍然适用，叙事顺序以本条为准。
+2026-10-06 用户审阅更新：摘要改为从 Roofline 出发，不再从 CIM 的物理特点起笔。现行顺序为：Roofline 是分析 CPU/GPU 的标准工具→CIM 违背了经典 Roofline 的存算分离假设→开门见山提出模型：streaming 与 resident 吞吐分别取代计算吞吐与访存带宽→原因是观察到的对称性（分离架构是异质硬件处理同质数据，CIM 是同质硬件处理驻留与流式两类异质数据）→NeuroSim 仿真结合文献提取参数，把十种 CIM 技术放上该 Roofline，并分析主流 LLM 各计算阶段的需求（不写“六个模型”）→结论用成对的 GPU 概念迁移表达：写入速度对应带宽，复用低于临界值时限制吞吐（临界复用跨四个以上数量级）；激活流过整个阵列的速度对应计算吞吐，代表 CIM 真正的计算性能。不加额外收尾句。“单纯提高流式吞吐使转折点右移”放在 IV-B，不进摘要。硬件来源以 Task I README 的 NeuroSim 说明为准；配置含 SRAM 与 gain-cell，不以 NVM 统称。下列 1–6 条中的边界与定量锚点仍然适用，叙事顺序以本条为准。
 
 按以下逻辑写，不做逐节目录介绍：
 
@@ -145,7 +145,7 @@ CIM 把一类操作数保存为计算状态，另一类操作数流过该状态�
 
 - Q_S：窗口内经过所声明 streaming 输入边界的逻辑字节。
 - Q_R：窗口内建立、更新或重载 resident 状态的逻辑写入字节，不是一般意义上的容量。
-- rho、tau：与两组需求使用相同边界、配置和精度的服务能力。
+- rho、tau：与两组需求使用相同边界、配置和精度的服务能力。英文稿统一称 throughput：rho 为 streaming throughput，tau 为 resident throughput（不加 write 修饰）；不称 bandwidth 或 capacity。指需求 Q_R 时仍可说 resident write。GPU 的 beta 仍称 memory bandwidth。
 - RI=Q_S/Q_R；Q_S>0、Q_R=0 的静态分支取 RI=∞。
 - T 是完成窗口工作的时间；P=Q_S/T 是相应输入服务吞吐。
 
@@ -330,7 +330,7 @@ papers/
   figures/                     # 已选图的投稿副本或受控引用
   tables/
   notes/layout_review.zh.md
-  output/manuscript_skeleton.pdf
+  output/paper_1167.pdf
 ```
 
 内部文件组织可简化；不创建重复的写作管理系统。图的来源与生成版本在README记录，不覆盖原Task产物。

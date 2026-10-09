@@ -1,6 +1,6 @@
 % Selected from Task II(b) 04_crosscheck/data/results.json; no O-projection values are implied.
 \begin{paperwidetable}
-\caption{Resident intensities of representative inference matrix stages}
+\caption{Streaming intensities of representative inference matrix stages}
 \label{tab:workload-intensity}
 \footnotesize\setlength{\tabcolsep}{1.6pt}\renewcommand{\arraystretch}{1.25}
 \begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}*{12}{>{\centering\arraybackslash}X}@{}}
@@ -19,5 +19,5 @@ Ling-1T (1000B) & 0.100 & 12.8 & 102.4 & 0.00326 & 0.208 & 3.3 & 20.0 & 132.0 & 
 MiMo-V2.5-Pro (1020B) & 0.0377 & 4.8 & 38.6 & 0.00347 & 0.222 & 3.6 & 35.2 & 214.4 & 1648.0 & 60.8 & 419.2 & 3286.4 \\
 \bottomrule\end{tabularx}
 \par\smallskip\raggedright
-Entries are $\RI$; all roles use one byte/element. QKV includes any gate, excluding O. FFN/MoE counts one dense FFN or one routed expert. Prefill builds KV from empty; decode appends one token to a visible length $L$. $1\Kilo=1024$, $1\mathrm{M}=1024^2$. Ling-1T at $64\Kilo$ uses the fixed extension.
+Entries are $\SI$; all roles use one byte/element. QKV includes any gate, excluding O. FFN/MoE counts one dense FFN or one routed expert. Prefill builds KV from empty; decode appends one token to a visible length $L$. $1\Kilo=1024$, $1\mathrm{M}=1024^2$. Ling-1T at $64\Kilo$ uses the fixed extension.
 \end{paperwidetable}

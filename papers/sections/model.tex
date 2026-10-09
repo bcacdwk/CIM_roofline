@@ -3,21 +3,22 @@
 \subsection{Operand Roles and Counting Boundaries}
 \outline{Define an analysis window with logical streaming-input demand $Q_S$ and resident-write demand $Q_R$, in bytes, at the boundaries sketched in Fig.~\ref{fig:operand-roles}. Count initial loading only when it occurs inside the window, include every update or reload, and match $\rho$ and $\tau$ to the same configuration, precision, and service boundaries. Explain that resident state may be weights or historical keys and values; physical encoding, conversion, and required maintenance belong in service accounting.}
 \begin{equation}
-  \RI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
+  \SI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
   \label{eq:definitions}
 \end{equation}
-where $T$ is the window completion time; for $Q_S>0$ and $Q_R=0$, define $\RI=\infty$.
+where $T$ is the window completion time; for $Q_S>0$ and $Q_R=0$, define $\SI=\infty$.
 \draftreserve{2.00in}{Counting boundaries: one compact definition paragraph and a window example.}
 
-\draftpagebreak
-\subsection{Throughput Bound and Resident Intensity}
+\draftcolumnbreak
+\input{figures/roofline_comparison}
+\subsection{Throughput Bound and Streaming Intensity}
 \outline{Derive the two necessary service times and use Fig.~\ref{fig:roofline-comparison} to distinguish the meaning of the axes from the familiar Roofline geometry. Identify resident-bound and streaming-bound regions by the tighter term, while treating the curve as an upper bound whose attainability depends on shared resources and scheduling. Use the two compact accounting examples below to connect input throughput to useful operations and expose the effect of changing the residency window.}
 \begin{align}
   T&\geq\max\!\left(\frac{Q_S}{\rho},\frac{Q_R}{\tau}\right),\label{eq:time}\\
-  P&\leq\min(\rho,\tau\RI),\qquad \RI^*=\frac{\rho}{\tau}.
+  P&\leq\min(\rho,\tau\SI),\qquad \SI^*=\frac{\rho}{\tau}.
   \label{eq:roofline}
 \end{align}
-Here $\rho$ and $\tau$ are streaming and resident service capacities in $\Byte/\mathrm{s}$; $\RI<\RI^*$ is resident-bound and $\RI>\RI^*$ is streaming-bound.
+Here $\rho$ and $\tau$ are the streaming and resident throughputs in $\Byte/\mathrm{s}$; $\SI<\SI^*$ is resident-bound and $\SI>\SI^*$ is streaming-bound.
 
 \paragraph{Example to develop: useful-operation conversion}
 One logical $128\times128$ INT8 matrix-vector multiplication takes 128 input bytes and performs 16,384 MACs. With two useful operations per MAC, the same execution satisfies
@@ -31,7 +32,7 @@ One logical $128\times128$ INT8 matrix-vector multiplication takes 128 input byt
 For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-window loading policy changes:
 \begin{equation}
 \begin{array}{lcc}
-\text{Policy}&Q_R\ [\Byte]&\RI\\
+\text{Policy}&Q_R\ [\Byte]&\SI\\
 \text{Already resident}&0&\infty\\
 \text{Load once, reuse}&16{,}384&U/128\\
 \text{Reload before each use}&16{,}384U&1/128.
@@ -39,17 +40,15 @@ For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-
 \label{eq:windows}
 \end{equation}
 \input{tables/reuse_intensity}
-\draftcolumnbreak
-\input{figures/roofline_comparison}
-\subsection{From Resident Intensity to Reuse}
+\subsection{From Streaming Intensity to Reuse}
 \outline{Define $U$ as all input vectors served after one complete load, including the first use and allowing accumulation across requests. Use Table~\ref{tab:reuse-intensity} and the payload relations below to connect logical matrix shape and reuse, then translate the ridge into Fig.~\ref{fig:critical-reuse} at each native service boundary. Distinguish unbounded reuse of a finite initial load from a finite, already-resident window with no writes.}
 \begin{align}
   Q_S&=UKb_S,& Q_R&=NKb_R,\label{eq:matrix-demand}\\
-  \RI&=\frac{Ub_S}{Nb_R},&
+  \SI&=\frac{Ub_S}{Nb_R},&
   \rho&=\frac{Kb_S}{\Delta_S},\label{eq:matrix-services}\\
   \tau&=\frac{NKb_R}{T_R},&
-  U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\RI^*.
+  U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\SI^*.
   \label{eq:critical-reuse}
 \end{align}
-The precisions $b_S,b_R$ are bytes per element; $\Delta_S$ is a complete-vector service interval and $T_R$ a full-matrix load service time. At equal byte widths, $\RI=U/N$ and $U^*=N\RI^*$.
+The precisions $b_S,b_R$ are bytes per element; $\Delta_S$ is a complete-vector service interval and $T_R$ a full-matrix load service time. At equal byte widths, $\SI=U/N$ and $U^*=N\SI^*$.
 \draftreserve{0.65in}{Reuse interpretation and the transition to native reference services.}
