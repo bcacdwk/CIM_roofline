@@ -3,6 +3,7 @@
 本评估结合文献支持的器件与阵列服务估计、NeuroSim 电路模型，以及明确的映射和调度政策，计算 resident–streaming 两路服务能力。十个参考配置采用各自已声明的阵列组织、精度、资源和服务预算；结果不是等面积或等精度的通用材料排名。
 
 - [方法、边界与适用条件](analysis/METHOD.zh.md)
+- [原生二元存储密度与 F² 面积补充](analysis/12_footprint/README.zh.md)
 - [Table I 与 rho–tau 图](analysis/11_summary_figures/README.zh.md) · [三页 PDF](analysis/11_summary_figures/output/table_I.pdf)
 - [典型参考配置权威数据](analysis/data/ten_case_results.json) · [CSV](analysis/data/ten_case_results.csv)
 - [三情景成对工程结果](analysis/data/paired_scenario_results.json) · [CSV](analysis/data/paired_scenario_results.csv)

@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "case_id": "01_sram_acim",
+      "label": "SRAM ACIM",
+      "unit_description": "Reported native 9T1C SRAM storage/charge-coupled bitcell",
+      "area_xy_um2": "0.994",
+      "independent_bits": 1,
+      "F_mem_nm": "28",
+      "F_definition": "Reported 28 nm CMOS nominal process node; not measured lithographic half-pitch",
+      "F_kind": "nominal_node",
+      "evidence_class": "reported_geometry",
+      "source_refs": [
+        {
+          "source_id": "SACIM-03",
+          "locator": "PDF p3 Section III: bit-cell area 0.994 um2 and standard 28-nm CMOS; p2 Section II-B: MOM capacitor above bitcell"
+        }
+      ],
+      "notes": [
+        "1.33 fF MOM capacitor is placed above the bitcell with no area overhead; do not add capacitor area.",
+        "Excludes macro HCA, DAC, ADC, row/column periphery and global control."
+      ],
+      "geometry_formula": null,
+      "missing_reason": null,
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "necessary_encoding": "eight binary weight planes; one9T1C charge-coupled cell per bit; HCA bypassed",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "binary charge-coupled 9T1C SRAM; eight independent planes",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "label": "SRAM DCIM",
+      "unit_description": "D6CIM repeated 8-column x 128-row local tile; native 6T storage, shared NOR/isolation and distributed 15:4 compressors",
+      "area_xy_um2": "582.4",
+      "independent_bits": 1024,
+      "F_mem_nm": "28",
+      "F_definition": "Reported 28 nm CMOS nominal process node; not measured lithographic half-pitch",
+      "F_kind": "nominal_node",
+      "evidence_class": "geometric_estimate",
+      "source_refs": [
+        {
+          "source_id": "SDCIM-01",
+          "locator": "PDF p3 Fig8: local 8-column region 91 um horizontal x 6.4 um vertical, 128 rows; separate 39 um HCA/BFA strip excluded; p3 SecIII gives native 28 nm process and 0.379 um2 core only"
+        }
+      ],
+      "notes": [
+        "Source-dimensional estimate from Fig8 labeled local tile, not an exact extracted layout.",
+        "Includes all repeated native storage, local NOR/isolation and distributed 15:4 compressor bands in this tile; shared-tail/logic is not added a second time.",
+        "The separate 39 um HCA/BFA strip, decoder, I/O and other macro periphery are excluded.",
+        "The reported 0.379 um2 logic-rule 6T core alone excludes the local shared NOR/isolation, so it is background only and not the main bit area.",
+        "Uses only labeled local repeated-tile dimensions; no density is inferred or corrected from total macro area."
+      ],
+      "geometry_formula": "A_xy = 91 um (horizontal) * 6.4 um (vertical); b = 8 columns * 128 independent SLC storage cells",
+      "missing_reason": null,
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "necessary_encoding": "8binary cells per INT8; two-complement reconstruction; static connection across input bits",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "D6CIM binary 6T SRAM; native HCA/BFA MAC",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1024,
+      "excluded_background": {
+        "core_only_area_um2": "0.379",
+        "reason": "Reported 6T core alone omits repeated local NOR/isolation, so is not a complete main-boundary bitcell."
+      }
+    },
+    {
+      "case_id": "03_nor_2d",
+      "label": "2D NOR",
+      "unit_description": "Current binary NOR unit/tile not uniquely geometrically specified",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": null,
+      "F_definition": "No unambiguous F_mem for current binary NOR identity",
+      "F_kind": "unknown",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "NOR-01",
+          "locator": "Commercial MIRRORBIT data sheet: service anchor, not cell geometry"
+        },
+        {
+          "source_id": "NOR-02",
+          "locator": "Commercial W25Q data sheet: page/sector timing anchor, not cell geometry"
+        },
+        {
+          "source_id": "NOR-05",
+          "locator": "PDF p1: modified 180-nm ESF1 analog-tunable cell area about 1.5 um2"
+        }
+      ],
+      "notes": [
+        "NOR-05 area is an individually tunable analog ESF1 redesign; it does not establish the selected binary NOR cell geometry.",
+        "No arbitrary 4F2/10F2 estimate or die-capacity density is substituted."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "Matched complete binary NOR cell/tile area and planar F not found; available 1.5 um2 figure belongs to a different modified analog-tuning cell identity.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "encoding": "eight independent binary storage bits per signed INT8 weight; no analog tuning",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "binary 2D NOR; digital sensed weights",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "04_nand_3d",
+      "label": "3D NAND source model, SLC, 32 layers",
+      "unit_description": "One BL pitch by one SSL pitch, containing one independent SLC site per active WL layer",
+      "area_xy_um2": "0.03",
+      "independent_bits": 32,
+      "F_mem_nm": "20",
+      "F_definition": "One-half of reported 40 nm BL pitch (directional planar half-pitch); orthogonal SSL pitch is 750 nm; not 32 nm CMOS peripheral node",
+      "F_kind": "half_pitch_directional",
+      "evidence_class": "geometric_estimate",
+      "source_refs": [
+        {
+          "source_id": "NAND-04",
+          "locator": "PDF p2 Section II-A / Fig1: BL pitch 40 nm, SSL pitch 0.75 um, three SSLs, 32 WLs, 13824 BL x 32 WL x 3 SSL physical cells"
+        },
+        {
+          "source_id": "NAND-05",
+          "locator": "PDF p1 Section II(b): measured chip is 16-layer 64Gb SLC SGVC"
+        }
+      ],
+      "notes": [
+        "The source geometry is the NAND-04 author model, not a measured 500-layer device.",
+        "NAND-04 reports a 32-layer model but cites NAND-05 as 32-layer; NAND-05 itself states measured 16-layer. Preserve 32 as source-model L0, do not relabel it measured.",
+        "The 13824*32*3 cell formula establishes one independent bit per BL/SSL/WL site; no extra gain for SGVC walls or pillars.",
+        "Excludes macro staircase, edge, global control and I/O overhead; fixed lateral cell-grid folding only.",
+        "The 500-layer capacity projection is separate from the current throughput implementation; no timing or manufacturability validation."
+      ],
+      "geometry_formula": "A_xy = 0.040 um * 0.750 um; b_L0 = one site/layer * 32 active WL layers",
+      "missing_reason": null,
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "cells_per_INT8_weight": 72,
+        "complementary_encoding_factor": 2,
+        "signal_enhancement_replication": 3,
+        "reference_storage_sites": 5308416
+      },
+      "identity": "SGVC SLC 3D NAND; split-sign magnitude/base-4",
+      "bits_per_storage_element": 1,
+      "effective_layers": 32,
+      "bits_per_layer": 1,
+      "projection": {
+        "target_layers": 500,
+        "rule": "Keep A_xy fixed, replace b=32 with b=500; equivalently a_500=a_32*32/500 exactly once"
+      }
+    },
+    {
+      "case_id": "05_rram",
+      "label": "RRAM",
+      "unit_description": "WH-2T1R m=1 binary cell with separate memory/CIM access paths",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": "28",
+      "F_definition": "Reported 28 nm HKMG nominal CMOS process node",
+      "F_kind": "nominal_node",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "RRAM-05",
+          "locator": "PDF p3 Fig4 and Section III-A: WH-2T1R m(T2)=4 layout, 30.3% relative area overhead, transistor W/L"
+        }
+      ],
+      "notes": [
+        "Fig4 gives T1 W/L=500/150 nm and T2 W/L=100/30 nm; these are transistor dimensions, not cell pitches.",
+        "The shown m=4 layout is not an absolute area of the current all-m=1 cell.",
+        "Do not replace with conventional 1T1R or derive m=1 by transistor-count linear scaling."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "No absolute m=1 repeated-cell area/pitch found. Relative 30.3% overhead is for m=4 and lacks its absolute compatible base area.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "encoding": "8binarybitplanes,no differential duplication;allm=1",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "WH-2T1R m=1 binary RRAM; distinct CIM and memory paths",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "06_mram",
+      "label": "MRAM",
+      "unit_description": "IBMD native bitcell: two complementary 1T1MTJ branches, latch and native shared-tail arrangement",
+      "area_xy_um2": "2.56",
+      "independent_bits": 1,
+      "F_mem_nm": "40",
+      "F_definition": "Source defines F as minimum lithography feature size; reconstruction uses reported 40 nm native process node, so conservatively node-normalized",
+      "F_kind": "nominal_node",
+      "evidence_class": "geometric_estimate",
+      "source_refs": [
+        {
+          "source_id": "MRAM-06",
+          "locator": "Supplement PDF p10: own IBMD bitcell approximately 1600F2; main PDF p2 Fig2 and text: two 1T1MTJ plus latch, complementary W/Wbar; native process 40 nm"
+        }
+      ],
+      "notes": [
+        "Reported approximately 1600F2 is approximate, not a precision layout extraction.",
+        "Do not substitute SI p11 prior design 2T2M approximately 1200F2.",
+        "Two MTJs hold forced complements and provide one independent stored bit.",
+        "The source reports bitcell area including IBMD circuit; shared-tail transistor is not independently added per cell.",
+        "A=1600*(0.040 um)^2 is a source-derived absolute reconstruction."
+      ],
+      "geometry_formula": "A_xy ≈ 1600 * (0.040 um)^2",
+      "missing_reason": null,
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "encoding": "two complementary MTJs per binary weight bit; eight pairs per signed INT8 weight",
+        "cells_per_INT8_weight": 16,
+        "complementary_encoding_factor": 2,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "complementary 2T2MTJ IBMD; digital read-before-adder tap",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "07_pcm",
+      "label": "PCM",
+      "unit_description": "Selected 40 nm voltage-mode 1T1R PCM repeated storage cell",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": "40",
+      "F_definition": "Reported 40 nm CMOS/PCM nominal process node",
+      "F_kind": "nominal_node",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "PCM-03",
+          "locator": "PDF p1 architecture text; p2 Fig11.3.2 1T1R PCM; p3 die photo/summary"
+        }
+      ],
+      "notes": [
+        "Source physically supports 1T1R access and hybrid SLC/MLC; this task forces one bit per PCM element.",
+        "No electrode, heater diameter or macro capacity/area is substituted for full bitcell area."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "Matched complete 40 nm 1T1R PCM bitcell area/pitch not reported in inspected source; macro dimensions are a different boundary.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "binary/SLC voltage-mode PCM; native bank",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "label": "HZO FeRAM",
+      "unit_description": "HZO remanent 1T1C cell with capacitor vertically integrated above access transistor",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": null,
+      "F_definition": "No unambiguous planar F_mem in matched FERAM-03 source; HZO thickness is not F",
+      "F_kind": "unknown",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "FERAM-03",
+          "locator": "PDF p1 1T1C array integration and Fig5-7: capacitors 0.4 to 1.0 um2 directly above transistor"
+        },
+        {
+          "source_id": "FERAM-02",
+          "locator": "PDF p1: 1X nm half-pitch 8Gb DRAM-derived 1T1C; no exact half-pitch numeric"
+        }
+      ],
+      "notes": [
+        "0.4–1.0 um2 values describe capacitor area, not a complete access-transistor cell.",
+        "The actual vertical overlap forbids adding an arbitrary transistor footprint to capacitor area.",
+        "1X is not an exact F and 5 nm HZO thickness is not planar F."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "Complete matched 1T1C projected cell/tile area and exact planar F unavailable; published capacitor-only areas do not close this boundary.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "necessary_encoding": "binary two-complement weight bit planes distributed across local row",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1,
+        "reference_storage_sites": 4096
+      },
+      "identity": "HZO remanent 1T1C FeRAM; destructive read with restore",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "label": "GC-04 eDRAM",
+      "unit_description": "Native silicon CMOS current-programmed dynamic-cascode 3T1C cell",
+      "area_xy_um2": "6",
+      "independent_bits": 1,
+      "F_mem_nm": "65",
+      "F_definition": "Reported 65 nm CMOS nominal process node; not measured half-pitch",
+      "F_kind": "nominal_node",
+      "evidence_class": "reported_geometry",
+      "source_refs": [
+        {
+          "source_id": "GC-04",
+          "locator": "PDF p6 Section III-A / Fig8: complete 3T1C cell layout 6 um2, 10 fF MOM in metal4-7; native 65 nm process"
+        }
+      ],
+      "notes": [
+        "Native multilevel capability is deliberately capped at one independent binary bit.",
+        "CIM uses two independently programmable 3T1C cells as a pseudo-differential pair; that is upper-level mapping metadata, not two bits forced into one native cell.",
+        "The 6 um2 layout already contains the projected capacitor footprint; do not add it again.",
+        "Do not use the source MLC-normalized 2 um2/b or substitute IGZO/1T1C DRAM."
+      ],
+      "geometry_formula": null,
+      "missing_reason": null,
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "necessary_encoding": "8binary endpoint planes;eachbit two3T1C cells with(700,0) or(0,700)nA;no logical duplication",
+        "cells_per_INT8_weight": 16,
+        "complementary_encoding_factor": 2,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "GC-04 silicon CMOS pseudo-differential 3T1C gain-cell; NOT IGZO or MLP hybrid",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "label": "3D FeFET, 4 layers",
+      "unit_description": "Vertical AND FeFET model repeated hole tile with split BL/SL contacts and one cell per effective layer",
+      "area_xy_um2": "0.0204",
+      "independent_bits": 4,
+      "F_mem_nm": "60",
+      "F_definition": "One-half of source simulation X pitch 120 nm (directional planar half-pitch); Y pitch 170 nm; not 40 nm vertical pitch or 6 nm FE thickness",
+      "F_kind": "half_pitch_directional",
+      "evidence_class": "geometric_estimate",
+      "source_refs": [
+        {
+          "source_id": "FENOR-02",
+          "locator": "PDF p3 Fig11b,c: X pitch=120 nm, Y pitch=170 nm, split BL/SL within hole; p1/2 Fig2: four-layer structure"
+        }
+      ],
+      "notes": [
+        "Figure11 is TCAD/SPICE model geometry, not an extracted physical four-layer prototype footprint.",
+        "Four capacity layers are retained for this reference. The paper's 256-layer 8.37 Gb/mm2 figure is not the main area input.",
+        "Split BL/SL contacts share the cell gate; no evidence establishes two independently programmable bits from two sides of one hole. Count one binary degree of freedom/hole/layer.",
+        "Includes repeated lateral hole/spacing/contact allocation; excludes macro WL staircase/contact apron and array edges.",
+        "No 500-layer expansion is applied to FeFET."
+      ],
+      "geometry_formula": "A_xy = 0.120 um * 0.170 um; b = 4 layers * one independent bit/hole/layer",
+      "missing_reason": null,
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "encoding": "eight binary FeFET cells per signed INT8 weight; two-complement sign in digital reduction",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "vertical AND FeFET; lateral strips and four capacity layers",
+      "bits_per_storage_element": 1,
+      "effective_layers": 4,
+      "bits_per_layer": 1
+    }
+  ],
+  "definition": {
+    "metric_scope": "Native binary repeated storage cell or minimum tile; not effective INT8 weight density or complete macro/chip density",
+    "area_boundary": "Native binary repeated cell/tile including access, in-cell circuits, contacts and local wiring. Macro ADC, reduction, pumps, I/O and global control are excluded; any unavoidable tile-local shared circuits are retained and listed.",
+    "a_bit_um2": "area_xy_um2 / independent_bits",
+    "density_Mbit_mm2": "1 / a_bit_um2; decimal Mbit/mm2",
+    "alpha_F_mem2_per_bit": "a_bit_um2 / (F_mem_nm / 1000)^2",
+    "missing_values": "null in JSON, empty in CSV, N/A in charts; never zero",
+    "slc_policy": "Each independently programmable storage element is capped at one bit; forced-complement MRAM pair has one independent bit",
+    "normalization_policy": "F_kind explicitly separates nominal_node from directional physical half_pitch; absent F gives N/A only to alpha",
+    "precision_policy": "50-digit Decimal arithmetic is retained in exact_decimal and CSV; numerical precision is not evidence accuracy",
+    "reference_git_sha": "8795902f7d894394d624d15f7761cdb7d08a6e0d"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "independence": "Facts re-extracted by reviewer from original PDF text and visual figures before reading production results. No production code imported.",
+  "source_rows": [
+    {
+      "case_id": "01_sram_acim",
+      "row_id": "sram_acim",
+      "A": "0.994",
+      "b": 1,
+      "F": "28",
+      "quality": "reported_geometry",
+      "source": "SACIM-03 p.3 Sec.III; p.2 9T1C circuit/MOM overlap",
+      "scope": "Complete native 9T1C cell, capacitor above transistor projection",
+      "f_kind": "nominal_node",
+      "A_xy_um2": 0.994,
+      "b_bit": 1,
+      "F_mem_nm": 28.0,
+      "a_bit_um2": 0.994,
+      "D_Mbit_mm2": 1.0060362173038229,
+      "alpha_Fmem2_per_bit": 1267.857142857143,
+      "exact_decimal": {
+        "a_bit": "0.994",
+        "D": "1.00603621730382293762575452716297786720321931589537223340040",
+        "alpha": "1267.85714285714285714285714285714285714285714285714285714286"
+      }
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "row_id": "sram_dcim",
+      "A": "582.4",
+      "b": 1024,
+      "F": "28",
+      "quality": "reported_layout_derived",
+      "source": "SDCIM-01 p.3 Fig.8; p.1 Sec.II.A: 8 columns times 128 storage cells",
+      "scope": "Full local 8-column tile including shared NOR, LBL interface and distributed compressor; outer HCA tree/BFA excluded",
+      "f_kind": "nominal_node",
+      "A_xy_um2": 582.4,
+      "b_bit": 1024,
+      "F_mem_nm": 28.0,
+      "a_bit_um2": 0.56875,
+      "D_Mbit_mm2": 1.7582417582417582,
+      "alpha_Fmem2_per_bit": 725.4464285714286,
+      "exact_decimal": {
+        "a_bit": "0.56875",
+        "D": "1.75824175824175824175824175824175824175824175824175824175824",
+        "alpha": "725.446428571428571428571428571428571428571428571428571428571"
+      }
+    },
+    {
+      "case_id": "04_nand_3d",
+      "row_id": "nand_single_layer",
+      "A": "0.030000",
+      "b": 1,
+      "F": "20",
+      "quality": "published_geometry_model",
+      "source": "NAND-04 p.2 Fig.1 & Sec.II.A: 40nm BL pitch, 0.75um SSL pitch",
+      "scope": "One BL-by-SSL tile; one independent SLC cell per effective WL",
+      "f_kind": "BL_direction_half_pitch",
+      "A_xy_um2": 0.03,
+      "b_bit": 1,
+      "F_mem_nm": 20.0,
+      "a_bit_um2": 0.03,
+      "D_Mbit_mm2": 33.333333333333336,
+      "alpha_Fmem2_per_bit": 75.0,
+      "exact_decimal": {
+        "a_bit": "0.030000",
+        "D": "33.3333333333333333333333333333333333333333333333333333333333",
+        "alpha": "75.00"
+      }
+    },
+    {
+      "case_id": "04_nand_3d",
+      "row_id": "nand_source_32",
+      "A": "0.030000",
+      "b": 32,
+      "F": "20",
+      "quality": "published_geometry_model",
+      "source": "NAND-04 p.2: physical cells 13824 BL x 32 WL x 3 SSL",
+      "scope": "Source 32-WL model geometry; not claim of measured 32-layer device",
+      "f_kind": "BL_direction_half_pitch",
+      "A_xy_um2": 0.03,
+      "b_bit": 32,
+      "F_mem_nm": 20.0,
+      "a_bit_um2": 0.0009375,
+      "D_Mbit_mm2": 1066.6666666666667,
+      "alpha_Fmem2_per_bit": 2.34375,
+      "exact_decimal": {
+        "a_bit": "0.0009375",
+        "D": "1066.66666666666666666666666666666666666666666666666666666667",
+        "alpha": "2.34375"
+      }
+    },
+    {
+      "case_id": "04_nand_3d",
+      "row_id": "nand_projection_500",
+      "A": "0.030000",
+      "b": 500,
+      "F": "20",
+      "quality": "500_layer_projection",
+      "source": "User-requested 500 effective storage layers, lateral NAND-04 geometry unchanged",
+      "scope": "One SLC cell per WL; no macro staircase, boundary or yield projection",
+      "f_kind": "BL_direction_half_pitch",
+      "A_xy_um2": 0.03,
+      "b_bit": 500,
+      "F_mem_nm": 20.0,
+      "a_bit_um2": 6e-05,
+      "D_Mbit_mm2": 16666.666666666668,
+      "alpha_Fmem2_per_bit": 0.15,
+      "exact_decimal": {
+        "a_bit": "0.000060",
+        "D": "16666.6666666666666666666666666666666666666666666666666666667",
+        "alpha": "0.15"
+      }
+    },
+    {
+      "case_id": "06_mram",
+      "row_id": "mram",
+      "A": "2.5600",
+      "b": 1,
+      "F": "40",
+      "quality": "published_engineering_estimate",
+      "source": "MRAM-06 Supplement p.10 estimated 1600 F2 IBMD; main p.1 40nm CMOS",
+      "scope": "Complete IBMD bitcell: complementary 2T2MTJ plus local latch; ONE independent binary state",
+      "f_kind": "nominal_node",
+      "A_xy_um2": 2.56,
+      "b_bit": 1,
+      "F_mem_nm": 40.0,
+      "a_bit_um2": 2.56,
+      "D_Mbit_mm2": 0.390625,
+      "alpha_Fmem2_per_bit": 1600.0,
+      "exact_decimal": {
+        "a_bit": "2.5600",
+        "D": "0.390625",
+        "alpha": "1600"
+      }
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "row_id": "gain_cell",
+      "A": "6",
+      "b": 1,
+      "F": "65",
+      "quality": "reported_geometry",
+      "source": "GC-04 PDF p.6 Sec.III.A layout 6um2 and 65nm technology",
+      "scope": "One 3T1C silicon CMOS cell with overlapping 10fF MOM; no MLC gain; pseudo-differential mapping excluded",
+      "f_kind": "nominal_node",
+      "A_xy_um2": 6.0,
+      "b_bit": 1,
+      "F_mem_nm": 65.0,
+      "a_bit_um2": 6.0,
+      "D_Mbit_mm2": 0.16666666666666666,
+      "alpha_Fmem2_per_bit": 1420.1183431952663,
+      "exact_decimal": {
+        "a_bit": "6",
+        "D": "0.166666666666666666666666666666666666666666666666666666666667",
+        "alpha": "1420.11834319526627218934911242603550295857988165680473372781"
+      }
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "row_id": "fenor",
+      "A": "0.020400",
+      "b": 4,
+      "F": "60",
+      "quality": "published_geometry_model",
+      "source": "FENOR-02 p.3 Fig.11b/c pitch120x170nm; p.2/3 Figs2/10 four layers",
+      "scope": "Full lateral hole grid at four layers, one FeFET state per hole per layer; no 500-layer extrapolation",
+      "f_kind": "X_direction_half_pitch",
+      "A_xy_um2": 0.0204,
+      "b_bit": 4,
+      "F_mem_nm": 60.0,
+      "a_bit_um2": 0.0051,
+      "D_Mbit_mm2": 196.07843137254903,
+      "alpha_Fmem2_per_bit": 1.4166666666666667,
+      "exact_decimal": {
+        "a_bit": "0.005100",
+        "D": "196.078431372549019607843137254901960784313725490196078431373",
+        "alpha": "1.41666666666666666666666666666666666666666666666666666666667"
+      }
+    }
+  ],
+  "checks": {
+    "inverse_units": true,
+    "alpha_recovers_area": true,
+    "F_invariance": true,
+    "NAND_single_fold": true,
+    "SLC_no_MLC_gain": true,
+    "MRAM_complementary_one_bit": true,
+    "GC_mapping_not_capacity": true
+  },
+  "diagnostics": {
+    "dcim_core_only_um2": 0.379,
+    "dcim_full_repeat_tile_um2": 582.4,
+    "dcim_bits_per_tile": 1024,
+    "dcim_macro_floorplan_closure": "Not asserted; only the reported local rectangular tile is used. Initial low-resolution 8.4 misread was corrected by original PDF character extraction and enlarged view to 6.4."
+  }
+}

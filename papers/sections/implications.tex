@@ -2,7 +2,7 @@
 \section{Reuse Requirements and Design Implications}
 \label{sec:implications}
 \subsection{Critical Reuse Across Configurations}
-\outline{Use Fig.~\ref{fig:critical-reuse} to show that typical full-load thresholds span about 1.6 to 38,867 input vectors, then develop one concrete crossing: at the illustrative reuse $U=128$, STT-MRAM is resident-bound in the short and typical scenarios (about 181 and 133), but streaming-bound in the long scenario (about 95). Connect the native threshold to Qwen3.5-2B and MiMo-V2.5-Pro QKV stages using the existing sequential full-tile service reference, for which both sides accumulate the same tile count. Keep this mapping as a component-service bound, with output reduction and other system costs outside its scope.}
+\outline{Use Fig.~\ref{fig:critical-reuse} to show that typical full-load thresholds span about 1.6 to 38,867 input vectors, then develop one concrete crossing: at the illustrative reuse $U=128$, STT-MRAM is resident-bound in the short and typical scenarios (about 181 and 133), but streaming-bound in the long scenario (about 95). Add the low-reuse case: weights reloaded after 16 input vectors leave only SRAM and eDRAM streaming-bound, while NOR flash retains $U/U^*<0.1\%$ of its streaming ceiling. Connect the native threshold to Qwen3.5-2B and MiMo-V2.5-Pro QKV stages using the existing sequential full-tile service reference, for which both sides accumulate the same tile count. Keep this mapping as a component-service bound, with output reduction and other system costs outside its scope.}
 
 For native $128\times128$ tiles, let $m_K=D/128$, $m_N=N_{\mathrm{proj}}/128$, and $M=m_Km_N$:
 \begin{align}

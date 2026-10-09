@@ -1,0 +1,113 @@
+{
+  "scope": "Current CIM mapping snapshot; excludes capacity gain from the main native binary storage metric. NAND reference pages and physical replication remain performance mapping metadata, not independent-bit cell-grid penalties.",
+  "cases": [
+    {
+      "case_id": "01_sram_acim",
+      "input_sha256": "2616652e69486f3911e33de10b3337525488301eb7c02c809894a5832548cb75",
+      "device_identity": "binary charge-coupled 9T1C SRAM; eight independent planes",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "eight binary weight planes; one9T1C charge-coupled cell per bit; HCA bypassed",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "02_sram_dcim",
+      "input_sha256": "68c8dd93d277e3f34089c98c0f388cbe7f192fe30f9d0274bae8c5e179c4e018",
+      "device_identity": "D6CIM binary 6T SRAM; native HCA/BFA MAC",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "8binary cells per INT8; two-complement reconstruction; static connection across input bits",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "03_nor_2d",
+      "input_sha256": "e1e8582bc576c4b15bbc2b2fdf4247239110f03b6ce483df31c845006d9c0eca",
+      "device_identity": "binary 2D NOR; digital sensed weights",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "eight independent binary storage bits per signed INT8 weight; no analog tuning",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "04_nand_3d",
+      "input_sha256": "cb5361613c1e5ad9662873975726a2b14c21ca6a729a9e6f1b577775e2998e66",
+      "device_identity": "SGVC SLC 3D NAND; split-sign magnitude/base-4",
+      "cells_per_INT8_weight": 72,
+      "complementary_encoding_factor": 2,
+      "signal_enhancement_replication": 3,
+      "mapping_description": "SGVC SLC split-sign magnitude / base-4; LSB once and MSB twice; three input copies; 72 data cells per INT8 weight",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations.",
+      "reference_pages": {
+        "wordlines_per_source_block": 32,
+        "data_wordlines": 30,
+        "reference_wordlines": 2,
+        "reference_storage_sites": 5308416,
+        "native_density_policy": "All 32 physical WL storage layers count as independently programmable SLC capacity; reserving 2 as references is upper-level CIM mapping, excluded from native cell-grid density."
+      }
+    },
+    {
+      "case_id": "05_rram",
+      "input_sha256": "9b543dfabdf94ce046efe1ed030fb549ec1c784a6b75d8b218418f2d3e8e12fc",
+      "device_identity": "WH-2T1R m=1 binary RRAM; distinct CIM and memory paths",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "8binarybitplanes,no differential duplication;allm=1",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "06_mram",
+      "input_sha256": "f44c496a59c621e29043b42ed6a3f4eb050609dd7d9c2442e341ad07f944dbf3",
+      "device_identity": "complementary 2T2MTJ IBMD; digital read-before-adder tap",
+      "cells_per_INT8_weight": 16,
+      "complementary_encoding_factor": 2,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "two complementary MTJs per binary weight bit; eight pairs per signed INT8 weight",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "07_pcm",
+      "input_sha256": "62a46ed7033eb293ea7bfe985314802df348abfef8467d5782e746efe969e638",
+      "device_identity": "binary/SLC voltage-mode PCM; native bank",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": null,
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "input_sha256": "f18011b05d46badeb89c62f07649661aacbf40a91a19bd64f268ab72119a5c9b",
+      "device_identity": "HZO remanent 1T1C FeRAM; destructive read with restore",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "binary two-complement weight bit planes distributed across local row",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    },
+    {
+      "case_id": "09_gain_cell_edram",
+      "input_sha256": "8cd5b2717f9c55478d7400b3d7ffe417865c5a275ed8a9392cbf31b08c187e94",
+      "device_identity": "GC-04 silicon CMOS pseudo-differential 3T1C gain-cell; NOT IGZO or MLP hybrid",
+      "cells_per_INT8_weight": 16,
+      "complementary_encoding_factor": 2,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "8binary endpoint planes;eachbit two3T1C cells with(700,0) or(0,700)nA;no logical duplication",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations.",
+      "native_cell_policy": "Each silicon CMOS 3T1C cell has one binary storage degree of freedom; source analog multilevel capacity and CIM pseudo-differential pairing are not main-metric capacity factors."
+    },
+    {
+      "case_id": "10_fenor_3d",
+      "input_sha256": "dfde3be81dc884e5f994f6aaaf5567c122d2a3184a2eb8f7f3d63cdfa7e06abd",
+      "device_identity": "vertical AND FeFET; lateral strips and four capacity layers",
+      "cells_per_INT8_weight": 8,
+      "complementary_encoding_factor": 1,
+      "signal_enhancement_replication": 1,
+      "mapping_description": "eight binary FeFET cells per signed INT8 weight; two-complement sign in digital reduction",
+      "storage_density_scope_note": "Metadata only; not used by native cell/tile density calculations."
+    }
+  ]
+}
