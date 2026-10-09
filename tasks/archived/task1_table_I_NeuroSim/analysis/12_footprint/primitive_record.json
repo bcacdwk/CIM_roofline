@@ -1,0 +1,425 @@
+{
+  "schema_version": "planar-nmos-geometry-primitives-1",
+  "upstream_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+  "upstream_branch": "2DInferenceV1.4",
+  "source_hashes": {
+    "formula.cpp": "acb56387ae15b990656994d6c5e0fa5c10c965dd26a0b813972e6d4000168445",
+    "formula.h": "987af6076b65598d15039d098fd1b98923797baa3f50b380e116f33a7b93d0fa",
+    "Technology.cpp": "971238a4572d8d76da22cf867a0e5789cdc1fbb9f1651a7a14ab8c77861e5f34",
+    "Technology.h": "7bbfdde9f4f0868da2f23fd942c1361ba048fbb5f7696e710a833088b6a49a7a",
+    "Param.h": "926fab6ec9547064b9399346c6fca76b2a30f9fda54a51bad567d5576b9e3ce2",
+    "constant.h": "266a9dc383647356671190302b84f91869c7fa68949ebe94a343de9f3d4d4d28",
+    "typedef.h": "c4367f10a208dcecb494b45640f3c2bf4f97fe7154e798aa76bf035b1be08520"
+  },
+  "input_sha256": "1ad0ce768e9d621ea19b31165292ff1b060c39b7441ddd1b702d7b56ef541dd7",
+  "query_sha256": "ffd8aea6d999ca1311b8f6da4cc156f455d4dccbebd53f8d76ed4b02a7ea684b",
+  "adapter_sha256": "0de5e44f0d210006fcf6d3d43ac0d5d0654400c83478dc5a74d83d14392fa005",
+  "runner_sha256": "65781e46d4b05a68d77c0a45344436b9873c68325835b9537bd9d330242da4dd",
+  "model_module_sha256": "c55aec922dc6471ccd8eff1371d67239ec2e35ce3b17888ff694295250c13daa",
+  "compiler": "g++-16 (Homebrew GCC 16.2.0) 16.2.0",
+  "geometry_method": "Locked CalculateGateArea(INV,1,Wn,0,H,tech) bulk planar branch; featureSize is an explicit geometry scale, not an initialized electrical process model.",
+  "adapter_corrections": "fingers*(L-Fgeom) channel-length correction, then max against contacted source/drain span; +1e-12 um numerical H guard avoids false folding at an exact floating boundary.",
+  "scope": "NMOS lower-plane geometry only; full native repeated-tile access/contact/routing and storage overlap are resolved by geometry_models.py. No electrical/timing claims.",
+  "primitives": {
+    "05_rram:main:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.600800000001,
+      "native_area_um2": 0.12785024000021278,
+      "fingers": 1,
+      "length_correction_um": 0.122,
+      "contact_span_um": 0.29000000000000004,
+      "adapted_width_um": 0.3348,
+      "query": {
+        "id": "05_rram:main:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.15,
+        "H_um": 0.6008,
+        "contact_um": 0.0364,
+        "gap_um": 0.0196,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:main:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.200800000001,
+      "native_area_um2": 0.0427302400002128,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.1736,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:main:T2",
+        "F_um": 0.028,
+        "W_um": 0.1,
+        "L_um": 0.03,
+        "H_um": 0.2008,
+        "contact_um": 0.0364,
+        "gap_um": 0.021399999999999995,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:loose_rules_20pct:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.620960000001,
+      "native_area_um2": 0.13214028800021277,
+      "fingers": 1,
+      "length_correction_um": 0.122,
+      "contact_span_um": 0.318,
+      "adapted_width_um": 0.3348,
+      "query": {
+        "id": "05_rram:loose_rules_20pct:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.15,
+        "H_um": 0.6209600000000001,
+        "contact_um": 0.043680000000000004,
+        "gap_um": 0.02352,
+        "enclosure_um": 0.0168,
+        "nominal_gate_contact_gap_um": 0.02352
+      }
+    },
+    "05_rram:loose_rules_20pct:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.22096000000100002,
+      "native_area_um2": 0.0470202880002128,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.20831999999999998,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:loose_rules_20pct:T2",
+        "F_um": 0.028,
+        "W_um": 0.1,
+        "L_um": 0.03,
+        "H_um": 0.22096000000000002,
+        "contact_um": 0.043680000000000004,
+        "gap_um": 0.028679999999999994,
+        "enclosure_um": 0.0168,
+        "nominal_gate_contact_gap_um": 0.02352
+      }
+    },
+    "05_rram:T1_L_180nm:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.600800000001,
+      "native_area_um2": 0.12785024000021278,
+      "fingers": 1,
+      "length_correction_um": 0.152,
+      "contact_span_um": 0.32000000000000006,
+      "adapted_width_um": 0.36479999999999996,
+      "query": {
+        "id": "05_rram:T1_L_180nm:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.18,
+        "H_um": 0.6008,
+        "contact_um": 0.0364,
+        "gap_um": 0.0196,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:T1_L_180nm:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.200800000001,
+      "native_area_um2": 0.0427302400002128,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.1736,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:T1_L_180nm:T2",
+        "F_um": 0.028,
+        "W_um": 0.1,
+        "L_um": 0.03,
+        "H_um": 0.2008,
+        "contact_um": 0.0364,
+        "gap_um": 0.021399999999999995,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:T2_W_150nm:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.600800000001,
+      "native_area_um2": 0.12785024000021278,
+      "fingers": 1,
+      "length_correction_um": 0.122,
+      "contact_span_um": 0.29000000000000004,
+      "adapted_width_um": 0.3348,
+      "query": {
+        "id": "05_rram:T2_W_150nm:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.15,
+        "H_um": 0.6008,
+        "contact_um": 0.0364,
+        "gap_um": 0.0196,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:T2_W_150nm:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.25080000000099995,
+      "native_area_um2": 0.05337024000021279,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.1736,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:T2_W_150nm:T2",
+        "F_um": 0.028,
+        "W_um": 0.15,
+        "L_um": 0.03,
+        "H_um": 0.2508,
+        "contact_um": 0.0364,
+        "gap_um": 0.021399999999999995,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:contact_plus20pct:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.600800000001,
+      "native_area_um2": 0.12785024000021278,
+      "fingers": 1,
+      "length_correction_um": 0.122,
+      "contact_span_um": 0.30456,
+      "adapted_width_um": 0.3348,
+      "query": {
+        "id": "05_rram:contact_plus20pct:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.15,
+        "H_um": 0.6008,
+        "contact_um": 0.04368,
+        "gap_um": 0.0196,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:contact_plus20pct:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.200800000001,
+      "native_area_um2": 0.0427302400002128,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.18816,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:contact_plus20pct:T2",
+        "F_um": 0.028,
+        "W_um": 0.1,
+        "L_um": 0.03,
+        "H_um": 0.2008,
+        "contact_um": 0.04368,
+        "gap_um": 0.021400000000000002,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:rram_pad_200nm:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.600800000001,
+      "native_area_um2": 0.12785024000021278,
+      "fingers": 1,
+      "length_correction_um": 0.122,
+      "contact_span_um": 0.29000000000000004,
+      "adapted_width_um": 0.3348,
+      "query": {
+        "id": "05_rram:rram_pad_200nm:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.15,
+        "H_um": 0.6008,
+        "contact_um": 0.0364,
+        "gap_um": 0.0196,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:rram_pad_200nm:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.200800000001,
+      "native_area_um2": 0.0427302400002128,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.1736,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:rram_pad_200nm:T2",
+        "F_um": 0.028,
+        "W_um": 0.1,
+        "L_um": 0.03,
+        "H_um": 0.2008,
+        "contact_um": 0.0364,
+        "gap_um": 0.021399999999999995,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:rram_pad_400nm:T1": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.600800000001,
+      "native_area_um2": 0.12785024000021278,
+      "fingers": 1,
+      "length_correction_um": 0.122,
+      "contact_span_um": 0.29000000000000004,
+      "adapted_width_um": 0.3348,
+      "query": {
+        "id": "05_rram:rram_pad_400nm:T1",
+        "F_um": 0.028,
+        "W_um": 0.5,
+        "L_um": 0.15,
+        "H_um": 0.6008,
+        "contact_um": 0.0364,
+        "gap_um": 0.0196,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "05_rram:rram_pad_400nm:T2": {
+      "native_width_um": 0.21279999999999996,
+      "native_height_um": 0.200800000001,
+      "native_area_um2": 0.0427302400002128,
+      "fingers": 1,
+      "length_correction_um": 0.0019999999999999983,
+      "contact_span_um": 0.1736,
+      "adapted_width_um": 0.21479999999999996,
+      "query": {
+        "id": "05_rram:rram_pad_400nm:T2",
+        "F_um": 0.028,
+        "W_um": 0.1,
+        "L_um": 0.03,
+        "H_um": 0.2008,
+        "contact_um": 0.0364,
+        "gap_um": 0.021399999999999995,
+        "enclosure_um": 0.014,
+        "nominal_gate_contact_gap_um": 0.0196
+      }
+    },
+    "08_feram_hfo2:main:access": {
+      "native_width_um": 0.9879999999999999,
+      "native_height_um": 1.680000000001,
+      "native_area_um2": 1.6598400000009879,
+      "fingers": 1,
+      "length_correction_um": 0.37,
+      "contact_span_um": 1.34,
+      "adapted_width_um": 1.3579999999999999,
+      "query": {
+        "id": "08_feram_hfo2:main:access",
+        "F_um": 0.13,
+        "W_um": 1.0,
+        "L_um": 0.5,
+        "H_um": 1.68,
+        "contact_um": 0.17,
+        "gap_um": 0.17,
+        "enclosure_um": 0.08,
+        "nominal_gate_contact_gap_um": 0.17
+      }
+    },
+    "08_feram_hfo2:loose_rules_20pct:access": {
+      "native_width_um": 0.9879999999999999,
+      "native_height_um": 1.816000000001,
+      "native_area_um2": 1.794208000000988,
+      "fingers": 1,
+      "length_correction_um": 0.37,
+      "contact_span_um": 1.508,
+      "adapted_width_um": 1.508,
+      "query": {
+        "id": "08_feram_hfo2:loose_rules_20pct:access",
+        "F_um": 0.13,
+        "W_um": 1.0,
+        "L_um": 0.5,
+        "H_um": 1.816,
+        "contact_um": 0.20400000000000001,
+        "gap_um": 0.20400000000000001,
+        "enclosure_um": 0.096,
+        "nominal_gate_contact_gap_um": 0.20400000000000001
+      }
+    },
+    "08_feram_hfo2:access_W_1p2um:access": {
+      "native_width_um": 0.9879999999999999,
+      "native_height_um": 1.8800000000010002,
+      "native_area_um2": 1.857440000000988,
+      "fingers": 1,
+      "length_correction_um": 0.37,
+      "contact_span_um": 1.34,
+      "adapted_width_um": 1.3579999999999999,
+      "query": {
+        "id": "08_feram_hfo2:access_W_1p2um:access",
+        "F_um": 0.13,
+        "W_um": 1.2,
+        "L_um": 0.5,
+        "H_um": 1.8800000000000001,
+        "contact_um": 0.17,
+        "gap_um": 0.17,
+        "enclosure_um": 0.08,
+        "nominal_gate_contact_gap_um": 0.17
+      }
+    },
+    "08_feram_hfo2:access_L_0p7um:access": {
+      "native_width_um": 0.9879999999999999,
+      "native_height_um": 1.680000000001,
+      "native_area_um2": 1.6598400000009879,
+      "fingers": 1,
+      "length_correction_um": 0.57,
+      "contact_span_um": 1.54,
+      "adapted_width_um": 1.5579999999999998,
+      "query": {
+        "id": "08_feram_hfo2:access_L_0p7um:access",
+        "F_um": 0.13,
+        "W_um": 1.0,
+        "L_um": 0.7,
+        "H_um": 1.68,
+        "contact_um": 0.17,
+        "gap_um": 0.17,
+        "enclosure_um": 0.08,
+        "nominal_gate_contact_gap_um": 0.17
+      }
+    },
+    "08_feram_hfo2:cap_area_1p2um2:access": {
+      "native_width_um": 0.9879999999999999,
+      "native_height_um": 1.680000000001,
+      "native_area_um2": 1.6598400000009879,
+      "fingers": 1,
+      "length_correction_um": 0.37,
+      "contact_span_um": 1.34,
+      "adapted_width_um": 1.3579999999999999,
+      "query": {
+        "id": "08_feram_hfo2:cap_area_1p2um2:access",
+        "F_um": 0.13,
+        "W_um": 1.0,
+        "L_um": 0.5,
+        "H_um": 1.68,
+        "contact_um": 0.17,
+        "gap_um": 0.17,
+        "enclosure_um": 0.08,
+        "nominal_gate_contact_gap_um": 0.17
+      }
+    },
+    "08_feram_hfo2:electrode_margin_100nm:access": {
+      "native_width_um": 0.9879999999999999,
+      "native_height_um": 1.680000000001,
+      "native_area_um2": 1.6598400000009879,
+      "fingers": 1,
+      "length_correction_um": 0.37,
+      "contact_span_um": 1.34,
+      "adapted_width_um": 1.3579999999999999,
+      "query": {
+        "id": "08_feram_hfo2:electrode_margin_100nm:access",
+        "F_um": 0.13,
+        "W_um": 1.0,
+        "L_um": 0.5,
+        "H_um": 1.68,
+        "contact_um": 0.17,
+        "gap_um": 0.17,
+        "enclosure_um": 0.08,
+        "nominal_gate_contact_gap_um": 0.17
+      }
+    }
+  }
+}

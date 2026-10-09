@@ -1,0 +1,169 @@
+{
+  "schema_version": "conditional-cell-layout-inputs-1",
+  "neurosim_sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+  "scope": "Area-only conditional design, all native SLC b=1; no timing or foundry DRC claims",
+  "cases": {
+    "05_rram": {
+      "identity": "WH-2T1R m=1, original 28nm native transistor dimensions",
+      "F_mem_nm": 28,
+      "F_kind": "nominal_node",
+      "geometry_scale_um": 0.028,
+      "devices": {
+        "T1": {
+          "W_um": 0.5,
+          "L_um": 0.15
+        },
+        "T2": {
+          "W_um": 0.1,
+          "L_um": 0.03
+        }
+      },
+      "rules": {
+        "contact_um": 0.0364,
+        "gate_contact_gap_um": 0.0196,
+        "poly_extension_um": 0.028,
+        "field_poly_gap_um": 0.0448,
+        "diff_enclosure_um": 0.014,
+        "metal_width_um": 0.0448,
+        "metal_gap_um": 0.0448,
+        "via_enclosure_um": 0.014
+      },
+      "rram_landing_side_um": 0.0644,
+      "source_refs": [
+        {
+          "source_id": "RRAM-05",
+          "locator": "PDF p3 Fig4a/c: T1W500/L150nm, T2W100/L30nm; T2gate=X, source=GND, drain=TBL; RRAMX-BL"
+        },
+        {
+          "source_id": "NEUROSIM-GEO",
+          "locator": "constant.h CONTACT_SIZE1.3F, CONTACT_POLYGAP.7F, POLYEXT1F, FIELDGAP1.6F, M2PITCH3.2F; formula.cpp bulk no-PMOS branch"
+        }
+      ],
+      "assumptions": [
+        "The two NMOS islands have no source/drain sharing; all distinct terminal nets retained.",
+        "Diffusion/via enclosure0.5F and metal width/space1.6F are explicit compact geometry choices. Metal pads expand locally. This is not foundry28nm DRC.",
+        "Upper RRAM stack is assumed to fit the explicitly allocated .0644um square landing. This is a conditional containment hypothesis, not a measured device/electrode size; larger envelopes are diagnosed.",
+        "One external WL controlsT1; localX controlsT2. No invented second wordline.",
+        "No m4 area-overhead scaling or 2x1T1R shortcut."
+      ],
+      "single_parameter_checks": [
+        {
+          "id": "T1_L_180nm",
+          "path": "devices.T1.L_um",
+          "value": 0.18
+        },
+        {
+          "id": "T2_W_150nm",
+          "path": "devices.T2.W_um",
+          "value": 0.15
+        },
+        {
+          "id": "contact_plus20pct",
+          "path": "rules.contact_um",
+          "value": 0.04368
+        },
+        {
+          "id": "rram_pad_200nm",
+          "path": "rram_landing_side_um",
+          "value": 0.2
+        },
+        {
+          "id": "rram_pad_400nm",
+          "path": "rram_landing_side_um",
+          "value": 0.4
+        }
+      ]
+    },
+    "08_feram_hfo2": {
+      "identity": "HZO 1T1C CUB, 1um2 active capacitor, conditional130nm HVNMOS access reference",
+      "F_mem_nm": 130,
+      "F_kind": "nominal_node",
+      "geometry_scale_um": 0.13,
+      "devices": {
+        "access": {
+          "W_um": 1.0,
+          "L_um": 0.5
+        }
+      },
+      "rules": {
+        "contact_um": 0.17,
+        "gate_contact_gap_um": 0.17,
+        "poly_extension_um": 0.2,
+        "field_poly_gap_um": 0.28,
+        "diff_enclosure_um": 0.08,
+        "metal_width_um": 0.2,
+        "metal_gap_um": 0.2,
+        "via_enclosure_um": 0.08,
+        "gate_contact_to_active_um": 0.2,
+        "gate_contact_enclosure_um": 0.08,
+        "active_gap_um": 0.3,
+        "electrode_margin_um": 0.08
+      },
+      "capacitor": {
+        "active_area_um2": 1.0,
+        "aspect_ratio": 1.0,
+        "shape_is_reported": false
+      },
+      "source_refs": [
+        {
+          "source_id": "FERAM-07-JEDS",
+          "locator": "Okuno JEDS10:29-34 DOI10.1109/JEDS.2021.3129279 PDF p2:130nm, 0.4/.6/.8/1um2 MFM and CUB directly above transistor; p4/5 2.5V operation"
+        },
+        {
+          "source_id": "SKY130-HV",
+          "locator": "Official device-details: nfet_g5v0d10v5 W7/L.5 andW.42/L.5 test devices; VGSmodelrange0..5.5V,VDS0..11V,VBS0..-5.5V"
+        },
+        {
+          "source_id": "SKY130-RULES",
+          "locator": "Official assumptions:HV channel length.5um, HVpolyspace.28um,HVDiffspace.3um; public licon width.17um"
+        }
+      ],
+      "access_reference": {
+        "model": "sky130_fd_pr__nfet_g5v0d10v5",
+        "W_source": "1um is conditional design choice within published reference dimensions, not Sony reportedW",
+        "L_source": "Public5Vclass min/referenceL=.5um; do not confuse native05v0_nvt L=.9um",
+        "operating_WL_V": 5.0,
+        "target_storage_node_V": 2.5,
+        "body_V": 0.0,
+        "VGS_model_valid_max_V": 5.5,
+        "VDS_model_valid_max_V": 11.0,
+        "VBS_model_valid_min_V": -5.5,
+        "threshold_reference_max_V": 0.937,
+        "threshold_reference_geometry_um": [
+          0.42,
+          0.5
+        ],
+        "qualification": "model-valid domain and coarse static drive context only; no time, endpoint current or FEwrite closure"
+      },
+      "assumptions": [
+        "Sony device dimensions and layout are not disclosed; Sky130 is a different-foundry130nm conditional access reference, not a claim to reconstruct Sony bitcell.",
+        "Cap area1um2 is reported/retained; square1x1um in-plane shape is an explicit area-preserving design condition, not a measured aspect ratio.",
+        "Contact.17um, HVpolyspace.28um, HVdiffspace.3um, minL.5um use publicSky130anchors. All enclosure.08um, contacttogate.17um, polyextension.20um, metalwidth/space.20um, gatecontacttoactive.20um and electrode margins.08um are declared compact engineering margins; not full foundryDRC.",
+        "MFM lies above gate/drain; the BL/source contact is outside its shadow. WL and PL routes are separated across uppermetal layers; per-cell body tie allocation retained.",
+        "5V wordline is a selected voltage domain to provide pass-gate headroom for2.5V storage node. Pump/level-shifter macroarea excluded; no existing throughput configuration is revalidated."
+      ],
+      "single_parameter_checks": [
+        {
+          "id": "access_W_1p2um",
+          "path": "devices.access.W_um",
+          "value": 1.2
+        },
+        {
+          "id": "access_L_0p7um",
+          "path": "devices.access.L_um",
+          "value": 0.7
+        },
+        {
+          "id": "cap_area_1p2um2",
+          "path": "capacitor.active_area_um2",
+          "value": 1.2
+        },
+        {
+          "id": "electrode_margin_100nm",
+          "path": "rules.electrode_margin_um",
+          "value": 0.1
+        }
+      ]
+    }
+  }
+}

@@ -78,34 +78,36 @@
     },
     {
       "case_id": "03_nor_2d",
-      "label": "2D NOR",
-      "unit_description": "Current binary NOR unit/tile not uniquely geometrically specified",
-      "area_xy_um2": null,
+      "label": "2D NOR, GF 28SLPe / SST ESF3 reference",
+      "unit_description": "Vendor-reported complete embedded NOR split-gate ESF3 bitcell; binary use",
+      "area_xy_um2": "0.04",
       "independent_bits": 1,
-      "F_mem_nm": null,
-      "F_definition": "No unambiguous F_mem for current binary NOR identity",
-      "F_kind": "unknown",
-      "evidence_class": "missing",
+      "F_mem_nm": "28",
+      "F_definition": "GF 28SLPe nominal 28 nm foundry process node; not a measured half-pitch",
+      "F_kind": "nominal_node",
+      "evidence_class": "reported_geometry",
       "source_refs": [
         {
-          "source_id": "NOR-01",
-          "locator": "Commercial MIRRORBIT data sheet: service anchor, not cell geometry"
+          "source_id": "NOR-GF28-2023",
+          "locator": "2023-09-27 GF release, capabilities bullet: ESF3 bitcell size 0.04 micron squared; GF 28SLPe"
         },
         {
-          "source_id": "NOR-02",
-          "locator": "Commercial W25Q data sheet: page/sector timing anchor, not cell geometry"
+          "source_id": "NOR-MCHP28-2023",
+          "locator": "Same-date Microchip release: bitcell less than 0.05 micron squared; this bound is not an exact 0.05 measurement"
         },
         {
-          "source_id": "NOR-05",
-          "locator": "PDF p1: modified 180-nm ESF1 analog-tunable cell area about 1.5 um2"
+          "source_id": "NOR-SUPERFLASH-STRUCTURE",
+          "locator": "Official Microchip technology overview: NOR Flash with proprietary split-gate cell architecture"
         }
       ],
       "notes": [
-        "NOR-05 area is an individually tunable analog ESF1 redesign; it does not establish the selected binary NOR cell geometry.",
-        "No arbitrary 4F2/10F2 estimate or die-capacity density is substituted."
+        "The two vendor releases describe the same GF 28SLPe / SST ESF3 platform. GF gives 0.04 um2; Microchip gives only <0.05 um2.",
+        "Source boundary is a complete reported bitcell, not a floating-gate electrode or die-capacity quotient.",
+        "The vendor release does not separately certify an SLC-labelled product: this comparison deliberately uses one independent binary bit per physical bitcell, with no MLC gain.",
+        "The named geometry reference is independent of the existing NOR throughput service anchors; no performance point is replaced."
       ],
-      "geometry_formula": null,
-      "missing_reason": "Matched complete binary NOR cell/tile area and planar F not found; available 1.5 um2 figure belongs to a different modified analog-tuning cell identity.",
+      "geometry_formula": "A_xy = vendor reported 0.04 um2 per ESF3 bitcell; b = 1 binary storage degree of freedom",
+      "missing_reason": null,
       "main_metric_excludes_cim_mapping": true,
       "mapping_metadata": {
         "encoding": "eight independent binary storage bits per signed INT8 weight; no analog tuning",
@@ -116,7 +118,10 @@
       "identity": "binary 2D NOR; digital sensed weights",
       "bits_per_storage_element": 1,
       "effective_layers": 1,
-      "bits_per_layer": 1
+      "bits_per_layer": 1,
+      "reference_identity": "GF 28SLPe / SST ESF3 embedded NOR, vendor-reported bitcell geometry",
+      "identity_relation": "Named geometry reference; not the current S29GL/W25Q throughput implementation",
+      "history_ref": "source_history.json#/previous_rows/0"
     },
     {
       "case_id": "04_nand_3d",
@@ -165,27 +170,36 @@
     },
     {
       "case_id": "05_rram",
-      "label": "RRAM",
-      "unit_description": "WH-2T1R m=1 binary cell with separate memory/CIM access paths",
-      "area_xy_um2": null,
+      "label": "RRAM, WH-2T1R m=1 model",
+      "unit_description": "Conditional fully allocated two-island WH-2T1R m=1 repeated cell with native T1/T2 and local X wiring",
+      "area_xy_um2": "0.6850828799999998",
       "independent_bits": 1,
       "F_mem_nm": "28",
-      "F_definition": "Reported 28 nm HKMG nominal CMOS process node",
+      "F_definition": "Native RRAM-05 28 nm nominal HKMG node; planar geometry_scale_um is explicitly 0.028 um",
       "F_kind": "nominal_node",
-      "evidence_class": "missing",
+      "evidence_class": "geometric_estimate",
       "source_refs": [
         {
           "source_id": "RRAM-05",
-          "locator": "PDF p3 Fig4 and Section III-A: WH-2T1R m(T2)=4 layout, 30.3% relative area overhead, transistor W/L"
+          "locator": "PDF p3 Fig4a/c: T1W500/L150nm, T2W100/L30nm; T2gate=X, source=GND, drain=TBL; RRAMX-BL"
+        },
+        {
+          "source_id": "NEUROSIM-GEO",
+          "locator": "constant.h CONTACT_SIZE1.3F, CONTACT_POLYGAP.7F, POLYEXT1F, FIELDGAP1.6F, M2PITCH3.2F; formula.cpp bulk no-PMOS branch"
         }
       ],
       "notes": [
-        "Fig4 gives T1 W/L=500/150 nm and T2 W/L=100/30 nm; these are transistor dimensions, not cell pitches.",
-        "The shown m=4 layout is not an absolute area of the current all-m=1 cell.",
-        "Do not replace with conventional 1T1R or derive m=1 by transistor-count linear scaling."
+        "The two NMOS islands have no source/drain sharing; all distinct terminal nets retained.",
+        "Diffusion/via enclosure0.5F and metal width/space1.6F are explicit compact geometry choices. Metal pads expand locally. This is not foundry28nm DRC.",
+        "Upper RRAM stack is assumed to fit the explicitly allocated .0644um square landing. This is a conditional containment hypothesis, not a measured device/electrode size; larger envelopes are diagnosed.",
+        "One external WL controlsT1; localX controlsT2. No invented second wordline.",
+        "No m4 area-overhead scaling or 2x1T1R shortcut.",
+        "Actual locked NeuroSim NMOS geometry calls are used as lower-plane primitives; the complete native unit is assembled from named net/contact/routing allocations.",
+        "The main RRAM stack containment is conditional; larger 0.2 and 0.4 um landing envelopes are diagnostic checks, not confidence bounds.",
+        "Original m=4 relative overhead and transistor-count ratios do not supply the main area."
       ],
-      "geometry_formula": null,
-      "missing_reason": "No absolute m=1 repeated-cell area/pitch found. Relative 30.3% overhead is for m=4 and lacks its absolute compatible base area.",
+      "geometry_formula": "Calculated by geometry_models.py from native device W/L, explicit contacts/routing and vertical storage overlap; complete tile bounding envelope divided by b=1",
+      "missing_reason": null,
       "main_metric_excludes_cim_mapping": true,
       "mapping_metadata": {
         "encoding": "8binarybitplanes,no differential duplication;allm=1",
@@ -196,7 +210,13 @@
       "identity": "WH-2T1R m=1 binary RRAM; distinct CIM and memory paths",
       "bits_per_storage_element": 1,
       "effective_layers": 1,
-      "bits_per_layer": 1
+      "bits_per_layer": 1,
+      "model_ref": "05_rram",
+      "model_input_ref": "model_inputs.json#/cases/05_rram",
+      "primitive_record_ref": "primitive_record.json",
+      "reference_identity": "WH-2T1R m=1 with paper-reported T1 500/150 nm and T2 100/30 nm; explicit compact layout assumptions",
+      "identity_relation": "Native topology and dimensions retained; area is a conditional engineering layout, not reported original foundry bitcell area",
+      "history_ref": "source_history.json#/previous_rows/1"
     },
     {
       "case_id": "06_mram",
@@ -237,26 +257,38 @@
     },
     {
       "case_id": "07_pcm",
-      "label": "PCM",
-      "unit_description": "Selected 40 nm voltage-mode 1T1R PCM repeated storage cell",
-      "area_xy_um2": null,
+      "label": "PCM, 28 nm 1T1R geometry reference",
+      "unit_description": "Reported ST 28 nm FD-SOI 1T1R Ge-rich GST ePCM bitcell, used as a binary geometry reference",
+      "area_xy_um2": "0.036",
       "independent_bits": 1,
-      "F_mem_nm": "40",
-      "F_definition": "Reported 40 nm CMOS/PCM nominal process node",
+      "F_mem_nm": "28",
+      "F_definition": "Native 28 nm FD-SOI nominal process node of the cited ST 1T1R ePCM; not the throughput case 40 nm node",
       "F_kind": "nominal_node",
-      "evidence_class": "missing",
+      "evidence_class": "reference_proxy",
       "source_refs": [
         {
+          "source_id": "PCM-PALHARES-2024",
+          "locator": "PDF p2 Results / ePCM pulse programming and Fig1: physical 1T1R, 0.036 um2/bit; ref42 identifies Arnaud IEDM2018"
+        },
+        {
+          "source_id": "PCM-ARNAUD-2018-ST",
+          "locator": "Author official IEDM2018 presentation: slide11 PCM cell 0.036 um2; slides27-28 1T1R and LRS=1/HRS=0; slide33 SET/RESET array distributions"
+        },
+        {
           "source_id": "PCM-03",
-          "locator": "PDF p1 architecture text; p2 Fig11.3.2 1T1R PCM; p3 die photo/summary"
+          "locator": "All three original pages reviewed: Fig11.3.2 1T1R topology and Fig11.3.7 whole 18 mm2 test chip; no complete local cell dimensions or selector W/L"
         }
       ],
       "notes": [
-        "Source physically supports 1T1R access and hybrid SLC/MLC; this task forces one bit per PCM element.",
-        "No electrode, heater diameter or macro capacity/area is substituted for full bitcell area."
+        "Reference selected because its complete physical 1T1R cell area is reported; not selected by smaller area or target ranking.",
+        "Original 40 nm PCM-03 has topology and macro size but lacks compatible local cell pitch, selector W/L and a sourced drive-current-per-width constraint; a 40 nm access layout cannot be closed without arbitrary inputs.",
+        "Palhares discusses multilevel programming after stating the physical cell area; its ten resistance states do not multiply or divide the binary capacity here.",
+        "The 2018 author technology presentation shows physical PCM cell morphology and binary LRS=1/HRS=0; selector, contacts and PCM element belong to the reported cell.",
+        "No 40-to-28 node scaling, heater-only substitution or added selector area is applied. The source native F remains 28 nm.",
+        "This reference is not joined to the existing 40 nm PCM throughput point, and its cryogenic experiments do not define this task operating temperature."
       ],
-      "geometry_formula": null,
-      "missing_reason": "Matched complete 40 nm 1T1R PCM bitcell area/pitch not reported in inspected source; macro dimensions are a different boundary.",
+      "geometry_formula": "A_xy = reported physical 1T1R ePCM cell area 0.036 um2; b = 1 binary state bit",
+      "missing_reason": null,
       "main_metric_excludes_cim_mapping": true,
       "mapping_metadata": {
         "cells_per_INT8_weight": 8,
@@ -266,35 +298,78 @@
       "identity": "binary/SLC voltage-mode PCM; native bank",
       "bits_per_storage_element": 1,
       "effective_layers": 1,
-      "bits_per_layer": 1
+      "bits_per_layer": 1,
+      "reference_identity": "ST 28 nm FD-SOI 1T1R ePCM, Palhares 2024 / Arnaud IEDM 2018",
+      "identity_relation": "Explicit published geometry proxy; does not establish the 40 nm voltage-mode throughput cell footprint",
+      "route_selection": {
+        "preferred_40nm_route": "insufficient_geometry_and_access_drive_information",
+        "accepted_route": "published_28nm_FDSOI_1T1R_geometry_proxy_authorized_by_user",
+        "extra_40nm_projection": false,
+        "original_40nm_access_check": {
+          "read_source": "analysis/07_pcm/input.json",
+          "source_sha256": "62a46ed7033eb293ea7bfe985314802df348abfef8467d5782e746efe969e638",
+          "declared_RESET_uA": 700,
+          "declared_SET_uA": 125,
+          "selector_W_L": null,
+          "compatible_program_current_per_width": null,
+          "conclusion": "Declared current budgets alone do not determine the access-transistor layout; no generic 22 nm driver or resistance-derived width is substituted."
+        }
+      },
+      "history_ref": "source_history.json#/previous_rows/2",
+      "reported_selector_geometry_metadata": {
+        "reported_gate_length_nm": 30,
+        "reported_gate_width_nm": null,
+        "source_id": "PCM-ARNAUD-2018-ST",
+        "locator": "Official author presentation slide12 Devices Suite - Morphology, PCM Selector panel: 30nm gate length",
+        "scope": "Selector in the cited native technology suite; does not expose the complete in-plane W/L layout.",
+        "not_used_in_area_conversion": true,
+        "normalization_F_mem_nm": 28
+      }
     },
     {
       "case_id": "08_feram_hfo2",
-      "label": "HZO FeRAM",
-      "unit_description": "HZO remanent 1T1C cell with capacitor vertically integrated above access transistor",
-      "area_xy_um2": null,
+      "label": "HZO FeRAM, 130 nm 1T1C model",
+      "unit_description": "Conditional 130 nm HZO 1T1C CUB repeated tile with 1 um2 active capacitor and a public 5 V-class NMOS access reference",
+      "area_xy_um2": "5.4145",
       "independent_bits": 1,
-      "F_mem_nm": null,
-      "F_definition": "No unambiguous planar F_mem in matched FERAM-03 source; HZO thickness is not F",
-      "F_kind": "unknown",
-      "evidence_class": "missing",
+      "F_mem_nm": "130",
+      "F_definition": "Reported 130 nm native HZO-array nominal CMOS node; public access reference also 130 nm; not HZO film thickness",
+      "F_kind": "nominal_node",
+      "evidence_class": "geometric_estimate",
       "source_refs": [
         {
-          "source_id": "FERAM-03",
-          "locator": "PDF p1 1T1C array integration and Fig5-7: capacitors 0.4 to 1.0 um2 directly above transistor"
+          "source_id": "FERAM-07-JEDS",
+          "locator": "Okuno JEDS10:29-34 DOI10.1109/JEDS.2021.3129279 PDF p2:130nm, 0.4/.6/.8/1um2 MFM and CUB directly above transistor; p4/5 2.5V operation"
         },
         {
-          "source_id": "FERAM-02",
-          "locator": "PDF p1: 1X nm half-pitch 8Gb DRAM-derived 1T1C; no exact half-pitch numeric"
+          "source_id": "SKY130-HV",
+          "locator": "Official device-details: nfet_g5v0d10v5 W7/L.5 andW.42/L.5 test devices; VGSmodelrange0..5.5V,VDS0..11V,VBS0..-5.5V"
+        },
+        {
+          "source_id": "SKY130-RULES",
+          "locator": "Official assumptions:HV channel length.5um, HVpolyspace.28um,HVDiffspace.3um; public licon width.17um"
+        },
+        {
+          "source_id": "SKY130-HV-RAW",
+          "locator": "Pinned measured W20/L.5 device IDVD rows, width-scaled to W1 only for coarse static current/body-bias context; no endpoint-current or timing certification"
+        },
+        {
+          "source_id": "NEUROSIM-GEO",
+          "locator": "Actual planar no-PMOS CalculateGateArea calls; explicit long-L/contact correction and complete layered tile consumer"
         }
       ],
       "notes": [
-        "0.4–1.0 um2 values describe capacitor area, not a complete access-transistor cell.",
-        "The actual vertical overlap forbids adding an arbitrary transistor footprint to capacitor area.",
-        "1X is not an exact F and 5 nm HZO thickness is not planar F."
+        "Sony device dimensions and layout are not disclosed; Sky130 is a different-foundry130nm conditional access reference, not a claim to reconstruct Sony bitcell.",
+        "Cap area1um2 is reported/retained; square1x1um in-plane shape is an explicit area-preserving design condition, not a measured aspect ratio.",
+        "Contact.17um, HVpolyspace.28um, HVdiffspace.3um, minL.5um use publicSky130anchors. All enclosure.08um, contacttogate.17um, polyextension.20um, metalwidth/space.20um, gatecontacttoactive.20um and electrode margins.08um are declared compact engineering margins; not full foundryDRC.",
+        "MFM lies above gate/drain; the BL/source contact is outside its shadow. WL and PL routes are separated across uppermetal layers; per-cell body tie allocation retained.",
+        "5V wordline is a selected voltage domain to provide pass-gate headroom for2.5V storage node. Pump/level-shifter macroarea excluded; no existing throughput configuration is revalidated.",
+        "Capacitance/electrode area is preserved and placed at explicit coordinates above the access region; contacts and BL/WL/PL/body-tie allocation remain inside the tile envelope.",
+        "A 5 V wordline and 2.5 V storage-node target provide a declared operating-domain plausibility check; no transient FE switching, endpoint current or original timing certification is claimed.",
+        "Finite larger spacing, W/L, cap-area and electrode-margin checks are engineering diagnostics, not process corners or statistical uncertainty bounds."
       ],
-      "geometry_formula": null,
-      "missing_reason": "Complete matched 1T1C projected cell/tile area and exact planar F unavailable; published capacitor-only areas do not close this boundary.",
+      "geometry_formula": "Calculated by geometry_models.py from native device W/L, explicit contacts/routing and vertical storage overlap; complete tile bounding envelope divided by b=1",
+      "missing_reason": null,
       "main_metric_excludes_cim_mapping": true,
       "mapping_metadata": {
         "necessary_encoding": "binary two-complement weight bit planes distributed across local row",
@@ -306,7 +381,14 @@
       "identity": "HZO remanent 1T1C FeRAM; destructive read with restore",
       "bits_per_storage_element": 1,
       "effective_layers": 1,
-      "bits_per_layer": 1
+      "bits_per_layer": 1,
+      "model_ref": "08_feram_hfo2",
+      "model_input_ref": "model_inputs.json#/cases/08_feram_hfo2",
+      "primitive_record_ref": "primitive_record.json",
+      "reference_identity": "Reported 130 nm HZO CUB capacitor family combined with a declared Sky130 nfet_g5v0d10v5 access-geometry reference",
+      "identity_relation": "Conditional geometry model across identified references, not reconstruction of Sony fabricated cell or validation of current throughput implementation",
+      "history_ref": "source_history.json#/previous_rows/3",
+      "drive_check_ref": "drive_check.json"
     },
     {
       "case_id": "09_gain_cell_edram",
@@ -392,6 +474,7 @@
     "slc_policy": "Each independently programmable storage element is capped at one bit; forced-complement MRAM pair has one independent bit",
     "normalization_policy": "F_kind explicitly separates nominal_node from directional physical half_pitch; absent F gives N/A only to alpha",
     "precision_policy": "50-digit Decimal arithmetic is retained in exact_decimal and CSV; numerical precision is not evidence accuracy",
-    "reference_git_sha": "8795902f7d894394d624d15f7761cdb7d08a6e0d"
+    "reference_git_sha": "8795902f7d894394d624d15f7761cdb7d08a6e0d",
+    "completion_reference_git_sha": "782921c498750ebc3b2dfaf374daf5668e6614ca"
   }
 }

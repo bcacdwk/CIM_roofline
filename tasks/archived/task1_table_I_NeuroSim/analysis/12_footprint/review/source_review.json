@@ -1,0 +1,71 @@
+{
+  "scope": "Independent review of four newly filled storage geometry rows; six prior rows locked.",
+  "NOR": {
+    "area_um2_per_binary_cell": 0.04,
+    "independent_bits": 1,
+    "F_nominal_nm": 28,
+    "density_Mbit_mm2": 25,
+    "source": "https://gf.com/news-and-events/news/globalfoundries-and-microchip-announce-microchips-28nm-superflash-embedded-flash-memory-solution-in-production/",
+    "independently_read": "GF official release 2023-09-27, ESF3 complete bitcell bullet and GF 28SLPe identity",
+    "microchip_crosscheck": "https://www.microchip.com/en-us/about/news-releases/corporate/globalfoundries-microchip-announce-microchips-28nm-superflash",
+    "microchip_limit": "Strictly less than 0.05 um2; not an exact measured 0.05 value",
+    "boundary": "Manufacturer bitcell geometry, not die capacity/area; independently programmable binary storage capped at one bit"
+  },
+  "PCM": {
+    "area_um2_per_binary_cell": 0.036,
+    "independent_bits": 1,
+    "F_nominal_nm": 28,
+    "source": "https://www.nature.com/articles/s44335-024-00008-y",
+    "independently_read": "Original PDF p2 ePCM pulse programming section and visually rendered Fig1 full 1T1R FD-SOI stack",
+    "source_PDF_sha256": "028b24189f72ff3a502dfa1cd7209382f209a789cd69b9457d43f68ff6de57b8",
+    "binary_geometry_anchor": "Official ST Arnaud IEDM2018 presentation slide11 gives PCM cell 0.036 um2; binary SET(1)/RESET(0) mechanism at slide7. Selector physical gate 30nm at slide12 is not normalization F=28nm.",
+    "MLC_rule": "10 resistance states and their encoding are excluded; no factor10 or log2(10).",
+    "identity_limit": "A 28nm FD-SOI 1T1R geometry reference, not reconstructed area or preserved throughput of the existing 40nm voltage-mode CIM implementation.",
+    "publisher_correction_access": "Original correction PDF independently read: DOI10.1038/s44335-025-00019-3 only adds missing Data Availability statements for several articles; no geometry change."
+  },
+  "RRAM_original": {
+    "source": "10.1109/JSSC.2023.3280357, PDF p3 Fig4",
+    "T1": {
+      "type": "NMOS IO",
+      "W_um": 0.5,
+      "L_um": 0.15,
+      "ports": "SL-X, gate WL"
+    },
+    "T2": {
+      "type": "NMOS core",
+      "W_um": 0.1,
+      "L_um": 0.03,
+      "m": 1,
+      "ports": "GND-TBL, gate X"
+    },
+    "RRAM_ports": "X-BL",
+    "layout_limit": "Original shown layout is m=4 and relative 30.3% overhead; not absolute m=1 area. New tile remains a conditional geometric model."
+  },
+  "FeRAM_original": {
+    "source": "10.1109/VLSITechnology18217.2020.9265063, original PDF p1",
+    "capacitor_area_um2": 1,
+    "overlap": "MFM capacitor directly on top of access transistor",
+    "voltage_V": 2.5,
+    "geometry_limit": "Cap area alone is not full bitcell. Any public 130nm access/routing rule envelope is an explicit compatible engineering reference, not Sony extracted layout.",
+    "extended_source": "https://doi.org/10.1109/JEDS.2021.3129279",
+    "extended_source_read": "Original 6-page JEDS paper (Scispace-hosted copy), PDF p2 explicitly 130nm CMOS and capacitor areas .4/.6/.8/1.0um2; capacitor directly above transistor",
+    "access_reference": "SkyWater SKY130 nfet_g5v0d10v5; a public geometry/voltage-domain reference, not Sony foundry reproduction",
+    "access_domain_source": "https://skywater-pdk.readthedocs.io/en/main/rules/device-details.html#v-10-5v-nmos-fet",
+    "access_voltage_domain": {
+      "VGS_V": [
+        0,
+        5.5
+      ],
+      "VDS_V": [
+        0,
+        11
+      ],
+      "VBS_V": [
+        -5.5,
+        0
+      ]
+    },
+    "access_dimension_condition": "L=.5um matches published 7/.5 and .42/.5 characterized devices. W=1um is explicit engineering choice, not an extracted Sony dimension.",
+    "electrical_boundary": "Vth=.937 max comes from narrow .42/.5 table, not measured W1/.5. No claimed new time, current, or polarization verification."
+  }
+}

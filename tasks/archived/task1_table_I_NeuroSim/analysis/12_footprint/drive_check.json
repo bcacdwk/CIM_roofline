@@ -1,0 +1,120 @@
+{
+  "source_id": "SKY130-HV-RAW",
+  "url": "https://foss-eda-tools.googlesource.com/skywater-pdk/sky130-raw-data/+/5738bf8753688baf2111d8d1b6a3e51a38a0bbeb/sky130_fd_pr/cells/nfet_g5v0d10v5/sky130_fd_pr__nfet_g5v0d10v5_w20u_l0p5u_m1%288363_5_6_IDVD%29.mdm",
+  "git_commit": "5738bf8753688baf2111d8d1b6a3e51a38a0bbeb",
+  "git_blob": "85ead4ef244df2f1d8d1d86094bd18a8dd7c2960",
+  "raw_sha256": "7d4487d447c9899dd389417a258d7c7aac7f6939a7b4075a5e33259ce9ea109c",
+  "device": "sky130_fd_pr__nfet_g5v0d10v5",
+  "selected_measured_rows": [
+    {
+      "VGS_V": 5.0,
+      "VDS_V": 0.1,
+      "VBS_V": 0.0,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.00083992,
+      "linear_width_scaled_ID_uA_for_W1": 41.995999999999995
+    },
+    {
+      "VGS_V": 5.0,
+      "VDS_V": 0.2,
+      "VBS_V": 0.0,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.0016649,
+      "linear_width_scaled_ID_uA_for_W1": 83.24499999999999
+    },
+    {
+      "VGS_V": 5.0,
+      "VDS_V": 2.5,
+      "VBS_V": 0.0,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.0109836,
+      "linear_width_scaled_ID_uA_for_W1": 549.1800000000001
+    },
+    {
+      "VGS_V": 2.0,
+      "VDS_V": 0.1,
+      "VBS_V": -2.5,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.00036882,
+      "linear_width_scaled_ID_uA_for_W1": 18.441
+    },
+    {
+      "VGS_V": 2.0,
+      "VDS_V": 0.2,
+      "VBS_V": -2.5,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.00068825,
+      "linear_width_scaled_ID_uA_for_W1": 34.4125
+    },
+    {
+      "VGS_V": 2.0,
+      "VDS_V": 2.5,
+      "VBS_V": -2.5,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.0018363,
+      "linear_width_scaled_ID_uA_for_W1": 91.815
+    },
+    {
+      "VGS_V": 3.0,
+      "VDS_V": 0.1,
+      "VBS_V": -2.5,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.00060569,
+      "linear_width_scaled_ID_uA_for_W1": 30.284499999999998
+    },
+    {
+      "VGS_V": 3.0,
+      "VDS_V": 0.2,
+      "VBS_V": -2.5,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.0011833,
+      "linear_width_scaled_ID_uA_for_W1": 59.165
+    },
+    {
+      "VGS_V": 3.0,
+      "VDS_V": 2.5,
+      "VBS_V": -2.5,
+      "measured_W_um": 20,
+      "measured_L_um": 0.5,
+      "measured_ID_A": 0.0047828,
+      "linear_width_scaled_ID_uA_for_W1": 239.14000000000001
+    }
+  ],
+  "conditional_design": {
+    "W_um": 1,
+    "L_um": 0.5,
+    "WL_V": 5,
+    "BL_and_target_SN_V": 2.5,
+    "body_V": 0,
+    "voltage_domain_checks": {
+      "early_VGS_V": 5,
+      "near_endpoint_VGS_V": 2.5,
+      "max_VDS_V": 2.5,
+      "min_VBS_V": -2.5,
+      "within_published_model_voltage_domain": true
+    },
+    "threshold_context": {
+      "source_max_VT_V": 0.937,
+      "source_geometry_um": [
+        0.42,
+        0.5
+      ],
+      "zero_body_endpoint_overdrive_context_V": 1.563,
+      "body_effect_removed": false
+    }
+  },
+  "limits": [
+    "Measured20um device currents are divided by20 to give conditional per1um drive scale, not measuredW1um data.",
+    "Rows atVBS=-2.5 retain body-bias context. VG2/3 only contextualize the near-endpointVG2.5 domain; no fitted transistor model or guaranteed endpoint current.",
+    "80uA is the retained interface-current budget, not a proof of full FeCAP polarization, pass-gate endpoint settling or write speed.",
+    "No time-domain simulation, extractedRC, source-chip floorplan or5Vwordline circuitry area is certified."
+  ]
+}

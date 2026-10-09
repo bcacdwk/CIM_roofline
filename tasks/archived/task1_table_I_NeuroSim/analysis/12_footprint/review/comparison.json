@@ -1,29 +1,19 @@
 {
   "status": "PASS",
-  "checked_quantified_cases": [
+  "checked_cases": [
     "01_sram_acim",
     "02_sram_dcim",
+    "03_nor_2d",
     "04_nand_3d",
+    "05_rram",
     "06_mram",
+    "07_pcm",
+    "08_feram_hfo2",
     "09_gain_cell_edram",
     "10_fenor_3d"
   ],
-  "missing_cases_not_zero": [
-    "03_nor_2d",
-    "05_rram",
-    "07_pcm",
-    "08_feram_hfo2"
-  ],
-  "production_sha256": "65c5257096ea9d45233cfdf72c8cb8773bb727a09d1f433f0f1e300f431502a3",
-  "independent_script_sha256": "32504ddea03222e4b65612afb71e75eb951a2bf471c1f2fc93cff4843349aa10",
-  "arithmetic_checks": {
-    "inverse_units": true,
-    "alpha_recovers_area": true,
-    "F_invariance": true,
-    "NAND_single_fold": true,
-    "SLC_no_MLC_gain": true,
-    "MRAM_complementary_one_bit": true,
-    "GC_mapping_not_capacity": true
-  },
-  "method": "Independent source-fact arithmetic first; production replay comparison second; production CSV never used as source."
+  "all_ten_finite_positive": true,
+  "NAND_diagnostics_match": true,
+  "production_sha256": "3ff833ed2c25577d667be1855aa578a741b18acaccd2c8ae4b9262f4e1a4fb66",
+  "method": "Independent source/model arithmetic; original six additionally protected by full-row snapshot comparison"
 }

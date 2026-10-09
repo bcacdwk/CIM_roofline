@@ -32,3 +32,13 @@ python3 -B analysis/12_footprint/run_neurosim_probes.py \
 ```
 
 run-dir 必须是新的非同步目录；runner 拒绝覆盖。默认 `g++-16`，可用 `--cxx` 或 `NEUROSIM_CXX` 指定兼容编译器。该命令只生成本地诊断，不导出或改动十类输入、服务结果或论文。
+
+## 本轮新增条件布局模型的实际调用
+
+此前两个普通SRAM/1T1R探针保持原记录，没有重复运行。本轮新增 [run_geometry_primitives.py](run_geometry_primitives.py) 和 [planar_nmos_probe.cpp](planar_nmos_probe.cpp)，从相同锁定SHA核对并复制 `formula.cpp`、`Technology.cpp` 及必要header，在非同步区新编译。主条件、间距+20%与单变量诊断共20个NMOS请求都实际执行；结果见 [primitive_record.json](primitive_record.json)。作者与独立reviewer各自fresh build，不复用二进制。
+
+适配器调用原始 `CalculateGateArea(INV,1,W_NMOS,0,H,tech)` 的planar/no-PMOS分支，`tech.featureSize`是显式几何尺度28或130nm。没有调用 `Technology::Initialize` 冒充不存在的28nm电气表，也没有把未初始化电流/电容用于计算。返回的是单个NMOS下层区域，非十类bitcell或完整宏；`INV`只是原函数的几何入口，PMOS宽度为0。
+
+原函数不接收真实L，因此在其宽度上加入 `fingers×(L−F_geom)`，再与 `fingers×L + (fingers+1)×contact + 2×fingers×gate_contact_gap + 2×diffusion_enclosure` 的完整接触跨度取max。H上1e-12 µm仅是避免恰好折叠边界的浮点guard，不是物理折扣。原W/H/area、finger数、长L修正、接触跨度和adapted width全部导出；当前声明的单finger条件均返回1。
+
+这些真实返回再由 [geometry_models.py](geometry_models.py) 组合准确网表对应的访问区域、局部接触/布线及上层器件重叠，产生完整重复tile。默认绘图入口重算此模型，核对model-input、primitive-query哈希并强制A/b与权威输入一致；不能把生产CSV反填成模型。NeuroSim运行在此只认证代码链和单位，公开规则/布局假设以及跨工艺参考仍是工程条件，不升级为独立物理或foundry认证。

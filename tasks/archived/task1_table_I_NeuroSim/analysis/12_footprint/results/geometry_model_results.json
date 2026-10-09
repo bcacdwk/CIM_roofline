@@ -1,0 +1,5133 @@
+{
+  "schema_version": "conditional-cell-layout-results-1",
+  "case_results": {
+    "05_rram": {
+      "width_um": 0.5531999999999999,
+      "height_um": 1.2384,
+      "area_xy_um2": 0.6850828799999998,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.16379999999999997,
+          0.8288
+        ],
+        "T1_X": [
+          0.38939999999999997,
+          0.8288
+        ],
+        "T1_WL": [
+          0.27659999999999996,
+          1.1838
+        ],
+        "T2_GND": [
+          0.16199999999999998,
+          0.3188
+        ],
+        "T2_TBL": [
+          0.2712,
+          0.3188
+        ],
+        "T2_X_gate": [
+          0.21659999999999996,
+          0.4738
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.1838
+            ],
+            [
+              0.5531999999999999,
+              1.1838
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.1638
+            ],
+            [
+              0.5531999999999999,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.054599999999999996,
+              0
+            ],
+            [
+              0.054599999999999996,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.49859999999999993,
+              0
+            ],
+            [
+              0.49859999999999993,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.054599999999999996
+            ],
+            [
+              0.5531999999999999,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.16379999999999997,
+              0.8288
+            ],
+            [
+              0.054599999999999996,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8288
+            ],
+            [
+              0.38939999999999997,
+              0.4738
+            ],
+            [
+              0.21659999999999996,
+              0.4738
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.16199999999999998,
+              0.3188
+            ],
+            [
+              0.16199999999999998,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.2712,
+              0.3188
+            ],
+            [
+              0.2712,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8288
+            ],
+            [
+              0.49859999999999993,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.054599999999999975,
+          "gate": 0.1674,
+          "drain": 0.28019999999999995,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.16119999999999995,
+          "actual_source_contact_to_gate_gap_um": 0.01960000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.01959999999999995
+        },
+        "T2": {
+          "source": 0.05279999999999997,
+          "gate": 0.10739999999999998,
+          "drain": 0.16199999999999998,
+          "pad_shift_outward_um": 3.469446951953614e-18,
+          "same_layer_SD_pad_gap_um": 0.044800000000000006,
+          "actual_source_contact_to_gate_gap_um": 0.021400000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.021400000000000002
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.600800000001,
+          "native_area_um2": 0.12785024000021278,
+          "fingers": 1,
+          "length_correction_um": 0.122,
+          "contact_span_um": 0.29000000000000004,
+          "adapted_width_um": 0.3348,
+          "query": {
+            "id": "05_rram:main:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.15,
+            "H_um": 0.6008,
+            "contact_um": 0.0364,
+            "gap_um": 0.0196,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.200800000001,
+          "native_area_um2": 0.0427302400002128,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.1736,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:main:T2",
+            "F_um": 0.028,
+            "W_um": 0.1,
+            "L_um": 0.03,
+            "H_um": 0.2008,
+            "contact_um": 0.0364,
+            "gap_um": 0.021399999999999995,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.5284,
+          "width_um": 0.3348,
+          "height_um": 0.6008,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.21839999999999998,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.2008,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.1292,
+          "width_um": 0.5531999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.4192,
+          "width_um": 0.3348,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.10919999999999999,
+          "width_um": 0.5531999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.5531999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.44399999999999995,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.35719999999999996,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.13159999999999997,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.35719999999999996,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.24439999999999995,
+          "y_um": 1.1516,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.12979999999999997,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.239,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.18439999999999995,
+          "y_um": 0.4416,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.10919999999999999,
+      "landing_pad_um": 0.0644,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.0644,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.6850828799999998,
+      "density_Mbit_mm2": 1.4596774042872014,
+      "alpha_F2_per_bit": 873.8302040816324,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:main",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      }
+    },
+    "08_feram_hfo2": {
+      "width_um": 2.21,
+      "height_um": 2.45,
+      "area_xy_um2": 5.4145,
+      "independent_bits": 1,
+      "terminals_um": {
+        "BL_source": [
+          0.704,
+          1.28
+        ],
+        "SN_drain_bottom_electrode": [
+          1.714,
+          1.28
+        ],
+        "WL_gate": [
+          1.209,
+          2.185
+        ],
+        "PL_top_electrode": [
+          1.53,
+          1.3599999999999999
+        ],
+        "body_ground": [
+          0.704,
+          0.315
+        ]
+      },
+      "routes": [
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              0
+            ],
+            [
+              0.265,
+              2.45
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              1.28
+            ],
+            [
+              0.704,
+              1.28
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": []
+        },
+        {
+          "net": "WL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0,
+              2.185
+            ],
+            [
+              2.21,
+              2.185
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "PL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.3599999999999999
+            ],
+            [
+              2.21,
+              1.3599999999999999
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M4",
+          "points_um": [
+            [
+              0,
+              0.315
+            ],
+            [
+              2.21,
+              0.315
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "terminal_placement": {
+        "access": {
+          "source": 0.1739999999999999,
+          "gate": 0.6789999999999999,
+          "drain": 1.184,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.6799999999999999,
+          "actual_source_contact_to_gate_gap_um": 0.17000000000000004,
+          "actual_drain_contact_to_gate_gap_um": 0.17000000000000004
+        }
+      },
+      "gate_contact_cap_clearance_um": 0.08000000000000007,
+      "source_contact_cap_clearance_um": 0.08100000000000007,
+      "connectivity_notes": [
+        "Source BL contact lies left of the capacitor shadow; a horizontal M1 spur connects it to the continuous vertical BL.",
+        "Drain SN contact terminates at the lower MFM electrode above the access region; it is not shorted to the PL top contact.",
+        "PL M2 and WL M3 extend through both tile boundaries; their local contact stacks are at separate y positions. The body contact reaches a separate continuous M4 ground line.",
+        "Contacts and routes are assigned to explicit isolated layers; geometry is a conditional placement allocation, not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "access": {
+          "native_width_um": 0.9879999999999999,
+          "native_height_um": 1.680000000001,
+          "native_area_um2": 1.6598400000009879,
+          "fingers": 1,
+          "length_correction_um": 0.37,
+          "contact_span_um": 1.34,
+          "adapted_width_um": 1.3579999999999999,
+          "query": {
+            "id": "08_feram_hfo2:main:access",
+            "F_um": 0.13,
+            "W_um": 1.0,
+            "L_um": 0.5,
+            "H_um": 1.68,
+            "contact_um": 0.17,
+            "gap_um": 0.17,
+            "enclosure_um": 0.08,
+            "nominal_gate_contact_gap_um": 0.17
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "contacted access NMOS with gate/body landing",
+          "layer": "FEOL",
+          "net": "BL-SN/WL",
+          "x_um": 0.53,
+          "y_um": 0.0,
+          "width_um": 1.3579999999999999,
+          "height_um": 2.45,
+          "kind": "allocation"
+        },
+        {
+          "name": "NMOS channel active",
+          "layer": "FEOL active",
+          "net": "BL-SN",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 0.5,
+          "height_um": 1.0,
+          "kind": "channel"
+        },
+        {
+          "name": "MFM electrode envelope",
+          "layer": "CUB above transistor",
+          "net": "SN-PL",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 1.16,
+          "height_um": 1.16,
+          "kind": "allocation"
+        },
+        {
+          "name": "MFM active switching area",
+          "layer": "CUB active",
+          "net": "SN-PL",
+          "x_um": 1.03,
+          "y_um": 0.86,
+          "width_um": 1.0,
+          "height_um": 1.0,
+          "kind": "storage_device"
+        },
+        {
+          "name": "BL vertical route and source landing",
+          "layer": "M1",
+          "net": "BL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.53,
+          "height_um": 2.45,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL top gate landing channel",
+          "layer": "M3",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.78,
+          "width_um": 2.21,
+          "height_um": 0.6700000000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "PL over-cap routing and top contact",
+          "layer": "M2",
+          "net": "PL",
+          "x_um": 0,
+          "y_um": 1.1949999999999998,
+          "width_um": 2.21,
+          "height_um": 0.33,
+          "kind": "allocation"
+        },
+        {
+          "name": "local body tie allocation",
+          "layer": "PwellTap+M1",
+          "net": "GND",
+          "x_um": 0.53,
+          "y_um": 0,
+          "width_um": 1.3579999999999999,
+          "height_um": 0.78,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL_source contact landing",
+          "layer": "contact/via stack",
+          "net": "BL_source",
+          "x_um": 0.5389999999999999,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "SN_drain_bottom_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "SN_drain_bottom_electrode",
+          "x_um": 1.549,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "WL_gate contact landing",
+          "layer": "contact/via stack",
+          "net": "WL_gate",
+          "x_um": 1.044,
+          "y_um": 2.02,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "PL_top_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "PL_top_electrode",
+          "x_um": 1.365,
+          "y_um": 1.1949999999999998,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "body_ground contact landing",
+          "layer": "contact/via stack",
+          "net": "body_ground",
+          "x_um": 0.5389999999999999,
+          "y_um": 0.15,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.53,
+      "capacitor_active_width_um": 1.0,
+      "capacitor_active_height_um": 1.0,
+      "capacitor_outer_width_um": 1.16,
+      "capacitor_outer_height_um": 1.16,
+      "transistor_only_allocated_width_um": 1.3579999999999999,
+      "transistor_only_allocated_height_um": 2.45,
+      "cap_shape_is_reported": false,
+      "diffusion_sharing": "no source/drain sharing; per-cell body-tie allocation; same pwell continuous",
+      "tile_boundary": "one conditional 130 nm CUB 1T1C tile including single HV NMOS, source BL access, WL/PL contacts, MFM electrode margins and body tie",
+      "upper_lower_area_rule": "explicit aligned rectangles; electrode footprint overlaps gate/drain region while source BL landing remains outside cap shadow",
+      "a_bit_um2": 5.4145,
+      "density_Mbit_mm2": 0.1846892603195124,
+      "alpha_F2_per_bit": 320.38461538461536,
+      "F_mem_nm": 130,
+      "condition_id": "08_feram_hfo2:main",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": true
+      }
+    }
+  },
+  "sensitivity": {
+    "05_rram:loose_rules_20pct": {
+      "width_um": 0.59688,
+      "height_um": 1.3660800000000002,
+      "area_xy_um2": 0.8153858304,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.17808,
+          0.92456
+        ],
+        "T1_X": [
+          0.4188,
+          0.92456
+        ],
+        "T1_WL": [
+          0.29844,
+          1.3005600000000002
+        ],
+        "T2_GND": [
+          0.17291999999999996,
+          0.37256
+        ],
+        "T2_TBL": [
+          0.30396,
+          0.37256
+        ],
+        "T2_X_gate": [
+          0.23843999999999999,
+          0.54856
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.3005600000000002
+            ],
+            [
+              0.59688,
+              1.3005600000000002
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.19655999999999998
+            ],
+            [
+              0.59688,
+              0.19655999999999998
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.06552,
+              0
+            ],
+            [
+              0.06552,
+              1.3660800000000002
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.5313599999999999,
+              0
+            ],
+            [
+              0.5313599999999999,
+              1.3660800000000002
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.06552
+            ],
+            [
+              0.59688,
+              0.06552
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.17808,
+              0.92456
+            ],
+            [
+              0.06552,
+              0.92456
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.4188,
+              0.92456
+            ],
+            [
+              0.4188,
+              0.54856
+            ],
+            [
+              0.23843999999999999,
+              0.54856
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.17291999999999996,
+              0.37256
+            ],
+            [
+              0.17291999999999996,
+              0.06552
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.30396,
+              0.37256
+            ],
+            [
+              0.30396,
+              0.19655999999999998
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.4188,
+              0.92456
+            ],
+            [
+              0.5313599999999999,
+              0.92456
+            ]
+          ],
+          "width_um": 0.053759999999999995,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.04703999999999999,
+          "gate": 0.1674,
+          "drain": 0.28776,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.16344000000000003,
+          "actual_source_contact_to_gate_gap_um": 0.02352,
+          "actual_drain_contact_to_gate_gap_um": 0.023519999999999985
+        },
+        "T2": {
+          "source": 0.04187999999999999,
+          "gate": 0.1074,
+          "drain": 0.17292,
+          "pad_shift_outward_um": 3.469446951953614e-18,
+          "same_layer_SD_pad_gap_um": 0.05375999999999999,
+          "actual_source_contact_to_gate_gap_um": 0.02868000000000001,
+          "actual_drain_contact_to_gate_gap_um": 0.028679999999999997
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.620960000001,
+          "native_area_um2": 0.13214028800021277,
+          "fingers": 1,
+          "length_correction_um": 0.122,
+          "contact_span_um": 0.318,
+          "adapted_width_um": 0.3348,
+          "query": {
+            "id": "05_rram:loose_rules_20pct:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.15,
+            "H_um": 0.6209600000000001,
+            "contact_um": 0.043680000000000004,
+            "gap_um": 0.02352,
+            "enclosure_um": 0.0168,
+            "nominal_gate_contact_gap_um": 0.02352
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.22096000000100002,
+          "native_area_um2": 0.0470202880002128,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.20831999999999998,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:loose_rules_20pct:T2",
+            "F_um": 0.028,
+            "W_um": 0.1,
+            "L_um": 0.03,
+            "H_um": 0.22096000000000002,
+            "contact_um": 0.043680000000000004,
+            "gap_um": 0.028679999999999994,
+            "enclosure_um": 0.0168,
+            "nominal_gate_contact_gap_um": 0.02352
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.13104,
+          "y_um": 0.61408,
+          "width_um": 0.3348,
+          "height_um": 0.6209600000000001,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.13104,
+          "y_um": 0.26208,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.22096000000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.2350400000000001,
+          "width_um": 0.59688,
+          "height_um": 0.13104,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.13104,
+          "y_um": 0.48304,
+          "width_um": 0.3348,
+          "height_um": 0.13104,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.13104,
+          "width_um": 0.59688,
+          "height_um": 0.13104,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.59688,
+          "height_um": 0.13104,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.13104,
+          "height_um": 1.3660800000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.46584,
+          "y_um": 0,
+          "width_um": 0.13104,
+          "height_um": 1.3660800000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.3866,
+          "y_um": 0.89236,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.13943999999999998,
+          "y_um": 0.88592,
+          "width_um": 0.07728,
+          "height_um": 0.07728,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.38016,
+          "y_um": 0.88592,
+          "width_um": 0.07728,
+          "height_um": 0.07728,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.2598,
+          "y_um": 1.2619200000000002,
+          "width_um": 0.07728,
+          "height_um": 0.07728,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.13427999999999995,
+          "y_um": 0.33392,
+          "width_um": 0.07728,
+          "height_um": 0.07728,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.26532,
+          "y_um": 0.33392,
+          "width_um": 0.07728,
+          "height_um": 0.07728,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.19979999999999998,
+          "y_um": 0.50992,
+          "width_um": 0.07728,
+          "height_um": 0.07728,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.13104,
+      "landing_pad_um": 0.07728,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.0644,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.8153858304,
+      "density_Mbit_mm2": 1.2264132668450158,
+      "alpha_F2_per_bit": 1040.0329469387755,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:loose_rules_20pct",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      },
+      "relative_area_change": 0.19020027241083626
+    },
+    "05_rram:T1_L_180nm": {
+      "width_um": 0.5831999999999999,
+      "height_um": 1.2384,
+      "area_xy_um2": 0.7222348799999999,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.16379999999999995,
+          0.8288
+        ],
+        "T1_X": [
+          0.4193999999999999,
+          0.8288
+        ],
+        "T1_WL": [
+          0.29159999999999997,
+          1.1838
+        ],
+        "T2_GND": [
+          0.16199999999999998,
+          0.3188
+        ],
+        "T2_TBL": [
+          0.2712,
+          0.3188
+        ],
+        "T2_X_gate": [
+          0.21659999999999996,
+          0.4738
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.1838
+            ],
+            [
+              0.5831999999999999,
+              1.1838
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.1638
+            ],
+            [
+              0.5831999999999999,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.054599999999999996,
+              0
+            ],
+            [
+              0.054599999999999996,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.5286,
+              0
+            ],
+            [
+              0.5286,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.054599999999999996
+            ],
+            [
+              0.5831999999999999,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.16379999999999995,
+              0.8288
+            ],
+            [
+              0.054599999999999996,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.4193999999999999,
+              0.8288
+            ],
+            [
+              0.4193999999999999,
+              0.4738
+            ],
+            [
+              0.21659999999999996,
+              0.4738
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.16199999999999998,
+              0.3188
+            ],
+            [
+              0.16199999999999998,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.2712,
+              0.3188
+            ],
+            [
+              0.2712,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.4193999999999999,
+              0.8288
+            ],
+            [
+              0.5286,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.05459999999999995,
+          "gate": 0.18239999999999995,
+          "drain": 0.3101999999999999,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.19119999999999998,
+          "actual_source_contact_to_gate_gap_um": 0.019600000000000006,
+          "actual_drain_contact_to_gate_gap_um": 0.01959999999999995
+        },
+        "T2": {
+          "source": 0.05279999999999997,
+          "gate": 0.10739999999999998,
+          "drain": 0.16199999999999998,
+          "pad_shift_outward_um": 3.469446951953614e-18,
+          "same_layer_SD_pad_gap_um": 0.044800000000000006,
+          "actual_source_contact_to_gate_gap_um": 0.021400000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.021400000000000002
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.600800000001,
+          "native_area_um2": 0.12785024000021278,
+          "fingers": 1,
+          "length_correction_um": 0.152,
+          "contact_span_um": 0.32000000000000006,
+          "adapted_width_um": 0.36479999999999996,
+          "query": {
+            "id": "05_rram:T1_L_180nm:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.18,
+            "H_um": 0.6008,
+            "contact_um": 0.0364,
+            "gap_um": 0.0196,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.200800000001,
+          "native_area_um2": 0.0427302400002128,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.1736,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:T1_L_180nm:T2",
+            "F_um": 0.028,
+            "W_um": 0.1,
+            "L_um": 0.03,
+            "H_um": 0.2008,
+            "contact_um": 0.0364,
+            "gap_um": 0.021399999999999995,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.5284,
+          "width_um": 0.36479999999999996,
+          "height_um": 0.6008,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.21839999999999998,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.2008,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.1292,
+          "width_um": 0.5831999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.4192,
+          "width_um": 0.36479999999999996,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.10919999999999999,
+          "width_um": 0.5831999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.5831999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.474,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.3871999999999999,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.13159999999999994,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.3871999999999999,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.25939999999999996,
+          "y_um": 1.1516,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.12979999999999997,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.239,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.18439999999999995,
+          "y_um": 0.4416,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.10919999999999999,
+      "landing_pad_um": 0.0644,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.0644,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.7222348799999999,
+      "density_Mbit_mm2": 1.3845911180584356,
+      "alpha_F2_per_bit": 921.2179591836733,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:T1_L_180nm",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      },
+      "relative_area_change": 0.05422993492407824
+    },
+    "05_rram:T2_W_150nm": {
+      "width_um": 0.5531999999999999,
+      "height_um": 1.2884,
+      "area_xy_um2": 0.7127428799999999,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.16379999999999997,
+          0.8788
+        ],
+        "T1_X": [
+          0.38939999999999997,
+          0.8788
+        ],
+        "T1_WL": [
+          0.27659999999999996,
+          1.2338
+        ],
+        "T2_GND": [
+          0.16199999999999998,
+          0.3438
+        ],
+        "T2_TBL": [
+          0.2712,
+          0.3438
+        ],
+        "T2_X_gate": [
+          0.21659999999999996,
+          0.5238
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.2338
+            ],
+            [
+              0.5531999999999999,
+              1.2338
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.1638
+            ],
+            [
+              0.5531999999999999,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.054599999999999996,
+              0
+            ],
+            [
+              0.054599999999999996,
+              1.2884
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.49859999999999993,
+              0
+            ],
+            [
+              0.49859999999999993,
+              1.2884
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.054599999999999996
+            ],
+            [
+              0.5531999999999999,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.16379999999999997,
+              0.8788
+            ],
+            [
+              0.054599999999999996,
+              0.8788
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8788
+            ],
+            [
+              0.38939999999999997,
+              0.5238
+            ],
+            [
+              0.21659999999999996,
+              0.5238
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.16199999999999998,
+              0.3438
+            ],
+            [
+              0.16199999999999998,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.2712,
+              0.3438
+            ],
+            [
+              0.2712,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8788
+            ],
+            [
+              0.49859999999999993,
+              0.8788
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.054599999999999975,
+          "gate": 0.1674,
+          "drain": 0.28019999999999995,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.16119999999999995,
+          "actual_source_contact_to_gate_gap_um": 0.01960000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.01959999999999995
+        },
+        "T2": {
+          "source": 0.05279999999999997,
+          "gate": 0.10739999999999998,
+          "drain": 0.16199999999999998,
+          "pad_shift_outward_um": 3.469446951953614e-18,
+          "same_layer_SD_pad_gap_um": 0.044800000000000006,
+          "actual_source_contact_to_gate_gap_um": 0.021400000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.021400000000000002
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.600800000001,
+          "native_area_um2": 0.12785024000021278,
+          "fingers": 1,
+          "length_correction_um": 0.122,
+          "contact_span_um": 0.29000000000000004,
+          "adapted_width_um": 0.3348,
+          "query": {
+            "id": "05_rram:T2_W_150nm:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.15,
+            "H_um": 0.6008,
+            "contact_um": 0.0364,
+            "gap_um": 0.0196,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.25080000000099995,
+          "native_area_um2": 0.05337024000021279,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.1736,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:T2_W_150nm:T2",
+            "F_um": 0.028,
+            "W_um": 0.15,
+            "L_um": 0.03,
+            "H_um": 0.2508,
+            "contact_um": 0.0364,
+            "gap_um": 0.021399999999999995,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.5784,
+          "width_um": 0.3348,
+          "height_um": 0.6008,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.21839999999999998,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.2508,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.1792,
+          "width_um": 0.5531999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.4692,
+          "width_um": 0.3348,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.10919999999999999,
+          "width_um": 0.5531999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.5531999999999999,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2884,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.44399999999999995,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2884,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.35719999999999996,
+          "y_um": 0.8466,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.13159999999999997,
+          "y_um": 0.8466,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.35719999999999996,
+          "y_um": 0.8466,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.24439999999999995,
+          "y_um": 1.2016,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.12979999999999997,
+          "y_um": 0.3116,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.239,
+          "y_um": 0.3116,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.18439999999999995,
+          "y_um": 0.49160000000000004,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.10919999999999999,
+      "landing_pad_um": 0.0644,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.0644,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.7127428799999999,
+      "density_Mbit_mm2": 1.4030305009851523,
+      "alpha_F2_per_bit": 909.1108163265303,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:T2_W_150nm",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      },
+      "relative_area_change": 0.040374677002584125
+    },
+    "05_rram:contact_plus20pct": {
+      "width_um": 0.56776,
+      "height_um": 1.26752,
+      "area_xy_um2": 0.7196471552,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.16743999999999998,
+          0.8506400000000001
+        ],
+        "T1_X": [
+          0.40032,
+          0.8506400000000001
+        ],
+        "T1_WL": [
+          0.28388,
+          1.2092800000000001
+        ],
+        "T2_GND": [
+          0.16563999999999998,
+          0.33336
+        ],
+        "T2_TBL": [
+          0.28212,
+          0.33336
+        ],
+        "T2_X_gate": [
+          0.22387999999999997,
+          0.49200000000000005
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.2092800000000001
+            ],
+            [
+              0.56776,
+              1.2092800000000001
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.17472
+            ],
+            [
+              0.56776,
+              0.17472
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.05824,
+              0
+            ],
+            [
+              0.05824,
+              1.26752
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.5095200000000001,
+              0
+            ],
+            [
+              0.5095200000000001,
+              1.26752
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.05824
+            ],
+            [
+              0.56776,
+              0.05824
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.16743999999999998,
+              0.8506400000000001
+            ],
+            [
+              0.05824,
+              0.8506400000000001
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.40032,
+              0.8506400000000001
+            ],
+            [
+              0.40032,
+              0.49200000000000005
+            ],
+            [
+              0.22387999999999997,
+              0.49200000000000005
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.16563999999999998,
+              0.33336
+            ],
+            [
+              0.16563999999999998,
+              0.05824
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.28212,
+              0.33336
+            ],
+            [
+              0.28212,
+              0.17472
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.40032,
+              0.8506400000000001
+            ],
+            [
+              0.5095200000000001,
+              0.8506400000000001
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.05095999999999999,
+          "gate": 0.1674,
+          "drain": 0.28384,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.16119999999999998,
+          "actual_source_contact_to_gate_gap_um": 0.019600000000000006,
+          "actual_drain_contact_to_gate_gap_um": 0.019600000000000006
+        },
+        "T2": {
+          "source": 0.04915999999999998,
+          "gate": 0.10739999999999998,
+          "drain": 0.16563999999999998,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.044800000000000006,
+          "actual_source_contact_to_gate_gap_um": 0.021400000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.021400000000000002
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.600800000001,
+          "native_area_um2": 0.12785024000021278,
+          "fingers": 1,
+          "length_correction_um": 0.122,
+          "contact_span_um": 0.30456,
+          "adapted_width_um": 0.3348,
+          "query": {
+            "id": "05_rram:contact_plus20pct:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.15,
+            "H_um": 0.6008,
+            "contact_um": 0.04368,
+            "gap_um": 0.0196,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.200800000001,
+          "native_area_um2": 0.0427302400002128,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.18816,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:contact_plus20pct:T2",
+            "F_um": 0.028,
+            "W_um": 0.1,
+            "L_um": 0.03,
+            "H_um": 0.2008,
+            "contact_um": 0.04368,
+            "gap_um": 0.021400000000000002,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.11648,
+          "y_um": 0.5502400000000001,
+          "width_um": 0.3348,
+          "height_um": 0.6008,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.11648,
+          "y_um": 0.23296,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.2008,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.15104,
+          "width_um": 0.56776,
+          "height_um": 0.11648,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.11648,
+          "y_um": 0.43376000000000003,
+          "width_um": 0.3348,
+          "height_um": 0.11648,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.11648,
+          "width_um": 0.56776,
+          "height_um": 0.11648,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.56776,
+          "height_um": 0.11648,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.11648,
+          "height_um": 1.26752,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.45128,
+          "y_um": 0,
+          "width_um": 0.11648,
+          "height_um": 1.26752,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.36812,
+          "y_um": 0.8184400000000001,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.1316,
+          "y_um": 0.8148000000000001,
+          "width_um": 0.07168,
+          "height_um": 0.07168,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.36448,
+          "y_um": 0.8148000000000001,
+          "width_um": 0.07168,
+          "height_um": 0.07168,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.24804000000000004,
+          "y_um": 1.17344,
+          "width_um": 0.07168,
+          "height_um": 0.07168,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.12979999999999997,
+          "y_um": 0.29752,
+          "width_um": 0.07168,
+          "height_um": 0.07168,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.24628,
+          "y_um": 0.29752,
+          "width_um": 0.07168,
+          "height_um": 0.07168,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.18803999999999998,
+          "y_um": 0.45616000000000007,
+          "width_um": 0.07168,
+          "height_um": 0.07168,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.11648,
+      "landing_pad_um": 0.07168,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.0644,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.7196471552,
+      "density_Mbit_mm2": 1.3895698645846604,
+      "alpha_F2_per_bit": 917.9172897959182,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:contact_plus20pct",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      },
+      "relative_area_change": 0.050452691505004754
+    },
+    "05_rram:rram_pad_200nm": {
+      "width_um": 0.5986,
+      "height_um": 1.2384,
+      "area_xy_um2": 0.74130624,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.16379999999999997,
+          0.8288
+        ],
+        "T1_X": [
+          0.38939999999999997,
+          0.8288
+        ],
+        "T1_WL": [
+          0.27659999999999996,
+          1.1838
+        ],
+        "T2_GND": [
+          0.16199999999999998,
+          0.3188
+        ],
+        "T2_TBL": [
+          0.2712,
+          0.3188
+        ],
+        "T2_X_gate": [
+          0.21659999999999996,
+          0.4738
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.1838
+            ],
+            [
+              0.5986,
+              1.1838
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.1638
+            ],
+            [
+              0.5986,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.054599999999999996,
+              0
+            ],
+            [
+              0.054599999999999996,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.544,
+              0
+            ],
+            [
+              0.544,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.054599999999999996
+            ],
+            [
+              0.5986,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.16379999999999997,
+              0.8288
+            ],
+            [
+              0.054599999999999996,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8288
+            ],
+            [
+              0.38939999999999997,
+              0.4738
+            ],
+            [
+              0.21659999999999996,
+              0.4738
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.16199999999999998,
+              0.3188
+            ],
+            [
+              0.16199999999999998,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.2712,
+              0.3188
+            ],
+            [
+              0.2712,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8288
+            ],
+            [
+              0.544,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.054599999999999975,
+          "gate": 0.1674,
+          "drain": 0.28019999999999995,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.16119999999999995,
+          "actual_source_contact_to_gate_gap_um": 0.01960000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.01959999999999995
+        },
+        "T2": {
+          "source": 0.05279999999999997,
+          "gate": 0.10739999999999998,
+          "drain": 0.16199999999999998,
+          "pad_shift_outward_um": 3.469446951953614e-18,
+          "same_layer_SD_pad_gap_um": 0.044800000000000006,
+          "actual_source_contact_to_gate_gap_um": 0.021400000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.021400000000000002
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.600800000001,
+          "native_area_um2": 0.12785024000021278,
+          "fingers": 1,
+          "length_correction_um": 0.122,
+          "contact_span_um": 0.29000000000000004,
+          "adapted_width_um": 0.3348,
+          "query": {
+            "id": "05_rram:rram_pad_200nm:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.15,
+            "H_um": 0.6008,
+            "contact_um": 0.0364,
+            "gap_um": 0.0196,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.200800000001,
+          "native_area_um2": 0.0427302400002128,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.1736,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:rram_pad_200nm:T2",
+            "F_um": 0.028,
+            "W_um": 0.1,
+            "L_um": 0.03,
+            "H_um": 0.2008,
+            "contact_um": 0.0364,
+            "gap_um": 0.021399999999999995,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.5284,
+          "width_um": 0.3348,
+          "height_um": 0.6008,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.21839999999999998,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.2008,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.1292,
+          "width_um": 0.5986,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.4192,
+          "width_um": 0.3802,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.10919999999999999,
+          "width_um": 0.5986,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.5986,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.48939999999999995,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.2894,
+          "y_um": 0.7288,
+          "width_um": 0.2,
+          "height_um": 0.2,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.13159999999999997,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.35719999999999996,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.24439999999999995,
+          "y_um": 1.1516,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.12979999999999997,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.239,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.18439999999999995,
+          "y_um": 0.4416,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.10919999999999999,
+      "landing_pad_um": 0.0644,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.2,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.74130624,
+      "density_Mbit_mm2": 1.3489701638016698,
+      "alpha_F2_per_bit": 945.5436734693876,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:rram_pad_200nm",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      },
+      "relative_area_change": 0.08206796818510509
+    },
+    "05_rram:rram_pad_400nm": {
+      "width_um": 0.708,
+      "height_um": 1.2384,
+      "area_xy_um2": 0.8767871999999999,
+      "independent_bits": 1,
+      "terminals_um": {
+        "T1_SL": [
+          0.16379999999999997,
+          0.8288
+        ],
+        "T1_X": [
+          0.38939999999999997,
+          0.8288
+        ],
+        "T1_WL": [
+          0.27659999999999996,
+          1.1838
+        ],
+        "T2_GND": [
+          0.16199999999999998,
+          0.3188
+        ],
+        "T2_TBL": [
+          0.2712,
+          0.3188
+        ],
+        "T2_X_gate": [
+          0.21659999999999996,
+          0.4738
+        ]
+      },
+      "routes": [
+        {
+          "net": "WL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.1838
+            ],
+            [
+              0.708,
+              1.1838
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "TBL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              0.1638
+            ],
+            [
+              0.708,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.054599999999999996,
+              0
+            ],
+            [
+              0.054599999999999996,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0.6534,
+              0
+            ],
+            [
+              0.6534,
+              1.2384
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0,
+              0.054599999999999996
+            ],
+            [
+              0.708,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "SL",
+          "layer": "M1 to M3 via",
+          "points_um": [
+            [
+              0.16379999999999997,
+              0.8288
+            ],
+            [
+              0.054599999999999996,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "X",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8288
+            ],
+            [
+              0.38939999999999997,
+              0.4738
+            ],
+            [
+              0.21659999999999996,
+              0.4738
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "GND",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.16199999999999998,
+              0.3188
+            ],
+            [
+              0.16199999999999998,
+              0.054599999999999996
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "TBL",
+          "layer": "M1 to M2 via",
+          "points_um": [
+            [
+              0.2712,
+              0.3188
+            ],
+            [
+              0.2712,
+              0.1638
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        },
+        {
+          "net": "BL",
+          "layer": "RRAM top electrode to M3",
+          "points_um": [
+            [
+              0.38939999999999997,
+              0.8288
+            ],
+            [
+              0.6534,
+              0.8288
+            ]
+          ],
+          "width_um": 0.0448,
+          "boundary_ports": []
+        }
+      ],
+      "terminal_placement": {
+        "T1": {
+          "source": 0.054599999999999975,
+          "gate": 0.1674,
+          "drain": 0.28019999999999995,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.16119999999999995,
+          "actual_source_contact_to_gate_gap_um": 0.01960000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.01959999999999995
+        },
+        "T2": {
+          "source": 0.05279999999999997,
+          "gate": 0.10739999999999998,
+          "drain": 0.16199999999999998,
+          "pad_shift_outward_um": 3.469446951953614e-18,
+          "same_layer_SD_pad_gap_um": 0.044800000000000006,
+          "actual_source_contact_to_gate_gap_um": 0.021400000000000002,
+          "actual_drain_contact_to_gate_gap_um": 0.021400000000000002
+        }
+      },
+      "connectivity_notes": [
+        "RRAM bottom electrode is a vertical connection at T1_X; top electrode connects BL on a distinct upper layer.",
+        "Local X connects T1 drain/RRAM bottom electrode to T2 gate; it is not another row control.",
+        "Contacts occupy explicit landing pads; crossings on different stated layers are insulated. Allocation geometry is not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "T1": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.600800000001,
+          "native_area_um2": 0.12785024000021278,
+          "fingers": 1,
+          "length_correction_um": 0.122,
+          "contact_span_um": 0.29000000000000004,
+          "adapted_width_um": 0.3348,
+          "query": {
+            "id": "05_rram:rram_pad_400nm:T1",
+            "F_um": 0.028,
+            "W_um": 0.5,
+            "L_um": 0.15,
+            "H_um": 0.6008,
+            "contact_um": 0.0364,
+            "gap_um": 0.0196,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        },
+        "T2": {
+          "native_width_um": 0.21279999999999996,
+          "native_height_um": 0.200800000001,
+          "native_area_um2": 0.0427302400002128,
+          "fingers": 1,
+          "length_correction_um": 0.0019999999999999983,
+          "contact_span_um": 0.1736,
+          "adapted_width_um": 0.21479999999999996,
+          "query": {
+            "id": "05_rram:rram_pad_400nm:T2",
+            "F_um": 0.028,
+            "W_um": 0.1,
+            "L_um": 0.03,
+            "H_um": 0.2008,
+            "contact_um": 0.0364,
+            "gap_um": 0.021399999999999995,
+            "enclosure_um": 0.014,
+            "nominal_gate_contact_gap_um": 0.0196
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "T1 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "SL-X/WL",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.5284,
+          "width_um": 0.3348,
+          "height_um": 0.6008,
+          "kind": "allocation"
+        },
+        {
+          "name": "T2 isolated contacted NMOS",
+          "layer": "FEOL",
+          "net": "GND-TBL/X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.21839999999999998,
+          "width_um": 0.21479999999999996,
+          "height_um": 0.2008,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL gate-contact channel",
+          "layer": "M2",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.1292,
+          "width_um": 0.708,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "local X gate-landing channel",
+          "layer": "M1+M2",
+          "net": "X",
+          "x_um": 0.10919999999999999,
+          "y_um": 0.4192,
+          "width_um": 0.48960000000000004,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "TBL routing channel",
+          "layer": "M2",
+          "net": "TBL",
+          "x_um": 0,
+          "y_um": 0.10919999999999999,
+          "width_um": 0.708,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "GND and body-tie allocation",
+          "layer": "M1+PwellTap",
+          "net": "GND",
+          "x_um": 0,
+          "y_um": 0.0,
+          "width_um": 0.708,
+          "height_um": 0.10919999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "SL vertical routing gutter",
+          "layer": "M3",
+          "net": "SL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL vertical routing gutter",
+          "layer": "M3",
+          "net": "BL",
+          "x_um": 0.5988,
+          "y_um": 0,
+          "width_um": 0.10919999999999999,
+          "height_um": 1.2384,
+          "kind": "allocation"
+        },
+        {
+          "name": "RRAM + upper electrode landing",
+          "layer": "BEOL RRAM",
+          "net": "X-BL",
+          "x_um": 0.18939999999999996,
+          "y_um": 0.6288,
+          "width_um": 0.4,
+          "height_um": 0.4,
+          "kind": "storage_device_assumed_envelope"
+        },
+        {
+          "name": "T1_SL landing",
+          "layer": "contact/via stack",
+          "net": "SL",
+          "x_um": 0.13159999999999997,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_X landing",
+          "layer": "contact/via stack",
+          "net": "X",
+          "x_um": 0.35719999999999996,
+          "y_um": 0.7966,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T1_WL landing",
+          "layer": "contact/via stack",
+          "net": "WL",
+          "x_um": 0.24439999999999995,
+          "y_um": 1.1516,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_GND landing",
+          "layer": "contact/via stack",
+          "net": "GND",
+          "x_um": 0.12979999999999997,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_TBL landing",
+          "layer": "contact/via stack",
+          "net": "TBL",
+          "x_um": 0.239,
+          "y_um": 0.28659999999999997,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "T2_X_gate landing",
+          "layer": "contact/via stack",
+          "net": "X_gate",
+          "x_um": 0.18439999999999995,
+          "y_um": 0.4416,
+          "width_um": 0.0644,
+          "height_um": 0.0644,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.10919999999999999,
+      "landing_pad_um": 0.0644,
+      "diffusion_sharing": "none between T1/T2 or adjacent cells; distinct electrical nets retained",
+      "gate_controls": {
+        "T1": "WL",
+        "T2": "local X (not a second WL)"
+      },
+      "tile_boundary": "one fully allocated two-island WH-2T1R m=1 cell including local X/SL/BL/WL/TBL/GND, body tie and assumed RRAM landing",
+      "storage_containment": {
+        "rram_side_um": 0.4,
+        "reported_device_size": false,
+        "rram_fits_upper_allocation": true
+      },
+      "upper_lower_area_rule": "coordinate bounding envelope; upper RRAM overlaps T1 projection, not added as separate area",
+      "a_bit_um2": 0.8767871999999999,
+      "density_Mbit_mm2": 1.1405275989430503,
+      "alpha_F2_per_bit": 1118.351020408163,
+      "F_mem_nm": 28,
+      "condition_id": "05_rram:rram_pad_400nm",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": "not_CUB"
+      },
+      "relative_area_change": 0.2798264642082431
+    },
+    "08_feram_hfo2:loose_rules_20pct": {
+      "width_um": 2.452,
+      "height_um": 2.74,
+      "area_xy_um2": 6.7184800000000005,
+      "independent_bits": 1,
+      "terminals_um": {
+        "BL_source": [
+          0.8340000000000001,
+          1.436
+        ],
+        "SN_drain_bottom_electrode": [
+          1.9460000000000002,
+          1.436
+        ],
+        "WL_gate": [
+          1.3900000000000001,
+          2.422
+        ],
+        "PL_top_electrode": [
+          1.7360000000000002,
+          1.532
+        ],
+        "body_ground": [
+          0.8340000000000001,
+          0.378
+        ]
+      },
+      "routes": [
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.318,
+              0
+            ],
+            [
+              0.318,
+              2.74
+            ]
+          ],
+          "width_um": 0.24,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.318,
+              1.436
+            ],
+            [
+              0.8340000000000001,
+              1.436
+            ]
+          ],
+          "width_um": 0.24,
+          "boundary_ports": []
+        },
+        {
+          "net": "WL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0,
+              2.422
+            ],
+            [
+              2.452,
+              2.422
+            ]
+          ],
+          "width_um": 0.24,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "PL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.532
+            ],
+            [
+              2.452,
+              1.532
+            ]
+          ],
+          "width_um": 0.24,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M4",
+          "points_um": [
+            [
+              0,
+              0.378
+            ],
+            [
+              2.452,
+              0.378
+            ]
+          ],
+          "width_um": 0.24,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "terminal_placement": {
+        "access": {
+          "source": 0.198,
+          "gate": 0.754,
+          "drain": 1.3100000000000003,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.7160000000000003,
+          "actual_source_contact_to_gate_gap_um": 0.20399999999999996,
+          "actual_drain_contact_to_gate_gap_um": 0.20400000000000018
+        }
+      },
+      "gate_contact_cap_clearance_um": 0.09600000000000009,
+      "source_contact_cap_clearance_um": 0.1080000000000001,
+      "connectivity_notes": [
+        "Source BL contact lies left of the capacitor shadow; a horizontal M1 spur connects it to the continuous vertical BL.",
+        "Drain SN contact terminates at the lower MFM electrode above the access region; it is not shorted to the PL top contact.",
+        "PL M2 and WL M3 extend through both tile boundaries; their local contact stacks are at separate y positions. The body contact reaches a separate continuous M4 ground line.",
+        "Contacts and routes are assigned to explicit isolated layers; geometry is a conditional placement allocation, not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "access": {
+          "native_width_um": 0.9879999999999999,
+          "native_height_um": 1.816000000001,
+          "native_area_um2": 1.794208000000988,
+          "fingers": 1,
+          "length_correction_um": 0.37,
+          "contact_span_um": 1.508,
+          "adapted_width_um": 1.508,
+          "query": {
+            "id": "08_feram_hfo2:loose_rules_20pct:access",
+            "F_um": 0.13,
+            "W_um": 1.0,
+            "L_um": 0.5,
+            "H_um": 1.816,
+            "contact_um": 0.20400000000000001,
+            "gap_um": 0.20400000000000001,
+            "enclosure_um": 0.096,
+            "nominal_gate_contact_gap_um": 0.20400000000000001
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "contacted access NMOS with gate/body landing",
+          "layer": "FEOL",
+          "net": "BL-SN/WL",
+          "x_um": 0.636,
+          "y_um": 0.0,
+          "width_um": 1.508,
+          "height_um": 2.74,
+          "kind": "allocation"
+        },
+        {
+          "name": "NMOS channel active",
+          "layer": "FEOL active",
+          "net": "BL-SN",
+          "x_um": 1.1400000000000001,
+          "y_um": 0.9359999999999999,
+          "width_um": 0.5,
+          "height_um": 1.0,
+          "kind": "channel"
+        },
+        {
+          "name": "MFM electrode envelope",
+          "layer": "CUB above transistor",
+          "net": "SN-PL",
+          "x_um": 1.1400000000000001,
+          "y_um": 0.9359999999999999,
+          "width_um": 1.192,
+          "height_um": 1.192,
+          "kind": "allocation"
+        },
+        {
+          "name": "MFM active switching area",
+          "layer": "CUB active",
+          "net": "SN-PL",
+          "x_um": 1.2360000000000002,
+          "y_um": 1.032,
+          "width_um": 1.0,
+          "height_um": 1.0,
+          "kind": "storage_device"
+        },
+        {
+          "name": "BL vertical route and source landing",
+          "layer": "M1",
+          "net": "BL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.636,
+          "height_um": 2.74,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL top gate landing channel",
+          "layer": "M3",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.936,
+          "width_um": 2.452,
+          "height_um": 0.8040000000000003,
+          "kind": "allocation"
+        },
+        {
+          "name": "PL over-cap routing and top contact",
+          "layer": "M2",
+          "net": "PL",
+          "x_um": 0,
+          "y_um": 1.334,
+          "width_um": 2.452,
+          "height_um": 0.396,
+          "kind": "allocation"
+        },
+        {
+          "name": "local body tie allocation",
+          "layer": "PwellTap+M1",
+          "net": "GND",
+          "x_um": 0.636,
+          "y_um": 0,
+          "width_um": 1.508,
+          "height_um": 0.9359999999999999,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL_source contact landing",
+          "layer": "contact/via stack",
+          "net": "BL_source",
+          "x_um": 0.6360000000000001,
+          "y_um": 1.238,
+          "width_um": 0.396,
+          "height_um": 0.396,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "SN_drain_bottom_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "SN_drain_bottom_electrode",
+          "x_um": 1.7480000000000002,
+          "y_um": 1.238,
+          "width_um": 0.396,
+          "height_um": 0.396,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "WL_gate contact landing",
+          "layer": "contact/via stack",
+          "net": "WL_gate",
+          "x_um": 1.1920000000000002,
+          "y_um": 2.224,
+          "width_um": 0.396,
+          "height_um": 0.396,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "PL_top_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "PL_top_electrode",
+          "x_um": 1.5380000000000003,
+          "y_um": 1.334,
+          "width_um": 0.396,
+          "height_um": 0.396,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "body_ground contact landing",
+          "layer": "contact/via stack",
+          "net": "body_ground",
+          "x_um": 0.6360000000000001,
+          "y_um": 0.18,
+          "width_um": 0.396,
+          "height_um": 0.396,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.636,
+      "capacitor_active_width_um": 1.0,
+      "capacitor_active_height_um": 1.0,
+      "capacitor_outer_width_um": 1.192,
+      "capacitor_outer_height_um": 1.192,
+      "transistor_only_allocated_width_um": 1.508,
+      "transistor_only_allocated_height_um": 2.74,
+      "cap_shape_is_reported": false,
+      "diffusion_sharing": "no source/drain sharing; per-cell body-tie allocation; same pwell continuous",
+      "tile_boundary": "one conditional 130 nm CUB 1T1C tile including single HV NMOS, source BL access, WL/PL contacts, MFM electrode margins and body tie",
+      "upper_lower_area_rule": "explicit aligned rectangles; electrode footprint overlaps gate/drain region while source BL landing remains outside cap shadow",
+      "a_bit_um2": 6.7184800000000005,
+      "density_Mbit_mm2": 0.14884319072171084,
+      "alpha_F2_per_bit": 397.54319526627216,
+      "F_mem_nm": 130,
+      "condition_id": "08_feram_hfo2:loose_rules_20pct",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": true
+      },
+      "relative_area_change": 0.24083110167143773
+    },
+    "08_feram_hfo2:access_W_1p2um": {
+      "width_um": 2.21,
+      "height_um": 2.6500000000000004,
+      "area_xy_um2": 5.8565000000000005,
+      "independent_bits": 1,
+      "terminals_um": {
+        "BL_source": [
+          0.704,
+          1.38
+        ],
+        "SN_drain_bottom_electrode": [
+          1.714,
+          1.38
+        ],
+        "WL_gate": [
+          1.209,
+          2.265
+        ],
+        "PL_top_electrode": [
+          1.53,
+          1.38
+        ],
+        "body_ground": [
+          0.704,
+          0.315
+        ]
+      },
+      "routes": [
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              0
+            ],
+            [
+              0.265,
+              2.6500000000000004
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              1.38
+            ],
+            [
+              0.704,
+              1.38
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": []
+        },
+        {
+          "net": "WL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0,
+              2.265
+            ],
+            [
+              2.21,
+              2.265
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "PL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.38
+            ],
+            [
+              2.21,
+              1.38
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M4",
+          "points_um": [
+            [
+              0,
+              0.315
+            ],
+            [
+              2.21,
+              0.315
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "terminal_placement": {
+        "access": {
+          "source": 0.1739999999999999,
+          "gate": 0.6789999999999999,
+          "drain": 1.184,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.6799999999999999,
+          "actual_source_contact_to_gate_gap_um": 0.17000000000000004,
+          "actual_drain_contact_to_gate_gap_um": 0.17000000000000004
+        }
+      },
+      "gate_contact_cap_clearance_um": 0.14000000000000012,
+      "source_contact_cap_clearance_um": 0.08100000000000007,
+      "connectivity_notes": [
+        "Source BL contact lies left of the capacitor shadow; a horizontal M1 spur connects it to the continuous vertical BL.",
+        "Drain SN contact terminates at the lower MFM electrode above the access region; it is not shorted to the PL top contact.",
+        "PL M2 and WL M3 extend through both tile boundaries; their local contact stacks are at separate y positions. The body contact reaches a separate continuous M4 ground line.",
+        "Contacts and routes are assigned to explicit isolated layers; geometry is a conditional placement allocation, not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "access": {
+          "native_width_um": 0.9879999999999999,
+          "native_height_um": 1.8800000000010002,
+          "native_area_um2": 1.857440000000988,
+          "fingers": 1,
+          "length_correction_um": 0.37,
+          "contact_span_um": 1.34,
+          "adapted_width_um": 1.3579999999999999,
+          "query": {
+            "id": "08_feram_hfo2:access_W_1p2um:access",
+            "F_um": 0.13,
+            "W_um": 1.2,
+            "L_um": 0.5,
+            "H_um": 1.8800000000000001,
+            "contact_um": 0.17,
+            "gap_um": 0.17,
+            "enclosure_um": 0.08,
+            "nominal_gate_contact_gap_um": 0.17
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "contacted access NMOS with gate/body landing",
+          "layer": "FEOL",
+          "net": "BL-SN/WL",
+          "x_um": 0.53,
+          "y_um": 0.0,
+          "width_um": 1.3579999999999999,
+          "height_um": 2.6500000000000004,
+          "kind": "allocation"
+        },
+        {
+          "name": "NMOS channel active",
+          "layer": "FEOL active",
+          "net": "BL-SN",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 0.5,
+          "height_um": 1.2,
+          "kind": "channel"
+        },
+        {
+          "name": "MFM electrode envelope",
+          "layer": "CUB above transistor",
+          "net": "SN-PL",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.8,
+          "width_um": 1.16,
+          "height_um": 1.16,
+          "kind": "allocation"
+        },
+        {
+          "name": "MFM active switching area",
+          "layer": "CUB active",
+          "net": "SN-PL",
+          "x_um": 1.03,
+          "y_um": 0.88,
+          "width_um": 1.0,
+          "height_um": 1.0,
+          "kind": "storage_device"
+        },
+        {
+          "name": "BL vertical route and source landing",
+          "layer": "M1",
+          "net": "BL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.53,
+          "height_um": 2.6500000000000004,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL top gate landing channel",
+          "layer": "M3",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.98,
+          "width_um": 2.21,
+          "height_um": 0.6700000000000004,
+          "kind": "allocation"
+        },
+        {
+          "name": "PL over-cap routing and top contact",
+          "layer": "M2",
+          "net": "PL",
+          "x_um": 0,
+          "y_um": 1.2149999999999999,
+          "width_um": 2.21,
+          "height_um": 0.33,
+          "kind": "allocation"
+        },
+        {
+          "name": "local body tie allocation",
+          "layer": "PwellTap+M1",
+          "net": "GND",
+          "x_um": 0.53,
+          "y_um": 0,
+          "width_um": 1.3579999999999999,
+          "height_um": 0.78,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL_source contact landing",
+          "layer": "contact/via stack",
+          "net": "BL_source",
+          "x_um": 0.5389999999999999,
+          "y_um": 1.2149999999999999,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "SN_drain_bottom_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "SN_drain_bottom_electrode",
+          "x_um": 1.549,
+          "y_um": 1.2149999999999999,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "WL_gate contact landing",
+          "layer": "contact/via stack",
+          "net": "WL_gate",
+          "x_um": 1.044,
+          "y_um": 2.1,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "PL_top_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "PL_top_electrode",
+          "x_um": 1.365,
+          "y_um": 1.2149999999999999,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "body_ground contact landing",
+          "layer": "contact/via stack",
+          "net": "body_ground",
+          "x_um": 0.5389999999999999,
+          "y_um": 0.15,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.53,
+      "capacitor_active_width_um": 1.0,
+      "capacitor_active_height_um": 1.0,
+      "capacitor_outer_width_um": 1.16,
+      "capacitor_outer_height_um": 1.16,
+      "transistor_only_allocated_width_um": 1.3579999999999999,
+      "transistor_only_allocated_height_um": 2.6500000000000004,
+      "cap_shape_is_reported": false,
+      "diffusion_sharing": "no source/drain sharing; per-cell body-tie allocation; same pwell continuous",
+      "tile_boundary": "one conditional 130 nm CUB 1T1C tile including single HV NMOS, source BL access, WL/PL contacts, MFM electrode margins and body tie",
+      "upper_lower_area_rule": "explicit aligned rectangles; electrode footprint overlaps gate/drain region while source BL landing remains outside cap shadow",
+      "a_bit_um2": 5.8565000000000005,
+      "density_Mbit_mm2": 0.17075044821992658,
+      "alpha_F2_per_bit": 346.53846153846155,
+      "F_mem_nm": 130,
+      "condition_id": "08_feram_hfo2:access_W_1p2um",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": true
+      },
+      "relative_area_change": 0.08163265306122458
+    },
+    "08_feram_hfo2:access_L_0p7um": {
+      "width_um": 2.21,
+      "height_um": 2.45,
+      "area_xy_um2": 5.4145,
+      "independent_bits": 1,
+      "terminals_um": {
+        "BL_source": [
+          0.704,
+          1.28
+        ],
+        "SN_drain_bottom_electrode": [
+          1.914,
+          1.28
+        ],
+        "WL_gate": [
+          1.309,
+          2.185
+        ],
+        "PL_top_electrode": [
+          1.53,
+          1.3599999999999999
+        ],
+        "body_ground": [
+          0.704,
+          0.315
+        ]
+      },
+      "routes": [
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              0
+            ],
+            [
+              0.265,
+              2.45
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              1.28
+            ],
+            [
+              0.704,
+              1.28
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": []
+        },
+        {
+          "net": "WL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0,
+              2.185
+            ],
+            [
+              2.21,
+              2.185
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "PL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.3599999999999999
+            ],
+            [
+              2.21,
+              1.3599999999999999
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M4",
+          "points_um": [
+            [
+              0,
+              0.315
+            ],
+            [
+              2.21,
+              0.315
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "terminal_placement": {
+        "access": {
+          "source": 0.1739999999999999,
+          "gate": 0.7789999999999999,
+          "drain": 1.384,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.8799999999999999,
+          "actual_source_contact_to_gate_gap_um": 0.17000000000000004,
+          "actual_drain_contact_to_gate_gap_um": 0.16999999999999993
+        }
+      },
+      "gate_contact_cap_clearance_um": 0.08000000000000007,
+      "source_contact_cap_clearance_um": 0.08100000000000007,
+      "connectivity_notes": [
+        "Source BL contact lies left of the capacitor shadow; a horizontal M1 spur connects it to the continuous vertical BL.",
+        "Drain SN contact terminates at the lower MFM electrode above the access region; it is not shorted to the PL top contact.",
+        "PL M2 and WL M3 extend through both tile boundaries; their local contact stacks are at separate y positions. The body contact reaches a separate continuous M4 ground line.",
+        "Contacts and routes are assigned to explicit isolated layers; geometry is a conditional placement allocation, not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "access": {
+          "native_width_um": 0.9879999999999999,
+          "native_height_um": 1.680000000001,
+          "native_area_um2": 1.6598400000009879,
+          "fingers": 1,
+          "length_correction_um": 0.57,
+          "contact_span_um": 1.54,
+          "adapted_width_um": 1.5579999999999998,
+          "query": {
+            "id": "08_feram_hfo2:access_L_0p7um:access",
+            "F_um": 0.13,
+            "W_um": 1.0,
+            "L_um": 0.7,
+            "H_um": 1.68,
+            "contact_um": 0.17,
+            "gap_um": 0.17,
+            "enclosure_um": 0.08,
+            "nominal_gate_contact_gap_um": 0.17
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "contacted access NMOS with gate/body landing",
+          "layer": "FEOL",
+          "net": "BL-SN/WL",
+          "x_um": 0.53,
+          "y_um": 0.0,
+          "width_um": 1.5579999999999998,
+          "height_um": 2.45,
+          "kind": "allocation"
+        },
+        {
+          "name": "NMOS channel active",
+          "layer": "FEOL active",
+          "net": "BL-SN",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 0.7,
+          "height_um": 1.0,
+          "kind": "channel"
+        },
+        {
+          "name": "MFM electrode envelope",
+          "layer": "CUB above transistor",
+          "net": "SN-PL",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 1.16,
+          "height_um": 1.16,
+          "kind": "allocation"
+        },
+        {
+          "name": "MFM active switching area",
+          "layer": "CUB active",
+          "net": "SN-PL",
+          "x_um": 1.03,
+          "y_um": 0.86,
+          "width_um": 1.0,
+          "height_um": 1.0,
+          "kind": "storage_device"
+        },
+        {
+          "name": "BL vertical route and source landing",
+          "layer": "M1",
+          "net": "BL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.53,
+          "height_um": 2.45,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL top gate landing channel",
+          "layer": "M3",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.78,
+          "width_um": 2.21,
+          "height_um": 0.6700000000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "PL over-cap routing and top contact",
+          "layer": "M2",
+          "net": "PL",
+          "x_um": 0,
+          "y_um": 1.1949999999999998,
+          "width_um": 2.21,
+          "height_um": 0.33,
+          "kind": "allocation"
+        },
+        {
+          "name": "local body tie allocation",
+          "layer": "PwellTap+M1",
+          "net": "GND",
+          "x_um": 0.53,
+          "y_um": 0,
+          "width_um": 1.5579999999999998,
+          "height_um": 0.78,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL_source contact landing",
+          "layer": "contact/via stack",
+          "net": "BL_source",
+          "x_um": 0.5389999999999999,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "SN_drain_bottom_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "SN_drain_bottom_electrode",
+          "x_um": 1.7489999999999999,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "WL_gate contact landing",
+          "layer": "contact/via stack",
+          "net": "WL_gate",
+          "x_um": 1.144,
+          "y_um": 2.02,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "PL_top_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "PL_top_electrode",
+          "x_um": 1.365,
+          "y_um": 1.1949999999999998,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "body_ground contact landing",
+          "layer": "contact/via stack",
+          "net": "body_ground",
+          "x_um": 0.5389999999999999,
+          "y_um": 0.15,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.53,
+      "capacitor_active_width_um": 1.0,
+      "capacitor_active_height_um": 1.0,
+      "capacitor_outer_width_um": 1.16,
+      "capacitor_outer_height_um": 1.16,
+      "transistor_only_allocated_width_um": 1.5579999999999998,
+      "transistor_only_allocated_height_um": 2.45,
+      "cap_shape_is_reported": false,
+      "diffusion_sharing": "no source/drain sharing; per-cell body-tie allocation; same pwell continuous",
+      "tile_boundary": "one conditional 130 nm CUB 1T1C tile including single HV NMOS, source BL access, WL/PL contacts, MFM electrode margins and body tie",
+      "upper_lower_area_rule": "explicit aligned rectangles; electrode footprint overlaps gate/drain region while source BL landing remains outside cap shadow",
+      "a_bit_um2": 5.4145,
+      "density_Mbit_mm2": 0.1846892603195124,
+      "alpha_F2_per_bit": 320.38461538461536,
+      "F_mem_nm": 130,
+      "condition_id": "08_feram_hfo2:access_L_0p7um",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": true
+      },
+      "relative_area_change": 0.0
+    },
+    "08_feram_hfo2:cap_area_1p2um2": {
+      "width_um": 2.305445115010332,
+      "height_um": 2.5454451150103323,
+      "area_xy_um2": 5.868384005927484,
+      "independent_bits": 1,
+      "terminals_um": {
+        "BL_source": [
+          0.704,
+          1.28
+        ],
+        "SN_drain_bottom_electrode": [
+          1.714,
+          1.28
+        ],
+        "WL_gate": [
+          1.209,
+          2.280445115010332
+        ],
+        "PL_top_electrode": [
+          1.577722557505166,
+          1.4077225575051662
+        ],
+        "body_ground": [
+          0.704,
+          0.315
+        ]
+      },
+      "routes": [
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              0
+            ],
+            [
+              0.265,
+              2.5454451150103323
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              1.28
+            ],
+            [
+              0.704,
+              1.28
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": []
+        },
+        {
+          "net": "WL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0,
+              2.280445115010332
+            ],
+            [
+              2.305445115010332,
+              2.280445115010332
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "PL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.4077225575051662
+            ],
+            [
+              2.305445115010332,
+              1.4077225575051662
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M4",
+          "points_um": [
+            [
+              0,
+              0.315
+            ],
+            [
+              2.305445115010332,
+              0.315
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "terminal_placement": {
+        "access": {
+          "source": 0.1739999999999999,
+          "gate": 0.6789999999999999,
+          "drain": 1.184,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.6799999999999999,
+          "actual_source_contact_to_gate_gap_um": 0.17000000000000004,
+          "actual_drain_contact_to_gate_gap_um": 0.17000000000000004
+        }
+      },
+      "gate_contact_cap_clearance_um": 0.08000000000000007,
+      "source_contact_cap_clearance_um": 0.08100000000000007,
+      "connectivity_notes": [
+        "Source BL contact lies left of the capacitor shadow; a horizontal M1 spur connects it to the continuous vertical BL.",
+        "Drain SN contact terminates at the lower MFM electrode above the access region; it is not shorted to the PL top contact.",
+        "PL M2 and WL M3 extend through both tile boundaries; their local contact stacks are at separate y positions. The body contact reaches a separate continuous M4 ground line.",
+        "Contacts and routes are assigned to explicit isolated layers; geometry is a conditional placement allocation, not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "access": {
+          "native_width_um": 0.9879999999999999,
+          "native_height_um": 1.680000000001,
+          "native_area_um2": 1.6598400000009879,
+          "fingers": 1,
+          "length_correction_um": 0.37,
+          "contact_span_um": 1.34,
+          "adapted_width_um": 1.3579999999999999,
+          "query": {
+            "id": "08_feram_hfo2:cap_area_1p2um2:access",
+            "F_um": 0.13,
+            "W_um": 1.0,
+            "L_um": 0.5,
+            "H_um": 1.68,
+            "contact_um": 0.17,
+            "gap_um": 0.17,
+            "enclosure_um": 0.08,
+            "nominal_gate_contact_gap_um": 0.17
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "contacted access NMOS with gate/body landing",
+          "layer": "FEOL",
+          "net": "BL-SN/WL",
+          "x_um": 0.53,
+          "y_um": 0.0,
+          "width_um": 1.3579999999999999,
+          "height_um": 2.5454451150103323,
+          "kind": "allocation"
+        },
+        {
+          "name": "NMOS channel active",
+          "layer": "FEOL active",
+          "net": "BL-SN",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 0.5,
+          "height_um": 1.0,
+          "kind": "channel"
+        },
+        {
+          "name": "MFM electrode envelope",
+          "layer": "CUB above transistor",
+          "net": "SN-PL",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 1.255445115010332,
+          "height_um": 1.255445115010332,
+          "kind": "allocation"
+        },
+        {
+          "name": "MFM active switching area",
+          "layer": "CUB active",
+          "net": "SN-PL",
+          "x_um": 1.03,
+          "y_um": 0.86,
+          "width_um": 1.0954451150103321,
+          "height_um": 1.0954451150103321,
+          "kind": "storage_device"
+        },
+        {
+          "name": "BL vertical route and source landing",
+          "layer": "M1",
+          "net": "BL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.53,
+          "height_um": 2.5454451150103323,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL top gate landing channel",
+          "layer": "M3",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.78,
+          "width_um": 2.305445115010332,
+          "height_um": 0.7654451150103323,
+          "kind": "allocation"
+        },
+        {
+          "name": "PL over-cap routing and top contact",
+          "layer": "M2",
+          "net": "PL",
+          "x_um": 0,
+          "y_um": 1.2427225575051661,
+          "width_um": 2.305445115010332,
+          "height_um": 0.33,
+          "kind": "allocation"
+        },
+        {
+          "name": "local body tie allocation",
+          "layer": "PwellTap+M1",
+          "net": "GND",
+          "x_um": 0.53,
+          "y_um": 0,
+          "width_um": 1.3579999999999999,
+          "height_um": 0.78,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL_source contact landing",
+          "layer": "contact/via stack",
+          "net": "BL_source",
+          "x_um": 0.5389999999999999,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "SN_drain_bottom_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "SN_drain_bottom_electrode",
+          "x_um": 1.549,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "WL_gate contact landing",
+          "layer": "contact/via stack",
+          "net": "WL_gate",
+          "x_um": 1.044,
+          "y_um": 2.115445115010332,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "PL_top_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "PL_top_electrode",
+          "x_um": 1.412722557505166,
+          "y_um": 1.2427225575051661,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "body_ground contact landing",
+          "layer": "contact/via stack",
+          "net": "body_ground",
+          "x_um": 0.5389999999999999,
+          "y_um": 0.15,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.53,
+      "capacitor_active_width_um": 1.0954451150103321,
+      "capacitor_active_height_um": 1.0954451150103321,
+      "capacitor_outer_width_um": 1.255445115010332,
+      "capacitor_outer_height_um": 1.255445115010332,
+      "transistor_only_allocated_width_um": 1.3579999999999999,
+      "transistor_only_allocated_height_um": 2.5454451150103323,
+      "cap_shape_is_reported": false,
+      "diffusion_sharing": "no source/drain sharing; per-cell body-tie allocation; same pwell continuous",
+      "tile_boundary": "one conditional 130 nm CUB 1T1C tile including single HV NMOS, source BL access, WL/PL contacts, MFM electrode margins and body tie",
+      "upper_lower_area_rule": "explicit aligned rectangles; electrode footprint overlaps gate/drain region while source BL landing remains outside cap shadow",
+      "a_bit_um2": 5.868384005927484,
+      "density_Mbit_mm2": 0.17040466319005865,
+      "alpha_F2_per_bit": 347.2416571554724,
+      "F_mem_nm": 130,
+      "condition_id": "08_feram_hfo2:cap_area_1p2um2",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": true
+      },
+      "relative_area_change": 0.08382750132560424
+    },
+    "08_feram_hfo2:electrode_margin_100nm": {
+      "width_um": 2.269,
+      "height_um": 2.5100000000000002,
+      "area_xy_um2": 5.695190000000001,
+      "independent_bits": 1,
+      "terminals_um": {
+        "BL_source": [
+          0.704,
+          1.28
+        ],
+        "SN_drain_bottom_electrode": [
+          1.714,
+          1.28
+        ],
+        "WL_gate": [
+          1.209,
+          2.245
+        ],
+        "PL_top_electrode": [
+          1.569,
+          1.38
+        ],
+        "body_ground": [
+          0.704,
+          0.315
+        ]
+      },
+      "routes": [
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              0
+            ],
+            [
+              0.265,
+              2.5100000000000002
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "net": "BL",
+          "layer": "M1",
+          "points_um": [
+            [
+              0.265,
+              1.28
+            ],
+            [
+              0.704,
+              1.28
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": []
+        },
+        {
+          "net": "WL",
+          "layer": "M3",
+          "points_um": [
+            [
+              0,
+              2.245
+            ],
+            [
+              2.269,
+              2.245
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "PL",
+          "layer": "M2",
+          "points_um": [
+            [
+              0,
+              1.38
+            ],
+            [
+              2.269,
+              1.38
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "net": "GND",
+          "layer": "M4",
+          "points_um": [
+            [
+              0,
+              0.315
+            ],
+            [
+              2.269,
+              0.315
+            ]
+          ],
+          "width_um": 0.2,
+          "boundary_ports": [
+            "left",
+            "right"
+          ]
+        }
+      ],
+      "terminal_placement": {
+        "access": {
+          "source": 0.1739999999999999,
+          "gate": 0.6789999999999999,
+          "drain": 1.184,
+          "pad_shift_outward_um": 0,
+          "same_layer_SD_pad_gap_um": 0.6799999999999999,
+          "actual_source_contact_to_gate_gap_um": 0.17000000000000004,
+          "actual_drain_contact_to_gate_gap_um": 0.17000000000000004
+        }
+      },
+      "gate_contact_cap_clearance_um": 0.10000000000000009,
+      "source_contact_cap_clearance_um": 0.09999999999999998,
+      "connectivity_notes": [
+        "Source BL contact lies left of the capacitor shadow; a horizontal M1 spur connects it to the continuous vertical BL.",
+        "Drain SN contact terminates at the lower MFM electrode above the access region; it is not shorted to the PL top contact.",
+        "PL M2 and WL M3 extend through both tile boundaries; their local contact stacks are at separate y positions. The body contact reaches a separate continuous M4 ground line.",
+        "Contacts and routes are assigned to explicit isolated layers; geometry is a conditional placement allocation, not a foundry DRC/LVS result."
+      ],
+      "transistor_regions": {
+        "access": {
+          "native_width_um": 0.9879999999999999,
+          "native_height_um": 1.680000000001,
+          "native_area_um2": 1.6598400000009879,
+          "fingers": 1,
+          "length_correction_um": 0.37,
+          "contact_span_um": 1.34,
+          "adapted_width_um": 1.3579999999999999,
+          "query": {
+            "id": "08_feram_hfo2:electrode_margin_100nm:access",
+            "F_um": 0.13,
+            "W_um": 1.0,
+            "L_um": 0.5,
+            "H_um": 1.68,
+            "contact_um": 0.17,
+            "gap_um": 0.17,
+            "enclosure_um": 0.08,
+            "nominal_gate_contact_gap_um": 0.17
+          }
+        }
+      },
+      "rectangles": [
+        {
+          "name": "contacted access NMOS with gate/body landing",
+          "layer": "FEOL",
+          "net": "BL-SN/WL",
+          "x_um": 0.53,
+          "y_um": 0.0,
+          "width_um": 1.3579999999999999,
+          "height_um": 2.5100000000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "NMOS channel active",
+          "layer": "FEOL active",
+          "net": "BL-SN",
+          "x_um": 0.9500000000000001,
+          "y_um": 0.78,
+          "width_um": 0.5,
+          "height_um": 1.0,
+          "kind": "channel"
+        },
+        {
+          "name": "MFM electrode envelope",
+          "layer": "CUB above transistor",
+          "net": "SN-PL",
+          "x_um": 0.969,
+          "y_um": 0.78,
+          "width_um": 1.2,
+          "height_um": 1.2,
+          "kind": "allocation"
+        },
+        {
+          "name": "MFM active switching area",
+          "layer": "CUB active",
+          "net": "SN-PL",
+          "x_um": 1.069,
+          "y_um": 0.88,
+          "width_um": 1.0,
+          "height_um": 1.0,
+          "kind": "storage_device"
+        },
+        {
+          "name": "BL vertical route and source landing",
+          "layer": "M1",
+          "net": "BL",
+          "x_um": 0,
+          "y_um": 0,
+          "width_um": 0.53,
+          "height_um": 2.5100000000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "WL top gate landing channel",
+          "layer": "M3",
+          "net": "WL",
+          "x_um": 0,
+          "y_um": 1.78,
+          "width_um": 2.269,
+          "height_um": 0.7300000000000002,
+          "kind": "allocation"
+        },
+        {
+          "name": "PL over-cap routing and top contact",
+          "layer": "M2",
+          "net": "PL",
+          "x_um": 0,
+          "y_um": 1.2149999999999999,
+          "width_um": 2.269,
+          "height_um": 0.33,
+          "kind": "allocation"
+        },
+        {
+          "name": "local body tie allocation",
+          "layer": "PwellTap+M1",
+          "net": "GND",
+          "x_um": 0.53,
+          "y_um": 0,
+          "width_um": 1.3579999999999999,
+          "height_um": 0.78,
+          "kind": "allocation"
+        },
+        {
+          "name": "BL_source contact landing",
+          "layer": "contact/via stack",
+          "net": "BL_source",
+          "x_um": 0.5389999999999999,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "SN_drain_bottom_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "SN_drain_bottom_electrode",
+          "x_um": 1.549,
+          "y_um": 1.115,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "WL_gate contact landing",
+          "layer": "contact/via stack",
+          "net": "WL_gate",
+          "x_um": 1.044,
+          "y_um": 2.08,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "PL_top_electrode contact landing",
+          "layer": "contact/via stack",
+          "net": "PL_top_electrode",
+          "x_um": 1.404,
+          "y_um": 1.2149999999999999,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        },
+        {
+          "name": "body_ground contact landing",
+          "layer": "contact/via stack",
+          "net": "body_ground",
+          "x_um": 0.5389999999999999,
+          "y_um": 0.15,
+          "width_um": 0.33,
+          "height_um": 0.33,
+          "kind": "contact_landing"
+        }
+      ],
+      "routing_lane_pitch_um": 0.53,
+      "capacitor_active_width_um": 1.0,
+      "capacitor_active_height_um": 1.0,
+      "capacitor_outer_width_um": 1.2,
+      "capacitor_outer_height_um": 1.2,
+      "transistor_only_allocated_width_um": 1.3579999999999999,
+      "transistor_only_allocated_height_um": 2.5100000000000002,
+      "cap_shape_is_reported": false,
+      "diffusion_sharing": "no source/drain sharing; per-cell body-tie allocation; same pwell continuous",
+      "tile_boundary": "one conditional 130 nm CUB 1T1C tile including single HV NMOS, source BL access, WL/PL contacts, MFM electrode margins and body tie",
+      "upper_lower_area_rule": "explicit aligned rectangles; electrode footprint overlaps gate/drain region while source BL landing remains outside cap shadow",
+      "a_bit_um2": 5.695190000000001,
+      "density_Mbit_mm2": 0.17558676707888585,
+      "alpha_F2_per_bit": 336.9934911242604,
+      "F_mem_nm": 130,
+      "condition_id": "08_feram_hfo2:electrode_margin_100nm",
+      "local_rule_checks": {
+        "source_drain_pad_metal_spacing": true,
+        "contact_to_gate_spacing": true,
+        "rectangles_contained": true,
+        "cap_gate_and_BL_contact_shadow_clear": true
+      },
+      "relative_area_change": 0.0518404284790841
+    }
+  },
+  "model_input_sha256": "1ad0ce768e9d621ea19b31165292ff1b060c39b7441ddd1b702d7b56ef541dd7",
+  "primitive_query_sha256": "ffd8aea6d999ca1311b8f6da4cc156f455d4dccbebd53f8d76ed4b02a7ea684b",
+  "scope": "Geometry plus static device-domain plausibility only; no timing, full macro, foundry DRC or original-chip layout reconstruction",
+  "normalization_invariance": "F_mem is used only after absolute geometry, independent of geometry_scale_um",
+  "binding_provenance": {
+    "model_input_sha256": "201257f069bbd9469f7407e144c3e4da525126217b6c90d45e4fd0780f470947",
+    "primitive_record_sha256": "bc4b9099c19213ae7cc612904bced9e5919fd5f80fff31a6d38231bc0c0c8993",
+    "model_code_sha256": "c55aec922dc6471ccd8eff1371d67239ec2e35ce3b17888ff694295250c13daa",
+    "case_ids": [
+      "05_rram",
+      "08_feram_hfo2"
+    ],
+    "policy": "Fresh model computation is required; typed authority area must match exactly. Ordinary SRAM/1T1R diagnostic areas are not used."
+  }
+}

@@ -8,7 +8,7 @@ sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent
 COLORS=['#2d63ad','#6e52a2','#a37622','#68737d','#c54e55','#178276','#ca6b2b','#338fa5','#7b8736','#ad5390']
 CASE_IDS=['01_sram_acim','02_sram_dcim','03_nor_2d','04_nand_3d','05_rram','06_mram','07_pcm','08_feram_hfo2','09_gain_cell_edram','10_fenor_3d']
-FIELDS=['row_id','case_id','label','evidence_class','unit_description','area_xy_um2','independent_bits','a_bit_um2','density_Mbit_mm2','F_mem_nm','F_kind','F_definition','alpha_F_mem2_per_bit','effective_layers','bits_per_layer','source_refs','missing_reason']
+FIELDS=['row_id','case_id','label','evidence_class','unit_description','reference_identity','identity_relation','area_xy_um2','independent_bits','a_bit_um2','density_Mbit_mm2','F_mem_nm','F_kind','F_definition','alpha_F_mem2_per_bit','effective_layers','bits_per_layer','source_refs','missing_reason']
 NUMBERS=['area_xy_um2','independent_bits','a_bit_um2','density_Mbit_mm2','F_mem_nm','alpha_F_mem2_per_bit']
 
 def dec(v): return Decimal(str(v))
@@ -16,6 +16,41 @@ def decimal_string(v): return format(v,'f')
 def digest(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def dump(p,d): Path(p).write_text(json.dumps(d,indent=2,ensure_ascii=False,allow_nan=False)+'\n')
 def close(a,b): return abs(a-b)<=max(abs(a),abs(b))*Decimal('1e-45')
+
+def canonical_hash(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+
+def check_reference_locks(document,result,lock_path):
+    """Protect every field of the six accepted cases while completing four gaps."""
+    lock=json.loads(lock_path.read_text())
+    for key,rows,id_key in [('input_rows',document['cases'],'case_id'),
+                            ('result_rows',result['main_rows'],'case_id'),
+                            ('nand_diagnostic_rows',result['diagnostic_rows'],'row_id')]:
+        by={r[id_key]:r for r in rows}
+        for name,expected in lock[key].items():
+            assert canonical_hash(by[name])==expected,('locked existing reference changed',key,name)
+    return {'six_input_and_result_rows_unchanged':True,'nand_diagnostics_unchanged':True,'baseline_git_sha':lock['baseline_git_sha']}
+
+def resolve_geometry_models(document,model_input_path,primitive_path):
+    """Recompute newly modeled units and bind the authority area to that model."""
+    modeled=[r for r in document['cases'] if r.get('model_ref')]
+    if not modeled:
+        return None
+    from geometry_models import calculate_models
+    inputs=json.loads(model_input_path.read_text())
+    primitives=json.loads(primitive_path.read_text())
+    models=calculate_models(inputs,primitives)
+    for row in modeled:
+        value=models['case_results'][row['case_id']]
+        assert dec(row['area_xy_um2'])==dec(value['area_xy_um2']),('model area binding',row['case_id'])
+        assert int(row['independent_bits'])==int(value['independent_bits']),('model bit binding',row['case_id'])
+        assert dec(row['F_mem_nm'])==dec(value['F_mem_nm']),('model normalization binding',row['case_id'])
+        row['area_xy_um2']=str(value['area_xy_um2'])
+    models['binding_provenance']={'model_input_sha256':digest(model_input_path),
+        'primitive_record_sha256':digest(primitive_path),'model_code_sha256':digest(HERE/'geometry_models.py'),
+        'case_ids':[r['case_id'] for r in modeled],
+        'policy':'Fresh model computation is required; typed authority area must match exactly. Ordinary SRAM/1T1R diagnostic areas are not used.'}
+    return models
 
 def derive(raw):
     r=dict(raw); exact={}
@@ -91,12 +126,12 @@ def plot(result,out):
     from matplotlib.patches import Patch
     from matplotlib.ticker import LogLocator, NullFormatter
     plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'pdf.fonttype':42,'ps.fonttype':42,'svg.fonttype':'none','axes.edgecolor':'#afbac5','axes.labelcolor':'#182838','text.color':'#182838','xtick.color':'#657382','ytick.color':'#657382','hatch.linewidth':0.6})
-    rows=result['main_rows'];fig,axes=plt.subplots(1,2,figsize=(16.6,8.4))
-    fig.subplots_adjust(left=.063,right=.983,top=.77,bottom=.37,wspace=.21)
+    rows=result['main_rows'];fig,axes=plt.subplots(1,2,figsize=(16.6,9.0))
+    fig.subplots_adjust(left=.063,right=.983,top=.77,bottom=.39,wspace=.21)
     fig.text(.063,.944,'Native binary storage density and bit footprint',fontsize=21,weight='bold')
     fig.text(.063,.895,'Same repeated cell / tile, projected area and independent-bit count in both panels',fontsize=12,color='#657382')
     fig.text(.063,.849,'3D NAND, SLC, 500-layer projection: fixed lateral cell grid; 500 effective data layers',fontsize=11,color='#495765')
-    labels=['SRAM ACIM','SRAM DCIM','2D NOR','3D NAND\n500-layer','RRAM','MRAM','PCM','HZO FeRAM','GC-04\neDRAM','Vertical AND\nFeFET, 4 layers']
+    labels=['SRAM ACIM','SRAM DCIM','2D NOR\nGF28 ESF3 ref.','3D NAND\n500-layer','RRAM\nWH-2T1R model','MRAM','PCM, 28 nm\n1T1R geometry ref.','HZO FeRAM\n130 nm CUB model','GC-04\neDRAM','Vertical AND\nFeFET, 4 layers']
     for ax,key,ylabel,title,direction in zip(axes,['density_Mbit_mm2','alpha_F_mem2_per_bit'],['Storage density [Mbit/mm²]',r'Normalized bit footprint [$F_{\mathrm{mem}}^2$/bit]'],['(a) Absolute storage density','(b) Normalized bit footprint'],['Higher is denser','Lower is more compact']):
         vals=[r[key] for r in rows if r[key] is not None]
         low=10**math.floor(math.log10(min(vals)*.65));high=10**math.ceil(math.log10(max(vals)*2.3))
@@ -112,27 +147,35 @@ def plot(result,out):
                 ax.text(i,low*1.25,'N/A',ha='center',va='bottom',rotation=90,fontsize=9,color='#77838e')
                 # Missing geometry is text-only, never a zero-height bar.
             else:
-                hatch={'reported_geometry':'','geometric_estimate':'..','projection':'///'}.get(r['evidence_class'],'')
+                hatch={'reported_geometry':'','geometric_estimate':'..','reference_proxy':'xx','projection':'///'}[r['evidence_class']]
                 ax.bar(i,v-low,bottom=low,width=.63,color=COLORS[i],edgecolor='#233747',linewidth=.55,hatch=hatch)
                 suffix='*' if key=='alpha_F_mem2_per_bit' and r['F_kind']=='nominal_node' else ''
                 ax.text(i,v*1.13,f'{v:.3g}'+suffix,ha='center',va='bottom',fontsize=9,weight='bold')
         ax.set_xticks(range(10),labels,rotation=55,ha='right',fontsize=9.4)
         ax.tick_params(axis='x',length=0,pad=8)
-    legend=[Patch(facecolor='#cad4dc',edgecolor='#233747',label='Reported cell / tile geometry'),Patch(facecolor='#cad4dc',edgecolor='#233747',hatch='..',label='Model / engineering geometry'),Patch(facecolor='#cad4dc',edgecolor='#233747',hatch='///',label='500-layer projection')]
-    fig.legend(handles=legend,loc='lower left',bbox_to_anchor=(.063,.183),ncol=3,frameon=False,fontsize=10,borderaxespad=0)
+    legend=[Patch(facecolor='#cad4dc',edgecolor='#233747',label='Reported geometry (incl. vendor)'),Patch(facecolor='#cad4dc',edgecolor='#233747',hatch='..',label='Model / engineering geometry'),Patch(facecolor='#cad4dc',edgecolor='#233747',hatch='xx',label='Published geometry proxy'),Patch(facecolor='#cad4dc',edgecolor='#233747',hatch='///',label='500-layer projection')]
+    fig.legend(handles=legend,loc='lower left',bbox_to_anchor=(.063,.205),ncol=4,frameon=False,fontsize=9.7,borderaxespad=0)
     notes=[
-      'Binary / SLC storage; a forced-complement pair counts as one independent bit. N/A means missing compatible geometry or F.',
+      'Binary / SLC storage; a forced-complement pair counts as one independent bit. No multilevel capacity gain is applied.',
       '* Nominal-node normalization is identified separately from physical half-pitch; normalized bars do not share one universal F definition.',
+      'NOR uses GF 28SLPe / SST ESF3; PCM uses a 28 nm 1T1R geometry reference. Neither replaces the existing throughput configuration.',
       'Projection excludes macro staircase / edge overhead. It is a density scenario, not a verified 500-layer SLC device or the existing throughput hardware.',
       'Cell / tile density excludes macro ADCs, reduction, pumps, I/O and global control; it is not effective INT8 weight density or complete-chip density.']
-    for y,line in zip((.153,.121,.089,.057),notes):fig.text(.063,y,line,fontsize=9.4,color='#657382')
+    for y,line in zip((.170,.139,.108,.077,.046),notes):fig.text(.063,y,line,fontsize=9.2,color='#657382')
     for ext in ('png','svg','pdf'):fig.savefig(out/f'storage_density_footprint.{ext}',dpi=220,facecolor='white',metadata={'Creator':'build_footprint.py'} if ext=='pdf' else None)
     plt.close(fig)
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--input',type=Path,default=HERE/'geometry_inputs.json');p.add_argument('--output-dir',type=Path,default=HERE/'results');p.add_argument('--figure-dir',type=Path,default=HERE/'output');p.add_argument('--no-figures',action='store_true');args=p.parse_args()
-    document=json.loads(args.input.read_text()); result=compute(document);result['input_sha256']=digest(args.input);result['generator_sha256']=digest(__file__)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--input',type=Path,default=HERE/'geometry_inputs.json');p.add_argument('--output-dir',type=Path,default=HERE/'results');p.add_argument('--figure-dir',type=Path,default=HERE/'output');p.add_argument('--model-input',type=Path,default=HERE/'model_inputs.json');p.add_argument('--primitive-record',type=Path,default=HERE/'primitive_record.json');p.add_argument('--no-figures',action='store_true');args=p.parse_args()
+    document=json.loads(args.input.read_text())
+    model_result=resolve_geometry_models(document,args.model_input,args.primitive_record)
+    result=compute(document);result['input_sha256']=digest(args.input);result['generator_sha256']=digest(__file__)
+    result['reference_lock_checks']=check_reference_locks(document,result,args.input.parent/'reference_lock.json')
+    if model_result:
+        result['geometry_model_binding']=model_result['binding_provenance']
+        result['checks']['new_geometry_models_recomputed_and_bound']=True
     args.output_dir.mkdir(parents=True,exist_ok=True);dump(args.output_dir/'footprint_results.json',result)
+    if model_result:dump(args.output_dir/'geometry_model_results.json',model_result)
     write_csv(args.output_dir/'footprint_main.csv',result['main_rows']);write_csv(args.output_dir/'footprint_all_rows.csv',result['main_rows']+result['diagnostic_rows'])
     if not args.no_figures:args.figure_dir.mkdir(parents=True,exist_ok=True);plot(result,args.figure_dir)
     print(json.dumps({'checks':result['checks'],'main_rows':len(result['main_rows']),'quantified_rows':sum(r['density_Mbit_mm2'] is not None for r in result['main_rows']),'diagnostic_rows':len(result['diagnostic_rows'])},indent=2))

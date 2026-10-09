@@ -1,41 +1,34 @@
-# 独立复核：存储密度与 F_mem²
+# 存储面积补充的独立复核
 
-复核者只写非同步独立目录；不修改公共代码、既有十例/30点或论文。独立算术从原始 PDF 抽取与目视开始，不读取生产 CSV 补数，不导入生产计算函数。生产复跑与最终图渲染目检均已完成并通过。
+**PASS，限于声明的来源、条件几何及算术边界。** 本轮四项补充完成；原六条完整输入/结果及NAND原层数、单层诊断逐字段不变。研究和复核均在独立非同步目录执行，公共文件只由集成者安装。两指标共用同一面积，并非两次独立物理验证。
 
-## 已完成的来源复核
+## 新增四项
 
-- SACIM-03 PDF p3 §III 的 0.994 µm²、28 nm 与 p2 的 9T1C 一bit及上层 MOM 重叠关系一致；不另加电容面积。
-- SDCIM-01 PDF p1 §II.A/ Fig1 和 p3 Fig8：每列128个bit，8列tile共1024 bit；图中阵列的91 µm × **6.4 µm**包括共享NOR、局部隔离/连接与分布式15:4压缩器。外侧39 µm HCA tree/BFA区域排除；裸6T核心0.379 µm²不作为完整tile主值。初次低分辨率目视把6.4误读8.4，交叉复核用原PDF字符（x=532.1786, top=405.577起字符6、.、4）和放大裁图纠正后，独立脚本已更新。采用完整已标注tile，不按晶体管数量缩放，也不尝试闭合整个宏面积。
-- NAND-04 PDF p2 Fig1/§II.A：40 nm BL pitch × 0.75 µm SSL pitch；块中原文计数13824 BL × 32 WL × 3 SSL，确定每BL/SSL/WL一个独立物理SLC位；不因SGVC两侧额外乘2。三SSL存MSB两份与LSB一份是上层CIM映射，排除于原生存储口径。32为来源模型L0，NAND-05实测文字为16层；不把32称实测。保持0.03 µm²横向tile，L0与500的b分别32/500，一次折叠。
-- MRAM-06 Supplement p10的约1600F²明确指IBMD bitcell；主文p1明确40 nm CMOS。其两个1T1MTJ支路及本地latch/共享尾部结构是完整单位，互补支路仅一个自由bit。1600×0.04²=2.56 µm²是文献工程估计，40 nm按nominal node解释，不冒充实测half-pitch。未替换成旁引1200F²旧2T2M设计。
-- GC-04 PDF p6 §III.A：3T1C layout 6 µm²、10 fF MOM在metal4–7，同页/主文报告65 nm CMOS。主图一原生3T1C独立bit，取消原MLC容量收益；伪差分两cell属于上层CIM映射而不压缩此b。
-- FENOR-02 PDF p2 Figs1c/2c、p3 Figs10/11：X pitch120 nm、Y pitch170 nm是孔阵列完整横向重复pitch，不是孔径100 nm或膜厚；同孔split S/D及两侧通道共享gate，没有两个独立存储自由度的证据。每孔每层一bit；保留四层b=4，A=0.0204 µm²。此为论文TCAD/SPICE布局模型与四层容量计数，非四层实测提取面积；256层含WL接触8.37 Gb/mm²不作本轮主输入。F=60 nm仅X方向half-pitch，不是垂直40 nm层距。
+| 项目 | a_bit [µm²/bit] | D [Mbit/mm²] | alpha [F_mem²/bit] | 复核结论 |
+|---|---:|---:|---:|---|
+| NOR GF28SLPe/SST ESF3 | 0.04 | 25 | 51.020408 | 官方报告完整bitcell；28nm为nominal node。Microchip同日<0.05只是界限，未当精确值。 |
+| WH-2T1R m=1 | 0.68508288 | 1.4596774 | 873.830204 | 原文两个NMOS的500/150nm及100/30nm尺寸进入接触/局部布线包络。条件布局估计，不是原芯片提取。 |
+| PCM 28nm FD-SOI参考 | 0.036 | 27.7777778 | 45.918367 | Palhares PDF p2及ST原始工艺资料给完整1T1R cell。仅一bit，不采用10态容量收益；不能贴回原40nm吞吐身份。 |
+| HZO FeRAM 130nm CUB模型 | 5.4145 | 0.18468926 | 320.384615 | 原文1µm²电容，条件W1/L0.5µm公开5V NMOS参考与接触/电极/三条局部线包络。非Sony实测bitcell。 |
 
-## 缺口处理
+上述新增28/130nm均明确为名义node归一化。GF官方原网页、Microchip原网页、Palhares原PDF和更正文、原RRAM论文、Okuno JEDS原文、公开Sky130器件说明与原始IDVD数据均独立读取或重抽；小型来源核见 `review/source_review.json`。Palhares 2025更正只补Data Availability，没有修改面积。
 
-NOR-03现有二元商品来源没有所需完整原生cell版图；其他模拟NOR的1.5 µm²不对应当前身份。RRAM-05 p3 Fig4仅给m=4版图和相对30.3%开销及晶体管W/L，不足推当前m=1绝对tile。PCM-03给完整宏与访问组织，没有相容独立bitcell尺寸；不得以宏容量/面积或heater接触替代。FERAM-02的1X、5 nm HZO厚度和电容截面不能确定完整1T1C投影及精确平面F。这四项保留null/N/A，不能填0。
+## 新结构的独立计算与几何审查
 
-## 独立算术与 NeuroSim
+在独立目录重新复制锁定SHA `8a88abf85844c0e1ba17cc771ea535fff6040456` 的源码并编译面积适配器，正式20个请求全部实际执行；未复用生产二进制，也未重跑原普通SRAM/1T1R探针。原函数使用纯NMOS参数，PMOS宽度为零；28/130nm为几何参数，未初始化或宣称电气工艺表校准。原函数结果、实际长栅修正、接触跨度、输入和查询哈希与生产记录一致。
 
-`independent_recompute.py` 用独立记录的源参数按高精度Decimal算A/b、1/a、a/(F/1000)²，检查倒数、alpha还原、仅改变F不改变密度、NAND 1/32/500三点一次折叠及SLC/互补计数。随后 `compare_production.py` 比较规范JSON，缺口必须为null。
+`independent_model_check.py` 不导入生产模型，以源码解析的7.6F单NMOS表达式、原文W/L和声明的坐标分配独立复算13个主/有限诊断条件。150nm长栅实际影响面积：RRAM L150→180nm使面积增加约5.42%；T2 W100→150nm增加约4.04%。按T1 drain定位的RRAM上层包络从64.4nm变200/400nm，使tile增加约8.2068%/27.9826%；这些包络尺寸均为条件，不是测量。规则统一放宽20%是另一布局条件，不是PVT或统计区间。
 
-两例NeuroSim通过全新源码副本与独立编译运行，锁SHA 8a88abf85844c0e1ba17cc771ea535fff6040456，结果为普通SRAM阵列2220.35968 µm²、0.13552 µm²/bit；常规1T1R为380.633088 µm²、0.023232 µm²/bit。两例实际阵列几何用tech.featureSize=22 nm；cell.featureSize=40 nm用于某些辅助参数，param.arrayheight不等于实际lengthCol。areaArray、usedArea和total area已区别验证。它们只证明接口链与单位，不作为十类面积来源。
+FeRAM L0.5→0.7µm使下层接触NMOS宽1.358→1.558µm，但上层电容及接触留空仍决定横向包络，因此总面积暂时不变。其W、电容面积、电极边距变化均有真实响应。较小0.4µm²电容诊断仅留本地，不进入正式输入或主图。
 
-## 最终状态
+`independent_routing_check.py` 另核全部13条件：每个接触/分配矩形在tile内；源漏landing与gate接触满足声明间距；2×2重复tile中的同层异net路径无相交；WL/PL/TBL及BL/SL分别按行/列贯通。复核发现并修复了T2 landing间距不足及FeRAM WL通孔进入MFM投影的问题。当前WL和BL接触路径均避开电容外包络；SN下电极与PL上电极接触分别终止于不同垂直层。此检查只证明该抽象布局的内部几何约束，不是foundry DRC/LVS或电气功能认证。
 
-**PASS。** DCIM高度与GC来源页码纠正后，从独立目录重跑公开入口，生产JSON与独立复跑JSON逐字节一致；原文重抽算术比较全部通过，四个缺口均为null。正式单页双面板PDF已用PDFium以180 dpi实际渲染并目检，坐标/方向/顺序、投影纹理、名义node星号、N/A、互补一bit说明完整，文字无裁切与碰撞。PDF SHA-256：`a290cfabd8c23a322927ac306bd4f834030772df9e1f576db4eba1f3b904407e`。
+Sky130原始W20/L0.5µm、VBS=0/−2.5V的九条IDVD数据已独立解析并与小型记录吻合。除以20仅给条件性W1静态电流尺度。5V WL、2.5V目标节点处于公开model-valid电压域；Vth上限0.937来自W0.42/L0.5参考，不能当W1认证。不宣称80µA端点、铁电翻转或原8/14ns时序闭合。
 
-以supervisor的1509项开始快照独立复核，既有NeuroSim输入、30点结果、历史与原图保持；唯一必要导航变更由集成者处理。运行期间观察到其他并发论文修改，复核者未写入，保留这些变化而不声称整仓库论文bytewise未变。
+## 复跑、图与范围
 
+新版 `review/independent_recompute.py` 和 `review/compare_production.py` 已独立复算并比较全部十条有效面积/密度/F²值，以及NAND单层/32层诊断；不再保留旧“四项N/A”的断言。倒数单位、alpha回乘、只改归一化F时绝对密度不变、SLC与互补一bit、NAND只折叠一次全部通过。原四项N/A输入完整保留在来源历史，未改写成以前已有实测。
 
-## 可复跑的小型复核材料
+公开入口在独立目录复跑的JSON与当前正式JSON逐字节相同。正式PNG已目检，正式单页双面板PDF已实际以180dpi渲染：十类同顺序、双log轴、方向、node星号、PCM几何参考纹理、NAND500标签与图注均清晰，无文本裁切或碰撞。审阅PDF SHA-256：`a10ed7473e9213099823f4e165fb79c4e0f98d367f688d413bbdc2c9ce1b106e`。
 
-[独立源事实复算](review/independent_recompute.py) · [生产比较器](review/compare_production.py) · [独立结果](review/independent_results.json) · [比较结果](review/comparison.json) · [来源复核](review/reviewed_sources.json) · [独立探针复核](review/independent_probe_review.json) · [PDF目视复核](review/visual_review.json) · [范围检查](review/boundary_report.json)
-
-在新的非同步目录执行，例如：
-
-```sh
-python3 -B <task>/analysis/12_footprint/review/independent_recompute.py --output independent_results.json
-python3 -B <task>/analysis/12_footprint/review/compare_production.py \
-  --production <task>/analysis/12_footprint/results/footprint_results.json --output comparison.json
-```
+基于本轮2402项开始快照核对，既有十例、30点、rho–tau、历史与其他计算输入均未受本任务修改。复核者没有写入公共仓库或论文。运行期间的论文及.DS_Store外部并发变化保留并单列，不能声称整仓库论文逐字节不变。最终边界清单由supervisor/唯一集成者保存。

@@ -1,0 +1,179 @@
+{
+  "baseline_git_sha": "782921c498750ebc3b2dfaf374daf5668e6614ca",
+  "history_kind": "Previous unresolved geometry judgments retained before user-authorized source/model completion; not retrospective measurements.",
+  "previous_rows": [
+    {
+      "case_id": "03_nor_2d",
+      "label": "2D NOR",
+      "unit_description": "Current binary NOR unit/tile not uniquely geometrically specified",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": null,
+      "F_definition": "No unambiguous F_mem for current binary NOR identity",
+      "F_kind": "unknown",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "NOR-01",
+          "locator": "Commercial MIRRORBIT data sheet: service anchor, not cell geometry"
+        },
+        {
+          "source_id": "NOR-02",
+          "locator": "Commercial W25Q data sheet: page/sector timing anchor, not cell geometry"
+        },
+        {
+          "source_id": "NOR-05",
+          "locator": "PDF p1: modified 180-nm ESF1 analog-tunable cell area about 1.5 um2"
+        }
+      ],
+      "notes": [
+        "NOR-05 area is an individually tunable analog ESF1 redesign; it does not establish the selected binary NOR cell geometry.",
+        "No arbitrary 4F2/10F2 estimate or die-capacity density is substituted."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "Matched complete binary NOR cell/tile area and planar F not found; available 1.5 um2 figure belongs to a different modified analog-tuning cell identity.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "encoding": "eight independent binary storage bits per signed INT8 weight; no analog tuning",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "binary 2D NOR; digital sensed weights",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "05_rram",
+      "label": "RRAM",
+      "unit_description": "WH-2T1R m=1 binary cell with separate memory/CIM access paths",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": "28",
+      "F_definition": "Reported 28 nm HKMG nominal CMOS process node",
+      "F_kind": "nominal_node",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "RRAM-05",
+          "locator": "PDF p3 Fig4 and Section III-A: WH-2T1R m(T2)=4 layout, 30.3% relative area overhead, transistor W/L"
+        }
+      ],
+      "notes": [
+        "Fig4 gives T1 W/L=500/150 nm and T2 W/L=100/30 nm; these are transistor dimensions, not cell pitches.",
+        "The shown m=4 layout is not an absolute area of the current all-m=1 cell.",
+        "Do not replace with conventional 1T1R or derive m=1 by transistor-count linear scaling."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "No absolute m=1 repeated-cell area/pitch found. Relative 30.3% overhead is for m=4 and lacks its absolute compatible base area.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "encoding": "8binarybitplanes,no differential duplication;allm=1",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "WH-2T1R m=1 binary RRAM; distinct CIM and memory paths",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "07_pcm",
+      "label": "PCM",
+      "unit_description": "Selected 40 nm voltage-mode 1T1R PCM repeated storage cell",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": "40",
+      "F_definition": "Reported 40 nm CMOS/PCM nominal process node",
+      "F_kind": "nominal_node",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "PCM-03",
+          "locator": "PDF p1 architecture text; p2 Fig11.3.2 1T1R PCM; p3 die photo/summary"
+        }
+      ],
+      "notes": [
+        "Source physically supports 1T1R access and hybrid SLC/MLC; this task forces one bit per PCM element.",
+        "No electrode, heater diameter or macro capacity/area is substituted for full bitcell area."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "Matched complete 40 nm 1T1R PCM bitcell area/pitch not reported in inspected source; macro dimensions are a different boundary.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1
+      },
+      "identity": "binary/SLC voltage-mode PCM; native bank",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    },
+    {
+      "case_id": "08_feram_hfo2",
+      "label": "HZO FeRAM",
+      "unit_description": "HZO remanent 1T1C cell with capacitor vertically integrated above access transistor",
+      "area_xy_um2": null,
+      "independent_bits": 1,
+      "F_mem_nm": null,
+      "F_definition": "No unambiguous planar F_mem in matched FERAM-03 source; HZO thickness is not F",
+      "F_kind": "unknown",
+      "evidence_class": "missing",
+      "source_refs": [
+        {
+          "source_id": "FERAM-03",
+          "locator": "PDF p1 1T1C array integration and Fig5-7: capacitors 0.4 to 1.0 um2 directly above transistor"
+        },
+        {
+          "source_id": "FERAM-02",
+          "locator": "PDF p1: 1X nm half-pitch 8Gb DRAM-derived 1T1C; no exact half-pitch numeric"
+        }
+      ],
+      "notes": [
+        "0.4–1.0 um2 values describe capacitor area, not a complete access-transistor cell.",
+        "The actual vertical overlap forbids adding an arbitrary transistor footprint to capacitor area.",
+        "1X is not an exact F and 5 nm HZO thickness is not planar F."
+      ],
+      "geometry_formula": null,
+      "missing_reason": "Complete matched 1T1C projected cell/tile area and exact planar F unavailable; published capacitor-only areas do not close this boundary.",
+      "main_metric_excludes_cim_mapping": true,
+      "mapping_metadata": {
+        "necessary_encoding": "binary two-complement weight bit planes distributed across local row",
+        "cells_per_INT8_weight": 8,
+        "complementary_encoding_factor": 1,
+        "signal_enhancement_replication": 1,
+        "reference_storage_sites": 4096
+      },
+      "identity": "HZO remanent 1T1C FeRAM; destructive read with restore",
+      "bits_per_storage_element": 1,
+      "effective_layers": 1,
+      "bits_per_layer": 1
+    }
+  ],
+  "completion_routes": {
+    "03_nor_2d": {
+      "route": "GF 28SLPe / SST ESF3 named geometry reference",
+      "reason": "User authorized a well-defined published NOR reference instead of guessing the footprint of prior service-anchor devices.",
+      "source_reported_area_um2": "0.04"
+    },
+    "07_pcm": {
+      "route": "ST 28 nm FD-SOI 1T1R ePCM published geometry proxy",
+      "reason": "Original PCM-03 40 nm case has no complete cell pitch/selector layout or compatible drive-current-per-width bound.",
+      "read_check": "Full PCM-03 pages 1-3 text plus Figs11.3.2/11.3.7 inspected; 18 mm2 is testchip area, not local repeated cell geometry.",
+      "source_reported_area_um2": "0.036",
+      "not_a_retroactive_claim": "The original 40 nm area remains unmeasured/undetermined; proxy does not close that historical identity."
+    },
+    "05_rram": {
+      "route": "Actual area-only NeuroSim CMOS primitives plus explicit WH-2T1R m=1 tile model",
+      "reason": "Original absolute m=1 layout remained unpublished; native transistor W/L and circuit nets can support a transparent conditional geometry instead of a default 1T1R substitute."
+    },
+    "08_feram_hfo2": {
+      "route": "Reported 130 nm CUB capacitor plus identified public 5 V-class access-device geometry reference",
+      "reason": "Capacitor-only source did not close original 1T1C layout; explicit cross-foundry engineering assumptions are now authorized, with vertical overlap and local contacts retained.",
+      "not_a_retroactive_claim": "The original complete Sony bitcell remains unreported; this new conditional model is not a newly discovered measured layout."
+    }
+  }
+}

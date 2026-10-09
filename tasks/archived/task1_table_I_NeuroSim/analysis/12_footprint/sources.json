@@ -377,7 +377,203 @@
           "pages": 3
         }
       ]
+    },
+    {
+      "source_id": "NOR-GF28-2023",
+      "title": "GlobalFoundries and Microchip announce 28nm SuperFlash embedded Flash production",
+      "authors": [
+        "GlobalFoundries"
+      ],
+      "year": 2023,
+      "official_url": "https://gf.com/news-and-events/news/globalfoundries-and-microchip-announce-microchips-28nm-superflash-embedded-flash-memory-solution-in-production/",
+      "document_version": "Official vendor release, 2023-09-27, accessed 2026-10-09",
+      "boundary": "Reported complete ESF3 bitcell",
+      "reported_area_um2": "0.04",
+      "evidence_note": "Exact published nominal value; not a bound and not die density"
+    },
+    {
+      "source_id": "NOR-MCHP28-2023",
+      "title": "GlobalFoundries and Microchip announce 28-nm SuperFlash embedded Flash production",
+      "authors": [
+        "Microchip Technology"
+      ],
+      "year": 2023,
+      "official_url": "https://www.microchip.com/en-us/about/news-releases/corporate/globalfoundries-microchip-announce-microchips-28nm-superflash",
+      "document_version": "Official vendor release, 2023-09-27, accessed 2026-10-09",
+      "reported_area_bound_um2": "<0.05",
+      "evidence_note": "Independent consistency statement for same platform, not an exact area input"
+    },
+    {
+      "source_id": "NOR-SUPERFLASH-STRUCTURE",
+      "title": "SuperFlash Memory Technology",
+      "authors": [
+        "Microchip Technology"
+      ],
+      "year": null,
+      "official_url": "https://www.microchip.com/en-us/products/memory/serial-and-parallel-flash/what-is-superflash-technology",
+      "document_version": "Official technology overview, accessed 2026-10-09",
+      "evidence_note": "Identifies SuperFlash as NOR with a split-gate cell; binary-use bit policy is explicit in this task"
+    },
+    {
+      "source_id": "PCM-PALHARES-2024",
+      "title": "28 nm FDSOI embedded PCM exhibiting near zero drift at 12 K for cryogenic SNNs",
+      "authors": [
+        "Joao Henrique Quintino Palhares",
+        "Nikhil Garg",
+        "Pierre-Antoine Mouny",
+        "Yann Beilliard",
+        "J. Sandrini",
+        "F. Arnaud",
+        "Lorena Anghel",
+        "Fabien Alibart",
+        "Dominique Drouin",
+        "Philippe Galy"
+      ],
+      "year": 2024,
+      "doi": "10.1038/s44335-024-00008-y",
+      "official_url": "https://www.nature.com/articles/s44335-024-00008-y",
+      "document_version": "Current publisher article/PDF accessed 2026-10-09; published 2024-09-02",
+      "documents": [
+        {
+          "download_url": "https://www.nature.com/articles/s44335-024-00008-y.pdf",
+          "sha256": "028b24189f72ff3a502dfa1cd7209382f209a789cd69b9457d43f68ff6de57b8",
+          "pages": 9,
+          "storage_policy": "PDF kept only in nonsynchronized local research directory"
+        }
+      ],
+      "evidence_note": "p2 physical 1T1R area before multilevel-state selection; no MLC capacity gain applied",
+      "publisher_correction_checked": {
+        "doi": "10.1038/s44335-025-00019-3",
+        "download_url": "https://www.nature.com/articles/s44335-025-00019-3.pdf",
+        "sha256": "7edaba1085bdbe4b0d1bdf3554d45e1110df8d952d7684d7d693bdcd752f076a",
+        "scope": "Correction only restores missing Data Availability statements; no geometry or cell-count change."
+      }
+    },
+    {
+      "source_id": "PCM-ARNAUD-2018-ST",
+      "title": "Truly innovative 28nm FDSOI technology for automotive microcontroller applications embedding 16MB phase change memory",
+      "authors": [
+        "F. Arnaud et al."
+      ],
+      "year": 2018,
+      "doi": "10.1109/IEDM.2018.8614595",
+      "official_url": "https://www.st.com/content/ccc/fragment/multimedia/e-presentation/technology_pres/group0/63/51/83/98/d4/11/40/7b/IEDM_conference_Dec2018_ARNAUD/files/IEDM_conference_Dec2018_ARNAUD.pdf/jcr:content/translations/en.IEDM_conference_Dec2018_ARNAUD.pdf",
+      "document_version": "Official author presentation for IEDM2018; 39 slides, accessed 2026-10-09",
+      "evidence_note": "Slide11 complete PCM cell 0.036um2; slides27-28 physical 1T1R binary LRS1/HRS0; slide33 two-state array distributions. Published paper is Palhares ref42."
+    },
+    {
+      "source_id": "FERAM-07-JEDS",
+      "title": "1T1C FeRAM Memory Array Based on Ferroelectric HZO With Capacitor Under Bitline",
+      "authors": "Jun Okuno et al.",
+      "year": 2022,
+      "doi": "10.1109/JEDS.2021.3129279",
+      "official_url": "https://doi.org/10.1109/JEDS.2021.3129279",
+      "access_url": "https://scispace.com/pdf/1t1c-feram-memory-array-based-on-ferroelectric-hzo-with-1u6qmfxu.pdf",
+      "document": "IEEE JEDS10:29–34, six-page published paper",
+      "accessed": "2026-10-09",
+      "access_method": "remote original-paper PDF read via web tool; direct IEEE download returned418 and mirror download403; no local full-PDF hash claimed",
+      "authority": "original Sony/NaMLab paper, not mirror commentary",
+      "locators": [
+        "PDFp2 SectionII:130nm CMOS, fourcaparea0.4/0.6/0.8/1.0um2, direct-on-transistorCUB;Fig1 cross-section, Fig2 process,Fig3 cellconnectivity",
+        "PDFp4 Fig10:2.5V100ns capcomparison; p5 Fig12:0.4um2 speed data separate from1um2 area choice"
+      ],
+      "numeric_evidence": {
+        "process_nominal_nm": 130,
+        "MFM_active_areas_um2": [
+          0.4,
+          0.6,
+          0.8,
+          1.0
+        ],
+        "main_retained_active_area_um2": 1.0,
+        "operating_reference_V": 2.5,
+        "plan_view_aspect_ratio": null
+      }
+    },
+    {
+      "source_id": "SKY130-HV",
+      "title": "SkyWater SKY130 PDK official Device Details, 5.0V/10.5V NMOS FET",
+      "official_url": "https://skywater-pdk.readthedocs.io/en/main/rules/device-details.html#v-10-5v-nmos-fet",
+      "code_url": "https://github.com/google/skywater-pdk/blob/main/docs/rules/device-details.rst",
+      "accessed": "2026-10-09",
+      "numeric_evidence": {
+        "model_name": "sky130_fd_pr__nfet_g5v0d10v5",
+        "VGS_model_valid_V": [
+          0,
+          5.5
+        ],
+        "VDS_model_valid_V": [
+          0,
+          11
+        ],
+        "VBS_model_valid_V": [
+          -5.5,
+          0
+        ],
+        "reference_W_L_um": [
+          [
+            7,
+            0.5
+          ],
+          [
+            0.42,
+            0.5
+          ]
+        ],
+        "Vth_max_narrow_reference_V": 0.937
+      },
+      "limits": "Model validity ranges are not foundry reliability qualification. W1um is selected design condition, not Sony reported transistor.",
+      "downloaded_html_sha256": "0a7ec55952b9d164421ece31221ce05727db96c1a4e34de0abb77ad6bea6c959"
+    },
+    {
+      "source_id": "SKY130-RULES",
+      "title": "SkyWater SKY130 PDK official Criteria & Assumptions and periphery rules",
+      "official_url": "https://skywater-pdk.readthedocs.io/en/main/rules/assumptions.html#criteria-for-high-voltage-fet",
+      "second_url": "https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html",
+      "accessed": "2026-10-09",
+      "numeric_evidence": {
+        "HV_MOS_channel_length_um": 0.5,
+        "HV_poly_space_um": 0.28,
+        "HV_diffusion_space_um": 0.3,
+        "contact_licon_width_um": 0.17
+      },
+      "conditional_margins_not_claimed_foundry_rules": {
+        "contact_to_gate_um": 0.17,
+        "diffusion_and_gatecontact_enclosure_um": 0.08,
+        "poly_extension_um": 0.2,
+        "metal_width_and_gap_um": 0.2,
+        "gatecontact_to_active_um": 0.2,
+        "electrode_margin_um": 0.08
+      }
+    },
+    {
+      "source_id": "NEUROSIM-GEO",
+      "title": "NeuroSim2DInferenceV1.4 planar no-PMOS CalculateGateArea branch and compact constants",
+      "official_url": "https://github.com/neurosim/NeuroSim/tree/8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "sha": "8a88abf85844c0e1ba17cc771ea535fff6040456",
+      "locator": "Inference_pytorch/NeuroSIM/formula.cpp CalculateGateArea bulk branch;constant.h",
+      "numeric_evidence": {
+        "CPP_F": 3.8,
+        "one_finger_NMOS_width_F": 7.6,
+        "height_overhead_F": 3.6,
+        "contact_F": 1.3,
+        "contact_poly_gap_F": 0.7,
+        "poly_extension_F": 1,
+        "field_poly_gap_F": 1.6,
+        "M2_pitch_F": 3.2
+      },
+      "adaptation": "No electrical Technology initialization. PMOSwidth0;longgate correctionn*(L-Fgeom),independent fullcontactspan,then explicit tile route/landing envelope."
+    },
+    {
+      "source_id": "SKY130-HV-RAW",
+      "title": "SkyWater public raw nfet_g5v0d10v5 IDVD measured data,W20um/L.5um",
+      "official_url": "https://foss-eda-tools.googlesource.com/skywater-pdk/sky130-raw-data/+/5738bf8753688baf2111d8d1b6a3e51a38a0bbeb/sky130_fd_pr/cells/nfet_g5v0d10v5/sky130_fd_pr__nfet_g5v0d10v5_w20u_l0p5u_m1%288363_5_6_IDVD%29.mdm",
+      "sha256": "7d4487d447c9899dd389417a258d7c7aac7f6939a7b4075a5e33259ce9ea109c",
+      "git_commit": "5738bf8753688baf2111d8d1b6a3e51a38a0bbeb",
+      "git_blob": "85ead4ef244df2f1d8d1d86094bd18a8dd7c2960",
+      "locator": "ICCAPHEADER and VG2,3,5 V,VB0,-2.5 V blocks;selectedrows in drive_check.json",
+      "use": "static current/body-bias scale only; widths linearly rescaled to designW1um, no timing/polarization claim"
     }
   ],
-  "policy": "Existing local original papers read directly; no timing or performance data imported. Hashes recomputed from PDFs."
+  "policy": "Existing source records retained; four-gap completion adds vendor geometry, explicitly named reference geometry and topology-aware models. Large source documents remain nonsynchronized."
 }

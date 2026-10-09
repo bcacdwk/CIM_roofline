@@ -6,18 +6,27 @@
     "normalization_invariance": true,
     "slc_only": true,
     "complementary_bit_count": true,
-    "nand_single_folding": true
+    "nand_single_folding": true,
+    "new_geometry_models_recomputed_and_bound": true
   },
-  "quantified_cases": 6,
-  "missing_cases": 4,
+  "reference_locks": {
+    "six_input_and_result_rows_unchanged": true,
+    "nand_diagnostics_unchanged": true,
+    "baseline_git_sha": "782921c498750ebc3b2dfaf374daf5668e6614ca"
+  },
+  "quantified_cases": 10,
+  "missing_cases": 0,
+  "fresh_model_primitive_count": 20,
+  "model_conditions_including_main": 13,
+  "smaller_cap_alternate": "Local-only; absent from public model inputs, primitive record and result rows",
   "output_pages": 1,
   "pdf_render_engine": "pypdfium2",
-  "pdf_visual_review": "Latest PDF rendered to PNG and visually inspected by integrator and supervisor; corrected D6CIM 91x6.4um tile, 4-layer FeFET label, missing-data markers, axes, legend and footnotes verified.",
+  "pdf_visual_review": "Latest PDF rendered and visually inspected; named NOR/PCM reference labels, 130 nm CUB model, source-class hatches, same-order log axes and legends verified.",
   "artifact_sha256": {
-    "output/storage_density_footprint.pdf": "a290cfabd8c23a322927ac306bd4f834030772df9e1f576db4eba1f3b904407e",
-    "output/storage_density_footprint.png": "e924931b7bb60d0c1b182898d663c72b6b331531641b2aff06c45f098feb9229",
-    "output/storage_density_footprint.svg": "4a14334eed6c932275884330128548c20b6c842b7a6506cb531d8840025e62f7"
+    "output/storage_density_footprint.pdf": "a10ed7473e9213099823f4e165fb79c4e0f98d367f688d413bbdc2c9ce1b106e",
+    "output/storage_density_footprint.png": "695908c14df2c9cda95e3d14192b953ae552199f1e557d75c2e0bb9504c3db85",
+    "output/storage_density_footprint.svg": "ab5ca09502be00828bf7d28892c1ab35168ea1ea7a93609ad95bb4c980bc2e30"
   },
-  "source_input_sha256": "2a14afd606713ac496f4c3763b224f3eae9a16f03c3da0489fa8fc1c10bc7d22",
-  "run_scope": "Storage-only computation and two area probes; no existing timing rerun; no source/layer search sweep"
+  "source_input_sha256": "5784c2e4a539dbc4aaec8377d3f4b2d7d4988a34ca8155d99e8dfc3f3d7a96d1",
+  "run_scope": "Four-gap geometry completion only; actual NMOS geometry adapter plus two conditional unit models; no existing timing run"
 }
