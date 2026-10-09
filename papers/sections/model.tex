@@ -1,54 +1,58 @@
-\section{A Resident-Streaming Roofline}
+\section{Proposed Resident-Streaming Roofline}
 \label{sec:model}
 \subsection{Operand Roles and Counting Boundaries}
-\outline{Define an analysis window with logical streaming-input demand $Q_S$ and resident-write demand $Q_R$, in bytes, at the boundaries sketched in Fig.~\ref{fig:operand-roles}. Count initial loading only when it occurs inside the window, include every update or reload, and match $\rho$ and $\tau$ to the same configuration, precision, and service boundaries. Explain that resident state may be weights or historical keys and values; physical encoding, conversion, and required maintenance belong in service accounting.}
+The model classifies operands by the path through which they enter the CIM macro in Fig.~\ref{fig:operand-roles}(b). An operand entering through the read path for calculation is streaming, whereas one established through the write path and held in the cells is resident. In weight projections, $A$ streams and $W$ is resident; in attention, the KV cache of earlier tokens is resident. A \emph{workload window} fixes the work under analysis and the resident state at its start. Within this window, $Q_S$ counts the bytes entering the read path for streaming calculation, and $Q_R$ the bytes written through the write path to load, update, or reload resident state. Both are logical bytes at the given precision, independent of physical encoding. An initial load is counted only if it occurs inside the window, but every update, reload, and KV append is counted. The streaming throughput $\rho$ is the maximum rate at which the read path serves input bytes while completing the specified outputs, and the resident throughput $\tau$ the maximum rate at which the write path makes resident bytes ready for calculation. They share the configuration, precision, and service boundary of the demands. We define
 \begin{equation}
   \SI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
   \label{eq:definitions}
 \end{equation}
-where $T$ is the window completion time; for $Q_S>0$ and $Q_R=0$, define $\SI=\infty$.
-\draftreserve{2.00in}{Counting boundaries: one compact definition paragraph and a window example.}
+where $T$ is the completion time, $P$ the attainable throughput in input bytes served per second, and $\SI$ the streaming bytes served per byte of resident write; $\SI=\infty$ for $Q_S>0$, $Q_R=0$.
+
+Both demands count logical payload; the physical steps serving it are charged to the throughputs. On the streaming side, an input replayed across tiles is counted each time it is served, whereas bit-serial cycles, repeated ADC conversions, and output readout add nothing to $Q_S$ and are charged to $\rho$. On the resident side, program, verify, and erase steps are charged to $\tau$ and add nothing to $Q_R$. Maintenance such as refresh and restore reduces the available throughput rather than adding to $Q_R$. Hence $\rho$ and $\tau$ are throughputs of the given configuration, not material constants.
 
 \draftcolumnbreak
 \input{figures/roofline_comparison}
 \subsection{Throughput Bound and Streaming Intensity}
-\outline{Derive the two necessary service times and use Fig.~\ref{fig:roofline-comparison} to distinguish the meaning of the axes from the familiar Roofline geometry. Identify resident-bound and streaming-bound regions by the tighter term, while treating the curve as an upper bound whose attainability depends on shared resources and scheduling. Use the two compact accounting examples below to connect input throughput to useful operations and expose the effect of changing the residency window.}
+Each path imposes a necessary service time on the window: the read path needs at least $Q_S/\rho$, and the write path at least $Q_R/\tau$. Hence $T$ is at least the larger of the two times, which limits the attainable throughput $P=Q_S/T$:
 \begin{align}
   T&\geq\max\!\left(\frac{Q_S}{\rho},\frac{Q_R}{\tau}\right),\label{eq:time}\\
   P&\leq\min(\rho,\tau\SI),\qquad \SI^*=\frac{\rho}{\tau}.
   \label{eq:roofline}
 \end{align}
-Here $\rho$ and $\tau$ are the streaming and resident throughputs in $\Byte/\mathrm{s}$; $\SI<\SI^*$ is resident-bound and $\SI>\SI^*$ is streaming-bound.
+Bound~\eqref{eq:time} holds whether or not the two services overlap; whether a window reaches \eqref{eq:roofline} depends on shared resources and scheduling. When the two services must alternate on one resource, the tighter bound $T\geq Q_S/\rho+Q_R/\tau$ applies.
 
-\paragraph{Example to develop: useful-operation conversion}
-One logical $128\times128$ INT8 matrix-vector multiplication takes 128 input bytes and performs 16,384 MACs. With two useful operations per MAC, the same execution satisfies
+The ridge $\SI^*$ is the intensity at which the two service times are equal, $Q_S/\rho=Q_R/\tau$. For $\SI<\SI^*$, the resident term is tighter, so the window is resident-bound and $P$ is bounded by $\tau\SI$. For $\SI>\SI^*$, the streaming term is tighter, so the window is streaming-bound and $P$ is bounded by $\rho$. A static window with $Q_R=0$ has no resident term and directly takes $P\leq\rho$.
+
+Fig.~\ref{fig:roofline-comparison} places this bound beside the classical Roofline. The two Rooflines share one geometry, a slope and a ceiling that meet at the ridge, and differ in what is counted. Since $Q_S$ and $Q_R$ are both bytes, $\SI$ is a byte ratio, and the vertical axis $P$ counts input bytes served per second rather than operations per second. Within one execution, however, $P$ converts directly to useful operations per second.
+
+One logical $128\times128$ INT8 matrix-vector multiplication illustrates this conversion. It takes 128 input bytes and performs 16,384 MACs, or 32,768 useful operations (OP) at two operations per MAC, so
 \begin{equation}
   \frac{32{,}768\ \mathrm{OP}}{128\ \Byte}=256\ \mathrm{OP}/\Byte,
-  \qquad P_{\mathrm{OP}}=256P.
+  \qquad P_{\mathrm{OP}}=256P,
   \label{eq:op-conversion}
 \end{equation}
+where $P_{\mathrm{OP}}$ counts useful operations per second. Since the factor 256 is set by the shape and precision of this execution, \eqref{eq:op-conversion} only converts units within it and does not imply that GPU and CIM perform equally.
 
-\paragraph{Example to develop: three residency windows}
-For the same matrix and $U$ useful input vectors, $Q_S=128U$ bytes; only the in-window loading policy changes:
+A second example fixes the calculation and changes only the residency policy, i.e., when the matrix is loaded relative to the window. The same matrix serves $U$ input vectors, so $Q_S=128U$ bytes under every policy:
 \begin{equation}
 \begin{array}{lcc}
 \text{Policy}&Q_R\ [\Byte]&\SI\\
 \text{Already resident}&0&\infty\\
-\text{Load once, reuse}&16{,}384&U/128\\
-\text{Reload before each use}&16{,}384U&1/128.
+\text{Loaded once, then reused}&16{,}384&U/128\\
+\text{Reloaded before each use}&16{,}384U&1/128.
 \end{array}
 \label{eq:windows}
 \end{equation}
+An already-resident matrix gives $\SI=\infty$, so only the ceiling $\rho$ bounds $P$. A single load gives $\SI=U/128$, which moves the operating point in Fig.~\ref{fig:roofline-comparison}(b) toward the ceiling as $U$ grows. Reloading before each use fixes $\SI$ at $1/128$ regardless of $U$. With the same $\rho$ in all three windows, the residency policy alone sets the operating point.
 \input{tables/reuse_intensity}
 \subsection{From Streaming Intensity to Reuse}
-\outline{Define $U$ as all input vectors served after one complete load, including the first use and allowing accumulation across requests. Use Table~\ref{tab:reuse-intensity} and the payload relations below to connect logical matrix shape and reuse, then translate the ridge into Fig.~\ref{fig:critical-reuse} at each native service boundary. Distinguish unbounded reuse of a finite initial load from a finite, already-resident window with no writes.}
+The second policy of \eqref{eq:windows} extends to any resident $N\times K$ matrix $W$, with $N$ outputs and $K$ inputs. Let the reuse count $U$ be the total number of input vectors served after one complete load, including the first use; these vectors may accumulate across requests or batches. Let $b_S$ and $b_R$ be the bytes per streaming and resident element. On the hardware side, $\Delta_S$ is the service interval of one complete input vector, a steady-state interval rather than a latency, and $T_R$ is the service time of one complete load. Then
 \begin{align}
   Q_S&=UKb_S,& Q_R&=NKb_R,\label{eq:matrix-demand}\\
-  \SI&=\frac{Ub_S}{Nb_R},&
-  \rho&=\frac{Kb_S}{\Delta_S},\label{eq:matrix-services}\\
-  \tau&=\frac{NKb_R}{T_R},&
-  U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\SI^*.
+  \rho&=\frac{Kb_S}{\Delta_S},& \tau&=\frac{NKb_R}{T_R},\label{eq:matrix-services}\\
+  \SI&=\frac{Ub_S}{Nb_R},& U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\SI^*.
   \label{eq:critical-reuse}
 \end{align}
-The precisions $b_S,b_R$ are bytes per element; $\Delta_S$ is a complete-vector service interval and $T_R$ a full-matrix load service time. At equal byte widths, $\SI=U/N$ and $U^*=N\SI^*$.
-\draftreserve{0.65in}{Reuse interpretation and the transition to native reference services.}
+Setting $\SI=\SI^*$ gives the \emph{critical reuse} $U^*$, which expresses the ridge as a reuse count: streaming $U^*$ input vectors takes as long as one complete load, $T_R$. A load-once window is therefore resident-bound for $U<U^*$ and streaming-bound for $U>U^*$. At equal byte widths, $\SI=U/N$ and $U^*=N\SI^*$.
+
+Table~\ref{tab:reuse-intensity} lists $\SI$ after one complete load for five logical shapes. Because $K$ cancels from $Q_S/Q_R$, shapes with the same $N$ share the same $\SI$: the $1024\times1024$ and $1024\times4096$ rows are identical, as are the $4096\times4096$ and $4096\times1024$ rows. As $U\to\infty$, $\SI\to\infty$, yet $Q_R=NK$ remains one finite load. The already-resident policy of \eqref{eq:windows} also gives $\SI=\infty$ but describes a different window: its $Q_R=0$ because the load lies outside the window. For the hardware side of \eqref{eq:critical-reuse}, Section~\ref{sec:characterization} gives $\Delta_S$ and $T_R$ for the native configuration of each technology, and Fig.~\ref{fig:critical-reuse} compares the resulting $U^*$.

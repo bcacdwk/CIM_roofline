@@ -38,10 +38,11 @@ ax = fig.add_axes([left/3.5, bottom/2.55, (3.5-left-right)/3.5,
 ax.set(xscale="log", xlim=(.72, 450000), ylim=(9.55, -.55))
 for side in ("left", "top", "right"):
     ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color("#000000")
 ax.xaxis.set_minor_locator(NullLocator())
 ax.set_xticks([1, 128, 1024, 131072])
 ax.set_xticklabels(["1", "128", "1K", "128K"], fontsize=7.5)
-ax.tick_params(axis="x", length=3, pad=3)
+ax.tick_params(axis="x", length=3, pad=3, colors="#000000")
 ax.tick_params(axis="y", length=0, pad=3)
 ax.set_yticks(range(10))
 labels = [TECHNOLOGY_LABELS[cid] for cid in order]
@@ -101,7 +102,7 @@ handles = [
 ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(-.015, 1.015),
           ncol=3, frameon=False, fontsize=7, handletextpad=.35, columnspacing=.8,
           borderaxespad=0, handlelength=.8)
-ax.set_xlabel(r"Critical reuse $U^*$ [vectors/load]", fontsize=7.5, labelpad=4)
+ax.set_xlabel(r"Critical reuse $U^*$ [vectors/load]", fontsize=7.5, labelpad=4, color="#000000")
 ax.text(.985, .96,
         r"Native $W[N,K]$" + "\n" + r"$U^*=N\,\mathrm{SI}^*$" + "\n"
         + r"$U=128$: example",
@@ -113,7 +114,6 @@ assert len(plotted) == 30
 for _, _, x in plotted:
     assert ax.get_xlim()[0] < x < ax.get_xlim()[1]
 fig.savefig(HERE / "critical_reuse_single.pdf")
-preview = HERE.parent / "build/critical_reuse_single.png"
-preview.parent.mkdir(exist_ok=True)
+preview = HERE / "critical_reuse_single.png"
 fig.savefig(preview, dpi=240)
 print("Single-column Fig.4: 3.5 x 2.55 in; all 30 original thresholds, paired scenarios, and colors retained.")

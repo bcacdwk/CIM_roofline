@@ -35,7 +35,7 @@ make
 | Fig.1 | 用户提供的 `figures/Fig1.png`（3198 × 1697，透明背景）保持原样。论文实际使用 `figures/Fig1_cropped.png`：由 `crop_fig1.py` 裁去四周透明/近白边、每边留 6 px 并铺白底得到（3110 × 1615），按 `\linewidth` 等比例撑满第一页右栏。替换原图后需重跑该脚本。 |
 | Fig.2 | `figures/roofline_comparison_diagram.tex`：单栏组合图：上方为共用同一宏的对称 a/b TikZ 曲线（bound 标签在图内；横轴短标题和 ridge 同行，均采用紧凑分式），下方为英文计量对应表（不另编号）；字体统一为局部 DejaVu Sans，希腊字母也使用该字体家族。 |
 | `figures/hardware_capacities.pdf` | Task I `analysis/11_summary_figures/output/rho_tau_loglog_circles.pdf` 的原样矢量副本。 |
-| `figures/hardware_capacities_paper.pdf` | Fig.3 实际采用的投稿排版版。`prepare_hardware_layout.py` 只读取 Task I 的 `rho_tau_loglog_circles_points.csv` 与 `rho_tau_loglog_circles_validation.json`；保留全部 30 个点、十个圆的已保存几何、等尺度对数轴、配色及情景配对。按用户审阅收紧视窗：横轴为 10^-2.15 至 10^4.15（两侧各留 0.15 decade），纵轴为 1 至 1000；并调整字号、标注位置、留白与线/点显示尺寸。原研究图标题和脚注并入论文图注。 |
+| `figures/hardware_capacities_paper.pdf` | Fig.3采用7.16 × 4.28 in双panel版。`prepare_hardware_layout.py`上图仍只读原NVM Task I的`rho_tau_loglog_circles_points.csv`和`rho_tau_loglog_circles_validation.json`，保留全部30点、十圆、颜色、配对及等尺度log几何；横轴10^-2.15至10^4.15、纵轴1至1000不变。下方0.70 in条区只读`tasks/archived/task1_table_I_NeuroSim/analysis/12_footprint/results/footprint_results.json`，按绝对密度降序，同器件的深色实心/浅色细横线双柱分别用左密度/右F_mem²每bit面积log轴，归一化面积沿同序保留原值。图注明确独立cell/tile参考与性能宏不必同配置；`--output-dir`可把候选及版式核验记录写到非同步目录。 |
 | `figures/critical_reuse.pdf` | Task III `03_reuse_threshold/output/figure.pdf` 的原样矢量副本，保留作来源对照。 |
 | `figures/critical_reuse_single.pdf` | Fig.4 当前采用的 3.5 × 2.55 in 单栏重排版，放在第四页右栏顶部。`prepare_reuse_layout.py` 只读 Task III `plotted_thresholds.csv` 与共同样式；保留十类配置的全部 30 个阈值、配色和情景标记，典型值直接标在情景点旁。右上角标明原生矩阵关系 `U*=N RI*`；128 仅为示例复用次数，各行 N 沿用自身配置。 |
 | Table I | Task II `table_IIa/data/results.json`；五种逻辑矩阵，U=128、1K、16K、128K、1M 及 U→∞。极限仍保留一次有限装载 Q_R=NK。矩阵形状完整写为 128/1024/4096，不使用 K 后缀缩写形状。 |
