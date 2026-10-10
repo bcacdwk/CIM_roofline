@@ -1,11 +1,11 @@
 \section{Proposed Resident-Streaming Roofline}
 \label{sec:model}
 \subsection{Workload Demands and Hardware Throughputs}
-Following the operand roles in Fig.~\ref{fig:operand-roles}(b), the model analyzes a \emph{workload window}, which specifies the input work and the resident state at its start.
+In Fig.~\ref{fig:operand-roles}(b), one resident state can serve many input evaluations, whereas establishing or updating that state has a service demand of its own. The model therefore analyzes an explicit \emph{workload window}, which fixes the declared work and the resident state at its start, and counts the two kinds of work separately.
 
-Within the window, the streaming demand $Q_S$ is the number of streaming input bytes served at the chosen logical input boundary, and the resident demand $Q_R$ is the number of logical bytes actually written to load, update, or reload resident state. An initial load counts only if it occurs inside the window. The resident operand may be a weight or, in attention, the KV cache of earlier tokens.
+We measure streaming calculation by the logical input bytes evaluated against resident state, with each service completing the specified calculation and outputs. The streaming demand $Q_S$ is the number of such bytes served at the chosen logical input boundary; it thus represents completed calculation work rather than input traffic alone, and it is directly comparable with resident writes. The resident demand $Q_R$ is the number of logical bytes written within the window to load, update, or reload the resident state that this work requires. A window may start with resident state already in place, excluding earlier loads, but every write required inside it is counted, including a reload that leaves the weight values unchanged. The resident operand may be a weight or, in attention, the KV cache of earlier tokens.
 
-Each demand is served by its own throughput. The streaming throughput $\rho$ is the maximum rate at which the hardware serves logical input bytes while completing the specified calculation and outputs. The resident throughput $\tau$ is the maximum rate at which logical resident bytes become ready for calculation under a given write mode. Each demand and its throughput share the same configuration and precision. We define
+We characterize the two services by their corresponding throughputs. The streaming throughput $\rho$ is the maximum rate, in logical input bytes, at which the hardware completes this streaming service. The resident throughput $\tau$ is the maximum rate at which logical resident bytes become ready for calculation under a given write mode. Each demand and its throughput share the same configuration and precision. We define
 \begin{equation}
   \SI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
   \label{eq:definitions}
@@ -23,12 +23,12 @@ Each path imposes a necessary service time on the window: at least $Q_S/\rho$ fo
   P&\leq\min(\rho,\tau\SI),\qquad \SI^*=\frac{\rho}{\tau}.
   \label{eq:roofline}
 \end{align}
-The two service requirements balance at the ridge $\SI^*$. For $\SI<\SI^*$, the resident term is tighter and the window is resident-bound; for $\SI>\SI^*$, the streaming term is tighter and the window is streaming-bound. The bound holds whether or not the two services overlap; shared resources, execution dependencies, and scheduling may keep the actual throughput below it.
+Sustaining the streaming ceiling requires an average resident-write rate of $\rho/\SI$; the ridge $\SI^*$ marks where this required rate equals $\tau$ and the two service requirements balance. For $\SI<\SI^*$, the required rate exceeds $\tau$, the resident term is tighter, and the window is resident-bound; for $\SI>\SI^*$, the streaming term is tighter and the window is streaming-bound. The bound holds whether or not the two services overlap; shared resources, execution dependencies, and scheduling may keep the actual throughput below it.
 
 Fig.~\ref{fig:roofline-comparison} sets this bound beside the classical Roofline: the demand--throughput pairing is preserved, but work is measured in streaming input bytes rather than operations. Within one execution, $P$ still converts to useful operations per second, $P_{\mathrm{OP}}$: for a logical $128\times128$ INT8 matrix-vector multiplication at two operations per MAC, each input byte corresponds to 256 OP, so $P_{\mathrm{OP}}=(256\ \mathrm{OP}/\Byte)\,P$ for this execution.
 
 \subsection{From Streaming Intensity to Reuse}
-The ridge can be expressed as the number of input vectors that one resident load must support. Consider a resident matrix $W[N,K]$ with output dimension $N$ and input dimension $K$, and let the reuse count $U$ be the number of input vectors served after one complete load, including the first use; these vectors may accumulate across batches or requests. With $b_S$ and $b_R$ bytes per streaming and resident element,
+For a matrix loaded once and then reused, the ridge translates into a required number of input vectors. Consider a resident matrix $W[N,K]$ with output dimension $N$ and input dimension $K$, and let the reuse count $U$ be the number of input vectors served after one complete load, including the first use; these vectors may accumulate across batches or requests. With $b_S$ and $b_R$ bytes per streaming and resident element,
 \begin{equation}
   Q_S=UKb_S,\qquad Q_R=NKb_R,\qquad \SI=\frac{Ub_S}{Nb_R}.
   \label{eq:matrix-demand}
@@ -43,7 +43,7 @@ On the hardware side, let $\Delta_S$ be the steady-state service interval of one
   U^*=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\,\SI^*,
   \label{eq:critical-reuse}
 \end{equation}
-which reduces to $U^*=N\SI^*$ at equal byte widths. The two service requirements thus balance at $U\Delta_S=T_R$: serving $U^*$ input vectors takes as much service time as one complete load. A load-once window is therefore resident-bound for $U<U^*$ and streaming-bound for $U>U^*$. Here, $U$ is the reuse a workload offers, whereas $U^*$ is the reuse the hardware requires, set by its load time relative to its input service interval.
+which reduces to $U^*=N\SI^*$ at equal byte widths. At $U=U^*$, the load time amortized per input, $T_R/U$, equals the streaming service interval $\Delta_S$. With less reuse, each input carries more load time than its streaming service interval, and the load-once window is resident-bound; with more reuse, it is streaming-bound. Here, $U$ is the reuse the workload offers, whereas $U^*$ is the reuse the hardware needs for its two services to balance.
 
 For this load-once reference, normalizing~\eqref{eq:roofline} by $\rho$ gives
 \begin{equation}

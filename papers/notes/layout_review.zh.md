@@ -118,3 +118,12 @@ Table II 位于第三页 Fig.3 下方，跨双栏。第一层为 Weight projecti
 - 词数（正文词，行内数学计一个单元，独立公式与标题不计）：1257 → 711，净减 546。
 - 公式：ρ=Kb_S/Δ_S、τ=NKb_R/T_R 改为行内，删除 `eq:matrix-services`；其余标签保留，无悬空引用。II 现为式 (1)–(6)，Section IV 顺延为 (7)–(10)。
 - 固定对象核对：Fig.2 第 2 页右栏上部、Table I 第 2 页右栏下部、Fig.3 第 3 页顶部、Table II 第 4 页顶部，均未移动。
+
+## 2026-10-10 傍晚：Section II 补强建模理由
+
+基于 HEAD `fe32627`（261010_1445），开始时工作区无改动。只改 `sections/model.tex` 与本记录。
+
+- II-A：首段改为“一份驻留状态支撑多次求值、建立状态另有服务需求 → 明确窗口、分别统计”；补 Q_S 代表已完成规定计算与输出的工作、可与 resident 写入直接比较；窗口写入正面定义（可预驻留，但窗口内必需写入全部计入，值不变的重载也计）；“Each demand is served by its own throughput” 改为 “We characterize the two services by their corresponding throughputs”。
+- II-B：ridge 改为需求率解释：达到 streaming ceiling 需平均 resident 写入率 ρ/SI，等于 τ 处即 ridge。
+- II-C：开头限定为一次完整装载后复用的矩阵；U* 改用“每次输入摊销的装载时间 T_R/U 等于 Δ_S”解释；U* 限定为两路服务平衡所需复用。
+- 公式、标签、计量口径未变；编译无警告。Section II 仍止于第 3 页右栏（约 17 行处，较上轮多约 4 行），固定对象未移动，全文 6 页。
