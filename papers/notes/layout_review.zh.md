@@ -109,3 +109,12 @@ Table II 位于第三页 Fig.3 下方，跨双栏。第一层为 Weight projecti
 - 版面：草稿模式下 Section II 从第 2 页左栏约 35% 处开始，Fig.2 仍由 `\draftcolumnbreak` 置于第 2 页右栏顶部（断点在式 (1) 段落之后，左栏约余 2 行）；Table I 位于第 3 页左栏底部；本节止于第 3 页右栏约 60%。若 Introduction 长度再变，需重调该断点。
 - 页数：仍为 7 页，与检查点相同。原因是 Introduction 已延伸到第 2 页，而 III 前的 `\draftspread`、IV 前的 `\draftpagebreak` 仍按旧五页安排强制换页（第 3 页右栏下部、第 5 页大部空白）。在 build/ 中临时副本核查：改为自然浮动或仅去掉 IV 前 `\draftpagebreak` 均为 6 页；未修改源文件。
 - 编译：`make` 与 `latexmk -g` 通过，无 Overfull/Underfull、未定义引用。本轮期间 `figures/critical_reuse_single.*` 被并行更新（非本轮修改），当前 PDF 中 Fig.4 图体已换新，原图注尚未同步。
+
+## 2026-10-10 下午：Section II 逐句精简
+
+基于 HEAD `edc4022`（261010_1400），开始时工作区无改动。只改 `sections/model.tex` 与本记录；`layout_fixed.tex` 锚点、图表与其他章节未动。
+
+- 精简前（实际 PDF，6 页）：Section II 自第 2 页左栏约 28% 起，止于第 4 页左栏 Table II 下约 24 行。精简后：止于第 3 页右栏约 13 行（Fig.3 下方），末句为 “so insufficient reuse caps the throughput at a fraction U/U* of the streaming ceiling.”；III 紧随其后，全文仍为 6 页。
+- 词数（正文词，行内数学计一个单元，独立公式与标题不计）：1257 → 711，净减 546。
+- 公式：ρ=Kb_S/Δ_S、τ=NKb_R/T_R 改为行内，删除 `eq:matrix-services`；其余标签保留，无悬空引用。II 现为式 (1)–(6)，Section IV 顺延为 (7)–(10)。
+- 固定对象核对：Fig.2 第 2 页右栏上部、Table I 第 2 页右栏下部、Fig.3 第 3 页顶部、Table II 第 4 页顶部，均未移动。
