@@ -1,0 +1,7 @@
+case_id,model,workload,label,variable,condition,condition_label,SI_exact,SI,Q_S,Q_R
+qwen36_35b_a3b/ffn_or_moe/16,Qwen3.6-35B-A3B,ffn_or_moe,MoE,U,16,U=16,5/384,0.013020833333333334,40960,3145728
+qwen36_35b_a3b/qkv_projection/1024,Qwen3.6-35B-A3B,qkv_projection,QKV,U,1024,U=1K,1/9,0.1111111111111111,2097152,18874368
+qwen36_35b_a3b/ffn_or_moe/1024,Qwen3.6-35B-A3B,ffn_or_moe,MoE,U,1024,U=1K,5/6,0.8333333333333334,2621440,3145728
+qwen36_35b_a3b/attention_prefill/1024,Qwen3.6-35B-A3B,attention_prefill,Prefill,L,1024,L=1K,1537/128,12.0078125,12591104,1048576
+qwen36_35b_a3b/qkv_projection/1048576,Qwen3.6-35B-A3B,qkv_projection,QKV,U,1048576,U=1M,1024/9,113.77777777777777,2147483648,18874368
+qwen36_35b_a3b/attention_decode/65536,Qwen3.6-35B-A3B,attention_decode,Decode,L,65536,L=64K,1028,1028.0,1052672,1024

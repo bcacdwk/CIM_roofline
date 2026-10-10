@@ -99,3 +99,13 @@ Table II 位于第三页 Fig.3 下方，跨双栏。第一层为 Weight projecti
 四个 bound 标签已移入各自图内：Memory/Resident-bound 位于左侧三角形内，Compute/Streaming-bound 位于右侧水平上限下方。两边共用相同几何，略加宽三角形以容纳原 6.5 pt 标签，未缩小文字。横轴删除全称，AI、RI 及单位置于右端下方，与 ridge 标注同一水平行；ridge 比值与单位均使用上下分式。
 
 曲线部分由 252×157 pt 缩为 252×129 pt，节省 28 pt（约 9.8 mm）高度；下方计量对应表保持原样。重新编译并查看第二页整页及放大图，标签均在图内，没有压线、重叠或裁切；全文仍为五页，无新增编译警告。
+
+## 2026-10-10：Section II 重组精修
+
+基于 HEAD `f98cb74`（261010_0030）。只改 `sections/model.tex` 与本记录；Abstract、Introduction、图表文件及其他章节未改。
+
+- 结构：保留 A/B/C。A 为 Workload Demands and Hardware Throughputs（窗口 → Q_S/Q_R → ρ/τ → SI、P → 计量原则与边界）；B 为 Throughput Bound and Roofline Interpretation（时间下界推导 → ridge 含义与分区 → 可达性一次 → Fig.2 对应 → OP/s 换算）；C 为 From Streaming Intensity to Reuse（负载侧 SI=Ub_S/(Nb_R) → Table I → 三种驻留策略文字化 → Δ_S、T_R 与 U*=T_R/Δ_S → P/ρ≤min(1,U/U*)）。
+- 公式标签：删除 `eq:windows`（三策略表改为文字）与 `eq:op-conversion`（换算改为行内）；新增 `eq:reuse-bound`；`eq:roofline` 等其余标签保留。全文无悬空引用；Section IV 公式顺延为 (8)–(11)。
+- 版面：草稿模式下 Section II 从第 2 页左栏约 35% 处开始，Fig.2 仍由 `\draftcolumnbreak` 置于第 2 页右栏顶部（断点在式 (1) 段落之后，左栏约余 2 行）；Table I 位于第 3 页左栏底部；本节止于第 3 页右栏约 60%。若 Introduction 长度再变，需重调该断点。
+- 页数：仍为 7 页，与检查点相同。原因是 Introduction 已延伸到第 2 页，而 III 前的 `\draftspread`、IV 前的 `\draftpagebreak` 仍按旧五页安排强制换页（第 3 页右栏下部、第 5 页大部空白）。在 build/ 中临时副本核查：改为自然浮动或仅去掉 IV 前 `\draftpagebreak` 均为 6 页；未修改源文件。
+- 编译：`make` 与 `latexmk -g` 通过，无 Overfull/Underfull、未定义引用。本轮期间 `figures/critical_reuse_single.*` 被并行更新（非本轮修改），当前 PDF 中 Fig.4 图体已换新，原图注尚未同步。

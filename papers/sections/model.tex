@@ -1,58 +1,57 @@
 \section{Proposed Resident-Streaming Roofline}
 \label{sec:model}
-\subsection{Operand Roles and Counting Boundaries}
-The model classifies operands by the path through which they enter the CIM macro in Fig.~\ref{fig:operand-roles}(b). An operand entering through the read path for calculation is streaming, whereas one established through the write path and held in the cells is resident. In weight projections, $A$ streams and $W$ is resident; in attention, the KV cache of earlier tokens is resident. A \emph{workload window} fixes the work under analysis and the resident state at its start. Within this window, $Q_S$ counts the bytes entering the read path for streaming calculation, and $Q_R$ the bytes written through the write path to load, update, or reload resident state. Both are logical bytes at the given precision, independent of physical encoding. An initial load is counted only if it occurs inside the window, but every update, reload, and KV append is counted. The streaming throughput $\rho$ is the maximum rate at which the read path serves input bytes while completing the specified outputs, and the resident throughput $\tau$ the maximum rate at which the write path makes resident bytes ready for calculation. They share the configuration, precision, and service boundary of the demands. We define
+\subsection{Workload Demands and Hardware Throughputs}
+The model builds on the operand roles in Fig.~\ref{fig:operand-roles}(b): a streaming operand enters through the read path and is calculated against resident state, which the write path establishes in the cells. A \emph{workload window} specifies the input work under analysis, the resident state at its start, and the resident writes within it; it defines the work rather than its duration.
+
+Within the window, the model counts two demands. The streaming demand $Q_S$ is the number of streaming input bytes received and served at the chosen logical input boundary. The resident demand $Q_R$ is the number of logical bytes actually written to establish, update, or reload resident state ready for calculation. An initial load counts only if it occurs within the window, but every update or reload inside the window is counted, so $Q_R$ is neither the array capacity nor the unique weight size. The resident operand need not be a weight; in attention, the KV cache of earlier tokens can be resident.
+
+Each demand has a matching hardware throughput. The streaming throughput $\rho$ is not the raw bandwidth of an input bus but the maximum rate at which the hardware serves logical input bytes while completing the specified calculation and outputs. The resident throughput $\tau$ is not the rate of applying program pulses alone but the maximum rate at which logical resident bytes become ready for calculation under a given write mode. Each demand and its throughput use the same analysis scope, logical boundary, and precision configuration, although the two roles may use different byte widths. We define
 \begin{equation}
-  \SI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
+  \SI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}].
   \label{eq:definitions}
 \end{equation}
-where $T$ is the completion time, $P$ the attainable throughput in input bytes served per second, and $\SI$ the streaming bytes served per byte of resident write; $\SI=\infty$ for $Q_S>0$, $Q_R=0$.
-
-Both demands count logical payload; the physical steps serving it are charged to the throughputs. On the streaming side, an input replayed across tiles is counted each time it is served, whereas bit-serial cycles, repeated ADC conversions, and output readout add nothing to $Q_S$ and are charged to $\rho$. On the resident side, program, verify, and erase steps are charged to $\tau$ and add nothing to $Q_R$. Maintenance such as refresh and restore reduces the available throughput rather than adding to $Q_R$. Hence $\rho$ and $\tau$ are throughputs of the given configuration, not material constants.
+Here, $T$ is the window completion time, and $P$ is its average streaming-input throughput; $\SI$ is the streaming demand per byte of resident write, taken as infinite for $Q_S>0$ and $Q_R=0$. Thus $\SI$ and $P$ describe the window, whereas $\rho$ and $\tau$ are limits set by the configuration and mode.
 
 \draftcolumnbreak
 \input{figures/roofline_comparison}
-\subsection{Throughput Bound and Streaming Intensity}
-Each path imposes a necessary service time on the window: the read path needs at least $Q_S/\rho$, and the write path at least $Q_R/\tau$. Hence $T$ is at least the larger of the two times, which limits the attainable throughput $P=Q_S/T$:
+Demands count logical bytes, while every physical step needed to complete the logical service enters the service time of the corresponding path: bit-serial cycles and repeated conversions lengthen the streaming service time, and program and verify steps the resident service time. Output bytes do not add to $Q_S$, but completing the specified outputs remains part of the service that $\rho$ describes. Maintenance such as refresh is not a workload update; its cost belongs to the corresponding service cycle or available throughput. A repeated input is counted again when it re-enters the chosen logical input boundary. At a macro input, replay across tiles thus adds to $Q_S$; at a matrix-stage entry that counts a shared input once, internal replay instead enters the service time and lowers the effective $\rho$, so it is never charged twice. Likewise, $\tau$ depends on the write mode: a complete load and a small KV append need not share one effective value.
+
+\subsection{Throughput Bound and Roofline Interpretation}
+Each path imposes a necessary service time on the window: the streaming demand needs at least $Q_S/\rho$, and the resident demand at least $Q_R/\tau$. The window cannot complete before both services are done, so $T$ is at least the larger of the two. With $P=Q_S/T$ and $Q_S/Q_R=\SI$, this lower bound on time becomes an upper bound on throughput:
 \begin{align}
   T&\geq\max\!\left(\frac{Q_S}{\rho},\frac{Q_R}{\tau}\right),\label{eq:time}\\
   P&\leq\min(\rho,\tau\SI),\qquad \SI^*=\frac{\rho}{\tau}.
   \label{eq:roofline}
 \end{align}
-Bound~\eqref{eq:time} holds whether or not the two services overlap; whether a window reaches \eqref{eq:roofline} depends on shared resources and scheduling. When the two services must alternate on one resource, the tighter bound $T\geq Q_S/\rho+Q_R/\tau$ applies.
+The streaming term caps $P$ at $\rho$ regardless of the resident demand. The resident term rises with $\SI$: each resident byte takes at least $1/\tau$ of window time and is accompanied by $\SI$ streaming bytes, so $P\leq\tau\SI$.
 
-The ridge $\SI^*$ is the intensity at which the two service times are equal, $Q_S/\rho=Q_R/\tau$. For $\SI<\SI^*$, the resident term is tighter, so the window is resident-bound and $P$ is bounded by $\tau\SI$. For $\SI>\SI^*$, the streaming term is tighter, so the window is streaming-bound and $P$ is bounded by $\rho$. A static window with $Q_R=0$ has no resident term and directly takes $P\leq\rho$.
+The two terms meet at the ridge $\SI^*$, the ratio of demands that the hardware requires: the streaming bytes each byte of resident write must support before resident service stops being the tighter constraint. At $\SI=\SI^*$, the two required service times are equal. For $\SI<\SI^*$, the resident term is tighter and the window is resident-bound; for $\SI>\SI^*$, the streaming term is tighter and the window is streaming-bound. Bound~\eqref{eq:time} does not require the two services to overlap completely; shared resources, execution dependencies, and scheduling determine how closely a window approaches~\eqref{eq:roofline}.
 
-Fig.~\ref{fig:roofline-comparison} places this bound beside the classical Roofline. The two Rooflines share one geometry, a slope and a ceiling that meet at the ridge, and differ in what is counted. Since $Q_S$ and $Q_R$ are both bytes, $\SI$ is a byte ratio, and the vertical axis $P$ counts input bytes served per second rather than operations per second. Within one execution, however, $P$ converts directly to useful operations per second.
+Fig.~\ref{fig:roofline-comparison} places this bound beside the classical Roofline. Both models pair each workload demand with the throughput that serves it and share the slope--ceiling geometry; they differ in the work counted and the physical service behind it, namely operations and memory traffic in the classical model versus streaming input and resident writes here. The vertical axis of Fig.~\ref{fig:roofline-comparison}(b) thus counts input bytes per second, and $\SI$ on its horizontal axis is a byte-to-byte ratio.
 
-One logical $128\times128$ INT8 matrix-vector multiplication illustrates this conversion. It takes 128 input bytes and performs 16,384 MACs, or 32,768 useful operations (OP) at two operations per MAC, so
-\begin{equation}
-  \frac{32{,}768\ \mathrm{OP}}{128\ \Byte}=256\ \mathrm{OP}/\Byte,
-  \qquad P_{\mathrm{OP}}=256P,
-  \label{eq:op-conversion}
-\end{equation}
-where $P_{\mathrm{OP}}$ counts useful operations per second. Since the factor 256 is set by the shape and precision of this execution, \eqref{eq:op-conversion} only converts units within it and does not imply that GPU and CIM perform equally.
+Within one execution, $P$ converts directly to useful operations per second, $P_{\mathrm{OP}}$. A logical $128\times128$ INT8 matrix-vector multiplication takes 128 input bytes and performs 16,384 MACs, or 32,768 useful operations (OP) at two per MAC, so $P_{\mathrm{OP}}=(256\ \mathrm{OP}/\Byte)\,P$ for this execution. The factor follows from its shape, precision, and counting convention; it is not a hardware constant shared by all workloads.
 
-A second example fixes the calculation and changes only the residency policy, i.e., when the matrix is loaded relative to the window. The same matrix serves $U$ input vectors, so $Q_S=128U$ bytes under every policy:
-\begin{equation}
-\begin{array}{lcc}
-\text{Policy}&Q_R\ [\Byte]&\SI\\
-\text{Already resident}&0&\infty\\
-\text{Loaded once, then reused}&16{,}384&U/128\\
-\text{Reloaded before each use}&16{,}384U&1/128.
-\end{array}
-\label{eq:windows}
-\end{equation}
-An already-resident matrix gives $\SI=\infty$, so only the ceiling $\rho$ bounds $P$. A single load gives $\SI=U/128$, which moves the operating point in Fig.~\ref{fig:roofline-comparison}(b) toward the ceiling as $U$ grows. Reloading before each use fixes $\SI$ at $1/128$ regardless of $U$. With the same $\rho$ in all three windows, the residency policy alone sets the operating point.
-\input{tables/reuse_intensity}
 \subsection{From Streaming Intensity to Reuse}
-The second policy of \eqref{eq:windows} extends to any resident $N\times K$ matrix $W$, with $N$ outputs and $K$ inputs. Let the reuse count $U$ be the total number of input vectors served after one complete load, including the first use; these vectors may accumulate across requests or batches. Let $b_S$ and $b_R$ be the bytes per streaming and resident element. On the hardware side, $\Delta_S$ is the service interval of one complete input vector, a steady-state interval rather than a latency, and $T_R$ is the service time of one complete load. Then
-\begin{align}
-  Q_S&=UKb_S,& Q_R&=NKb_R,\label{eq:matrix-demand}\\
-  \rho&=\frac{Kb_S}{\Delta_S},& \tau&=\frac{NKb_R}{T_R},\label{eq:matrix-services}\\
-  \SI&=\frac{Ub_S}{Nb_R},& U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\SI^*.
-  \label{eq:critical-reuse}
-\end{align}
-Setting $\SI=\SI^*$ gives the \emph{critical reuse} $U^*$, which expresses the ridge as a reuse count: streaming $U^*$ input vectors takes as long as one complete load, $T_R$. A load-once window is therefore resident-bound for $U<U^*$ and streaming-bound for $U>U^*$. At equal byte widths, $\SI=U/N$ and $U^*=N\SI^*$.
+The ridge can be expressed as the number of input vectors that one resident load must support. On the workload side, consider a resident matrix $W[N,K]$ with output dimension $N$ and input dimension $K$, and let the reuse count $U$ be the number of input vectors served after one complete load, including the first use. These vectors may accumulate across batches or requests, so $U$ is not the batch size. With $b_S$ and $b_R$ bytes per streaming and resident element, each input vector adds $Kb_S$ to $Q_S$, whereas the load contributes a fixed $NKb_R$ to $Q_R$:
+\begin{equation}
+  Q_S=UKb_S,\qquad Q_R=NKb_R,\qquad \SI=\frac{Ub_S}{Nb_R}.
+  \label{eq:matrix-demand}
+\end{equation}
+At equal byte widths, $\SI=U/N$. Table~\ref{tab:reuse-intensity} evaluates this relation for five logical matrices. Because $K$ enlarges both the input vector and the resident matrix, it cancels from the demand ratio, so matrices with the same $N$ share the same $\SI$; the cancellation concerns the demands, not the hardware that serves them.
+\input{tables/reuse_intensity}
 
-Table~\ref{tab:reuse-intensity} lists $\SI$ after one complete load for five logical shapes. Because $K$ cancels from $Q_S/Q_R$, shapes with the same $N$ share the same $\SI$: the $1024\times1024$ and $1024\times4096$ rows are identical, as are the $4096\times4096$ and $4096\times1024$ rows. As $U\to\infty$, $\SI\to\infty$, yet $Q_R=NK$ remains one finite load. The already-resident policy of \eqref{eq:windows} also gives $\SI=\infty$ but describes a different window: its $Q_R=0$ because the load lies outside the window. For the hardware side of \eqref{eq:critical-reuse}, Section~\ref{sec:characterization} gives $\Delta_S$ and $T_R$ for the native configuration of each technology, and Fig.~\ref{fig:critical-reuse} compares the resulting $U^*$.
+The intensity of a matrix is therefore not fixed; it depends on how the window uses resident state. For the $128\times128$ INT8 example, loading once and then reusing gives $\SI=U/128$, which grows with the reuse each load supports. Reloading before every input limits each load to $U=1$, so $\SI$ stays at $1/128$ however many inputs the window serves. A matrix already resident at the start and not rewritten gives $Q_R=0$ and $\SI=\infty$, so the bound reduces to $P\leq\rho$. Unbounded reuse after one finite load, $U\to\infty$, approaches the same bound but keeps $Q_R=NKb_R$; it counts a different window. At fixed $\rho$ and $\tau$, the residency policy thus determines $\SI$ and the corresponding throughput bound.
+
+On the hardware side, let $\Delta_S$ be the steady-state service interval of one complete input vector for the same matrix, and $T_R$ the service time of one complete load that makes its resident state ready for calculation. The two throughputs, and the \emph{critical reuse} obtained by setting $\SI=\SI^*$, are
+\begin{align}
+  \rho&=\frac{Kb_S}{\Delta_S},\qquad \tau=\frac{NKb_R}{T_R},\label{eq:matrix-services}\\
+  U^*&=\frac{T_R}{\Delta_S}=\frac{Nb_R}{b_S}\,\SI^*.\label{eq:critical-reuse}
+\end{align}
+At equal byte widths, $U^*=N\SI^*$. In these terms, the two service times in~\eqref{eq:time} are $Q_S/\rho=U\Delta_S$ and $Q_R/\tau=T_R$, so the two service requirements balance at $U\Delta_S=T_R$: a load-once window is resident-bound for $U<U^*$ and streaming-bound for $U>U^*$. The reuse $U$ thus reflects how the workload uses resident state, and the critical reuse $U^*$ how fast the hardware establishes that state relative to how fast it serves inputs.
+
+For this load-once reference, \eqref{eq:roofline} also bounds the throughput relative to the streaming ceiling:
+\begin{equation}
+  \frac{P}{\rho}\leq\min\!\left(1,\frac{\SI}{\SI^*}\right)=\min\!\left(1,\frac{U}{U^*}\right).
+  \label{eq:reuse-bound}
+\end{equation}
+Insufficient reuse thus does more than mark a window as resident-bound: it caps the throughput at a fraction $U/U^*$ of the streaming ceiling. Section~\ref{sec:characterization} supplies both sides of this comparison: $\Delta_S$ and $T_R$ for the native configuration of each technology, and the streaming intensities of LLM matrix stages.

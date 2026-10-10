@@ -1,0 +1,264 @@
+{
+  "baseline": "f98cb74d936f58d1b8eda33bc1a7384e02d00abb",
+  "source_checks": {
+    "plotted_thresholds.csv": {
+      "git_blob_sha": "8bdaef9fdf1b68dd77745229ae926c543fd2ba59",
+      "matches_baseline": true,
+      "sha256": "3b0dacff4aa0aa239341a95068cb33caeab3ff93f62577239986aa9b7b77d31a"
+    },
+    "selected_workloads.csv": {
+      "git_blob_sha": "401b5b19fed92f674c06424930dc631924966984",
+      "matches_baseline": true,
+      "sha256": "4c8735b2dc245a07d1f68bba83572f17a2927bf9515a68d4f6cbb08b9738f768"
+    },
+    "rho_tau_loglog_circles_points.csv": {
+      "git_blob_sha": "5d074af7d7becca5bbc2c407a71bc4433ad29b79",
+      "matches_baseline": true,
+      "sha256": "5063b8097f9c13b6d9bfc959eac3419ee928f919395473348e502d55e8632bfa"
+    }
+  },
+  "fig3a_nvm_all_30_rows_match": true,
+  "workloads_are_existing_table_II_cells": true,
+  "workload_x_not_jittered_or_remapped": true,
+  "six_points": [
+    {
+      "case_id": "qwen36_35b_a3b/ffn_or_moe/16",
+      "model": "Qwen3.6-35B-A3B",
+      "workload": "ffn_or_moe",
+      "label": "MoE",
+      "variable": "U",
+      "condition": 16,
+      "condition_label": "U=16",
+      "SI_exact": "5/384",
+      "SI": 0.013020833333333334,
+      "Q_S": 40960,
+      "Q_R": 3145728
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/1024",
+      "model": "Qwen3.6-35B-A3B",
+      "workload": "qkv_projection",
+      "label": "QKV",
+      "variable": "U",
+      "condition": 1024,
+      "condition_label": "U=1K",
+      "SI_exact": "1/9",
+      "SI": 0.1111111111111111,
+      "Q_S": 2097152,
+      "Q_R": 18874368
+    },
+    {
+      "case_id": "qwen36_35b_a3b/ffn_or_moe/1024",
+      "model": "Qwen3.6-35B-A3B",
+      "workload": "ffn_or_moe",
+      "label": "MoE",
+      "variable": "U",
+      "condition": 1024,
+      "condition_label": "U=1K",
+      "SI_exact": "5/6",
+      "SI": 0.8333333333333334,
+      "Q_S": 2621440,
+      "Q_R": 3145728
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_prefill/1024",
+      "model": "Qwen3.6-35B-A3B",
+      "workload": "attention_prefill",
+      "label": "Prefill",
+      "variable": "L",
+      "condition": 1024,
+      "condition_label": "L=1K",
+      "SI_exact": "1537/128",
+      "SI": 12.0078125,
+      "Q_S": 12591104,
+      "Q_R": 1048576
+    },
+    {
+      "case_id": "qwen36_35b_a3b/qkv_projection/1048576",
+      "model": "Qwen3.6-35B-A3B",
+      "workload": "qkv_projection",
+      "label": "QKV",
+      "variable": "U",
+      "condition": 1048576,
+      "condition_label": "U=1M",
+      "SI_exact": "1024/9",
+      "SI": 113.77777777777777,
+      "Q_S": 2147483648,
+      "Q_R": 18874368
+    },
+    {
+      "case_id": "qwen36_35b_a3b/attention_decode/65536",
+      "model": "Qwen3.6-35B-A3B",
+      "workload": "attention_decode",
+      "label": "Decode",
+      "variable": "L",
+      "condition": 65536,
+      "condition_label": "L=64K",
+      "SI_exact": "1028",
+      "SI": 1028.0,
+      "Q_S": 1052672,
+      "Q_R": 1024
+    }
+  ],
+  "log10_spacing": [
+    0.9311187105921871,
+    0.8750612633917001,
+    1.1586451438995016,
+    0.9765935493486103,
+    0.9559356674587699
+  ],
+  "rho_unit": "decimal MB/s",
+  "MoE_scope": "one routed expert",
+  "reference_streaming_counts": [
+    1,
+    2,
+    6,
+    9,
+    9,
+    10
+  ],
+  "plot_checks": {
+    "Qwen36_six_lines_shared_SI_single": {
+      "figure_inches": [
+        3.5,
+        3.08
+      ],
+      "outside_text": [],
+      "workload_header_overlaps": [],
+      "png_dpi": 360,
+      "font_sizes_pt": [
+        7.0,
+        7.15,
+        7.4,
+        7.5,
+        7.7,
+        8.6
+      ],
+      "reference_points": 10,
+      "scenario_range_includes_all_30_values": true,
+      "workload_guide_positions": [
+        {
+          "case_id": "qwen36_35b_a3b/ffn_or_moe/16",
+          "x": 0.013020833333333334,
+          "label_tier": 0
+        },
+        {
+          "case_id": "qwen36_35b_a3b/qkv_projection/1024",
+          "x": 0.1111111111111111,
+          "label_tier": 0
+        },
+        {
+          "case_id": "qwen36_35b_a3b/ffn_or_moe/1024",
+          "x": 0.8333333333333334,
+          "label_tier": 0
+        },
+        {
+          "case_id": "qwen36_35b_a3b/attention_prefill/1024",
+          "x": 12.0078125,
+          "label_tier": 0
+        },
+        {
+          "case_id": "qwen36_35b_a3b/qkv_projection/1048576",
+          "x": 113.77777777777777,
+          "label_tier": 0
+        },
+        {
+          "case_id": "qwen36_35b_a3b/attention_decode/65536",
+          "x": 1028.0,
+          "label_tier": 0
+        }
+      ],
+      "hardware_ranges": [
+        {
+          "case_id": "01_sram_acim",
+          "reference_SI_star": 0.012461059190031152,
+          "scenario_min": 0.010389610389610388,
+          "scenario_max": 0.012461059190031152,
+          "color": "#2d63ad",
+          "row": 0
+        },
+        {
+          "case_id": "09_gain_cell_edram",
+          "reference_SI_star": 0.08175779253960143,
+          "scenario_min": 0.060310166570936234,
+          "scenario_max": 0.1670588235294118,
+          "color": "#7b8736",
+          "row": 1
+        },
+        {
+          "case_id": "02_sram_dcim",
+          "reference_SI_star": 0.12121212121212122,
+          "scenario_min": 0.06303724928366762,
+          "scenario_max": 0.12121212121212122,
+          "color": "#6e52a2",
+          "row": 2
+        },
+        {
+          "case_id": "08_feram_hfo2",
+          "reference_SI_star": 0.24948024948024947,
+          "scenario_min": 0.22365591397849463,
+          "scenario_max": 0.24948024948024947,
+          "color": "#338fa5",
+          "row": 3
+        },
+        {
+          "case_id": "07_pcm",
+          "reference_SI_star": 0.36363636363636365,
+          "scenario_min": 0.21059484091463912,
+          "scenario_max": 0.6532671494832777,
+          "color": "#ca6b2b",
+          "row": 4
+        },
+        {
+          "case_id": "10_fenor_3d",
+          "reference_SI_star": 0.7765567765567766,
+          "scenario_min": 0.5714285714285714,
+          "scenario_max": 1.2918032786885243,
+          "color": "#ad5390",
+          "row": 5
+        },
+        {
+          "case_id": "06_mram",
+          "reference_SI_star": 4.148148148148148,
+          "scenario_min": 2.9629629629629632,
+          "scenario_max": 5.647058823529412,
+          "color": "#178276",
+          "row": 6
+        },
+        {
+          "case_id": "05_rram",
+          "reference_SI_star": 5.82285575048733,
+          "scenario_min": 5.82285575048733,
+          "scenario_max": 6.997362385321101,
+          "color": "#c54e55",
+          "row": 7
+        },
+        {
+          "case_id": "04_nand_3d",
+          "reference_SI_star": 11.830353209060647,
+          "scenario_min": 11.830353209060647,
+          "scenario_max": 19.72218096942239,
+          "color": "#68737d",
+          "row": 8
+        },
+        {
+          "case_id": "03_nor_2d",
+          "reference_SI_star": 303.64750708884685,
+          "scenario_min": 303.64750708884685,
+          "scenario_max": 1983.0156692634562,
+          "color": "#a37622",
+          "row": 9
+        }
+      ],
+      "annotation_overlaps": [],
+      "no_point_or_range_masking": true,
+      "two_line_workload_labels": true,
+      "scope": "Raw native SI* versus model logical SI; no deployment correction."
+    }
+  },
+  "paper_install": {
+    "stem": "papers/figures/critical_reuse_single",
+    "figure_label_unchanged": "fig:critical-reuse",
+    "tex_files_edited": false
+  }
+}
