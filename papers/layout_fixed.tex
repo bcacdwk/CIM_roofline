@@ -1,0 +1,91 @@
+% Page-anchored objects with real column-height reservations (no overlays).
+% Current draft: Fig.2 p2 upper-right; Table I p2 lower-right;
+% Fig.3 p3 top-wide; Table II p4 top-wide. Body copy stays in reading order.
+\newif\ifpaperfixedpages
+\iflayoutdraft\paperfixedpagestrue\else\paperfixedpagesfalse\fi
+\newsavebox{\paperfigtwobox}
+\newsavebox{\papertableonebox}
+\newsavebox{\paperfigthreebox}
+\newsavebox{\papertabletwobox}
+\newlength{\paperfixedgap}
+\setlength{\paperfixedgap}{8pt}
+\makeatletter
+\newcommand{\paperpreparefixedobjects}{%
+  \ifpaperfixedpages
+    \begingroup
+      \setcounter{figure}{1}%
+      \global\setbox\paperfigtwobox=\vbox{\hsize\columnwidth\linewidth\columnwidth
+        \normalfont\normalsize\input{figures/roofline_comparison}\unskip}%
+      \setcounter{table}{0}%
+      \global\setbox\papertableonebox=\vbox{\hsize\columnwidth\linewidth\columnwidth
+        \normalfont\normalsize\input{tables/reuse_intensity}\unskip}%
+      \setcounter{figure}{2}%
+      \global\setbox\paperfigthreebox=\vbox{\hsize\textwidth\linewidth\textwidth
+        \normalfont\normalsize\input{figures/hardware_capacities}\unskip}%
+      \setcounter{table}{1}%
+      \global\setbox\papertabletwobox=\vbox{\hsize\textwidth\linewidth\textwidth
+        \normalfont\normalsize\input{tables/workload_intensity}\unskip}%
+      \setcounter{figure}{0}\setcounter{table}{0}%
+    \endgroup
+    \typeout{FIXED-LAYOUT Fig2=\the\dimexpr\ht\paperfigtwobox+\dp\paperfigtwobox\relax,
+      TableI=\the\dimexpr\ht\papertableonebox+\dp\papertableonebox\relax,
+      Fig3=\the\dimexpr\ht\paperfigthreebox+\dp\paperfigthreebox\relax,
+      TableII=\the\dimexpr\ht\papertabletwobox+\dp\papertabletwobox\relax}%
+  \fi}
+\newcommand{\paperplacefigtwo}{%
+  \ifpaperfixedpages\setcounter{figure}{2}%
+  \else\draftcolumnbreak\input{figures/roofline_comparison}\fi}
+\newcommand{\paperplacetableone}{%
+  \ifpaperfixedpages\setcounter{table}{1}%
+  \else\input{tables/reuse_intensity}\fi}
+\newcommand{\paperplacecharacterizationobjects}{%
+  \ifpaperfixedpages\setcounter{figure}{3}\setcounter{table}{2}%
+  \else\draftspread{\input{figures/hardware_capacities}\par\medskip
+    \input{tables/workload_intensity}}\fi}
+\newcommand{\paperfixedcolumnheight}{%
+  \ifpaperfixedpages
+    % Page 1 keeps IEEEtran's title-adjusted column height.
+    \ifnum\c@page>1
+      \global\@colht\textheight
+      \ifnum\c@page=2
+        \if@firstcolumn\else
+          \global\advance\@colht-\dimexpr\ht\paperfigtwobox+\dp\paperfigtwobox
+            +\ht\papertableonebox+\dp\papertableonebox+2\paperfixedgap\relax
+        \fi
+      \fi
+      \ifnum\c@page=3
+        \global\advance\@colht-\dimexpr\ht\paperfigthreebox+\dp\paperfigthreebox+\paperfixedgap\relax
+      \fi
+      \ifnum\c@page=4
+        \global\advance\@colht-\dimexpr\ht\papertabletwobox+\dp\papertabletwobox+\paperfixedgap\relax
+      \fi
+      \ifdim\@colht<3\baselineskip
+        \PackageError{paper-fixed-layout}{Pinned objects leave insufficient body space}{Reduce the object height.}%
+      \fi
+    \fi
+  \fi}
+\AddToHook{cmd/@startcolumn/before}{\paperfixedcolumnheight}
+\AddToHook{build/column/after}{%
+  \ifpaperfixedpages\ifnum\c@page=2\if@firstcolumn\else
+    \setbox\@outputbox=\vbox to\textheight{\offinterlineskip
+      \copy\paperfigtwobox\vskip\paperfixedgap
+      \box\@outputbox\vskip\paperfixedgap\vfill
+      \copy\papertableonebox}%
+  \fi\fi\fi}
+\AddToHook{build/page/before}{%
+  \ifpaperfixedpages
+    \ifnum\c@page=3
+      \setbox\@outputbox=\vbox{\offinterlineskip
+        \copy\paperfigthreebox\vskip\paperfixedgap\box\@outputbox}%
+    \fi
+    \ifnum\c@page=4
+      \setbox\@outputbox=\vbox{\offinterlineskip
+        \copy\papertabletwobox\vskip\paperfixedgap\box\@outputbox}%
+    \fi
+  \fi}
+\ifpaperfixedpages
+  % Obsolete draft breaks must not counteract the page reservations.
+  \renewcommand{\draftcolumnbreak}{}%
+  \renewcommand{\draftpagebreak}{}%
+\fi
+\makeatother

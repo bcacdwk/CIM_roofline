@@ -21,6 +21,7 @@
 \newif\iflayoutdraft
 \layoutdrafttrue % Set false for natural flow; removes reservations and page staging.
 \input{layout_draft}
+\input{layout_fixed}
 \newcommand{\AI}{\mathrm{AI}}
 \newcommand{\SI}{\mathrm{SI}}
 \newcommand{\Byte}{\mathrm{Byte}}
@@ -44,6 +45,7 @@
 
 \begin{document}
 \bstctlcite{IEEEexample:BSTcontrol}
+\paperpreparefixedobjects
 \maketitle
 \input{sections/abstract}
 \input{sections/introduction}
@@ -52,7 +54,7 @@
 \input{sections/implications}
 \input{sections/conclusion}
 
-% Flush every body float before the real, fifth physical page.
+% Flush body content before references.
 \clearpage
 \iflayoutdraft\IEEEtriggeratref{27}\fi
 \bibliographystyle{IEEEtran}

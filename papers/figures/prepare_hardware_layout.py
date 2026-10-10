@@ -25,9 +25,18 @@ import numpy as np
 from figure_labels import TECHNOLOGY_LABELS
 
 HERE = Path(__file__).resolve().parent
+# Size control 1: scale panel (a)'s plot width AND height together.
+# 1.00 restores its original size; 0.80 makes both dimensions 20% smaller.
+# Fonts retain their point sizes for readability; labels are repositioned.
+# Overall paper width is controlled separately in hardware_capacities.tex.
+PANEL_A_SCALE = 0.80
+PANEL_B_HEIGHT = 0.56  # Inches; 20% flatter than the previous 0.70-inch strip.
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--output-dir", type=Path, default=HERE)
+parser.add_argument("--panel-a-scale", type=float, default=PANEL_A_SCALE)
 args = parser.parse_args()
+if not 0 < args.panel_a_scale <= 1:
+    parser.error("--panel-a-scale must be greater than 0 and at most 1")
 OUT = args.output_dir
 OUT.mkdir(parents=True, exist_ok=True)
 FOOTPRINT = HERE.parents[1] / "tasks/archived/task1_table_I_NeuroSim/analysis/12_footprint/results/footprint_results.json"
@@ -48,12 +57,15 @@ xlim, ylim = (10**-2.15, 10**4.15), (1.0, 1000.0)
 sx, sy = [math.log10(b / a) for a, b in (xlim, ylim)]
 fw = 7.16
 left, right, top = .55, .55, .08
-aw = fw - left - right
+base_aw = fw - left - right
+aw = base_aw * args.panel_a_scale
 ah = aw * sy / sx
-fh = 4.28
+upper_left = left + (base_aw - aw) / 2  # Center the smaller upper panel.
+# Reclaim the height removed from both panels, preserving their gap.
+fh = 4.28 + ah - base_aw * sy / sx + PANEL_B_HEIGHT - .70
 bottom = fh - top - ah
 fig = plt.figure(figsize=(fw, fh))
-ax = fig.add_axes([left/fw, bottom/fh, aw/fw, ah/fh])
+ax = fig.add_axes([upper_left/fw, bottom/fh, aw/fw, ah/fh])
 ax.set(xscale="log", yscale="log", xlim=xlim, ylim=ylim)
 ax.set_aspect("equal", adjustable="box")
 ax.set_xlabel(r"Resident throughput $\tau$ [MB/s]", fontsize=8.5, labelpad=3, color="#000000")
@@ -112,7 +124,8 @@ def free(box):
     return all(math.hypot(x-np.clip(x, box.x0, box.x1), y-np.clip(y, box.y0, box.y1)) > 5
                for x, y in dot_pixels)
 
-for i in [9, 7, 8, 5, 0, 1, 2, 3, 4, 6]:
+# Place the edge-constrained SRAM labels before the more flexible central ones.
+for i in [1, 0, 5, 9, 7, 8, 2, 3, 4, 6]:
     row = next(r for r in rows if r["case_id"] == ids[i] and r["profile"] == "reference")
     value = format(float(format(float(row["RI_star"]), ".2g")), "g")
     label = labels[i] + "\n" + r"$\mathrm{SI}^{*}=" + value + "$"
@@ -134,11 +147,13 @@ for i in [9, 7, 8, 5, 0, 1, 2, 3, 4, 6]:
         raise RuntimeError("No label placement: " + row["case_id"])
 for ratio in (1, 100, .01):
     text = r"$\rho=\tau\ (\mathrm{SI}^{*}=1)$" if ratio == 1 else r"$\mathrm{SI}^{*}=10^{"+str(int(math.log10(ratio)))+"}$"
+    if ratio == 1 and args.panel_a_scale <= .85:
+        text = r"$\mathrm{SI}^{*}=1$"  # Same equality, matching the other short guide labels.
     a = ax.text(1, 1, text, fontsize=7.0, color="#637b8d", rotation=45,
                 rotation_mode="anchor", bbox=dict(facecolor="white", edgecolor="none", alpha=.92, pad=.4), zorder=5)
     lo = max(math.log10(xlim[0]), math.log10(ylim[0]/ratio)) + .05
     hi = min(math.log10(xlim[1]), math.log10(ylim[1]/ratio)) - .15
-    candidates = [(t, shift) for shift in (1.14, 1.4, .8, .65)
+    candidates = [(t, shift) for shift in (1.14, 1.4, .8, .65, 1.75, .5, 2.2, .4)
                   for t in np.linspace(hi, lo, 150)]
     for t, shift in candidates:
         a.set_position((10**t, ratio*10**t*shift))
@@ -156,8 +171,8 @@ assert len(footprint) == 10 and {r["case_id"] for r in footprint} == set(ids)
 footprint = sorted(footprint, key=lambda r: -r["density_Mbit_mm2"])
 color_by_id = dict(zip(ids, colors))
 short_labels = TECHNOLOGY_LABELS
-bar_bottom, bar_height = .15, .70
-bar_width = aw - .04  # Reserve space for the enlarged right-axis title.
+bar_bottom, bar_height = .15, PANEL_B_HEIGHT
+bar_width = base_aw - .04  # Panel (b) retains its own width.
 axd = fig.add_axes([left/fw, bar_bottom/fh, bar_width/fw, bar_height/fh])
 axa = axd.twinx()
 axd.set_yscale("log"); axa.set_yscale("log")
@@ -197,7 +212,8 @@ axd.text(.01,1.01,"(b)",transform=axd.transAxes,ha="left",va="bottom",fontsize=7
 fig.canvas.draw()
 assert math.isclose(ax.get_window_extent().width/sx,ax.get_window_extent().height/sy,rel_tol=1e-8)
 validation={"throughput_point_count":len(dots),"throughput_points":dots,"circle_geometry":meta["scenario_circles"],
-    "xlim":xlim,"ylim":ylim,"equal_log_scale":True,"figure_inches":[fw,fh],"upper_axes_inches":[left,bottom,aw,ah],
+    "xlim":xlim,"ylim":ylim,"equal_log_scale":True,"figure_inches":[fw,fh],"upper_axes_inches":[upper_left,bottom,aw,ah],
+    "panel_a_scale":args.panel_a_scale,
     "storage_axes_inches":[left,bar_bottom,bar_width,bar_height],"storage_order":[r["case_id"] for r in footprint],
     "storage_labels":[short_labels[r["case_id"]] for r in footprint],
     "storage_bar_style":{"density":"solid device color","footprint":"light tint with fine horizontal rules","hatch":"------","hatch_linewidth_pt":.25,"within_pair_gap":pair_gap},

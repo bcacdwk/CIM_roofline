@@ -12,9 +12,9 @@ Each demand has a matching hardware throughput. The streaming throughput $\rho$ 
 \end{equation}
 Here, $T$ is the window completion time, and $P$ is its average streaming-input throughput; $\SI$ is the streaming demand per byte of resident write, taken as infinite for $Q_S>0$ and $Q_R=0$. Thus $\SI$ and $P$ describe the window, whereas $\rho$ and $\tau$ are limits set by the configuration and mode.
 
-\draftcolumnbreak
-\input{figures/roofline_comparison}
 Demands count logical bytes, while every physical step needed to complete the logical service enters the service time of the corresponding path: bit-serial cycles and repeated conversions lengthen the streaming service time, and program and verify steps the resident service time. Output bytes do not add to $Q_S$, but completing the specified outputs remains part of the service that $\rho$ describes. Maintenance such as refresh is not a workload update; its cost belongs to the corresponding service cycle or available throughput. A repeated input is counted again when it re-enters the chosen logical input boundary. At a macro input, replay across tiles thus adds to $Q_S$; at a matrix-stage entry that counts a shared input once, internal replay instead enters the service time and lowers the effective $\rho$, so it is never charged twice. Likewise, $\tau$ depends on the write mode: a complete load and a small KV append need not share one effective value.
+
+\paperplacefigtwo
 
 \subsection{Throughput Bound and Roofline Interpretation}
 Each path imposes a necessary service time on the window: the streaming demand needs at least $Q_S/\rho$, and the resident demand at least $Q_R/\tau$. The window cannot complete before both services are done, so $T$ is at least the larger of the two. With $P=Q_S/T$ and $Q_S/Q_R=\SI$, this lower bound on time becomes an upper bound on throughput:
@@ -38,7 +38,7 @@ The ridge can be expressed as the number of input vectors that one resident load
   \label{eq:matrix-demand}
 \end{equation}
 At equal byte widths, $\SI=U/N$. Table~\ref{tab:reuse-intensity} evaluates this relation for five logical matrices. Because $K$ enlarges both the input vector and the resident matrix, it cancels from the demand ratio, so matrices with the same $N$ share the same $\SI$; the cancellation concerns the demands, not the hardware that serves them.
-\input{tables/reuse_intensity}
+\paperplacetableone
 
 The intensity of a matrix is therefore not fixed; it depends on how the window uses resident state. For the $128\times128$ INT8 example, loading once and then reusing gives $\SI=U/128$, which grows with the reuse each load supports. Reloading before every input limits each load to $U=1$, so $\SI$ stays at $1/128$ however many inputs the window serves. A matrix already resident at the start and not rewritten gives $Q_R=0$ and $\SI=\infty$, so the bound reduces to $P\leq\rho$. Unbounded reuse after one finite load, $U\to\infty$, approaches the same bound but keeps $Q_R=NKb_R$; it counts a different window. At fixed $\rho$ and $\tau$, the residency policy thus determines $\SI$ and the corresponding throughput bound.
 

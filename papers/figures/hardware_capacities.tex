@@ -1,7 +1,8 @@
 \begin{paperwidefigure}
 % Original throughput coordinates/circles and independent storage references.
 \setlength{\abovecaptionskip}{0pt}
-\includegraphics[width=\textwidth]{figures/hardware_capacities_paper.pdf}
+% Size control 2: overall image width in the paper; 1.00 restores full width.
+\includegraphics[width=0.95\textwidth]{figures/hardware_capacities_paper.pdf}
 \caption{(a) Streaming $\rho$ and resident $\tau$ throughputs for ten native configurations; $1\ \mathrm{MB/s}=10^6\ \Byte/\mathrm{s}$. Large/small points denote typical/paired alternative scenarios. Circles summarize only these finite scenarios; $\SI^*=1$ is a ratio reference, not a workload boundary. (b) Binary cell/tile references, ordered by density $D$ (dark bars, left axis), with normalized bit footprint $\alpha$ (finely ruled bars, right axis). Geometry includes reported values and conditional estimates; NAND uses a 500-layer projection. $F_{\mathrm{mem}}$ uses nominal nodes except NAND/FeNOR directional half-pitches. Storage references exclude macro overhead and need not match the configurations in (a).}
 \label{fig:hardware-capacities}
 \end{paperwidefigure}
