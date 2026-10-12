@@ -17,7 +17,7 @@ The factor $M$ cancels at service balance. This reference uses one engine, full 
 \draftreserve{0.65in}{Explain the threshold span and one scenario crossing.}
 \draftcolumnbreak
 \input{figures/critical_reuse}
-\subsection{Design Implications}
+\papersubsectionafterfigure{Design Implications}
 \outline{Turn a target reuse count into an allowable full-load service time using \eqref{eq:load-budget}, making Fig.~\ref{fig:critical-reuse} a design requirement rather than a ranking. Revisit Fig.~\ref{fig:hardware-capacities} to explain why a lower threshold alone does not imply higher performance: streaming throughput still sets the upper plateau. Contrast weight residency with growing attention state in Table~\ref{tab:workload-intensity}; KV append requires its own update-service boundary before applying any full-load threshold.}
 \begin{equation}
   T_R\leq U_{\mathrm{target}}\Delta_S

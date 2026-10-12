@@ -15,13 +15,34 @@
 \newcommand{\draftpagebreak}{\iflayoutdraft\clearpage\fi}
 \newcommand{\draftspread}[1]{%
   \iflayoutdraft\twocolumn[{#1\par\medskip}]\else#1\fi}
+% Total table caption separation, including IEEEtran's built-in half-line skip.
+\newlength{\papertablecaptiongap}
+\setlength{\papertablecaptiongap}{4pt}
+% Compact spacing only where an inline draft figure directly precedes a heading.
+\newlength{\paperfigureheadinggap}
+\setlength{\paperfigureheadinggap}{9pt}
 \makeatletter
+\newcommand{\papersubsectionafterfigure}[1]{%
+  \iflayoutdraft
+    \par\nobreak
+    \let\paper@savedstartsection\@startsection
+    \def\@startsection##1##2##3##4##5##6{%
+      \let\@startsection\paper@savedstartsection
+      \@tempskipa=##5\relax
+      \edef\paper@headingafter{\the\dimexpr\@tempskipa\relax}%
+      \@startsection{##1}{##2}{##3}{\paperfigureheadinggap}{\paper@headingafter}{##6\parskip=0pt\relax}}%
+  \fi
+  \subsection{#1}}
+\newcommand{\papercompacttablecaption}{%
+  \def\@IEEEtablecaptionsepspace{%
+    \vskip\dimexpr\papertablecaptiongap-0.5\baselineskip\relax}}
 % In draft mode these minipages prevent floats from drifting between reserved
 % pages. In natural-flow mode they become ordinary IEEE figures/tables.
-\newenvironment{paperfigure}{%
+\newenvironment{paperfigure}[1][\medskip]{%
+  \def\paperfigurepostskip{#1}%
   \iflayoutdraft\par\noindent\begin{minipage}{\columnwidth}\def\@captype{figure}\centering
   \else\begin{figure}[!t]\centering\fi
-}{\iflayoutdraft\end{minipage}\par\medskip\else\end{figure}\fi}
+}{\iflayoutdraft\end{minipage}\par\paperfigurepostskip\else\end{figure}\fi}
 \newenvironment{paperwidefigure}{%
   \iflayoutdraft\par\noindent\begin{minipage}{\textwidth}\def\@captype{figure}\centering
   \else\begin{figure*}[!t]\centering\fi
@@ -29,10 +50,12 @@
 \newenvironment{papertable}{%
   \iflayoutdraft\par\noindent\begin{minipage}{\columnwidth}\def\@captype{table}\centering
   \else\begin{table}[!t]\centering\fi
+  \papercompacttablecaption
 }{\iflayoutdraft\end{minipage}\par\medskip\else\end{table}\fi}
 \newenvironment{paperwidetable}{%
   \iflayoutdraft\par\noindent\begin{minipage}{\textwidth}\def\@captype{table}\centering
   \else\begin{table*}[!t]\centering\fi
+  \papercompacttablecaption
 }{\iflayoutdraft\end{minipage}\par\else\end{table*}\fi}
 \makeatother
 \newcommand{\figurepending}[2]{%

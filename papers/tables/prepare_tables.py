@@ -72,8 +72,6 @@ def make_reuse_table():
         lines.append(rf"${n}\times{k}$ & " + " & ".join(cells) + r" \\")
     lines += [
         r"\bottomrule\end{tabularx}",
-        r"\par\smallskip\raggedright",
-        r"One byte/element: $Q_S=UK$, $Q_R=NK$, $\SI=U/N$. As $U\to\infty$, the single load $Q_R=NK$ stays finite. Shapes are logical matrices, not hardware tiles. $1\Kilo=1024$, $1\mathrm{M}=1024^2$.",
         r"\end{papertable}",
     ]
     (HERE / "reuse_intensity.tex").write_text("\n".join(lines) + "\n")
@@ -128,7 +126,7 @@ def make_workload_table():
     lines += [
         r"\bottomrule\end{tabularx}",
         r"\par\smallskip\raggedright",
-        r"Entries are $\SI$; all roles use one byte/element. QKV includes any gate, excluding O. FFN/MoE counts one dense FFN or one routed expert. Prefill builds KV from empty; decode appends one token to a visible length $L$. $1\Kilo=1024$, $1\mathrm{M}=1024^2$. Ling-1T at $64\Kilo$ uses the fixed extension.",
+        r"Entries are $\SI$ (one byte/element; $1\Kilo=1024$, $1\mathrm{M}=1024^2$). QKV includes any gate but excludes O; FFN/MoE covers one dense FFN or routed expert.\\ Prefill starts with an empty KV cache; decode appends one token to reach visible length $L$. Ling-1T uses YaRN context extension at $64\Kilo$.",
         r"\end{paperwidetable}",
     ]
     (HERE / "workload_intensity.tex").write_text("\n".join(lines) + "\n")

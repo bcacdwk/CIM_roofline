@@ -18,6 +18,14 @@
 \usepackage[protrusion=true,expansion=true]{microtype}
 \DisableLigatures[f]{encoding=*,family=*}
 
+% Compact default display spacing; retain IEEEtran's stretch/shrink for balancing.
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{4pt plus 4pt minus 2pt}%
+  \setlength{\belowdisplayskip}{4pt plus 4pt minus 2pt}%
+  \setlength{\abovedisplayshortskip}{0pt plus 4pt}%
+  \setlength{\belowdisplayshortskip}{4pt plus 4pt minus 2pt}%
+}
+
 \newif\iflayoutdraft
 \layoutdrafttrue % Set false for natural flow; removes reservations and page staging.
 \input{layout_draft}

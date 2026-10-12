@@ -16,11 +16,13 @@ make
 
 `main.tex` 中的 `\layoutdrafttrue` 控制正文预留框、固定图表页位与参考文献换栏。改成 `\layoutdraftfalse` 后恢复常规 `figure` / `figure*` / `table*` 浮动；英文 Outline 仍保留供逐节改写，固定页位不再强制。作者、单位、资助均留空。`IEEEtran.cls` 与提供模板逐字节相同。按用户授权，标题在 `main.tex` 单独设为 19.6 pt，完整排成一行；通过 `microtype` 关闭 fi/fl/ff 等英文连字，同时启用标准微排版。行末自动断词已恢复正常，避免双栏两端对齐产生过大的字间距；连字与断词是独立设置。
 
+行间公式上下的默认间距在 `main.tex` 的 `\AtBeginDocument` 中统一设为4 pt；短前行的公式上方仍为0 pt。保留原有弹性伸缩，允许双栏齐底时自动调整，不改公式组内行距。
+
 ## 固定图表页位
 
 当前 `layoutdrafttrue` 下，`layout_fixed.tex` 按页预留实际版面：Fig.2 位于第2页右上，Table I 位于第2页右下，Fig.3 位于第3页通栏顶部，Table II 位于第4页通栏顶部。对象使用原有图表文件，正文在剩余栏高内顺序续排，不靠叠加覆盖或缩小正文。旧的手工换栏/换页在该模式下停用，避免随正文长度漂移。
 
-`main.tex` 的 `\paperpreparefixedobjects` 先测量四个图表；`sections/model.tex` 与 `sections/characterization.tex` 中的 `\paperplace...` 保留逻辑编号。图文间距由 `layout_fixed.tex` 的 `\paperfixedgap` 控制，当前8 pt。该实现已在 TeX Live 2026 的双栏输出钩子上验证；设 `layoutdraftfalse` 时关闭固定页槽，恢复原位置的常规浮动。最新固定页位稿为6页，第6页为参考文献；原文字、公式、图表数据均保留。
+`main.tex` 的 `\paperpreparefixedobjects` 先测量四个图表；`sections/model.tex` 与 `sections/characterization.tex` 中的 `\paperplace...` 保留逻辑编号。图文间距由 `layout_fixed.tex` 的 `\paperfixedgap` 控制，当前8 pt；Fig.2 图注与下方正文之间单独由 `\paperfigtwobodygap` 控制，当前-2 pt。 Fig.3 下方单独使用 `\paperfigthreebodygap`（4 pt）；Fig.4 关闭额外段后空白，并用 `\papersubsectionafterfigure` 固定相邻标题间距，避免双栏排版拉伸。当前两幅图注到下方文字的可见间距约8 pt。 Table I 上方间距由 `\papertableonebodygap` 控制（2 pt），移除盒底段后留白，并用 `\papertableonebottomoffset`（2 pt）将底线对齐正文下缘。两表标题到表格的总间距由 `layout_draft.tex` 的 `\papertablecaptiongap` 控制（4 pt，替代原有两段叠加间距）。该实现已在 TeX Live 2026 的双栏输出钩子上验证；设 `layoutdraftfalse` 时关闭固定页槽，恢复原位置的常规浮动。最新固定页位稿为6页，第6页为参考文献；原文字、公式、图表数据均保留。
 
 ## 文件入口
 
@@ -43,13 +45,13 @@ make
 | `figures/hardware_capacities.pdf` | Task I `analysis/11_summary_figures/output/rho_tau_loglog_circles.pdf` 的原样矢量副本。 |
 | `figures/hardware_capacities_paper.pdf` | Fig.3为可独立调节上图与整图大小的双panel版，默认源图7.16 × 3.56 in、入稿宽度为正文的95%。`prepare_hardware_layout.py`上图仍只读原NVM Task I的`rho_tau_loglog_circles_points.csv`和`rho_tau_loglog_circles_validation.json`，保留全部30点、十圆、颜色、配对及等尺度log几何；横轴10^-2.15至10^4.15、纵轴1至1000不变。下方0.56 in条区只读`tasks/archived/task1_table_I_NeuroSim/analysis/12_footprint/results/footprint_results.json`，按绝对密度降序，同器件的深色实心/浅色细横线双柱分别用左密度/右F_mem²每bit面积log轴，归一化面积沿同序保留原值。图注明确独立cell/tile参考与性能宏不必同配置；`--output-dir`可把候选及版式核验记录写到非同步目录。 |
 | `figures/critical_reuse.pdf` | Task III `03_reuse_threshold/output/figure.pdf` 的原样矢量副本，保留作来源对照。 |
-| `figures/critical_reuse_single.pdf` | Fig.4 当前采用的 3.5 × 2.55 in 单栏重排版，放在第四页右栏顶部。`prepare_reuse_layout.py` 只读 Task III `plotted_thresholds.csv` 与共同样式；保留十类配置的全部 30 个阈值、配色和情景标记，典型值直接标在情景点旁。右上角标明原生矩阵关系 `U*=N RI*`；128 仅为示例复用次数，各行 N 沿用自身配置。 |
+| `figures/critical_reuse_single.pdf` | Fig.4 当前为3.50 × 2.75 in的Qwen3.6-35B-A3B六工况SI对照图。`prepare_reuse_layout.py` 只读复用 Task III `06_final/fig4_qwen36` 的已认可输入与绘图辅助函数；保留十类硬件reference点、覆盖全部30个情景的区间和六条原始workload SI线。型号以6.2 pt斜体放在图内右上角，移除底部reference/segment说明，数据绘图区尺寸保持不变；PNG/SVG/PDF同源生成。 |
 | Table I | Task II `table_IIa/data/results.json`；五种逻辑矩阵，U=128、1K、16K、128K、1M 及 U→∞。极限仍保留一次有限装载 Q_R=NK。矩阵形状完整写为 128/1024/4096，不使用 K 后缀缩写形状。 |
 | Table II | Task II `table_IIb/04_crosscheck/data/results.json`；QKV 取 U=1K/128K/1M，FFN/MoE 取 U=16/1K/16K，Prefill/Decode 均取 L=1K/8K/64K。用户已确认沿用 QKV（含适用的 gate、不含 O）。 |
 
 Fig.3 的尺寸控制：`figures/prepare_hardware_layout.py` 中的 `PANEL_A_SCALE = 0.80` 同时缩放 a 图绘图区的宽高，保持等尺度 log 比例，并自动收掉减少的画布高度；b 图的尺寸不跟随它变化；其绘图区高度由同文件的 `PANEL_B_HEIGHT = 0.56`（英寸）独立控制。也可运行 `python papers/figures/prepare_hardware_layout.py --panel-a-scale 0.80`。整幅图片在论文中的大小由 `figures/hardware_capacities.tex` 的 `width=0.95\textwidth` 控制；减小这个系数会统一缩小 a/b 两图。改前者需重新生成图并编译论文，改后者只需重新编译论文。
 
-Fig.3/4 的显示名称统一由 `figures/figure_labels.py` 管理：eDRAM、FeRAM、3D FeNOR、STT-MRAM。Fig.4 行名字号为 6.5 pt，左侧标签区由 1.01 in 缩为 0.67 in，数据绘图区增加约 14%。STT 类型据已认可原生来源 MRAM-06 核实；文献引用同步对应该宏。原始文献题名和来源文件名按原文保留。
+Fig.3 的显示名称由 `figures/figure_labels.py` 管理；Fig.4 复用已认可Qwen绘图包的相同技术名称与配色：eDRAM、FeRAM、3D FeNOR、STT-MRAM。Fig.4 行名字号7.4 pt、左侧标签区0.735 in；重绘时可用 `--output-dir` 将候选图和几何核验JSON写到非同步目录。STT 类型据已认可原生来源 MRAM-06 核实，原始文献题名和来源文件名按原文保留。
 
 如需重做版式，在仓库根运行 `python papers/figures/prepare_hardware_layout.py`（Fig.3）或 `python papers/figures/prepare_reuse_layout.py`（Fig.4），需要 matplotlib/numpy；Fig.1 的裁边运行 `python papers/figures/crop_fig1.py`（需要 Pillow/numpy，可用 `--pad` 调留白）。两者只读现有数据，只写投稿目录；正常 LaTeX 编译直接使用已保存的矢量 PDF。
 

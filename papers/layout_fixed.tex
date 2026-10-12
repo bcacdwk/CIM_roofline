@@ -9,6 +9,15 @@
 \newsavebox{\papertabletwobox}
 \newlength{\paperfixedgap}
 \setlength{\paperfixedgap}{8pt}
+\newlength{\paperfigtwobodygap}
+\setlength{\paperfigtwobodygap}{-2pt}
+\newlength{\paperfigthreebodygap}
+\setlength{\paperfigthreebodygap}{4pt}
+% Table I uses a small body gap and aligns its rule with the final text line.
+\newlength{\papertableonebodygap}
+\setlength{\papertableonebodygap}{2pt}
+\newlength{\papertableonebottomoffset}
+\setlength{\papertableonebottomoffset}{2pt}
 \makeatletter
 \newcommand{\paperpreparefixedobjects}{%
   \ifpaperfixedpages
@@ -19,6 +28,8 @@
       \setcounter{table}{0}%
       \global\setbox\papertableonebox=\vbox{\hsize\columnwidth\linewidth\columnwidth
         \normalfont\normalsize\input{tables/reuse_intensity}\unskip}%
+      % Remove the environment's trailing medskip and give the saved box zero depth.
+      \global\setbox\papertableonebox=\vbox{\unvbox\papertableonebox\unskip\kern0pt}%
       \setcounter{figure}{2}%
       \global\setbox\paperfigthreebox=\vbox{\hsize\textwidth\linewidth\textwidth
         \normalfont\normalsize\input{figures/hardware_capacities}\unskip}%
@@ -50,11 +61,11 @@
       \ifnum\c@page=2
         \if@firstcolumn\else
           \global\advance\@colht-\dimexpr\ht\paperfigtwobox+\dp\paperfigtwobox
-            +\ht\papertableonebox+\dp\papertableonebox+2\paperfixedgap\relax
+            +\ht\papertableonebox+\dp\papertableonebox+\paperfigtwobodygap+\papertableonebodygap-\papertableonebottomoffset\relax
         \fi
       \fi
       \ifnum\c@page=3
-        \global\advance\@colht-\dimexpr\ht\paperfigthreebox+\dp\paperfigthreebox+\paperfixedgap\relax
+        \global\advance\@colht-\dimexpr\ht\paperfigthreebox+\dp\paperfigthreebox+\paperfigthreebodygap\relax
       \fi
       \ifnum\c@page=4
         \global\advance\@colht-\dimexpr\ht\papertabletwobox+\dp\papertabletwobox+\paperfixedgap\relax
@@ -68,15 +79,16 @@
 \AddToHook{build/column/after}{%
   \ifpaperfixedpages\ifnum\c@page=2\if@firstcolumn\else
     \setbox\@outputbox=\vbox to\textheight{\offinterlineskip
-      \copy\paperfigtwobox\vskip\paperfixedgap
-      \box\@outputbox\vskip\paperfixedgap\vfill
-      \copy\papertableonebox}%
+      \copy\paperfigtwobox\vskip\paperfigtwobodygap
+      \box\@outputbox\vskip\papertableonebodygap\vfill
+      % Let the rule reach the text descenders without shifting the left column.
+      \copy\papertableonebox\kern-\papertableonebottomoffset}%
   \fi\fi\fi}
 \AddToHook{build/page/before}{%
   \ifpaperfixedpages
     \ifnum\c@page=3
       \setbox\@outputbox=\vbox{\offinterlineskip
-        \copy\paperfigthreebox\vskip\paperfixedgap\box\@outputbox}%
+        \copy\paperfigthreebox\vskip\paperfigthreebodygap\box\@outputbox}%
     \fi
     \ifnum\c@page=4
       \setbox\@outputbox=\vbox{\offinterlineskip
