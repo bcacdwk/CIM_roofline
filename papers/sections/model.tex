@@ -1,33 +1,36 @@
 \section{Proposed Resident-Streaming Roofline}
 \label{sec:model}
 \subsection{Workload Demands and Hardware Throughputs}
-In Fig.~\ref{fig:operand-roles}(b), one resident state can serve many input evaluations, whereas establishing or updating that state has a service demand of its own. The model therefore analyzes an explicit \emph{workload window}, which fixes the declared work and the resident state at its start, and counts the two kinds of work separately.
+The classical Roofline describes a workload by its operation count (OPs) and data-transfer volume (Bytes). Following the operand roles in Fig.~\ref{fig:operand-roles}(b), we instead describe a CIM workload through its streaming inputs and resident writes. We count both over an explicit \emph{workload window}, which specifies the work under analysis and the resident state at its start.
 
-We measure streaming calculation by the logical input bytes evaluated against resident state, with each service completing the specified calculation and outputs. The streaming demand $Q_S$ is the number of such bytes served at the chosen logical input boundary; it thus represents completed calculation work rather than input traffic alone, and it is directly comparable with resident writes. The resident demand $Q_R$ is the number of logical bytes written within the window to load, update, or reload the resident state that this work requires. A window may start with resident state already in place, excluding earlier loads, but every write required inside it is counted, including a reload that leaves the weight values unchanged. The resident operand may be a weight or, in attention, the KV cache of earlier tokens.
+We measure streaming calculation by the logical input bytes evaluated using resident state, with each evaluation (MAC) producing the specified outputs (partial sum). The streaming demand $Q_S$ is the number of such bytes served at the chosen logical input boundary; it thus represents completed calculation work rather than input/output traffic alone, and it is directly comparable with resident writes. The resident demand $Q_R$ is the number of logical bytes written within the window to load or update the resident state that this work requires. An initial load completed before the window is excluded; all updates and reloads within the window are counted. The resident operand may be a static weight or, in attention, the KV cache of earlier tokens.
 
-We characterize the two services by their corresponding throughputs. The streaming throughput $\rho$ is the maximum rate, in logical input bytes, at which the hardware completes this streaming service. The resident throughput $\tau$ is the maximum rate at which logical resident bytes become ready for calculation under a given write mode. Each demand and its throughput share the same configuration and precision. We define
+We characterize two hardware services---streaming-input calculation and resident-state loading---by their throughputs. The streaming throughput $\rho$ is the maximum rate, in logical input bytes per second, at which the hardware completes streaming calculations and produces the specified outputs. The resident throughput $\tau$ is the maximum rate at which logical resident bytes become ready for calculation under a given write mode. Both rates refer to the CIM hardware under analysis, with bytes counted at the same interfaces and operand precisions used for $Q_S$ and $Q_R$, respectively. We define Streaming Intensity and average streaming-input throughput as
 \begin{equation}
-  \SI=\frac{Q_S}{Q_R},\qquad P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
+  \SI=\frac{Q_S}{Q_R},\qquad
+  P=\frac{Q_S}{T}\quad[\Byte/\mathrm{s}],
   \label{eq:definitions}
 \end{equation}
-where $T$ is the window completion time, $P$ is the average streaming-input throughput over the window, and $\SI$ is the streaming demand per byte of resident write, with $\SI=\infty$ for $Q_S>0$ and $Q_R=0$.
+where $T$ is the window duration, $P$ is the average streaming-input throughput over the window, and $\SI$ is the streaming demand per byte of resident write. For $Q_S>0$ and $Q_R=0$, we define $\SI=\infty$.
 
-Demands count logical bytes; the physical steps that serve them, such as bit-serial cycles, repeated conversions, or program and verify steps, enter the service time of the corresponding path. Maintenance that preserves existing state, such as refresh, also consumes service time but is not a new logical update. A repeated input is counted again only when it re-crosses the chosen boundary, and each demand is paired with the throughput defined at that boundary.
+The workload's $\SI$ describes the relative demand for streaming calculation and resident writes, while $\rho$ and $\tau$ describe how quickly the hardware can perform each. The throughput bound therefore follows from the time required to complete these two kinds of work.
 
 \paperplacefigtwo
 
-\subsection{Throughput Bound and Roofline Interpretation}
-Each path imposes a necessary service time on the window: at least $Q_S/\rho$ for streaming and $Q_R/\tau$ for resident writes. The window cannot complete before the longer of the two, and dividing $Q_S$ by this time bounds its throughput:
+\subsection{Roofline Throughput Bound}
+Fig.~\ref{fig:roofline-comparison} compares the proposed resident-streaming Roofline with the classical model. For a given workload window, streaming calculation requires at least $Q_S/\rho$, and resident writes require at least $Q_R/\tau$. The execution time must satisfy both requirements. Using $P=Q_S/T$, we obtain
 \begin{align}
-  T&\geq\max\!\left(\frac{Q_S}{\rho},\frac{Q_R}{\tau}\right),\label{eq:time}\\
-  P&\leq\min(\rho,\tau\SI),\qquad \SI^*=\frac{\rho}{\tau}.
+  T&\geq\max\!\left(\frac{Q_S}{\rho},\frac{Q_R}{\tau}\right),
+  \label{eq:time}\\
+  P&\leq\min\!\left(\rho,\tau\cdot\SI\right),\qquad
+  \SI^*=\frac{\rho}{\tau}.
   \label{eq:roofline}
 \end{align}
-Sustaining the streaming ceiling requires an average resident-write rate of $\rho/\SI$; the ridge $\SI^*$ marks where this required rate equals $\tau$ and the two service requirements balance. For $\SI<\SI^*$, the required rate exceeds $\tau$, the resident term is tighter, and the window is resident-bound; for $\SI>\SI^*$, the streaming term is tighter and the window is streaming-bound. The bound holds whether or not the two services overlap; shared resources, execution dependencies, and scheduling may keep the actual throughput below it.
+The hardware ridge point $\SI^*$ is set by the ratio of the streaming and resident throughputs. At this point, the two required service times are equal. A workload running on this CIM hardware is resident-bound during the analyzed window when $\SI<\SI^*$, because resident writes require more service time than streaming calculation. It is streaming-bound when $\SI>\SI^*$.
 
-Fig.~\ref{fig:roofline-comparison} sets this bound beside the classical Roofline: the demand--throughput pairing is preserved, but work is measured in streaming input bytes rather than operations. Within one execution, $P$ still converts to useful operations per second, $P_{\mathrm{OP}}$: for a logical $128\times128$ INT8 matrix-vector multiplication at two operations per MAC, each input byte corresponds to 256 OP, so $P_{\mathrm{OP}}=(256\ \mathrm{OP}/\Byte)\,P$ for this execution.
+As in the classical Roofline, the curve gives an upper bound on throughput. Actual throughput may be lower when the two paths share hardware resources or when one must wait for the other.
 
-\subsection{From Streaming Intensity to Reuse}
+\subsection{Analytical Case Studies}
 For a matrix loaded once and then reused, the ridge translates into a required number of input vectors. Consider a resident matrix $W[N,K]$ with output dimension $N$ and input dimension $K$, and let the reuse count $U$ be the number of input vectors served after one complete load, including the first use; these vectors may accumulate across batches or requests. With $b_S$ and $b_R$ bytes per streaming and resident element,
 \begin{equation}
   Q_S=UKb_S,\qquad Q_R=NKb_R,\qquad \SI=\frac{Ub_S}{Nb_R}.
