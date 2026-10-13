@@ -1,9 +1,11 @@
 % A true float in both modes: it must reach the top of the column beside the drafted Introduction.
 \begin{figure}[!t]
 \centering
+% Move the caption closer to the image; compensate below to preserve body placement.
+\setlength{\abovecaptionskip}{0pt}
 % Fig1_cropped.png is generated from Fig1.png by crop_fig1.py.
 \includegraphics[width=\linewidth]{figures/Fig1_cropped.png}
 \caption{Hardware schematics: (a)~CPU/GPU: separated hardware with homogeneous data; (b)~CIM: unified hardware with heterogeneous data.}
 \label{fig:operand-roles}
-\vspace{-20pt}
+\vspace{-14pt}
 \end{figure}

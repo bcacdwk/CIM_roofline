@@ -1,28 +1,15 @@
-\draftpagebreak
-\section{Reuse Requirements and Design Implications}
+\section{Workload Matching and Design Implications}
 \label{sec:implications}
-\subsection{Critical Reuse Across Configurations}
-\outline{Use Fig.~\ref{fig:critical-reuse} to show that typical full-load thresholds span about 1.6 to 38,867 input vectors, then develop one concrete crossing: at the illustrative reuse $U=128$, STT-MRAM is resident-bound in the short and typical scenarios (about 181 and 133), but streaming-bound in the long scenario (about 95). Add the low-reuse case: weights reloaded after 16 input vectors leave only SRAM and eDRAM streaming-bound, while NOR flash retains $U/U^*<0.1\%$ of its streaming ceiling. Connect the native threshold to Qwen3.5-2B and MiMo-V2.5-Pro QKV stages using the existing sequential full-tile service reference, for which both sides accumulate the same tile count. Keep this mapping as a component-service bound, with output reduction and other system costs outside its scope.}
+Fig.~\ref{fig:critical-reuse} compares six operating points of Qwen3.6-35B-A3B from Table~\ref{tab:workload-intensity} with the ten native hardware balance intensities; each range covers the three paired scenarios. This is a reference comparison of logical stage demands and native service ratios. A deployment must align their counting boundaries for input sharing, replay and the corresponding update organization before inferring its limiting service. Relative to each workload line, hardware with $\SI^*<\SI$ lies on the streaming side, and hardware with $\SI^*>\SI$ on the resident side; each line defines its own boundary.
 
-For native $128\times128$ tiles, let $m_K=D/128$, $m_N=N_{\mathrm{proj}}/128$, and $M=m_Km_N$:
-\begin{align}
- T_{S,\mathrm{comp}}&=MU\Delta_S,&
- T_{R,\mathrm{comp}}&=MT_R,\label{eq:tile-times}\\
- \rho_{\mathrm{eff}}&=\rho/m_N,&
- \tau_{\mathrm{eff}}&=\tau,\label{eq:effective-capacity}\\
- \SI^*_{\mathrm{eff}}&=\frac{\SI^*}{m_N}=\frac{U^*}{N_{\mathrm{proj}}}.
- \label{eq:effective-ridge}
-\end{align}
-The factor $M$ cancels at service balance. This reference uses one engine, full tiles without padding, and equal $U$ per tile; input replay is included in $T_{S,\mathrm{comp}}$.
-\draftreserve{0.65in}{Explain the threshold span and one scenario crossing.}
-\draftcolumnbreak
+For the same MoE expert, increasing $U$ from 16 to $1\Kilo$ leaves the complete weight load $Q_R$ unchanged and raises $\SI$ from about 0.0130 to 0.833. All three PCM balance intensities, spanning 0.211--0.653, lie between these demands. The reference comparison therefore moves from the resident side to the streaming side in every PCM scenario. Extending effective use of resident state can change the limiting service without changing the hardware. Achieving that use in a routed model still depends on which inputs reach the expert before its weights are replaced.
+
+Near balance, the particular service conditions matter. Prefill at $L=1\Kilo$ has $\SI\approx12.008$, just above the NAND reference $\SI^*\approx11.830$, but below its other two scenarios at about 14.548 and 19.722. The reference point is on the streaming side while both alternatives remain on the resident side. One reference point thus cannot represent the limiting service across the full set of engineering conditions.
+
 \input{figures/critical_reuse}
-\papersubsectionafterfigure{Design Implications}
-\outline{Turn a target reuse count into an allowable full-load service time using \eqref{eq:load-budget}, making Fig.~\ref{fig:critical-reuse} a design requirement rather than a ranking. Revisit Fig.~\ref{fig:hardware-capacities} to explain why a lower threshold alone does not imply higher performance: streaming throughput still sets the upper plateau. Contrast weight residency with growing attention state in Table~\ref{tab:workload-intensity}; KV append requires its own update-service boundary before applying any full-load threshold.}
-\begin{equation}
-  T_R\leq U_{\mathrm{target}}\Delta_S
-  \quad\Longleftrightarrow\quad U_{\mathrm{target}}\geq U^*.
-  \label{eq:load-budget}
-\end{equation}
-This is a necessary service-balance condition for reaching the streaming ceiling, not a guarantee of realized throughput.
-\draftreserve{0.75in}{Turn a target reuse count into a resident-service requirement.}
+
+A lower balance intensity alone does not imply a higher performance ceiling: it can result from a larger $\tau$ or a smaller $\rho$. Reference PCM has $\SI^*\approx0.364$, below STT-MRAM's 4.15, yet their native streaming rates are about 2.50 and 316\,MB/s, respectively. These ratios describe how the two services balance, not a model-speed ranking. Fig.~\ref{fig:hardware-capacities}(a) therefore remains necessary to retain absolute service rates when interpreting Fig.~\ref{fig:critical-reuse}. Its companion geometry panel adds the capacity potential of retaining state, which neither service rate captures.
+
+Once demand and capability boundaries are aligned, a resident-limited workload calls for faster effective updates or greater $\SI$ through actual state retention and fewer reloads. Raising $\rho$ alone cannot remove the current $\tau\SI$ limit. Conversely, once streaming service limits the work, faster writing alone cannot raise the streaming ceiling; evaluation service must improve. A target intensity gives the update-service budget $\tau\geq\rho/\SI_{\mathrm{target}}$ needed to avoid lowering that ceiling, although satisfying this condition does not guarantee reaching it.
+
+Storage compactness can support these choices by allowing more state to remain resident. Translating cell density into fewer reloads, however, requires a deployment capacity and mapping analysis; Fig.~\ref{fig:hardware-capacities}(b) alone establishes neither whole-model fit nor an attainable $U$. The update organization must also follow the workload window: fixed weights here incur a complete matrix load, whereas decode appends new KV to existing state. The KV service budget must therefore reflect the actual append transactions; the full-load reuse threshold does not transfer unchanged.
