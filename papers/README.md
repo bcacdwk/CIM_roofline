@@ -2,7 +2,7 @@
 
 **A Resident-Streaming Roofline Model for Compute-in-Memory**
 
-当前稿件仍含后续章节的 Outline 与正文预留框；本轮固定页位版为六页，最后一页为参考文献。入口为 `main.tex`，PDF 为 `output/paper_1167.pdf`；历史逐页检查见 `notes/layout_review.zh.md`。总纲保存于 `PAPER_BRIEF.zh.md`，标题按最新审阅意见更新。
+当前稿件仍含后续章节的 Outline 与正文预留框；本轮固定页位版为五页，最后一页为参考文献。入口为 `main.tex`，PDF 为 `output/paper_1167.pdf`；历史逐页检查见 `notes/layout_review.zh.md`。总纲保存于 `PAPER_BRIEF.zh.md`，标题按最新审阅意见更新。
 
 ## 编译
 
@@ -18,11 +18,13 @@ make
 
 行间公式上下的默认间距在 `main.tex` 的 `\AtBeginDocument` 中统一设为4 pt；短前行的公式上方仍为0 pt。保留原有弹性伸缩，允许双栏齐底时自动调整，不改公式组内行距。
 
+参考文献在 `main.tex` 中从第28条开始右栏，并补齐右栏顶端间距，使两栏底部对齐；保留7.5/8.5 pt字号与行距，57条参考文献排在一页。
+
 ## 固定图表页位
 
 当前 `layoutdrafttrue` 下，`layout_fixed.tex` 按页预留实际版面：Fig.2 位于第2页右上，Table I 位于第2页右下，Fig.3 位于第3页通栏顶部，Table II 位于第4页通栏顶部。对象使用原有图表文件，正文在剩余栏高内顺序续排，不靠叠加覆盖或缩小正文。旧的手工换栏/换页在该模式下停用，避免随正文长度漂移。
 
-`main.tex` 的 `\paperpreparefixedobjects` 先测量四个图表；`sections/model.tex` 与 `sections/characterization.tex` 中的 `\paperplace...` 保留逻辑编号。图文间距由 `layout_fixed.tex` 的 `\paperfixedgap` 控制，当前8 pt；Fig.2 图注与下方正文之间单独由 `\paperfigtwobodygap` 控制，当前-2 pt。 Fig.3 下方单独使用 `\paperfigthreebodygap`（4 pt）；Fig.4 关闭额外段后空白，并用 `\papersubsectionafterfigure` 固定相邻标题间距，避免双栏排版拉伸。当前两幅图注到下方文字的可见间距约8 pt。 Table I 上方间距由 `\papertableonebodygap` 控制（2 pt），移除盒底段后留白，并用 `\papertableonebottomoffset`（2 pt）将底线对齐正文下缘。两表标题到表格的总间距由 `layout_draft.tex` 的 `\papertablecaptiongap` 控制（4 pt，替代原有两段叠加间距）。该实现已在 TeX Live 2026 的双栏输出钩子上验证；设 `layoutdraftfalse` 时关闭固定页槽，恢复原位置的常规浮动。最新固定页位稿为6页，第6页为参考文献；原文字、公式、图表数据均保留。
+`main.tex` 的 `\paperpreparefixedobjects` 先测量四个图表；`sections/model.tex` 与 `sections/characterization.tex` 中的 `\paperplace...` 保留逻辑编号。图文间距由 `layout_fixed.tex` 的 `\paperfixedgap` 控制，当前8 pt；Fig.2 图注与下方正文之间单独由 `\paperfigtwobodygap` 控制，当前-2 pt。 Fig.3 图片到图注的 `\abovecaptionskip` 为-3 pt，下方单独使用 `\paperfigthreebodygap`（2 pt）；Table II 注释到正文使用 `\papertabletwobodygap`（2 pt）。Fig.4 的图注上移6 pt，并在图注后补回6 pt，保持图到正文的总高度不变。 Table I 上方间距由 `\papertableonebodygap` 控制（2 pt），移除盒底段后留白，并用 `\papertableonebottomoffset`（2 pt）将底线对齐正文下缘。两表标题到表格的总间距由 `layout_draft.tex` 的 `\papertablecaptiongap` 控制（4 pt，替代原有两段叠加间距）。该实现已在 TeX Live 2026 的双栏输出钩子上验证；设 `layoutdraftfalse` 时关闭固定页槽，恢复原位置的常规浮动。最新固定页位稿为5页，第5页为参考文献；原文字、公式、图表数据均保留。
 
 ## 文件入口
 

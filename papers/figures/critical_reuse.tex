@@ -1,6 +1,8 @@
 \begin{paperfigure}[\relax]
-\setlength{\abovecaptionskip}{0pt}
+\setlength{\abovecaptionskip}{-6pt}
 \includegraphics[width=\columnwidth]{figures/critical_reuse_single.pdf}
 \caption{CIM--workload matching. Dots and ranges show hardware balance intensities $\SI^*$; dashed lines show workload $\SI$. Technologies left of each line are streaming-bound; those to its right are resident-bound.}
 \label{fig:critical-reuse}
+% Shift the caption upward while preserving the image-to-body span.
+\par\kern6pt
 \end{paperfigure}

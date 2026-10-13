@@ -64,7 +64,11 @@
 
 % Flush body content before references.
 \clearpage
-\iflayoutdraft\IEEEtriggeratref{27}\fi
+\iflayoutdraft
+  % Move ref. 27 into the left column; offset the right list to align its bottom.
+  \IEEEtriggercmd{\newpage\vspace*{6pt}}%
+  \IEEEtriggeratref{28}%
+\fi
 \bibliographystyle{IEEEtran}
 % IEEEtran sets the list in \footnotesize; 7.5/8.5 pt fills exactly one page.
 \begingroup

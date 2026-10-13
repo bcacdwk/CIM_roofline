@@ -9,10 +9,12 @@
 \newsavebox{\papertabletwobox}
 \newlength{\paperfixedgap}
 \setlength{\paperfixedgap}{8pt}
+\newlength{\papertabletwobodygap}
+\setlength{\papertabletwobodygap}{2pt}
 \newlength{\paperfigtwobodygap}
 \setlength{\paperfigtwobodygap}{-2pt}
 \newlength{\paperfigthreebodygap}
-\setlength{\paperfigthreebodygap}{4pt}
+\setlength{\paperfigthreebodygap}{2pt}
 % Table I uses a small body gap and aligns its rule with the final text line.
 \newlength{\papertableonebodygap}
 \setlength{\papertableonebodygap}{2pt}
@@ -68,7 +70,7 @@
         \global\advance\@colht-\dimexpr\ht\paperfigthreebox+\dp\paperfigthreebox+\paperfigthreebodygap\relax
       \fi
       \ifnum\c@page=4
-        \global\advance\@colht-\dimexpr\ht\papertabletwobox+\dp\papertabletwobox+\paperfixedgap\relax
+        \global\advance\@colht-\dimexpr\ht\papertabletwobox+\dp\papertabletwobox+\papertabletwobodygap\relax
       \fi
       \ifdim\@colht<3\baselineskip
         \PackageError{paper-fixed-layout}{Pinned objects leave insufficient body space}{Reduce the object height.}%
@@ -92,7 +94,7 @@
     \fi
     \ifnum\c@page=4
       \setbox\@outputbox=\vbox{\offinterlineskip
-        \copy\papertabletwobox\vskip\paperfixedgap\box\@outputbox}%
+        \copy\papertabletwobox\vskip\papertabletwobodygap\box\@outputbox}%
     \fi
   \fi}
 \ifpaperfixedpages
